@@ -343,7 +343,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/hexoblog/2021/03/01/threadpool/" class="post-title-link" itemprop="url">filter_interceptor</a>
+          <a href="/hexoblog/2021/03/01/threadpool/" class="post-title-link" itemprop="url">threadpool</a>
         </h2>
 
         <div class="post-meta-container">
@@ -355,7 +355,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2021-03-01 15:28:17 / 修改时间：20:25:44" itemprop="dateCreated datePublished" datetime="2021-03-01T15:28:17+08:00">2021-03-01</time>
+      <time title="创建时间：2021-03-01 15:28:17 / 修改时间：20:29:51" itemprop="dateCreated datePublished" datetime="2021-03-01T15:28:17+08:00">2021-03-01</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -377,7 +377,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h1><h3 id="newCachedThreadPool"><a href="#newCachedThreadPool" class="headerlink" title="newCachedThreadPool:"></a>newCachedThreadPool:</h3><h5 id="底层："><a href="#底层：" class="headerlink" title="底层："></a>底层：</h5><p>&emsp;&emsp;返回ThreadPoolExecutor实例，corePoolSize为0；maximumPoolSize为Integer.MAX_VALUE；keepAliveTime为60L；unit为TimeUnit.SECONDS；workQueue为SynchronousQueue(同步队列)。</p>
+          <h1 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h1><h3 id="newCachedThreadPool"><a href="#newCachedThreadPool" class="headerlink" title="newCachedThreadPool:"></a>newCachedThreadPool:</h3><h5 id="底层："><a href="#底层：" class="headerlink" title="底层："></a>底层：</h5><p>&emsp;&emsp;返回ThreadPoolExecutor实例，corePoolSize为0；maximumPoolSize为Integer.MAX_VALUE；keepAliveTime为60L；unit为TimeUnit.SECOhexoNDS；workQueue为SynchronousQueue(同步队列)。</p>
 <h5 id="通俗："><a href="#通俗：" class="headerlink" title="通俗："></a>通俗：</h5><p>&emsp;&emsp;当有新任务到来，则插入到SynchronousQueue中，由于SynchronousQueue是同步队列，因此会在池中寻找可用线程来执行，若有可以线程则执行，若没有可用线程则创建一个线程来执行该任务；若池中线程空闲时间超过指定大小，则该线程会被销毁。</p>
 <h5 id="适用："><a href="#适用：" class="headerlink" title="适用："></a>适用：</h5><p>&emsp;&emsp;执行很多短期异步的小程序或者负载较轻的服务器。</p>
 <hr>
