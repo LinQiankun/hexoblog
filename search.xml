@@ -164,7 +164,7 @@
       </categories>
       <tags>
         <tag>acid</tag>
-        <tag>分布式</tag>
+        <tag>distributed</tag>
       </tags>
   </entry>
   <entry>
@@ -220,8 +220,8 @@
         <category>架构</category>
       </categories>
       <tags>
-        <tag>分布式</tag>
-        <tag>锁</tag>
+        <tag>distributed</tag>
+        <tag>lock</tag>
       </tags>
   </entry>
   <entry>
@@ -476,7 +476,7 @@
         <category>java</category>
       </categories>
       <tags>
-        <tag>锁</tag>
+        <tag>lock</tag>
       </tags>
   </entry>
 </search>
