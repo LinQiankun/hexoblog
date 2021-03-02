@@ -83,7 +83,6 @@
 ]]></content>
       <categories>
         <category>spring</category>
-        <category>java</category>
       </categories>
       <tags>
         <tag>spring</tag>
@@ -164,8 +163,8 @@
         <category>架构</category>
       </categories>
       <tags>
+        <tag>acid</tag>
         <tag>分布式</tag>
-        <tag>事务</tag>
       </tags>
   </entry>
   <entry>
