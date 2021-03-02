@@ -96,6 +96,48 @@
       </tags>
   </entry>
   <entry>
+    <title>分布式事务</title>
+    <url>/hexoblog/2021/03/02/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/</url>
+    <content><![CDATA[<h1 id="分布式事务类型："><a href="#分布式事务类型：" class="headerlink" title="分布式事务类型："></a>分布式事务类型：</h1><p>分布式事务处理机制共有四种：</p>
+<ol>
+<li>两阶段提交</li>
+<li>TCC事务（事务补偿）</li>
+<li>本地消息表（异步确保），</li>
+<li>MQ事务消息。</li>
+</ol>
+<span id="more"></span>
+
+<h2 id="两阶段提交："><a href="#两阶段提交：" class="headerlink" title="两阶段提交："></a>两阶段提交：</h2><p>&emsp;&emsp;与数据库XA事务一样，两阶段提交使用XA协议。<br>&emsp;&emsp;两阶段提交这种方案属于牺牲了一部分可用性来换取的一致性。</p>
+<h3 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;尽量保证了数据的强一致，适合对数据强一致要求很高的关键领域。</p>
+<h3 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;实现复杂，牺牲了可用性，对性能影响较大，不适合高并发高性能场景，如分布式系统跨接口调用。</p>
+<h2 id="TCC事务："><a href="#TCC事务：" class="headerlink" title="TCC事务："></a>TCC事务：</h2><p>&emsp;&emsp;TCC其实就是采用的补偿机制，其核心思想是：针对每个操作，都要注册一个与其对应的确认和补偿操作。分为三个阶段：</p>
+<ol>
+<li> Try阶段主要是对业务系统做检测和资源预留。</li>
+<li> Confirm阶段主要是对业务系统做确认提交，Try阶段执行成功并开始执行Confirm阶段时，默认Confirm阶段是不会出错的。即：只要Try成功，Confirm一定成功。</li>
+<li> Cancel阶段主要是在业务执行错误，需要回滚的状态下，执行的业务取消，预留资源释放。</li>
+</ol>
+<h3 id="优点：-1"><a href="#优点：-1" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;跟2阶段提交比起来，实现及流程相对简单了些，但数据的一致性也要比2阶段提交要差一些。</p>
+<h3 id="缺点：-1"><a href="#缺点：-1" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;在2，3步中都可能失败。TCC是一种应用层的补偿方式，需要程序员在实现时写很多补偿的代码，一些场景中，一些业务流程用TCC不太好定义及处理。</p>
+<h2 id="本地消息表："><a href="#本地消息表：" class="headerlink" title="本地消息表："></a>本地消息表：</h2><p>&emsp;&emsp;使用最多的，核心思想是将分布式事务拆分成本地事务进行处理，来源于ebay。</p>
+<p>基本思路就是：</p>
+<p>&emsp;&emsp;消息生产方，需要额外建一个消息表，并记录消息发送状态。消息表和业务数据要在一个事务里提交，也就是说他们要在一个数据库里面。然后会经由MQ发送到消息的消费方。如果消息发送失败，会进行重试发送。<br>&emsp;&emsp;消息消费方，需要处理这个消息，并完成这个的业务逻辑。如果此时本地事务处理成功，表明已经处理成功了，如果处理失败，那么就会重试执行。如果是业务上面的失败，可以给生产方发送一个业务补偿消息，通知生产方进行回滚等操作。<br>&emsp;&emsp;生产方和消费方定时扫描本地消息表，把还没处理完成的消息或者失败的消息在发送一遍。<br>&emsp;&emsp;这种方案遵循最终一致性。</p>
+<h3 id="优点：-2"><a href="#优点：-2" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;一种非常经典的实现， 避免的分布式事务，实现了最终一致性。</p>
+<h3 id="缺点：-2"><a href="#缺点：-2" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;消息表会耦合到业务系统中，如果没有封装好的解决方案，会有很多杂活需要处理。</p>
+<h2 id="MQ事务消息："><a href="#MQ事务消息：" class="headerlink" title="MQ事务消息："></a>MQ事务消息：</h2><p>&emsp;&emsp;有一些第三方的MQ是支持事务消息的，比如RocketMQ，他们支持事务消息的方式也是类似于采用的二阶段提交，但一些主流的MQ都是不支持事务消息的，如RabbitMQ和Kafka都不支持。</p>
+<p>以阿里的RocketMQ为例：</p>
+<p>&emsp;&emsp;第一阶段Prepared消息，会拿到消息的地址。<br>&emsp;&emsp;第二阶段执行本地事务，第三阶段通过第一阶段拿到的地址去访问消息，并修改状态。<br>&emsp;&emsp;也就是说在业务方法内部要想消息队列提交两次请求，一次发送消息和一次确认消息。如果确认消息发送失败了，RocketMQ会定期扫描消息集群中的事务消息，这是发现了Prepared消息，它会像消息发送者确认，所以生产方需要实现一个check接口，RocketMQ会根据发送端设置的策略来决定是回滚还是继续发送确认消息。这样就保证了消息发送与本地事务同时成功或同时失败。</p>
+<h3 id="优点：-3"><a href="#优点：-3" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;实现了最终一致性，不需要依赖本地数据库事务。</p>
+<h3 id="缺点：-3"><a href="#缺点：-3" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;实现难度大，主流MQ不支持，RocketMQ事务消息部分代码未开源。</p>
+]]></content>
+      <categories>
+        <category>架构</category>
+      </categories>
+      <tags>
+        <tag>acid</tag>
+        <tag>distributed</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>threadpool</title>
     <url>/hexoblog/2021/03/01/threadpool/</url>
     <content><![CDATA[<h1 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h1><h2 id="newCachedThreadPool"><a href="#newCachedThreadPool" class="headerlink" title="newCachedThreadPool:"></a>newCachedThreadPool:</h2><h3 id="底层："><a href="#底层：" class="headerlink" title="底层："></a>底层：</h3><p>&emsp;&emsp;返回ThreadPoolExecutor实例，corePoolSize为0；maximumPoolSize为Integer.MAX_VALUE；keepAliveTime为60L；unit为TimeUnit.SECOhexoNDS；workQueue为SynchronousQueue(同步队列)。</p>
@@ -136,45 +178,62 @@
       </tags>
   </entry>
   <entry>
-    <title>分布式事务</title>
-    <url>/hexoblog/2021/03/02/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/</url>
-    <content><![CDATA[<h1 id="分布式事务类型："><a href="#分布式事务类型：" class="headerlink" title="分布式事务类型："></a>分布式事务类型：</h1><p>分布式事务处理机制共有四种：</p>
-<ol>
-<li>两阶段提交</li>
-<li>TCC事务（事务补偿）</li>
-<li>本地消息表（异步确保），</li>
-<li>MQ事务消息。</li>
-</ol>
+    <title>分布式锁</title>
+    <url>/hexoblog/2021/03/02/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/</url>
+    <content><![CDATA[<h1 id="基于数据库实现分布式锁："><a href="#基于数据库实现分布式锁：" class="headerlink" title="基于数据库实现分布式锁："></a>基于数据库实现分布式锁：</h1><h2 id="基于数据库表："><a href="#基于数据库表：" class="headerlink" title="基于数据库表："></a>基于数据库表：</h2><p>&emsp;&emsp;要实现分布式锁，最简单的方法可能就是直接创建一张锁表，然后通过操作该表中的数据来实现了。<br>&emsp;&emsp;当我们要锁住某个方法或资源时，我们就在该表中增加一条记录，想要释放锁的时候就删除这条记录。</p>
 <span id="more"></span>
 
-<h2 id="两阶段提交："><a href="#两阶段提交：" class="headerlink" title="两阶段提交："></a>两阶段提交：</h2><p>&emsp;&emsp;与数据库XA事务一样，两阶段提交使用XA协议。<br>&emsp;&emsp;两阶段提交这种方案属于牺牲了一部分可用性来换取的一致性。</p>
-<h3 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;尽量保证了数据的强一致，适合对数据强一致要求很高的关键领域。</p>
-<h3 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;实现复杂，牺牲了可用性，对性能影响较大，不适合高并发高性能场景，如分布式系统跨接口调用。</p>
-<h2 id="TCC事务："><a href="#TCC事务：" class="headerlink" title="TCC事务："></a>TCC事务：</h2><p>&emsp;&emsp;TCC其实就是采用的补偿机制，其核心思想是：针对每个操作，都要注册一个与其对应的确认和补偿操作。分为三个阶段：</p>
-<ol>
-<li> Try阶段主要是对业务系统做检测和资源预留。</li>
-<li> Confirm阶段主要是对业务系统做确认提交，Try阶段执行成功并开始执行Confirm阶段时，默认Confirm阶段是不会出错的。即：只要Try成功，Confirm一定成功。</li>
-<li> Cancel阶段主要是在业务执行错误，需要回滚的状态下，执行的业务取消，预留资源释放。</li>
+<h3 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h3><ol>
+<li> 这把锁强依赖数据库的可用性，数据库是一个单点，一旦数据库挂掉，会导致业务系统不可用。</li>
+<li> 这把锁没有失效时间，一旦解锁操作失败，就会导致锁记录一直在数据库中，其他线程无法再获得锁。</li>
+<li> 这把锁只能是非阻塞的，因为数据的insert操作，一旦插入失败就会报错。没有获得锁的线程并不会进入排队队列，要想再次获得锁就要再次触发获得锁操作。</li>
+<li> 这把锁是非重入的，同一个线程在没有获得锁之前无法再次获得该锁。因为数据库中数据已经存在了。</li>
 </ol>
-<h3 id="优点：-1"><a href="#优点：-1" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;跟2阶段提交比起来，实现及流程相对简单了些，但数据的一致性也要比2阶段提交要差一些。</p>
-<h3 id="缺点：-1"><a href="#缺点：-1" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;在2，3步中都可能失败。TCC是一种应用层的补偿方式，需要程序员在实现时写很多补偿的代码，一些场景中，一些业务流程用TCC不太好定义及处理。</p>
-<h2 id="本地消息表："><a href="#本地消息表：" class="headerlink" title="本地消息表："></a>本地消息表：</h2><p>&emsp;&emsp;使用最多的，核心思想是将分布式事务拆分成本地事务进行处理，来源于ebay。</p>
-<p>基本思路就是：</p>
-<p>&emsp;&emsp;消息生产方，需要额外建一个消息表，并记录消息发送状态。消息表和业务数据要在一个事务里提交，也就是说他们要在一个数据库里面。然后会经由MQ发送到消息的消费方。如果消息发送失败，会进行重试发送。<br>&emsp;&emsp;消息消费方，需要处理这个消息，并完成这个的业务逻辑。如果此时本地事务处理成功，表明已经处理成功了，如果处理失败，那么就会重试执行。如果是业务上面的失败，可以给生产方发送一个业务补偿消息，通知生产方进行回滚等操作。<br>&emsp;&emsp;生产方和消费方定时扫描本地消息表，把还没处理完成的消息或者失败的消息在发送一遍。<br>&emsp;&emsp;这种方案遵循最终一致性。</p>
-<h3 id="优点：-2"><a href="#优点：-2" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;一种非常经典的实现， 避免的分布式事务，实现了最终一致性。</p>
-<h3 id="缺点：-2"><a href="#缺点：-2" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;消息表会耦合到业务系统中，如果没有封装好的解决方案，会有很多杂活需要处理。</p>
-<h2 id="MQ事务消息："><a href="#MQ事务消息：" class="headerlink" title="MQ事务消息："></a>MQ事务消息：</h2><p>&emsp;&emsp;有一些第三方的MQ是支持事务消息的，比如RocketMQ，他们支持事务消息的方式也是类似于采用的二阶段提交，但一些主流的MQ都是不支持事务消息的，如RabbitMQ和Kafka都不支持。</p>
-<p>以阿里的RocketMQ为例：</p>
-<p>&emsp;&emsp;第一阶段Prepared消息，会拿到消息的地址。<br>&emsp;&emsp;第二阶段执行本地事务，第三阶段通过第一阶段拿到的地址去访问消息，并修改状态。<br>&emsp;&emsp;也就是说在业务方法内部要想消息队列提交两次请求，一次发送消息和一次确认消息。如果确认消息发送失败了，RocketMQ会定期扫描消息集群中的事务消息，这是发现了Prepared消息，它会像消息发送者确认，所以生产方需要实现一个check接口，RocketMQ会根据发送端设置的策略来决定是回滚还是继续发送确认消息。这样就保证了消息发送与本地事务同时成功或同时失败。</p>
-<h3 id="优点：-3"><a href="#优点：-3" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;实现了最终一致性，不需要依赖本地数据库事务。</p>
-<h3 id="缺点：-3"><a href="#缺点：-3" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;实现难度大，主流MQ不支持，RocketMQ事务消息部分代码未开源。</p>
+<h3 id="解决："><a href="#解决：" class="headerlink" title="解决："></a>解决：</h3><ol>
+<li> 数据库是单点：两个数据库，数据之间双向同步，一旦挂掉快速切换到备库。</li>
+<li> 没有失效时间：定时任务，每隔一定时间清理数据库中的超时数据。</li>
+<li> 非阻塞的：while循环，直到insert成功在返回。</li>
+<li> 非重入的：在数据库表中加个字段，记录当前获得锁的主机信息和线程信息，下次在获取锁时先查询数据库，如果当前机器的主机信息和线程信息在数据库中可以查到的话，直接把锁分配给它就可以。</li>
+</ol>
+<h2 id="基于数据库排他锁："><a href="#基于数据库排他锁：" class="headerlink" title="基于数据库排他锁："></a>基于数据库排他锁：</h2><p>&emsp;&emsp;可以借助数据中自带的锁来实现分布式锁。<br>通过数据库的排他锁，基于InnoDB引擎。</p>
+<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p>&emsp;&emsp;使用数据库来实现分布式锁，这两种方式都是依赖数据库的一张表，一种是通过表中记录的存在情况确定当前是否有锁存在，另一种是通过数据库的排他锁来实现分布式锁。</p>
+<h3 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;直接借助数据库，容易理解。</p>
+<h3 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;会有各种各样的问题，在解决问题的过程中，会使整个方案变得越来越复杂。操作数据库会有一定的开销，性能问题需要考虑。使用数据库的行级锁并不一定靠谱，尤其是当我们的锁表并不大的时候。</p>
+<hr>
+<h1 id="基于缓存实现分布式锁："><a href="#基于缓存实现分布式锁：" class="headerlink" title="基于缓存实现分布式锁："></a>基于缓存实现分布式锁：</h1><p>&emsp;&emsp;相对于基于数据库实现分布式锁的方案来说，基于缓存来实现在性能方面会表现的更好一点。而且很多缓存是可以集群部署的，可以解决单点问题。<br>&emsp;&emsp;目前有很多成熟的缓存产品，Redis，memcached。</p>
+<h3 id="问题：-1"><a href="#问题：-1" class="headerlink" title="问题："></a>问题：</h3><ol>
+<li> 这把锁没有失效时间，一旦解锁失败，就会导致锁记录一直在缓存中，其他线程无法再次获得锁。</li>
+<li> 这把锁只能是非阻塞的，无论成功还是失败都直接返回。</li>
+<li> 这把锁是非重入的，一个线程获得锁之后，在释放锁之前，无法再次获得该锁，因为key已经存在，无法进行put操作。</li>
+</ol>
+<h3 id="解决"><a href="#解决" class="headerlink" title="解决:"></a>解决:</h3><ol>
+<li> 没有失效时间：设置固定时间，到期后自动删除。失效时间比较难以确定，时间太短，方法没执行完释放锁，就会产生并发问题；时间太长，其他线程就要浪费很多时间。</li>
+<li> 非阻塞：while重复执行。</li>
+<li> 非可重入：在一个线程获取到锁之后，把当前主机信息和线程信息保存起来，下次再获取前先检查自己是不是当前锁的拥有者。</li>
+</ol>
+<h2 id="总结：-1"><a href="#总结：-1" class="headerlink" title="总结："></a>总结：</h2><h3 id="优点：-1"><a href="#优点：-1" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;性能好，实现起来较为方便。</p>
+<h3 id="缺点：-1"><a href="#缺点：-1" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;通过超时来控制锁的失效时间并不是十分的靠谱。</p>
+<hr>
+<h1 id="基于Zookeeper实现分布式锁："><a href="#基于Zookeeper实现分布式锁：" class="headerlink" title="基于Zookeeper实现分布式锁："></a>基于Zookeeper实现分布式锁：</h1><p>&emsp;&emsp;基于zookeeper临时有序节点可实现的分布式锁。<br>&emsp;&emsp;大致思想为：每个客户端对每个方法加锁时，在zookeeper上的与该方法对应的指定节点的目录下，生成一个唯一的瞬时有序节点。判断是否获取锁的方式很简单，只需要判断有序节点中序号最小的一个。当释放锁的时候，只需将这个瞬时节点删除即可。同时，其可以避免服务宕机导致的锁无法释放，而产生死锁的问题。</p>
+<h2 id="如何解决前面的问题："><a href="#如何解决前面的问题：" class="headerlink" title="如何解决前面的问题："></a>如何解决前面的问题：</h2><h3 id="锁无法释放："><a href="#锁无法释放：" class="headerlink" title="锁无法释放："></a>锁无法释放：</h3><p>&emsp;&emsp;使用Zookeeper可以有效的解决锁无法释放的问题，因为在创建的时候，客户端会在zk中创建一个临时节点，一旦客户端获取到锁之后突然挂掉，那么这个临时节点就会自动删除掉。其他客户端就可以再次获得锁。</p>
+<h3 id="非阻塞锁："><a href="#非阻塞锁：" class="headerlink" title="非阻塞锁："></a>非阻塞锁：</h3><p>&emsp;&emsp;使用zookeeper可以实现阻塞的锁，客户端可通过在zk中创建顺序节点，并在节点上绑定监听器，一旦节点有变化，zookeeper会通知客户端，客户端可以检查自己创建的节点是不是当前所有节点中序号最小的，如果是，那么自己就获取到锁，便可以执行业务逻辑。</p>
+<h3 id="不可重入："><a href="#不可重入：" class="headerlink" title="不可重入："></a>不可重入：</h3><p>&emsp;&emsp;使用zookeeper可以有效解决不可重入的问题，客户端在创建节点时，把当前客户端的主机信息和线程信息直接写入节点中，下次想要获取锁的时候和当前最小节点中的数据对比一下就可以。如果和自己的信息一样，那么自己直接获取到锁，如果不一样就在创建一个临时的顺序节点，参与排队。</p>
+<h3 id="单点问题："><a href="#单点问题：" class="headerlink" title="单点问题："></a>单点问题：</h3><p>&emsp;&emsp;使用zookeeper可以有效解决单点问题，zk是集群部署的，只要集群中有半数以上的机器存活，就可以对外提供服务。</p>
+<p>&emsp;&emsp;使用zk实现的分布式锁其实存在一个缺点，那就是性能上可能并没有缓存服务器那么高。因为在每次创建锁和释放锁的过程中，都要动态创建，销毁瞬时节点来实现锁功能。zk中创建和删除节点只能通过leader服务器来执行，然后将数据同步到所有follower机器上。<br>&emsp;&emsp;使用了zk也有可能带来并发问题，只是不常见。由于网络抖动，客户端集群的session连接断了，那么zk以为客户端挂了，就会删除临时节点，这是其他客户端就可以获取到分布式锁了。就可能产生并发问题。这个问题不常见是因为zk有重试机制，一旦zk集群检测不到客户端的心跳，就会重试，多次重试还不行的话就会删除临时节点。</p>
+<h2 id="总结：-2"><a href="#总结：-2" class="headerlink" title="总结："></a>总结：</h2><h3 id="优点：-2"><a href="#优点：-2" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;有效的解决单点问题，不可重入问题，非阻塞问题，以及锁无法释放的问题。实现起来较为简单。</p>
+<h3 id="缺点：-2"><a href="#缺点：-2" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;性能上不如缓存实现分布式锁。需要最zk的原理有所了解。</p>
+<hr>
+<h1 id="比较："><a href="#比较：" class="headerlink" title="比较："></a>比较：</h1><h3 id="理解程度："><a href="#理解程度：" class="headerlink" title="理解程度："></a>理解程度：</h3><p>数据库&gt;缓存&gt;Zookeeper</p>
+<h3 id="实现的复杂性角度："><a href="#实现的复杂性角度：" class="headerlink" title="实现的复杂性角度："></a>实现的复杂性角度：</h3><p>Zookeeper&gt;=缓存&gt;数据库</p>
+<h3 id="性能角度："><a href="#性能角度：" class="headerlink" title="性能角度："></a>性能角度：</h3><p>缓存&gt;Zookeeper&gt;=数据库</p>
+<h3 id="可靠性角度："><a href="#可靠性角度：" class="headerlink" title="可靠性角度："></a>可靠性角度：</h3><p>Zookeeper&gt;缓存&gt;数据库</p>
 ]]></content>
       <categories>
         <category>架构</category>
       </categories>
       <tags>
-        <tag>acid</tag>
         <tag>distributed</tag>
+        <tag>lock</tag>
       </tags>
   </entry>
   <entry>
@@ -294,65 +353,6 @@
       <tags>
         <tag>jvm</tag>
         <tag>classloader</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>分布式锁</title>
-    <url>/hexoblog/2021/03/02/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/</url>
-    <content><![CDATA[<h1 id="基于数据库实现分布式锁："><a href="#基于数据库实现分布式锁：" class="headerlink" title="基于数据库实现分布式锁："></a>基于数据库实现分布式锁：</h1><h2 id="基于数据库表："><a href="#基于数据库表：" class="headerlink" title="基于数据库表："></a>基于数据库表：</h2><p>&emsp;&emsp;要实现分布式锁，最简单的方法可能就是直接创建一张锁表，然后通过操作该表中的数据来实现了。<br>&emsp;&emsp;当我们要锁住某个方法或资源时，我们就在该表中增加一条记录，想要释放锁的时候就删除这条记录。</p>
-<span id="more"></span>
-
-<h3 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h3><ol>
-<li> 这把锁强依赖数据库的可用性，数据库是一个单点，一旦数据库挂掉，会导致业务系统不可用。</li>
-<li> 这把锁没有失效时间，一旦解锁操作失败，就会导致锁记录一直在数据库中，其他线程无法再获得锁。</li>
-<li> 这把锁只能是非阻塞的，因为数据的insert操作，一旦插入失败就会报错。没有获得锁的线程并不会进入排队队列，要想再次获得锁就要再次触发获得锁操作。</li>
-<li> 这把锁是非重入的，同一个线程在没有获得锁之前无法再次获得该锁。因为数据库中数据已经存在了。</li>
-</ol>
-<h3 id="解决："><a href="#解决：" class="headerlink" title="解决："></a>解决：</h3><ol>
-<li> 数据库是单点：两个数据库，数据之间双向同步，一旦挂掉快速切换到备库。</li>
-<li> 没有失效时间：定时任务，每隔一定时间清理数据库中的超时数据。</li>
-<li> 非阻塞的：while循环，直到insert成功在返回。</li>
-<li> 非重入的：在数据库表中加个字段，记录当前获得锁的主机信息和线程信息，下次在获取锁时先查询数据库，如果当前机器的主机信息和线程信息在数据库中可以查到的话，直接把锁分配给它就可以。</li>
-</ol>
-<h2 id="基于数据库排他锁："><a href="#基于数据库排他锁：" class="headerlink" title="基于数据库排他锁："></a>基于数据库排他锁：</h2><p>&emsp;&emsp;可以借助数据中自带的锁来实现分布式锁。<br>通过数据库的排他锁，基于InnoDB引擎。</p>
-<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p>&emsp;&emsp;使用数据库来实现分布式锁，这两种方式都是依赖数据库的一张表，一种是通过表中记录的存在情况确定当前是否有锁存在，另一种是通过数据库的排他锁来实现分布式锁。</p>
-<h3 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;直接借助数据库，容易理解。</p>
-<h3 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;会有各种各样的问题，在解决问题的过程中，会使整个方案变得越来越复杂。操作数据库会有一定的开销，性能问题需要考虑。使用数据库的行级锁并不一定靠谱，尤其是当我们的锁表并不大的时候。</p>
-<hr>
-<h1 id="基于缓存实现分布式锁："><a href="#基于缓存实现分布式锁：" class="headerlink" title="基于缓存实现分布式锁："></a>基于缓存实现分布式锁：</h1><p>&emsp;&emsp;相对于基于数据库实现分布式锁的方案来说，基于缓存来实现在性能方面会表现的更好一点。而且很多缓存是可以集群部署的，可以解决单点问题。<br>&emsp;&emsp;目前有很多成熟的缓存产品，Redis，memcached。</p>
-<h3 id="问题：-1"><a href="#问题：-1" class="headerlink" title="问题："></a>问题：</h3><ol>
-<li> 这把锁没有失效时间，一旦解锁失败，就会导致锁记录一直在缓存中，其他线程无法再次获得锁。</li>
-<li> 这把锁只能是非阻塞的，无论成功还是失败都直接返回。</li>
-<li> 这把锁是非重入的，一个线程获得锁之后，在释放锁之前，无法再次获得该锁，因为key已经存在，无法进行put操作。</li>
-</ol>
-<h3 id="解决"><a href="#解决" class="headerlink" title="解决:"></a>解决:</h3><ol>
-<li> 没有失效时间：设置固定时间，到期后自动删除。失效时间比较难以确定，时间太短，方法没执行完释放锁，就会产生并发问题；时间太长，其他线程就要浪费很多时间。</li>
-<li> 非阻塞：while重复执行。</li>
-<li> 非可重入：在一个线程获取到锁之后，把当前主机信息和线程信息保存起来，下次再获取前先检查自己是不是当前锁的拥有者。</li>
-</ol>
-<h2 id="总结：-1"><a href="#总结：-1" class="headerlink" title="总结："></a>总结：</h2><h3 id="优点：-1"><a href="#优点：-1" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;性能好，实现起来较为方便。</p>
-<h3 id="缺点：-1"><a href="#缺点：-1" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;通过超时来控制锁的失效时间并不是十分的靠谱。</p>
-<hr>
-<h1 id="基于Zookeeper实现分布式锁："><a href="#基于Zookeeper实现分布式锁：" class="headerlink" title="基于Zookeeper实现分布式锁："></a>基于Zookeeper实现分布式锁：</h1><p>&emsp;&emsp;基于zookeeper临时有序节点可实现的分布式锁。<br>&emsp;&emsp;大致思想为：每个客户端对每个方法加锁时，在zookeeper上的与该方法对应的指定节点的目录下，生成一个唯一的瞬时有序节点。判断是否获取锁的方式很简单，只需要判断有序节点中序号最小的一个。当释放锁的时候，只需将这个瞬时节点删除即可。同时，其可以避免服务宕机导致的锁无法释放，而产生死锁的问题。</p>
-<h2 id="如何解决前面的问题："><a href="#如何解决前面的问题：" class="headerlink" title="如何解决前面的问题："></a>如何解决前面的问题：</h2><h3 id="锁无法释放："><a href="#锁无法释放：" class="headerlink" title="锁无法释放："></a>锁无法释放：</h3><p>&emsp;&emsp;使用Zookeeper可以有效的解决锁无法释放的问题，因为在创建的时候，客户端会在zk中创建一个临时节点，一旦客户端获取到锁之后突然挂掉，那么这个临时节点就会自动删除掉。其他客户端就可以再次获得锁。</p>
-<h3 id="非阻塞锁："><a href="#非阻塞锁：" class="headerlink" title="非阻塞锁："></a>非阻塞锁：</h3><p>&emsp;&emsp;使用zookeeper可以实现阻塞的锁，客户端可通过在zk中创建顺序节点，并在节点上绑定监听器，一旦节点有变化，zookeeper会通知客户端，客户端可以检查自己创建的节点是不是当前所有节点中序号最小的，如果是，那么自己就获取到锁，便可以执行业务逻辑。</p>
-<h3 id="不可重入："><a href="#不可重入：" class="headerlink" title="不可重入："></a>不可重入：</h3><p>&emsp;&emsp;使用zookeeper可以有效解决不可重入的问题，客户端在创建节点时，把当前客户端的主机信息和线程信息直接写入节点中，下次想要获取锁的时候和当前最小节点中的数据对比一下就可以。如果和自己的信息一样，那么自己直接获取到锁，如果不一样就在创建一个临时的顺序节点，参与排队。</p>
-<h3 id="单点问题："><a href="#单点问题：" class="headerlink" title="单点问题："></a>单点问题：</h3><p>&emsp;&emsp;使用zookeeper可以有效解决单点问题，zk是集群部署的，只要集群中有半数以上的机器存活，就可以对外提供服务。</p>
-<p>&emsp;&emsp;使用zk实现的分布式锁其实存在一个缺点，那就是性能上可能并没有缓存服务器那么高。因为在每次创建锁和释放锁的过程中，都要动态创建，销毁瞬时节点来实现锁功能。zk中创建和删除节点只能通过leader服务器来执行，然后将数据同步到所有follower机器上。<br>&emsp;&emsp;使用了zk也有可能带来并发问题，只是不常见。由于网络抖动，客户端集群的session连接断了，那么zk以为客户端挂了，就会删除临时节点，这是其他客户端就可以获取到分布式锁了。就可能产生并发问题。这个问题不常见是因为zk有重试机制，一旦zk集群检测不到客户端的心跳，就会重试，多次重试还不行的话就会删除临时节点。</p>
-<h2 id="总结：-2"><a href="#总结：-2" class="headerlink" title="总结："></a>总结：</h2><h3 id="优点：-2"><a href="#优点：-2" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;有效的解决单点问题，不可重入问题，非阻塞问题，以及锁无法释放的问题。实现起来较为简单。</p>
-<h3 id="缺点：-2"><a href="#缺点：-2" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;性能上不如缓存实现分布式锁。需要最zk的原理有所了解。</p>
-<hr>
-<h1 id="比较："><a href="#比较：" class="headerlink" title="比较："></a>比较：</h1><h3 id="理解程度："><a href="#理解程度：" class="headerlink" title="理解程度："></a>理解程度：</h3><p>数据库&gt;缓存&gt;Zookeeper</p>
-<h3 id="实现的复杂性角度："><a href="#实现的复杂性角度：" class="headerlink" title="实现的复杂性角度："></a>实现的复杂性角度：</h3><p>Zookeeper&gt;=缓存&gt;数据库</p>
-<h3 id="性能角度："><a href="#性能角度：" class="headerlink" title="性能角度："></a>性能角度：</h3><p>缓存&gt;Zookeeper&gt;=数据库</p>
-<h3 id="可靠性角度："><a href="#可靠性角度：" class="headerlink" title="可靠性角度："></a>可靠性角度：</h3><p>Zookeeper&gt;缓存&gt;数据库</p>
-]]></content>
-      <categories>
-        <category>架构</category>
-      </categories>
-      <tags>
-        <tag>distributed</tag>
-        <tag>lock</tag>
       </tags>
   </entry>
   <entry>
