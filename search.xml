@@ -4,6 +4,8 @@
     <title>filter_interceptor</title>
     <url>/hexoblog/2021/03/01/filter-interceptor/</url>
     <content><![CDATA[<h2 id="过滤器"><a href="#过滤器" class="headerlink" title="过滤器"></a>过滤器</h2><p>&emsp;&emsp;过滤器是用来过滤的，java的过滤器能够为我们提供系统级别的过滤，也就是说能够过滤所有的web请求，这一点是拦截器做不到的。<br>&emsp;&emsp;在java web中，你传入的request，response提前过滤掉一些信息，或者提前设置一些参数，然后在传入Servlet进行业务逻辑，比如过滤掉非法url和非法字符串。<br>&emsp;&emsp;filter流程是线性的，url传来之后，检查之后，可保持原来的流程继续向下执行，被下一个filter，servlet接收。</p>
+<span id="more"></span>
+
 <hr>
 <h2 id="拦截器"><a href="#拦截器" class="headerlink" title="拦截器"></a>拦截器</h2><p>&emsp;&emsp;java里面的拦截器提供的是非系统级别的拦截，也就是说，就覆盖面来说，拦截器不如过滤器强大但是更有针对性。<br>&emsp;&emsp;java中的拦截器是基于java反射机制实现的，更准确的划分，应该是基于jdk实现的动态代理。它依赖于具体的接口，在运行期间动态生成字节码。<br>&emsp;&emsp;拦截器是动态拦截Action调用的对象，他提供了一种机制可以使开发者在一个ation执行的前后执行一段代码，也可以在一个action执行前阻止其执行，同时也提供了一种可以提取action中可重用代码的方式。在AOP中，拦截器用于在某个方法或字段被访问之前，进行拦截然后再之前或之后加入某些操作。java的拦截器主要用于插件上，扩展件上，有点类似于面向切面的技术，在用之前要先在配置文件里声明。</p>
 <hr>
@@ -23,7 +25,9 @@
     <title>Hello World</title>
     <url>/hexoblog/2021/03/01/hello-world/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><span id="more"></span>
+
+<h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
 
 <p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
 <h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
@@ -50,6 +54,8 @@
 <li>异常被吃了。</li>
 <li>异常类型错误。</li>
 </ol>
+<span id="more"></span>
+
 <hr>
 <h1 id="事务失效类型："><a href="#事务失效类型：" class="headerlink" title="事务失效类型："></a>事务失效类型：</h1><h2 id="数据库引擎不支持事务"><a href="#数据库引擎不支持事务" class="headerlink" title="数据库引擎不支持事务"></a>数据库引擎不支持事务</h2><p>&emsp;&emsp;这里以 MySQL 为例，其 MyISAM 引擎是不支持事务操作的，InnoDB 才是支持事务的引擎，一般要支持事务都会使用 InnoDB。<br>&emsp;&emsp;根据 MySQL 的官方文档：<a href="https://dev.mysql.com/doc/refman/8.0/en/storage-engine-setting.html">https://dev.mysql.com/doc/refman/8.0/en/storage-engine-setting.html</a></p>
 <h2 id="没有被Spring管理"><a href="#没有被Spring管理" class="headerlink" title="没有被Spring管理"></a>没有被Spring管理</h2><p>&emsp;&emsp;Spring中的事务基于AOP实现，则事务类必须被Spring管理，进行代理，才能支持事务。</p>
@@ -93,6 +99,8 @@
     <title>threadpool</title>
     <url>/hexoblog/2021/03/01/threadpool/</url>
     <content><![CDATA[<h1 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h1><h2 id="newCachedThreadPool"><a href="#newCachedThreadPool" class="headerlink" title="newCachedThreadPool:"></a>newCachedThreadPool:</h2><h3 id="底层："><a href="#底层：" class="headerlink" title="底层："></a>底层：</h3><p>&emsp;&emsp;返回ThreadPoolExecutor实例，corePoolSize为0；maximumPoolSize为Integer.MAX_VALUE；keepAliveTime为60L；unit为TimeUnit.SECOhexoNDS；workQueue为SynchronousQueue(同步队列)。</p>
+<span id="more"></span>
+
 <h3 id="通俗："><a href="#通俗：" class="headerlink" title="通俗："></a>通俗：</h3><p>&emsp;&emsp;当有新任务到来，则插入到SynchronousQueue中，由于SynchronousQueue是同步队列，因此会在池中寻找可用线程来执行，若有可以线程则执行，若没有可用线程则创建一个线程来执行该任务；若池中线程空闲时间超过指定大小，则该线程会被销毁。</p>
 <h3 id="适用："><a href="#适用：" class="headerlink" title="适用："></a>适用：</h3><p>&emsp;&emsp;执行很多短期异步的小程序或者负载较轻的服务器。</p>
 <hr>
@@ -137,6 +145,8 @@
 <li>本地消息表（异步确保），</li>
 <li>MQ事务消息。</li>
 </ol>
+<span id="more"></span>
+
 <h2 id="两阶段提交："><a href="#两阶段提交：" class="headerlink" title="两阶段提交："></a>两阶段提交：</h2><p>&emsp;&emsp;与数据库XA事务一样，两阶段提交使用XA协议。<br>&emsp;&emsp;两阶段提交这种方案属于牺牲了一部分可用性来换取的一致性。</p>
 <h3 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;尽量保证了数据的强一致，适合对数据强一致要求很高的关键领域。</p>
 <h3 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;实现复杂，牺牲了可用性，对性能影响较大，不适合高并发高性能场景，如分布式系统跨接口调用。</p>
@@ -168,66 +178,11 @@
       </tags>
   </entry>
   <entry>
-    <title>分布式锁</title>
-    <url>/hexoblog/2021/03/02/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/</url>
-    <content><![CDATA[<h1 id="基于数据库实现分布式锁："><a href="#基于数据库实现分布式锁：" class="headerlink" title="基于数据库实现分布式锁："></a>基于数据库实现分布式锁：</h1><h2 id="基于数据库表："><a href="#基于数据库表：" class="headerlink" title="基于数据库表："></a>基于数据库表：</h2><p>&emsp;&emsp;要实现分布式锁，最简单的方法可能就是直接创建一张锁表，然后通过操作该表中的数据来实现了。<br>&emsp;&emsp;当我们要锁住某个方法或资源时，我们就在该表中增加一条记录，想要释放锁的时候就删除这条记录。</p>
-<h3 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h3><ol>
-<li> 这把锁强依赖数据库的可用性，数据库是一个单点，一旦数据库挂掉，会导致业务系统不可用。</li>
-<li> 这把锁没有失效时间，一旦解锁操作失败，就会导致锁记录一直在数据库中，其他线程无法再获得锁。</li>
-<li> 这把锁只能是非阻塞的，因为数据的insert操作，一旦插入失败就会报错。没有获得锁的线程并不会进入排队队列，要想再次获得锁就要再次触发获得锁操作。</li>
-<li> 这把锁是非重入的，同一个线程在没有获得锁之前无法再次获得该锁。因为数据库中数据已经存在了。</li>
-</ol>
-<h3 id="解决："><a href="#解决：" class="headerlink" title="解决："></a>解决：</h3><ol>
-<li> 数据库是单点：两个数据库，数据之间双向同步，一旦挂掉快速切换到备库。</li>
-<li> 没有失效时间：定时任务，每隔一定时间清理数据库中的超时数据。</li>
-<li> 非阻塞的：while循环，直到insert成功在返回。</li>
-<li> 非重入的：在数据库表中加个字段，记录当前获得锁的主机信息和线程信息，下次在获取锁时先查询数据库，如果当前机器的主机信息和线程信息在数据库中可以查到的话，直接把锁分配给它就可以。</li>
-</ol>
-<h2 id="基于数据库排他锁："><a href="#基于数据库排他锁：" class="headerlink" title="基于数据库排他锁："></a>基于数据库排他锁：</h2><p>&emsp;&emsp;可以借助数据中自带的锁来实现分布式锁。<br>通过数据库的排他锁，基于InnoDB引擎。</p>
-<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p>&emsp;&emsp;使用数据库来实现分布式锁，这两种方式都是依赖数据库的一张表，一种是通过表中记录的存在情况确定当前是否有锁存在，另一种是通过数据库的排他锁来实现分布式锁。</p>
-<h3 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;直接借助数据库，容易理解。</p>
-<h3 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;会有各种各样的问题，在解决问题的过程中，会使整个方案变得越来越复杂。操作数据库会有一定的开销，性能问题需要考虑。使用数据库的行级锁并不一定靠谱，尤其是当我们的锁表并不大的时候。</p>
-<hr>
-<h1 id="基于缓存实现分布式锁："><a href="#基于缓存实现分布式锁：" class="headerlink" title="基于缓存实现分布式锁："></a>基于缓存实现分布式锁：</h1><p>&emsp;&emsp;相对于基于数据库实现分布式锁的方案来说，基于缓存来实现在性能方面会表现的更好一点。而且很多缓存是可以集群部署的，可以解决单点问题。<br>&emsp;&emsp;目前有很多成熟的缓存产品，Redis，memcached。</p>
-<h3 id="问题：-1"><a href="#问题：-1" class="headerlink" title="问题："></a>问题：</h3><ol>
-<li> 这把锁没有失效时间，一旦解锁失败，就会导致锁记录一直在缓存中，其他线程无法再次获得锁。</li>
-<li> 这把锁只能是非阻塞的，无论成功还是失败都直接返回。</li>
-<li> 这把锁是非重入的，一个线程获得锁之后，在释放锁之前，无法再次获得该锁，因为key已经存在，无法进行put操作。</li>
-</ol>
-<h3 id="解决"><a href="#解决" class="headerlink" title="解决:"></a>解决:</h3><ol>
-<li> 没有失效时间：设置固定时间，到期后自动删除。失效时间比较难以确定，时间太短，方法没执行完释放锁，就会产生并发问题；时间太长，其他线程就要浪费很多时间。</li>
-<li> 非阻塞：while重复执行。</li>
-<li> 非可重入：在一个线程获取到锁之后，把当前主机信息和线程信息保存起来，下次再获取前先检查自己是不是当前锁的拥有者。</li>
-</ol>
-<h2 id="总结：-1"><a href="#总结：-1" class="headerlink" title="总结："></a>总结：</h2><h3 id="优点：-1"><a href="#优点：-1" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;性能好，实现起来较为方便。</p>
-<h3 id="缺点：-1"><a href="#缺点：-1" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;通过超时来控制锁的失效时间并不是十分的靠谱。</p>
-<hr>
-<h1 id="基于Zookeeper实现分布式锁："><a href="#基于Zookeeper实现分布式锁：" class="headerlink" title="基于Zookeeper实现分布式锁："></a>基于Zookeeper实现分布式锁：</h1><p>&emsp;&emsp;基于zookeeper临时有序节点可实现的分布式锁。<br>&emsp;&emsp;大致思想为：每个客户端对每个方法加锁时，在zookeeper上的与该方法对应的指定节点的目录下，生成一个唯一的瞬时有序节点。判断是否获取锁的方式很简单，只需要判断有序节点中序号最小的一个。当释放锁的时候，只需将这个瞬时节点删除即可。同时，其可以避免服务宕机导致的锁无法释放，而产生死锁的问题。</p>
-<h2 id="如何解决前面的问题："><a href="#如何解决前面的问题：" class="headerlink" title="如何解决前面的问题："></a>如何解决前面的问题：</h2><h3 id="锁无法释放："><a href="#锁无法释放：" class="headerlink" title="锁无法释放："></a>锁无法释放：</h3><p>&emsp;&emsp;使用Zookeeper可以有效的解决锁无法释放的问题，因为在创建的时候，客户端会在zk中创建一个临时节点，一旦客户端获取到锁之后突然挂掉，那么这个临时节点就会自动删除掉。其他客户端就可以再次获得锁。</p>
-<h3 id="非阻塞锁："><a href="#非阻塞锁：" class="headerlink" title="非阻塞锁："></a>非阻塞锁：</h3><p>&emsp;&emsp;使用zookeeper可以实现阻塞的锁，客户端可通过在zk中创建顺序节点，并在节点上绑定监听器，一旦节点有变化，zookeeper会通知客户端，客户端可以检查自己创建的节点是不是当前所有节点中序号最小的，如果是，那么自己就获取到锁，便可以执行业务逻辑。</p>
-<h3 id="不可重入："><a href="#不可重入：" class="headerlink" title="不可重入："></a>不可重入：</h3><p>&emsp;&emsp;使用zookeeper可以有效解决不可重入的问题，客户端在创建节点时，把当前客户端的主机信息和线程信息直接写入节点中，下次想要获取锁的时候和当前最小节点中的数据对比一下就可以。如果和自己的信息一样，那么自己直接获取到锁，如果不一样就在创建一个临时的顺序节点，参与排队。</p>
-<h3 id="单点问题："><a href="#单点问题：" class="headerlink" title="单点问题："></a>单点问题：</h3><p>&emsp;&emsp;使用zookeeper可以有效解决单点问题，zk是集群部署的，只要集群中有半数以上的机器存活，就可以对外提供服务。</p>
-<p>&emsp;&emsp;使用zk实现的分布式锁其实存在一个缺点，那就是性能上可能并没有缓存服务器那么高。因为在每次创建锁和释放锁的过程中，都要动态创建，销毁瞬时节点来实现锁功能。zk中创建和删除节点只能通过leader服务器来执行，然后将数据同步到所有follower机器上。<br>&emsp;&emsp;使用了zk也有可能带来并发问题，只是不常见。由于网络抖动，客户端集群的session连接断了，那么zk以为客户端挂了，就会删除临时节点，这是其他客户端就可以获取到分布式锁了。就可能产生并发问题。这个问题不常见是因为zk有重试机制，一旦zk集群检测不到客户端的心跳，就会重试，多次重试还不行的话就会删除临时节点。</p>
-<h2 id="总结：-2"><a href="#总结：-2" class="headerlink" title="总结："></a>总结：</h2><h3 id="优点：-2"><a href="#优点：-2" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;有效的解决单点问题，不可重入问题，非阻塞问题，以及锁无法释放的问题。实现起来较为简单。</p>
-<h3 id="缺点：-2"><a href="#缺点：-2" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;性能上不如缓存实现分布式锁。需要最zk的原理有所了解。</p>
-<hr>
-<h1 id="比较："><a href="#比较：" class="headerlink" title="比较："></a>比较：</h1><h3 id="理解程度："><a href="#理解程度：" class="headerlink" title="理解程度："></a>理解程度：</h3><p>数据库&gt;缓存&gt;Zookeeper</p>
-<h3 id="实现的复杂性角度："><a href="#实现的复杂性角度：" class="headerlink" title="实现的复杂性角度："></a>实现的复杂性角度：</h3><p>Zookeeper&gt;=缓存&gt;数据库</p>
-<h3 id="性能角度："><a href="#性能角度：" class="headerlink" title="性能角度："></a>性能角度：</h3><p>缓存&gt;Zookeeper&gt;=数据库</p>
-<h3 id="可靠性角度："><a href="#可靠性角度：" class="headerlink" title="可靠性角度："></a>可靠性角度：</h3><p>Zookeeper&gt;缓存&gt;数据库</p>
-]]></content>
-      <categories>
-        <category>架构</category>
-      </categories>
-      <tags>
-        <tag>distributed</tag>
-        <tag>lock</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>类加载机制</title>
     <url>/hexoblog/2021/03/02/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/</url>
     <content><![CDATA[<h1 id="介绍："><a href="#介绍：" class="headerlink" title="介绍："></a>介绍：</h1><h2 id="什么是类的加载？"><a href="#什么是类的加载？" class="headerlink" title="什么是类的加载？"></a>什么是类的加载？</h2><p>​&emsp;​&emsp;类的加载是指将类的.class文件中的二进制数据读入到内存中，将其放在运行时数据区的方法区内，然后在堆区创建一个java.lang.class对象，用来封装类在方法区内的数据结构。<br>​​&emsp;​&emsp;类的加载的最终产品是位于堆区中的class对象，class对象封装了类在方法区内的数据结构，并且提供了访问方法区内的数据结构的接口。</p>
+<span id="more"></span>
+
 <h2 id="在什么时候启动类加载？"><a href="#在什么时候启动类加载？" class="headerlink" title="在什么时候启动类加载？"></a>在什么时候启动类加载？</h2><p>​​&emsp;​&emsp;类的加载并不需要某个类被“首次主动使用”时再加载它，JVM规范允许类加载器在预料某个类将要被预先使用时就预先加载它，如果在预先加载过程中遇到了.class文件缺失或存在错误，类加载器必须在程序首次主动使用该类时才报告错误，如果这个类一直没有被程序主动使用，那么类加载器就不会报告错误。</p>
 <h2 id="从哪个地方加载类？"><a href="#从哪个地方加载类？" class="headerlink" title="从哪个地方加载类？"></a>从哪个地方加载类？</h2><ol>
 <li>从本地系统中直接加载。</li>
@@ -342,9 +297,70 @@
       </tags>
   </entry>
   <entry>
+    <title>分布式锁</title>
+    <url>/hexoblog/2021/03/02/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/</url>
+    <content><![CDATA[<h1 id="基于数据库实现分布式锁："><a href="#基于数据库实现分布式锁：" class="headerlink" title="基于数据库实现分布式锁："></a>基于数据库实现分布式锁：</h1><h2 id="基于数据库表："><a href="#基于数据库表：" class="headerlink" title="基于数据库表："></a>基于数据库表：</h2><p>&emsp;&emsp;要实现分布式锁，最简单的方法可能就是直接创建一张锁表，然后通过操作该表中的数据来实现了。<br>&emsp;&emsp;当我们要锁住某个方法或资源时，我们就在该表中增加一条记录，想要释放锁的时候就删除这条记录。</p>
+<span id="more"></span>
+
+<h3 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h3><ol>
+<li> 这把锁强依赖数据库的可用性，数据库是一个单点，一旦数据库挂掉，会导致业务系统不可用。</li>
+<li> 这把锁没有失效时间，一旦解锁操作失败，就会导致锁记录一直在数据库中，其他线程无法再获得锁。</li>
+<li> 这把锁只能是非阻塞的，因为数据的insert操作，一旦插入失败就会报错。没有获得锁的线程并不会进入排队队列，要想再次获得锁就要再次触发获得锁操作。</li>
+<li> 这把锁是非重入的，同一个线程在没有获得锁之前无法再次获得该锁。因为数据库中数据已经存在了。</li>
+</ol>
+<h3 id="解决："><a href="#解决：" class="headerlink" title="解决："></a>解决：</h3><ol>
+<li> 数据库是单点：两个数据库，数据之间双向同步，一旦挂掉快速切换到备库。</li>
+<li> 没有失效时间：定时任务，每隔一定时间清理数据库中的超时数据。</li>
+<li> 非阻塞的：while循环，直到insert成功在返回。</li>
+<li> 非重入的：在数据库表中加个字段，记录当前获得锁的主机信息和线程信息，下次在获取锁时先查询数据库，如果当前机器的主机信息和线程信息在数据库中可以查到的话，直接把锁分配给它就可以。</li>
+</ol>
+<h2 id="基于数据库排他锁："><a href="#基于数据库排他锁：" class="headerlink" title="基于数据库排他锁："></a>基于数据库排他锁：</h2><p>&emsp;&emsp;可以借助数据中自带的锁来实现分布式锁。<br>通过数据库的排他锁，基于InnoDB引擎。</p>
+<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p>&emsp;&emsp;使用数据库来实现分布式锁，这两种方式都是依赖数据库的一张表，一种是通过表中记录的存在情况确定当前是否有锁存在，另一种是通过数据库的排他锁来实现分布式锁。</p>
+<h3 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;直接借助数据库，容易理解。</p>
+<h3 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;会有各种各样的问题，在解决问题的过程中，会使整个方案变得越来越复杂。操作数据库会有一定的开销，性能问题需要考虑。使用数据库的行级锁并不一定靠谱，尤其是当我们的锁表并不大的时候。</p>
+<hr>
+<h1 id="基于缓存实现分布式锁："><a href="#基于缓存实现分布式锁：" class="headerlink" title="基于缓存实现分布式锁："></a>基于缓存实现分布式锁：</h1><p>&emsp;&emsp;相对于基于数据库实现分布式锁的方案来说，基于缓存来实现在性能方面会表现的更好一点。而且很多缓存是可以集群部署的，可以解决单点问题。<br>&emsp;&emsp;目前有很多成熟的缓存产品，Redis，memcached。</p>
+<h3 id="问题：-1"><a href="#问题：-1" class="headerlink" title="问题："></a>问题：</h3><ol>
+<li> 这把锁没有失效时间，一旦解锁失败，就会导致锁记录一直在缓存中，其他线程无法再次获得锁。</li>
+<li> 这把锁只能是非阻塞的，无论成功还是失败都直接返回。</li>
+<li> 这把锁是非重入的，一个线程获得锁之后，在释放锁之前，无法再次获得该锁，因为key已经存在，无法进行put操作。</li>
+</ol>
+<h3 id="解决"><a href="#解决" class="headerlink" title="解决:"></a>解决:</h3><ol>
+<li> 没有失效时间：设置固定时间，到期后自动删除。失效时间比较难以确定，时间太短，方法没执行完释放锁，就会产生并发问题；时间太长，其他线程就要浪费很多时间。</li>
+<li> 非阻塞：while重复执行。</li>
+<li> 非可重入：在一个线程获取到锁之后，把当前主机信息和线程信息保存起来，下次再获取前先检查自己是不是当前锁的拥有者。</li>
+</ol>
+<h2 id="总结：-1"><a href="#总结：-1" class="headerlink" title="总结："></a>总结：</h2><h3 id="优点：-1"><a href="#优点：-1" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;性能好，实现起来较为方便。</p>
+<h3 id="缺点：-1"><a href="#缺点：-1" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;通过超时来控制锁的失效时间并不是十分的靠谱。</p>
+<hr>
+<h1 id="基于Zookeeper实现分布式锁："><a href="#基于Zookeeper实现分布式锁：" class="headerlink" title="基于Zookeeper实现分布式锁："></a>基于Zookeeper实现分布式锁：</h1><p>&emsp;&emsp;基于zookeeper临时有序节点可实现的分布式锁。<br>&emsp;&emsp;大致思想为：每个客户端对每个方法加锁时，在zookeeper上的与该方法对应的指定节点的目录下，生成一个唯一的瞬时有序节点。判断是否获取锁的方式很简单，只需要判断有序节点中序号最小的一个。当释放锁的时候，只需将这个瞬时节点删除即可。同时，其可以避免服务宕机导致的锁无法释放，而产生死锁的问题。</p>
+<h2 id="如何解决前面的问题："><a href="#如何解决前面的问题：" class="headerlink" title="如何解决前面的问题："></a>如何解决前面的问题：</h2><h3 id="锁无法释放："><a href="#锁无法释放：" class="headerlink" title="锁无法释放："></a>锁无法释放：</h3><p>&emsp;&emsp;使用Zookeeper可以有效的解决锁无法释放的问题，因为在创建的时候，客户端会在zk中创建一个临时节点，一旦客户端获取到锁之后突然挂掉，那么这个临时节点就会自动删除掉。其他客户端就可以再次获得锁。</p>
+<h3 id="非阻塞锁："><a href="#非阻塞锁：" class="headerlink" title="非阻塞锁："></a>非阻塞锁：</h3><p>&emsp;&emsp;使用zookeeper可以实现阻塞的锁，客户端可通过在zk中创建顺序节点，并在节点上绑定监听器，一旦节点有变化，zookeeper会通知客户端，客户端可以检查自己创建的节点是不是当前所有节点中序号最小的，如果是，那么自己就获取到锁，便可以执行业务逻辑。</p>
+<h3 id="不可重入："><a href="#不可重入：" class="headerlink" title="不可重入："></a>不可重入：</h3><p>&emsp;&emsp;使用zookeeper可以有效解决不可重入的问题，客户端在创建节点时，把当前客户端的主机信息和线程信息直接写入节点中，下次想要获取锁的时候和当前最小节点中的数据对比一下就可以。如果和自己的信息一样，那么自己直接获取到锁，如果不一样就在创建一个临时的顺序节点，参与排队。</p>
+<h3 id="单点问题："><a href="#单点问题：" class="headerlink" title="单点问题："></a>单点问题：</h3><p>&emsp;&emsp;使用zookeeper可以有效解决单点问题，zk是集群部署的，只要集群中有半数以上的机器存活，就可以对外提供服务。</p>
+<p>&emsp;&emsp;使用zk实现的分布式锁其实存在一个缺点，那就是性能上可能并没有缓存服务器那么高。因为在每次创建锁和释放锁的过程中，都要动态创建，销毁瞬时节点来实现锁功能。zk中创建和删除节点只能通过leader服务器来执行，然后将数据同步到所有follower机器上。<br>&emsp;&emsp;使用了zk也有可能带来并发问题，只是不常见。由于网络抖动，客户端集群的session连接断了，那么zk以为客户端挂了，就会删除临时节点，这是其他客户端就可以获取到分布式锁了。就可能产生并发问题。这个问题不常见是因为zk有重试机制，一旦zk集群检测不到客户端的心跳，就会重试，多次重试还不行的话就会删除临时节点。</p>
+<h2 id="总结：-2"><a href="#总结：-2" class="headerlink" title="总结："></a>总结：</h2><h3 id="优点：-2"><a href="#优点：-2" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;有效的解决单点问题，不可重入问题，非阻塞问题，以及锁无法释放的问题。实现起来较为简单。</p>
+<h3 id="缺点：-2"><a href="#缺点：-2" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;性能上不如缓存实现分布式锁。需要最zk的原理有所了解。</p>
+<hr>
+<h1 id="比较："><a href="#比较：" class="headerlink" title="比较："></a>比较：</h1><h3 id="理解程度："><a href="#理解程度：" class="headerlink" title="理解程度："></a>理解程度：</h3><p>数据库&gt;缓存&gt;Zookeeper</p>
+<h3 id="实现的复杂性角度："><a href="#实现的复杂性角度：" class="headerlink" title="实现的复杂性角度："></a>实现的复杂性角度：</h3><p>Zookeeper&gt;=缓存&gt;数据库</p>
+<h3 id="性能角度："><a href="#性能角度：" class="headerlink" title="性能角度："></a>性能角度：</h3><p>缓存&gt;Zookeeper&gt;=数据库</p>
+<h3 id="可靠性角度："><a href="#可靠性角度：" class="headerlink" title="可靠性角度："></a>可靠性角度：</h3><p>Zookeeper&gt;缓存&gt;数据库</p>
+]]></content>
+      <categories>
+        <category>架构</category>
+      </categories>
+      <tags>
+        <tag>distributed</tag>
+        <tag>lock</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>锁</title>
     <url>/hexoblog/2021/03/02/%E9%94%81/</url>
     <content><![CDATA[<h1 id="乐观锁："><a href="#乐观锁：" class="headerlink" title="乐观锁："></a>乐观锁：</h1><p>&emsp;&emsp;乐观锁不是数据库自带的，需要我们去实现。总是假设最好的情况，每次去拿数据时都会认为数据没有被修改，所以不会上锁，但是在提交更新的时候会去判断一下在此期间别人有没有更改数据，可以使用版本号机制算法或者CAS算法实现。乐观锁适用于读多于写的情况，可以提高吞吐量。</p>
+<span id="more"></span>
+
 <p>&emsp;&emsp;乐观锁：假设不会出现并发冲突，只在提交操作时检查是否违反数据完整性。</p>
 <p>&emsp;&emsp;Java JUC中的atomic包就是乐观锁的一种实现，AtomicInteger 通过CAS（Compare And Set）操作实现线程安全的自增。</p>
 <h2 id="实现方式："><a href="#实现方式：" class="headerlink" title="实现方式："></a>实现方式：</h2><ol>
