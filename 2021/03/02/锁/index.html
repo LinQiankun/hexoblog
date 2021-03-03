@@ -32,7 +32,7 @@
 <meta property="og:description" content="乐观锁：&amp;emsp;&amp;emsp;乐观锁不是数据库自带的，需要我们去实现。总是假设最好的情况，每次去拿数据时都会认为数据没有被修改，所以不会上锁，但是在提交更新的时候会去判断一下在此期间别人有没有更改数据，可以使用版本号机制算法或者CAS算法实现。乐观锁适用于读多于写的情况，可以提高吞吐量。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-03-02T08:29:46.000Z">
-<meta property="article:modified_time" content="2021-03-02T10:15:42.225Z">
+<meta property="article:modified_time" content="2021-03-03T02:04:56.354Z">
 <meta property="article:author" content="linqiankun">
 <meta property="article:tag" content="lock">
 <meta name="twitter:card" content="summary">
@@ -205,20 +205,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/hexoblog/archives/">
         
-          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-count">9</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/hexoblog/categories/">
           
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/hexoblog/tags/">
           
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -322,7 +322,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-03-02 18:15:42 18:15:42" itemprop="dateModified" datetime="2021-03-02T18:15:42+08:00">2021-03-02 18:15:42</time>
+        <time title="修改时间：2021-03-03 10:04:56 10:04:56" itemprop="dateModified" datetime="2021-03-03T10:04:56+08:00">2021-03-03 10:04:56</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -493,9 +493,9 @@
 <p>&emsp;&emsp;记录锁：记录锁锁的是表中的某一条记录，记录锁的出现条件必须是精准命中索引并且索引是唯一索引。</p>
 <h2 id="间隙锁："><a href="#间隙锁：" class="headerlink" title="间隙锁："></a>间隙锁：</h2><p>&emsp;&emsp;间隙锁又称之为区间锁，每次锁定都是锁定一个区间，隶属行锁。既然间隙锁隶属行锁，那么，间隙锁的触发条件必然是命中索引的，当我们查询数据用范围查询而不是相等条件查询时，查询条件命中索引，并且没有查询到符合条件的记录，此时就会将查询条件中的范围数据进行锁定(即使是范围库中不存在的数据也会被锁定)。</p>
 <p>&emsp;&emsp;间隙锁只会出现在可重复读的事务隔离级别中，mysql5.7默认就是可重复读。间隙锁锁的是一个区间范围，查询命中索引但是没有匹配到相关记录时，锁定的是查询的这个区间范围。</p>
-<h2 id="临间锁："><a href="#临间锁：" class="headerlink" title="临间锁："></a>临间锁：</h2><p>&emsp;&emsp;学习完间隙锁后我们再来看看什么是临键锁，mysql的行锁默认就是使用的临键锁，临键锁是由记录锁和间隙锁共同实现的，上面我们学习间隙锁时，间隙锁的触发条件是命中索引，范围查询没有匹配到相关记录。而临键锁恰好相反，临键锁的触发条件也是查询条件命中索引，不过，临键锁有匹配到数据库记录。</p>
-<p>&emsp;&emsp;间隙锁所锁定的区间是一个左开右闭的集合，而临键锁锁定是当前记录的区间和下一个记录的区间。</p>
-<p>&emsp;&emsp;键锁锁定区间和查询范围后匹配值很重要，如果后匹配值存在，则只锁定查询区间，否则锁定查询区间和后匹配值与它的下一个值的区间。</p>
+<h2 id="临间锁："><a href="#临间锁：" class="headerlink" title="临间锁："></a>临间锁：</h2><p>&emsp;&emsp;学习完间隙锁后我们再来看看什么是临间锁，mysql的行锁默认就是使用的临间锁，临间锁是由记录锁和间隙锁共同实现的，上面我们学习间隙锁时，间隙锁的触发条件是命中索引，范围查询没有匹配到相关记录。而临键锁恰好相反，临间锁的触发条件也是查询条件命中索引，不过，临间锁有匹配到数据库记录。</p>
+<p>&emsp;&emsp;间隙锁所锁定的区间是一个左开右闭的集合，而临间锁锁定是当前记录的区间和下一个记录的区间。</p>
+<p>&emsp;&emsp;临间锁锁定区间和查询范围后匹配值很重要，如果后匹配值存在，则只锁定查询区间，否则锁定查询区间和后匹配值与它的下一个值的区间。</p>
 
     </div>
 
@@ -551,6 +551,9 @@
                 </a>
             </div>
             <div class="post-nav-item">
+                <a href="/hexoblog/2021/03/03/swagger3/" rel="next" title="swagger3">
+                  swagger3 <i class="fa fa-chevron-right"></i>
+                </a>
             </div>
           </div>
     </footer>
@@ -592,7 +595,7 @@
 
 
 <div class="copyright">
-  &copy; 
+  &copy; Tue Mar 02 2021 08:00:00 GMT+0800 (中国标准时间) – 
   <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
@@ -604,13 +607,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">20k</span>
+    <span title="站点总字数">22k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">18 分钟</span>
+    <span title="站点阅读时长">20 分钟</span>
   </span>
 </div>
 <div class="busuanzi-count">
