@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>zook使用场景</title>
-    <url>/hexoblog/2021/03/08/zook%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>docker安装与使用</title>
     <url>/hexoblog/2021/03/05/docker/docker%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<h1 id="docker介绍："><a href="#docker介绍：" class="headerlink" title="docker介绍："></a>docker介绍：</h1><p>&emsp;&emsp;docker是个鲸鱼，拉了很多集装箱的鲸鱼。<br>&emsp;&emsp;docker是个开源的容器引擎。可以让开发者快速将他们的应用及依赖打包到一个可移植的容器中，然后发布到不同的平台。</p>
