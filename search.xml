@@ -983,7 +983,7 @@
 <li>生产者负载均衡，生产者需要将消息发送到对应的Broker上，生产者通过Broker和Topic注册的信息，以及Broker和Topic的对应关系和变化注册事件Watcher。监听，从而实现一种动态的负载均衡机制。</li>
 <li>消息消费进度Offset记录消费者对指定消息分区进行消息消费的过程中，需要定时将分区消息的消费进度Offset记录到ZooKeeper上，以便消费者进行重启或者其他消费者重新阶段该消息分区的消息消费后，能够从之前的进度开始继续系消费。</li>
 </ol>
-<h3><span id="dubbo">dubbo</span><a href="#dubbo" class="header-anchor">#</a></h3><p>&emsp;&emsp;Dubbo基于ZooKeeper实现了服务注册中心。哪一个服务由哪一个机器来提供必需让调用者知道，简单来说就是ip地址和服务名称的对应关系。ZooKeeper通过心跳机制可以检测挂掉的机器并将挂掉机器的ip和服务对应关系从列表中删除。</p>
+<h2><span id="dubbo">dubbo</span><a href="#dubbo" class="header-anchor">#</a></h2><p>&emsp;&emsp;Dubbo基于ZooKeeper实现了服务注册中心。哪一个服务由哪一个机器来提供必需让调用者知道，简单来说就是ip地址和服务名称的对应关系。ZooKeeper通过心跳机制可以检测挂掉的机器并将挂掉机器的ip和服务对应关系从列表中删除。</p>
 <p>&emsp;&emsp;至于支持高并发，简单来说就是横向扩展，在不更改代码的情况通过添加机器来提高运算能力。通过添加新的机器向ZooKeeper注册服务，服务的提供者多了能服务的客户就多了。</p>
 ]]></content>
       <categories>
