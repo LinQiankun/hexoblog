@@ -6,7 +6,7 @@
   <link href="http://linqiankun.gitee.io/hexoblog/atom.xml" rel="self"/>
   
   <link href="http://linqiankun.gitee.io/hexoblog/"/>
-  <updated>2021-03-09T10:40:54.532Z</updated>
+  <updated>2021-03-12T09:13:43.849Z</updated>
   <id>http://linqiankun.gitee.io/hexoblog/</id>
   
   <author>
@@ -17,11 +17,32 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>mysql常用命令</title>
+    <link href="http://linqiankun.gitee.io/hexoblog/2021/03/12/mysql/mysql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"/>
+    <id>http://linqiankun.gitee.io/hexoblog/2021/03/12/mysql/mysql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</id>
+    <published>2021-03-12T06:29:40.000Z</published>
+    <updated>2021-03-12T09:13:43.849Z</updated>
+    
+    <content type="html"><![CDATA[<h1><span id="chang-yong-ming-ling">常用命令</span><a href="#chang-yong-ming-ling" class="header-anchor">#</a></h1><h2><span id="xiu-gai-mysql-shi-qu">修改mysql时区</span><a href="#xiu-gai-mysql-shi-qu" class="header-anchor">#</a></h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看时区</span></span><br><span class="line">show variables like <span class="string">&quot;%time_zone%&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置时区为UTC+8:00</span></span><br><span class="line"><span class="built_in">set</span> global time_zone = <span class="string">&#x27;+8:00&#x27;</span>;</span><br><span class="line"><span class="built_in">set</span> time_zone = <span class="string">&#x27;+8:00&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 刷新立即生效</span></span><br><span class="line">flush privileges；</span><br></pre></td></tr></table></figure><span id="more"></span><h2><span id="shi-yong-mysql-binlog">使用mysql binlog</span><a href="#shi-yong-mysql-binlog" class="header-anchor">#</a></h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看日志是否开启</span></span><br><span class="line">show variables like <span class="string">&#x27;log_%&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看binlog配置</span></span><br><span class="line">show variables like <span class="string">&#x27;binlog_%&#x27;</span>; </span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看数据库当前日志情况</span></span><br><span class="line">show master status;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看所有日志文件</span></span><br><span class="line">show binary logs;</span><br><span class="line">show master logs;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 根据事件查看文件</span></span><br><span class="line">show binlog events <span class="keyword">in</span> <span class="string">&#x27;$&#123;binlogname&#125;&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看binlog日志文件内容</span></span><br><span class="line">mysqlbinlog  <span class="variable">$&#123;binlogname&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 以人类能看懂的方式查看binlog文件内容</span></span><br><span class="line">mysqlbinlog --base64-output=decode-rows -vvvvvv <span class="variable">$&#123;binlogname&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用-r命令将日志转写进sql</span></span><br><span class="line">mysqlbinlog --base64-output=decode-rows -vvvvvv <span class="variable">$&#123;binlogname&#125;</span> -r <span class="variable">$&#123;sqlname.sql&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 还原数据库</span></span><br><span class="line">mysqlbinlog --start-positoin=<span class="variable">$&#123;number&#125;</span> --stop-position=<span class="variable">$&#123;number&#125;</span> <span class="variable">$&#123;binlogname&#125;</span> -d <span class="variable">$&#123;databasename&#125;</span> | mysql -u<span class="variable">$&#123;username&#125;</span> -p<span class="variable">$&#123;password&#125;</span></span><br></pre></td></tr></table></figure><p>&emsp;&emsp;转写进文件的日志不能直接执行，不过我们可以从其中提取有用信息。<br>&emsp;&emsp;因为binlog日志里面会将删除等操作全部保存下来，所以再还原数据库信息时一定不能全部解析，需要指定确切位置。<br>&emsp;&emsp;指定位置，数据库，时间，端口，host的命令都可以跟在mysqlbinlog后面，不只只用来恢复，转储，查看都可以。这些命令可以排列组合，放在日志名称前即可。</p><p>mysqlbinlog其他参数：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 起始位置</span></span><br><span class="line">--start-position=<span class="variable">$&#123;positiom number&#125;</span></span><br><span class="line"><span class="comment"># 结束位置</span></span><br><span class="line">--stop-position=<span class="variable">$&#123;position number&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 开始时间</span></span><br><span class="line">--start-datetime=<span class="variable">$&#123;starttime&#125;</span></span><br><span class="line"><span class="comment"># 结束时间</span></span><br><span class="line">--stop-datetime=<span class="variable">$&#123;stoptime&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 数据库</span></span><br><span class="line">-d <span class="variable">$&#123;databasename&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 端口号(大写的P)</span></span><br><span class="line">-P <span class="variable">$&#123;port&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ip地址</span></span><br><span class="line">-h <span class="variable">$&#123;hosts&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># serverId</span></span><br><span class="line">--server-id=<span class="variable">$&#123;server-id&#125;</span></span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;常用命令&quot;&gt;&lt;a href=&quot;#常用命令&quot; class=&quot;headerlink&quot; title=&quot;常用命令&quot;&gt;&lt;/a&gt;常用命令&lt;/h1&gt;&lt;h2 id=&quot;修改mysql时区&quot;&gt;&lt;a href=&quot;#修改mysql时区&quot; class=&quot;headerlink&quot; title=&quot;修改mysql时区&quot;&gt;&lt;/a&gt;修改mysql时区&lt;/h2&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 查看时区&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;show variables like &lt;span class=&quot;string&quot;&gt;&amp;quot;%time_zone%&amp;quot;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 设置时区为UTC+8:00&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;set&lt;/span&gt; global time_zone = &lt;span class=&quot;string&quot;&gt;&amp;#x27;+8:00&amp;#x27;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;set&lt;/span&gt; time_zone = &lt;span class=&quot;string&quot;&gt;&amp;#x27;+8:00&amp;#x27;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 刷新立即生效&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;flush privileges；&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</summary>
+    
+    
+    
+    <category term="mysql" scheme="http://linqiankun.gitee.io/hexoblog/categories/mysql/"/>
+    
+    
+    <category term="mysql" scheme="http://linqiankun.gitee.io/hexoblog/tags/mysql/"/>
+    
+  </entry>
+  
+  <entry>
     <title>zookeeper使用场景</title>
     <link href="http://linqiankun.gitee.io/hexoblog/2021/03/08/zookeeper/zookeeper%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF/"/>
     <id>http://linqiankun.gitee.io/hexoblog/2021/03/08/zookeeper/zookeeper%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF/</id>
     <published>2021-03-08T12:55:46.000Z</published>
-    <updated>2021-03-09T10:40:54.532Z</updated>
+    <updated>2021-03-12T09:16:37.349Z</updated>
     
     <content type="html"><![CDATA[<h1><span id="jie-shao">介绍</span><a href="#jie-shao" class="header-anchor">#</a></h1><p>&emsp;&emsp;zookeeper是一个典型的发布/订阅模式的分布式数据管理与协调框架。</p><h2><span id="zuo-yong">作用：</span><a href="#zuo-yong" class="header-anchor">#</a></h2><ol><li>高性能使得ZooKeeper能够应用于对系统吞吐有明确要求的大型分布式系统。</li><li>高可用可以解决分布式的单点问题。</li><li>具有严格的顺序访问控制能力，主要是针对写操作的严格顺序性，使得客户端可以基于ZooKeeper来实现一些复杂的同步原语。</li></ol><h2><span id="gai-nian">概念：</span><a href="#gai-nian" class="header-anchor">#</a></h2><p>&emsp;&emsp;ZooKeepr提供基于类似于文件系统的目录节点树方式的数据存储，这是一个共享的内存中的树型结构。<br>有几个概念需要关注一下:</p><ol><li>Session会话，客户端启动会与服务端建立一个TCP长连接，通过这个连接可以发送请求并接受响应，以及接受服务端的Watcher事件通知。</li><li>Znode数据节点，/xxxx就是一个Znode，会保存自己的数据内容和属性信息，分为持久和临时节点，节点有SEQUENTIAL属性。</li><li>Version版本，Stat数据结构包含version，cversion，aversion。</li><li>Watcher事件监听器，客户端可以在Znode上注册Watcher，服务端将事件通知已注册的客户端。</li></ol><span id="more"></span><hr><h1><span id="shi-yong-chang-jing">使用场景:</span><a href="#shi-yong-chang-jing" class="header-anchor">#</a></h1><p>利用zookeeper可以非常构建一系列分布式应用中都会涉及到的核心功能:</p><ol><li><p>数据发布/订阅</p></li><li><p>负载均衡</p></li><li><p>命名服务</p></li><li><p>分布式协调/通知</p></li><li><p>集群管理</p></li><li><p>Master选举</p></li><li><p>分布式锁</p></li><li><p>分布式队列</p><p>多个开源项目中都用到了，如dubbo,kafka等。</p></li></ol><h2><span id="shu-ju-fa-bu-yu-ding-yue">数据发布与订阅</span><a href="#shu-ju-fa-bu-yu-ding-yue" class="header-anchor">#</a></h2><p>&emsp;&emsp;数据发布订阅等一个常见场景是配置中心，发布者将数据发布到zookeeper的一个或一系列节点上，供订阅者进行数据订阅，达到动态获取数据的目的。</p><p>配置信息一般有几个特点:</p><ol><li>数据量小的KV</li><li>数据内容在运行时会发生动态变化</li><li>集权机器共享，配置一致</li></ol><p>zookeeper采用的是推拉结合的方式：</p><ol><li>推：服务器会推给注册了监控节点的客户端Watcher时间通知。</li><li>拉：客户端获得了通知后，然后主动到服务端拉取最新的数据。</li></ol><p>实现的思路如下：</p><ol><li>把配置信息写到一个znode上</li><li>客户端启动初始化阶段读取服务端节点的数据，并注册一个数据变更的Watcher</li><li>配置变更只需要对Znode数据进行set操作，数据变更的通知会发送到客户端，客户端重新获取数据，完成配置动态修改。</li></ol><h2><span id="fu-zai-jun-heng">负载均衡</span><a href="#fu-zai-jun-heng" class="header-anchor">#</a></h2><p>&emsp;&emsp;负载均衡是一种手段，用来把对某种资源的访问分摊给不同的设备，从而减轻单点的压力。</p><p>实现的思路：</p><ol><li>首先建立servers节点，并建立监听器监视servers子节点的状态（用于在服务器增添时及时同步当前集群中服务器列表）</li><li>在每个服务器启动时，在Servers节点下面建立临时子节点Worker Server，并在对应的子节点下面存入服务器的相关信息，包括服务器的地址，ip，端口等。</li><li>可以自定义一个负载均衡算法，在每个请求过来时从zookeeper服务器中获取当前集群服务器列表，根据算法选出其中一个服务器来处理请求。</li></ol><h2><span id="ming-ming-fu-wu">命名服务</span><a href="#ming-ming-fu-wu" class="header-anchor">#</a></h2><p>&emsp;&emsp;命名服务就是提供名城的服务，zookeeper的命名服务主要有两个应用方面。</p><ol><li><p>提供类JNDI功能，可以把系统中各种服务的名称、地址以及目录信息存放在zookeeper,需要的时候从zookeeper中读取。</p></li><li><p>制作分布式的序列号生成器。</p><p>&emsp;&emsp;利用zookeeper顺序节点的特性，制作分布式的序列号生成器，或叫做ID生成器，分布式环境下使用作为数据库ID，另一种是UUID（缺点没有规律），zookeeper可以生成有顺序的容易理解的同时支持分布式环境的编号。</p></li></ol><p>&emsp;&emsp;在创建节点时，如果设置节点有序的，则zookeeper会自动在你的节点名后面加上序号。</p><h2><span id="fen-bu-shi-xie-diao-tong-zhi">分布式协调/通知</span><a href="#fen-bu-shi-xie-diao-tong-zhi" class="header-anchor">#</a></h2><p>&emsp;&emsp;一种典型的分布式系统机器间的通信方式是心跳。</p><p>&emsp;&emsp;心跳检测是指分布式环境中，不同机器之间需要检测彼此之间是否正常运行。传统的方法时通过主机之间相互ping来实现，又或者时建立TCP长连接，通过TCP连接中固有的心跳检测机制来实现上层机器间的心跳检测。</p><p>&emsp;&emsp;如果使用zookeeper，可以基于其临时节点的特性，不同机器在zookeeper的一个指定节点下创建临时子节点，不同机器之间可以根据这个临时节点来判断客户端机器是否存活。</p><p>&emsp;&emsp;好处就是检测系统和被检系统不需要直接关联，而是通过zookeeper节点来关联，大大减少系统的耦合。</p><h2><span id="ji-qun-guan-li">集群管理</span><a href="#ji-qun-guan-li" class="header-anchor">#</a></h2><p>&emsp;&emsp;集群管理主要指集群监控和集群控制两个方面，前者侧重于集群运行时的状态的收集，后者则是进行集群的操作与控制。开发和运维中，面对集群，经常有如下需求：</p><ol><li>希望知道集群中究竟有多少机器在工作。</li><li>对集群中的每台机器的运行时状态进行数据收集。</li><li>对集群中的机器进行上下线的操作。</li></ol><p>&emsp;&emsp;分布式集群管理体系中，有一种传统的基于Agent的方式，就是在集群每台机器部署Agent来收集机器的CPU、内存等指标。但是如果需要深入到业务状态进行监控，比如一个分布式消息中间件中，希望监控每个消费者对消息的消费状态，或在一个分布式任务调度系统中，需要对每个机器中的任务执行情况进行监控。对这些业务紧密耦合的监控需求，统一的Agent是不太合适的。</p><p><strong>利用zookeeper实现集群管理监控组件的思路是：</strong></p><p>&emsp;&emsp;在管理机器上线/下线的场景中，为了实现自动化的线上运维，我们必须对机器的上下线情况有一个全局的监控。通常在新增机器的时候，需要首先将指定的Agent部署到这些机器上去。Agent部署启动之后，会首先向zookeeper的指定节点进行注册，具体的做法就是机器列表节点下面创建一个临时子节点。当Agent建立完这个临时子节点后，监控中心就会收到“子节点变更”的事件通知，即上线通知，于是就可以对这个新加入的机器开启相应的后台管理逻辑。另一方面，监控中心同样可以获取到机器的下线通知，这样便实现了对机器上下线的检测，同时能够很容易获取到在线的机器列表，对于大规模的扩容合容量评估都有很大帮助。</p><h2><span id="master-xuan-ju">Master选举</span><a href="#master-xuan-ju" class="header-anchor">#</a></h2><p>&emsp;&emsp;分布式系统中Master是用来协调集群中其他系统单元，具有对分布式系统状态更改的决定权。比如一些读写分离的应用场景，客户端写请求往往是Master来实现的。</p><p>&emsp;&emsp;利用常见关系型数据库中的主键特性来实现也是可以的，集群中所有机器都向数据库中插入一条相同主键ID的记录，数据库会帮助我们自动进行主键冲突检查，可以保证只有一台机器能够成功。</p><p>&emsp;&emsp;但是有一个问题，如果插入成功的和护短机器成为Master后挂了的话，如何通知集群重新选举Master？</p><p>&emsp;&emsp;利用ZooKeeper创建节点API接口，提供了强一致性，能够很好保证在分布式高并发情况下节点的创建一定是全局唯一性。</p><p>&emsp;&emsp;集群机器都尝试创建节点，创建成功的客户端机器就会成为Master，失败的客户端机器就在该节点上注册一个Watcher用于监控当前Master机器是否存活，一旦发现Master挂了，其余客户端就可以进行选举了。</p><h2><span id="fen-bu-shi-suo">分布式锁</span><a href="#fen-bu-shi-suo" class="header-anchor">#</a></h2><p>&emsp;&emsp;分布式锁是控制分布式系统之间同步访问共享资源的一种方式。如果不同系统或是同一个系统的不同主机之间共享了一个或一组资源，那么访问这些资源的时候，一般需要通过一些互斥的手段来防止彼此之间的干扰，以保证一致性。</p><h3><span id="pai-ta-suo">排他锁</span><a href="#pai-ta-suo" class="header-anchor">#</a></h3><p>&emsp;&emsp;如果事务T1对数据对象O1加上了排他锁，那么加锁期间，只允许事务T1对O1进行读取和更新操作。核心是保证当前有且仅有一个事务获得锁，并且锁释放后，所有正在等待获取锁的事务都能够被通知到。</p><p>通过ZooKeeper上的Znode可以表示一个锁，/x_lock/lock。</p><ol><li>获取锁，所有客户端都会通过调用create()接口尝试在/x_lock，创建临时子节点/x_lock/lock。最终只有一个客户端创建成功，那么该客户端就获取了锁。同时没有获取到锁的其他客户端，注册一个子节点变更的 Watcher 监听。</li><li>释放锁，获取锁的客户端发生宕机或者正常完成业务逻辑后，就会把临时节点删除。临时子节点删除后，其他客户端又开始新的一轮获取锁的过程。</li></ol><h3><span id="gong-xiang-suo">共享锁</span><a href="#gong-xiang-suo" class="header-anchor">#</a></h3><p>&emsp;&emsp;如果事务T1对数据对象O1加上了共享锁，那么当前事务T1只能对O1 进行读取操作，其他事务也只能对这个数据对象加共享锁，直到数据对象上的所有共享锁都被释放。</p><p>通过ZooKeeper上的Znode表示一个锁，/s_lock/[HOSTNAME]-请求类型-序号。</p><ol><li>获取锁，需要获得共享锁的客户端都会在s_lock这个节点下面创建一个临时顺序节点，如果当前是读请求，就创建类型为R的临时节点，如果是写请求，就创建类型为W的临时节点。</li><li>判断读写顺序，共享锁下不同事务可以同时对同一个数据对象进行读取操作，而更新操作必须在当前没有任何事务进行读写操作的情况下进行。<ol><li>创建完节点后，获取s_lock的所有子节点，并对该节点注册子节点变更的Watcher监听。</li><li>然后确定自己的节点序号在所有的子节点中的顺序。</li><li>对于读请求，如果没有比自己小的子节点，那么表名自己已经成功获取到了共享锁，同时开始执行读取逻辑，如果有比自己序号小的写请求，那么就需要进行等待。</li><li>接收到Watcher通知后重复2.1。</li></ol></li><li>释放锁 获取锁的客户端发生宕机或者正常完成业务逻辑后，就会把临时节点删除。临时子节点删除后，其他客户端又开始新的一轮获取锁的过程。</li></ol><h3><span id="yang-qun-xiao-ying">羊群效应</span><a href="#yang-qun-xiao-ying" class="header-anchor">#</a></h3><p>&emsp;&emsp;在2介绍的共享锁中，在判断读写顺序的时候会出现一个问题，假如host4在移除自己的节点的时候，后面host5-7都需要接收Watcher事件通知，但是实际上，只有host5接收到事件就可以了。因此以上的实现方式会产生大量的Watcher通知。这样会对ZooKeeper服务器造成了巨大的性能影响和网络冲击，这就是羊群效应。</p><p>&emsp;&emsp;改进的一步在于，调用getChildren接口的时候获取到所有已经创建的子节点列表，但是这个时候不要注册任何的Watcher。当无法获取共享锁的时候，调用exist()来对比自己小的那个节点注册Wathcer。而对于读写请求，会有不同的定义:</p><p>&emsp;&emsp;读请求：在比自己序号小的最后一个写请求节点注册Watcher。 写请求：向比自己序号小的最后一个节点注册Watcher。</p><h2><span id="fen-bu-shi-dui-lie">分布式队列</span><a href="#fen-bu-shi-dui-lie" class="header-anchor">#</a></h2><h3><span id="fifo">FIFO</span><a href="#fifo" class="header-anchor">#</a></h3><p>&emsp;&emsp;使用ZooKeeper实现FIFO队列，入队操作就是在queue_fifo 下创建自增序的子节点，并把数据（队列大小）放入节点内。出队操作就是先找到queue_fifo下序号最下的那个节点，取出数据，然后删除此节点。</p><p>创建完节点后，根据以下步骤确定执行顺序：</p><ol><li>通过get_chldren()接口获取/queue_fifo节点下所有子节点。</li><li>判断自己的节点顺序，在所有子节点中的顺序。</li><li>如果不是最小的子节点，那么进入等待，同时向比自己序号小的最后一个子节点注册Watcher监听。</li><li>接受到Watchert通知后重复1。</li></ol><h3><span id="barrier">Barrier</span><a href="#barrier" class="header-anchor">#</a></h3><p>&emsp;&emsp;Barrier就是栅栏或者屏障，适用于这样的业务场景：当有些操作需要并行执行，但后续操作又需要串行执行，此时必须等待所有并行执行的线程全部结束，才开始串行，于是就需要一个屏障，来控制所有线程同时开始，并等待所有线程全部结束。</p><h4><span id="ru-he-kong-zhi-suo-you-xian-cheng-tong-shi-kai-shi">如何控制所有线程同时开始？</span><a href="#ru-he-kong-zhi-suo-you-xian-cheng-tong-shi-kai-shi" class="header-anchor">#</a></h4><p>&emsp;&emsp;所有的线程启动时在ZooKeeper节点/queue_barrier下插入顺序临时节点，然后检查/queue/barrier下所有children 节点的数量是否为所有的线程数，如果不是，则等待，如果是，则开始执行。具体的步骤如下：</p><ol><li>getData()获取/queue_barrier节点的数据内容。</li><li>getChildren()获取/queue_barrier节点下的所有子节点，同时注册对子节点列表变更的Watcher监听。</li><li>统计子节点的个数。</li><li>如果子节点个数不足10，那么进入等待。</li><li>接收Watcher通知后，重复2。</li></ol><h4><span id="ru-he-deng-dai-suo-you-xian-cheng-jie-shu">如何等待所有线程结束？</span><a href="#ru-he-deng-dai-suo-you-xian-cheng-jie-shu" class="header-anchor">#</a></h4><p>&emsp;&emsp;所有线程在执行完毕后，都检查/queue/barrier下所有children节点数量是否为0，若不为0，则继续等待。</p><h4><span id="yong-shi-me-lei-xing-de-jie-dian">用什么类型的节点？</span><a href="#yong-shi-me-lei-xing-de-jie-dian" class="header-anchor">#</a></h4><p>&emsp;&emsp;根节点使用持久节点，子节点使用临时节点，根节点为什么要用持久节点？首先因为临时节点不能有子节点，所以根节点要用持久节点，并且在程序中要判断根节点是否存在。子节点为什么要用临时节点？临时节点随着连接的断开而消失，在程序中，虽然会删除临时节点，但可能会出现程序在节点被删除之前就crash了，如果是持久节点，节点不会被删除。</p><hr><h1><span id="fen-bu-shi-xi-tong-zhong-de-ying-yong">分布式系统中的应用</span><a href="#fen-bu-shi-xi-tong-zhong-de-ying-yong" class="header-anchor">#</a></h1><h2><span id="kafka">Kafka</span><a href="#kafka" class="header-anchor">#</a></h2><p>Kafka中大部分组件都应用了zookeeper。</p><ol><li>Broker注册`/broker/ids/[0…N]记录了Broker服务器列表记录，这个临时节点的节点数据是ip端口之类的信息。</li><li>Topic注册/broker/topcs记录了Topic的分区信息和Broker的对应关系。</li><li>生产者负载均衡，生产者需要将消息发送到对应的Broker上，生产者通过Broker和Topic注册的信息，以及Broker和Topic的对应关系和变化注册事件Watcher。监听，从而实现一种动态的负载均衡机制。</li><li>消息消费进度Offset记录消费者对指定消息分区进行消息消费的过程中，需要定时将分区消息的消费进度Offset记录到ZooKeeper上，以便消费者进行重启或者其他消费者重新阶段该消息分区的消息消费后，能够从之前的进度开始继续系消费。</li></ol><h2><span id="dubbo">dubbo</span><a href="#dubbo" class="header-anchor">#</a></h2><p>&emsp;&emsp;Dubbo基于ZooKeeper实现了服务注册中心。哪一个服务由哪一个机器来提供必需让调用者知道，简单来说就是ip地址和服务名称的对应关系。ZooKeeper通过心跳机制可以检测挂掉的机器并将挂掉机器的ip和服务对应关系从列表中删除。</p><p>&emsp;&emsp;至于支持高并发，简单来说就是横向扩展，在不更改代码的情况通过添加机器来提高运算能力。通过添加新的机器向ZooKeeper注册服务，服务的提供者多了能服务的客户就多了。</p>]]></content>
     
@@ -45,7 +66,9 @@
     <category term="zookeeper" scheme="http://linqiankun.gitee.io/hexoblog/categories/zookeeper/"/>
     
     
-    <category term="zookeeper,分布式" scheme="http://linqiankun.gitee.io/hexoblog/tags/zookeeper-%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+    <category term="zookeeper" scheme="http://linqiankun.gitee.io/hexoblog/tags/zookeeper/"/>
+    
+    <category term="分布式" scheme="http://linqiankun.gitee.io/hexoblog/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
     
   </entry>
   
@@ -78,7 +101,7 @@
     <link href="http://linqiankun.gitee.io/hexoblog/2021/03/08/redis/%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF%E3%80%81%E7%A9%BF%E9%80%8F%E3%80%81%E9%9B%AA%E5%B4%A9/"/>
     <id>http://linqiankun.gitee.io/hexoblog/2021/03/08/redis/%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF%E3%80%81%E7%A9%BF%E9%80%8F%E3%80%81%E9%9B%AA%E5%B4%A9/</id>
     <published>2021-03-08T03:08:25.000Z</published>
-    <updated>2021-03-08T05:56:56.124Z</updated>
+    <updated>2021-03-12T09:15:43.885Z</updated>
     
     <content type="html"><![CDATA[<p><a href="https://my.oschina.net/linqiankun/blog/3191886">缓存击穿，穿透，雪崩</a></p><h1><span id="huan-cun-ji-chuan">缓存击穿</span><a href="#huan-cun-ji-chuan" class="header-anchor">#</a></h1><p>&emsp;&emsp;高并发系统中，大量的请求一般会落在缓存，但在某一时期，某一热点key过期，会导致大量的请求直接落到数据库，导致数据库崩溃。</p><span id="more"></span><h2><span id="jie-jue">解决</span><a href="#jie-jue" class="header-anchor">#</a></h2><ol><li>设置热点key不过期。</li><li>加上分布式锁，每次只有拿到锁的线程可以去访问数据库。第一个线程查询到后就会缓存起来，后面线程从缓存中拿。</li></ol><hr><h1><span id="huan-cun-chuan-tou">缓存穿透</span><a href="#huan-cun-chuan-tou" class="header-anchor">#</a></h1><p>&emsp;&emsp;正常情况下，需要查询的数据都存在，当查询一个缓存和数据库都不存在的数据时，每次请求都会落在数据库里，这种情况成称为缓存穿透。就是以一个不存在的数据去请求，每次都会落到数据库。</p><h2><span id="jie-jue">解决：</span><a href="#jie-jue" class="header-anchor">#</a></h2><ol><li>接口增加参数校验，不合法的直接返回。</li><li>缓存空值，将对应key的value设置为空值，避免暴力攻击。同时将key失效时间设置短一些，避免影响正常使用。</li><li>在网关阈值，限制同ip访问量。</li><li>高级用户布隆过滤器。bloom filter，可以对key进行判断是否在数据库存在，不存在就直接返回，存在就查询出来，并刷新缓存。</li></ol><hr><h1><span id="huan-cun-xue-beng">缓存雪崩</span><a href="#huan-cun-xue-beng" class="header-anchor">#</a></h1><p>&emsp;&emsp;某一时期发生的大规模的缓存不可用问题，过期，宕机。</p><h2><span id="jie-jue">解决：</span><a href="#jie-jue" class="header-anchor">#</a></h2><ol><li>采用分布式集群，减少宕机风险。</li><li>将失效时间设为随机数，避免大量同时失效。</li><li>采用本地缓存加限流逻辑。</li></ol>]]></content>
     
@@ -91,7 +114,9 @@
     <category term="redis" scheme="http://linqiankun.gitee.io/hexoblog/categories/redis/"/>
     
     
-    <category term="redis,缓存" scheme="http://linqiankun.gitee.io/hexoblog/tags/redis-%E7%BC%93%E5%AD%98/"/>
+    <category term="redis" scheme="http://linqiankun.gitee.io/hexoblog/tags/redis/"/>
+    
+    <category term="缓存" scheme="http://linqiankun.gitee.io/hexoblog/tags/%E7%BC%93%E5%AD%98/"/>
     
   </entry>
   
@@ -149,7 +174,7 @@
     <link href="http://linqiankun.gitee.io/hexoblog/2021/03/04/tool/hexo%E4%BD%BF%E7%94%A8/"/>
     <id>http://linqiankun.gitee.io/hexoblog/2021/03/04/tool/hexo%E4%BD%BF%E7%94%A8/</id>
     <published>2021-03-04T09:13:05.000Z</published>
-    <updated>2021-03-08T02:51:19.032Z</updated>
+    <updated>2021-03-12T09:16:02.768Z</updated>
     
     <content type="html"><![CDATA[<h1><span id="mu-lu">目录</span><a href="#mu-lu" class="header-anchor">#</a></h1><p>[toc]</p><h1><span id="an-zhuang">安装</span><a href="#an-zhuang" class="header-anchor">#</a></h1><h2><span id="an-zhuang-node">安装node</span><a href="#an-zhuang-node" class="header-anchor">#</a></h2><p>&emsp;&emsp;hexo使用npm运行，所以首先需要安装node.js，安装node.js的同时会安装npm模块。</p><ol><li>在官网下载。<a href="http://nodejs.cn/">node.js</a></li><li>点击下载的文件进行安装（一路next）。</li></ol><span id="more"></span><p>&emsp;&emsp;安装成功后在命令行工具查看是或否安装成功。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node -v</span><br><span class="line">npm -v</span><br></pre></td></tr></table></figure><p>&emsp;&emsp;出现下图的版本号即为安装成功。</p><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/node_npm_version.png" alt="安装成功"></p><h2><span id="an-zhuang-hexo">安装hexo</span><a href="#an-zhuang-hexo" class="header-anchor">#</a></h2><p>&emsp;&emsp;安装完node后就可以安装hexo了。这里全局安装hexok。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br></pre></td></tr></table></figure><p>&emsp;&emsp;安装完成后在命令行查看版本后确认是否安装成功。</p><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/hexo_version.png" alt="安装成功"></p><p>&emsp;&emsp;接下来就可以快乐的使用了。</p><h1><span id="jie-shao">介绍</span><a href="#jie-shao" class="header-anchor">#</a></h1><p>&emsp;&emsp;在使用前还是先看下介绍吧，这样入手必较方便。</p><h2><span id="kan-kan-mu-lu-jie-gou">看看目录结构</span><a href="#kan-kan-mu-lu-jie-gou" class="header-anchor">#</a></h2><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/hexo%E6%9E%B6%E6%9E%84.jpg" alt="hexo结构"></p><p>&emsp;&emsp;我们对重要的文佳夹分析下：</p><h3><span id="node-modeules">node_modeules：</span><a href="#node-modeules" class="header-anchor">#</a></h3><p>&emsp;&emsp;因为运行在node环境下，这里就是安装的所有npm包。</p><h3><span id="public">public:</span><a href="#public" class="header-anchor">#</a></h3><p>&emsp;&emsp;这里存放时hexo运行生成的所有hexo静态文件，将来托管在git上，可以使用gitee pages服务托管为静态网站作为博客网站。本地的启动看到的页面也是由这里产生。</p><h3><span id="scaffolds">scaffolds:</span><a href="#scaffolds" class="header-anchor">#</a></h3><p>&emsp;&emsp;这里存放我们的模板文件，包括创建草稿，博客，自定义页面的模板文件，当然都是markdown文件，我们也可以对其修改以满足我们的需求。</p><h3><span id="sources">sources:</span><a href="#sources" class="header-anchor">#</a></h3><p>&emsp;&emsp;这里都是我们的内容，post存放我们写的博客，文档等等，其他的呢，就是自定义的页面了，包括分类，标签，归档，我们也可以继续扩展，一般只需要关注post就可以了。</p><h3><span id="theme">theme:</span><a href="#theme" class="header-anchor">#</a></h3><p>&emsp;&emsp;这里存放生成博客网站的主题文件了，毕竟原有的主题实在不怎么好看。可以下载多个主题，随时切换使用。</p><h3><span id="config-yml">_config.yml</span><a href="#config-yml" class="header-anchor">#</a></h3><p>&emsp;&emsp;这个可不是目录，是实打实的文件了，我们的配置都在这里面了，这里做一些自定义的配置。</p><h1><span id="shi-yong">使用</span><a href="#shi-yong" class="header-anchor">#</a></h1><p>常用命令有：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建文章</span></span><br><span class="line">hexo new post title</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建草稿</span></span><br><span class="line">hexo new draft title</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将草稿发布为文章</span></span><br><span class="line">hexo p title</span><br><span class="line"></span><br><span class="line"><span class="comment"># 清理本地生成的静态资源</span></span><br><span class="line">hexo clean</span><br><span class="line"></span><br><span class="line"><span class="comment"># 编译生成本地的静态资源</span></span><br><span class="line">hexo g</span><br><span class="line"></span><br><span class="line"><span class="comment"># 本地运行预览（附加草稿）</span></span><br><span class="line">hexo s (--draft)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将本地静态资源发送到gitee（需要自己配置）</span></span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>]]></content>
     
@@ -166,7 +191,9 @@
     <category term="tool" scheme="http://linqiankun.gitee.io/hexoblog/categories/tool/"/>
     
     
-    <category term="tool,hexo" scheme="http://linqiankun.gitee.io/hexoblog/tags/tool-hexo/"/>
+    <category term="tool" scheme="http://linqiankun.gitee.io/hexoblog/tags/tool/"/>
+    
+    <category term="hexo" scheme="http://linqiankun.gitee.io/hexoblog/tags/hexo/"/>
     
   </entry>
   
@@ -244,9 +271,9 @@
     <category term="jvm" scheme="http://linqiankun.gitee.io/hexoblog/categories/jvm/"/>
     
     
-    <category term="jvm" scheme="http://linqiankun.gitee.io/hexoblog/tags/jvm/"/>
-    
     <category term="java" scheme="http://linqiankun.gitee.io/hexoblog/tags/java/"/>
+    
+    <category term="jvm" scheme="http://linqiankun.gitee.io/hexoblog/tags/jvm/"/>
     
   </entry>
   
@@ -271,9 +298,9 @@
     <category term="jvm" scheme="http://linqiankun.gitee.io/hexoblog/categories/jvm/"/>
     
     
-    <category term="jvm" scheme="http://linqiankun.gitee.io/hexoblog/tags/jvm/"/>
-    
     <category term="java" scheme="http://linqiankun.gitee.io/hexoblog/tags/java/"/>
+    
+    <category term="jvm" scheme="http://linqiankun.gitee.io/hexoblog/tags/jvm/"/>
     
   </entry>
   
@@ -294,9 +321,9 @@
     <category term="tool" scheme="http://linqiankun.gitee.io/hexoblog/categories/tool/"/>
     
     
-    <category term="zookeeper" scheme="http://linqiankun.gitee.io/hexoblog/tags/zookeeper/"/>
-    
     <category term="tool" scheme="http://linqiankun.gitee.io/hexoblog/tags/tool/"/>
+    
+    <category term="zookeeper" scheme="http://linqiankun.gitee.io/hexoblog/tags/zookeeper/"/>
     
   </entry>
   
@@ -363,9 +390,9 @@
     <category term="架构" scheme="http://linqiankun.gitee.io/hexoblog/categories/%E6%9E%B6%E6%9E%84/"/>
     
     
-    <category term="分布式" scheme="http://linqiankun.gitee.io/hexoblog/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
-    
     <category term="lock" scheme="http://linqiankun.gitee.io/hexoblog/tags/lock/"/>
+    
+    <category term="分布式" scheme="http://linqiankun.gitee.io/hexoblog/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
     
   </entry>
   
@@ -392,9 +419,9 @@
     <category term="架构" scheme="http://linqiankun.gitee.io/hexoblog/categories/%E6%9E%B6%E6%9E%84/"/>
     
     
-    <category term="分布式" scheme="http://linqiankun.gitee.io/hexoblog/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
-    
     <category term="acid" scheme="http://linqiankun.gitee.io/hexoblog/tags/acid/"/>
+    
+    <category term="分布式" scheme="http://linqiankun.gitee.io/hexoblog/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
     
   </entry>
   

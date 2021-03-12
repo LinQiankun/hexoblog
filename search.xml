@@ -40,192 +40,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Volatile</title>
-    <url>/hexoblog/2021/03/03/jvm/Volatile/</url>
-    <content><![CDATA[<h1><span id="jmm">JMM</span><a href="#jmm" class="header-anchor">#</a></h1><p>&emsp;&emsp;Java内存模型，是虚拟机规范中所定义的一种内存模型，Java内存模型是标准化的，屏蔽掉了底层计算机之间的区别。<br>&emsp;&emsp;Java内存模型描述了Java程序中各种变量（线程共享变量）的访问规则，以及在JVM中将变量，存储到内存和从内存中读取变量这样的底层细节。</p>
-<span id="more"></span>
-
-<h2><span id="gui-ding">规定</span><a href="#gui-ding" class="header-anchor">#</a></h2><p>&emsp;&emsp;所有的共享变量都存储于主内存，这里所说的变量指的是实例变量和类变量，不包含局部变量，因为局部变量是线程私有的，不存在竞争问题。<br>&emsp;&emsp;线程对所有变量的操作都必须在工作内存中完成，而不能直接操作主内存中的变量。<br>&emsp;&emsp;不同的线程也不能直接访问对方工作内存中的变量，线程间变量的值的传递需要通过主内存中转来完成。</p>
-<hr>
-<h1><span id="ke-jian-xing-wen-ti">可见性问题</span><a href="#ke-jian-xing-wen-ti" class="header-anchor">#</a></h1><h2><span id="tong-guo-jia-synchronized-lai-jie-jue-ke-jian-xing-wen-ti">通过加synchronized来解决可见性问题：</span><a href="#tong-guo-jia-synchronized-lai-jie-jue-ke-jian-xing-wen-ti" class="header-anchor">#</a></h2><p>&emsp;&emsp;因为某一个线程进入synchronized代码块前后，线程会获得锁，清空工作内存，从主内存拷贝共享变量最新的值到工作内存成为副本，执行代码，将修改后的副本的值刷新回主内存中，线程释放锁。<br>&emsp;&emsp;而获取不到锁的线程会阻塞等待，所以变量的值肯定一直都是最新的。</p>
-<h2><span id="tong-guo-volatile-jie-jue-ke-jian-xing-wen-ti">通过volatile解决可见性问题：</span><a href="#tong-guo-volatile-jie-jue-ke-jian-xing-wen-ti" class="header-anchor">#</a></h2><p>&emsp;&emsp;每个线程操作数据的时候会把数据从主内存读取到自己的工作内存，如果他操作了数据并且写回了，其他已经读取的线程的变量副本就会失效了，需要对数据进行操作又要再次去主内存中读取了。</p>
-<hr>
-<h1><span id="huan-cun-chu-li">缓存处理</span><a href="#huan-cun-chu-li" class="header-anchor">#</a></h1><h2><span id="huan-cun-yi-zhi-xing-xie-yi">缓存一致性协议</span><a href="#huan-cun-yi-zhi-xing-xie-yi" class="header-anchor">#</a></h2><p>&emsp;&emsp;多个处理器的运算任务涉及同一块主内存区域时，将导致各自的缓存数据不一致，问题在于同步回主内存时以谁的缓存数据为准。<br>&emsp;&emsp;为了解决一致性的问题，需要各个处理器在访问缓存时都遵循一些协议，在读写时要根据协议操作，这类协议有MSI，MESI，Synapse，Firefly，Firefly等。</p>
-<h2><span id="mesi">MESI</span><a href="#mesi" class="header-anchor">#</a></h2><p>&emsp;&emsp;当cpu写数据时，如果发现操作的变量是，即在其他cpu中也存在该变量的副本，会发出信号通知其他cpu将该变量的缓存行设置为无效状态，因此当其他cpu要读取这个变量时，会发现自己缓存中缓存该变量的缓存行是无效的，那么他就会从内存重新读取。</p>
-<h2><span id="xiu-tan">嗅探：</span><a href="#xiu-tan" class="header-anchor">#</a></h2><p>&emsp;&emsp;每个处理器通过嗅探在总线上传播的数据来检查自己缓存的值是不是过期了，当处理器发现自己缓存行对应的内存地址被修改，就会将当前处理器的缓存行设置成无效状态，当处理器对这个数据进行修改操作时，会重新从系统内存中把数据读到处理器缓存里。</p>
-<h2><span id="zong-xian-feng-bao">总线风暴：</span><a href="#zong-xian-feng-bao" class="header-anchor">#</a></h2><p>&emsp;&emsp;由于volatile的MESI缓存一致性协议，需要不断的从主内存嗅探和CAS不断循环，无效交互会导致总线带宽达到峰值。所以不应该大量使用volatile，什么时候使用volatile什么时候使用锁，需要具体判断。</p>
-<hr>
-<h1><span id="zhi-ling-chong-pai-xu">指令重排序</span><a href="#zhi-ling-chong-pai-xu" class="header-anchor">#</a></h1><p>&emsp;&emsp;为了提高性能，编译器和处理器常常会对既定的代码执行顺序进行指令重排序。</p>
-<h2><span id="guo-cheng">过程:</span><a href="#guo-cheng" class="header-anchor">#</a></h2><blockquote>
-<p> 源代码——&gt;编译器优化重排序——&gt;指令级并行重排序——&gt;内存系统重排序——〉最终执行指令序列</p>
-</blockquote>
-<p>&emsp;&emsp;一个好的内存模型，实际上会放松对处理器和编译器规则的束缚，也就是说软件技术和硬件技术都为同一个目标，而进行奋斗。在不改变程序执行结果的前提下，尽可能提高运行效率。<br>&emsp;&emsp;JMM对底层减少约束，使其能够发挥自身优势。</p>
-<h2><span id="san-chong-chong-pai-xu">三种重排序</span><a href="#san-chong-chong-pai-xu" class="header-anchor">#</a></h2><ol>
-<li>编译器优化的重排序。编译器在不改变单线程程序语义的前提下，可以重新安排语句的执行顺序。</li>
-<li>指令级并行的重排序。现代处理器采用了指令级并行技术来讲多条指令重叠执行。如果不存在数据依赖性，处理器可以改变语句对应机器指令的执行顺序。</li>
-<li>内存系统的重排序。由于处理器使用缓存和读/写缓冲区，这使得读取和存储操作看上去可能是在乱序执行的。</li>
-</ol>
-<h2><span id="as-if-serial">as-if-serial：</span><a href="#as-if-serial" class="header-anchor">#</a></h2><p>&emsp;&emsp;不管怎么重排序，单线程下的执行结果不能被改变。<br>&emsp;&emsp;编译器、runtime和处理器都必须遵守as-if-serial语义。</p>
-<h2><span id="nei-cun-ping-zhang">内存屏障：</span><a href="#nei-cun-ping-zhang" class="header-anchor">#</a></h2><p>&emsp;&emsp;java编译器会在生成指令系列时在适当的位置会插入内存屏障指令来禁止特定类型的处理器重排序。<br>&emsp;&emsp;为了实现volatile的内存语义，JMM会限制特定类型的编译器和处理器重排序，JMM会针对编译器制定volatile重排序规则表：</p>
-<table>
-<thead>
-<tr>
-<th>是否能重排序</th>
-<th>第二个操作</th>
-<th>普通读写</th>
-<th>vol读</th>
-<th>vol写</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>第一个操作</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>普通读写</td>
-<td></td>
-<td></td>
-<td></td>
-<td>NO</td>
-</tr>
-<tr>
-<td>vol读</td>
-<td></td>
-<td>NO</td>
-<td>NO</td>
-<td>NO</td>
-</tr>
-<tr>
-<td>vol写</td>
-<td></td>
-<td></td>
-<td>NO</td>
-<td>NO</td>
-</tr>
-</tbody></table>
-<p>需要注意的是：</p>
-<ol>
-<li>volatile写是分别在前面和后面插入内存屏障.</li>
-<li>而volatile读是在后面插入两个内存屏障。</li>
-</ol>
-<h3><span id="xie-nei-cun-ping-zhang">写内存屏障：</span><a href="#xie-nei-cun-ping-zhang" class="header-anchor">#</a></h3><blockquote>
-<p>普通读——&gt;普通写——&gt;storestore屏障(禁止上面写和其他重排序)——&gt;vol写——&gt;storestore屏障(禁止下面读和其他重排序)</p>
-</blockquote>
-<h3><span id="du-nei-cun-ping-zhang">读内存屏障：</span><a href="#du-nei-cun-ping-zhang" class="header-anchor">#</a></h3><blockquote>
-<p>vol读——&gt;loadload屏障(禁止下面读重排序)——&gt;loadload屏障(禁止下面写重排序)——&gt;普通读——&gt;普通写</p>
-</blockquote>
-<p>&emsp;&emsp;为了提高处理速度，JVM会对代码进行编译优化，也就是指令重排序优化，并发编程下指令重排序会带来一些安全隐患：如指令重排序导致的多个线程操作之间的不可见性。<br>&emsp;&emsp;从JDK5开始，提出了happens-before的概念，通过这个概念来阐述操作之间的内存可见性。</p>
-<h3><span id="happens-before">happens-before:</span><a href="#happens-before" class="header-anchor">#</a></h3><p>&emsp;&emsp;<a href>happens-before</a><br>&emsp;&emsp;如果一个操作执行的结果需要对另一个操作可见，那么这两个操作之间必须存在happens-before关系。<br>&emsp;&emsp;volatile域规则：对一个volatile的写操作，happens-before于任意线程后续对这volatile域的读。</p>
-<h3><span id="volatile-wu-fa-bao-zheng-yuan-zi-xing">volatile无法保证原子性：</span><a href="#volatile-wu-fa-bao-zheng-yuan-zi-xing" class="header-anchor">#</a></h3><p>&emsp;&emsp;假设现在有N个线程对同一个变量进累加也是没办法保证结果是对的，因为读写这个过并不是原子性的。<br>&emsp;&emsp;要解决也简单，要么用原子类，比AtomicInteger，要么加锁(记得关注Atomic的底层。</p>
-<h3><span id="volatile-yu-synchronized-de-qu-bie">volatile与synchronized的区别：</span><a href="#volatile-yu-synchronized-de-qu-bie" class="header-anchor">#</a></h3><p>&emsp;&emsp;volatile只能修饰实例变量和类量，而synchronized可以修饰方法，以及代码块。<br>&emsp;&emsp;volatile保证数据的可见性，但是保证原子性(多线程进行写操作，不保证线程安全)而synchronized是一种排他(互斥)的机制。  &amp;emsp&emsp;volatile用于禁止指令重排序：可以解决例双重检查对象初始化代码执行乱序问题。<br>&emsp;&emsp;volatile可以看做是轻量版synchronized，volatile不保证原子性，但是如是对一个共享变量进行多个线程的赋值，     而有其他的操作，那么就可以用volatile来代synchronized，因为赋值本身是有原子性的，volatile又保证了可见性，所以就可以保证线程安了。</p>
-<hr>
-<h1><span id="zong-jie">总结</span><a href="#zong-jie" class="header-anchor">#</a></h1><ol>
-<li>volatile修饰符适用于以下场景：某个属性被多个线程共享，其中有一个线程修改了此属性，其他线程可以立即得到修改后的值，比如boolean flag;或者作为触发器，实现轻量级同步。</li>
-<li>volatile属性的读写操作都是无锁的，它不能替代synchronized，因为它没有提供原子性和互斥性。因为无锁，不需要花费时间在获取锁和释放锁_上，所以说它是低成本的。</li>
-<li>volatile只能作用于属性，我们用volatile修饰属性，这样compilers就不会对这个属性做指令重排序。</li>
-<li>volatile提供了可见性，任何一个线程对其的修改将立马对其他线程可见，volatile属性不会被线程缓存，始终从主存中读取。</li>
-<li>volatile提供了happens-before保证，对volatile变量v的写入happens-before所有其他线程后续对v的读操作。</li>
-<li>volatile可以使得long和double的赋值是原子的。</li>
-<li>volatile可以在单例双重检查中实现可见性和禁止指令重排序，从而保证安全性。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>jvm</category>
-      </categories>
-      <tags>
-        <tag>jvm</tag>
-        <tag>java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>happens-before</title>
-    <url>/hexoblog/2021/03/03/jvm/happens-before/</url>
-    <content><![CDATA[<h1><span id="wen-ti">问题：</span><a href="#wen-ti" class="header-anchor">#</a></h1><p>&emsp;&emsp;在JMM中，由于存在线程本地内存和主内存的原因，再加上重排序，会导致多线程环境下存在可见性的问题。<br>&emsp;&emsp;JDK5开始，JMM使用happens-before概念来阐述多线程之间的内存可见性问题。</p>
-<blockquote>
-<p>&emsp;&emsp;在JMM中，如果一个操作的执行结果需要对另一个操作可见，那么这两个操作之间必须存在happens-before关系。  </p>
-</blockquote>
-<p>&emsp;&emsp;happens-before原则非常重要，它是判断数据是否存在竞争、线程是否安全的主要依据，依靠这个规则，我们解决在并发环境下两操作之间是否可能存在冲突的所有问题。</p>
-<span id="more"></span>
-
-<hr>
-<h1><span id="nei-rong">内容：</span><a href="#nei-rong" class="header-anchor">#</a></h1><h2><span id="happens-before-yuan-ze-ding-yi">happens-before原则定义：</span><a href="#happens-before-yuan-ze-ding-yi" class="header-anchor">#</a></h2><ol>
-<li>如果一个操作happens-before另一个操作，那么第一个操作的执行结果将对第二个操作可见，而且第一个操作的执行顺序在第二个操作之前。</li>
-<li>两个操作之间存在happens-before原则，并不意味着一定要按照happens-before原则制定的顺序来执行。如果重排序之后的执行结果与按照happens-before关系来执行的结果一致，那么这种重排序并不非法。</li>
-</ol>
-<h2><span id="happens-before-yuan-ze-gui-ze">happens-before原则规则：</span><a href="#happens-before-yuan-ze-gui-ze" class="header-anchor">#</a></h2><ol>
-<li>程序次序规则：一个线程内，按照代码顺序，书写在前面的操作先行发生于书写在后面的操作；</li>
-<li>锁定规则：一个unLock操作先行发生于后面对同一个锁额lock操作；</li>
-<li>volatile变量规则：对一个变量的写操作先行发生于后面对这个变量的读操作；</li>
-<li>传递规则：如果操作A先行发生于操作B，而操作B又先行发生于操作C，则可以得出操作A先行发生于操作C；</li>
-<li>线程启动规则：Thread对象的start()方法先行发生于此线程的每个一个动作；</li>
-<li>线程中断规则：对线程interrupt()方法的调用先行发生于被中断线程的代码检测到中断事件的发生；</li>
-<li>线程终结规则：线程中所有的操作都先行发生于线程的终止检测，我们可以通过Thread.join()方法结束、Thread.isAlive()的返回值手段检测到线程已经终止执行；</li>
-<li>对象终结规则：一个对象的初始化完成先行发生于他的finalize()方法的开始；</li>
-</ol>
-<h3><span id="cheng-xu-ci-xu-gui-ze">程序次序规则：</span><a href="#cheng-xu-ci-xu-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp;一段代码在单线程中的执行结果是有序的，注意是执行结果，因为虚拟机、处理器会对指令进行重排序（重排序后面会详细介绍）。虽然重排序了，但是并不会影响程序的执行结果，所以程序最终执行的结果与顺序执行的结果是一致的。故而这个规则只对单线程有效，在多线程环境下无法保证正确性。</p>
-<h3><span id="suo-ding-gui-ze">锁定规则：</span><a href="#suo-ding-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp;这个规则比较好理解，无论是在单线程环境还是多线程环境，一个锁处于被锁定状态，那么必须先执行unlock操作后面才能进行lock操作。</p>
-<h3><span id="volatile-bian-liang-gui-ze">volatile变量规则：</span><a href="#volatile-bian-liang-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp; 这是一条比较重要的规则，它标志着volatile保证了线程可见性。通俗点讲就是如果一个线程先去写一个volatile变量，然后一个线程去读这个变量，那么这个写操作一定是happens-before读操作的。</p>
-<h3><span id="chuan-di-gui-ze">传递规则：</span><a href="#chuan-di-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp;提现了happens-before原则具有传递性，即A happens-before B , B happens-before C，那么A happens-before C。</p>
-<h3><span id="xian-cheng-qi-dong-gui-ze">线程启动规则：</span><a href="#xian-cheng-qi-dong-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp;假定线程A在执行过程中，通过执行ThreadB.start()来启动线程B，那么线程A对共享变量的修改在接下来线程B开始执行后确保对线程B可见。</p>
-<h3><span id="xian-cheng-zhong-jie-gui-ze">线程终结规则：</span><a href="#xian-cheng-zhong-jie-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp;假定线程A在执行的过程中，通过制定ThreadB.join()等待线程B终止，那么线程B在终止之前对共享变量的修改在线程A等待返回后可见。</p>
-<hr>
-<h1><span id="zong-jie">总结</span><a href="#zong-jie" class="header-anchor">#</a></h1><p>&emsp;&emsp;上面八条是原生Java满足Happens-before关系的规则，但是我们可以对他们进行推导出其他满足happens-before的规则：</p>
-<ol>
-<li>将一个元素放入一个线程安全的队列的操作Happens-Before从队列中取出这个元素的操作。</li>
-<li>将一个元素放入一个线程安全容器的操作Happens-Before从容器中取出这个元素的操作。</li>
-<li>在CountDownLatch上的倒数操作Happens-Before CountDownLatch#await()操作。</li>
-<li>释放Semaphore许可的操作Happens-Before获得许可操作。</li>
-<li>Future表示的任务的所有操作Happens-Before Future#get()操作。</li>
-<li>向Executor提交一个Runnable或Callable的操作Happens-Before任务开始执行操作。</li>
-<li>如果两个操作不满足上述任意一个happens-before规则，那么这两个操作就没有顺序的保障，JVM就可以对这两个操作进行重排序。如果操作Ahappens-before操作B，那么操作A在内存上所做的操作对操作B都是可见的。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>jvm</category>
-      </categories>
-      <tags>
-        <tag>jvm</tag>
-        <tag>java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>jvm调优</title>
-    <url>/hexoblog/2021/03/04/jvm/jvm%E8%B0%83%E4%BC%98/</url>
-    <content><![CDATA[<p><a href="https://baijiahao.baidu.com/s?id=1617167971312758600&wfr=spider&for=pc">jvm性能调优的6大步骤</a></p>
-<span id="more"></span>
-
-<hr>
-<h1><span id="diao-you-fang-fa-yu-bu-zou">调优方法与步骤</span><a href="#diao-you-fang-fa-yu-bu-zou" class="header-anchor">#</a></h1><ol>
-<li>监控GC的状态</li>
-<li>生成堆的dump文件</li>
-<li>分析dump文件</li>
-<li>分析结果判断是否需要优化</li>
-<li>调整GC类型和内存分配</li>
-<li>不断分析和调整</li>
-</ol>
-<hr>
-<h1><span id="diao-you-can-kao-can-shu">调优参考参数</span><a href="#diao-you-can-kao-can-shu" class="header-anchor">#</a></h1><ol>
-<li>调整jvm堆内存的占用空间</li>
-<li>调整新生代老年代占用堆空间的比例，</li>
-<li>老年代与新生代设置多大合理<ol>
-<li>大的年轻代将会导致普通GC的周期延长，但会增加GC的时间，小的老年代必定会导致频繁的full GC  </li>
-<li>小的年轻代导致普通GC的频繁发生，但GC的时间短，大的老年代将会减少full GC的频率</li>
-</ol>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>jvm</category>
-      </categories>
-      <tags>
-        <tag>jvm</tag>
-        <tag>tool</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>filter_interceptor</title>
     <url>/hexoblog/2021/03/01/java/filter-interceptor/</url>
     <content><![CDATA[<h2><span id="guo-lu-qi">过滤器</span><a href="#guo-lu-qi" class="header-anchor">#</a></h2><p>&emsp;&emsp;过滤器是用来过滤的，java的过滤器能够为我们提供系统级别的过滤，也就是说能够过滤所有的web请求，这一点是拦截器做不到的。<br>&emsp;&emsp;在java web中，你传入的request，response提前过滤掉一些信息，或者提前设置一些参数，然后在传入Servlet进行业务逻辑，比如过滤掉非法url和非法字符串。<br>&emsp;&emsp;filter流程是线性的，url传来之后，检查之后，可保持原来的流程继续向下执行，被下一个filter，servlet接收。</p>
@@ -308,31 +122,6 @@
       <tags>
         <tag>thread</tag>
         <tag>threadpool</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>序列化与反序列化</title>
-    <url>/hexoblog/2021/03/08/java/%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/</url>
-    <content><![CDATA[<h1><span id="xu-lie-hua-yu-fan-xu-lie-hua">序列化与反序列化</span><a href="#xu-lie-hua-yu-fan-xu-lie-hua" class="header-anchor">#</a></h1><ol>
-<li>序列化：把对象转换为字节数组的过程称为对象的序列化。</li>
-<li>反序列化：把字节序列转换为对象的过程称为对象的反序列化。</li>
-</ol>
-<span id="more"></span>
-<hr>
-<h1><span id="shi-me-shi-hou-xu-yao-xu-lie-hua-yu-fan-xu-lie-hua">什么时候需要序列化与反序列化？</span><a href="#shi-me-shi-hou-xu-yao-xu-lie-hua-yu-fan-xu-lie-hua" class="header-anchor">#</a></h1><p>&emsp;&emsp;当我们只在本地 JVM 里运行下 Java 实例，这个时候是不需要什么序列化和反序列化的，但当我们需要将内存中的对象持久化到磁盘，数据库中时， 当我们需要与浏览器进行交互时，当我们需要实现 RPC 时， 这个时候就需要序列化和反序列化了。<br>&emsp;&emsp;对于与浏览器的交互，采用json格式，json格式本身就是将一个对象转换为字符串，而字符串同样是实现了序列化的。<br>&emsp;&emsp;对于将数据持久化到数据库，我们同样是将属性保存到数据库，而不是将对象保存到数据库。</p>
-<hr>
-<h1><span id="wei-shi-me-yao-shi-xian-serializable-jie-kou">为什么要实现 Serializable 接口?</span><a href="#wei-shi-me-yao-shi-xian-serializable-jie-kou" class="header-anchor">#</a></h1><p>&emsp;&emsp;在 Java 中实现了 Serializable 接口后， JVM 会在底层帮我们实现序列化和反序列化。</p>
-<hr>
-<h1><span id="wei-shi-me-huan-yao-zhi-ding-serialversionuid-de-zhi">为什么还要指定serialVersionUID的值?</span><a href="#wei-shi-me-huan-yao-zhi-ding-serialversionuid-de-zhi" class="header-anchor">#</a></h1><p>&emsp;&emsp;如果不显示指定serialVersionUID，JVM在序列化时会根据属性自动生成一个serialVersionUID，然后与属性一起序列化，再进行持久化或网络传输。<br>&emsp;&emsp;在反序列化时，JVM会再根据属性自动生成一个新版 serialVersionUID，然后将这个新版serialVersionUID与序列化时生成的旧版serialVersionUID进行比较，如果相同则反序列化成功，否则报错。<br>&emsp;&emsp;如果显示指定了serialVersionUID，JVM在序列化和反序列化时仍然都会生成一个serialVersionUID，但值为我们显示指定的值，这样在反序列化时新旧版本的 serialVersionUID 就一致了。<br>&emsp;&emsp;默认的serialVersionUID，是根据类的属性生成的，如果类的属性发生变化，serialVersionUID的值对应会发生变化，这时候去反序列化原有的对象就会失败。而显式指定之后则解决了这个问题。</p>
-<hr>
-<h1><span id="xu-lie-hua-de-qi-ta-te-xing">序列化的其他特性</span><a href="#xu-lie-hua-de-qi-ta-te-xing" class="header-anchor">#</a></h1><p>&emsp;&emsp;被transient关键字修饰的属性不会被序列化，static属性也不会被序列化。</p>
-<h2><span id="static-shu-xing-wei-shi-me-bu-hui-bei-xu-lie-hua">static 属性为什么不会被序列化?</span><a href="#static-shu-xing-wei-shi-me-bu-hui-bei-xu-lie-hua" class="header-anchor">#</a></h2><p>&emsp;&emsp;因为序列化是针对对象而言的，而static属性优先于对象存在，随着类的加载而加载，所以不会被序列化。<br>&emsp;&emsp;其实serialVersionUID属性并没有被序列化，JVM在序列化对象时会自动生成一个serialVersionUID，然后将我们显示指定的serialVersionUID属性值赋给自动生成的serialVersionUID。</p>
-]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>序列化</tag>
       </tags>
   </entry>
   <entry>
@@ -452,6 +241,31 @@
       <tags>
         <tag>jvm</tag>
         <tag>classloader</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>序列化与反序列化</title>
+    <url>/hexoblog/2021/03/08/java/%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/</url>
+    <content><![CDATA[<h1><span id="xu-lie-hua-yu-fan-xu-lie-hua">序列化与反序列化</span><a href="#xu-lie-hua-yu-fan-xu-lie-hua" class="header-anchor">#</a></h1><ol>
+<li>序列化：把对象转换为字节数组的过程称为对象的序列化。</li>
+<li>反序列化：把字节序列转换为对象的过程称为对象的反序列化。</li>
+</ol>
+<span id="more"></span>
+<hr>
+<h1><span id="shi-me-shi-hou-xu-yao-xu-lie-hua-yu-fan-xu-lie-hua">什么时候需要序列化与反序列化？</span><a href="#shi-me-shi-hou-xu-yao-xu-lie-hua-yu-fan-xu-lie-hua" class="header-anchor">#</a></h1><p>&emsp;&emsp;当我们只在本地 JVM 里运行下 Java 实例，这个时候是不需要什么序列化和反序列化的，但当我们需要将内存中的对象持久化到磁盘，数据库中时， 当我们需要与浏览器进行交互时，当我们需要实现 RPC 时， 这个时候就需要序列化和反序列化了。<br>&emsp;&emsp;对于与浏览器的交互，采用json格式，json格式本身就是将一个对象转换为字符串，而字符串同样是实现了序列化的。<br>&emsp;&emsp;对于将数据持久化到数据库，我们同样是将属性保存到数据库，而不是将对象保存到数据库。</p>
+<hr>
+<h1><span id="wei-shi-me-yao-shi-xian-serializable-jie-kou">为什么要实现 Serializable 接口?</span><a href="#wei-shi-me-yao-shi-xian-serializable-jie-kou" class="header-anchor">#</a></h1><p>&emsp;&emsp;在 Java 中实现了 Serializable 接口后， JVM 会在底层帮我们实现序列化和反序列化。</p>
+<hr>
+<h1><span id="wei-shi-me-huan-yao-zhi-ding-serialversionuid-de-zhi">为什么还要指定serialVersionUID的值?</span><a href="#wei-shi-me-huan-yao-zhi-ding-serialversionuid-de-zhi" class="header-anchor">#</a></h1><p>&emsp;&emsp;如果不显示指定serialVersionUID，JVM在序列化时会根据属性自动生成一个serialVersionUID，然后与属性一起序列化，再进行持久化或网络传输。<br>&emsp;&emsp;在反序列化时，JVM会再根据属性自动生成一个新版 serialVersionUID，然后将这个新版serialVersionUID与序列化时生成的旧版serialVersionUID进行比较，如果相同则反序列化成功，否则报错。<br>&emsp;&emsp;如果显示指定了serialVersionUID，JVM在序列化和反序列化时仍然都会生成一个serialVersionUID，但值为我们显示指定的值，这样在反序列化时新旧版本的 serialVersionUID 就一致了。<br>&emsp;&emsp;默认的serialVersionUID，是根据类的属性生成的，如果类的属性发生变化，serialVersionUID的值对应会发生变化，这时候去反序列化原有的对象就会失败。而显式指定之后则解决了这个问题。</p>
+<hr>
+<h1><span id="xu-lie-hua-de-qi-ta-te-xing">序列化的其他特性</span><a href="#xu-lie-hua-de-qi-ta-te-xing" class="header-anchor">#</a></h1><p>&emsp;&emsp;被transient关键字修饰的属性不会被序列化，static属性也不会被序列化。</p>
+<h2><span id="static-shu-xing-wei-shi-me-bu-hui-bei-xu-lie-hua">static 属性为什么不会被序列化?</span><a href="#static-shu-xing-wei-shi-me-bu-hui-bei-xu-lie-hua" class="header-anchor">#</a></h2><p>&emsp;&emsp;因为序列化是针对对象而言的，而static属性优先于对象存在，随着类的加载而加载，所以不会被序列化。<br>&emsp;&emsp;其实serialVersionUID属性并没有被序列化，JVM在序列化对象时会自动生成一个serialVersionUID，然后将我们显示指定的serialVersionUID属性值赋给自动生成的serialVersionUID。</p>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>序列化</tag>
       </tags>
   </entry>
   <entry>
@@ -595,6 +409,210 @@
       </tags>
   </entry>
   <entry>
+    <title>happens-before</title>
+    <url>/hexoblog/2021/03/03/jvm/happens-before/</url>
+    <content><![CDATA[<h1><span id="wen-ti">问题：</span><a href="#wen-ti" class="header-anchor">#</a></h1><p>&emsp;&emsp;在JMM中，由于存在线程本地内存和主内存的原因，再加上重排序，会导致多线程环境下存在可见性的问题。<br>&emsp;&emsp;JDK5开始，JMM使用happens-before概念来阐述多线程之间的内存可见性问题。</p>
+<blockquote>
+<p>&emsp;&emsp;在JMM中，如果一个操作的执行结果需要对另一个操作可见，那么这两个操作之间必须存在happens-before关系。  </p>
+</blockquote>
+<p>&emsp;&emsp;happens-before原则非常重要，它是判断数据是否存在竞争、线程是否安全的主要依据，依靠这个规则，我们解决在并发环境下两操作之间是否可能存在冲突的所有问题。</p>
+<span id="more"></span>
+
+<hr>
+<h1><span id="nei-rong">内容：</span><a href="#nei-rong" class="header-anchor">#</a></h1><h2><span id="happens-before-yuan-ze-ding-yi">happens-before原则定义：</span><a href="#happens-before-yuan-ze-ding-yi" class="header-anchor">#</a></h2><ol>
+<li>如果一个操作happens-before另一个操作，那么第一个操作的执行结果将对第二个操作可见，而且第一个操作的执行顺序在第二个操作之前。</li>
+<li>两个操作之间存在happens-before原则，并不意味着一定要按照happens-before原则制定的顺序来执行。如果重排序之后的执行结果与按照happens-before关系来执行的结果一致，那么这种重排序并不非法。</li>
+</ol>
+<h2><span id="happens-before-yuan-ze-gui-ze">happens-before原则规则：</span><a href="#happens-before-yuan-ze-gui-ze" class="header-anchor">#</a></h2><ol>
+<li>程序次序规则：一个线程内，按照代码顺序，书写在前面的操作先行发生于书写在后面的操作；</li>
+<li>锁定规则：一个unLock操作先行发生于后面对同一个锁额lock操作；</li>
+<li>volatile变量规则：对一个变量的写操作先行发生于后面对这个变量的读操作；</li>
+<li>传递规则：如果操作A先行发生于操作B，而操作B又先行发生于操作C，则可以得出操作A先行发生于操作C；</li>
+<li>线程启动规则：Thread对象的start()方法先行发生于此线程的每个一个动作；</li>
+<li>线程中断规则：对线程interrupt()方法的调用先行发生于被中断线程的代码检测到中断事件的发生；</li>
+<li>线程终结规则：线程中所有的操作都先行发生于线程的终止检测，我们可以通过Thread.join()方法结束、Thread.isAlive()的返回值手段检测到线程已经终止执行；</li>
+<li>对象终结规则：一个对象的初始化完成先行发生于他的finalize()方法的开始；</li>
+</ol>
+<h3><span id="cheng-xu-ci-xu-gui-ze">程序次序规则：</span><a href="#cheng-xu-ci-xu-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp;一段代码在单线程中的执行结果是有序的，注意是执行结果，因为虚拟机、处理器会对指令进行重排序（重排序后面会详细介绍）。虽然重排序了，但是并不会影响程序的执行结果，所以程序最终执行的结果与顺序执行的结果是一致的。故而这个规则只对单线程有效，在多线程环境下无法保证正确性。</p>
+<h3><span id="suo-ding-gui-ze">锁定规则：</span><a href="#suo-ding-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp;这个规则比较好理解，无论是在单线程环境还是多线程环境，一个锁处于被锁定状态，那么必须先执行unlock操作后面才能进行lock操作。</p>
+<h3><span id="volatile-bian-liang-gui-ze">volatile变量规则：</span><a href="#volatile-bian-liang-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp; 这是一条比较重要的规则，它标志着volatile保证了线程可见性。通俗点讲就是如果一个线程先去写一个volatile变量，然后一个线程去读这个变量，那么这个写操作一定是happens-before读操作的。</p>
+<h3><span id="chuan-di-gui-ze">传递规则：</span><a href="#chuan-di-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp;提现了happens-before原则具有传递性，即A happens-before B , B happens-before C，那么A happens-before C。</p>
+<h3><span id="xian-cheng-qi-dong-gui-ze">线程启动规则：</span><a href="#xian-cheng-qi-dong-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp;假定线程A在执行过程中，通过执行ThreadB.start()来启动线程B，那么线程A对共享变量的修改在接下来线程B开始执行后确保对线程B可见。</p>
+<h3><span id="xian-cheng-zhong-jie-gui-ze">线程终结规则：</span><a href="#xian-cheng-zhong-jie-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp;假定线程A在执行的过程中，通过制定ThreadB.join()等待线程B终止，那么线程B在终止之前对共享变量的修改在线程A等待返回后可见。</p>
+<hr>
+<h1><span id="zong-jie">总结</span><a href="#zong-jie" class="header-anchor">#</a></h1><p>&emsp;&emsp;上面八条是原生Java满足Happens-before关系的规则，但是我们可以对他们进行推导出其他满足happens-before的规则：</p>
+<ol>
+<li>将一个元素放入一个线程安全的队列的操作Happens-Before从队列中取出这个元素的操作。</li>
+<li>将一个元素放入一个线程安全容器的操作Happens-Before从容器中取出这个元素的操作。</li>
+<li>在CountDownLatch上的倒数操作Happens-Before CountDownLatch#await()操作。</li>
+<li>释放Semaphore许可的操作Happens-Before获得许可操作。</li>
+<li>Future表示的任务的所有操作Happens-Before Future#get()操作。</li>
+<li>向Executor提交一个Runnable或Callable的操作Happens-Before任务开始执行操作。</li>
+<li>如果两个操作不满足上述任意一个happens-before规则，那么这两个操作就没有顺序的保障，JVM就可以对这两个操作进行重排序。如果操作Ahappens-before操作B，那么操作A在内存上所做的操作对操作B都是可见的。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>jvm</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>jvm</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Volatile</title>
+    <url>/hexoblog/2021/03/03/jvm/Volatile/</url>
+    <content><![CDATA[<h1><span id="jmm">JMM</span><a href="#jmm" class="header-anchor">#</a></h1><p>&emsp;&emsp;Java内存模型，是虚拟机规范中所定义的一种内存模型，Java内存模型是标准化的，屏蔽掉了底层计算机之间的区别。<br>&emsp;&emsp;Java内存模型描述了Java程序中各种变量（线程共享变量）的访问规则，以及在JVM中将变量，存储到内存和从内存中读取变量这样的底层细节。</p>
+<span id="more"></span>
+
+<h2><span id="gui-ding">规定</span><a href="#gui-ding" class="header-anchor">#</a></h2><p>&emsp;&emsp;所有的共享变量都存储于主内存，这里所说的变量指的是实例变量和类变量，不包含局部变量，因为局部变量是线程私有的，不存在竞争问题。<br>&emsp;&emsp;线程对所有变量的操作都必须在工作内存中完成，而不能直接操作主内存中的变量。<br>&emsp;&emsp;不同的线程也不能直接访问对方工作内存中的变量，线程间变量的值的传递需要通过主内存中转来完成。</p>
+<hr>
+<h1><span id="ke-jian-xing-wen-ti">可见性问题</span><a href="#ke-jian-xing-wen-ti" class="header-anchor">#</a></h1><h2><span id="tong-guo-jia-synchronized-lai-jie-jue-ke-jian-xing-wen-ti">通过加synchronized来解决可见性问题：</span><a href="#tong-guo-jia-synchronized-lai-jie-jue-ke-jian-xing-wen-ti" class="header-anchor">#</a></h2><p>&emsp;&emsp;因为某一个线程进入synchronized代码块前后，线程会获得锁，清空工作内存，从主内存拷贝共享变量最新的值到工作内存成为副本，执行代码，将修改后的副本的值刷新回主内存中，线程释放锁。<br>&emsp;&emsp;而获取不到锁的线程会阻塞等待，所以变量的值肯定一直都是最新的。</p>
+<h2><span id="tong-guo-volatile-jie-jue-ke-jian-xing-wen-ti">通过volatile解决可见性问题：</span><a href="#tong-guo-volatile-jie-jue-ke-jian-xing-wen-ti" class="header-anchor">#</a></h2><p>&emsp;&emsp;每个线程操作数据的时候会把数据从主内存读取到自己的工作内存，如果他操作了数据并且写回了，其他已经读取的线程的变量副本就会失效了，需要对数据进行操作又要再次去主内存中读取了。</p>
+<hr>
+<h1><span id="huan-cun-chu-li">缓存处理</span><a href="#huan-cun-chu-li" class="header-anchor">#</a></h1><h2><span id="huan-cun-yi-zhi-xing-xie-yi">缓存一致性协议</span><a href="#huan-cun-yi-zhi-xing-xie-yi" class="header-anchor">#</a></h2><p>&emsp;&emsp;多个处理器的运算任务涉及同一块主内存区域时，将导致各自的缓存数据不一致，问题在于同步回主内存时以谁的缓存数据为准。<br>&emsp;&emsp;为了解决一致性的问题，需要各个处理器在访问缓存时都遵循一些协议，在读写时要根据协议操作，这类协议有MSI，MESI，Synapse，Firefly，Firefly等。</p>
+<h2><span id="mesi">MESI</span><a href="#mesi" class="header-anchor">#</a></h2><p>&emsp;&emsp;当cpu写数据时，如果发现操作的变量是，即在其他cpu中也存在该变量的副本，会发出信号通知其他cpu将该变量的缓存行设置为无效状态，因此当其他cpu要读取这个变量时，会发现自己缓存中缓存该变量的缓存行是无效的，那么他就会从内存重新读取。</p>
+<h2><span id="xiu-tan">嗅探：</span><a href="#xiu-tan" class="header-anchor">#</a></h2><p>&emsp;&emsp;每个处理器通过嗅探在总线上传播的数据来检查自己缓存的值是不是过期了，当处理器发现自己缓存行对应的内存地址被修改，就会将当前处理器的缓存行设置成无效状态，当处理器对这个数据进行修改操作时，会重新从系统内存中把数据读到处理器缓存里。</p>
+<h2><span id="zong-xian-feng-bao">总线风暴：</span><a href="#zong-xian-feng-bao" class="header-anchor">#</a></h2><p>&emsp;&emsp;由于volatile的MESI缓存一致性协议，需要不断的从主内存嗅探和CAS不断循环，无效交互会导致总线带宽达到峰值。所以不应该大量使用volatile，什么时候使用volatile什么时候使用锁，需要具体判断。</p>
+<hr>
+<h1><span id="zhi-ling-chong-pai-xu">指令重排序</span><a href="#zhi-ling-chong-pai-xu" class="header-anchor">#</a></h1><p>&emsp;&emsp;为了提高性能，编译器和处理器常常会对既定的代码执行顺序进行指令重排序。</p>
+<h2><span id="guo-cheng">过程:</span><a href="#guo-cheng" class="header-anchor">#</a></h2><blockquote>
+<p> 源代码——&gt;编译器优化重排序——&gt;指令级并行重排序——&gt;内存系统重排序——〉最终执行指令序列</p>
+</blockquote>
+<p>&emsp;&emsp;一个好的内存模型，实际上会放松对处理器和编译器规则的束缚，也就是说软件技术和硬件技术都为同一个目标，而进行奋斗。在不改变程序执行结果的前提下，尽可能提高运行效率。<br>&emsp;&emsp;JMM对底层减少约束，使其能够发挥自身优势。</p>
+<h2><span id="san-chong-chong-pai-xu">三种重排序</span><a href="#san-chong-chong-pai-xu" class="header-anchor">#</a></h2><ol>
+<li>编译器优化的重排序。编译器在不改变单线程程序语义的前提下，可以重新安排语句的执行顺序。</li>
+<li>指令级并行的重排序。现代处理器采用了指令级并行技术来讲多条指令重叠执行。如果不存在数据依赖性，处理器可以改变语句对应机器指令的执行顺序。</li>
+<li>内存系统的重排序。由于处理器使用缓存和读/写缓冲区，这使得读取和存储操作看上去可能是在乱序执行的。</li>
+</ol>
+<h2><span id="as-if-serial">as-if-serial：</span><a href="#as-if-serial" class="header-anchor">#</a></h2><p>&emsp;&emsp;不管怎么重排序，单线程下的执行结果不能被改变。<br>&emsp;&emsp;编译器、runtime和处理器都必须遵守as-if-serial语义。</p>
+<h2><span id="nei-cun-ping-zhang">内存屏障：</span><a href="#nei-cun-ping-zhang" class="header-anchor">#</a></h2><p>&emsp;&emsp;java编译器会在生成指令系列时在适当的位置会插入内存屏障指令来禁止特定类型的处理器重排序。<br>&emsp;&emsp;为了实现volatile的内存语义，JMM会限制特定类型的编译器和处理器重排序，JMM会针对编译器制定volatile重排序规则表：</p>
+<table>
+<thead>
+<tr>
+<th>是否能重排序</th>
+<th>第二个操作</th>
+<th>普通读写</th>
+<th>vol读</th>
+<th>vol写</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>第一个操作</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>普通读写</td>
+<td></td>
+<td></td>
+<td></td>
+<td>NO</td>
+</tr>
+<tr>
+<td>vol读</td>
+<td></td>
+<td>NO</td>
+<td>NO</td>
+<td>NO</td>
+</tr>
+<tr>
+<td>vol写</td>
+<td></td>
+<td></td>
+<td>NO</td>
+<td>NO</td>
+</tr>
+</tbody></table>
+<p>需要注意的是：</p>
+<ol>
+<li>volatile写是分别在前面和后面插入内存屏障.</li>
+<li>而volatile读是在后面插入两个内存屏障。</li>
+</ol>
+<h3><span id="xie-nei-cun-ping-zhang">写内存屏障：</span><a href="#xie-nei-cun-ping-zhang" class="header-anchor">#</a></h3><blockquote>
+<p>普通读——&gt;普通写——&gt;storestore屏障(禁止上面写和其他重排序)——&gt;vol写——&gt;storestore屏障(禁止下面读和其他重排序)</p>
+</blockquote>
+<h3><span id="du-nei-cun-ping-zhang">读内存屏障：</span><a href="#du-nei-cun-ping-zhang" class="header-anchor">#</a></h3><blockquote>
+<p>vol读——&gt;loadload屏障(禁止下面读重排序)——&gt;loadload屏障(禁止下面写重排序)——&gt;普通读——&gt;普通写</p>
+</blockquote>
+<p>&emsp;&emsp;为了提高处理速度，JVM会对代码进行编译优化，也就是指令重排序优化，并发编程下指令重排序会带来一些安全隐患：如指令重排序导致的多个线程操作之间的不可见性。<br>&emsp;&emsp;从JDK5开始，提出了happens-before的概念，通过这个概念来阐述操作之间的内存可见性。</p>
+<h3><span id="happens-before">happens-before:</span><a href="#happens-before" class="header-anchor">#</a></h3><p>&emsp;&emsp;<a href>happens-before</a><br>&emsp;&emsp;如果一个操作执行的结果需要对另一个操作可见，那么这两个操作之间必须存在happens-before关系。<br>&emsp;&emsp;volatile域规则：对一个volatile的写操作，happens-before于任意线程后续对这volatile域的读。</p>
+<h3><span id="volatile-wu-fa-bao-zheng-yuan-zi-xing">volatile无法保证原子性：</span><a href="#volatile-wu-fa-bao-zheng-yuan-zi-xing" class="header-anchor">#</a></h3><p>&emsp;&emsp;假设现在有N个线程对同一个变量进累加也是没办法保证结果是对的，因为读写这个过并不是原子性的。<br>&emsp;&emsp;要解决也简单，要么用原子类，比AtomicInteger，要么加锁(记得关注Atomic的底层。</p>
+<h3><span id="volatile-yu-synchronized-de-qu-bie">volatile与synchronized的区别：</span><a href="#volatile-yu-synchronized-de-qu-bie" class="header-anchor">#</a></h3><p>&emsp;&emsp;volatile只能修饰实例变量和类量，而synchronized可以修饰方法，以及代码块。<br>&emsp;&emsp;volatile保证数据的可见性，但是保证原子性(多线程进行写操作，不保证线程安全)而synchronized是一种排他(互斥)的机制。  &amp;emsp&emsp;volatile用于禁止指令重排序：可以解决例双重检查对象初始化代码执行乱序问题。<br>&emsp;&emsp;volatile可以看做是轻量版synchronized，volatile不保证原子性，但是如是对一个共享变量进行多个线程的赋值，     而有其他的操作，那么就可以用volatile来代synchronized，因为赋值本身是有原子性的，volatile又保证了可见性，所以就可以保证线程安了。</p>
+<hr>
+<h1><span id="zong-jie">总结</span><a href="#zong-jie" class="header-anchor">#</a></h1><ol>
+<li>volatile修饰符适用于以下场景：某个属性被多个线程共享，其中有一个线程修改了此属性，其他线程可以立即得到修改后的值，比如boolean flag;或者作为触发器，实现轻量级同步。</li>
+<li>volatile属性的读写操作都是无锁的，它不能替代synchronized，因为它没有提供原子性和互斥性。因为无锁，不需要花费时间在获取锁和释放锁_上，所以说它是低成本的。</li>
+<li>volatile只能作用于属性，我们用volatile修饰属性，这样compilers就不会对这个属性做指令重排序。</li>
+<li>volatile提供了可见性，任何一个线程对其的修改将立马对其他线程可见，volatile属性不会被线程缓存，始终从主存中读取。</li>
+<li>volatile提供了happens-before保证，对volatile变量v的写入happens-before所有其他线程后续对v的读操作。</li>
+<li>volatile可以使得long和double的赋值是原子的。</li>
+<li>volatile可以在单例双重检查中实现可见性和禁止指令重排序，从而保证安全性。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>jvm</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>jvm</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>jvm调优</title>
+    <url>/hexoblog/2021/03/04/jvm/jvm%E8%B0%83%E4%BC%98/</url>
+    <content><![CDATA[<p><a href="https://baijiahao.baidu.com/s?id=1617167971312758600&wfr=spider&for=pc">jvm性能调优的6大步骤</a></p>
+<span id="more"></span>
+
+<hr>
+<h1><span id="diao-you-fang-fa-yu-bu-zou">调优方法与步骤</span><a href="#diao-you-fang-fa-yu-bu-zou" class="header-anchor">#</a></h1><ol>
+<li>监控GC的状态</li>
+<li>生成堆的dump文件</li>
+<li>分析dump文件</li>
+<li>分析结果判断是否需要优化</li>
+<li>调整GC类型和内存分配</li>
+<li>不断分析和调整</li>
+</ol>
+<hr>
+<h1><span id="diao-you-can-kao-can-shu">调优参考参数</span><a href="#diao-you-can-kao-can-shu" class="header-anchor">#</a></h1><ol>
+<li>调整jvm堆内存的占用空间</li>
+<li>调整新生代老年代占用堆空间的比例，</li>
+<li>老年代与新生代设置多大合理<ol>
+<li>大的年轻代将会导致普通GC的周期延长，但会增加GC的时间，小的老年代必定会导致频繁的full GC  </li>
+<li>小的年轻代导致普通GC的频繁发生，但GC的时间短，大的老年代将会减少full GC的频率</li>
+</ol>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>jvm</category>
+      </categories>
+      <tags>
+        <tag>jvm</tag>
+        <tag>tool</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mysql常用命令</title>
+    <url>/hexoblog/2021/03/12/mysql/mysql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h1><span id="chang-yong-ming-ling">常用命令</span><a href="#chang-yong-ming-ling" class="header-anchor">#</a></h1><h2><span id="xiu-gai-mysql-shi-qu">修改mysql时区</span><a href="#xiu-gai-mysql-shi-qu" class="header-anchor">#</a></h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看时区</span></span><br><span class="line">show variables like <span class="string">&quot;%time_zone%&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置时区为UTC+8:00</span></span><br><span class="line"><span class="built_in">set</span> global time_zone = <span class="string">&#x27;+8:00&#x27;</span>;</span><br><span class="line"><span class="built_in">set</span> time_zone = <span class="string">&#x27;+8:00&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 刷新立即生效</span></span><br><span class="line">flush privileges；</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+<h2><span id="shi-yong-mysql-binlog">使用mysql binlog</span><a href="#shi-yong-mysql-binlog" class="header-anchor">#</a></h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看日志是否开启</span></span><br><span class="line">show variables like <span class="string">&#x27;log_%&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看binlog配置</span></span><br><span class="line">show variables like <span class="string">&#x27;binlog_%&#x27;</span>; </span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看数据库当前日志情况</span></span><br><span class="line">show master status;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看所有日志文件</span></span><br><span class="line">show binary logs;</span><br><span class="line">show master logs;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 根据事件查看文件</span></span><br><span class="line">show binlog events <span class="keyword">in</span> <span class="string">&#x27;$&#123;binlogname&#125;&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看binlog日志文件内容</span></span><br><span class="line">mysqlbinlog  <span class="variable">$&#123;binlogname&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 以人类能看懂的方式查看binlog文件内容</span></span><br><span class="line">mysqlbinlog --base64-output=decode-rows -vvvvvv <span class="variable">$&#123;binlogname&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用-r命令将日志转写进sql</span></span><br><span class="line">mysqlbinlog --base64-output=decode-rows -vvvvvv <span class="variable">$&#123;binlogname&#125;</span> -r <span class="variable">$&#123;sqlname.sql&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 还原数据库</span></span><br><span class="line">mysqlbinlog --start-positoin=<span class="variable">$&#123;number&#125;</span> --stop-position=<span class="variable">$&#123;number&#125;</span> <span class="variable">$&#123;binlogname&#125;</span> -d <span class="variable">$&#123;databasename&#125;</span> | mysql -u<span class="variable">$&#123;username&#125;</span> -p<span class="variable">$&#123;password&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;转写进文件的日志不能直接执行，不过我们可以从其中提取有用信息。<br>&emsp;&emsp;因为binlog日志里面会将删除等操作全部保存下来，所以再还原数据库信息时一定不能全部解析，需要指定确切位置。<br>&emsp;&emsp;指定位置，数据库，时间，端口，host的命令都可以跟在mysqlbinlog后面，不只只用来恢复，转储，查看都可以。这些命令可以排列组合，放在日志名称前即可。</p>
+<p>mysqlbinlog其他参数：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 起始位置</span></span><br><span class="line">--start-position=<span class="variable">$&#123;positiom number&#125;</span></span><br><span class="line"><span class="comment"># 结束位置</span></span><br><span class="line">--stop-position=<span class="variable">$&#123;position number&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 开始时间</span></span><br><span class="line">--start-datetime=<span class="variable">$&#123;starttime&#125;</span></span><br><span class="line"><span class="comment"># 结束时间</span></span><br><span class="line">--stop-datetime=<span class="variable">$&#123;stoptime&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 数据库</span></span><br><span class="line">-d <span class="variable">$&#123;databasename&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 端口号(大写的P)</span></span><br><span class="line">-P <span class="variable">$&#123;port&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ip地址</span></span><br><span class="line">-h <span class="variable">$&#123;hosts&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># serverId</span></span><br><span class="line">--server-id=<span class="variable">$&#123;server-id&#125;</span></span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>mysql</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>redis为什么这么快</title>
     <url>/hexoblog/2021/03/08/redis/redis%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%99%E4%B9%88%E5%BF%AB/</url>
     <content><![CDATA[<h1><span id="redis-wei-shi-me-zhe-me-kuai">redis为什么这么快？</span><a href="#redis-wei-shi-me-zhe-me-kuai" class="header-anchor">#</a></h1><ol>
@@ -651,7 +669,8 @@
         <category>redis</category>
       </categories>
       <tags>
-        <tag>redis,缓存</tag>
+        <tag>redis</tag>
+        <tag>缓存</tag>
       </tags>
   </entry>
   <entry>
@@ -745,38 +764,6 @@
       </tags>
   </entry>
   <entry>
-    <title>swagger3</title>
-    <url>/hexoblog/2021/03/03/tool/swagger3/</url>
-    <content><![CDATA[<h1><span id="shi-yong-guo-cheng">使用过程</span><a href="#shi-yong-guo-cheng" class="header-anchor">#</a></h1><h2><span id="yin-bao">引包</span><a href="#yin-bao" class="header-anchor">#</a></h2><p>&emsp;&emsp;swagger3升级后，引入的包做相应升级，且集成进springboot启动器内，这里直接引入即可。</p>
-<span id="more"></span>
-
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- swagger--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.springfox<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>springfox-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h2><span id="pei-zhi">配置</span><a href="#pei-zhi" class="header-anchor">#</a></h2><p>&emsp;&emsp;这里配置与swagger2发生了些许变化：</p>
-<h3><span id="qi-dong-lei">启动类</span><a href="#qi-dong-lei" class="header-anchor">#</a></h3><p>&emsp;&emsp;启动类中开启swagger的注解变为** @EnableOpenApi**。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@EnableOpenApi</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EbwcrmApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(EbwcrmApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3><span id="pei-zhi-lei">配置类</span><a href="#pei-zhi-lei" class="header-anchor">#</a></h3><p>&emsp;&emsp;配置类中Docket类型需要修改为** DocumentationType.OAS_30**。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ConditionalOnProperty(value = &#123;&quot;ebwcrm.api.enable-swagger&quot;&#125;, havingValue = &quot;true&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SwaggerConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Docket <span class="title">createRestApi</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Docket(DocumentationType.OAS_30).apiInfo(apiInfo()).select()</span><br><span class="line">                .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class)).paths(PathSelectors.any()).build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 构建 api文档的详细信息函数,注意这里的注解引用的是哪个</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> ApiInfo <span class="title">apiInfo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ApiInfoBuilder()</span><br><span class="line">                <span class="comment">// 页面标题</span></span><br><span class="line">                .title(<span class="string">&quot;集盈客Api接口文档&quot;</span>)</span><br><span class="line">                <span class="comment">// 创建人</span></span><br><span class="line">                .contact(<span class="keyword">new</span> Contact(<span class="string">&quot;linqiankun&quot;</span>, <span class="string">&quot;http://localhost:8008/ebwcrm/swagger-ui/index.html&quot;</span>, <span class="string">&quot;linqiankun_51309@QQ.com&quot;</span>))</span><br><span class="line">                <span class="comment">// 版本号</span></span><br><span class="line">                .version(<span class="string">&quot;1.0&quot;</span>)</span><br><span class="line">                <span class="comment">// 描述</span></span><br><span class="line">                .description(<span class="string">&quot;根据服务端接口规范设计:http://doc.fed.weidai.work/docs/web/api&quot;</span>).build();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;拦截器中需要对swagger的静态资源进行放行，以免启动后无法访问到swagger。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addInterceptors</span><span class="params">(InterceptorRegistry registry)</span> </span>&#123;</span><br><span class="line">    List&lt;String&gt; pathPattern = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    pathPattern.add(<span class="string">&quot;/**&quot;</span>);</span><br><span class="line">    List&lt;String&gt; excludePattern = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    excludePattern.add(<span class="string">&quot;/swagger-ui/**&quot;</span>);</span><br><span class="line">    excludePattern.add(<span class="string">&quot;/swagger-resources/**&quot;</span>);</span><br><span class="line">    excludePattern.add(<span class="string">&quot;/v3/api-docs&quot;</span>);</span><br><span class="line">    registry.addInterceptor(loginInterceptor)</span><br><span class="line">            .addPathPatterns(pathPattern)</span><br><span class="line">            .excludePathPatterns(excludePattern);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2><span id="shi-yong">使用</span><a href="#shi-yong" class="header-anchor">#</a></h2><p>&emsp;&emsp;接口使用的注解，与swagger2基本相同。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/miUser&quot;)</span></span><br><span class="line"><span class="meta">@Api(tags = &quot;Controller&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MiUserController</span> </span>&#123;  </span><br><span class="line"></span><br><span class="line">    <span class="meta">@ApiOperation(&quot;updatePassword&quot;)</span></span><br><span class="line">    <span class="meta">@PostMapping(&quot;updatePassword&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> EBwcrmResult <span class="title">updatePassword</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;swagger3相对于swagger2的文档路径发生了改变。</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">http://&lt;ip&gt;:&lt;port&gt;/&lt;applicattion&gt;/swagger-ui/index.html</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>tool</category>
-      </categories>
-      <tags>
-        <tag>tool</tag>
-        <tag>swagger</tag>
-        <tag>springboot</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>hexo使用</title>
     <url>/hexoblog/2021/03/04/tool/hexo%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<h1><span id="mu-lu">目录</span><a href="#mu-lu" class="header-anchor">#</a></h1><p>[toc]</p>
@@ -815,7 +802,8 @@
         <category>tool</category>
       </categories>
       <tags>
-        <tag>tool,hexo</tag>
+        <tag>tool</tag>
+        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -838,8 +826,40 @@
         <category>tool</category>
       </categories>
       <tags>
-        <tag>zookeeper</tag>
         <tag>tool</tag>
+        <tag>zookeeper</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>swagger3</title>
+    <url>/hexoblog/2021/03/03/tool/swagger3/</url>
+    <content><![CDATA[<h1><span id="shi-yong-guo-cheng">使用过程</span><a href="#shi-yong-guo-cheng" class="header-anchor">#</a></h1><h2><span id="yin-bao">引包</span><a href="#yin-bao" class="header-anchor">#</a></h2><p>&emsp;&emsp;swagger3升级后，引入的包做相应升级，且集成进springboot启动器内，这里直接引入即可。</p>
+<span id="more"></span>
+
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- swagger--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.springfox<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>springfox-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2><span id="pei-zhi">配置</span><a href="#pei-zhi" class="header-anchor">#</a></h2><p>&emsp;&emsp;这里配置与swagger2发生了些许变化：</p>
+<h3><span id="qi-dong-lei">启动类</span><a href="#qi-dong-lei" class="header-anchor">#</a></h3><p>&emsp;&emsp;启动类中开启swagger的注解变为** @EnableOpenApi**。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@EnableOpenApi</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EbwcrmApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(EbwcrmApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3><span id="pei-zhi-lei">配置类</span><a href="#pei-zhi-lei" class="header-anchor">#</a></h3><p>&emsp;&emsp;配置类中Docket类型需要修改为** DocumentationType.OAS_30**。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ConditionalOnProperty(value = &#123;&quot;ebwcrm.api.enable-swagger&quot;&#125;, havingValue = &quot;true&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SwaggerConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Docket <span class="title">createRestApi</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Docket(DocumentationType.OAS_30).apiInfo(apiInfo()).select()</span><br><span class="line">                .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class)).paths(PathSelectors.any()).build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 构建 api文档的详细信息函数,注意这里的注解引用的是哪个</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> ApiInfo <span class="title">apiInfo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ApiInfoBuilder()</span><br><span class="line">                <span class="comment">// 页面标题</span></span><br><span class="line">                .title(<span class="string">&quot;集盈客Api接口文档&quot;</span>)</span><br><span class="line">                <span class="comment">// 创建人</span></span><br><span class="line">                .contact(<span class="keyword">new</span> Contact(<span class="string">&quot;linqiankun&quot;</span>, <span class="string">&quot;http://localhost:8008/ebwcrm/swagger-ui/index.html&quot;</span>, <span class="string">&quot;linqiankun_51309@QQ.com&quot;</span>))</span><br><span class="line">                <span class="comment">// 版本号</span></span><br><span class="line">                .version(<span class="string">&quot;1.0&quot;</span>)</span><br><span class="line">                <span class="comment">// 描述</span></span><br><span class="line">                .description(<span class="string">&quot;根据服务端接口规范设计:http://doc.fed.weidai.work/docs/web/api&quot;</span>).build();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;拦截器中需要对swagger的静态资源进行放行，以免启动后无法访问到swagger。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addInterceptors</span><span class="params">(InterceptorRegistry registry)</span> </span>&#123;</span><br><span class="line">    List&lt;String&gt; pathPattern = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    pathPattern.add(<span class="string">&quot;/**&quot;</span>);</span><br><span class="line">    List&lt;String&gt; excludePattern = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    excludePattern.add(<span class="string">&quot;/swagger-ui/**&quot;</span>);</span><br><span class="line">    excludePattern.add(<span class="string">&quot;/swagger-resources/**&quot;</span>);</span><br><span class="line">    excludePattern.add(<span class="string">&quot;/v3/api-docs&quot;</span>);</span><br><span class="line">    registry.addInterceptor(loginInterceptor)</span><br><span class="line">            .addPathPatterns(pathPattern)</span><br><span class="line">            .excludePathPatterns(excludePattern);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2><span id="shi-yong">使用</span><a href="#shi-yong" class="header-anchor">#</a></h2><p>&emsp;&emsp;接口使用的注解，与swagger2基本相同。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/miUser&quot;)</span></span><br><span class="line"><span class="meta">@Api(tags = &quot;Controller&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MiUserController</span> </span>&#123;  </span><br><span class="line"></span><br><span class="line">    <span class="meta">@ApiOperation(&quot;updatePassword&quot;)</span></span><br><span class="line">    <span class="meta">@PostMapping(&quot;updatePassword&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> EBwcrmResult <span class="title">updatePassword</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;swagger3相对于swagger2的文档路径发生了改变。</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">http://&lt;ip&gt;:&lt;port&gt;/&lt;applicattion&gt;/swagger-ui/index.html</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>tool</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>swagger</tag>
+        <tag>springboot</tag>
       </tags>
   </entry>
   <entry>
@@ -990,7 +1010,8 @@
         <category>zookeeper</category>
       </categories>
       <tags>
-        <tag>zookeeper,分布式</tag>
+        <tag>zookeeper</tag>
+        <tag>分布式</tag>
       </tags>
   </entry>
   <entry>
@@ -1031,8 +1052,8 @@
         <category>架构</category>
       </categories>
       <tags>
-        <tag>分布式</tag>
         <tag>acid</tag>
+        <tag>分布式</tag>
       </tags>
   </entry>
   <entry>
@@ -1090,8 +1111,8 @@
         <category>架构</category>
       </categories>
       <tags>
-        <tag>分布式</tag>
         <tag>lock</tag>
+        <tag>分布式</tag>
       </tags>
   </entry>
 </search>
