@@ -37,6 +37,193 @@
       </categories>
       <tags>
         <tag>docker</tag>
+        <tag>wsl</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Volatile</title>
+    <url>/hexoblog/2021/03/03/jvm/Volatile/</url>
+    <content><![CDATA[<h1><span id="jmm">JMM</span><a href="#jmm" class="header-anchor">#</a></h1><p>&emsp;&emsp;Java内存模型，是虚拟机规范中所定义的一种内存模型，Java内存模型是标准化的，屏蔽掉了底层计算机之间的区别。<br>&emsp;&emsp;Java内存模型描述了Java程序中各种变量（线程共享变量）的访问规则，以及在JVM中将变量，存储到内存和从内存中读取变量这样的底层细节。</p>
+<span id="more"></span>
+
+<h2><span id="gui-ding">规定</span><a href="#gui-ding" class="header-anchor">#</a></h2><p>&emsp;&emsp;所有的共享变量都存储于主内存，这里所说的变量指的是实例变量和类变量，不包含局部变量，因为局部变量是线程私有的，不存在竞争问题。<br>&emsp;&emsp;线程对所有变量的操作都必须在工作内存中完成，而不能直接操作主内存中的变量。<br>&emsp;&emsp;不同的线程也不能直接访问对方工作内存中的变量，线程间变量的值的传递需要通过主内存中转来完成。</p>
+<hr>
+<h1><span id="ke-jian-xing-wen-ti">可见性问题</span><a href="#ke-jian-xing-wen-ti" class="header-anchor">#</a></h1><h2><span id="tong-guo-jia-synchronized-lai-jie-jue-ke-jian-xing-wen-ti">通过加synchronized来解决可见性问题：</span><a href="#tong-guo-jia-synchronized-lai-jie-jue-ke-jian-xing-wen-ti" class="header-anchor">#</a></h2><p>&emsp;&emsp;因为某一个线程进入synchronized代码块前后，线程会获得锁，清空工作内存，从主内存拷贝共享变量最新的值到工作内存成为副本，执行代码，将修改后的副本的值刷新回主内存中，线程释放锁。<br>&emsp;&emsp;而获取不到锁的线程会阻塞等待，所以变量的值肯定一直都是最新的。</p>
+<h2><span id="tong-guo-volatile-jie-jue-ke-jian-xing-wen-ti">通过volatile解决可见性问题：</span><a href="#tong-guo-volatile-jie-jue-ke-jian-xing-wen-ti" class="header-anchor">#</a></h2><p>&emsp;&emsp;每个线程操作数据的时候会把数据从主内存读取到自己的工作内存，如果他操作了数据并且写回了，其他已经读取的线程的变量副本就会失效了，需要对数据进行操作又要再次去主内存中读取了。</p>
+<hr>
+<h1><span id="huan-cun-chu-li">缓存处理</span><a href="#huan-cun-chu-li" class="header-anchor">#</a></h1><h2><span id="huan-cun-yi-zhi-xing-xie-yi">缓存一致性协议</span><a href="#huan-cun-yi-zhi-xing-xie-yi" class="header-anchor">#</a></h2><p>&emsp;&emsp;多个处理器的运算任务涉及同一块主内存区域时，将导致各自的缓存数据不一致，问题在于同步回主内存时以谁的缓存数据为准。<br>&emsp;&emsp;为了解决一致性的问题，需要各个处理器在访问缓存时都遵循一些协议，在读写时要根据协议操作，这类协议有MSI，MESI，Synapse，Firefly，Firefly等。</p>
+<h2><span id="mesi">MESI</span><a href="#mesi" class="header-anchor">#</a></h2><p>&emsp;&emsp;当cpu写数据时，如果发现操作的变量是，即在其他cpu中也存在该变量的副本，会发出信号通知其他cpu将该变量的缓存行设置为无效状态，因此当其他cpu要读取这个变量时，会发现自己缓存中缓存该变量的缓存行是无效的，那么他就会从内存重新读取。</p>
+<h2><span id="xiu-tan">嗅探：</span><a href="#xiu-tan" class="header-anchor">#</a></h2><p>&emsp;&emsp;每个处理器通过嗅探在总线上传播的数据来检查自己缓存的值是不是过期了，当处理器发现自己缓存行对应的内存地址被修改，就会将当前处理器的缓存行设置成无效状态，当处理器对这个数据进行修改操作时，会重新从系统内存中把数据读到处理器缓存里。</p>
+<h2><span id="zong-xian-feng-bao">总线风暴：</span><a href="#zong-xian-feng-bao" class="header-anchor">#</a></h2><p>&emsp;&emsp;由于volatile的MESI缓存一致性协议，需要不断的从主内存嗅探和CAS不断循环，无效交互会导致总线带宽达到峰值。所以不应该大量使用volatile，什么时候使用volatile什么时候使用锁，需要具体判断。</p>
+<hr>
+<h1><span id="zhi-ling-chong-pai-xu">指令重排序</span><a href="#zhi-ling-chong-pai-xu" class="header-anchor">#</a></h1><p>&emsp;&emsp;为了提高性能，编译器和处理器常常会对既定的代码执行顺序进行指令重排序。</p>
+<h2><span id="guo-cheng">过程:</span><a href="#guo-cheng" class="header-anchor">#</a></h2><blockquote>
+<p> 源代码——&gt;编译器优化重排序——&gt;指令级并行重排序——&gt;内存系统重排序——〉最终执行指令序列</p>
+</blockquote>
+<p>&emsp;&emsp;一个好的内存模型，实际上会放松对处理器和编译器规则的束缚，也就是说软件技术和硬件技术都为同一个目标，而进行奋斗。在不改变程序执行结果的前提下，尽可能提高运行效率。<br>&emsp;&emsp;JMM对底层减少约束，使其能够发挥自身优势。</p>
+<h2><span id="san-chong-chong-pai-xu">三种重排序</span><a href="#san-chong-chong-pai-xu" class="header-anchor">#</a></h2><ol>
+<li>编译器优化的重排序。编译器在不改变单线程程序语义的前提下，可以重新安排语句的执行顺序。</li>
+<li>指令级并行的重排序。现代处理器采用了指令级并行技术来讲多条指令重叠执行。如果不存在数据依赖性，处理器可以改变语句对应机器指令的执行顺序。</li>
+<li>内存系统的重排序。由于处理器使用缓存和读/写缓冲区，这使得读取和存储操作看上去可能是在乱序执行的。</li>
+</ol>
+<h2><span id="as-if-serial">as-if-serial：</span><a href="#as-if-serial" class="header-anchor">#</a></h2><p>&emsp;&emsp;不管怎么重排序，单线程下的执行结果不能被改变。<br>&emsp;&emsp;编译器、runtime和处理器都必须遵守as-if-serial语义。</p>
+<h2><span id="nei-cun-ping-zhang">内存屏障：</span><a href="#nei-cun-ping-zhang" class="header-anchor">#</a></h2><p>&emsp;&emsp;java编译器会在生成指令系列时在适当的位置会插入内存屏障指令来禁止特定类型的处理器重排序。<br>&emsp;&emsp;为了实现volatile的内存语义，JMM会限制特定类型的编译器和处理器重排序，JMM会针对编译器制定volatile重排序规则表：</p>
+<table>
+<thead>
+<tr>
+<th>是否能重排序</th>
+<th>第二个操作</th>
+<th>普通读写</th>
+<th>vol读</th>
+<th>vol写</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>第一个操作</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>普通读写</td>
+<td></td>
+<td></td>
+<td></td>
+<td>NO</td>
+</tr>
+<tr>
+<td>vol读</td>
+<td></td>
+<td>NO</td>
+<td>NO</td>
+<td>NO</td>
+</tr>
+<tr>
+<td>vol写</td>
+<td></td>
+<td></td>
+<td>NO</td>
+<td>NO</td>
+</tr>
+</tbody></table>
+<p>需要注意的是：</p>
+<ol>
+<li>volatile写是分别在前面和后面插入内存屏障.</li>
+<li>而volatile读是在后面插入两个内存屏障。</li>
+</ol>
+<h3><span id="xie-nei-cun-ping-zhang">写内存屏障：</span><a href="#xie-nei-cun-ping-zhang" class="header-anchor">#</a></h3><blockquote>
+<p>普通读——&gt;普通写——&gt;storestore屏障(禁止上面写和其他重排序)——&gt;vol写——&gt;storestore屏障(禁止下面读和其他重排序)</p>
+</blockquote>
+<h3><span id="du-nei-cun-ping-zhang">读内存屏障：</span><a href="#du-nei-cun-ping-zhang" class="header-anchor">#</a></h3><blockquote>
+<p>vol读——&gt;loadload屏障(禁止下面读重排序)——&gt;loadload屏障(禁止下面写重排序)——&gt;普通读——&gt;普通写</p>
+</blockquote>
+<p>&emsp;&emsp;为了提高处理速度，JVM会对代码进行编译优化，也就是指令重排序优化，并发编程下指令重排序会带来一些安全隐患：如指令重排序导致的多个线程操作之间的不可见性。<br>&emsp;&emsp;从JDK5开始，提出了happens-before的概念，通过这个概念来阐述操作之间的内存可见性。</p>
+<h3><span id="happens-before">happens-before:</span><a href="#happens-before" class="header-anchor">#</a></h3><p>&emsp;&emsp;<a href>happens-before</a><br>&emsp;&emsp;如果一个操作执行的结果需要对另一个操作可见，那么这两个操作之间必须存在happens-before关系。<br>&emsp;&emsp;volatile域规则：对一个volatile的写操作，happens-before于任意线程后续对这volatile域的读。</p>
+<h3><span id="volatile-wu-fa-bao-zheng-yuan-zi-xing">volatile无法保证原子性：</span><a href="#volatile-wu-fa-bao-zheng-yuan-zi-xing" class="header-anchor">#</a></h3><p>&emsp;&emsp;假设现在有N个线程对同一个变量进累加也是没办法保证结果是对的，因为读写这个过并不是原子性的。<br>&emsp;&emsp;要解决也简单，要么用原子类，比AtomicInteger，要么加锁(记得关注Atomic的底层。</p>
+<h3><span id="volatile-yu-synchronized-de-qu-bie">volatile与synchronized的区别：</span><a href="#volatile-yu-synchronized-de-qu-bie" class="header-anchor">#</a></h3><p>&emsp;&emsp;volatile只能修饰实例变量和类量，而synchronized可以修饰方法，以及代码块。<br>&emsp;&emsp;volatile保证数据的可见性，但是保证原子性(多线程进行写操作，不保证线程安全)而synchronized是一种排他(互斥)的机制。  &amp;emsp&emsp;volatile用于禁止指令重排序：可以解决例双重检查对象初始化代码执行乱序问题。<br>&emsp;&emsp;volatile可以看做是轻量版synchronized，volatile不保证原子性，但是如是对一个共享变量进行多个线程的赋值，     而有其他的操作，那么就可以用volatile来代synchronized，因为赋值本身是有原子性的，volatile又保证了可见性，所以就可以保证线程安了。</p>
+<hr>
+<h1><span id="zong-jie">总结</span><a href="#zong-jie" class="header-anchor">#</a></h1><ol>
+<li>volatile修饰符适用于以下场景：某个属性被多个线程共享，其中有一个线程修改了此属性，其他线程可以立即得到修改后的值，比如boolean flag;或者作为触发器，实现轻量级同步。</li>
+<li>volatile属性的读写操作都是无锁的，它不能替代synchronized，因为它没有提供原子性和互斥性。因为无锁，不需要花费时间在获取锁和释放锁_上，所以说它是低成本的。</li>
+<li>volatile只能作用于属性，我们用volatile修饰属性，这样compilers就不会对这个属性做指令重排序。</li>
+<li>volatile提供了可见性，任何一个线程对其的修改将立马对其他线程可见，volatile属性不会被线程缓存，始终从主存中读取。</li>
+<li>volatile提供了happens-before保证，对volatile变量v的写入happens-before所有其他线程后续对v的读操作。</li>
+<li>volatile可以使得long和double的赋值是原子的。</li>
+<li>volatile可以在单例双重检查中实现可见性和禁止指令重排序，从而保证安全性。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>jvm</category>
+      </categories>
+      <tags>
+        <tag>jvm</tag>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>happens-before</title>
+    <url>/hexoblog/2021/03/03/jvm/happens-before/</url>
+    <content><![CDATA[<h1><span id="wen-ti">问题：</span><a href="#wen-ti" class="header-anchor">#</a></h1><p>&emsp;&emsp;在JMM中，由于存在线程本地内存和主内存的原因，再加上重排序，会导致多线程环境下存在可见性的问题。<br>&emsp;&emsp;JDK5开始，JMM使用happens-before概念来阐述多线程之间的内存可见性问题。</p>
+<blockquote>
+<p>&emsp;&emsp;在JMM中，如果一个操作的执行结果需要对另一个操作可见，那么这两个操作之间必须存在happens-before关系。  </p>
+</blockquote>
+<p>&emsp;&emsp;happens-before原则非常重要，它是判断数据是否存在竞争、线程是否安全的主要依据，依靠这个规则，我们解决在并发环境下两操作之间是否可能存在冲突的所有问题。</p>
+<span id="more"></span>
+
+<hr>
+<h1><span id="nei-rong">内容：</span><a href="#nei-rong" class="header-anchor">#</a></h1><h2><span id="happens-before-yuan-ze-ding-yi">happens-before原则定义：</span><a href="#happens-before-yuan-ze-ding-yi" class="header-anchor">#</a></h2><ol>
+<li>如果一个操作happens-before另一个操作，那么第一个操作的执行结果将对第二个操作可见，而且第一个操作的执行顺序在第二个操作之前。</li>
+<li>两个操作之间存在happens-before原则，并不意味着一定要按照happens-before原则制定的顺序来执行。如果重排序之后的执行结果与按照happens-before关系来执行的结果一致，那么这种重排序并不非法。</li>
+</ol>
+<h2><span id="happens-before-yuan-ze-gui-ze">happens-before原则规则：</span><a href="#happens-before-yuan-ze-gui-ze" class="header-anchor">#</a></h2><ol>
+<li>程序次序规则：一个线程内，按照代码顺序，书写在前面的操作先行发生于书写在后面的操作；</li>
+<li>锁定规则：一个unLock操作先行发生于后面对同一个锁额lock操作；</li>
+<li>volatile变量规则：对一个变量的写操作先行发生于后面对这个变量的读操作；</li>
+<li>传递规则：如果操作A先行发生于操作B，而操作B又先行发生于操作C，则可以得出操作A先行发生于操作C；</li>
+<li>线程启动规则：Thread对象的start()方法先行发生于此线程的每个一个动作；</li>
+<li>线程中断规则：对线程interrupt()方法的调用先行发生于被中断线程的代码检测到中断事件的发生；</li>
+<li>线程终结规则：线程中所有的操作都先行发生于线程的终止检测，我们可以通过Thread.join()方法结束、Thread.isAlive()的返回值手段检测到线程已经终止执行；</li>
+<li>对象终结规则：一个对象的初始化完成先行发生于他的finalize()方法的开始；</li>
+</ol>
+<h3><span id="cheng-xu-ci-xu-gui-ze">程序次序规则：</span><a href="#cheng-xu-ci-xu-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp;一段代码在单线程中的执行结果是有序的，注意是执行结果，因为虚拟机、处理器会对指令进行重排序（重排序后面会详细介绍）。虽然重排序了，但是并不会影响程序的执行结果，所以程序最终执行的结果与顺序执行的结果是一致的。故而这个规则只对单线程有效，在多线程环境下无法保证正确性。</p>
+<h3><span id="suo-ding-gui-ze">锁定规则：</span><a href="#suo-ding-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp;这个规则比较好理解，无论是在单线程环境还是多线程环境，一个锁处于被锁定状态，那么必须先执行unlock操作后面才能进行lock操作。</p>
+<h3><span id="volatile-bian-liang-gui-ze">volatile变量规则：</span><a href="#volatile-bian-liang-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp; 这是一条比较重要的规则，它标志着volatile保证了线程可见性。通俗点讲就是如果一个线程先去写一个volatile变量，然后一个线程去读这个变量，那么这个写操作一定是happens-before读操作的。</p>
+<h3><span id="chuan-di-gui-ze">传递规则：</span><a href="#chuan-di-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp;提现了happens-before原则具有传递性，即A happens-before B , B happens-before C，那么A happens-before C。</p>
+<h3><span id="xian-cheng-qi-dong-gui-ze">线程启动规则：</span><a href="#xian-cheng-qi-dong-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp;假定线程A在执行过程中，通过执行ThreadB.start()来启动线程B，那么线程A对共享变量的修改在接下来线程B开始执行后确保对线程B可见。</p>
+<h3><span id="xian-cheng-zhong-jie-gui-ze">线程终结规则：</span><a href="#xian-cheng-zhong-jie-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp;假定线程A在执行的过程中，通过制定ThreadB.join()等待线程B终止，那么线程B在终止之前对共享变量的修改在线程A等待返回后可见。</p>
+<hr>
+<h1><span id="zong-jie">总结</span><a href="#zong-jie" class="header-anchor">#</a></h1><p>&emsp;&emsp;上面八条是原生Java满足Happens-before关系的规则，但是我们可以对他们进行推导出其他满足happens-before的规则：</p>
+<ol>
+<li>将一个元素放入一个线程安全的队列的操作Happens-Before从队列中取出这个元素的操作。</li>
+<li>将一个元素放入一个线程安全容器的操作Happens-Before从容器中取出这个元素的操作。</li>
+<li>在CountDownLatch上的倒数操作Happens-Before CountDownLatch#await()操作。</li>
+<li>释放Semaphore许可的操作Happens-Before获得许可操作。</li>
+<li>Future表示的任务的所有操作Happens-Before Future#get()操作。</li>
+<li>向Executor提交一个Runnable或Callable的操作Happens-Before任务开始执行操作。</li>
+<li>如果两个操作不满足上述任意一个happens-before规则，那么这两个操作就没有顺序的保障，JVM就可以对这两个操作进行重排序。如果操作Ahappens-before操作B，那么操作A在内存上所做的操作对操作B都是可见的。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>jvm</category>
+      </categories>
+      <tags>
+        <tag>jvm</tag>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>jvm调优</title>
+    <url>/hexoblog/2021/03/04/jvm/jvm%E8%B0%83%E4%BC%98/</url>
+    <content><![CDATA[<p><a href="https://baijiahao.baidu.com/s?id=1617167971312758600&wfr=spider&for=pc">jvm性能调优的6大步骤</a></p>
+<span id="more"></span>
+
+<hr>
+<h1><span id="diao-you-fang-fa-yu-bu-zou">调优方法与步骤</span><a href="#diao-you-fang-fa-yu-bu-zou" class="header-anchor">#</a></h1><ol>
+<li>监控GC的状态</li>
+<li>生成堆的dump文件</li>
+<li>分析dump文件</li>
+<li>分析结果判断是否需要优化</li>
+<li>调整GC类型和内存分配</li>
+<li>不断分析和调整</li>
+</ol>
+<hr>
+<h1><span id="diao-you-can-kao-can-shu">调优参考参数</span><a href="#diao-you-can-kao-can-shu" class="header-anchor">#</a></h1><ol>
+<li>调整jvm堆内存的占用空间</li>
+<li>调整新生代老年代占用堆空间的比例，</li>
+<li>老年代与新生代设置多大合理<ol>
+<li>大的年轻代将会导致普通GC的周期延长，但会增加GC的时间，小的老年代必定会导致频繁的full GC  </li>
+<li>小的年轻代导致普通GC的频繁发生，但GC的时间短，大的老年代将会减少full GC的频率</li>
+</ol>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>jvm</category>
+      </categories>
+      <tags>
+        <tag>jvm</tag>
+        <tag>tool</tag>
       </tags>
   </entry>
   <entry>
@@ -58,6 +245,185 @@
       <tags>
         <tag>filter</tag>
         <tag>interceptor</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>wsl小问题排查</title>
+    <url>/hexoblog/2021/03/14/linux/wsl%E5%B0%8F%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5/</url>
+    <content><![CDATA[<div class="toc">
+
+<!-- toc -->
+
+<ul>
+<li><a href="#wen-ti">问题</a><ul>
+<li><a href="#wang-luo-wen-ti">网络问题</a><ul>
+<li><a href="#can-kao-de-dui-xiang-lei-xing-bu-zhi-chi-chang-shi-de-cao-zuo">参考的对象类型不支持尝试的操作</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+
+</div>
+
+<h1><span id="wen-ti">问题</span><a href="#wen-ti" class="header-anchor">#</a></h1><h2><span id="wang-luo-wen-ti">网络问题</span><a href="#wang-luo-wen-ti" class="header-anchor">#</a></h2><h3><span id="can-kao-de-dui-xiang-lei-xing-bu-zhi-chi-chang-shi-de-cao-zuo">参考的对象类型不支持尝试的操作</span><a href="#can-kao-de-dui-xiang-lei-xing-bu-zhi-chi-chang-shi-de-cao-zuo" class="header-anchor">#</a></h3><p>&emsp;&emsp;这种问题一般是因为有启动过代理软件，造成代理冲突。</p>
+<span id="more"></span>
+
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Ubuntu%2020.04%20LTS%202021_3_14%2016_01_57.png" alt="参考的对象不支持的操作"></p>
+<h4><span id="jie-jue">解决</span><a href="#jie-jue" class="header-anchor">#</a></h4><p>&emsp;&emsp;临时解决方案，重新网络信息：（管理员运行命令行）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 重置网络信息</span></span><br><span class="line">netsh winsock reset</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>wsl</tag>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mybatis连接双数据库</title>
+    <url>/hexoblog/2021/03/09/mybatis/mybatis%E8%BF%9E%E6%8E%A5%E5%8F%8C%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
+    <content><![CDATA[<h1><span id="bei-jing">背景：</span><a href="#bei-jing" class="header-anchor">#</a></h1><p>&emsp;&emsp;项目中需要从两个不同的数据库查询数据，之前实现方法是：springboot配置连接一个数据源，另一个使用jdbc代码连接。<br>&emsp;&emsp;为了改进，现在使用SpringBoot配置连接两个数据源。</p>
+<span id="more"></span>
+<hr>
+<h1><span id="shi-xian-xiao-guo">实现效果：</span><a href="#shi-xian-xiao-guo" class="header-anchor">#</a></h1><p>&emsp;&emsp;一个SpringBoot项目，同时连接两个数据库。</p>
+<p><strong>注意：</strong>连接什么数据库，要引入对应数据库的包</p>
+<hr>
+<h1><span id="shi-xian">实现</span><a href="#shi-xian" class="header-anchor">#</a></h1><p>&emsp;&emsp;实现多数据源均需要使用到mybatis plus。这里也引入了druid连接池。<br>&emsp;&emsp;双数据源中需要将不同数据源的mapper和对应xml文件放在不同的包中。</p>
+<p>&emsp;&emsp;先准备两个数据源。</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 数据源1</span></span><br><span class="line"><span class="keyword">create</span> schema mybatisdubboone;</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> <span class="keyword">user</span></span><br><span class="line">(</span><br><span class="line">    id          <span class="type">int</span> auto_increment</span><br><span class="line">        <span class="keyword">primary</span> key,</span><br><span class="line">    username    <span class="type">varchar</span>(<span class="number">50</span>) <span class="keyword">default</span> <span class="string">&#x27;&#x27;</span>                <span class="keyword">not</span> <span class="keyword">null</span>,</span><br><span class="line">    mobile      <span class="type">varchar</span>(<span class="number">15</span>) <span class="keyword">default</span> <span class="string">&#x27;&#x27;</span>                <span class="keyword">null</span>,</span><br><span class="line">    create_time datetime    <span class="keyword">default</span> <span class="built_in">CURRENT_TIMESTAMP</span> <span class="keyword">not</span> <span class="keyword">null</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 数据源2</span></span><br><span class="line"><span class="keyword">create</span> schema mybatisdubbotwo;</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> mybatisdubbotwo.order_info</span><br><span class="line">(</span><br><span class="line">    id          <span class="type">int</span> auto_increment</span><br><span class="line">        <span class="keyword">primary</span> key,</span><br><span class="line">    order_id    <span class="type">varchar</span>(<span class="number">20</span>) <span class="keyword">default</span> <span class="string">&#x27;&#x27;</span>                <span class="keyword">not</span> <span class="keyword">null</span>,</span><br><span class="line">    user_id     <span class="type">int</span>         <span class="keyword">default</span> <span class="number">0</span>                 <span class="keyword">not</span> <span class="keyword">null</span>,</span><br><span class="line">    create_time datetime    <span class="keyword">default</span> <span class="built_in">CURRENT_TIMESTAMP</span> <span class="keyword">not</span> <span class="keyword">null</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<h2><span id="jing-tai-shuang-shu-ju-yuan">静态双数据源</span><a href="#jing-tai-shuang-shu-ju-yuan" class="header-anchor">#</a></h2><p>&emsp;&emsp;静态数据源需要对不同的数据源单独配置，同时需要关闭掉springboot和druid的数据源自动配置。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">application:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">staticmybatisdubbomysql</span></span><br><span class="line">  <span class="attr">datasourceone:</span></span><br><span class="line">    <span class="attr">jdbc-url:</span> <span class="string">jdbc:mysql://localhost:3306/mybatisdubboone?serverTimezone=GMT</span></span><br><span class="line">    <span class="attr">driver-class-name:</span> <span class="string">com.mysql.cj.jdbc.Driver</span></span><br><span class="line">    <span class="attr">username:</span> <span class="string">root</span></span><br><span class="line">    <span class="attr">password:</span> <span class="number">1234</span></span><br><span class="line">  <span class="attr">datasourcetwo:</span></span><br><span class="line">    <span class="attr">jdbc-url:</span> <span class="string">jdbc:mysql://localhost:3306/mybatisdubbotwo?serverTimezone=GMT</span></span><br><span class="line">    <span class="attr">driver-class-name:</span> <span class="string">com.mysql.cj.jdbc.Driver</span></span><br><span class="line">    <span class="attr">username:</span> <span class="string">root</span></span><br><span class="line">    <span class="attr">password:</span> <span class="number">1234</span></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;数据源1配置：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@MapperScan(basePackages = &quot;com.lin.mybatisdubbomysql.dal.mapper.databaseone&quot;, sqlSessionTemplateRef = &quot;SqlSessionTemplateOne&quot;)</span></span><br><span class="line"><span class="meta">@EnableConfigurationProperties(DatabaseOneProperties.class)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DatabaseOneConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Resource</span></span><br><span class="line">    DatabaseOneProperties databaseOneProperties;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean(&quot;dataSourceOne&quot;)</span></span><br><span class="line">    <span class="meta">@Primary</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> DataSource <span class="title">dataSource</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        DruidDataSource druidDataSource = <span class="keyword">new</span> DruidDataSource();</span><br><span class="line">        druidDataSource.setUrl(databaseOneProperties.getJdbcUrl());</span><br><span class="line">        druidDataSource.setUsername(databaseOneProperties.getUsername());</span><br><span class="line">        druidDataSource.setPassword(databaseOneProperties.getPassword());</span><br><span class="line">        druidDataSource.setDriverClassName(databaseOneProperties.getDriverClassName());</span><br><span class="line">        <span class="keyword">return</span> druidDataSource;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean(&quot;sqlSessionFactoryOne&quot;)</span></span><br><span class="line">    <span class="meta">@Primary</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> SqlSessionFactory <span class="title">sqlSessionFactory</span><span class="params">(<span class="meta">@Qualifier(&quot;dataSourceOne&quot;)</span> DataSource dataSource)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        MybatisSqlSessionFactoryBean sqlSessionFactoryBean = <span class="keyword">new</span> MybatisSqlSessionFactoryBean();</span><br><span class="line">        sqlSessionFactoryBean.setDataSource(dataSource);</span><br><span class="line">        sqlSessionFactoryBean.setMapperLocations(</span><br><span class="line">                <span class="keyword">new</span> PathMatchingResourcePatternResolver().getResources(<span class="string">&quot;classpath:mapper/databaseone/*.xml&quot;</span>));</span><br><span class="line">        <span class="keyword">return</span> sqlSessionFactoryBean.getObject();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean(&quot;SqlSessionTemplateOne&quot;)</span></span><br><span class="line">    <span class="meta">@Primary</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> SqlSessionTemplate <span class="title">sqlSessionTemplate</span><span class="params">(<span class="meta">@Qualifier(&quot;sqlSessionFactoryOne&quot;)</span>SqlSessionFactory sqlSessionFactory)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> SqlSessionTemplate(sqlSessionFactory);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean(&quot;Txone&quot;)</span></span><br><span class="line">    <span class="meta">@Primary</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> DataSourceTransactionManager <span class="title">dataSourceTransactionManager</span><span class="params">(<span class="meta">@Qualifier(&quot;dataSourceOne&quot;)</span> DataSource dataSource)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> DataSourceTransactionManager(dataSource);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;数据源2配置：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@MapperScan(basePackages = &quot;com.lin.mybatisdubbomysql.dal.mapper.databasetwo&quot;, sqlSessionTemplateRef = &quot;SqlSessionTemplateTwo&quot;)</span></span><br><span class="line"><span class="meta">@EnableConfigurationProperties(DatabaseTwoProperties.class)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DatabaseTwoConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Resource</span></span><br><span class="line">    DatabaseTwoProperties databaseTwoProperties;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean(&quot;dataSourceTwo&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> DataSource <span class="title">dataSource</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        DruidDataSource druidDataSource = <span class="keyword">new</span> DruidDataSource();</span><br><span class="line">        druidDataSource.setUrl(databaseTwoProperties.getJdbcUrl());</span><br><span class="line">        druidDataSource.setUsername(databaseTwoProperties.getUsername());</span><br><span class="line">        druidDataSource.setPassword(databaseTwoProperties.getPassword());</span><br><span class="line">        druidDataSource.setDriverClassName(databaseTwoProperties.getDriverClassName());</span><br><span class="line">        <span class="keyword">return</span> druidDataSource;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean(&quot;sqlSessionFactoryTwo&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> SqlSessionFactory <span class="title">sqlSessionFactory</span><span class="params">(<span class="meta">@Qualifier(&quot;dataSourceTwo&quot;)</span> DataSource dataSource)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        MybatisSqlSessionFactoryBean sqlSessionFactoryBean = <span class="keyword">new</span> MybatisSqlSessionFactoryBean();</span><br><span class="line">        sqlSessionFactoryBean.setDataSource(dataSource);</span><br><span class="line">        sqlSessionFactoryBean.setMapperLocations(</span><br><span class="line">                <span class="keyword">new</span> PathMatchingResourcePatternResolver().getResources(<span class="string">&quot;classpath:mapper/databasetwo/*.xml&quot;</span>));</span><br><span class="line">        <span class="keyword">return</span> sqlSessionFactoryBean.getObject();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean(&quot;SqlSessionTemplateTwo&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> SqlSessionTemplate <span class="title">sqlSessionTemplate</span><span class="params">(<span class="meta">@Qualifier(&quot;sqlSessionFactoryTwo&quot;)</span> SqlSessionFactory sqlSessionFactory)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> SqlSessionTemplate(sqlSessionFactory);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean(&quot;Txtwo&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> DataSourceTransactionManager <span class="title">dataSourceTransactionManager</span><span class="params">(<span class="meta">@Qualifier(&quot;dataSourceTwo&quot;)</span> DataSource dataSource)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> DataSourceTransactionManager(dataSource);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;开启druid监控：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DruidConfig</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 主要实现WEB监控的配置处理</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ServletRegistrationBean&lt;StatViewServlet&gt; <span class="title">druidServlet</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 现在要进行druid监控的配置处理操作</span></span><br><span class="line">        ServletRegistrationBean&lt;StatViewServlet&gt; servletRegistrationBean = <span class="keyword">new</span> ServletRegistrationBean&lt;&gt;(</span><br><span class="line">                <span class="keyword">new</span> StatViewServlet(), <span class="string">&quot;/druid/*&quot;</span>);</span><br><span class="line">        <span class="comment">// 白名单,多个用逗号分割， 如果allow没有配置或者为空，则允许所有访问</span></span><br><span class="line">        servletRegistrationBean.addInitParameter(<span class="string">&quot;allow&quot;</span>, <span class="string">&quot;127.0.0.1&quot;</span>);</span><br><span class="line">        <span class="comment">// 黑名单,多个用逗号分割 (共同存在时，deny优先于allow)</span></span><br><span class="line">        servletRegistrationBean.addInitParameter(<span class="string">&quot;deny&quot;</span>, <span class="string">&quot;192.168.1.110&quot;</span>);</span><br><span class="line">        <span class="comment">// 控制台管理用户名</span></span><br><span class="line">        servletRegistrationBean.addInitParameter(<span class="string">&quot;loginUsername&quot;</span>, <span class="string">&quot;admin&quot;</span>);</span><br><span class="line">        <span class="comment">// 控制台管理密码</span></span><br><span class="line">        servletRegistrationBean.addInitParameter(<span class="string">&quot;loginPassword&quot;</span>, <span class="string">&quot;admin&quot;</span>);</span><br><span class="line">        <span class="comment">// 是否可以重置数据源，禁用HTML页面上的“Reset All”功能</span></span><br><span class="line">        servletRegistrationBean.addInitParameter(<span class="string">&quot;resetEnable&quot;</span>, <span class="string">&quot;false&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> servletRegistrationBean;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> FilterRegistrationBean&lt;WebStatFilter&gt; <span class="title">filterRegistrationBean</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        FilterRegistrationBean&lt;WebStatFilter&gt; filterRegistrationBean = <span class="keyword">new</span> FilterRegistrationBean&lt;&gt;();</span><br><span class="line">        filterRegistrationBean.setFilter(<span class="keyword">new</span> WebStatFilter());</span><br><span class="line">        <span class="comment">//所有请求进行监控处理</span></span><br><span class="line">        filterRegistrationBean.addUrlPatterns(<span class="string">&quot;/*&quot;</span>);</span><br><span class="line">        <span class="comment">//添加不需要忽略的格式信息</span></span><br><span class="line">        filterRegistrationBean.addInitParameter(<span class="string">&quot;exclusions&quot;</span>, <span class="string">&quot;*.js,*.gif,*.jpg,*.css,/druid/*&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> filterRegistrationBean;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;启动类配置：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@EnableTransactionManagement</span></span><br><span class="line"><span class="meta">@ComponentScan(basePackages = &quot;com.lin.mybatisdubbomysql.*&quot;)</span></span><br><span class="line"><span class="meta">@SpringBootApplication(exclude = &#123;DataSourceAutoConfiguration.class, DruidDataSourceAutoConfigure.class&#125;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StaticMybatisDubboMysqlApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(StaticMybatisDubboMysqlApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2><span id="dong-tai-shuang-shu-ju-yuan">动态双数据源</span><a href="#dong-tai-shuang-shu-ju-yuan" class="header-anchor">#</a></h2><p>&emsp;&emsp;动态数据源，通过MybatisPlus提供的AbstractRoutingDataSource的路由能力，配合AOP在操作数据库前进行数据源切换。同样也需要关闭SpringBoot和druid的自动数据源配置。</p>
+<p>&emsp;&emsp;数据源配置：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@MapperScan(basePackages = &quot;com.lin.mybatisdubbomysql.dal.mapper&quot;,sqlSessionFactoryRef = &quot;sqlSessionFactory&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DBConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="meta">@ConfigurationProperties(prefix = &quot;spring.datasourceone&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> DataSource <span class="title">dataSourceOne</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> DruidDataSource();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="meta">@ConfigurationProperties(prefix = &quot;spring.datasourcetwo&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> DataSource <span class="title">dataSourceTwo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> DruidDataSource();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="meta">@Primary</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> DynamicDataSource <span class="title">dataSource</span><span class="params">(DataSource dataSourceOne,DataSource dataSourceTwo)</span></span>&#123;</span><br><span class="line">        Map&lt;Object, Object&gt; targetDataSources = <span class="keyword">new</span> HashMap&lt;&gt;(<span class="number">8</span>);</span><br><span class="line">        targetDataSources.put(DateBaseEnum.DataBaseOne.getValue(),dataSourceOne);</span><br><span class="line">        targetDataSources.put(DateBaseEnum.DataBaseTwo.getValue(), dataSourceTwo);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> DynamicDataSource(dataSourceOne, targetDataSources);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> SqlSessionFactory <span class="title">sqlSessionFactory</span><span class="params">(DynamicDataSource dynamicDataSource)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        MybatisSqlSessionFactoryBean sqlSessionFactoryBean = <span class="keyword">new</span> MybatisSqlSessionFactoryBean();</span><br><span class="line">        sqlSessionFactoryBean.setDataSource(dynamicDataSource);</span><br><span class="line">        <span class="keyword">return</span> sqlSessionFactoryBean.getObject();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;动态数据路由配置：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DynamicDataSource</span> <span class="keyword">extends</span> <span class="title">AbstractRoutingDataSource</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> ThreadLocal&lt;String&gt; CONTEXT_HOLDER = <span class="keyword">new</span> ThreadLocal&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">DynamicDataSource</span><span class="params">(DataSource defaultTargetDataSource, Map&lt;Object, Object&gt; targetDataSources)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.setDefaultTargetDataSource(defaultTargetDataSource);</span><br><span class="line">        <span class="keyword">super</span>.setTargetDataSources(targetDataSources);</span><br><span class="line">        <span class="keyword">super</span>.afterPropertiesSet();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> Object <span class="title">determineCurrentLookupKey</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> getDataSource();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">setDataSource</span><span class="params">(String dataSource)</span> </span>&#123;</span><br><span class="line">        CONTEXT_HOLDER.set(dataSource);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getDataSource</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> CONTEXT_HOLDER.get();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">clearDataSource</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        CONTEXT_HOLDER.remove();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;数据类型枚举：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="meta">@Getter</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">DateBaseEnum</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 数据库one</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    DataBaseOne(<span class="string">&quot;one&quot;</span>, <span class="string">&quot;one&quot;</span>),</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 数据库two</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    DataBaseTwo(<span class="string">&quot;two&quot;</span>, <span class="string">&quot;two&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String value;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;通过AOP在执行前切换数据源：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@Aspect</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DatasourceAspect</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Pointcut(&quot;execution(public * com.lin.mybatisdubbomysql.dal.mapper.databasetwo..*.*(..))&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dataSourcePointCut</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Around(&quot;dataSourcePointCut()&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">around</span><span class="params">(ProceedingJoinPoint point)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        DynamicDataSource.setDataSource(DateBaseEnum.DataBaseTwo.getValue());</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> point.proceed();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            DynamicDataSource.clearDataSource();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2><span id="mybatisplus-guan-fang-dong-tai-shuang-shu-ju-yuan">mybatisplus官方动态双数据源</span><a href="#mybatisplus-guan-fang-dong-tai-shuang-shu-ju-yuan" class="header-anchor">#</a></h2><p>&emsp;&emsp;官方的动态数据源配置最为简单。<br>&emsp;&emsp;yml文件的配置与其他的不同，使用mybatisplus的配置，yml文件配置后，使用自动注入的数据源即可。</p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">application:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">plusmybatisdubbomysql</span></span><br><span class="line">  <span class="attr">datasource:</span></span><br><span class="line">    <span class="attr">dynamic:</span></span><br><span class="line">      <span class="attr">primary:</span> <span class="string">master</span> <span class="comment">#设置默认的数据源或者数据源组,默认值即为master</span></span><br><span class="line">      <span class="attr">strict:</span> <span class="literal">false</span> <span class="comment">#设置严格模式,默认false不启动. 启动后在未匹配到指定数据源时候会抛出异常,不启动则使用默认数据源.</span></span><br><span class="line">      <span class="attr">datasource:</span></span><br><span class="line">        <span class="attr">master:</span></span><br><span class="line">          <span class="attr">url:</span> <span class="string">jdbc:mysql://localhost:3306/mybatisdubboone?serverTimezone=GMT</span></span><br><span class="line">          <span class="attr">username:</span> <span class="string">root</span></span><br><span class="line">          <span class="attr">password:</span> <span class="number">1234</span></span><br><span class="line">          <span class="attr">driver-class-name:</span> <span class="string">com.mysql.cj.jdbc.Driver</span> <span class="comment"># 3.2.0开始支持SPI可省略此配置</span></span><br><span class="line">        <span class="attr">slave:</span></span><br><span class="line">          <span class="attr">url:</span> <span class="string">jdbc:mysql://localhost:3306/mybatisdubbotwo?serverTimezone=GMT</span></span><br><span class="line">          <span class="attr">username:</span> <span class="string">root</span></span><br><span class="line">          <span class="attr">password:</span> <span class="number">1234</span></span><br><span class="line">          <span class="attr">driver-class-name:</span> <span class="string">com.mysql.cj.jdbc.Driver</span></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;官方的切换方式，采用<code>@DS(&quot;&quot;)</code>注解，指定类、方法、mapper（官方不推荐）进行数据源的切换。这里注解中的值要和yml文件配置的一样。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="meta">@DS(&quot;master&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserServiceImpl</span> <span class="keyword">extends</span> <span class="title">ServiceImpl</span>&lt;<span class="title">UserMapper</span>, <span class="title">User</span>&gt; <span class="keyword">implements</span> <span class="title">UserService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>mybatis</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>mybatis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>threadpool</title>
+    <url>/hexoblog/2021/03/01/java/threadpool/</url>
+    <content><![CDATA[<h1><span id="xian-cheng-chi">线程池</span><a href="#xian-cheng-chi" class="header-anchor">#</a></h1><p><a href="https://my.oschina.net/linqiankun/blog/3192649">线程池</a><br><a href="https://gitee.com/linqiankun/codes/cshv4db0eq7znx6a5g2im43">线程池demo</a></p>
+<h2><span id="newcachedthreadpool">newCachedThreadPool:</span><a href="#newcachedthreadpool" class="header-anchor">#</a></h2><h3><span id="di-ceng">底层：</span><a href="#di-ceng" class="header-anchor">#</a></h3><p>&emsp;&emsp;创建一个可缓存的线程池实例，如果线程池长度超过处理需要，可灵活回收空闲线程。<br>&emsp;&emsp;返回ThreadPoolExecutor实例，corePoolSize为0；maximumPoolSize为Integer.MAX_VALUE；keepAliveTime为60L；unit为TimeUnit.SECOhexoNDS；workQueue为SynchronousQueue(同步队列)。</p>
+<span id="more"></span>
+
+<h3><span id="tong-su">通俗：</span><a href="#tong-su" class="header-anchor">#</a></h3><p>&emsp;&emsp;当有新任务到来，则插入到SynchronousQueue中，由于SynchronousQueue是同步队列，因此会在池中寻找可用线程来执行，若有可以线程则执行，若没有可用线程则创建一个线程来执行该任务；若池中线程空闲时间超过指定大小，则该线程会被销毁。</p>
+<h3><span id="gua-yong">适用：</span><a href="#gua-yong" class="header-anchor">#</a></h3><p>&emsp;&emsp;执行很多短期异步的小程序或者负载较轻的服务器。</p>
+<hr>
+<h2><span id="newfixedthreadpool">newFixedThreadPool:</span><a href="#newfixedthreadpool" class="header-anchor">#</a></h2><h3><span id="di-ceng">底层：</span><a href="#di-ceng" class="header-anchor">#</a></h3><p>&emsp;&emsp;创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待。<br>&emsp;&emsp;返回ThreadPoolExecutor实例，接收参数为所设定线程数量nThread，corePoolSize为nThread，maximumPoolSize为nThread；keepAliveTime为0L(不限时)；unit为：TimeUnit.MILLISECONDS；WorkQueue为：new LinkedBlockingQueue&lt;Runnable&gt;() 无界阻塞队列。</p>
+<h3><span id="tong-su">通俗：</span><a href="#tong-su" class="header-anchor">#</a></h3><p>&emsp;&emsp;创建可容纳固定数量线程的池子，每隔线程的存活时间是无限的，当池子满了就不在添加线程了；如果池中的所有线程均在繁忙状态，对于新任务会进入阻塞队列中(无界的阻塞队列)。</p>
+<h3><span id="gua-yong">适用：</span><a href="#gua-yong" class="header-anchor">#</a></h3><p>&emsp;&emsp;执行长期任务，性能好很多。</p>
+<hr>
+<h2><span id="newsinglethreadexecutor">newSingleThreadExecutor:</span><a href="#newsinglethreadexecutor" class="header-anchor">#</a></h2><h3><span id="di-ceng">底层：</span><a href="#di-ceng" class="header-anchor">#</a></h3><p>&emsp;&emsp;创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有线程按照指定顺序执行。<br>&emsp;&emsp;FinalizableDelegatedExecutorService包装的ThreadPoolExecutor实例，corePoolSize为1；maximumPoolSize为1；keepAliveTime为0L；unit为：TimeUnit.MILLISECONDS；workQueue为：new LinkedBlockingQueue&lt;Runnable&gt;() 无解阻塞队列。</p>
+<h3><span id="tong-su">通俗：</span><a href="#tong-su" class="header-anchor">#</a></h3><p>&emsp;&emsp;创建只有一个线程的线程池，且线程的存活时间是无限的；当该线程正繁忙时，对于新任务会进入阻塞队列中(无界的阻塞队列)。</p>
+<h3><span id="gua-yong">适用：</span><a href="#gua-yong" class="header-anchor">#</a></h3><p>&emsp;&emsp;一个任务一个任务执行的场景。</p>
+<hr>
+<h2><span id="newscheduledthreadpool">NewScheduledThreadPool:</span><a href="#newscheduledthreadpool" class="header-anchor">#</a></h2><h3><span id="di-ceng">底层：</span><a href="#di-ceng" class="header-anchor">#</a></h3><p>&emsp;&emsp;创建一个定长线程池，支持定时及周期性执行任务。<br>&emsp;&emsp;创建ScheduledThreadPoolExecutor实例，corePoolSize为传递来的参数，maximumPoolSize为Integer.MAX_VALUE；keepAliveTime为0；unit为：TimeUnit.NANOSECONDS；workQueue为：new DelayedWorkQueue() 一个按超时时间升序排序的队列。</p>
+<h3><span id="tong-su">通俗：</span><a href="#tong-su" class="header-anchor">#</a></h3><p>&emsp;&emsp;创建一个固定大小的线程池，线程池内线程存活时间无限制，线程池可以支持定时及周期性任务执行，如果所有线程均处于繁忙状态，对于新任务会进入DelayedWorkQueue队列中，这是一种按照超时时间排序的队列结构。</p>
+<h3><span id="gua-yong">适用：</span><a href="#gua-yong" class="header-anchor">#</a></h3><p>&emsp;&emsp;周期性执行任务的场景。</p>
+<hr>
+<h1><span id="xian-cheng-chi-ren-wu-zhi-xing-liu-cheng">线程池任务执行流程：</span><a href="#xian-cheng-chi-ren-wu-zhi-xing-liu-cheng" class="header-anchor">#</a></h1><ol>
+<li>当线程池小于corePoolSize时，新提交任务将创建一个新线程执行任务，即使此时线程池中存在空闲线程。</li>
+<li>当线程池达到corePoolSize时，新提交任务将被放入workQueue中，等待线程池中任务调度执行</li>
+<li>当workQueue已满，且maximumPoolSize&gt;corePoolSize时，新提交任务会创建新线程执行任务</li>
+<li>当提交任务数超过maximumPoolSize时，新提交任务由RejectedExecutionHandler处理</li>
+<li>当线程池中超过corePoolSize线程，空闲时间达到keepAliveTime时，关闭空闲线程</li>
+<li>当设置allowCoreThreadTimeOut(true)时，线程池中corePoolSize线程空闲时间达到keepAliveTime也将关闭</li>
+</ol>
+<hr>
+<h1><span id="can-shu-jie-shi">参数解释：</span><a href="#can-shu-jie-shi" class="header-anchor">#</a></h1><h2><span id="corepoolsize-amp-maximumpoolsize">corePoolSize &amp; maximumPoolSize：</span><a href="#corepoolsize-amp-maximumpoolsize" class="header-anchor">#</a></h2><p>&emsp;&emsp;当一个新任务被提交到池中，如果当前运行线程小于核心线程数（corePoolSize），即使当前有空闲线程，也会新建一个线程来处理新提交的任务；如果当前运行线程数大于核心线程数（corePoolSize）并小于最大线程数（maximumPoolSize），只有当等待队列已满的情况下才会新建线程。</p>
+<h2><span id="keepalivetime-amp-unit">keepAliveTime &amp; unit:</span><a href="#keepalivetime-amp-unit" class="header-anchor">#</a></h2><p>&emsp;&emsp;keepAliveTime为超过corePoolSize线程数量的线程最大空闲时间，unit为时间单位。</p>
+<h2><span id="deng-dai-dui-lie">等待队列：</span><a href="#deng-dai-dui-lie" class="header-anchor">#</a></h2><p>&emsp;&emsp;任何阻塞队列（BlockingQueue）都可以用来转移或保存提交的任务，线程池大小和阻塞队列相互约束线程池：</p>
+<ol>
+<li>如果运行线程数小于corePoolSize，提交新任务时就会新建一个线程来运行；</li>
+<li>如果运行线程数大于或等于corePoolSize，新提交的任务就会入列等待；如果队列已满，并且运行线程数小于maximumPoolSize，也将会新建一个线程来运行；</li>
+<li>如果线程数大于maximumPoolSize，新提交的任务将会根据拒绝策略来处理。</li>
+</ol>
+<h3><span id="ru-dui-lie-ce-lue">入队列策略：</span><a href="#ru-dui-lie-ce-lue" class="header-anchor">#</a></h3><h4><span id="zhi-jie-chuan-di">直接传递：</span><a href="#zhi-jie-chuan-di" class="header-anchor">#</a></h4><p>&emsp;&emsp;通过 SynchronousQueue 直接把任务传递给线程。如果当前没可用线程，尝试入队操作会失败，然后再创建一个新的线程。当处理可能具有内部依赖性的请求时，该策略会避免请求被锁定。直接传递通常需要无界的最大线程数（maximumPoolSize），避免拒绝新提交的任务。当任务持续到达的平均速度超过可处理的速度时，可能导致线程的无限增长。</p>
+<h4><span id="wu-jie-dui-lie">无界队列：</span><a href="#wu-jie-dui-lie" class="header-anchor">#</a></h4><p>&emsp;&emsp;使用无界队列（如 LinkedBlockingQueue）作为等待队列，当所有的核心线程都在处理任务时， 新提交的任务都会进入队列等待。因此，不会有大于corePoolSize的线程会被创建（maximumPoolSize 也将失去作用）。这种策略适合每个任务都完全独立于其他任务的情况；例如网站服务器。这种类型的等待队列可以使瞬间爆发的高频请求变得平滑。当任务持续到达的平均速度超过可处理速度时，可能导致等待队列无限增长。</p>
+<h4><span id="you-jie-dui-lie">有界队列：</span><a href="#you-jie-dui-lie" class="header-anchor">#</a></h4><p>&emsp;&emsp;当使用有限的最大线程数时，有界队列（如 ArrayBlockingQueue）可以防止资源耗尽，但是难以调整和控制。队列大小和线程池大小可以相互作用：使用大的队列和小的线程数可以减少CPU使用率、系统资源和上下文切换的开销，但是会导致吞吐量变低，如果任务频繁地阻塞（例如被I/O限制），系统就能为更多的线程调度执行时间。使用小的队列通常需要更多的线程数，这样可以最大化CPU使用率，但可能会需要更大的调度开销，从而降低吞吐量。</p>
+<h2><span id="ju-jue-ce-lue">拒绝策略：</span><a href="#ju-jue-ce-lue" class="header-anchor">#</a></h2><p>&emsp;&emsp;当线程池已经关闭或达到饱和（最大线程和队列都已满）状态时，新提交的任务将会被拒绝。<br>ThreadPoolExecutor定义了四种拒绝策略:</p>
+<h3><span id="abortpolicy">AbortPolicy:</span><a href="#abortpolicy" class="header-anchor">#</a></h3><p>&emsp;&emsp;默认策略，在需要拒绝任务时抛出RejectedExecutionException。</p>
+<h3><span id="callerrunspolicy">CallerRunsPolicy:</span><a href="#callerrunspolicy" class="header-anchor">#</a></h3><p>&emsp;&emsp;直接在execute方法的调用线程中运行被拒绝的任务，如果线程池已经关闭，任务将被丢弃。</p>
+<h3><span id="discardpolicy">DiscardPolicy:</span><a href="#discardpolicy" class="header-anchor">#</a></h3><p>&emsp;&emsp;直接丢弃任务。</p>
+<h3><span id="discardoldestpolicy">DiscardOldestPolicy:</span><a href="#discardoldestpolicy" class="header-anchor">#</a></h3><p>&emsp;&emsp;丢弃队列中等待时间最长的任务，并执行当前提交的任务，如果线程池已经关闭，任务将被丢弃。</p>
+<h3><span id="zi-ding-yi-ce-lue">自定义策略：</span><a href="#zi-ding-yi-ce-lue" class="header-anchor">#</a></h3><p>&emsp;&emsp;我们也可以自定义拒绝策略，只需要实现 RejectedExecutionHandler；需要注意的是，拒绝策略的运行需要指定线程池和队列的容量。</p>
+<hr>
+<h1><span id="cun-zai-de-wen-ti">存在的问题：</span><a href="#cun-zai-de-wen-ti" class="header-anchor">#</a></h1><ol>
+<li>newFixedThreadPool和newSingleThreadExecutor：主要问题是堆积的请求处理队列可能会耗费非常大的内存，甚至OOM。</li>
+<li>newCachedThreadPool和newScheduledThreadPool：主要问题是线程数最大数是Integer.MAX_VALUE，可能会创建数量非常多的线程，甚至OOM。</li>
+</ol>
+<hr>
+<h1><span id="bei-zhu">备注：</span><a href="#bei-zhu" class="header-anchor">#</a></h1><p>&emsp;&emsp;一般如果线程池任务队列采用LinkedBlockingQueue队列的话，那么不会拒绝任何任务（因为队列大小没有限制），这种情况下，ThreadPoolExecutor最多仅会按照最小线程数来创建线程，也就是说线程池大小被忽略了。<br>&emsp;&emsp;如果线程池任务队列采用ArrayBlockingQueue队列的话，那么ThreadPoolExecutor将会采取一个非常负责的算法，比如假定线程池的最小线程数为4，最大为8所用的ArrayBlockingQueue最大为10。随着任务到达并被放到队列中，线程池中最多运行4个线程（即最小线程数）。即使队列完全填满，也就是说有10个处于等待状态的任务，ThreadPoolExecutor也只会利用4个线程。如果队列已满，而又有新任务进来，此时才会启动一个新线程，这里不会因为队列已满而拒接该任务，相反会启动一个新线程。新线程会运行队列中的第一个任务，为新来的任务腾出空间。<br>&emsp;&emsp;这个算法背后的理念是：该池大部分时间仅使用核心线程（4个），即使有适量的任务在队列中等待运行。这时线程池就可以用作节流阀。如果挤压的请求变得非常多，这时该池就会尝试运行更多的线程来清理；这时第二个节流阀—最大线程数就起作用了。</p>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>thread</tag>
+        <tag>threadpool</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>序列化与反序列化</title>
+    <url>/hexoblog/2021/03/08/java/%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/</url>
+    <content><![CDATA[<h1><span id="xu-lie-hua-yu-fan-xu-lie-hua">序列化与反序列化</span><a href="#xu-lie-hua-yu-fan-xu-lie-hua" class="header-anchor">#</a></h1><ol>
+<li>序列化：把对象转换为字节数组的过程称为对象的序列化。</li>
+<li>反序列化：把字节序列转换为对象的过程称为对象的反序列化。</li>
+</ol>
+<span id="more"></span>
+<hr>
+<h1><span id="shi-me-shi-hou-xu-yao-xu-lie-hua-yu-fan-xu-lie-hua">什么时候需要序列化与反序列化？</span><a href="#shi-me-shi-hou-xu-yao-xu-lie-hua-yu-fan-xu-lie-hua" class="header-anchor">#</a></h1><p>&emsp;&emsp;当我们只在本地 JVM 里运行下 Java 实例，这个时候是不需要什么序列化和反序列化的，但当我们需要将内存中的对象持久化到磁盘，数据库中时， 当我们需要与浏览器进行交互时，当我们需要实现 RPC 时， 这个时候就需要序列化和反序列化了。<br>&emsp;&emsp;对于与浏览器的交互，采用json格式，json格式本身就是将一个对象转换为字符串，而字符串同样是实现了序列化的。<br>&emsp;&emsp;对于将数据持久化到数据库，我们同样是将属性保存到数据库，而不是将对象保存到数据库。</p>
+<hr>
+<h1><span id="wei-shi-me-yao-shi-xian-serializable-jie-kou">为什么要实现 Serializable 接口?</span><a href="#wei-shi-me-yao-shi-xian-serializable-jie-kou" class="header-anchor">#</a></h1><p>&emsp;&emsp;在 Java 中实现了 Serializable 接口后， JVM 会在底层帮我们实现序列化和反序列化。</p>
+<hr>
+<h1><span id="wei-shi-me-huan-yao-zhi-ding-serialversionuid-de-zhi">为什么还要指定serialVersionUID的值?</span><a href="#wei-shi-me-huan-yao-zhi-ding-serialversionuid-de-zhi" class="header-anchor">#</a></h1><p>&emsp;&emsp;如果不显示指定serialVersionUID，JVM在序列化时会根据属性自动生成一个serialVersionUID，然后与属性一起序列化，再进行持久化或网络传输。<br>&emsp;&emsp;在反序列化时，JVM会再根据属性自动生成一个新版 serialVersionUID，然后将这个新版serialVersionUID与序列化时生成的旧版serialVersionUID进行比较，如果相同则反序列化成功，否则报错。<br>&emsp;&emsp;如果显示指定了serialVersionUID，JVM在序列化和反序列化时仍然都会生成一个serialVersionUID，但值为我们显示指定的值，这样在反序列化时新旧版本的 serialVersionUID 就一致了。<br>&emsp;&emsp;默认的serialVersionUID，是根据类的属性生成的，如果类的属性发生变化，serialVersionUID的值对应会发生变化，这时候去反序列化原有的对象就会失败。而显式指定之后则解决了这个问题。</p>
+<hr>
+<h1><span id="xu-lie-hua-de-qi-ta-te-xing">序列化的其他特性</span><a href="#xu-lie-hua-de-qi-ta-te-xing" class="header-anchor">#</a></h1><p>&emsp;&emsp;被transient关键字修饰的属性不会被序列化，static属性也不会被序列化。</p>
+<h2><span id="static-shu-xing-wei-shi-me-bu-hui-bei-xu-lie-hua">static 属性为什么不会被序列化?</span><a href="#static-shu-xing-wei-shi-me-bu-hui-bei-xu-lie-hua" class="header-anchor">#</a></h2><p>&emsp;&emsp;因为序列化是针对对象而言的，而static属性优先于对象存在，随着类的加载而加载，所以不会被序列化。<br>&emsp;&emsp;其实serialVersionUID属性并没有被序列化，JVM在序列化对象时会自动生成一个serialVersionUID，然后将我们显示指定的serialVersionUID属性值赋给自动生成的serialVersionUID。</p>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>序列化</tag>
       </tags>
   </entry>
   <entry>
@@ -177,31 +543,6 @@
       <tags>
         <tag>jvm</tag>
         <tag>classloader</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>序列化与反序列化</title>
-    <url>/hexoblog/2021/03/08/java/%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/</url>
-    <content><![CDATA[<h1><span id="xu-lie-hua-yu-fan-xu-lie-hua">序列化与反序列化</span><a href="#xu-lie-hua-yu-fan-xu-lie-hua" class="header-anchor">#</a></h1><ol>
-<li>序列化：把对象转换为字节数组的过程称为对象的序列化。</li>
-<li>反序列化：把字节序列转换为对象的过程称为对象的反序列化。</li>
-</ol>
-<span id="more"></span>
-<hr>
-<h1><span id="shi-me-shi-hou-xu-yao-xu-lie-hua-yu-fan-xu-lie-hua">什么时候需要序列化与反序列化？</span><a href="#shi-me-shi-hou-xu-yao-xu-lie-hua-yu-fan-xu-lie-hua" class="header-anchor">#</a></h1><p>&emsp;&emsp;当我们只在本地 JVM 里运行下 Java 实例，这个时候是不需要什么序列化和反序列化的，但当我们需要将内存中的对象持久化到磁盘，数据库中时， 当我们需要与浏览器进行交互时，当我们需要实现 RPC 时， 这个时候就需要序列化和反序列化了。<br>&emsp;&emsp;对于与浏览器的交互，采用json格式，json格式本身就是将一个对象转换为字符串，而字符串同样是实现了序列化的。<br>&emsp;&emsp;对于将数据持久化到数据库，我们同样是将属性保存到数据库，而不是将对象保存到数据库。</p>
-<hr>
-<h1><span id="wei-shi-me-yao-shi-xian-serializable-jie-kou">为什么要实现 Serializable 接口?</span><a href="#wei-shi-me-yao-shi-xian-serializable-jie-kou" class="header-anchor">#</a></h1><p>&emsp;&emsp;在 Java 中实现了 Serializable 接口后， JVM 会在底层帮我们实现序列化和反序列化。</p>
-<hr>
-<h1><span id="wei-shi-me-huan-yao-zhi-ding-serialversionuid-de-zhi">为什么还要指定serialVersionUID的值?</span><a href="#wei-shi-me-huan-yao-zhi-ding-serialversionuid-de-zhi" class="header-anchor">#</a></h1><p>&emsp;&emsp;如果不显示指定serialVersionUID，JVM在序列化时会根据属性自动生成一个serialVersionUID，然后与属性一起序列化，再进行持久化或网络传输。<br>&emsp;&emsp;在反序列化时，JVM会再根据属性自动生成一个新版 serialVersionUID，然后将这个新版serialVersionUID与序列化时生成的旧版serialVersionUID进行比较，如果相同则反序列化成功，否则报错。<br>&emsp;&emsp;如果显示指定了serialVersionUID，JVM在序列化和反序列化时仍然都会生成一个serialVersionUID，但值为我们显示指定的值，这样在反序列化时新旧版本的 serialVersionUID 就一致了。<br>&emsp;&emsp;默认的serialVersionUID，是根据类的属性生成的，如果类的属性发生变化，serialVersionUID的值对应会发生变化，这时候去反序列化原有的对象就会失败。而显式指定之后则解决了这个问题。</p>
-<hr>
-<h1><span id="xu-lie-hua-de-qi-ta-te-xing">序列化的其他特性</span><a href="#xu-lie-hua-de-qi-ta-te-xing" class="header-anchor">#</a></h1><p>&emsp;&emsp;被transient关键字修饰的属性不会被序列化，static属性也不会被序列化。</p>
-<h2><span id="static-shu-xing-wei-shi-me-bu-hui-bei-xu-lie-hua">static 属性为什么不会被序列化?</span><a href="#static-shu-xing-wei-shi-me-bu-hui-bei-xu-lie-hua" class="header-anchor">#</a></h2><p>&emsp;&emsp;因为序列化是针对对象而言的，而static属性优先于对象存在，随着类的加载而加载，所以不会被序列化。<br>&emsp;&emsp;其实serialVersionUID属性并没有被序列化，JVM在序列化对象时会自动生成一个serialVersionUID，然后将我们显示指定的serialVersionUID属性值赋给自动生成的serialVersionUID。</p>
-]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>序列化</tag>
       </tags>
   </entry>
   <entry>
@@ -345,309 +686,6 @@
       </tags>
   </entry>
   <entry>
-    <title>threadpool</title>
-    <url>/hexoblog/2021/03/01/java/threadpool/</url>
-    <content><![CDATA[<h1><span id="xian-cheng-chi">线程池</span><a href="#xian-cheng-chi" class="header-anchor">#</a></h1><p><a href="https://my.oschina.net/linqiankun/blog/3192649">线程池</a><br><a href="https://gitee.com/linqiankun/codes/cshv4db0eq7znx6a5g2im43">线程池demo</a></p>
-<h2><span id="newcachedthreadpool">newCachedThreadPool:</span><a href="#newcachedthreadpool" class="header-anchor">#</a></h2><h3><span id="di-ceng">底层：</span><a href="#di-ceng" class="header-anchor">#</a></h3><p>&emsp;&emsp;创建一个可缓存的线程池实例，如果线程池长度超过处理需要，可灵活回收空闲线程。<br>&emsp;&emsp;返回ThreadPoolExecutor实例，corePoolSize为0；maximumPoolSize为Integer.MAX_VALUE；keepAliveTime为60L；unit为TimeUnit.SECOhexoNDS；workQueue为SynchronousQueue(同步队列)。</p>
-<span id="more"></span>
-
-<h3><span id="tong-su">通俗：</span><a href="#tong-su" class="header-anchor">#</a></h3><p>&emsp;&emsp;当有新任务到来，则插入到SynchronousQueue中，由于SynchronousQueue是同步队列，因此会在池中寻找可用线程来执行，若有可以线程则执行，若没有可用线程则创建一个线程来执行该任务；若池中线程空闲时间超过指定大小，则该线程会被销毁。</p>
-<h3><span id="gua-yong">适用：</span><a href="#gua-yong" class="header-anchor">#</a></h3><p>&emsp;&emsp;执行很多短期异步的小程序或者负载较轻的服务器。</p>
-<hr>
-<h2><span id="newfixedthreadpool">newFixedThreadPool:</span><a href="#newfixedthreadpool" class="header-anchor">#</a></h2><h3><span id="di-ceng">底层：</span><a href="#di-ceng" class="header-anchor">#</a></h3><p>&emsp;&emsp;创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待。<br>&emsp;&emsp;返回ThreadPoolExecutor实例，接收参数为所设定线程数量nThread，corePoolSize为nThread，maximumPoolSize为nThread；keepAliveTime为0L(不限时)；unit为：TimeUnit.MILLISECONDS；WorkQueue为：new LinkedBlockingQueue&lt;Runnable&gt;() 无界阻塞队列。</p>
-<h3><span id="tong-su">通俗：</span><a href="#tong-su" class="header-anchor">#</a></h3><p>&emsp;&emsp;创建可容纳固定数量线程的池子，每隔线程的存活时间是无限的，当池子满了就不在添加线程了；如果池中的所有线程均在繁忙状态，对于新任务会进入阻塞队列中(无界的阻塞队列)。</p>
-<h3><span id="gua-yong">适用：</span><a href="#gua-yong" class="header-anchor">#</a></h3><p>&emsp;&emsp;执行长期任务，性能好很多。</p>
-<hr>
-<h2><span id="newsinglethreadexecutor">newSingleThreadExecutor:</span><a href="#newsinglethreadexecutor" class="header-anchor">#</a></h2><h3><span id="di-ceng">底层：</span><a href="#di-ceng" class="header-anchor">#</a></h3><p>&emsp;&emsp;创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有线程按照指定顺序执行。<br>&emsp;&emsp;FinalizableDelegatedExecutorService包装的ThreadPoolExecutor实例，corePoolSize为1；maximumPoolSize为1；keepAliveTime为0L；unit为：TimeUnit.MILLISECONDS；workQueue为：new LinkedBlockingQueue&lt;Runnable&gt;() 无解阻塞队列。</p>
-<h3><span id="tong-su">通俗：</span><a href="#tong-su" class="header-anchor">#</a></h3><p>&emsp;&emsp;创建只有一个线程的线程池，且线程的存活时间是无限的；当该线程正繁忙时，对于新任务会进入阻塞队列中(无界的阻塞队列)。</p>
-<h3><span id="gua-yong">适用：</span><a href="#gua-yong" class="header-anchor">#</a></h3><p>&emsp;&emsp;一个任务一个任务执行的场景。</p>
-<hr>
-<h2><span id="newscheduledthreadpool">NewScheduledThreadPool:</span><a href="#newscheduledthreadpool" class="header-anchor">#</a></h2><h3><span id="di-ceng">底层：</span><a href="#di-ceng" class="header-anchor">#</a></h3><p>&emsp;&emsp;创建一个定长线程池，支持定时及周期性执行任务。<br>&emsp;&emsp;创建ScheduledThreadPoolExecutor实例，corePoolSize为传递来的参数，maximumPoolSize为Integer.MAX_VALUE；keepAliveTime为0；unit为：TimeUnit.NANOSECONDS；workQueue为：new DelayedWorkQueue() 一个按超时时间升序排序的队列。</p>
-<h3><span id="tong-su">通俗：</span><a href="#tong-su" class="header-anchor">#</a></h3><p>&emsp;&emsp;创建一个固定大小的线程池，线程池内线程存活时间无限制，线程池可以支持定时及周期性任务执行，如果所有线程均处于繁忙状态，对于新任务会进入DelayedWorkQueue队列中，这是一种按照超时时间排序的队列结构。</p>
-<h3><span id="gua-yong">适用：</span><a href="#gua-yong" class="header-anchor">#</a></h3><p>&emsp;&emsp;周期性执行任务的场景。</p>
-<hr>
-<h1><span id="xian-cheng-chi-ren-wu-zhi-xing-liu-cheng">线程池任务执行流程：</span><a href="#xian-cheng-chi-ren-wu-zhi-xing-liu-cheng" class="header-anchor">#</a></h1><ol>
-<li>当线程池小于corePoolSize时，新提交任务将创建一个新线程执行任务，即使此时线程池中存在空闲线程。</li>
-<li>当线程池达到corePoolSize时，新提交任务将被放入workQueue中，等待线程池中任务调度执行</li>
-<li>当workQueue已满，且maximumPoolSize&gt;corePoolSize时，新提交任务会创建新线程执行任务</li>
-<li>当提交任务数超过maximumPoolSize时，新提交任务由RejectedExecutionHandler处理</li>
-<li>当线程池中超过corePoolSize线程，空闲时间达到keepAliveTime时，关闭空闲线程</li>
-<li>当设置allowCoreThreadTimeOut(true)时，线程池中corePoolSize线程空闲时间达到keepAliveTime也将关闭</li>
-</ol>
-<hr>
-<h1><span id="can-shu-jie-shi">参数解释：</span><a href="#can-shu-jie-shi" class="header-anchor">#</a></h1><h2><span id="corepoolsize-amp-maximumpoolsize">corePoolSize &amp; maximumPoolSize：</span><a href="#corepoolsize-amp-maximumpoolsize" class="header-anchor">#</a></h2><p>&emsp;&emsp;当一个新任务被提交到池中，如果当前运行线程小于核心线程数（corePoolSize），即使当前有空闲线程，也会新建一个线程来处理新提交的任务；如果当前运行线程数大于核心线程数（corePoolSize）并小于最大线程数（maximumPoolSize），只有当等待队列已满的情况下才会新建线程。</p>
-<h2><span id="keepalivetime-amp-unit">keepAliveTime &amp; unit:</span><a href="#keepalivetime-amp-unit" class="header-anchor">#</a></h2><p>&emsp;&emsp;keepAliveTime为超过corePoolSize线程数量的线程最大空闲时间，unit为时间单位。</p>
-<h2><span id="deng-dai-dui-lie">等待队列：</span><a href="#deng-dai-dui-lie" class="header-anchor">#</a></h2><p>&emsp;&emsp;任何阻塞队列（BlockingQueue）都可以用来转移或保存提交的任务，线程池大小和阻塞队列相互约束线程池：</p>
-<ol>
-<li>如果运行线程数小于corePoolSize，提交新任务时就会新建一个线程来运行；</li>
-<li>如果运行线程数大于或等于corePoolSize，新提交的任务就会入列等待；如果队列已满，并且运行线程数小于maximumPoolSize，也将会新建一个线程来运行；</li>
-<li>如果线程数大于maximumPoolSize，新提交的任务将会根据拒绝策略来处理。</li>
-</ol>
-<h3><span id="ru-dui-lie-ce-lue">入队列策略：</span><a href="#ru-dui-lie-ce-lue" class="header-anchor">#</a></h3><h4><span id="zhi-jie-chuan-di">直接传递：</span><a href="#zhi-jie-chuan-di" class="header-anchor">#</a></h4><p>&emsp;&emsp;通过 SynchronousQueue 直接把任务传递给线程。如果当前没可用线程，尝试入队操作会失败，然后再创建一个新的线程。当处理可能具有内部依赖性的请求时，该策略会避免请求被锁定。直接传递通常需要无界的最大线程数（maximumPoolSize），避免拒绝新提交的任务。当任务持续到达的平均速度超过可处理的速度时，可能导致线程的无限增长。</p>
-<h4><span id="wu-jie-dui-lie">无界队列：</span><a href="#wu-jie-dui-lie" class="header-anchor">#</a></h4><p>&emsp;&emsp;使用无界队列（如 LinkedBlockingQueue）作为等待队列，当所有的核心线程都在处理任务时， 新提交的任务都会进入队列等待。因此，不会有大于corePoolSize的线程会被创建（maximumPoolSize 也将失去作用）。这种策略适合每个任务都完全独立于其他任务的情况；例如网站服务器。这种类型的等待队列可以使瞬间爆发的高频请求变得平滑。当任务持续到达的平均速度超过可处理速度时，可能导致等待队列无限增长。</p>
-<h4><span id="you-jie-dui-lie">有界队列：</span><a href="#you-jie-dui-lie" class="header-anchor">#</a></h4><p>&emsp;&emsp;当使用有限的最大线程数时，有界队列（如 ArrayBlockingQueue）可以防止资源耗尽，但是难以调整和控制。队列大小和线程池大小可以相互作用：使用大的队列和小的线程数可以减少CPU使用率、系统资源和上下文切换的开销，但是会导致吞吐量变低，如果任务频繁地阻塞（例如被I/O限制），系统就能为更多的线程调度执行时间。使用小的队列通常需要更多的线程数，这样可以最大化CPU使用率，但可能会需要更大的调度开销，从而降低吞吐量。</p>
-<h2><span id="ju-jue-ce-lue">拒绝策略：</span><a href="#ju-jue-ce-lue" class="header-anchor">#</a></h2><p>&emsp;&emsp;当线程池已经关闭或达到饱和（最大线程和队列都已满）状态时，新提交的任务将会被拒绝。<br>ThreadPoolExecutor定义了四种拒绝策略:</p>
-<h3><span id="abortpolicy">AbortPolicy:</span><a href="#abortpolicy" class="header-anchor">#</a></h3><p>&emsp;&emsp;默认策略，在需要拒绝任务时抛出RejectedExecutionException。</p>
-<h3><span id="callerrunspolicy">CallerRunsPolicy:</span><a href="#callerrunspolicy" class="header-anchor">#</a></h3><p>&emsp;&emsp;直接在execute方法的调用线程中运行被拒绝的任务，如果线程池已经关闭，任务将被丢弃。</p>
-<h3><span id="discardpolicy">DiscardPolicy:</span><a href="#discardpolicy" class="header-anchor">#</a></h3><p>&emsp;&emsp;直接丢弃任务。</p>
-<h3><span id="discardoldestpolicy">DiscardOldestPolicy:</span><a href="#discardoldestpolicy" class="header-anchor">#</a></h3><p>&emsp;&emsp;丢弃队列中等待时间最长的任务，并执行当前提交的任务，如果线程池已经关闭，任务将被丢弃。</p>
-<h3><span id="zi-ding-yi-ce-lue">自定义策略：</span><a href="#zi-ding-yi-ce-lue" class="header-anchor">#</a></h3><p>&emsp;&emsp;我们也可以自定义拒绝策略，只需要实现 RejectedExecutionHandler；需要注意的是，拒绝策略的运行需要指定线程池和队列的容量。</p>
-<hr>
-<h1><span id="cun-zai-de-wen-ti">存在的问题：</span><a href="#cun-zai-de-wen-ti" class="header-anchor">#</a></h1><ol>
-<li>newFixedThreadPool和newSingleThreadExecutor：主要问题是堆积的请求处理队列可能会耗费非常大的内存，甚至OOM。</li>
-<li>newCachedThreadPool和newScheduledThreadPool：主要问题是线程数最大数是Integer.MAX_VALUE，可能会创建数量非常多的线程，甚至OOM。</li>
-</ol>
-<hr>
-<h1><span id="bei-zhu">备注：</span><a href="#bei-zhu" class="header-anchor">#</a></h1><p>&emsp;&emsp;一般如果线程池任务队列采用LinkedBlockingQueue队列的话，那么不会拒绝任何任务（因为队列大小没有限制），这种情况下，ThreadPoolExecutor最多仅会按照最小线程数来创建线程，也就是说线程池大小被忽略了。<br>&emsp;&emsp;如果线程池任务队列采用ArrayBlockingQueue队列的话，那么ThreadPoolExecutor将会采取一个非常负责的算法，比如假定线程池的最小线程数为4，最大为8所用的ArrayBlockingQueue最大为10。随着任务到达并被放到队列中，线程池中最多运行4个线程（即最小线程数）。即使队列完全填满，也就是说有10个处于等待状态的任务，ThreadPoolExecutor也只会利用4个线程。如果队列已满，而又有新任务进来，此时才会启动一个新线程，这里不会因为队列已满而拒接该任务，相反会启动一个新线程。新线程会运行队列中的第一个任务，为新来的任务腾出空间。<br>&emsp;&emsp;这个算法背后的理念是：该池大部分时间仅使用核心线程（4个），即使有适量的任务在队列中等待运行。这时线程池就可以用作节流阀。如果挤压的请求变得非常多，这时该池就会尝试运行更多的线程来清理；这时第二个节流阀—最大线程数就起作用了。</p>
-]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>thread</tag>
-        <tag>threadpool</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>happens-before</title>
-    <url>/hexoblog/2021/03/03/jvm/happens-before/</url>
-    <content><![CDATA[<h1><span id="wen-ti">问题：</span><a href="#wen-ti" class="header-anchor">#</a></h1><p>&emsp;&emsp;在JMM中，由于存在线程本地内存和主内存的原因，再加上重排序，会导致多线程环境下存在可见性的问题。<br>&emsp;&emsp;JDK5开始，JMM使用happens-before概念来阐述多线程之间的内存可见性问题。</p>
-<blockquote>
-<p>&emsp;&emsp;在JMM中，如果一个操作的执行结果需要对另一个操作可见，那么这两个操作之间必须存在happens-before关系。  </p>
-</blockquote>
-<p>&emsp;&emsp;happens-before原则非常重要，它是判断数据是否存在竞争、线程是否安全的主要依据，依靠这个规则，我们解决在并发环境下两操作之间是否可能存在冲突的所有问题。</p>
-<span id="more"></span>
-
-<hr>
-<h1><span id="nei-rong">内容：</span><a href="#nei-rong" class="header-anchor">#</a></h1><h2><span id="happens-before-yuan-ze-ding-yi">happens-before原则定义：</span><a href="#happens-before-yuan-ze-ding-yi" class="header-anchor">#</a></h2><ol>
-<li>如果一个操作happens-before另一个操作，那么第一个操作的执行结果将对第二个操作可见，而且第一个操作的执行顺序在第二个操作之前。</li>
-<li>两个操作之间存在happens-before原则，并不意味着一定要按照happens-before原则制定的顺序来执行。如果重排序之后的执行结果与按照happens-before关系来执行的结果一致，那么这种重排序并不非法。</li>
-</ol>
-<h2><span id="happens-before-yuan-ze-gui-ze">happens-before原则规则：</span><a href="#happens-before-yuan-ze-gui-ze" class="header-anchor">#</a></h2><ol>
-<li>程序次序规则：一个线程内，按照代码顺序，书写在前面的操作先行发生于书写在后面的操作；</li>
-<li>锁定规则：一个unLock操作先行发生于后面对同一个锁额lock操作；</li>
-<li>volatile变量规则：对一个变量的写操作先行发生于后面对这个变量的读操作；</li>
-<li>传递规则：如果操作A先行发生于操作B，而操作B又先行发生于操作C，则可以得出操作A先行发生于操作C；</li>
-<li>线程启动规则：Thread对象的start()方法先行发生于此线程的每个一个动作；</li>
-<li>线程中断规则：对线程interrupt()方法的调用先行发生于被中断线程的代码检测到中断事件的发生；</li>
-<li>线程终结规则：线程中所有的操作都先行发生于线程的终止检测，我们可以通过Thread.join()方法结束、Thread.isAlive()的返回值手段检测到线程已经终止执行；</li>
-<li>对象终结规则：一个对象的初始化完成先行发生于他的finalize()方法的开始；</li>
-</ol>
-<h3><span id="cheng-xu-ci-xu-gui-ze">程序次序规则：</span><a href="#cheng-xu-ci-xu-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp;一段代码在单线程中的执行结果是有序的，注意是执行结果，因为虚拟机、处理器会对指令进行重排序（重排序后面会详细介绍）。虽然重排序了，但是并不会影响程序的执行结果，所以程序最终执行的结果与顺序执行的结果是一致的。故而这个规则只对单线程有效，在多线程环境下无法保证正确性。</p>
-<h3><span id="suo-ding-gui-ze">锁定规则：</span><a href="#suo-ding-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp;这个规则比较好理解，无论是在单线程环境还是多线程环境，一个锁处于被锁定状态，那么必须先执行unlock操作后面才能进行lock操作。</p>
-<h3><span id="volatile-bian-liang-gui-ze">volatile变量规则：</span><a href="#volatile-bian-liang-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp; 这是一条比较重要的规则，它标志着volatile保证了线程可见性。通俗点讲就是如果一个线程先去写一个volatile变量，然后一个线程去读这个变量，那么这个写操作一定是happens-before读操作的。</p>
-<h3><span id="chuan-di-gui-ze">传递规则：</span><a href="#chuan-di-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp;提现了happens-before原则具有传递性，即A happens-before B , B happens-before C，那么A happens-before C。</p>
-<h3><span id="xian-cheng-qi-dong-gui-ze">线程启动规则：</span><a href="#xian-cheng-qi-dong-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp;假定线程A在执行过程中，通过执行ThreadB.start()来启动线程B，那么线程A对共享变量的修改在接下来线程B开始执行后确保对线程B可见。</p>
-<h3><span id="xian-cheng-zhong-jie-gui-ze">线程终结规则：</span><a href="#xian-cheng-zhong-jie-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp;假定线程A在执行的过程中，通过制定ThreadB.join()等待线程B终止，那么线程B在终止之前对共享变量的修改在线程A等待返回后可见。</p>
-<hr>
-<h1><span id="zong-jie">总结</span><a href="#zong-jie" class="header-anchor">#</a></h1><p>&emsp;&emsp;上面八条是原生Java满足Happens-before关系的规则，但是我们可以对他们进行推导出其他满足happens-before的规则：</p>
-<ol>
-<li>将一个元素放入一个线程安全的队列的操作Happens-Before从队列中取出这个元素的操作。</li>
-<li>将一个元素放入一个线程安全容器的操作Happens-Before从容器中取出这个元素的操作。</li>
-<li>在CountDownLatch上的倒数操作Happens-Before CountDownLatch#await()操作。</li>
-<li>释放Semaphore许可的操作Happens-Before获得许可操作。</li>
-<li>Future表示的任务的所有操作Happens-Before Future#get()操作。</li>
-<li>向Executor提交一个Runnable或Callable的操作Happens-Before任务开始执行操作。</li>
-<li>如果两个操作不满足上述任意一个happens-before规则，那么这两个操作就没有顺序的保障，JVM就可以对这两个操作进行重排序。如果操作Ahappens-before操作B，那么操作A在内存上所做的操作对操作B都是可见的。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>jvm</category>
-      </categories>
-      <tags>
-        <tag>jvm</tag>
-        <tag>java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>jvm调优</title>
-    <url>/hexoblog/2021/03/04/jvm/jvm%E8%B0%83%E4%BC%98/</url>
-    <content><![CDATA[<p><a href="https://baijiahao.baidu.com/s?id=1617167971312758600&wfr=spider&for=pc">jvm性能调优的6大步骤</a></p>
-<span id="more"></span>
-
-<hr>
-<h1><span id="diao-you-fang-fa-yu-bu-zou">调优方法与步骤</span><a href="#diao-you-fang-fa-yu-bu-zou" class="header-anchor">#</a></h1><ol>
-<li>监控GC的状态</li>
-<li>生成堆的dump文件</li>
-<li>分析dump文件</li>
-<li>分析结果判断是否需要优化</li>
-<li>调整GC类型和内存分配</li>
-<li>不断分析和调整</li>
-</ol>
-<hr>
-<h1><span id="diao-you-can-kao-can-shu">调优参考参数</span><a href="#diao-you-can-kao-can-shu" class="header-anchor">#</a></h1><ol>
-<li>调整jvm堆内存的占用空间</li>
-<li>调整新生代老年代占用堆空间的比例，</li>
-<li>老年代与新生代设置多大合理<ol>
-<li>大的年轻代将会导致普通GC的周期延长，但会增加GC的时间，小的老年代必定会导致频繁的full GC  </li>
-<li>小的年轻代导致普通GC的频繁发生，但GC的时间短，大的老年代将会减少full GC的频率</li>
-</ol>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>jvm</category>
-      </categories>
-      <tags>
-        <tag>jvm</tag>
-        <tag>tool</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Volatile</title>
-    <url>/hexoblog/2021/03/03/jvm/Volatile/</url>
-    <content><![CDATA[<h1><span id="jmm">JMM</span><a href="#jmm" class="header-anchor">#</a></h1><p>&emsp;&emsp;Java内存模型，是虚拟机规范中所定义的一种内存模型，Java内存模型是标准化的，屏蔽掉了底层计算机之间的区别。<br>&emsp;&emsp;Java内存模型描述了Java程序中各种变量（线程共享变量）的访问规则，以及在JVM中将变量，存储到内存和从内存中读取变量这样的底层细节。</p>
-<span id="more"></span>
-
-<h2><span id="gui-ding">规定</span><a href="#gui-ding" class="header-anchor">#</a></h2><p>&emsp;&emsp;所有的共享变量都存储于主内存，这里所说的变量指的是实例变量和类变量，不包含局部变量，因为局部变量是线程私有的，不存在竞争问题。<br>&emsp;&emsp;线程对所有变量的操作都必须在工作内存中完成，而不能直接操作主内存中的变量。<br>&emsp;&emsp;不同的线程也不能直接访问对方工作内存中的变量，线程间变量的值的传递需要通过主内存中转来完成。</p>
-<hr>
-<h1><span id="ke-jian-xing-wen-ti">可见性问题</span><a href="#ke-jian-xing-wen-ti" class="header-anchor">#</a></h1><h2><span id="tong-guo-jia-synchronized-lai-jie-jue-ke-jian-xing-wen-ti">通过加synchronized来解决可见性问题：</span><a href="#tong-guo-jia-synchronized-lai-jie-jue-ke-jian-xing-wen-ti" class="header-anchor">#</a></h2><p>&emsp;&emsp;因为某一个线程进入synchronized代码块前后，线程会获得锁，清空工作内存，从主内存拷贝共享变量最新的值到工作内存成为副本，执行代码，将修改后的副本的值刷新回主内存中，线程释放锁。<br>&emsp;&emsp;而获取不到锁的线程会阻塞等待，所以变量的值肯定一直都是最新的。</p>
-<h2><span id="tong-guo-volatile-jie-jue-ke-jian-xing-wen-ti">通过volatile解决可见性问题：</span><a href="#tong-guo-volatile-jie-jue-ke-jian-xing-wen-ti" class="header-anchor">#</a></h2><p>&emsp;&emsp;每个线程操作数据的时候会把数据从主内存读取到自己的工作内存，如果他操作了数据并且写回了，其他已经读取的线程的变量副本就会失效了，需要对数据进行操作又要再次去主内存中读取了。</p>
-<hr>
-<h1><span id="huan-cun-chu-li">缓存处理</span><a href="#huan-cun-chu-li" class="header-anchor">#</a></h1><h2><span id="huan-cun-yi-zhi-xing-xie-yi">缓存一致性协议</span><a href="#huan-cun-yi-zhi-xing-xie-yi" class="header-anchor">#</a></h2><p>&emsp;&emsp;多个处理器的运算任务涉及同一块主内存区域时，将导致各自的缓存数据不一致，问题在于同步回主内存时以谁的缓存数据为准。<br>&emsp;&emsp;为了解决一致性的问题，需要各个处理器在访问缓存时都遵循一些协议，在读写时要根据协议操作，这类协议有MSI，MESI，Synapse，Firefly，Firefly等。</p>
-<h2><span id="mesi">MESI</span><a href="#mesi" class="header-anchor">#</a></h2><p>&emsp;&emsp;当cpu写数据时，如果发现操作的变量是，即在其他cpu中也存在该变量的副本，会发出信号通知其他cpu将该变量的缓存行设置为无效状态，因此当其他cpu要读取这个变量时，会发现自己缓存中缓存该变量的缓存行是无效的，那么他就会从内存重新读取。</p>
-<h2><span id="xiu-tan">嗅探：</span><a href="#xiu-tan" class="header-anchor">#</a></h2><p>&emsp;&emsp;每个处理器通过嗅探在总线上传播的数据来检查自己缓存的值是不是过期了，当处理器发现自己缓存行对应的内存地址被修改，就会将当前处理器的缓存行设置成无效状态，当处理器对这个数据进行修改操作时，会重新从系统内存中把数据读到处理器缓存里。</p>
-<h2><span id="zong-xian-feng-bao">总线风暴：</span><a href="#zong-xian-feng-bao" class="header-anchor">#</a></h2><p>&emsp;&emsp;由于volatile的MESI缓存一致性协议，需要不断的从主内存嗅探和CAS不断循环，无效交互会导致总线带宽达到峰值。所以不应该大量使用volatile，什么时候使用volatile什么时候使用锁，需要具体判断。</p>
-<hr>
-<h1><span id="zhi-ling-chong-pai-xu">指令重排序</span><a href="#zhi-ling-chong-pai-xu" class="header-anchor">#</a></h1><p>&emsp;&emsp;为了提高性能，编译器和处理器常常会对既定的代码执行顺序进行指令重排序。</p>
-<h2><span id="guo-cheng">过程:</span><a href="#guo-cheng" class="header-anchor">#</a></h2><blockquote>
-<p> 源代码——&gt;编译器优化重排序——&gt;指令级并行重排序——&gt;内存系统重排序——〉最终执行指令序列</p>
-</blockquote>
-<p>&emsp;&emsp;一个好的内存模型，实际上会放松对处理器和编译器规则的束缚，也就是说软件技术和硬件技术都为同一个目标，而进行奋斗。在不改变程序执行结果的前提下，尽可能提高运行效率。<br>&emsp;&emsp;JMM对底层减少约束，使其能够发挥自身优势。</p>
-<h2><span id="san-chong-chong-pai-xu">三种重排序</span><a href="#san-chong-chong-pai-xu" class="header-anchor">#</a></h2><ol>
-<li>编译器优化的重排序。编译器在不改变单线程程序语义的前提下，可以重新安排语句的执行顺序。</li>
-<li>指令级并行的重排序。现代处理器采用了指令级并行技术来讲多条指令重叠执行。如果不存在数据依赖性，处理器可以改变语句对应机器指令的执行顺序。</li>
-<li>内存系统的重排序。由于处理器使用缓存和读/写缓冲区，这使得读取和存储操作看上去可能是在乱序执行的。</li>
-</ol>
-<h2><span id="as-if-serial">as-if-serial：</span><a href="#as-if-serial" class="header-anchor">#</a></h2><p>&emsp;&emsp;不管怎么重排序，单线程下的执行结果不能被改变。<br>&emsp;&emsp;编译器、runtime和处理器都必须遵守as-if-serial语义。</p>
-<h2><span id="nei-cun-ping-zhang">内存屏障：</span><a href="#nei-cun-ping-zhang" class="header-anchor">#</a></h2><p>&emsp;&emsp;java编译器会在生成指令系列时在适当的位置会插入内存屏障指令来禁止特定类型的处理器重排序。<br>&emsp;&emsp;为了实现volatile的内存语义，JMM会限制特定类型的编译器和处理器重排序，JMM会针对编译器制定volatile重排序规则表：</p>
-<table>
-<thead>
-<tr>
-<th>是否能重排序</th>
-<th>第二个操作</th>
-<th>普通读写</th>
-<th>vol读</th>
-<th>vol写</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>第一个操作</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>普通读写</td>
-<td></td>
-<td></td>
-<td></td>
-<td>NO</td>
-</tr>
-<tr>
-<td>vol读</td>
-<td></td>
-<td>NO</td>
-<td>NO</td>
-<td>NO</td>
-</tr>
-<tr>
-<td>vol写</td>
-<td></td>
-<td></td>
-<td>NO</td>
-<td>NO</td>
-</tr>
-</tbody></table>
-<p>需要注意的是：</p>
-<ol>
-<li>volatile写是分别在前面和后面插入内存屏障.</li>
-<li>而volatile读是在后面插入两个内存屏障。</li>
-</ol>
-<h3><span id="xie-nei-cun-ping-zhang">写内存屏障：</span><a href="#xie-nei-cun-ping-zhang" class="header-anchor">#</a></h3><blockquote>
-<p>普通读——&gt;普通写——&gt;storestore屏障(禁止上面写和其他重排序)——&gt;vol写——&gt;storestore屏障(禁止下面读和其他重排序)</p>
-</blockquote>
-<h3><span id="du-nei-cun-ping-zhang">读内存屏障：</span><a href="#du-nei-cun-ping-zhang" class="header-anchor">#</a></h3><blockquote>
-<p>vol读——&gt;loadload屏障(禁止下面读重排序)——&gt;loadload屏障(禁止下面写重排序)——&gt;普通读——&gt;普通写</p>
-</blockquote>
-<p>&emsp;&emsp;为了提高处理速度，JVM会对代码进行编译优化，也就是指令重排序优化，并发编程下指令重排序会带来一些安全隐患：如指令重排序导致的多个线程操作之间的不可见性。<br>&emsp;&emsp;从JDK5开始，提出了happens-before的概念，通过这个概念来阐述操作之间的内存可见性。</p>
-<h3><span id="happens-before">happens-before:</span><a href="#happens-before" class="header-anchor">#</a></h3><p>&emsp;&emsp;<a href>happens-before</a><br>&emsp;&emsp;如果一个操作执行的结果需要对另一个操作可见，那么这两个操作之间必须存在happens-before关系。<br>&emsp;&emsp;volatile域规则：对一个volatile的写操作，happens-before于任意线程后续对这volatile域的读。</p>
-<h3><span id="volatile-wu-fa-bao-zheng-yuan-zi-xing">volatile无法保证原子性：</span><a href="#volatile-wu-fa-bao-zheng-yuan-zi-xing" class="header-anchor">#</a></h3><p>&emsp;&emsp;假设现在有N个线程对同一个变量进累加也是没办法保证结果是对的，因为读写这个过并不是原子性的。<br>&emsp;&emsp;要解决也简单，要么用原子类，比AtomicInteger，要么加锁(记得关注Atomic的底层。</p>
-<h3><span id="volatile-yu-synchronized-de-qu-bie">volatile与synchronized的区别：</span><a href="#volatile-yu-synchronized-de-qu-bie" class="header-anchor">#</a></h3><p>&emsp;&emsp;volatile只能修饰实例变量和类量，而synchronized可以修饰方法，以及代码块。<br>&emsp;&emsp;volatile保证数据的可见性，但是保证原子性(多线程进行写操作，不保证线程安全)而synchronized是一种排他(互斥)的机制。  &amp;emsp&emsp;volatile用于禁止指令重排序：可以解决例双重检查对象初始化代码执行乱序问题。<br>&emsp;&emsp;volatile可以看做是轻量版synchronized，volatile不保证原子性，但是如是对一个共享变量进行多个线程的赋值，     而有其他的操作，那么就可以用volatile来代synchronized，因为赋值本身是有原子性的，volatile又保证了可见性，所以就可以保证线程安了。</p>
-<hr>
-<h1><span id="zong-jie">总结</span><a href="#zong-jie" class="header-anchor">#</a></h1><ol>
-<li>volatile修饰符适用于以下场景：某个属性被多个线程共享，其中有一个线程修改了此属性，其他线程可以立即得到修改后的值，比如boolean flag;或者作为触发器，实现轻量级同步。</li>
-<li>volatile属性的读写操作都是无锁的，它不能替代synchronized，因为它没有提供原子性和互斥性。因为无锁，不需要花费时间在获取锁和释放锁_上，所以说它是低成本的。</li>
-<li>volatile只能作用于属性，我们用volatile修饰属性，这样compilers就不会对这个属性做指令重排序。</li>
-<li>volatile提供了可见性，任何一个线程对其的修改将立马对其他线程可见，volatile属性不会被线程缓存，始终从主存中读取。</li>
-<li>volatile提供了happens-before保证，对volatile变量v的写入happens-before所有其他线程后续对v的读操作。</li>
-<li>volatile可以使得long和double的赋值是原子的。</li>
-<li>volatile可以在单例双重检查中实现可见性和禁止指令重排序，从而保证安全性。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>jvm</category>
-      </categories>
-      <tags>
-        <tag>jvm</tag>
-        <tag>java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mybatis连接双数据库</title>
-    <url>/hexoblog/2021/03/09/mybatis/mybatis%E8%BF%9E%E6%8E%A5%E5%8F%8C%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
-    <content><![CDATA[<h1><span id="bei-jing">背景：</span><a href="#bei-jing" class="header-anchor">#</a></h1><p>&emsp;&emsp;项目中需要从两个不同的数据库查询数据，之前实现方法是：springboot配置连接一个数据源，另一个使用jdbc代码连接。<br>&emsp;&emsp;为了改进，现在使用SpringBoot配置连接两个数据源。</p>
-<span id="more"></span>
-<hr>
-<h1><span id="shi-xian-xiao-guo">实现效果：</span><a href="#shi-xian-xiao-guo" class="header-anchor">#</a></h1><p>&emsp;&emsp;一个SpringBoot项目，同时连接两个数据库。</p>
-<p><strong>注意：</strong>连接什么数据库，要引入对应数据库的包</p>
-<hr>
-<h1><span id="shi-xian">实现</span><a href="#shi-xian" class="header-anchor">#</a></h1><p>&emsp;&emsp;实现多数据源均需要使用到mybatis plus。这里也引入了druid连接池。<br>&emsp;&emsp;双数据源中需要将不同数据源的mapper和对应xml文件放在不同的包中。</p>
-<p>&emsp;&emsp;先准备两个数据源。</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 数据源1</span></span><br><span class="line"><span class="keyword">create</span> schema mybatisdubboone;</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> <span class="keyword">user</span></span><br><span class="line">(</span><br><span class="line">    id          <span class="type">int</span> auto_increment</span><br><span class="line">        <span class="keyword">primary</span> key,</span><br><span class="line">    username    <span class="type">varchar</span>(<span class="number">50</span>) <span class="keyword">default</span> <span class="string">&#x27;&#x27;</span>                <span class="keyword">not</span> <span class="keyword">null</span>,</span><br><span class="line">    mobile      <span class="type">varchar</span>(<span class="number">15</span>) <span class="keyword">default</span> <span class="string">&#x27;&#x27;</span>                <span class="keyword">null</span>,</span><br><span class="line">    create_time datetime    <span class="keyword">default</span> <span class="built_in">CURRENT_TIMESTAMP</span> <span class="keyword">not</span> <span class="keyword">null</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 数据源2</span></span><br><span class="line"><span class="keyword">create</span> schema mybatisdubbotwo;</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> mybatisdubbotwo.order_info</span><br><span class="line">(</span><br><span class="line">    id          <span class="type">int</span> auto_increment</span><br><span class="line">        <span class="keyword">primary</span> key,</span><br><span class="line">    order_id    <span class="type">varchar</span>(<span class="number">20</span>) <span class="keyword">default</span> <span class="string">&#x27;&#x27;</span>                <span class="keyword">not</span> <span class="keyword">null</span>,</span><br><span class="line">    user_id     <span class="type">int</span>         <span class="keyword">default</span> <span class="number">0</span>                 <span class="keyword">not</span> <span class="keyword">null</span>,</span><br><span class="line">    create_time datetime    <span class="keyword">default</span> <span class="built_in">CURRENT_TIMESTAMP</span> <span class="keyword">not</span> <span class="keyword">null</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
-
-<h2><span id="jing-tai-shuang-shu-ju-yuan">静态双数据源</span><a href="#jing-tai-shuang-shu-ju-yuan" class="header-anchor">#</a></h2><p>&emsp;&emsp;静态数据源需要对不同的数据源单独配置，同时需要关闭掉springboot和druid的数据源自动配置。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">application:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">staticmybatisdubbomysql</span></span><br><span class="line">  <span class="attr">datasourceone:</span></span><br><span class="line">    <span class="attr">jdbc-url:</span> <span class="string">jdbc:mysql://localhost:3306/mybatisdubboone?serverTimezone=GMT</span></span><br><span class="line">    <span class="attr">driver-class-name:</span> <span class="string">com.mysql.cj.jdbc.Driver</span></span><br><span class="line">    <span class="attr">username:</span> <span class="string">root</span></span><br><span class="line">    <span class="attr">password:</span> <span class="number">1234</span></span><br><span class="line">  <span class="attr">datasourcetwo:</span></span><br><span class="line">    <span class="attr">jdbc-url:</span> <span class="string">jdbc:mysql://localhost:3306/mybatisdubbotwo?serverTimezone=GMT</span></span><br><span class="line">    <span class="attr">driver-class-name:</span> <span class="string">com.mysql.cj.jdbc.Driver</span></span><br><span class="line">    <span class="attr">username:</span> <span class="string">root</span></span><br><span class="line">    <span class="attr">password:</span> <span class="number">1234</span></span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;数据源1配置：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@MapperScan(basePackages = &quot;com.lin.mybatisdubbomysql.dal.mapper.databaseone&quot;, sqlSessionTemplateRef = &quot;SqlSessionTemplateOne&quot;)</span></span><br><span class="line"><span class="meta">@EnableConfigurationProperties(DatabaseOneProperties.class)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DatabaseOneConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Resource</span></span><br><span class="line">    DatabaseOneProperties databaseOneProperties;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean(&quot;dataSourceOne&quot;)</span></span><br><span class="line">    <span class="meta">@Primary</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> DataSource <span class="title">dataSource</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        DruidDataSource druidDataSource = <span class="keyword">new</span> DruidDataSource();</span><br><span class="line">        druidDataSource.setUrl(databaseOneProperties.getJdbcUrl());</span><br><span class="line">        druidDataSource.setUsername(databaseOneProperties.getUsername());</span><br><span class="line">        druidDataSource.setPassword(databaseOneProperties.getPassword());</span><br><span class="line">        druidDataSource.setDriverClassName(databaseOneProperties.getDriverClassName());</span><br><span class="line">        <span class="keyword">return</span> druidDataSource;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean(&quot;sqlSessionFactoryOne&quot;)</span></span><br><span class="line">    <span class="meta">@Primary</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> SqlSessionFactory <span class="title">sqlSessionFactory</span><span class="params">(<span class="meta">@Qualifier(&quot;dataSourceOne&quot;)</span> DataSource dataSource)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        MybatisSqlSessionFactoryBean sqlSessionFactoryBean = <span class="keyword">new</span> MybatisSqlSessionFactoryBean();</span><br><span class="line">        sqlSessionFactoryBean.setDataSource(dataSource);</span><br><span class="line">        sqlSessionFactoryBean.setMapperLocations(</span><br><span class="line">                <span class="keyword">new</span> PathMatchingResourcePatternResolver().getResources(<span class="string">&quot;classpath:mapper/databaseone/*.xml&quot;</span>));</span><br><span class="line">        <span class="keyword">return</span> sqlSessionFactoryBean.getObject();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean(&quot;SqlSessionTemplateOne&quot;)</span></span><br><span class="line">    <span class="meta">@Primary</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> SqlSessionTemplate <span class="title">sqlSessionTemplate</span><span class="params">(<span class="meta">@Qualifier(&quot;sqlSessionFactoryOne&quot;)</span>SqlSessionFactory sqlSessionFactory)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> SqlSessionTemplate(sqlSessionFactory);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean(&quot;Txone&quot;)</span></span><br><span class="line">    <span class="meta">@Primary</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> DataSourceTransactionManager <span class="title">dataSourceTransactionManager</span><span class="params">(<span class="meta">@Qualifier(&quot;dataSourceOne&quot;)</span> DataSource dataSource)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> DataSourceTransactionManager(dataSource);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;数据源2配置：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@MapperScan(basePackages = &quot;com.lin.mybatisdubbomysql.dal.mapper.databasetwo&quot;, sqlSessionTemplateRef = &quot;SqlSessionTemplateTwo&quot;)</span></span><br><span class="line"><span class="meta">@EnableConfigurationProperties(DatabaseTwoProperties.class)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DatabaseTwoConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Resource</span></span><br><span class="line">    DatabaseTwoProperties databaseTwoProperties;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean(&quot;dataSourceTwo&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> DataSource <span class="title">dataSource</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        DruidDataSource druidDataSource = <span class="keyword">new</span> DruidDataSource();</span><br><span class="line">        druidDataSource.setUrl(databaseTwoProperties.getJdbcUrl());</span><br><span class="line">        druidDataSource.setUsername(databaseTwoProperties.getUsername());</span><br><span class="line">        druidDataSource.setPassword(databaseTwoProperties.getPassword());</span><br><span class="line">        druidDataSource.setDriverClassName(databaseTwoProperties.getDriverClassName());</span><br><span class="line">        <span class="keyword">return</span> druidDataSource;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean(&quot;sqlSessionFactoryTwo&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> SqlSessionFactory <span class="title">sqlSessionFactory</span><span class="params">(<span class="meta">@Qualifier(&quot;dataSourceTwo&quot;)</span> DataSource dataSource)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        MybatisSqlSessionFactoryBean sqlSessionFactoryBean = <span class="keyword">new</span> MybatisSqlSessionFactoryBean();</span><br><span class="line">        sqlSessionFactoryBean.setDataSource(dataSource);</span><br><span class="line">        sqlSessionFactoryBean.setMapperLocations(</span><br><span class="line">                <span class="keyword">new</span> PathMatchingResourcePatternResolver().getResources(<span class="string">&quot;classpath:mapper/databasetwo/*.xml&quot;</span>));</span><br><span class="line">        <span class="keyword">return</span> sqlSessionFactoryBean.getObject();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean(&quot;SqlSessionTemplateTwo&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> SqlSessionTemplate <span class="title">sqlSessionTemplate</span><span class="params">(<span class="meta">@Qualifier(&quot;sqlSessionFactoryTwo&quot;)</span> SqlSessionFactory sqlSessionFactory)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> SqlSessionTemplate(sqlSessionFactory);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean(&quot;Txtwo&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> DataSourceTransactionManager <span class="title">dataSourceTransactionManager</span><span class="params">(<span class="meta">@Qualifier(&quot;dataSourceTwo&quot;)</span> DataSource dataSource)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> DataSourceTransactionManager(dataSource);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;开启druid监控：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DruidConfig</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 主要实现WEB监控的配置处理</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ServletRegistrationBean&lt;StatViewServlet&gt; <span class="title">druidServlet</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 现在要进行druid监控的配置处理操作</span></span><br><span class="line">        ServletRegistrationBean&lt;StatViewServlet&gt; servletRegistrationBean = <span class="keyword">new</span> ServletRegistrationBean&lt;&gt;(</span><br><span class="line">                <span class="keyword">new</span> StatViewServlet(), <span class="string">&quot;/druid/*&quot;</span>);</span><br><span class="line">        <span class="comment">// 白名单,多个用逗号分割， 如果allow没有配置或者为空，则允许所有访问</span></span><br><span class="line">        servletRegistrationBean.addInitParameter(<span class="string">&quot;allow&quot;</span>, <span class="string">&quot;127.0.0.1&quot;</span>);</span><br><span class="line">        <span class="comment">// 黑名单,多个用逗号分割 (共同存在时，deny优先于allow)</span></span><br><span class="line">        servletRegistrationBean.addInitParameter(<span class="string">&quot;deny&quot;</span>, <span class="string">&quot;192.168.1.110&quot;</span>);</span><br><span class="line">        <span class="comment">// 控制台管理用户名</span></span><br><span class="line">        servletRegistrationBean.addInitParameter(<span class="string">&quot;loginUsername&quot;</span>, <span class="string">&quot;admin&quot;</span>);</span><br><span class="line">        <span class="comment">// 控制台管理密码</span></span><br><span class="line">        servletRegistrationBean.addInitParameter(<span class="string">&quot;loginPassword&quot;</span>, <span class="string">&quot;admin&quot;</span>);</span><br><span class="line">        <span class="comment">// 是否可以重置数据源，禁用HTML页面上的“Reset All”功能</span></span><br><span class="line">        servletRegistrationBean.addInitParameter(<span class="string">&quot;resetEnable&quot;</span>, <span class="string">&quot;false&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> servletRegistrationBean;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> FilterRegistrationBean&lt;WebStatFilter&gt; <span class="title">filterRegistrationBean</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        FilterRegistrationBean&lt;WebStatFilter&gt; filterRegistrationBean = <span class="keyword">new</span> FilterRegistrationBean&lt;&gt;();</span><br><span class="line">        filterRegistrationBean.setFilter(<span class="keyword">new</span> WebStatFilter());</span><br><span class="line">        <span class="comment">//所有请求进行监控处理</span></span><br><span class="line">        filterRegistrationBean.addUrlPatterns(<span class="string">&quot;/*&quot;</span>);</span><br><span class="line">        <span class="comment">//添加不需要忽略的格式信息</span></span><br><span class="line">        filterRegistrationBean.addInitParameter(<span class="string">&quot;exclusions&quot;</span>, <span class="string">&quot;*.js,*.gif,*.jpg,*.css,/druid/*&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> filterRegistrationBean;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;启动类配置：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@EnableTransactionManagement</span></span><br><span class="line"><span class="meta">@ComponentScan(basePackages = &quot;com.lin.mybatisdubbomysql.*&quot;)</span></span><br><span class="line"><span class="meta">@SpringBootApplication(exclude = &#123;DataSourceAutoConfiguration.class, DruidDataSourceAutoConfigure.class&#125;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StaticMybatisDubboMysqlApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(StaticMybatisDubboMysqlApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2><span id="dong-tai-shuang-shu-ju-yuan">动态双数据源</span><a href="#dong-tai-shuang-shu-ju-yuan" class="header-anchor">#</a></h2><p>&emsp;&emsp;动态数据源，通过MybatisPlus提供的AbstractRoutingDataSource的路由能力，配合AOP在操作数据库前进行数据源切换。同样也需要关闭SpringBoot和druid的自动数据源配置。</p>
-<p>&emsp;&emsp;数据源配置：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@MapperScan(basePackages = &quot;com.lin.mybatisdubbomysql.dal.mapper&quot;,sqlSessionFactoryRef = &quot;sqlSessionFactory&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DBConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="meta">@ConfigurationProperties(prefix = &quot;spring.datasourceone&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> DataSource <span class="title">dataSourceOne</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> DruidDataSource();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="meta">@ConfigurationProperties(prefix = &quot;spring.datasourcetwo&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> DataSource <span class="title">dataSourceTwo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> DruidDataSource();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="meta">@Primary</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> DynamicDataSource <span class="title">dataSource</span><span class="params">(DataSource dataSourceOne,DataSource dataSourceTwo)</span></span>&#123;</span><br><span class="line">        Map&lt;Object, Object&gt; targetDataSources = <span class="keyword">new</span> HashMap&lt;&gt;(<span class="number">8</span>);</span><br><span class="line">        targetDataSources.put(DateBaseEnum.DataBaseOne.getValue(),dataSourceOne);</span><br><span class="line">        targetDataSources.put(DateBaseEnum.DataBaseTwo.getValue(), dataSourceTwo);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> DynamicDataSource(dataSourceOne, targetDataSources);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> SqlSessionFactory <span class="title">sqlSessionFactory</span><span class="params">(DynamicDataSource dynamicDataSource)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        MybatisSqlSessionFactoryBean sqlSessionFactoryBean = <span class="keyword">new</span> MybatisSqlSessionFactoryBean();</span><br><span class="line">        sqlSessionFactoryBean.setDataSource(dynamicDataSource);</span><br><span class="line">        <span class="keyword">return</span> sqlSessionFactoryBean.getObject();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;动态数据路由配置：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DynamicDataSource</span> <span class="keyword">extends</span> <span class="title">AbstractRoutingDataSource</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> ThreadLocal&lt;String&gt; CONTEXT_HOLDER = <span class="keyword">new</span> ThreadLocal&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">DynamicDataSource</span><span class="params">(DataSource defaultTargetDataSource, Map&lt;Object, Object&gt; targetDataSources)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.setDefaultTargetDataSource(defaultTargetDataSource);</span><br><span class="line">        <span class="keyword">super</span>.setTargetDataSources(targetDataSources);</span><br><span class="line">        <span class="keyword">super</span>.afterPropertiesSet();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> Object <span class="title">determineCurrentLookupKey</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> getDataSource();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">setDataSource</span><span class="params">(String dataSource)</span> </span>&#123;</span><br><span class="line">        CONTEXT_HOLDER.set(dataSource);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getDataSource</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> CONTEXT_HOLDER.get();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">clearDataSource</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        CONTEXT_HOLDER.remove();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;数据类型枚举：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="meta">@Getter</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">DateBaseEnum</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 数据库one</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    DataBaseOne(<span class="string">&quot;one&quot;</span>, <span class="string">&quot;one&quot;</span>),</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 数据库two</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    DataBaseTwo(<span class="string">&quot;two&quot;</span>, <span class="string">&quot;two&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String value;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;通过AOP在执行前切换数据源：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@Aspect</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DatasourceAspect</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Pointcut(&quot;execution(public * com.lin.mybatisdubbomysql.dal.mapper.databasetwo..*.*(..))&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dataSourcePointCut</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Around(&quot;dataSourcePointCut()&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">around</span><span class="params">(ProceedingJoinPoint point)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        DynamicDataSource.setDataSource(DateBaseEnum.DataBaseTwo.getValue());</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> point.proceed();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            DynamicDataSource.clearDataSource();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2><span id="mybatisplus-guan-fang-dong-tai-shuang-shu-ju-yuan">mybatisplus官方动态双数据源</span><a href="#mybatisplus-guan-fang-dong-tai-shuang-shu-ju-yuan" class="header-anchor">#</a></h2><p>&emsp;&emsp;官方的动态数据源配置最为简单。<br>&emsp;&emsp;yml文件的配置与其他的不同，使用mybatisplus的配置，yml文件配置后，使用自动注入的数据源即可。</p>
-<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">application:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">plusmybatisdubbomysql</span></span><br><span class="line">  <span class="attr">datasource:</span></span><br><span class="line">    <span class="attr">dynamic:</span></span><br><span class="line">      <span class="attr">primary:</span> <span class="string">master</span> <span class="comment">#设置默认的数据源或者数据源组,默认值即为master</span></span><br><span class="line">      <span class="attr">strict:</span> <span class="literal">false</span> <span class="comment">#设置严格模式,默认false不启动. 启动后在未匹配到指定数据源时候会抛出异常,不启动则使用默认数据源.</span></span><br><span class="line">      <span class="attr">datasource:</span></span><br><span class="line">        <span class="attr">master:</span></span><br><span class="line">          <span class="attr">url:</span> <span class="string">jdbc:mysql://localhost:3306/mybatisdubboone?serverTimezone=GMT</span></span><br><span class="line">          <span class="attr">username:</span> <span class="string">root</span></span><br><span class="line">          <span class="attr">password:</span> <span class="number">1234</span></span><br><span class="line">          <span class="attr">driver-class-name:</span> <span class="string">com.mysql.cj.jdbc.Driver</span> <span class="comment"># 3.2.0开始支持SPI可省略此配置</span></span><br><span class="line">        <span class="attr">slave:</span></span><br><span class="line">          <span class="attr">url:</span> <span class="string">jdbc:mysql://localhost:3306/mybatisdubbotwo?serverTimezone=GMT</span></span><br><span class="line">          <span class="attr">username:</span> <span class="string">root</span></span><br><span class="line">          <span class="attr">password:</span> <span class="number">1234</span></span><br><span class="line">          <span class="attr">driver-class-name:</span> <span class="string">com.mysql.cj.jdbc.Driver</span></span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;官方的切换方式，采用<code>@DS(&quot;&quot;)</code>注解，指定类、方法、mapper（官方不推荐）进行数据源的切换。这里注解中的值要和yml文件配置的一样。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="meta">@DS(&quot;master&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserServiceImpl</span> <span class="keyword">extends</span> <span class="title">ServiceImpl</span>&lt;<span class="title">UserMapper</span>, <span class="title">User</span>&gt; <span class="keyword">implements</span> <span class="title">UserService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>mybatis</category>
-      </categories>
-      <tags>
-        <tag>java,mybatis</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>mysql常用命令</title>
     <url>/hexoblog/2021/03/12/mysql/mysql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<h1><span id="chang-yong-ming-ling">常用命令</span><a href="#chang-yong-ming-ling" class="header-anchor">#</a></h1><h2><span id="xiu-gai-mysql-shi-qu">修改mysql时区</span><a href="#xiu-gai-mysql-shi-qu" class="header-anchor">#</a></h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看时区</span></span><br><span class="line">show variables like <span class="string">&quot;%time_zone%&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置时区为UTC+8:00</span></span><br><span class="line"><span class="built_in">set</span> global time_zone = <span class="string">&#x27;+8:00&#x27;</span>;</span><br><span class="line"><span class="built_in">set</span> time_zone = <span class="string">&#x27;+8:00&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 刷新立即生效</span></span><br><span class="line">flush privileges；</span><br></pre></td></tr></table></figure>
@@ -689,6 +727,41 @@
       </categories>
       <tags>
         <tag>redis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>缓存击穿、穿透、雪崩</title>
+    <url>/hexoblog/2021/03/08/redis/%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF%E3%80%81%E7%A9%BF%E9%80%8F%E3%80%81%E9%9B%AA%E5%B4%A9/</url>
+    <content><![CDATA[<p><a href="https://my.oschina.net/linqiankun/blog/3191886">缓存击穿，穿透，雪崩</a></p>
+<h1><span id="huan-cun-ji-chuan">缓存击穿</span><a href="#huan-cun-ji-chuan" class="header-anchor">#</a></h1><p>&emsp;&emsp;高并发系统中，大量的请求一般会落在缓存，但在某一时期，某一热点key过期，会导致大量的请求直接落到数据库，导致数据库崩溃。</p>
+<span id="more"></span>
+
+<h2><span id="jie-jue">解决</span><a href="#jie-jue" class="header-anchor">#</a></h2><ol>
+<li>设置热点key不过期。</li>
+<li>加上分布式锁，每次只有拿到锁的线程可以去访问数据库。第一个线程查询到后就会缓存起来，后面线程从缓存中拿。</li>
+</ol>
+<hr>
+<h1><span id="huan-cun-chuan-tou">缓存穿透</span><a href="#huan-cun-chuan-tou" class="header-anchor">#</a></h1><p>&emsp;&emsp;正常情况下，需要查询的数据都存在，当查询一个缓存和数据库都不存在的数据时，每次请求都会落在数据库里，这种情况成称为缓存穿透。就是以一个不存在的数据去请求，每次都会落到数据库。</p>
+<h2><span id="jie-jue">解决：</span><a href="#jie-jue" class="header-anchor">#</a></h2><ol>
+<li>接口增加参数校验，不合法的直接返回。</li>
+<li>缓存空值，将对应key的value设置为空值，避免暴力攻击。同时将key失效时间设置短一些，避免影响正常使用。</li>
+<li>在网关阈值，限制同ip访问量。</li>
+<li>高级用户布隆过滤器。bloom filter，可以对key进行判断是否在数据库存在，不存在就直接返回，存在就查询出来，并刷新缓存。</li>
+</ol>
+<hr>
+<h1><span id="huan-cun-xue-beng">缓存雪崩</span><a href="#huan-cun-xue-beng" class="header-anchor">#</a></h1><p>&emsp;&emsp;某一时期发生的大规模的缓存不可用问题，过期，宕机。</p>
+<h2><span id="jie-jue">解决：</span><a href="#jie-jue" class="header-anchor">#</a></h2><ol>
+<li>采用分布式集群，减少宕机风险。</li>
+<li>将失效时间设为随机数，避免大量同时失效。</li>
+<li>采用本地缓存加限流逻辑。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>redis</category>
+      </categories>
+      <tags>
+        <tag>redis</tag>
+        <tag>缓存</tag>
       </tags>
   </entry>
   <entry>
@@ -782,97 +855,6 @@
       </tags>
   </entry>
   <entry>
-    <title>swagger3</title>
-    <url>/hexoblog/2021/03/03/tool/swagger3/</url>
-    <content><![CDATA[<h1><span id="shi-yong-guo-cheng">使用过程</span><a href="#shi-yong-guo-cheng" class="header-anchor">#</a></h1><h2><span id="yin-bao">引包</span><a href="#yin-bao" class="header-anchor">#</a></h2><p>&emsp;&emsp;swagger3升级后，引入的包做相应升级，且集成进springboot启动器内，这里直接引入即可。</p>
-<span id="more"></span>
-
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- swagger--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.springfox<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>springfox-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h2><span id="pei-zhi">配置</span><a href="#pei-zhi" class="header-anchor">#</a></h2><p>&emsp;&emsp;这里配置与swagger2发生了些许变化：</p>
-<h3><span id="qi-dong-lei">启动类</span><a href="#qi-dong-lei" class="header-anchor">#</a></h3><p>&emsp;&emsp;启动类中开启swagger的注解变为** @EnableOpenApi**。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@EnableOpenApi</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EbwcrmApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(EbwcrmApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3><span id="pei-zhi-lei">配置类</span><a href="#pei-zhi-lei" class="header-anchor">#</a></h3><p>&emsp;&emsp;配置类中Docket类型需要修改为** DocumentationType.OAS_30**。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ConditionalOnProperty(value = &#123;&quot;ebwcrm.api.enable-swagger&quot;&#125;, havingValue = &quot;true&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SwaggerConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Docket <span class="title">createRestApi</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Docket(DocumentationType.OAS_30).apiInfo(apiInfo()).select()</span><br><span class="line">                .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class)).paths(PathSelectors.any()).build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 构建 api文档的详细信息函数,注意这里的注解引用的是哪个</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> ApiInfo <span class="title">apiInfo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ApiInfoBuilder()</span><br><span class="line">                <span class="comment">// 页面标题</span></span><br><span class="line">                .title(<span class="string">&quot;集盈客Api接口文档&quot;</span>)</span><br><span class="line">                <span class="comment">// 创建人</span></span><br><span class="line">                .contact(<span class="keyword">new</span> Contact(<span class="string">&quot;linqiankun&quot;</span>, <span class="string">&quot;http://localhost:8008/ebwcrm/swagger-ui/index.html&quot;</span>, <span class="string">&quot;linqiankun_51309@QQ.com&quot;</span>))</span><br><span class="line">                <span class="comment">// 版本号</span></span><br><span class="line">                .version(<span class="string">&quot;1.0&quot;</span>)</span><br><span class="line">                <span class="comment">// 描述</span></span><br><span class="line">                .description(<span class="string">&quot;根据服务端接口规范设计:http://doc.fed.weidai.work/docs/web/api&quot;</span>).build();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;拦截器中需要对swagger的静态资源进行放行，以免启动后无法访问到swagger。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addInterceptors</span><span class="params">(InterceptorRegistry registry)</span> </span>&#123;</span><br><span class="line">    List&lt;String&gt; pathPattern = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    pathPattern.add(<span class="string">&quot;/**&quot;</span>);</span><br><span class="line">    List&lt;String&gt; excludePattern = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    excludePattern.add(<span class="string">&quot;/swagger-ui/**&quot;</span>);</span><br><span class="line">    excludePattern.add(<span class="string">&quot;/swagger-resources/**&quot;</span>);</span><br><span class="line">    excludePattern.add(<span class="string">&quot;/v3/api-docs&quot;</span>);</span><br><span class="line">    registry.addInterceptor(loginInterceptor)</span><br><span class="line">            .addPathPatterns(pathPattern)</span><br><span class="line">            .excludePathPatterns(excludePattern);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2><span id="shi-yong">使用</span><a href="#shi-yong" class="header-anchor">#</a></h2><p>&emsp;&emsp;接口使用的注解，与swagger2基本相同。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/miUser&quot;)</span></span><br><span class="line"><span class="meta">@Api(tags = &quot;Controller&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MiUserController</span> </span>&#123;  </span><br><span class="line"></span><br><span class="line">    <span class="meta">@ApiOperation(&quot;updatePassword&quot;)</span></span><br><span class="line">    <span class="meta">@PostMapping(&quot;updatePassword&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> EBwcrmResult <span class="title">updatePassword</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;swagger3相对于swagger2的文档路径发生了改变。</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">http://&lt;ip&gt;:&lt;port&gt;/&lt;applicattion&gt;/swagger-ui/index.html</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>tool</category>
-      </categories>
-      <tags>
-        <tag>tool</tag>
-        <tag>swagger</tag>
-        <tag>springboot</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>缓存击穿、穿透、雪崩</title>
-    <url>/hexoblog/2021/03/08/redis/%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF%E3%80%81%E7%A9%BF%E9%80%8F%E3%80%81%E9%9B%AA%E5%B4%A9/</url>
-    <content><![CDATA[<p><a href="https://my.oschina.net/linqiankun/blog/3191886">缓存击穿，穿透，雪崩</a></p>
-<h1><span id="huan-cun-ji-chuan">缓存击穿</span><a href="#huan-cun-ji-chuan" class="header-anchor">#</a></h1><p>&emsp;&emsp;高并发系统中，大量的请求一般会落在缓存，但在某一时期，某一热点key过期，会导致大量的请求直接落到数据库，导致数据库崩溃。</p>
-<span id="more"></span>
-
-<h2><span id="jie-jue">解决</span><a href="#jie-jue" class="header-anchor">#</a></h2><ol>
-<li>设置热点key不过期。</li>
-<li>加上分布式锁，每次只有拿到锁的线程可以去访问数据库。第一个线程查询到后就会缓存起来，后面线程从缓存中拿。</li>
-</ol>
-<hr>
-<h1><span id="huan-cun-chuan-tou">缓存穿透</span><a href="#huan-cun-chuan-tou" class="header-anchor">#</a></h1><p>&emsp;&emsp;正常情况下，需要查询的数据都存在，当查询一个缓存和数据库都不存在的数据时，每次请求都会落在数据库里，这种情况成称为缓存穿透。就是以一个不存在的数据去请求，每次都会落到数据库。</p>
-<h2><span id="jie-jue">解决：</span><a href="#jie-jue" class="header-anchor">#</a></h2><ol>
-<li>接口增加参数校验，不合法的直接返回。</li>
-<li>缓存空值，将对应key的value设置为空值，避免暴力攻击。同时将key失效时间设置短一些，避免影响正常使用。</li>
-<li>在网关阈值，限制同ip访问量。</li>
-<li>高级用户布隆过滤器。bloom filter，可以对key进行判断是否在数据库存在，不存在就直接返回，存在就查询出来，并刷新缓存。</li>
-</ol>
-<hr>
-<h1><span id="huan-cun-xue-beng">缓存雪崩</span><a href="#huan-cun-xue-beng" class="header-anchor">#</a></h1><p>&emsp;&emsp;某一时期发生的大规模的缓存不可用问题，过期，宕机。</p>
-<h2><span id="jie-jue">解决：</span><a href="#jie-jue" class="header-anchor">#</a></h2><ol>
-<li>采用分布式集群，减少宕机风险。</li>
-<li>将失效时间设为随机数，避免大量同时失效。</li>
-<li>采用本地缓存加限流逻辑。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>redis</category>
-      </categories>
-      <tags>
-        <tag>redis</tag>
-        <tag>缓存</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>zookeeper</title>
-    <url>/hexoblog/2021/03/03/zookeeper/zookeeper/</url>
-    <content><![CDATA[<h1><span id="an-zhuang">安装</span><a href="#an-zhuang" class="header-anchor">#</a></h1><span id="more"></span>
-
-<h1><span id="shi-yong">使用</span><a href="#shi-yong" class="header-anchor">#</a></h1><h2><span id="cha-kan-dubbo-fu-wu">查看dubbo服务</span><a href="#cha-kan-dubbo-fu-wu" class="header-anchor">#</a></h2><ol>
-<li><p>使用zk客户端连接</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">./zkcli.sh</span><br><span class="line">./zkcli.bat</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查看服务的提供者</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ls /dubbo/****.***.Service/Providers</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查看服务的消费者</p>
- <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ls /dubbo/****.****.Service/Consumers</span><br></pre></td></tr></table></figure></li>
-</ol>
-]]></content>
-      <categories>
-        <category>tool</category>
-      </categories>
-      <tags>
-        <tag>tool</tag>
-        <tag>zookeeper</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>hexo使用</title>
     <url>/hexoblog/2021/03/04/tool/hexo%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<h1><span id="mu-lu">目录</span><a href="#mu-lu" class="header-anchor">#</a></h1><p>[toc]</p>
@@ -913,6 +895,163 @@
       <tags>
         <tag>tool</tag>
         <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>swagger3</title>
+    <url>/hexoblog/2021/03/03/tool/swagger3/</url>
+    <content><![CDATA[<h1><span id="shi-yong-guo-cheng">使用过程</span><a href="#shi-yong-guo-cheng" class="header-anchor">#</a></h1><h2><span id="yin-bao">引包</span><a href="#yin-bao" class="header-anchor">#</a></h2><p>&emsp;&emsp;swagger3升级后，引入的包做相应升级，且集成进springboot启动器内，这里直接引入即可。</p>
+<span id="more"></span>
+
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- swagger--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.springfox<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>springfox-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2><span id="pei-zhi">配置</span><a href="#pei-zhi" class="header-anchor">#</a></h2><p>&emsp;&emsp;这里配置与swagger2发生了些许变化：</p>
+<h3><span id="qi-dong-lei">启动类</span><a href="#qi-dong-lei" class="header-anchor">#</a></h3><p>&emsp;&emsp;启动类中开启swagger的注解变为** @EnableOpenApi**。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@EnableOpenApi</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EbwcrmApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(EbwcrmApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3><span id="pei-zhi-lei">配置类</span><a href="#pei-zhi-lei" class="header-anchor">#</a></h3><p>&emsp;&emsp;配置类中Docket类型需要修改为** DocumentationType.OAS_30**。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ConditionalOnProperty(value = &#123;&quot;ebwcrm.api.enable-swagger&quot;&#125;, havingValue = &quot;true&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SwaggerConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Docket <span class="title">createRestApi</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Docket(DocumentationType.OAS_30).apiInfo(apiInfo()).select()</span><br><span class="line">                .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class)).paths(PathSelectors.any()).build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 构建 api文档的详细信息函数,注意这里的注解引用的是哪个</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> ApiInfo <span class="title">apiInfo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ApiInfoBuilder()</span><br><span class="line">                <span class="comment">// 页面标题</span></span><br><span class="line">                .title(<span class="string">&quot;集盈客Api接口文档&quot;</span>)</span><br><span class="line">                <span class="comment">// 创建人</span></span><br><span class="line">                .contact(<span class="keyword">new</span> Contact(<span class="string">&quot;linqiankun&quot;</span>, <span class="string">&quot;http://localhost:8008/ebwcrm/swagger-ui/index.html&quot;</span>, <span class="string">&quot;linqiankun_51309@QQ.com&quot;</span>))</span><br><span class="line">                <span class="comment">// 版本号</span></span><br><span class="line">                .version(<span class="string">&quot;1.0&quot;</span>)</span><br><span class="line">                <span class="comment">// 描述</span></span><br><span class="line">                .description(<span class="string">&quot;根据服务端接口规范设计:http://doc.fed.weidai.work/docs/web/api&quot;</span>).build();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;拦截器中需要对swagger的静态资源进行放行，以免启动后无法访问到swagger。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addInterceptors</span><span class="params">(InterceptorRegistry registry)</span> </span>&#123;</span><br><span class="line">    List&lt;String&gt; pathPattern = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    pathPattern.add(<span class="string">&quot;/**&quot;</span>);</span><br><span class="line">    List&lt;String&gt; excludePattern = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    excludePattern.add(<span class="string">&quot;/swagger-ui/**&quot;</span>);</span><br><span class="line">    excludePattern.add(<span class="string">&quot;/swagger-resources/**&quot;</span>);</span><br><span class="line">    excludePattern.add(<span class="string">&quot;/v3/api-docs&quot;</span>);</span><br><span class="line">    registry.addInterceptor(loginInterceptor)</span><br><span class="line">            .addPathPatterns(pathPattern)</span><br><span class="line">            .excludePathPatterns(excludePattern);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2><span id="shi-yong">使用</span><a href="#shi-yong" class="header-anchor">#</a></h2><p>&emsp;&emsp;接口使用的注解，与swagger2基本相同。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/miUser&quot;)</span></span><br><span class="line"><span class="meta">@Api(tags = &quot;Controller&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MiUserController</span> </span>&#123;  </span><br><span class="line"></span><br><span class="line">    <span class="meta">@ApiOperation(&quot;updatePassword&quot;)</span></span><br><span class="line">    <span class="meta">@PostMapping(&quot;updatePassword&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> EBwcrmResult <span class="title">updatePassword</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;swagger3相对于swagger2的文档路径发生了改变。</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">http://&lt;ip&gt;:&lt;port&gt;/&lt;applicattion&gt;/swagger-ui/index.html</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>tool</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>swagger</tag>
+        <tag>springboot</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>分布式事务</title>
+    <url>/hexoblog/2021/03/02/%E6%9E%B6%E6%9E%84/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/</url>
+    <content><![CDATA[<h1><span id="fen-bu-shi-shi-wu-lei-xing">分布式事务类型：</span><a href="#fen-bu-shi-shi-wu-lei-xing" class="header-anchor">#</a></h1><p>分布式事务处理机制共有四种：</p>
+<ol>
+<li>两阶段提交</li>
+<li>TCC事务（事务补偿）</li>
+<li>本地消息表（异步确保），</li>
+<li>MQ事务消息。</li>
+</ol>
+<span id="more"></span>
+
+<h2><span id="liang-jie-duan-ti-jiao">两阶段提交：</span><a href="#liang-jie-duan-ti-jiao" class="header-anchor">#</a></h2><p>&emsp;&emsp;与数据库XA事务一样，两阶段提交使用XA协议。<br>&emsp;&emsp;两阶段提交这种方案属于牺牲了一部分可用性来换取的一致性。</p>
+<h3><span id="you-dian">优点：</span><a href="#you-dian" class="header-anchor">#</a></h3><p>&emsp;&emsp;尽量保证了数据的强一致，适合对数据强一致要求很高的关键领域。</p>
+<h3><span id="que-dian">缺点：</span><a href="#que-dian" class="header-anchor">#</a></h3><p>&emsp;&emsp;实现复杂，牺牲了可用性，对性能影响较大，不适合高并发高性能场景，如分布式系统跨接口调用。</p>
+<h2><span id="tcc-shi-wu">TCC事务：</span><a href="#tcc-shi-wu" class="header-anchor">#</a></h2><p>&emsp;&emsp;TCC其实就是采用的补偿机制，其核心思想是：针对每个操作，都要注册一个与其对应的确认和补偿操作。分为三个阶段：</p>
+<ol>
+<li> Try阶段主要是对业务系统做检测和资源预留。</li>
+<li> Confirm阶段主要是对业务系统做确认提交，Try阶段执行成功并开始执行Confirm阶段时，默认Confirm阶段是不会出错的。即：只要Try成功，Confirm一定成功。</li>
+<li> Cancel阶段主要是在业务执行错误，需要回滚的状态下，执行的业务取消，预留资源释放。</li>
+</ol>
+<h3><span id="you-dian">优点：</span><a href="#you-dian" class="header-anchor">#</a></h3><p>&emsp;&emsp;跟2阶段提交比起来，实现及流程相对简单了些，但数据的一致性也要比2阶段提交要差一些。</p>
+<h3><span id="que-dian">缺点：</span><a href="#que-dian" class="header-anchor">#</a></h3><p>&emsp;&emsp;在2，3步中都可能失败。TCC是一种应用层的补偿方式，需要程序员在实现时写很多补偿的代码，一些场景中，一些业务流程用TCC不太好定义及处理。</p>
+<h2><span id="ben-di-xiao-xi-biao">本地消息表：</span><a href="#ben-di-xiao-xi-biao" class="header-anchor">#</a></h2><p>&emsp;&emsp;使用最多的，核心思想是将分布式事务拆分成本地事务进行处理，来源于ebay。</p>
+<p>基本思路就是：</p>
+<p>&emsp;&emsp;消息生产方，需要额外建一个消息表，并记录消息发送状态。消息表和业务数据要在一个事务里提交，也就是说他们要在一个数据库里面。然后会经由MQ发送到消息的消费方。如果消息发送失败，会进行重试发送。<br>&emsp;&emsp;消息消费方，需要处理这个消息，并完成这个的业务逻辑。如果此时本地事务处理成功，表明已经处理成功了，如果处理失败，那么就会重试执行。如果是业务上面的失败，可以给生产方发送一个业务补偿消息，通知生产方进行回滚等操作。<br>&emsp;&emsp;生产方和消费方定时扫描本地消息表，把还没处理完成的消息或者失败的消息在发送一遍。<br>&emsp;&emsp;这种方案遵循最终一致性。</p>
+<h3><span id="you-dian">优点：</span><a href="#you-dian" class="header-anchor">#</a></h3><p>&emsp;&emsp;一种非常经典的实现， 避免的分布式事务，实现了最终一致性。</p>
+<h3><span id="que-dian">缺点：</span><a href="#que-dian" class="header-anchor">#</a></h3><p>&emsp;&emsp;消息表会耦合到业务系统中，如果没有封装好的解决方案，会有很多杂活需要处理。</p>
+<h2><span id="mq-shi-wu-xiao-xi">MQ事务消息：</span><a href="#mq-shi-wu-xiao-xi" class="header-anchor">#</a></h2><p>&emsp;&emsp;有一些第三方的MQ是支持事务消息的，比如RocketMQ，他们支持事务消息的方式也是类似于采用的二阶段提交，但一些主流的MQ都是不支持事务消息的，如RabbitMQ和Kafka都不支持。</p>
+<p>以阿里的RocketMQ为例：</p>
+<p>&emsp;&emsp;第一阶段Prepared消息，会拿到消息的地址。<br>&emsp;&emsp;第二阶段执行本地事务，第三阶段通过第一阶段拿到的地址去访问消息，并修改状态。<br>&emsp;&emsp;也就是说在业务方法内部要想消息队列提交两次请求，一次发送消息和一次确认消息。如果确认消息发送失败了，RocketMQ会定期扫描消息集群中的事务消息，这是发现了Prepared消息，它会像消息发送者确认，所以生产方需要实现一个check接口，RocketMQ会根据发送端设置的策略来决定是回滚还是继续发送确认消息。这样就保证了消息发送与本地事务同时成功或同时失败。</p>
+<h3><span id="you-dian">优点：</span><a href="#you-dian" class="header-anchor">#</a></h3><p>&emsp;&emsp;实现了最终一致性，不需要依赖本地数据库事务。</p>
+<h3><span id="que-dian">缺点：</span><a href="#que-dian" class="header-anchor">#</a></h3><p>&emsp;&emsp;实现难度大，主流MQ不支持，RocketMQ事务消息部分代码未开源。</p>
+]]></content>
+      <categories>
+        <category>架构</category>
+      </categories>
+      <tags>
+        <tag>acid</tag>
+        <tag>分布式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>分布式锁</title>
+    <url>/hexoblog/2021/03/02/%E6%9E%B6%E6%9E%84/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/</url>
+    <content><![CDATA[<h1><span id="ji-yu-shu-ju-ku-shi-xian-fen-bu-shi-suo">基于数据库实现分布式锁：</span><a href="#ji-yu-shu-ju-ku-shi-xian-fen-bu-shi-suo" class="header-anchor">#</a></h1><h2><span id="ji-yu-shu-ju-ku-biao">基于数据库表：</span><a href="#ji-yu-shu-ju-ku-biao" class="header-anchor">#</a></h2><p>&emsp;&emsp;要实现分布式锁，最简单的方法可能就是直接创建一张锁表，然后通过操作该表中的数据来实现了。<br>&emsp;&emsp;当我们要锁住某个方法或资源时，我们就在该表中增加一条记录，想要释放锁的时候就删除这条记录。</p>
+<span id="more"></span>
+
+<h3><span id="wen-ti">问题：</span><a href="#wen-ti" class="header-anchor">#</a></h3><ol>
+<li> 这把锁强依赖数据库的可用性，数据库是一个单点，一旦数据库挂掉，会导致业务系统不可用。</li>
+<li> 这把锁没有失效时间，一旦解锁操作失败，就会导致锁记录一直在数据库中，其他线程无法再获得锁。</li>
+<li> 这把锁只能是非阻塞的，因为数据的insert操作，一旦插入失败就会报错。没有获得锁的线程并不会进入排队队列，要想再次获得锁就要再次触发获得锁操作。</li>
+<li> 这把锁是非重入的，同一个线程在没有获得锁之前无法再次获得该锁。因为数据库中数据已经存在了。</li>
+</ol>
+<h3><span id="jie-jue">解决：</span><a href="#jie-jue" class="header-anchor">#</a></h3><ol>
+<li> 数据库是单点：两个数据库，数据之间双向同步，一旦挂掉快速切换到备库。</li>
+<li> 没有失效时间：定时任务，每隔一定时间清理数据库中的超时数据。</li>
+<li> 非阻塞的：while循环，直到insert成功在返回。</li>
+<li> 非重入的：在数据库表中加个字段，记录当前获得锁的主机信息和线程信息，下次在获取锁时先查询数据库，如果当前机器的主机信息和线程信息在数据库中可以查到的话，直接把锁分配给它就可以。</li>
+</ol>
+<h2><span id="ji-yu-shu-ju-ku-pai-ta-suo">基于数据库排他锁：</span><a href="#ji-yu-shu-ju-ku-pai-ta-suo" class="header-anchor">#</a></h2><p>&emsp;&emsp;可以借助数据中自带的锁来实现分布式锁。<br>通过数据库的排他锁，基于InnoDB引擎。</p>
+<h2><span id="zong-jie">总结：</span><a href="#zong-jie" class="header-anchor">#</a></h2><p>&emsp;&emsp;使用数据库来实现分布式锁，这两种方式都是依赖数据库的一张表，一种是通过表中记录的存在情况确定当前是否有锁存在，另一种是通过数据库的排他锁来实现分布式锁。</p>
+<h3><span id="you-dian">优点：</span><a href="#you-dian" class="header-anchor">#</a></h3><p>&emsp;&emsp;直接借助数据库，容易理解。</p>
+<h3><span id="que-dian">缺点：</span><a href="#que-dian" class="header-anchor">#</a></h3><p>&emsp;&emsp;会有各种各样的问题，在解决问题的过程中，会使整个方案变得越来越复杂。操作数据库会有一定的开销，性能问题需要考虑。使用数据库的行级锁并不一定靠谱，尤其是当我们的锁表并不大的时候。</p>
+<hr>
+<h1><span id="ji-yu-huan-cun-shi-xian-fen-bu-shi-suo">基于缓存实现分布式锁：</span><a href="#ji-yu-huan-cun-shi-xian-fen-bu-shi-suo" class="header-anchor">#</a></h1><p>&emsp;&emsp;相对于基于数据库实现分布式锁的方案来说，基于缓存来实现在性能方面会表现的更好一点。而且很多缓存是可以集群部署的，可以解决单点问题。<br>&emsp;&emsp;目前有很多成熟的缓存产品，Redis，memcached。</p>
+<h3><span id="wen-ti">问题：</span><a href="#wen-ti" class="header-anchor">#</a></h3><ol>
+<li> 这把锁没有失效时间，一旦解锁失败，就会导致锁记录一直在缓存中，其他线程无法再次获得锁。</li>
+<li> 这把锁只能是非阻塞的，无论成功还是失败都直接返回。</li>
+<li> 这把锁是非重入的，一个线程获得锁之后，在释放锁之前，无法再次获得该锁，因为key已经存在，无法进行put操作。</li>
+</ol>
+<h3><span id="jie-jue">解决:</span><a href="#jie-jue" class="header-anchor">#</a></h3><ol>
+<li> 没有失效时间：设置固定时间，到期后自动删除。失效时间比较难以确定，时间太短，方法没执行完释放锁，就会产生并发问题；时间太长，其他线程就要浪费很多时间。</li>
+<li> 非阻塞：while重复执行。</li>
+<li> 非可重入：在一个线程获取到锁之后，把当前主机信息和线程信息保存起来，下次再获取前先检查自己是不是当前锁的拥有者。</li>
+</ol>
+<h2><span id="zong-jie">总结：</span><a href="#zong-jie" class="header-anchor">#</a></h2><h3><span id="you-dian">优点：</span><a href="#you-dian" class="header-anchor">#</a></h3><p>&emsp;&emsp;性能好，实现起来较为方便。</p>
+<h3><span id="que-dian">缺点：</span><a href="#que-dian" class="header-anchor">#</a></h3><p>&emsp;&emsp;通过超时来控制锁的失效时间并不是十分的靠谱。</p>
+<hr>
+<h1><span id="ji-yu-zookeeper-shi-xian-fen-bu-shi-suo">基于Zookeeper实现分布式锁：</span><a href="#ji-yu-zookeeper-shi-xian-fen-bu-shi-suo" class="header-anchor">#</a></h1><p>&emsp;&emsp;基于zookeeper临时有序节点可实现的分布式锁。<br>&emsp;&emsp;大致思想为：每个客户端对每个方法加锁时，在zookeeper上的与该方法对应的指定节点的目录下，生成一个唯一的瞬时有序节点。判断是否获取锁的方式很简单，只需要判断有序节点中序号最小的一个。当释放锁的时候，只需将这个瞬时节点删除即可。同时，其可以避免服务宕机导致的锁无法释放，而产生死锁的问题。</p>
+<h2><span id="ru-he-jie-jue-qian-mian-de-wen-ti">如何解决前面的问题：</span><a href="#ru-he-jie-jue-qian-mian-de-wen-ti" class="header-anchor">#</a></h2><h3><span id="suo-wu-fa-shi-fang">锁无法释放：</span><a href="#suo-wu-fa-shi-fang" class="header-anchor">#</a></h3><p>&emsp;&emsp;使用Zookeeper可以有效的解决锁无法释放的问题，因为在创建的时候，客户端会在zk中创建一个临时节点，一旦客户端获取到锁之后突然挂掉，那么这个临时节点就会自动删除掉。其他客户端就可以再次获得锁。</p>
+<h3><span id="fei-zu-sai-suo">非阻塞锁：</span><a href="#fei-zu-sai-suo" class="header-anchor">#</a></h3><p>&emsp;&emsp;使用zookeeper可以实现阻塞的锁，客户端可通过在zk中创建顺序节点，并在节点上绑定监听器，一旦节点有变化，zookeeper会通知客户端，客户端可以检查自己创建的节点是不是当前所有节点中序号最小的，如果是，那么自己就获取到锁，便可以执行业务逻辑。</p>
+<h3><span id="bu-ke-chong-ru">不可重入：</span><a href="#bu-ke-chong-ru" class="header-anchor">#</a></h3><p>&emsp;&emsp;使用zookeeper可以有效解决不可重入的问题，客户端在创建节点时，把当前客户端的主机信息和线程信息直接写入节点中，下次想要获取锁的时候和当前最小节点中的数据对比一下就可以。如果和自己的信息一样，那么自己直接获取到锁，如果不一样就在创建一个临时的顺序节点，参与排队。</p>
+<h3><span id="dan-dian-wen-ti">单点问题：</span><a href="#dan-dian-wen-ti" class="header-anchor">#</a></h3><p>&emsp;&emsp;使用zookeeper可以有效解决单点问题，zk是集群部署的，只要集群中有半数以上的机器存活，就可以对外提供服务。</p>
+<p>&emsp;&emsp;使用zk实现的分布式锁其实存在一个缺点，那就是性能上可能并没有缓存服务器那么高。因为在每次创建锁和释放锁的过程中，都要动态创建，销毁瞬时节点来实现锁功能。zk中创建和删除节点只能通过leader服务器来执行，然后将数据同步到所有follower机器上。<br>&emsp;&emsp;使用了zk也有可能带来并发问题，只是不常见。由于网络抖动，客户端集群的session连接断了，那么zk以为客户端挂了，就会删除临时节点，这是其他客户端就可以获取到分布式锁了。就可能产生并发问题。这个问题不常见是因为zk有重试机制，一旦zk集群检测不到客户端的心跳，就会重试，多次重试还不行的话就会删除临时节点。</p>
+<h2><span id="zong-jie">总结：</span><a href="#zong-jie" class="header-anchor">#</a></h2><h3><span id="you-dian">优点：</span><a href="#you-dian" class="header-anchor">#</a></h3><p>&emsp;&emsp;有效的解决单点问题，不可重入问题，非阻塞问题，以及锁无法释放的问题。实现起来较为简单。</p>
+<h3><span id="que-dian">缺点：</span><a href="#que-dian" class="header-anchor">#</a></h3><p>&emsp;&emsp;性能上不如缓存实现分布式锁。需要最zk的原理有所了解。</p>
+<hr>
+<h1><span id="bi-jiao">比较：</span><a href="#bi-jiao" class="header-anchor">#</a></h1><h3><span id="li-jie-cheng-du">理解程度：</span><a href="#li-jie-cheng-du" class="header-anchor">#</a></h3><p>数据库&gt;缓存&gt;Zookeeper</p>
+<h3><span id="shi-xian-de-fu-za-xing-jiao-du">实现的复杂性角度：</span><a href="#shi-xian-de-fu-za-xing-jiao-du" class="header-anchor">#</a></h3><p>Zookeeper&gt;=缓存&gt;数据库</p>
+<h3><span id="xing-neng-jiao-du">性能角度：</span><a href="#xing-neng-jiao-du" class="header-anchor">#</a></h3><p>缓存&gt;Zookeeper&gt;=数据库</p>
+<h3><span id="ke-kao-xing-jiao-du">可靠性角度：</span><a href="#ke-kao-xing-jiao-du" class="header-anchor">#</a></h3><p>Zookeeper&gt;缓存&gt;数据库</p>
+]]></content>
+      <categories>
+        <category>架构</category>
+      </categories>
+      <tags>
+        <tag>lock</tag>
+        <tag>分布式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>zookeeper</title>
+    <url>/hexoblog/2021/03/03/zookeeper/zookeeper/</url>
+    <content><![CDATA[<h1><span id="an-zhuang">安装</span><a href="#an-zhuang" class="header-anchor">#</a></h1><span id="more"></span>
+
+<h1><span id="shi-yong">使用</span><a href="#shi-yong" class="header-anchor">#</a></h1><h2><span id="cha-kan-dubbo-fu-wu">查看dubbo服务</span><a href="#cha-kan-dubbo-fu-wu" class="header-anchor">#</a></h2><ol>
+<li><p>使用zk客户端连接</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">./zkcli.sh</span><br><span class="line">./zkcli.bat</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看服务的提供者</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ls /dubbo/****.***.Service/Providers</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看服务的消费者</p>
+ <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ls /dubbo/****.****.Service/Consumers</span><br></pre></td></tr></table></figure></li>
+</ol>
+]]></content>
+      <categories>
+        <category>tool</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>zookeeper</tag>
       </tags>
   </entry>
   <entry>
@@ -1063,109 +1202,8 @@
         <category>zookeeper</category>
       </categories>
       <tags>
+        <tag>分布式</tag>
         <tag>zookeeper</tag>
-        <tag>分布式</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>分布式事务</title>
-    <url>/hexoblog/2021/03/02/%E6%9E%B6%E6%9E%84/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/</url>
-    <content><![CDATA[<h1><span id="fen-bu-shi-shi-wu-lei-xing">分布式事务类型：</span><a href="#fen-bu-shi-shi-wu-lei-xing" class="header-anchor">#</a></h1><p>分布式事务处理机制共有四种：</p>
-<ol>
-<li>两阶段提交</li>
-<li>TCC事务（事务补偿）</li>
-<li>本地消息表（异步确保），</li>
-<li>MQ事务消息。</li>
-</ol>
-<span id="more"></span>
-
-<h2><span id="liang-jie-duan-ti-jiao">两阶段提交：</span><a href="#liang-jie-duan-ti-jiao" class="header-anchor">#</a></h2><p>&emsp;&emsp;与数据库XA事务一样，两阶段提交使用XA协议。<br>&emsp;&emsp;两阶段提交这种方案属于牺牲了一部分可用性来换取的一致性。</p>
-<h3><span id="you-dian">优点：</span><a href="#you-dian" class="header-anchor">#</a></h3><p>&emsp;&emsp;尽量保证了数据的强一致，适合对数据强一致要求很高的关键领域。</p>
-<h3><span id="que-dian">缺点：</span><a href="#que-dian" class="header-anchor">#</a></h3><p>&emsp;&emsp;实现复杂，牺牲了可用性，对性能影响较大，不适合高并发高性能场景，如分布式系统跨接口调用。</p>
-<h2><span id="tcc-shi-wu">TCC事务：</span><a href="#tcc-shi-wu" class="header-anchor">#</a></h2><p>&emsp;&emsp;TCC其实就是采用的补偿机制，其核心思想是：针对每个操作，都要注册一个与其对应的确认和补偿操作。分为三个阶段：</p>
-<ol>
-<li> Try阶段主要是对业务系统做检测和资源预留。</li>
-<li> Confirm阶段主要是对业务系统做确认提交，Try阶段执行成功并开始执行Confirm阶段时，默认Confirm阶段是不会出错的。即：只要Try成功，Confirm一定成功。</li>
-<li> Cancel阶段主要是在业务执行错误，需要回滚的状态下，执行的业务取消，预留资源释放。</li>
-</ol>
-<h3><span id="you-dian">优点：</span><a href="#you-dian" class="header-anchor">#</a></h3><p>&emsp;&emsp;跟2阶段提交比起来，实现及流程相对简单了些，但数据的一致性也要比2阶段提交要差一些。</p>
-<h3><span id="que-dian">缺点：</span><a href="#que-dian" class="header-anchor">#</a></h3><p>&emsp;&emsp;在2，3步中都可能失败。TCC是一种应用层的补偿方式，需要程序员在实现时写很多补偿的代码，一些场景中，一些业务流程用TCC不太好定义及处理。</p>
-<h2><span id="ben-di-xiao-xi-biao">本地消息表：</span><a href="#ben-di-xiao-xi-biao" class="header-anchor">#</a></h2><p>&emsp;&emsp;使用最多的，核心思想是将分布式事务拆分成本地事务进行处理，来源于ebay。</p>
-<p>基本思路就是：</p>
-<p>&emsp;&emsp;消息生产方，需要额外建一个消息表，并记录消息发送状态。消息表和业务数据要在一个事务里提交，也就是说他们要在一个数据库里面。然后会经由MQ发送到消息的消费方。如果消息发送失败，会进行重试发送。<br>&emsp;&emsp;消息消费方，需要处理这个消息，并完成这个的业务逻辑。如果此时本地事务处理成功，表明已经处理成功了，如果处理失败，那么就会重试执行。如果是业务上面的失败，可以给生产方发送一个业务补偿消息，通知生产方进行回滚等操作。<br>&emsp;&emsp;生产方和消费方定时扫描本地消息表，把还没处理完成的消息或者失败的消息在发送一遍。<br>&emsp;&emsp;这种方案遵循最终一致性。</p>
-<h3><span id="you-dian">优点：</span><a href="#you-dian" class="header-anchor">#</a></h3><p>&emsp;&emsp;一种非常经典的实现， 避免的分布式事务，实现了最终一致性。</p>
-<h3><span id="que-dian">缺点：</span><a href="#que-dian" class="header-anchor">#</a></h3><p>&emsp;&emsp;消息表会耦合到业务系统中，如果没有封装好的解决方案，会有很多杂活需要处理。</p>
-<h2><span id="mq-shi-wu-xiao-xi">MQ事务消息：</span><a href="#mq-shi-wu-xiao-xi" class="header-anchor">#</a></h2><p>&emsp;&emsp;有一些第三方的MQ是支持事务消息的，比如RocketMQ，他们支持事务消息的方式也是类似于采用的二阶段提交，但一些主流的MQ都是不支持事务消息的，如RabbitMQ和Kafka都不支持。</p>
-<p>以阿里的RocketMQ为例：</p>
-<p>&emsp;&emsp;第一阶段Prepared消息，会拿到消息的地址。<br>&emsp;&emsp;第二阶段执行本地事务，第三阶段通过第一阶段拿到的地址去访问消息，并修改状态。<br>&emsp;&emsp;也就是说在业务方法内部要想消息队列提交两次请求，一次发送消息和一次确认消息。如果确认消息发送失败了，RocketMQ会定期扫描消息集群中的事务消息，这是发现了Prepared消息，它会像消息发送者确认，所以生产方需要实现一个check接口，RocketMQ会根据发送端设置的策略来决定是回滚还是继续发送确认消息。这样就保证了消息发送与本地事务同时成功或同时失败。</p>
-<h3><span id="you-dian">优点：</span><a href="#you-dian" class="header-anchor">#</a></h3><p>&emsp;&emsp;实现了最终一致性，不需要依赖本地数据库事务。</p>
-<h3><span id="que-dian">缺点：</span><a href="#que-dian" class="header-anchor">#</a></h3><p>&emsp;&emsp;实现难度大，主流MQ不支持，RocketMQ事务消息部分代码未开源。</p>
-]]></content>
-      <categories>
-        <category>架构</category>
-      </categories>
-      <tags>
-        <tag>acid</tag>
-        <tag>分布式</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>分布式锁</title>
-    <url>/hexoblog/2021/03/02/%E6%9E%B6%E6%9E%84/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/</url>
-    <content><![CDATA[<h1><span id="ji-yu-shu-ju-ku-shi-xian-fen-bu-shi-suo">基于数据库实现分布式锁：</span><a href="#ji-yu-shu-ju-ku-shi-xian-fen-bu-shi-suo" class="header-anchor">#</a></h1><h2><span id="ji-yu-shu-ju-ku-biao">基于数据库表：</span><a href="#ji-yu-shu-ju-ku-biao" class="header-anchor">#</a></h2><p>&emsp;&emsp;要实现分布式锁，最简单的方法可能就是直接创建一张锁表，然后通过操作该表中的数据来实现了。<br>&emsp;&emsp;当我们要锁住某个方法或资源时，我们就在该表中增加一条记录，想要释放锁的时候就删除这条记录。</p>
-<span id="more"></span>
-
-<h3><span id="wen-ti">问题：</span><a href="#wen-ti" class="header-anchor">#</a></h3><ol>
-<li> 这把锁强依赖数据库的可用性，数据库是一个单点，一旦数据库挂掉，会导致业务系统不可用。</li>
-<li> 这把锁没有失效时间，一旦解锁操作失败，就会导致锁记录一直在数据库中，其他线程无法再获得锁。</li>
-<li> 这把锁只能是非阻塞的，因为数据的insert操作，一旦插入失败就会报错。没有获得锁的线程并不会进入排队队列，要想再次获得锁就要再次触发获得锁操作。</li>
-<li> 这把锁是非重入的，同一个线程在没有获得锁之前无法再次获得该锁。因为数据库中数据已经存在了。</li>
-</ol>
-<h3><span id="jie-jue">解决：</span><a href="#jie-jue" class="header-anchor">#</a></h3><ol>
-<li> 数据库是单点：两个数据库，数据之间双向同步，一旦挂掉快速切换到备库。</li>
-<li> 没有失效时间：定时任务，每隔一定时间清理数据库中的超时数据。</li>
-<li> 非阻塞的：while循环，直到insert成功在返回。</li>
-<li> 非重入的：在数据库表中加个字段，记录当前获得锁的主机信息和线程信息，下次在获取锁时先查询数据库，如果当前机器的主机信息和线程信息在数据库中可以查到的话，直接把锁分配给它就可以。</li>
-</ol>
-<h2><span id="ji-yu-shu-ju-ku-pai-ta-suo">基于数据库排他锁：</span><a href="#ji-yu-shu-ju-ku-pai-ta-suo" class="header-anchor">#</a></h2><p>&emsp;&emsp;可以借助数据中自带的锁来实现分布式锁。<br>通过数据库的排他锁，基于InnoDB引擎。</p>
-<h2><span id="zong-jie">总结：</span><a href="#zong-jie" class="header-anchor">#</a></h2><p>&emsp;&emsp;使用数据库来实现分布式锁，这两种方式都是依赖数据库的一张表，一种是通过表中记录的存在情况确定当前是否有锁存在，另一种是通过数据库的排他锁来实现分布式锁。</p>
-<h3><span id="you-dian">优点：</span><a href="#you-dian" class="header-anchor">#</a></h3><p>&emsp;&emsp;直接借助数据库，容易理解。</p>
-<h3><span id="que-dian">缺点：</span><a href="#que-dian" class="header-anchor">#</a></h3><p>&emsp;&emsp;会有各种各样的问题，在解决问题的过程中，会使整个方案变得越来越复杂。操作数据库会有一定的开销，性能问题需要考虑。使用数据库的行级锁并不一定靠谱，尤其是当我们的锁表并不大的时候。</p>
-<hr>
-<h1><span id="ji-yu-huan-cun-shi-xian-fen-bu-shi-suo">基于缓存实现分布式锁：</span><a href="#ji-yu-huan-cun-shi-xian-fen-bu-shi-suo" class="header-anchor">#</a></h1><p>&emsp;&emsp;相对于基于数据库实现分布式锁的方案来说，基于缓存来实现在性能方面会表现的更好一点。而且很多缓存是可以集群部署的，可以解决单点问题。<br>&emsp;&emsp;目前有很多成熟的缓存产品，Redis，memcached。</p>
-<h3><span id="wen-ti">问题：</span><a href="#wen-ti" class="header-anchor">#</a></h3><ol>
-<li> 这把锁没有失效时间，一旦解锁失败，就会导致锁记录一直在缓存中，其他线程无法再次获得锁。</li>
-<li> 这把锁只能是非阻塞的，无论成功还是失败都直接返回。</li>
-<li> 这把锁是非重入的，一个线程获得锁之后，在释放锁之前，无法再次获得该锁，因为key已经存在，无法进行put操作。</li>
-</ol>
-<h3><span id="jie-jue">解决:</span><a href="#jie-jue" class="header-anchor">#</a></h3><ol>
-<li> 没有失效时间：设置固定时间，到期后自动删除。失效时间比较难以确定，时间太短，方法没执行完释放锁，就会产生并发问题；时间太长，其他线程就要浪费很多时间。</li>
-<li> 非阻塞：while重复执行。</li>
-<li> 非可重入：在一个线程获取到锁之后，把当前主机信息和线程信息保存起来，下次再获取前先检查自己是不是当前锁的拥有者。</li>
-</ol>
-<h2><span id="zong-jie">总结：</span><a href="#zong-jie" class="header-anchor">#</a></h2><h3><span id="you-dian">优点：</span><a href="#you-dian" class="header-anchor">#</a></h3><p>&emsp;&emsp;性能好，实现起来较为方便。</p>
-<h3><span id="que-dian">缺点：</span><a href="#que-dian" class="header-anchor">#</a></h3><p>&emsp;&emsp;通过超时来控制锁的失效时间并不是十分的靠谱。</p>
-<hr>
-<h1><span id="ji-yu-zookeeper-shi-xian-fen-bu-shi-suo">基于Zookeeper实现分布式锁：</span><a href="#ji-yu-zookeeper-shi-xian-fen-bu-shi-suo" class="header-anchor">#</a></h1><p>&emsp;&emsp;基于zookeeper临时有序节点可实现的分布式锁。<br>&emsp;&emsp;大致思想为：每个客户端对每个方法加锁时，在zookeeper上的与该方法对应的指定节点的目录下，生成一个唯一的瞬时有序节点。判断是否获取锁的方式很简单，只需要判断有序节点中序号最小的一个。当释放锁的时候，只需将这个瞬时节点删除即可。同时，其可以避免服务宕机导致的锁无法释放，而产生死锁的问题。</p>
-<h2><span id="ru-he-jie-jue-qian-mian-de-wen-ti">如何解决前面的问题：</span><a href="#ru-he-jie-jue-qian-mian-de-wen-ti" class="header-anchor">#</a></h2><h3><span id="suo-wu-fa-shi-fang">锁无法释放：</span><a href="#suo-wu-fa-shi-fang" class="header-anchor">#</a></h3><p>&emsp;&emsp;使用Zookeeper可以有效的解决锁无法释放的问题，因为在创建的时候，客户端会在zk中创建一个临时节点，一旦客户端获取到锁之后突然挂掉，那么这个临时节点就会自动删除掉。其他客户端就可以再次获得锁。</p>
-<h3><span id="fei-zu-sai-suo">非阻塞锁：</span><a href="#fei-zu-sai-suo" class="header-anchor">#</a></h3><p>&emsp;&emsp;使用zookeeper可以实现阻塞的锁，客户端可通过在zk中创建顺序节点，并在节点上绑定监听器，一旦节点有变化，zookeeper会通知客户端，客户端可以检查自己创建的节点是不是当前所有节点中序号最小的，如果是，那么自己就获取到锁，便可以执行业务逻辑。</p>
-<h3><span id="bu-ke-chong-ru">不可重入：</span><a href="#bu-ke-chong-ru" class="header-anchor">#</a></h3><p>&emsp;&emsp;使用zookeeper可以有效解决不可重入的问题，客户端在创建节点时，把当前客户端的主机信息和线程信息直接写入节点中，下次想要获取锁的时候和当前最小节点中的数据对比一下就可以。如果和自己的信息一样，那么自己直接获取到锁，如果不一样就在创建一个临时的顺序节点，参与排队。</p>
-<h3><span id="dan-dian-wen-ti">单点问题：</span><a href="#dan-dian-wen-ti" class="header-anchor">#</a></h3><p>&emsp;&emsp;使用zookeeper可以有效解决单点问题，zk是集群部署的，只要集群中有半数以上的机器存活，就可以对外提供服务。</p>
-<p>&emsp;&emsp;使用zk实现的分布式锁其实存在一个缺点，那就是性能上可能并没有缓存服务器那么高。因为在每次创建锁和释放锁的过程中，都要动态创建，销毁瞬时节点来实现锁功能。zk中创建和删除节点只能通过leader服务器来执行，然后将数据同步到所有follower机器上。<br>&emsp;&emsp;使用了zk也有可能带来并发问题，只是不常见。由于网络抖动，客户端集群的session连接断了，那么zk以为客户端挂了，就会删除临时节点，这是其他客户端就可以获取到分布式锁了。就可能产生并发问题。这个问题不常见是因为zk有重试机制，一旦zk集群检测不到客户端的心跳，就会重试，多次重试还不行的话就会删除临时节点。</p>
-<h2><span id="zong-jie">总结：</span><a href="#zong-jie" class="header-anchor">#</a></h2><h3><span id="you-dian">优点：</span><a href="#you-dian" class="header-anchor">#</a></h3><p>&emsp;&emsp;有效的解决单点问题，不可重入问题，非阻塞问题，以及锁无法释放的问题。实现起来较为简单。</p>
-<h3><span id="que-dian">缺点：</span><a href="#que-dian" class="header-anchor">#</a></h3><p>&emsp;&emsp;性能上不如缓存实现分布式锁。需要最zk的原理有所了解。</p>
-<hr>
-<h1><span id="bi-jiao">比较：</span><a href="#bi-jiao" class="header-anchor">#</a></h1><h3><span id="li-jie-cheng-du">理解程度：</span><a href="#li-jie-cheng-du" class="header-anchor">#</a></h3><p>数据库&gt;缓存&gt;Zookeeper</p>
-<h3><span id="shi-xian-de-fu-za-xing-jiao-du">实现的复杂性角度：</span><a href="#shi-xian-de-fu-za-xing-jiao-du" class="header-anchor">#</a></h3><p>Zookeeper&gt;=缓存&gt;数据库</p>
-<h3><span id="xing-neng-jiao-du">性能角度：</span><a href="#xing-neng-jiao-du" class="header-anchor">#</a></h3><p>缓存&gt;Zookeeper&gt;=数据库</p>
-<h3><span id="ke-kao-xing-jiao-du">可靠性角度：</span><a href="#ke-kao-xing-jiao-du" class="header-anchor">#</a></h3><p>Zookeeper&gt;缓存&gt;数据库</p>
-]]></content>
-      <categories>
-        <category>架构</category>
-      </categories>
-      <tags>
-        <tag>lock</tag>
-        <tag>分布式</tag>
       </tags>
   </entry>
 </search>
