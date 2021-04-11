@@ -1,6 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>IO</title>
+    <url>/hexoblog/2021/03/29/IO/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>deeplin安装docker</title>
+    <url>/hexoblog/2021/04/11/deeplin%E5%AE%89%E8%A3%85docker/</url>
+    <content><![CDATA[<h1><span id="an-zhuang">安装</span><a href="#an-zhuang" class="header-anchor">#</a></h1>]]></content>
+      <categories>
+        <category>deeplin</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>linux</tag>
+        <tag>deeplin</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>jvm命令</title>
+    <url>/hexoblog/2021/03/29/jvm%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h1><span id="jvm-ming-ling-de-shi-yong">JVM命令的使用</span><a href="#jvm-ming-ling-de-shi-yong" class="header-anchor">#</a></h1><p><a href="https://blog.csdn.net/wangxiaotongfan/article/details/82560739">https://blog.csdn.net/wangxiaotongfan/article/details/82560739</a></p>
+<h2><span id="jps">JPS</span><a href="#jps" class="header-anchor">#</a></h2><h3><span id="jie-shao">介绍</span><a href="#jie-shao" class="header-anchor">#</a></h3><p>&emsp;&emsp;显示当前系统的java进程。</p>
+<h3><span id="can-shu">参数</span><a href="#can-shu" class="header-anchor">#</a></h3><ol>
+<li>-q：只显示pid，不显示class名称，jar文件名和传递给main方法的参数。</li>
+<li>-l：输出应用程序main class的完整package名或者应用程序的jar文件完整路径名。</li>
+<li>-m：</li>
+</ol>
+]]></content>
+      <categories>
+        <category>tool</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>jvm</tag>
+        <tag>jdk</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>dcokerdesktop小问题排查</title>
     <url>/hexoblog/2021/03/14/docker/dcokerdesktop%E5%B0%8F%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5/</url>
     <content><![CDATA[<div class="toc">
@@ -34,6 +72,21 @@
       <tags>
         <tag>docker</tag>
         <tag>wsl</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>一致性hash</title>
+    <url>/hexoblog/2021/03/26/%E4%B8%80%E8%87%B4%E6%80%A7hash/</url>
+    <content><![CDATA[<h1><span id="jie-shao">介绍</span><a href="#jie-shao" class="header-anchor">#</a></h1><p>&emsp;&emsp;在分布式系统中，通常不同的机器存储着不同的数据，例如redis集群中存储的数据。<br>&emsp;&emsp;这些数据通常采用hash算法来计算出应该存储在那台机器上。但是，当集群中的节点增加或者减少时，通过原有的hash算法计算出来的位置将会完全错误。<br>&emsp;&emsp;一致性hash就是为了解决这种问题诞生的。</p>
+<span id="more"></span>
+<hr>
+<h1><span id="nei-rong">内容</span><a href="#nei-rong" class="header-anchor">#</a></h1>]]></content>
+      <categories>
+        <category>分布式</category>
+      </categories>
+      <tags>
+        <tag>hash</tag>
+        <tag>分布式</tag>
       </tags>
   </entry>
   <entry>
@@ -574,8 +627,8 @@
         <category>jvm</category>
       </categories>
       <tags>
-        <tag>jvm</tag>
         <tag>tool</tag>
+        <tag>jvm</tag>
       </tags>
   </entry>
   <entry>
@@ -627,6 +680,85 @@
       <tags>
         <tag>jvm</tag>
         <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>deeplin搭建java开发环境</title>
+    <url>/hexoblog/2021/04/11/linux/deeplin%E6%90%AD%E5%BB%BAjava%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</url>
+    <content><![CDATA[<h1><span id="an-zhuang-jdk">安装jdk</span><a href="#an-zhuang-jdk" class="header-anchor">#</a></h1><p>&emsp;&emsp;安装之前最好先获取管理员权限。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 获取后需要输入密码</span></span><br><span class="line">sudo su</span><br></pre></td></tr></table></figure>
+
+<h2><span id="xia-zai-jdk">下载jdk</span><a href="#xia-zai-jdk" class="header-anchor">#</a></h2><p>&emsp;&emsp;进入指定目录，下载jdk文件，我自己通常喜欢下载在<code>/usr/local/src/jdk</code>目录中，<a href="https://www.oracle.com/java/technologies/javase-jdk16-downloads.html">jdk16</a>。<br>&emsp;&emsp;<code>/usr/bin</code>是系统的软件存放的位置。<br>&emsp;&emsp;<code>/usr/local/bin</code>是我们自己的软件存放的位置。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wget https://download.oracle.com/otn-pub/java/jdk/16+36/7863447f0ab643c585b9bdebf67c69db/jdk-16_linux-x64_bin.tar.gz?AuthParam=1618140718_ccecc5f8b3763f1feed74a49a7f7cbb8</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+<h2><span id="jiang-xia-zai-de-jdk-jie-ya-suo">将下载的jdk解压缩</span><a href="#jiang-xia-zai-de-jdk-jie-ya-suo" class="header-anchor">#</a></h2><p>&emsp;&emsp;通过wget下载的压缩包文件名称会奇奇怪怪的。如果通过浏览器下载则没有该问题。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 重命名文件</span></span><br><span class="line">mv <span class="string">&#x27;jdk-16_linux-x64_bin.tar.gz?AuthParam=1618140718_ccecc5f8b3763f1feed74a49a7f7cbb8&#x27;</span> jdk-16_linux-x64_bin.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解压缩文件</span></span><br><span class="line">tar xvf jdk-16_linux-x64_bin.tar.gz</span><br></pre></td></tr></table></figure>
+
+<h2><span id="chong-ming-ming-wen-jian-jia-ke-xuan">重命名文件夹（可选）</span><a href="#chong-ming-ming-wen-jian-jia-ke-xuan" class="header-anchor">#</a></h2><p>&emsp;&emsp;对解压后的文件夹重命名，也可以不做。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mv jdk-16_linux-x64_bin jdk16</span><br></pre></td></tr></table></figure>
+
+<h2><span id="pei-zhi-huan-jing-bian-liang">配置环境变量</span><a href="#pei-zhi-huan-jing-bian-liang" class="header-anchor">#</a></h2><p>&emsp;&emsp;jdk需要配置PATH和CLASSPATH环境变量。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 系统的环境变量写在/etc/profile文件中</span></span><br><span class="line">vi /etc/profile</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在编辑器末尾添加对应的环境变量</span></span><br><span class="line"><span class="comment"># 这里的路径结合自己的实际安装路径</span></span><br><span class="line">JAVA_HOME=/usr/<span class="built_in">local</span>/jdk/jdk16</span><br><span class="line">CLASSPATH=<span class="variable">$JAVA_HOME</span>/lib</span><br><span class="line"><span class="built_in">export</span> CLASSPATH</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:&amp;JAVA_HOME/bin</span><br><span class="line"></span><br><span class="line"><span class="comment"># 退出vi并保存，这里需要强制保存</span></span><br><span class="line">esc</span><br><span class="line">:wq!</span><br><span class="line"></span><br><span class="line"><span class="comment"># 刷新使环境变量生效</span></span><br><span class="line"><span class="built_in">source</span> /etc/profile</span><br><span class="line"></span><br><span class="line"><span class="comment"># 验证，查看版本号</span></span><br><span class="line">java -version</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1><span id="an-zhuang-maven">安装maven</span><a href="#an-zhuang-maven" class="header-anchor">#</a></h1><h2><span id="xia-zai-maven">下载maven</span><a href="#xia-zai-maven" class="header-anchor">#</a></h2><p>&emsp;&emsp;将maven下载进指定目录，这里依照个人习惯，我放在<code>/usr/local/src/maven</code>。<a href="https://mirrors.bfsu.edu.cn/apache/maven/maven-3/3.8.1/binaries/apache-maven-3.8.1-bin.tar.gz">maven3.8.1</a></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wget https://mirrors.bfsu.edu.cn/apache/maven/maven-3/3.8.1/binaries/apache-maven-3.8.1-bin.tar.gz</span><br></pre></td></tr></table></figure>
+
+<h2><span id="jie-ya-suo-wen-jian">解压缩文件</span><a href="#jie-ya-suo-wen-jian" class="header-anchor">#</a></h2><p>&emsp;&emsp;对下载的maven文件解压缩。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tar xvf apache-maven-3.8.1-bin.tar.gz</span><br></pre></td></tr></table></figure>
+
+<h2><span id="chong-ming-ming-wen-jian-jia">重命名文件夹</span><a href="#chong-ming-ming-wen-jian-jia" class="header-anchor">#</a></h2><p>&emsp;&emsp;这一步可选操作，目的是为了文件目录整洁。也可以不做。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mv apache-maven-3.8.1-bin maven3</span><br></pre></td></tr></table></figure>
+
+<h2><span id="pei-zhi-huan-jing-bian-liang">配置环境变量</span><a href="#pei-zhi-huan-jing-bian-liang" class="header-anchor">#</a></h2><p>&emsp;&emsp;maven也需要配置PATH环境变量。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vi /etc/profile</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在编辑器末尾添加对应的环境变量</span></span><br><span class="line"><span class="comment"># 这里的路径结合自己的实际安装路径</span></span><br><span class="line">MAVEN_HOME=/usr/<span class="built_in">local</span>/maven/maven3</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:&amp;MAVEN_HOME/bin</span><br><span class="line"></span><br><span class="line"><span class="comment"># 退出vi并保存，这里需要强制保存</span></span><br><span class="line">esc</span><br><span class="line">:wq!</span><br><span class="line"></span><br><span class="line"><span class="comment"># 刷新使环境变量生效</span></span><br><span class="line"><span class="built_in">source</span> /etc/profile</span><br><span class="line"></span><br><span class="line"><span class="comment"># 验证，查看版本号</span></span><br><span class="line">mvn -v</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1><span id="an-zhuang-tomcat">安装tomcat</span><a href="#an-zhuang-tomcat" class="header-anchor">#</a></h1>]]></content>
+      <categories>
+        <category>deeplin</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>linux</tag>
+        <tag>deeplin</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>wsl小问题排查</title>
+    <url>/hexoblog/2021/03/14/linux/wsl%E5%B0%8F%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5/</url>
+    <content><![CDATA[<div class="toc">
+
+<!-- toc -->
+
+<ul>
+<li><a href="#wen-ti">问题</a><ul>
+<li><a href="#wang-luo-wen-ti">网络问题</a><ul>
+<li><a href="#can-kao-de-dui-xiang-lei-xing-bu-zhi-chi-chang-shi-de-cao-zuo">参考的对象类型不支持尝试的操作</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+
+</div>
+
+<h1><span id="wen-ti">问题</span><a href="#wen-ti" class="header-anchor">#</a></h1><h2><span id="wang-luo-wen-ti">网络问题</span><a href="#wang-luo-wen-ti" class="header-anchor">#</a></h2><h3><span id="can-kao-de-dui-xiang-lei-xing-bu-zhi-chi-chang-shi-de-cao-zuo">参考的对象类型不支持尝试的操作</span><a href="#can-kao-de-dui-xiang-lei-xing-bu-zhi-chi-chang-shi-de-cao-zuo" class="header-anchor">#</a></h3><p>&emsp;&emsp;这种问题一般是因为有启动过代理软件，造成代理冲突。</p>
+<span id="more"></span>
+
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Ubuntu%2020.04%20LTS%202021_3_14%2016_01_57.png" alt="参考的对象不支持的操作"></p>
+<h4><span id="jie-jue">解决</span><a href="#jie-jue" class="header-anchor">#</a></h4><p>&emsp;&emsp;临时解决方案，重新网络信息：（管理员运行命令行）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 重置网络信息</span></span><br><span class="line">netsh winsock reset</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>wsl</tag>
       </tags>
   </entry>
   <entry>
@@ -684,42 +816,6 @@
       </tags>
   </entry>
   <entry>
-    <title>wsl小问题排查</title>
-    <url>/hexoblog/2021/03/14/linux/wsl%E5%B0%8F%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5/</url>
-    <content><![CDATA[<div class="toc">
-
-<!-- toc -->
-
-<ul>
-<li><a href="#wen-ti">问题</a><ul>
-<li><a href="#wang-luo-wen-ti">网络问题</a><ul>
-<li><a href="#can-kao-de-dui-xiang-lei-xing-bu-zhi-chi-chang-shi-de-cao-zuo">参考的对象类型不支持尝试的操作</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<!-- tocstop -->
-
-</div>
-
-<h1><span id="wen-ti">问题</span><a href="#wen-ti" class="header-anchor">#</a></h1><h2><span id="wang-luo-wen-ti">网络问题</span><a href="#wang-luo-wen-ti" class="header-anchor">#</a></h2><h3><span id="can-kao-de-dui-xiang-lei-xing-bu-zhi-chi-chang-shi-de-cao-zuo">参考的对象类型不支持尝试的操作</span><a href="#can-kao-de-dui-xiang-lei-xing-bu-zhi-chi-chang-shi-de-cao-zuo" class="header-anchor">#</a></h3><p>&emsp;&emsp;这种问题一般是因为有启动过代理软件，造成代理冲突。</p>
-<span id="more"></span>
-
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Ubuntu%2020.04%20LTS%202021_3_14%2016_01_57.png" alt="参考的对象不支持的操作"></p>
-<h4><span id="jie-jue">解决</span><a href="#jie-jue" class="header-anchor">#</a></h4><p>&emsp;&emsp;临时解决方案，重新网络信息：（管理员运行命令行）</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 重置网络信息</span></span><br><span class="line">netsh winsock reset</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>wsl</tag>
-        <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>mysql常用命令</title>
     <url>/hexoblog/2021/03/12/mysql/mysql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<h1><span id="chang-yong-ming-ling">常用命令</span><a href="#chang-yong-ming-ling" class="header-anchor">#</a></h1><h2><span id="xiu-gai-mysql-shi-qu">修改mysql时区</span><a href="#xiu-gai-mysql-shi-qu" class="header-anchor">#</a></h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看时区</span></span><br><span class="line">show variables like <span class="string">&quot;%time_zone%&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置时区为UTC+8:00</span></span><br><span class="line"><span class="built_in">set</span> global time_zone = <span class="string">&#x27;+8:00&#x27;</span>;</span><br><span class="line"><span class="built_in">set</span> time_zone = <span class="string">&#x27;+8:00&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 刷新立即生效</span></span><br><span class="line">flush privileges；</span><br></pre></td></tr></table></figure>
@@ -735,6 +831,22 @@
       </categories>
       <tags>
         <tag>mysql</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>linux基本操作</title>
+    <url>/hexoblog/2021/04/10/linux/linux%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<h1><span id="wen-jian-cao-zuo">文件操作</span><a href="#wen-jian-cao-zuo" class="header-anchor">#</a></h1><h2><span id="yi-dong-wen-jian-chong-ming-ming-wen-jian">移动文件/重命名文件</span><a href="#yi-dong-wen-jian-chong-ming-ming-wen-jian" class="header-anchor">#</a></h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 移动文件</span></span><br><span class="line">mv [源文件目录] [目标文件目录]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重命名文件</span></span><br><span class="line"><span class="built_in">cd</span> [目标目录]</span><br><span class="line">mv [源文件名] [目标文件名]</span><br></pre></td></tr></table></figure>
+
+<h2><span id="fu-zhi-wen-jian">复制文件</span><a href="#fu-zhi-wen-jian" class="header-anchor">#</a></h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cp [源文件目录/源文件名] [目标文件目录]</span><br></pre></td></tr></table></figure>
+
+<h2><span id="shan-chu-wen-jian">删除文件</span><a href="#shan-chu-wen-jian" class="header-anchor">#</a></h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> [目标文件目录]</span><br><span class="line">rm -rf [目标文件名]</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -1135,8 +1247,8 @@
         <category>zookeeper</category>
       </categories>
       <tags>
-        <tag>zookeeper</tag>
         <tag>分布式</tag>
+        <tag>zookeeper</tag>
       </tags>
   </entry>
   <entry>
@@ -1177,8 +1289,8 @@
         <category>架构</category>
       </categories>
       <tags>
-        <tag>acid</tag>
         <tag>分布式</tag>
+        <tag>acid</tag>
       </tags>
   </entry>
   <entry>
@@ -1236,8 +1348,8 @@
         <category>架构</category>
       </categories>
       <tags>
-        <tag>lock</tag>
         <tag>分布式</tag>
+        <tag>lock</tag>
       </tags>
   </entry>
 </search>
