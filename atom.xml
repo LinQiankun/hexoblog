@@ -6,7 +6,7 @@
   <link href="http://linqiankun.gitee.io/hexoblog/atom.xml" rel="self"/>
   
   <link href="http://linqiankun.gitee.io/hexoblog/"/>
-  <updated>2021-04-11T12:04:03.919Z</updated>
+  <updated>2021-04-14T11:49:29.408Z</updated>
   <id>http://linqiankun.gitee.io/hexoblog/</id>
   
   <author>
@@ -17,11 +17,181 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>deeplin搭建java开发环境</title>
-    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/11/linux/deeplin%E6%90%AD%E5%BB%BAjava%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/"/>
-    <id>http://linqiankun.gitee.io/hexoblog/2021/04/11/linux/deeplin%E6%90%AD%E5%BB%BAjava%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</id>
+    <title>redis安装和使用</title>
+    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/14/redis/redis%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/"/>
+    <id>http://linqiankun.gitee.io/hexoblog/2021/04/14/redis/redis%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/</id>
+    <published>2021-04-14T11:22:26.000Z</published>
+    <updated>2021-04-14T11:49:29.408Z</updated>
+    
+    <content type="html"><![CDATA[<h1><span id="an-zhuang">安装</span><a href="#an-zhuang" class="header-anchor">#</a></h1><p>&emsp;&emsp;这里是在windows环境下的redis安装过程，两种安装方式，都比较简单。<br>&emsp;&emsp;官方提供的只有linux系统的tar.gz格式的压缩包，windows的需要在github下载。<br><a href="https://redis.io/">https://redis.io/</a><br><a href="http://www.redis.cn/">http://www.redis.cn/</a><br><a href="https://www.redis.com.cn/">https://www.redis.com.cn/</a><br><a href="https://www.redis.com.cn/redis-installation.html">https://www.redis.com.cn/redis-installation.html</a></p><span id="more"></span><h2><span id="msi-an-zhuang">msi安装</span><a href="#msi-an-zhuang" class="header-anchor">#</a></h2><ol><li>下载msi安装文件<blockquote><p>官方提供的只有tar.gz格式压缩包下载，msi需要在github下载<br><a href="https://github.com/MicrosoftArchive/redis/releases">https://github.com/MicrosoftArchive/redis/releases</a></p></blockquote></li><li>双击运行</li><li>完成安装</li></ol><h2><span id="zip-an-zhuang">zip安装</span><a href="#zip-an-zhuang" class="header-anchor">#</a></h2><ol><li>下载zip压缩包</li><li>将压缩包解压至你准备安装的路径</li><li>解压完成就是安装完成</li></ol><hr><h1><span id="shi-yong">使用</span><a href="#shi-yong" class="header-anchor">#</a></h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 先进入安装目录</span></span><br><span class="line"><span class="built_in">cd</span> &lt;安装目录&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动</span></span><br><span class="line"><span class="comment"># 作为普通软件启动，命令行关闭则关闭</span></span><br><span class="line">redis-server.exe redis.windows.conf</span><br><span class="line"><span class="comment"># 作为服务启动，不跟随命令行</span></span><br><span class="line">redis-server.exe redis.windows-service.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 客户端连接</span></span><br><span class="line">redis-cli.exe</span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭</span></span><br><span class="line">redis-server.exe --service-stop</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;安装&quot;&gt;&lt;a href=&quot;#安装&quot; class=&quot;headerlink&quot; title=&quot;安装&quot;&gt;&lt;/a&gt;安装&lt;/h1&gt;&lt;p&gt;&amp;emsp;&amp;emsp;这里是在windows环境下的redis安装过程，两种安装方式，都比较简单。&lt;br&gt;&amp;emsp;&amp;emsp;官方提供的只有linux系统的tar.gz格式的压缩包，windows的需要在github下载。&lt;br&gt;&lt;a href=&quot;https://redis.io/&quot;&gt;https://redis.io/&lt;/a&gt;&lt;br&gt;&lt;a href=&quot;http://www.redis.cn/&quot;&gt;http://www.redis.cn/&lt;/a&gt;&lt;br&gt;&lt;a href=&quot;https://www.redis.com.cn/&quot;&gt;https://www.redis.com.cn/&lt;/a&gt;&lt;br&gt;&lt;a href=&quot;https://www.redis.com.cn/redis-installation.html&quot;&gt;https://www.redis.com.cn/redis-installation.html&lt;/a&gt;&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="redis" scheme="http://linqiankun.gitee.io/hexoblog/categories/redis/"/>
+    
+    
+    <category term="tool" scheme="http://linqiankun.gitee.io/hexoblog/tags/tool/"/>
+    
+    <category term="redis" scheme="http://linqiankun.gitee.io/hexoblog/tags/redis/"/>
+    
+    <category term="安装" scheme="http://linqiankun.gitee.io/hexoblog/tags/%E5%AE%89%E8%A3%85/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>mysql中datetime和timestamp</title>
+    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/14/mysql/mysql%E4%B8%ADdatetime%E5%92%8Ctimestamp/"/>
+    <id>http://linqiankun.gitee.io/hexoblog/2021/04/14/mysql/mysql%E4%B8%ADdatetime%E5%92%8Ctimestamp/</id>
+    <published>2021-04-14T11:15:06.000Z</published>
+    <updated>2021-04-14T11:18:32.604Z</updated>
+    
+    
+    
+    
+    <category term="mysql" scheme="http://linqiankun.gitee.io/hexoblog/categories/mysql/"/>
+    
+    
+    <category term="mysql" scheme="http://linqiankun.gitee.io/hexoblog/tags/mysql/"/>
+    
+    <category term="数据类型" scheme="http://linqiankun.gitee.io/hexoblog/tags/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>mysql浮点数精度</title>
+    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/14/mysql/mysql%E6%B5%AE%E7%82%B9%E6%95%B0%E7%B2%BE%E5%BA%A6/"/>
+    <id>http://linqiankun.gitee.io/hexoblog/2021/04/14/mysql/mysql%E6%B5%AE%E7%82%B9%E6%95%B0%E7%B2%BE%E5%BA%A6/</id>
+    <published>2021-04-14T06:44:09.000Z</published>
+    <updated>2021-04-14T11:17:59.205Z</updated>
+    
+    
+    
+    
+    <category term="mysql" scheme="http://linqiankun.gitee.io/hexoblog/categories/mysql/"/>
+    
+    
+    <category term="mysql" scheme="http://linqiankun.gitee.io/hexoblog/tags/mysql/"/>
+    
+    <category term="数据类型" scheme="http://linqiankun.gitee.io/hexoblog/tags/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>redis分布式锁</title>
+    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/14/redis/redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/"/>
+    <id>http://linqiankun.gitee.io/hexoblog/2021/04/14/redis/redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/</id>
+    <published>2021-04-14T06:02:57.000Z</published>
+    <updated>2021-04-14T11:34:21.769Z</updated>
+    
+    <content type="html"><![CDATA[<h1><span id="bei-jing">背景</span><a href="#bei-jing" class="header-anchor">#</a></h1><p>&emsp;&emsp;单机情况下，对于多线程情况下的竞态资源，我们可以在代码中使用synchronized或者ReentrantLock来加锁，防止发生并发问题。但是当我们的服务进行集群部署时，对于这两种加锁方式，就会失效，它们只能在单机加锁，所以就需要与之对应的分布式锁。</p><span id="more"></span><hr><h1><span id="fen-bu-shi-suo">分布式锁</span><a href="#fen-bu-shi-suo" class="header-anchor">#</a></h1><p>&emsp;&emsp;一般采用redis的setnx原子操作来实现分布式锁。<br><a href="https://zhuanlan.zhihu.com/p/129886269">学习一下</a><br><a href="https://www.cnblogs.com/niceyoo/p/13711149.html">学习二下</a><br><a href="https://www.cnblogs.com/jojop/p/14008824.html">学习三下</a><br><a href="https://blog.csdn.net/asd051377305/article/details/108384490">学习四下</a></p><h2><span id="setnx-huo-de-suo">setnx（获得锁）</span><a href="#setnx-huo-de-suo" class="header-anchor">#</a></h2><p>&emsp;&emsp;setnx 是SET if Not eXists(如果不存在，则 SET)的简写。<br>&emsp;&emsp;完整语法：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># set命令模式</span></span><br><span class="line">SET key value [EX seconds|PX milliseconds] [NX|XX] [KEEPTTL]</span><br><span class="line"></span><br><span class="line"><span class="comment"># setnx命令模式</span></span><br><span class="line">setnx key value</span><br></pre></td></tr></table></figure><blockquote><ol><li>value的值尽可能使用随机数或者线程独有的，能够识别的，为了安全的释放锁。</li><li>使用不同的redis客户端（jedis，redisTemplate）时写法会有所不同，这里是redis黑窗口命令。</li></ol></blockquote><p>&emsp;&emsp;参数说明：</p><ol><li>EX：设置过期时间，时间精确到秒</li><li>PX：设置过期时间，时间精确到毫秒</li><li>NX：表示key不存在时才设置，否则返回null</li><li>XX：表示key存在时才设置，否则返回null</li></ol><h3><span id="shi-yong-guo-cheng">使用过程：</span><a href="#shi-yong-guo-cheng" class="header-anchor">#</a></h3><ol><li>执行setnx命令进行加锁，返回ok，返回nil则为加锁失败。</li><li>执行expire命令设置超时时间</li><li>执行业务逻辑</li><li>delete命令解锁</li></ol><h3><span id="wen-ti">问题</span><a href="#wen-ti" class="header-anchor">#</a></h3><ol><li>加锁与设置超时时间分步执行，若超时时间设置失败则有可能产生死锁。</li><li>delete命令存在误删非当前线程持有锁的可能。</li><li>不支持阻塞等待，不可重入。</li><li>单机redis锁，存在加锁后，主从切换时锁还未同步到问题，锁会丢失。</li></ol><h3><span id="lua-jiao-ben-shi-fang-suo">lua脚本（释放锁）</span><a href="#lua-jiao-ben-shi-fang-suo" class="header-anchor">#</a></h3><p>&emsp;&emsp;我们在手动解锁时，极限情况下会有删除其他线程锁的情况，因为我们的随机数比较和删除过程并不是原子操作。存在判断通过后，锁自动失效，其他线程加锁成功的情况，这是解锁会出问题。通过lua脚本原子操作，可以安全的解锁。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">-- lua删除锁：</span><br><span class="line">-- KEYS和ARGV分别是以集合方式传入的参数，对应上文的Test和uuid。</span><br><span class="line">-- 如果对应的value等于传入的uuid。</span><br><span class="line"><span class="keyword">if</span> redis.call(<span class="string">&#x27;get&#x27;</span>, KEYS[1]) == ARGV[1] </span><br><span class="line">    <span class="keyword">then</span> </span><br><span class="line"> -- 执行删除操作</span><br><span class="line">        <span class="built_in">return</span> redis.call(<span class="string">&#x27;del&#x27;</span>, KEYS[1]) </span><br><span class="line">    <span class="keyword">else</span> </span><br><span class="line"> -- 不成功，返回0</span><br><span class="line">        <span class="built_in">return</span> 0 </span><br><span class="line">end</span><br></pre></td></tr></table></figure><h3><span id="setex-amp-psetex">setex&amp;psetex</span><a href="#setex-amp-psetex" class="header-anchor">#</a></h3><p>&emsp;&emsp;setex等同于set命令在可选参数使用EX的情况，都是在NX模式下，添加了过期时间，避免死锁。psetex相对于setex采用毫秒作为超时单位。</p><h2><span id="redisson">Redisson</span><a href="#redisson" class="header-anchor">#</a></h2><p><a href="https://www.cnblogs.com/niceyoo/p/13736140.html">https://www.cnblogs.com/niceyoo/p/13736140.html</a></p><h2><span id="redlock">RedLock</span><a href="#redlock" class="header-anchor">#</a></h2>]]></content>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h1&gt;&lt;p&gt;&amp;emsp;&amp;emsp;单机情况下，对于多线程情况下的竞态资源，我们可以在代码中使用synchronized或者ReentrantLock来加锁，防止发生并发问题。但是当我们的服务进行集群部署时，对于这两种加锁方式，就会失效，它们只能在单机加锁，所以就需要与之对应的分布式锁。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="redis" scheme="http://linqiankun.gitee.io/hexoblog/categories/redis/"/>
+    
+    
+    <category term="redis" scheme="http://linqiankun.gitee.io/hexoblog/tags/redis/"/>
+    
+    <category term="分布式" scheme="http://linqiankun.gitee.io/hexoblog/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+    
+    <category term="锁" scheme="http://linqiankun.gitee.io/hexoblog/tags/%E9%94%81/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>redlock-redis分布式锁的实现</title>
+    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/14/redis/redlock-redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9A%84%E5%AE%9E%E7%8E%B0/"/>
+    <id>http://linqiankun.gitee.io/hexoblog/2021/04/14/redis/redlock-redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9A%84%E5%AE%9E%E7%8E%B0/</id>
+    <published>2021-04-14T03:00:16.000Z</published>
+    <updated>2021-04-14T11:18:08.070Z</updated>
+    
+    <content type="html"><![CDATA[<h1><span id="jie-shao">介绍</span><a href="#jie-shao" class="header-anchor">#</a></h1>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1&gt;&lt;span id=&quot;jie-shao&quot;&gt;介绍&lt;/span&gt;&lt;a href=&quot;#jie-shao&quot; class=&quot;header-anchor&quot;&gt;#&lt;/a&gt;&lt;/h1&gt;</summary>
+      
+    
+    
+    
+    <category term="redis" scheme="http://linqiankun.gitee.io/hexoblog/categories/redis/"/>
+    
+    
+    <category term="redis" scheme="http://linqiankun.gitee.io/hexoblog/tags/redis/"/>
+    
+    <category term="分布式" scheme="http://linqiankun.gitee.io/hexoblog/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+    
+    <category term="锁" scheme="http://linqiankun.gitee.io/hexoblog/tags/%E9%94%81/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>docker启动springboot</title>
+    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/12/docker/docker%E5%90%AF%E5%8A%A8springboot/"/>
+    <id>http://linqiankun.gitee.io/hexoblog/2021/04/12/docker/docker%E5%90%AF%E5%8A%A8springboot/</id>
+    <published>2021-04-12T03:10:15.000Z</published>
+    <updated>2021-04-12T10:58:05.627Z</updated>
+    
+    <content type="html"><![CDATA[<h1><span id="zhun-bei">准备</span><a href="#zhun-bei" class="header-anchor">#</a></h1><p>&emsp;&emsp;需要准备东西有：</p><ol><li>docker环境</li><li>sprinboot项目</li></ol><span id="more"></span><hr><h1><span id="shou-dong">手动</span><a href="#shou-dong" class="header-anchor">#</a></h1><h2><span id="bu-shu">部署</span><a href="#bu-shu" class="header-anchor">#</a></h2><h3><span id="da-bao">打包</span><a href="#da-bao" class="header-anchor">#</a></h3><p>&emsp;&emsp;首先将springboot项目通过maven打包，得到可执行jar包。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 删除编译文件</span></span><br><span class="line">mvn clean</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将项目打包，得到可执行jar包</span></span><br><span class="line">mvn package</span><br></pre></td></tr></table></figure><h3><span id="gou-jian">构建</span><a href="#gou-jian" class="header-anchor">#</a></h3><p>&emsp;&emsp;将得到的可执行jar包构建成docker镜像。</p><p>&emsp;&emsp;将得到的jar包放入指定目录下，并且在同目录下建立Dockerfile文件(文件名不能错)。<br>&emsp;&emsp;Dockerfile文件内容：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 基础镜像，环境</span></span><br><span class="line">FROM java:8</span><br><span class="line"><span class="comment"># springboot内嵌tomcat的工作目录</span></span><br><span class="line">VOLUME /tmp</span><br><span class="line"><span class="comment"># 拷贝文件并重命名</span></span><br><span class="line">ADD &lt;包名称&gt;.jar &lt;镜像名称&gt;.jar</span><br><span class="line"><span class="comment"># 启动时的命令</span></span><br><span class="line">ENTRYPOINT [<span class="string">&quot;java&quot;</span>,<span class="string">&quot;-jar&quot;</span>,<span class="string">&quot;&lt;包名称&gt;.jar&quot;</span>]</span><br></pre></td></tr></table></figure><p>&emsp;&emsp;执行docker构建命令，得到docker镜像。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t &lt;镜像名称&gt; .</span><br></pre></td></tr></table></figure><h3><span id="yan-zheng">验证</span><a href="#yan-zheng" class="header-anchor">#</a></h3><p>&emsp;&emsp;构建完成后，就可以在镜像列表查看是否有新构建的镜像，也可以运行该镜像。</p><h2><span id="wen-ti">问题</span><a href="#wen-ti" class="header-anchor">#</a></h2><h3><span id="jar-bao-ming-cheng-wen-ti">jar包名称问题</span><a href="#jar-bao-ming-cheng-wen-ti" class="header-anchor">#</a></h3><p>&emsp;&emsp;docker中镜像名称应该是使用小写字母，不可以使用大写字母，否则报错，命令行中不允许大写字母及特殊字符。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">invalid argument <span class="string">&quot;learn-0.0.1-SNAPSHOT&quot;</span> <span class="keyword">for</span> <span class="string">&quot;-t, --tag&quot;</span> flag: invalid reference format: repository name must be lowercase</span><br><span class="line">See <span class="string">&#x27;docker build --help&#x27;</span>.</span><br></pre></td></tr></table></figure><h3><span id="zhi-xing-lu-jing-wen-ti">执行路径问题</span><a href="#zhi-xing-lu-jing-wen-ti" class="header-anchor">#</a></h3><p>&emsp;&emsp;执行构建镜像命令应该进入所创建的目录，即在Dockerfile文件所在目录。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">failed to solve with frontend dockerfile.v0: failed to <span class="built_in">read</span> dockerfile: open /var/lib/docker/tmp/buildkit-mount528762</span><br></pre></td></tr></table></figure><hr><h1><span id="zi-dong">自动</span><a href="#zi-dong" class="header-anchor">#</a></h1><p>&emsp;&emsp;借助docker提供的maven工具，可自动构建docker镜像。</p><h2><span id="bu-shu">部署</span><a href="#bu-shu" class="header-anchor">#</a></h2><h3><span id="yin-ru-yi-lai">引入依赖</span><a href="#yin-ru-yi-lai" class="header-anchor">#</a></h3><p>&emsp;&emsp;首先需要引入docker的maven构建工具。</p><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.spotify<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>docker-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 低版本的会报错--&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 1.0.0不支持docker-desktop--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">imageName</span>&gt;</span>springboot/learn<span class="tag">&lt;/<span class="name">imageName</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- Dockerfile文件所在的文件位置，可以用配置替代 --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- &lt;dockerDirectory&gt;src/main/docker&lt;/dockerDirectory&gt; --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 基础镜像，运行一个springboot应用只需要基础的java环境就行 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">baseImage</span>&gt;</span>java:8<span class="tag">&lt;/<span class="name">baseImage</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- docker启动的时候执行的命令 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">entryPoint</span>&gt;</span>[&quot;java&quot;, &quot;-jar&quot;, &quot;/$&#123;project.build.finalName&#125;.jar&quot;]<span class="tag">&lt;/<span class="name">entryPoint</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">resources</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">resource</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">targetPath</span>&gt;</span>/<span class="tag">&lt;/<span class="name">targetPath</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">directory</span>&gt;</span>$&#123;project.build.directory&#125;<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">include</span>&gt;</span>$&#123;project.build.finalName&#125;.jar<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resource</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resources</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br></pre></td></tr></table></figure><h3><span id="gou-jian-jing-xiang">构建镜像</span><a href="#gou-jian-jing-xiang" class="header-anchor">#</a></h3><p>&emsp;&emsp;添加完依赖就可以对项目打包，构建。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 首先将项目打包</span></span><br><span class="line">mvn package</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用添加的maven插件将项目构建成docker镜像</span></span><br><span class="line">mvn docker:build</span><br></pre></td></tr></table></figure><p>&emsp;&emsp;构建完成就可以在docker镜像列表中查看。</p>]]></content>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;准备&quot;&gt;&lt;a href=&quot;#准备&quot; class=&quot;headerlink&quot; title=&quot;准备&quot;&gt;&lt;/a&gt;准备&lt;/h1&gt;&lt;p&gt;&amp;emsp;&amp;emsp;需要准备东西有：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;docker环境&lt;/li&gt;
+&lt;li&gt;sprinboot项目&lt;/li&gt;
+&lt;/ol&gt;</summary>
+    
+    
+    
+    <category term="docker" scheme="http://linqiankun.gitee.io/hexoblog/categories/docker/"/>
+    
+    
+    <category term="docker" scheme="http://linqiankun.gitee.io/hexoblog/tags/docker/"/>
+    
+    <category term="springboot" scheme="http://linqiankun.gitee.io/hexoblog/tags/springboot/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>docker启动vue</title>
+    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/12/docker/docker%E5%90%AF%E5%8A%A8vue/"/>
+    <id>http://linqiankun.gitee.io/hexoblog/2021/04/12/docker/docker%E5%90%AF%E5%8A%A8vue/</id>
+    <published>2021-04-12T03:10:01.000Z</published>
+    <updated>2021-04-12T05:50:22.017Z</updated>
+    
+    <content type="html"><![CDATA[<h1><span id="zhun-bei">准备</span><a href="#zhun-bei" class="header-anchor">#</a></h1><p>&emsp;&emsp;需要准备东西有：</p><ol><li>docker环境</li><li>vue项目</li></ol><span id="more"></span><hr><h1><span id="bu-shu">部署</span><a href="#bu-shu" class="header-anchor">#</a></h1><h2><span id="xiang-mu-build">项目build</span><a href="#xiang-mu-build" class="header-anchor">#</a></h2><p>&emsp;&emsp;将vue项目build得到dist文件夹。这里是页面等资源文件。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure><h2><span id="gou-jian">构建</span><a href="#gou-jian" class="header-anchor">#</a></h2><p>&emsp;&emsp;将得到的可执行dist构建成docker镜像。</p><p>&emsp;&emsp;将得到的dist文件放入指定目录下，并且在同目录下建立Dockerfile文件(文件名不能错)。<br>&emsp;&emsp;Dockerfile文件内容：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 设置基础镜像，这里使用最新的nginx镜像，前面已经拉取过了</span></span><br><span class="line">FROM nginx</span><br><span class="line"><span class="comment"># 定义作者 Edison</span></span><br><span class="line">MAINTAINER Edison </span><br><span class="line"><span class="comment"># 将dist文件中的内容复制到 /usr/share/nginx/html/ 这个目录下面</span></span><br><span class="line">COPY dist/  /usr/share/nginx/html/</span><br></pre></td></tr></table></figure><p>&emsp;&emsp;执行docker构建命令，得到docker镜像。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t &lt;镜像名称&gt; .</span><br></pre></td></tr></table></figure><h2><span id="yan-zheng">验证</span><a href="#yan-zheng" class="header-anchor">#</a></h2><p>&emsp;&emsp;构建完成后，就可以在镜像列表查看是否有新构建的镜像，也可以运行该镜像。</p>]]></content>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;准备&quot;&gt;&lt;a href=&quot;#准备&quot; class=&quot;headerlink&quot; title=&quot;准备&quot;&gt;&lt;/a&gt;准备&lt;/h1&gt;&lt;p&gt;&amp;emsp;&amp;emsp;需要准备东西有：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;docker环境&lt;/li&gt;
+&lt;li&gt;vue项目&lt;/li&gt;
+&lt;/ol&gt;</summary>
+    
+    
+    
+    <category term="docker" scheme="http://linqiankun.gitee.io/hexoblog/categories/docker/"/>
+    
+    
+    <category term="docker" scheme="http://linqiankun.gitee.io/hexoblog/tags/docker/"/>
+    
+    <category term="vue" scheme="http://linqiankun.gitee.io/hexoblog/tags/vue/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>deepin搭建java开发环境</title>
+    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/11/linux/deepin%E6%90%AD%E5%BB%BAjava%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/"/>
+    <id>http://linqiankun.gitee.io/hexoblog/2021/04/11/linux/deepin%E6%90%AD%E5%BB%BAjava%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</id>
     <published>2021-04-11T11:20:49.000Z</published>
-    <updated>2021-04-11T12:04:03.919Z</updated>
+    <updated>2021-04-12T06:05:05.442Z</updated>
     
     <content type="html"><![CDATA[<h1><span id="an-zhuang-jdk">安装jdk</span><a href="#an-zhuang-jdk" class="header-anchor">#</a></h1><p>&emsp;&emsp;安装之前最好先获取管理员权限。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取后需要输入密码</span></span><br><span class="line">sudo su</span><br></pre></td></tr></table></figure><h2><span id="xia-zai-jdk">下载jdk</span><a href="#xia-zai-jdk" class="header-anchor">#</a></h2><p>&emsp;&emsp;进入指定目录，下载jdk文件，我自己通常喜欢下载在<code>/usr/local/src/jdk</code>目录中，<a href="https://www.oracle.com/java/technologies/javase-jdk16-downloads.html">jdk16</a>。<br>&emsp;&emsp;<code>/usr/bin</code>是系统的软件存放的位置。<br>&emsp;&emsp;<code>/usr/local/bin</code>是我们自己的软件存放的位置。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://download.oracle.com/otn-pub/java/jdk/16+36/7863447f0ab643c585b9bdebf67c69db/jdk-16_linux-x64_bin.tar.gz?AuthParam=1618140718_ccecc5f8b3763f1feed74a49a7f7cbb8</span><br></pre></td></tr></table></figure><span id="more"></span><h2><span id="jiang-xia-zai-de-jdk-jie-ya-suo">将下载的jdk解压缩</span><a href="#jiang-xia-zai-de-jdk-jie-ya-suo" class="header-anchor">#</a></h2><p>&emsp;&emsp;通过wget下载的压缩包文件名称会奇奇怪怪的。如果通过浏览器下载则没有该问题。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 重命名文件</span></span><br><span class="line">mv <span class="string">&#x27;jdk-16_linux-x64_bin.tar.gz?AuthParam=1618140718_ccecc5f8b3763f1feed74a49a7f7cbb8&#x27;</span> jdk-16_linux-x64_bin.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解压缩文件</span></span><br><span class="line">tar xvf jdk-16_linux-x64_bin.tar.gz</span><br></pre></td></tr></table></figure><h2><span id="chong-ming-ming-wen-jian-jia-ke-xuan">重命名文件夹（可选）</span><a href="#chong-ming-ming-wen-jian-jia-ke-xuan" class="header-anchor">#</a></h2><p>&emsp;&emsp;对解压后的文件夹重命名，也可以不做。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv jdk-16_linux-x64_bin jdk16</span><br></pre></td></tr></table></figure><h2><span id="pei-zhi-huan-jing-bian-liang">配置环境变量</span><a href="#pei-zhi-huan-jing-bian-liang" class="header-anchor">#</a></h2><p>&emsp;&emsp;jdk需要配置PATH和CLASSPATH环境变量。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 系统的环境变量写在/etc/profile文件中</span></span><br><span class="line">vi /etc/profile</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在编辑器末尾添加对应的环境变量</span></span><br><span class="line"><span class="comment"># 这里的路径结合自己的实际安装路径</span></span><br><span class="line">JAVA_HOME=/usr/<span class="built_in">local</span>/jdk/jdk16</span><br><span class="line">CLASSPATH=<span class="variable">$JAVA_HOME</span>/lib</span><br><span class="line"><span class="built_in">export</span> CLASSPATH</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:&amp;JAVA_HOME/bin</span><br><span class="line"></span><br><span class="line"><span class="comment"># 退出vi并保存，这里需要强制保存</span></span><br><span class="line">esc</span><br><span class="line">:wq!</span><br><span class="line"></span><br><span class="line"><span class="comment"># 刷新使环境变量生效</span></span><br><span class="line"><span class="built_in">source</span> /etc/profile</span><br><span class="line"></span><br><span class="line"><span class="comment"># 验证，查看版本号</span></span><br><span class="line">java -version</span><br></pre></td></tr></table></figure><hr><h1><span id="an-zhuang-maven">安装maven</span><a href="#an-zhuang-maven" class="header-anchor">#</a></h1><h2><span id="xia-zai-maven">下载maven</span><a href="#xia-zai-maven" class="header-anchor">#</a></h2><p>&emsp;&emsp;将maven下载进指定目录，这里依照个人习惯，我放在<code>/usr/local/src/maven</code>。<a href="https://mirrors.bfsu.edu.cn/apache/maven/maven-3/3.8.1/binaries/apache-maven-3.8.1-bin.tar.gz">maven3.8.1</a></p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://mirrors.bfsu.edu.cn/apache/maven/maven-3/3.8.1/binaries/apache-maven-3.8.1-bin.tar.gz</span><br></pre></td></tr></table></figure><h2><span id="jie-ya-suo-wen-jian">解压缩文件</span><a href="#jie-ya-suo-wen-jian" class="header-anchor">#</a></h2><p>&emsp;&emsp;对下载的maven文件解压缩。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar xvf apache-maven-3.8.1-bin.tar.gz</span><br></pre></td></tr></table></figure><h2><span id="chong-ming-ming-wen-jian-jia">重命名文件夹</span><a href="#chong-ming-ming-wen-jian-jia" class="header-anchor">#</a></h2><p>&emsp;&emsp;这一步可选操作，目的是为了文件目录整洁。也可以不做。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv apache-maven-3.8.1-bin maven3</span><br></pre></td></tr></table></figure><h2><span id="pei-zhi-huan-jing-bian-liang">配置环境变量</span><a href="#pei-zhi-huan-jing-bian-liang" class="header-anchor">#</a></h2><p>&emsp;&emsp;maven也需要配置PATH环境变量。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/profile</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在编辑器末尾添加对应的环境变量</span></span><br><span class="line"><span class="comment"># 这里的路径结合自己的实际安装路径</span></span><br><span class="line">MAVEN_HOME=/usr/<span class="built_in">local</span>/maven/maven3</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:&amp;MAVEN_HOME/bin</span><br><span class="line"></span><br><span class="line"><span class="comment"># 退出vi并保存，这里需要强制保存</span></span><br><span class="line">esc</span><br><span class="line">:wq!</span><br><span class="line"></span><br><span class="line"><span class="comment"># 刷新使环境变量生效</span></span><br><span class="line"><span class="built_in">source</span> /etc/profile</span><br><span class="line"></span><br><span class="line"><span class="comment"># 验证，查看版本号</span></span><br><span class="line">mvn -v</span><br></pre></td></tr></table></figure><hr><h1><span id="an-zhuang-tomcat">安装tomcat</span><a href="#an-zhuang-tomcat" class="header-anchor">#</a></h1>]]></content>
     
@@ -34,42 +204,44 @@
     
     
     
-    <category term="deeplin" scheme="http://linqiankun.gitee.io/hexoblog/categories/deeplin/"/>
+    <category term="deepin" scheme="http://linqiankun.gitee.io/hexoblog/categories/deepin/"/>
     
     
     <category term="tool" scheme="http://linqiankun.gitee.io/hexoblog/tags/tool/"/>
     
     <category term="linux" scheme="http://linqiankun.gitee.io/hexoblog/tags/linux/"/>
     
-    <category term="deeplin" scheme="http://linqiankun.gitee.io/hexoblog/tags/deeplin/"/>
+    <category term="deepin" scheme="http://linqiankun.gitee.io/hexoblog/tags/deepin/"/>
     
   </entry>
   
   <entry>
-    <title>deeplin安装docker</title>
-    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/11/deeplin%E5%AE%89%E8%A3%85docker/"/>
-    <id>http://linqiankun.gitee.io/hexoblog/2021/04/11/deeplin%E5%AE%89%E8%A3%85docker/</id>
+    <title>deepin安装docker</title>
+    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/11/linux/deepin%E5%AE%89%E8%A3%85docker/"/>
+    <id>http://linqiankun.gitee.io/hexoblog/2021/04/11/linux/deepin%E5%AE%89%E8%A3%85docker/</id>
     <published>2021-04-11T11:20:00.000Z</published>
-    <updated>2021-04-11T11:23:03.060Z</updated>
+    <updated>2021-04-13T01:49:34.179Z</updated>
     
-    <content type="html"><![CDATA[<h1><span id="an-zhuang">安装</span><a href="#an-zhuang" class="header-anchor">#</a></h1>]]></content>
+    <content type="html"><![CDATA[<h1><span id="an-zhuang">安装</span><a href="#an-zhuang" class="header-anchor">#</a></h1><p>&emsp;&emsp;写个毛啊，官方的直接搞来，<a href="https://wiki.deepin.org/wiki/Docker">https://wiki.deepin.org/wiki/Docke</a>。</p><h1><span id="shi-yong">使用</span><a href="#shi-yong" class="header-anchor">#</a></h1>]]></content>
     
     
       
       
-    <summary type="html">&lt;h1&gt;&lt;span id=&quot;an-zhuang&quot;&gt;安装&lt;/span&gt;&lt;a href=&quot;#an-zhuang&quot; class=&quot;header-anchor&quot;&gt;#&lt;/a&gt;&lt;/h1&gt;</summary>
+    <summary type="html">&lt;h1&gt;&lt;span id=&quot;an-zhuang&quot;&gt;安装&lt;/span&gt;&lt;a href=&quot;#an-zhuang&quot; class=&quot;header-anchor&quot;&gt;#&lt;/a&gt;&lt;/h1&gt;&lt;p&gt;&amp;emsp;&amp;emsp;写个毛啊，官方的直接搞来，&lt;a href=&quot;https://wiki.dee</summary>
       
     
     
     
-    <category term="deeplin" scheme="http://linqiankun.gitee.io/hexoblog/categories/deeplin/"/>
+    <category term="deepin" scheme="http://linqiankun.gitee.io/hexoblog/categories/deepin/"/>
     
+    
+    <category term="docker" scheme="http://linqiankun.gitee.io/hexoblog/tags/docker/"/>
     
     <category term="tool" scheme="http://linqiankun.gitee.io/hexoblog/tags/tool/"/>
     
     <category term="linux" scheme="http://linqiankun.gitee.io/hexoblog/tags/linux/"/>
     
-    <category term="deeplin" scheme="http://linqiankun.gitee.io/hexoblog/tags/deeplin/"/>
+    <category term="deepin" scheme="http://linqiankun.gitee.io/hexoblog/tags/deepin/"/>
     
   </entry>
   
@@ -101,12 +273,12 @@
   
   <entry>
     <title>jvm命令</title>
-    <link href="http://linqiankun.gitee.io/hexoblog/2021/03/29/jvm%E5%91%BD%E4%BB%A4/"/>
-    <id>http://linqiankun.gitee.io/hexoblog/2021/03/29/jvm%E5%91%BD%E4%BB%A4/</id>
+    <link href="http://linqiankun.gitee.io/hexoblog/2021/03/29/jvm/jvm%E5%91%BD%E4%BB%A4/"/>
+    <id>http://linqiankun.gitee.io/hexoblog/2021/03/29/jvm/jvm%E5%91%BD%E4%BB%A4/</id>
     <published>2021-03-29T12:00:19.000Z</published>
-    <updated>2021-04-11T12:04:31.669Z</updated>
+    <updated>2021-04-14T02:48:40.972Z</updated>
     
-    <content type="html"><![CDATA[<h1><span id="jvm-ming-ling-de-shi-yong">JVM命令的使用</span><a href="#jvm-ming-ling-de-shi-yong" class="header-anchor">#</a></h1><p><a href="https://blog.csdn.net/wangxiaotongfan/article/details/82560739">https://blog.csdn.net/wangxiaotongfan/article/details/82560739</a></p><h2><span id="jps">JPS</span><a href="#jps" class="header-anchor">#</a></h2><h3><span id="jie-shao">介绍</span><a href="#jie-shao" class="header-anchor">#</a></h3><p>&emsp;&emsp;显示当前系统的java进程。</p><h3><span id="can-shu">参数</span><a href="#can-shu" class="header-anchor">#</a></h3><ol><li>-q：只显示pid，不显示class名称，jar文件名和传递给main方法的参数。</li><li>-l：输出应用程序main class的完整package名或者应用程序的jar文件完整路径名。</li><li>-m：</li></ol>]]></content>
+    <content type="html"><![CDATA[<h1><span id="jvm-ming-ling-de-shi-yong">JVM命令的使用</span><a href="#jvm-ming-ling-de-shi-yong" class="header-anchor">#</a></h1><p><a href="https://blog.csdn.net/wangxiaotongfan/article/details/82560739">https://blog.csdn.net/wangxiaotongfan/article/details/82560739</a></p><h2><span id="jps">JPS</span><a href="#jps" class="header-anchor">#</a></h2><h3><span id="jie-shao">介绍</span><a href="#jie-shao" class="header-anchor">#</a></h3><p>&emsp;&emsp;显示当前系统的java进程。</p><h3><span id="ge-shi">格式</span><a href="#ge-shi" class="header-anchor">#</a></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure><h3><span id="can-shu">参数</span><a href="#can-shu" class="header-anchor">#</a></h3><ol><li>-q：只显示pid，不显示class名称，jar文件名和传递给main方法的参数。</li><li>-l：输出应用程序main class的完整package名或者应用程序的jar文件完整路径名。</li><li>-m：输出jvm启动时传递给main方法启动。</li><li>-v：输出JVM启动时显示指定的JVM参数。</li></ol><h2><span id="jstat">JSTAT</span><a href="#jstat" class="header-anchor">#</a></h2><h3><span id="jie-shao">介绍</span><a href="#jie-shao" class="header-anchor">#</a></h3><p>&emsp;&emsp;用于监视虚拟机运行时状态信息的命令，它可以显示出虚拟机进程中的类装载、内存、垃圾收集、JIT编译(Just In Time Compiler, 即时编译器)等运行数据。</p><h3><span id="ge-shi">格式</span><a href="#ge-shi" class="header-anchor">#</a></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure><h3><span id="can-shu">参数</span><a href="#can-shu" class="header-anchor">#</a></h3><p>if [ “$DEBUG” = “true” ]; then<br>  echo -e “\033[0;31m debug is open,port=$DEBUG_PORT \033[0m”<br>  JAVA_OPTS=”$JAVA_OPTS -Xdebug -Xrunjdwp:transport=dt_socket,address=$DEBUG_PORT,server=y,suspend=y”<br>fi</p><p>JAVA_HEAP_DUMP_OPTS=-XX:HeapDumpPath=$LOG_HOME/dump.hprof<br>JAVA_OPTS=”$JAVA_OPTS -Dserver.port=$PORT -Dlog.home=$LOG_HOME -Duse.flume=false -Xms128m -Xmx2048m -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=1024m -Dfile.encoding=utf-8 -XX:+HeapDumpOnOutOfMemoryError $JAVA_HEAP_DUMP_OPTS”<br>#JAVA_OPTS=”$JAVA_OPTS -XX:+TraceClassLoading -XX:+TraceClassUnloading”</p>]]></content>
     
     
       
@@ -119,9 +291,9 @@
     <category term="tool" scheme="http://linqiankun.gitee.io/hexoblog/categories/tool/"/>
     
     
-    <category term="tool" scheme="http://linqiankun.gitee.io/hexoblog/tags/tool/"/>
-    
     <category term="jvm" scheme="http://linqiankun.gitee.io/hexoblog/tags/jvm/"/>
+    
+    <category term="tool" scheme="http://linqiankun.gitee.io/hexoblog/tags/tool/"/>
     
     <category term="jdk" scheme="http://linqiankun.gitee.io/hexoblog/tags/jdk/"/>
     
@@ -129,10 +301,10 @@
   
   <entry>
     <title>IO</title>
-    <link href="http://linqiankun.gitee.io/hexoblog/2021/03/29/IO/"/>
-    <id>http://linqiankun.gitee.io/hexoblog/2021/03/29/IO/</id>
+    <link href="http://linqiankun.gitee.io/hexoblog/2021/03/29/java/IO/"/>
+    <id>http://linqiankun.gitee.io/hexoblog/2021/03/29/java/IO/</id>
     <published>2021-03-29T11:46:01.000Z</published>
-    <updated>2021-03-29T11:46:01.406Z</updated>
+    <updated>2021-04-14T11:18:13.703Z</updated>
     
     
     
@@ -142,12 +314,12 @@
   
   <entry>
     <title>一致性hash</title>
-    <link href="http://linqiankun.gitee.io/hexoblog/2021/03/26/%E4%B8%80%E8%87%B4%E6%80%A7hash/"/>
-    <id>http://linqiankun.gitee.io/hexoblog/2021/03/26/%E4%B8%80%E8%87%B4%E6%80%A7hash/</id>
+    <link href="http://linqiankun.gitee.io/hexoblog/2021/03/26/%E5%88%86%E5%B8%83%E5%BC%8F/%E4%B8%80%E8%87%B4%E6%80%A7hash/"/>
+    <id>http://linqiankun.gitee.io/hexoblog/2021/03/26/%E5%88%86%E5%B8%83%E5%BC%8F/%E4%B8%80%E8%87%B4%E6%80%A7hash/</id>
     <published>2021-03-26T02:49:58.000Z</published>
-    <updated>2021-03-26T11:56:34.128Z</updated>
+    <updated>2021-04-14T02:48:40.962Z</updated>
     
-    <content type="html"><![CDATA[<h1><span id="jie-shao">介绍</span><a href="#jie-shao" class="header-anchor">#</a></h1><p>&emsp;&emsp;在分布式系统中，通常不同的机器存储着不同的数据，例如redis集群中存储的数据。<br>&emsp;&emsp;这些数据通常采用hash算法来计算出应该存储在那台机器上。但是，当集群中的节点增加或者减少时，通过原有的hash算法计算出来的位置将会完全错误。<br>&emsp;&emsp;一致性hash就是为了解决这种问题诞生的。</p><span id="more"></span><hr><h1><span id="nei-rong">内容</span><a href="#nei-rong" class="header-anchor">#</a></h1>]]></content>
+    <content type="html"><![CDATA[<h1><span id="jie-shao">介绍</span><a href="#jie-shao" class="header-anchor">#</a></h1><p>&emsp;&emsp;在分布式系统中，通常不同的机器存储着不同的数据，例如redis集群中存储的数据。<br>&emsp;&emsp;这些数据通常采用hash算法来计算出应该存储在那台机器上。但是，当集群中的节点增加或者减少时，通过原有的hash算法计算出来的位置将会完全错误。<br>&emsp;&emsp;一致性hash就是为了解决这种问题诞生的。</p><span id="more"></span><hr><h1><span id="nei-rong">内容</span><a href="#nei-rong" class="header-anchor">#</a></h1><p>&emsp;&emsp;在redis集群中，我们通常采用一致性hash算法计算数据具体分布在那一台机器上。<br>&emsp;&emsp;普通的hash算法通常采用取模的方式计算出hash结果，而当机器的数量发生变化，也就是除数发生变化时，取到的模也会发生变化，这时根据模数来定位数据存储的位置就会发生错误。<br>&emsp;&emsp;一致性hash算法也是采用取模的原理，来计算数据存储的位置。但与普通hash算法不同的是，一直性hash算法计算出来的并不是直接的位置，而是需要根据hash环查询地址。<br>&emsp;与普通hash算法不同的是，普通hash算法是对机器的数量取模，而一致性hash是对2^32取模。</p><h2><span id="hash-huan">hash环</span><a href="#hash-huan" class="header-anchor">#</a></h2><p>&emsp;&emsp;在一致性hash中，构造出一个hash环（周长数量为2^32）来标记数据位置。<br>&emsp;&emsp;由于一致性hash算法采用2^32取模，所有的取模结果都将落在构造出来的hash环上。<br>&emsp;&emsp;将所有机器分布在hash环上，机器左边的数据将存储在该机器中，而右边的数据将存储在下一台机器上。因为是环状结构，这样所有的数据都保证了有机器存储。而且，因为是环，所以当环上增加机器节点时，只有该机器节点左边的一小部分数据会发生重新分配机器。</p><h2><span id="wen-ti">问题</span><a href="#wen-ti" class="header-anchor">#</a></h2>]]></content>
     
     
     <summary type="html">&lt;h1 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h1&gt;&lt;p&gt;&amp;emsp;&amp;emsp;在分布式系统中，通常不同的机器存储着不同的数据，例如redis集群中存储的数据。&lt;br&gt;&amp;emsp;&amp;emsp;这些数据通常采用hash算法来计算出应该存储在那台机器上。但是，当集群中的节点增加或者减少时，通过原有的hash算法计算出来的位置将会完全错误。&lt;br&gt;&amp;emsp;&amp;emsp;一致性hash就是为了解决这种问题诞生的。&lt;/p&gt;</summary>
@@ -157,9 +329,9 @@
     <category term="分布式" scheme="http://linqiankun.gitee.io/hexoblog/categories/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
     
     
-    <category term="hash" scheme="http://linqiankun.gitee.io/hexoblog/tags/hash/"/>
-    
     <category term="分布式" scheme="http://linqiankun.gitee.io/hexoblog/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+    
+    <category term="hash" scheme="http://linqiankun.gitee.io/hexoblog/tags/hash/"/>
     
   </entry>
   
@@ -237,9 +409,9 @@
     <category term="linux" scheme="http://linqiankun.gitee.io/hexoblog/categories/linux/"/>
     
     
-    <category term="linux" scheme="http://linqiankun.gitee.io/hexoblog/tags/linux/"/>
-    
     <category term="wsl" scheme="http://linqiankun.gitee.io/hexoblog/tags/wsl/"/>
+    
+    <category term="linux" scheme="http://linqiankun.gitee.io/hexoblog/tags/linux/"/>
     
   </entry>
   
@@ -360,192 +532,6 @@
     <category term="redis" scheme="http://linqiankun.gitee.io/hexoblog/tags/redis/"/>
     
     <category term="缓存" scheme="http://linqiankun.gitee.io/hexoblog/tags/%E7%BC%93%E5%AD%98/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>redis为什么这么快</title>
-    <link href="http://linqiankun.gitee.io/hexoblog/2021/03/08/redis/redis%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%99%E4%B9%88%E5%BF%AB/"/>
-    <id>http://linqiankun.gitee.io/hexoblog/2021/03/08/redis/redis%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%99%E4%B9%88%E5%BF%AB/</id>
-    <published>2021-03-08T02:28:57.000Z</published>
-    <updated>2021-03-08T02:51:28.275Z</updated>
-    
-    <content type="html"><![CDATA[<h1><span id="redis-wei-shi-me-zhe-me-kuai">redis为什么这么快？</span><a href="#redis-wei-shi-me-zhe-me-kuai" class="header-anchor">#</a></h1><ol><li>完全基于内存，绝大部分请求时纯内存操作，非常快速。数据在内存中类似于hashmap，hashmap的优势就是查找和操作的时间复杂度都是O(1)。</li><li>数据结构简单，对数据操作也简单，Redis的数据结构是专门进行设计的。SDS。</li><li>采用单线程，避免了不必要的上下文切换和竞争条件，也不存在多进程或多线程切换导致的消耗cpu，不用去考虑各种锁的问题，不存在加锁释放锁的操作，没有因可能出现死锁而导致的消耗。</li><li>使用IO多路复用模型，非阻塞IO。</li><li>使用底层模型不同，他们之间底层实现方式以及客户端之间通信的应用协议不一样，Redis直接自己构建了VM机制，因为一般的系统调用系统函数的话，会浪费一定的时间去移动和请求。</li></ol><span id="more"></span><hr><h1><span id="duo-lu-fu-yong-io-mo-xing">多路复用IO模型。</span><a href="#duo-lu-fu-yong-io-mo-xing" class="header-anchor">#</a></h1><ol><li>多路I/O复用模型就是利用select，poll，epoll可以同时监测多个流的I/O事件的能力，在空闲的时候，会把当前线程阻塞掉，当有一个或多个流有I/O事件时，就从阻塞中唤醒，于是程序就会轮询一遍所有流（epoll是只轮询那些真正发出了事件的流），并且只依次顺序的处理就绪的流，这种做法就避免了大量的无用操作。</li><li>这里的多路指的是多个网络连接，复用指的是复用同一个线程。采用多路I/O复用技术，可以让单个线程高效的处理多个连接请求（尽量减少网络IO的时间消耗），且Redis在内存中操作数据的速度非常快，也就是说内存内的操作不会成为影响Redis性能的瓶颈。</li></ol><hr><h1><span id="redis-wei-shi-me-shi-dan-xian-cheng-de">redis为什么是单线程的？</span><a href="#redis-wei-shi-me-shi-dan-xian-cheng-de" class="header-anchor">#</a></h1><p>&emsp;&emsp;CPU并不是redis的瓶颈，瓶颈在于内存的大小或者网络，redis中，网络IO模块采用单线程。<br>&emsp;&emsp;这里的多路指的是多个网络连接，复用指的是复用同一个线程。采用多路I/O复用技术，可以让单个线程高效的处理多个连接请求（尽量减少网络IO的时间消耗），且Redis在内存中操作数据的速度非常快，也就是说内存内的操作不会成为影响Redis性能的瓶颈。</p>]]></content>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;redis为什么这么快？&quot;&gt;&lt;a href=&quot;#redis为什么这么快？&quot; class=&quot;headerlink&quot; title=&quot;redis为什么这么快？&quot;&gt;&lt;/a&gt;redis为什么这么快？&lt;/h1&gt;&lt;ol&gt;
-&lt;li&gt;完全基于内存，绝大部分请求时纯内存操作，非常快速。数据在内存中类似于hashmap，hashmap的优势就是查找和操作的时间复杂度都是O(1)。&lt;/li&gt;
-&lt;li&gt;数据结构简单，对数据操作也简单，Redis的数据结构是专门进行设计的。SDS。&lt;/li&gt;
-&lt;li&gt;采用单线程，避免了不必要的上下文切换和竞争条件，也不存在多进程或多线程切换导致的消耗cpu，不用去考虑各种锁的问题，不存在加锁释放锁的操作，没有因可能出现死锁而导致的消耗。&lt;/li&gt;
-&lt;li&gt;使用IO多路复用模型，非阻塞IO。&lt;/li&gt;
-&lt;li&gt;使用底层模型不同，他们之间底层实现方式以及客户端之间通信的应用协议不一样，Redis直接自己构建了VM机制，因为一般的系统调用系统函数的话，会浪费一定的时间去移动和请求。&lt;/li&gt;
-&lt;/ol&gt;</summary>
-    
-    
-    
-    <category term="redis" scheme="http://linqiankun.gitee.io/hexoblog/categories/redis/"/>
-    
-    
-    <category term="redis" scheme="http://linqiankun.gitee.io/hexoblog/tags/redis/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>docker安装与使用</title>
-    <link href="http://linqiankun.gitee.io/hexoblog/2021/03/05/docker/docker%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/"/>
-    <id>http://linqiankun.gitee.io/hexoblog/2021/03/05/docker/docker%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/</id>
-    <published>2021-03-05T07:23:45.000Z</published>
-    <updated>2021-03-14T10:54:06.197Z</updated>
-    
-    <content type="html"><![CDATA[<h1><span id="docker-jie-shao">docker介绍：</span><a href="#docker-jie-shao" class="header-anchor">#</a></h1><p>&emsp;&emsp;docker是个鲸鱼，拉了很多集装箱的鲸鱼。<br>&emsp;&emsp;docker是个开源的容器引擎。可以让开发者快速将他们的应用及依赖打包到一个可移植的容器中，然后发布到不同的平台。</p><h2><span id="docker-de-you-dian">docker的优点：</span><a href="#docker-de-you-dian" class="header-anchor">#</a></h2><p><strong>省时，省事，省钱。</strong></p><span id="more"></span><hr><h1><span id="docker-an-zhuang">docker安装：</span><a href="#docker-an-zhuang" class="header-anchor">#</a></h1><p>&emsp;&emsp;这里介绍docker在windows平台家庭版下的安装。</p><p>&emsp;&emsp;在windows家庭版下，安装docker需要先开启计算机的虚拟化功能，并且需要先安装wsl。</p><h2><span id="kai-qi-ji-suan-ji-de-xu-ni-hua-gong-neng">开启计算机的虚拟化功能：</span><a href="#kai-qi-ji-suan-ji-de-xu-ni-hua-gong-neng" class="header-anchor">#</a></h2><p>&emsp;&emsp;在控制面板-&gt;程序-&gt;启用或关闭Windows功能中开启即可：</p><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Windows%20%E5%8A%9F%E8%83%BD%202021_3_5%2015_47_19.png" alt="windows功能"></p><p>&emsp;&emsp;我么这里将虚拟机平台（hyper-v）和适用于linux的windows子系统同时勾选，下面的勾选为了下一步的安装wsl的ubuntu。<br>&emsp;&emsp;点击确定，等待执行完，重启电脑就可以了。</p><h2><span id="an-zhuang-ubuntu">安装Ubuntu</span><a href="#an-zhuang-ubuntu" class="header-anchor">#</a></h2><p>&emsp;&emsp;我们在microsoft store中直接搜索linux，就会出现很多linux发行版，这里我选择的时ubuntu，也可以选择其他自己喜欢的发行版。</p><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Microsoft%20Store%202021_3_5%2015_54_47.png" alt="microsoft store"></p><h2><span id="an-zhuang-docker-desktop">安装docker-desktop</span><a href="#an-zhuang-docker-desktop" class="header-anchor">#</a></h2><p>&emsp;&emsp;这里去官网下载<a href="https://www.docker.com/products/docker-desktop">docker-desktop</a>。<br>&emsp;&emsp;下载后双击打开下载的exe文件，完成安装。整个安装过程还是很简单的，不过这里的只是社区版，仅提供4个月的支持，不推荐生产使用。<br>&emsp;&emsp;点击右上角的齿轮图标可以设置界面，可以设置不自动启动，也可以在配置安装的wsl连接docker。</p><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Settings%202021_3_5%2016_18_18.png" alt="设置不自动启动" title="不自动启动"></p><p>开启refresh后，wsl中可以连接docker。</p><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Settings%202021_3_5%2016_18_08.png" alt="wsl连接docker" title="wsl连接docker"></p><p>&emsp;&emsp;安装完成后可以用命令进行验证，查看版本号等。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker -v</span><br><span class="line">docker version</span><br></pre></td></tr></table></figure><p>&emsp;&emsp;出现下面的结果即为安装成功：</p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Windows%20PowerShell%202021_3_5%2016_25_22.png" alt="Windows PowerShell 2021_3_5 16_25_22"><p>&emsp;&emsp;当然这样安装的docker是运行在一个轻量级的linux虚拟机上的，（图中的**OS/Arch选项）当然docker也提供了在windows的，但是那必须在win10 专业版，教育版，企业版上才行。<br>&emsp;&emsp;接下来就可以愉快的玩耍了。</p><h1><span id="ji-chu-shi-yong">基础使用：</span><a href="#ji-chu-shi-yong" class="header-anchor">#</a></h1><h2><span id="qi-dong-docker">启动docker</span><a href="#qi-dong-docker" class="header-anchor">#</a></h2><p>&emsp;&emsp;这样安装的docker安装成功后就启动起来了，就可以直接使用了。<br>&emsp;&emsp;这样的貌似不能用syatemctl进行启动。</p><h2><span id="chang-yong-ming-ling">常用命令</span><a href="#chang-yong-ming-ling" class="header-anchor">#</a></h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看镜像列表</span></span><br><span class="line">docker image ls</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在仓库中查找镜像</span></span><br><span class="line">docker search &lt;imagetitle&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 下载镜像</span></span><br><span class="line">docker pull &lt;imagetitle&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行镜像</span></span><br><span class="line">docker run -p &lt;port&gt;:&lt;port&gt; &lt;imagetitle&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看容器列表（运行中的镜像）</span></span><br><span class="line">docker container ls</span><br><span class="line"></span><br><span class="line"><span class="comment"># 也可以直接运行容器</span></span><br><span class="line">docker start containerid</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启</span></span><br><span class="line">docker restart contarinerid</span><br><span class="line"></span><br><span class="line"><span class="comment"># 停止</span></span><br><span class="line">docker stop container</span><br></pre></td></tr></table></figure>]]></content>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;docker介绍：&quot;&gt;&lt;a href=&quot;#docker介绍：&quot; class=&quot;headerlink&quot; title=&quot;docker介绍：&quot;&gt;&lt;/a&gt;docker介绍：&lt;/h1&gt;&lt;p&gt;&amp;emsp;&amp;emsp;docker是个鲸鱼，拉了很多集装箱的鲸鱼。&lt;br&gt;&amp;emsp;&amp;emsp;docker是个开源的容器引擎。可以让开发者快速将他们的应用及依赖打包到一个可移植的容器中，然后发布到不同的平台。&lt;/p&gt;
-&lt;h2 id=&quot;docker的优点：&quot;&gt;&lt;a href=&quot;#docker的优点：&quot; class=&quot;headerlink&quot; title=&quot;docker的优点：&quot;&gt;&lt;/a&gt;docker的优点：&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;省时，省事，省钱。&lt;/strong&gt;&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="docker" scheme="http://linqiankun.gitee.io/hexoblog/categories/docker/"/>
-    
-    
-    <category term="docker" scheme="http://linqiankun.gitee.io/hexoblog/tags/docker/"/>
-    
-    <category term="wsl" scheme="http://linqiankun.gitee.io/hexoblog/tags/wsl/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>hexo使用</title>
-    <link href="http://linqiankun.gitee.io/hexoblog/2021/03/04/tool/hexo%E4%BD%BF%E7%94%A8/"/>
-    <id>http://linqiankun.gitee.io/hexoblog/2021/03/04/tool/hexo%E4%BD%BF%E7%94%A8/</id>
-    <published>2021-03-04T09:13:05.000Z</published>
-    <updated>2021-03-12T09:16:02.768Z</updated>
-    
-    <content type="html"><![CDATA[<h1><span id="mu-lu">目录</span><a href="#mu-lu" class="header-anchor">#</a></h1><p>[toc]</p><h1><span id="an-zhuang">安装</span><a href="#an-zhuang" class="header-anchor">#</a></h1><h2><span id="an-zhuang-node">安装node</span><a href="#an-zhuang-node" class="header-anchor">#</a></h2><p>&emsp;&emsp;hexo使用npm运行，所以首先需要安装node.js，安装node.js的同时会安装npm模块。</p><ol><li>在官网下载。<a href="http://nodejs.cn/">node.js</a></li><li>点击下载的文件进行安装（一路next）。</li></ol><span id="more"></span><p>&emsp;&emsp;安装成功后在命令行工具查看是或否安装成功。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node -v</span><br><span class="line">npm -v</span><br></pre></td></tr></table></figure><p>&emsp;&emsp;出现下图的版本号即为安装成功。</p><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/node_npm_version.png" alt="安装成功"></p><h2><span id="an-zhuang-hexo">安装hexo</span><a href="#an-zhuang-hexo" class="header-anchor">#</a></h2><p>&emsp;&emsp;安装完node后就可以安装hexo了。这里全局安装hexok。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br></pre></td></tr></table></figure><p>&emsp;&emsp;安装完成后在命令行查看版本后确认是否安装成功。</p><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/hexo_version.png" alt="安装成功"></p><p>&emsp;&emsp;接下来就可以快乐的使用了。</p><h1><span id="jie-shao">介绍</span><a href="#jie-shao" class="header-anchor">#</a></h1><p>&emsp;&emsp;在使用前还是先看下介绍吧，这样入手必较方便。</p><h2><span id="kan-kan-mu-lu-jie-gou">看看目录结构</span><a href="#kan-kan-mu-lu-jie-gou" class="header-anchor">#</a></h2><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/hexo%E6%9E%B6%E6%9E%84.jpg" alt="hexo结构"></p><p>&emsp;&emsp;我们对重要的文佳夹分析下：</p><h3><span id="node-modeules">node_modeules：</span><a href="#node-modeules" class="header-anchor">#</a></h3><p>&emsp;&emsp;因为运行在node环境下，这里就是安装的所有npm包。</p><h3><span id="public">public:</span><a href="#public" class="header-anchor">#</a></h3><p>&emsp;&emsp;这里存放时hexo运行生成的所有hexo静态文件，将来托管在git上，可以使用gitee pages服务托管为静态网站作为博客网站。本地的启动看到的页面也是由这里产生。</p><h3><span id="scaffolds">scaffolds:</span><a href="#scaffolds" class="header-anchor">#</a></h3><p>&emsp;&emsp;这里存放我们的模板文件，包括创建草稿，博客，自定义页面的模板文件，当然都是markdown文件，我们也可以对其修改以满足我们的需求。</p><h3><span id="sources">sources:</span><a href="#sources" class="header-anchor">#</a></h3><p>&emsp;&emsp;这里都是我们的内容，post存放我们写的博客，文档等等，其他的呢，就是自定义的页面了，包括分类，标签，归档，我们也可以继续扩展，一般只需要关注post就可以了。</p><h3><span id="theme">theme:</span><a href="#theme" class="header-anchor">#</a></h3><p>&emsp;&emsp;这里存放生成博客网站的主题文件了，毕竟原有的主题实在不怎么好看。可以下载多个主题，随时切换使用。</p><h3><span id="config-yml">_config.yml</span><a href="#config-yml" class="header-anchor">#</a></h3><p>&emsp;&emsp;这个可不是目录，是实打实的文件了，我们的配置都在这里面了，这里做一些自定义的配置。</p><h1><span id="shi-yong">使用</span><a href="#shi-yong" class="header-anchor">#</a></h1><p>常用命令有：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建文章</span></span><br><span class="line">hexo new post title</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建草稿</span></span><br><span class="line">hexo new draft title</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将草稿发布为文章</span></span><br><span class="line">hexo p title</span><br><span class="line"></span><br><span class="line"><span class="comment"># 清理本地生成的静态资源</span></span><br><span class="line">hexo clean</span><br><span class="line"></span><br><span class="line"><span class="comment"># 编译生成本地的静态资源</span></span><br><span class="line">hexo g</span><br><span class="line"></span><br><span class="line"><span class="comment"># 本地运行预览（附加草稿）</span></span><br><span class="line">hexo s (--draft)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将本地静态资源发送到gitee（需要自己配置）</span></span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>]]></content>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;目录&quot;&gt;&lt;a href=&quot;#目录&quot; class=&quot;headerlink&quot; title=&quot;目录&quot;&gt;&lt;/a&gt;目录&lt;/h1&gt;&lt;p&gt;[toc]&lt;/p&gt;
-&lt;h1 id=&quot;安装&quot;&gt;&lt;a href=&quot;#安装&quot; class=&quot;headerlink&quot; title=&quot;安装&quot;&gt;&lt;/a&gt;安装&lt;/h1&gt;&lt;h2 id=&quot;安装node&quot;&gt;&lt;a href=&quot;#安装node&quot; class=&quot;headerlink&quot; title=&quot;安装node&quot;&gt;&lt;/a&gt;安装node&lt;/h2&gt;&lt;p&gt;&amp;emsp;&amp;emsp;hexo使用npm运行，所以首先需要安装node.js，安装node.js的同时会安装npm模块。&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;在官网下载。&lt;a href=&quot;http://nodejs.cn/&quot;&gt;node.js&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;点击下载的文件进行安装（一路next）。&lt;/li&gt;
-&lt;/ol&gt;</summary>
-    
-    
-    
-    <category term="tool" scheme="http://linqiankun.gitee.io/hexoblog/categories/tool/"/>
-    
-    
-    <category term="tool" scheme="http://linqiankun.gitee.io/hexoblog/tags/tool/"/>
-    
-    <category term="hexo" scheme="http://linqiankun.gitee.io/hexoblog/tags/hexo/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>jvm调优</title>
-    <link href="http://linqiankun.gitee.io/hexoblog/2021/03/04/jvm/jvm%E8%B0%83%E4%BC%98/"/>
-    <id>http://linqiankun.gitee.io/hexoblog/2021/03/04/jvm/jvm%E8%B0%83%E4%BC%98/</id>
-    <published>2021-03-04T08:47:07.000Z</published>
-    <updated>2021-03-05T08:45:52.522Z</updated>
-    
-    <content type="html"><![CDATA[<p><a href="https://baijiahao.baidu.com/s?id=1617167971312758600&wfr=spider&for=pc">jvm性能调优的6大步骤</a></p><span id="more"></span><hr><h1><span id="diao-you-fang-fa-yu-bu-zou">调优方法与步骤</span><a href="#diao-you-fang-fa-yu-bu-zou" class="header-anchor">#</a></h1><ol><li>监控GC的状态</li><li>生成堆的dump文件</li><li>分析dump文件</li><li>分析结果判断是否需要优化</li><li>调整GC类型和内存分配</li><li>不断分析和调整</li></ol><hr><h1><span id="diao-you-can-kao-can-shu">调优参考参数</span><a href="#diao-you-can-kao-can-shu" class="header-anchor">#</a></h1><ol><li>调整jvm堆内存的占用空间</li><li>调整新生代老年代占用堆空间的比例，</li><li>老年代与新生代设置多大合理<ol><li>大的年轻代将会导致普通GC的周期延长，但会增加GC的时间，小的老年代必定会导致频繁的full GC  </li><li>小的年轻代导致普通GC的频繁发生，但GC的时间短，大的老年代将会减少full GC的频率</li></ol></li></ol>]]></content>
-    
-    
-    <summary type="html">&lt;p&gt;&lt;a href=&quot;https://baijiahao.baidu.com/s?id=1617167971312758600&amp;wfr=spider&amp;for=pc&quot;&gt;jvm性能调优的6大步骤&lt;/a&gt;&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="jvm" scheme="http://linqiankun.gitee.io/hexoblog/categories/jvm/"/>
-    
-    
-    <category term="tool" scheme="http://linqiankun.gitee.io/hexoblog/tags/tool/"/>
-    
-    <category term="jvm" scheme="http://linqiankun.gitee.io/hexoblog/tags/jvm/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>git</title>
-    <link href="http://linqiankun.gitee.io/hexoblog/2021/03/03/tool/git/"/>
-    <id>http://linqiankun.gitee.io/hexoblog/2021/03/03/tool/git/</id>
-    <published>2021-03-03T14:56:32.000Z</published>
-    <updated>2021-03-04T02:25:23.771Z</updated>
-    
-    <content type="html"><![CDATA[<h1><span id="shi-yong">使用</span><a href="#shi-yong" class="header-anchor">#</a></h1><h2><span id="jiang-ben-di-wen-jian-tui-song-zhi-yuan-cheng">将本地文件推送至远程</span><a href="#jiang-ben-di-wen-jian-tui-song-zhi-yuan-cheng" class="header-anchor">#</a></h2><ol><li>首先在码云上建立一个项目</li><li>本地建立一个文件夹</li><li>进入文件夹，点击 git bash here</li><li>git init  #初始化本地仓库，出现一个.git文件夹</li><li>git remote add origin +远程仓库链接地址（https:/git:）</li><li>git pull origin master  #将码云上的仓库pull到本地文件夹</li><li>将要上传的文件，添加到刚刚创建的文件夹</li><li>git add .  #（.表示所有的）或者 git add + 文件名 将文件保存到缓存区</li><li>git commit -m ‘新添加的文件内容描述’  #添加文件描述</li><li>git push origin master  #将本地仓库推送到远程仓库</li></ol><span id="more"></span><h2><span id="shan-chu-ben-di-cang-ku">删除本地仓库</span><a href="#shan-chu-ben-di-cang-ku" class="header-anchor">#</a></h2><ol><li>进入文件夹，点击 git bash here</li><li>git branch  #显示本地所有分支</li><li>ls -a  #显示所有文件</li><li>rm -rf .git  #删除.git文件</li><li>删除文件夹</li></ol><h2><span id="qi-ta-ming-ling">其他命令</span><a href="#qi-ta-ming-ling" class="header-anchor">#</a></h2><ol><li>git config  #查看配置</li></ol>]]></content>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;使用&quot;&gt;&lt;a href=&quot;#使用&quot; class=&quot;headerlink&quot; title=&quot;使用&quot;&gt;&lt;/a&gt;使用&lt;/h1&gt;&lt;h2 id=&quot;将本地文件推送至远程&quot;&gt;&lt;a href=&quot;#将本地文件推送至远程&quot; class=&quot;headerlink&quot; title=&quot;将本地文件推送至远程&quot;&gt;&lt;/a&gt;将本地文件推送至远程&lt;/h2&gt;&lt;ol&gt;
-&lt;li&gt;首先在码云上建立一个项目&lt;/li&gt;
-&lt;li&gt;本地建立一个文件夹&lt;/li&gt;
-&lt;li&gt;进入文件夹，点击 git bash here&lt;/li&gt;
-&lt;li&gt;git init  #初始化本地仓库，出现一个.git文件夹&lt;/li&gt;
-&lt;li&gt;git remote add origin +远程仓库链接地址（https:/git:）&lt;/li&gt;
-&lt;li&gt;git pull origin master  #将码云上的仓库pull到本地文件夹&lt;/li&gt;
-&lt;li&gt;将要上传的文件，添加到刚刚创建的文件夹&lt;/li&gt;
-&lt;li&gt;git add .  #（.表示所有的）或者 git add + 文件名 将文件保存到缓存区&lt;/li&gt;
-&lt;li&gt;git commit -m ‘新添加的文件内容描述’  #添加文件描述&lt;/li&gt;
-&lt;li&gt;git push origin master  #将本地仓库推送到远程仓库&lt;/li&gt;
-&lt;/ol&gt;</summary>
-    
-    
-    
-    <category term="tool" scheme="http://linqiankun.gitee.io/hexoblog/categories/tool/"/>
-    
-    
-    <category term="tool" scheme="http://linqiankun.gitee.io/hexoblog/tags/tool/"/>
-    
-    <category term="git" scheme="http://linqiankun.gitee.io/hexoblog/tags/git/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Volatile</title>
-    <link href="http://linqiankun.gitee.io/hexoblog/2021/03/03/jvm/Volatile/"/>
-    <id>http://linqiankun.gitee.io/hexoblog/2021/03/03/jvm/Volatile/</id>
-    <published>2021-03-03T08:03:05.000Z</published>
-    <updated>2021-03-04T02:22:34.047Z</updated>
-    
-    <content type="html"><![CDATA[<h1><span id="jmm">JMM</span><a href="#jmm" class="header-anchor">#</a></h1><p>&emsp;&emsp;Java内存模型，是虚拟机规范中所定义的一种内存模型，Java内存模型是标准化的，屏蔽掉了底层计算机之间的区别。<br>&emsp;&emsp;Java内存模型描述了Java程序中各种变量（线程共享变量）的访问规则，以及在JVM中将变量，存储到内存和从内存中读取变量这样的底层细节。</p><span id="more"></span><h2><span id="gui-ding">规定</span><a href="#gui-ding" class="header-anchor">#</a></h2><p>&emsp;&emsp;所有的共享变量都存储于主内存，这里所说的变量指的是实例变量和类变量，不包含局部变量，因为局部变量是线程私有的，不存在竞争问题。<br>&emsp;&emsp;线程对所有变量的操作都必须在工作内存中完成，而不能直接操作主内存中的变量。<br>&emsp;&emsp;不同的线程也不能直接访问对方工作内存中的变量，线程间变量的值的传递需要通过主内存中转来完成。</p><hr><h1><span id="ke-jian-xing-wen-ti">可见性问题</span><a href="#ke-jian-xing-wen-ti" class="header-anchor">#</a></h1><h2><span id="tong-guo-jia-synchronized-lai-jie-jue-ke-jian-xing-wen-ti">通过加synchronized来解决可见性问题：</span><a href="#tong-guo-jia-synchronized-lai-jie-jue-ke-jian-xing-wen-ti" class="header-anchor">#</a></h2><p>&emsp;&emsp;因为某一个线程进入synchronized代码块前后，线程会获得锁，清空工作内存，从主内存拷贝共享变量最新的值到工作内存成为副本，执行代码，将修改后的副本的值刷新回主内存中，线程释放锁。<br>&emsp;&emsp;而获取不到锁的线程会阻塞等待，所以变量的值肯定一直都是最新的。</p><h2><span id="tong-guo-volatile-jie-jue-ke-jian-xing-wen-ti">通过volatile解决可见性问题：</span><a href="#tong-guo-volatile-jie-jue-ke-jian-xing-wen-ti" class="header-anchor">#</a></h2><p>&emsp;&emsp;每个线程操作数据的时候会把数据从主内存读取到自己的工作内存，如果他操作了数据并且写回了，其他已经读取的线程的变量副本就会失效了，需要对数据进行操作又要再次去主内存中读取了。</p><hr><h1><span id="huan-cun-chu-li">缓存处理</span><a href="#huan-cun-chu-li" class="header-anchor">#</a></h1><h2><span id="huan-cun-yi-zhi-xing-xie-yi">缓存一致性协议</span><a href="#huan-cun-yi-zhi-xing-xie-yi" class="header-anchor">#</a></h2><p>&emsp;&emsp;多个处理器的运算任务涉及同一块主内存区域时，将导致各自的缓存数据不一致，问题在于同步回主内存时以谁的缓存数据为准。<br>&emsp;&emsp;为了解决一致性的问题，需要各个处理器在访问缓存时都遵循一些协议，在读写时要根据协议操作，这类协议有MSI，MESI，Synapse，Firefly，Firefly等。</p><h2><span id="mesi">MESI</span><a href="#mesi" class="header-anchor">#</a></h2><p>&emsp;&emsp;当cpu写数据时，如果发现操作的变量是，即在其他cpu中也存在该变量的副本，会发出信号通知其他cpu将该变量的缓存行设置为无效状态，因此当其他cpu要读取这个变量时，会发现自己缓存中缓存该变量的缓存行是无效的，那么他就会从内存重新读取。</p><h2><span id="xiu-tan">嗅探：</span><a href="#xiu-tan" class="header-anchor">#</a></h2><p>&emsp;&emsp;每个处理器通过嗅探在总线上传播的数据来检查自己缓存的值是不是过期了，当处理器发现自己缓存行对应的内存地址被修改，就会将当前处理器的缓存行设置成无效状态，当处理器对这个数据进行修改操作时，会重新从系统内存中把数据读到处理器缓存里。</p><h2><span id="zong-xian-feng-bao">总线风暴：</span><a href="#zong-xian-feng-bao" class="header-anchor">#</a></h2><p>&emsp;&emsp;由于volatile的MESI缓存一致性协议，需要不断的从主内存嗅探和CAS不断循环，无效交互会导致总线带宽达到峰值。所以不应该大量使用volatile，什么时候使用volatile什么时候使用锁，需要具体判断。</p><hr><h1><span id="zhi-ling-chong-pai-xu">指令重排序</span><a href="#zhi-ling-chong-pai-xu" class="header-anchor">#</a></h1><p>&emsp;&emsp;为了提高性能，编译器和处理器常常会对既定的代码执行顺序进行指令重排序。</p><h2><span id="guo-cheng">过程:</span><a href="#guo-cheng" class="header-anchor">#</a></h2><blockquote><p> 源代码——&gt;编译器优化重排序——&gt;指令级并行重排序——&gt;内存系统重排序——〉最终执行指令序列</p></blockquote><p>&emsp;&emsp;一个好的内存模型，实际上会放松对处理器和编译器规则的束缚，也就是说软件技术和硬件技术都为同一个目标，而进行奋斗。在不改变程序执行结果的前提下，尽可能提高运行效率。<br>&emsp;&emsp;JMM对底层减少约束，使其能够发挥自身优势。</p><h2><span id="san-chong-chong-pai-xu">三种重排序</span><a href="#san-chong-chong-pai-xu" class="header-anchor">#</a></h2><ol><li>编译器优化的重排序。编译器在不改变单线程程序语义的前提下，可以重新安排语句的执行顺序。</li><li>指令级并行的重排序。现代处理器采用了指令级并行技术来讲多条指令重叠执行。如果不存在数据依赖性，处理器可以改变语句对应机器指令的执行顺序。</li><li>内存系统的重排序。由于处理器使用缓存和读/写缓冲区，这使得读取和存储操作看上去可能是在乱序执行的。</li></ol><h2><span id="as-if-serial">as-if-serial：</span><a href="#as-if-serial" class="header-anchor">#</a></h2><p>&emsp;&emsp;不管怎么重排序，单线程下的执行结果不能被改变。<br>&emsp;&emsp;编译器、runtime和处理器都必须遵守as-if-serial语义。</p><h2><span id="nei-cun-ping-zhang">内存屏障：</span><a href="#nei-cun-ping-zhang" class="header-anchor">#</a></h2><p>&emsp;&emsp;java编译器会在生成指令系列时在适当的位置会插入内存屏障指令来禁止特定类型的处理器重排序。<br>&emsp;&emsp;为了实现volatile的内存语义，JMM会限制特定类型的编译器和处理器重排序，JMM会针对编译器制定volatile重排序规则表：</p><table><thead><tr><th>是否能重排序</th><th>第二个操作</th><th>普通读写</th><th>vol读</th><th>vol写</th></tr></thead><tbody><tr><td>第一个操作</td><td></td><td></td><td></td><td></td></tr><tr><td>普通读写</td><td></td><td></td><td></td><td>NO</td></tr><tr><td>vol读</td><td></td><td>NO</td><td>NO</td><td>NO</td></tr><tr><td>vol写</td><td></td><td></td><td>NO</td><td>NO</td></tr></tbody></table><p>需要注意的是：</p><ol><li>volatile写是分别在前面和后面插入内存屏障.</li><li>而volatile读是在后面插入两个内存屏障。</li></ol><h3><span id="xie-nei-cun-ping-zhang">写内存屏障：</span><a href="#xie-nei-cun-ping-zhang" class="header-anchor">#</a></h3><blockquote><p>普通读——&gt;普通写——&gt;storestore屏障(禁止上面写和其他重排序)——&gt;vol写——&gt;storestore屏障(禁止下面读和其他重排序)</p></blockquote><h3><span id="du-nei-cun-ping-zhang">读内存屏障：</span><a href="#du-nei-cun-ping-zhang" class="header-anchor">#</a></h3><blockquote><p>vol读——&gt;loadload屏障(禁止下面读重排序)——&gt;loadload屏障(禁止下面写重排序)——&gt;普通读——&gt;普通写</p></blockquote><p>&emsp;&emsp;为了提高处理速度，JVM会对代码进行编译优化，也就是指令重排序优化，并发编程下指令重排序会带来一些安全隐患：如指令重排序导致的多个线程操作之间的不可见性。<br>&emsp;&emsp;从JDK5开始，提出了happens-before的概念，通过这个概念来阐述操作之间的内存可见性。</p><h3><span id="happens-before">happens-before:</span><a href="#happens-before" class="header-anchor">#</a></h3><p>&emsp;&emsp;<a href>happens-before</a><br>&emsp;&emsp;如果一个操作执行的结果需要对另一个操作可见，那么这两个操作之间必须存在happens-before关系。<br>&emsp;&emsp;volatile域规则：对一个volatile的写操作，happens-before于任意线程后续对这volatile域的读。</p><h3><span id="volatile-wu-fa-bao-zheng-yuan-zi-xing">volatile无法保证原子性：</span><a href="#volatile-wu-fa-bao-zheng-yuan-zi-xing" class="header-anchor">#</a></h3><p>&emsp;&emsp;假设现在有N个线程对同一个变量进累加也是没办法保证结果是对的，因为读写这个过并不是原子性的。<br>&emsp;&emsp;要解决也简单，要么用原子类，比AtomicInteger，要么加锁(记得关注Atomic的底层。</p><h3><span id="volatile-yu-synchronized-de-qu-bie">volatile与synchronized的区别：</span><a href="#volatile-yu-synchronized-de-qu-bie" class="header-anchor">#</a></h3><p>&emsp;&emsp;volatile只能修饰实例变量和类量，而synchronized可以修饰方法，以及代码块。<br>&emsp;&emsp;volatile保证数据的可见性，但是保证原子性(多线程进行写操作，不保证线程安全)而synchronized是一种排他(互斥)的机制。  &amp;emsp&emsp;volatile用于禁止指令重排序：可以解决例双重检查对象初始化代码执行乱序问题。<br>&emsp;&emsp;volatile可以看做是轻量版synchronized，volatile不保证原子性，但是如是对一个共享变量进行多个线程的赋值，     而有其他的操作，那么就可以用volatile来代synchronized，因为赋值本身是有原子性的，volatile又保证了可见性，所以就可以保证线程安了。</p><hr><h1><span id="zong-jie">总结</span><a href="#zong-jie" class="header-anchor">#</a></h1><ol><li>volatile修饰符适用于以下场景：某个属性被多个线程共享，其中有一个线程修改了此属性，其他线程可以立即得到修改后的值，比如boolean flag;或者作为触发器，实现轻量级同步。</li><li>volatile属性的读写操作都是无锁的，它不能替代synchronized，因为它没有提供原子性和互斥性。因为无锁，不需要花费时间在获取锁和释放锁_上，所以说它是低成本的。</li><li>volatile只能作用于属性，我们用volatile修饰属性，这样compilers就不会对这个属性做指令重排序。</li><li>volatile提供了可见性，任何一个线程对其的修改将立马对其他线程可见，volatile属性不会被线程缓存，始终从主存中读取。</li><li>volatile提供了happens-before保证，对volatile变量v的写入happens-before所有其他线程后续对v的读操作。</li><li>volatile可以使得long和double的赋值是原子的。</li><li>volatile可以在单例双重检查中实现可见性和禁止指令重排序，从而保证安全性。</li></ol>]]></content>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;JMM&quot;&gt;&lt;a href=&quot;#JMM&quot; class=&quot;headerlink&quot; title=&quot;JMM&quot;&gt;&lt;/a&gt;JMM&lt;/h1&gt;&lt;p&gt;&amp;emsp;&amp;emsp;Java内存模型，是虚拟机规范中所定义的一种内存模型，Java内存模型是标准化的，屏蔽掉了底层计算机之间的区别。&lt;br&gt;&amp;emsp;&amp;emsp;Java内存模型描述了Java程序中各种变量（线程共享变量）的访问规则，以及在JVM中将变量，存储到内存和从内存中读取变量这样的底层细节。&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="jvm" scheme="http://linqiankun.gitee.io/hexoblog/categories/jvm/"/>
-    
-    
-    <category term="jvm" scheme="http://linqiankun.gitee.io/hexoblog/tags/jvm/"/>
-    
-    <category term="java" scheme="http://linqiankun.gitee.io/hexoblog/tags/java/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>happens-before</title>
-    <link href="http://linqiankun.gitee.io/hexoblog/2021/03/03/jvm/happens-before/"/>
-    <id>http://linqiankun.gitee.io/hexoblog/2021/03/03/jvm/happens-before/</id>
-    <published>2021-03-03T06:45:45.000Z</published>
-    <updated>2021-03-04T02:23:10.587Z</updated>
-    
-    <content type="html"><![CDATA[<h1><span id="wen-ti">问题：</span><a href="#wen-ti" class="header-anchor">#</a></h1><p>&emsp;&emsp;在JMM中，由于存在线程本地内存和主内存的原因，再加上重排序，会导致多线程环境下存在可见性的问题。<br>&emsp;&emsp;JDK5开始，JMM使用happens-before概念来阐述多线程之间的内存可见性问题。</p><blockquote><p>&emsp;&emsp;在JMM中，如果一个操作的执行结果需要对另一个操作可见，那么这两个操作之间必须存在happens-before关系。  </p></blockquote><p>&emsp;&emsp;happens-before原则非常重要，它是判断数据是否存在竞争、线程是否安全的主要依据，依靠这个规则，我们解决在并发环境下两操作之间是否可能存在冲突的所有问题。</p><span id="more"></span><hr><h1><span id="nei-rong">内容：</span><a href="#nei-rong" class="header-anchor">#</a></h1><h2><span id="happens-before-yuan-ze-ding-yi">happens-before原则定义：</span><a href="#happens-before-yuan-ze-ding-yi" class="header-anchor">#</a></h2><ol><li>如果一个操作happens-before另一个操作，那么第一个操作的执行结果将对第二个操作可见，而且第一个操作的执行顺序在第二个操作之前。</li><li>两个操作之间存在happens-before原则，并不意味着一定要按照happens-before原则制定的顺序来执行。如果重排序之后的执行结果与按照happens-before关系来执行的结果一致，那么这种重排序并不非法。</li></ol><h2><span id="happens-before-yuan-ze-gui-ze">happens-before原则规则：</span><a href="#happens-before-yuan-ze-gui-ze" class="header-anchor">#</a></h2><ol><li>程序次序规则：一个线程内，按照代码顺序，书写在前面的操作先行发生于书写在后面的操作；</li><li>锁定规则：一个unLock操作先行发生于后面对同一个锁额lock操作；</li><li>volatile变量规则：对一个变量的写操作先行发生于后面对这个变量的读操作；</li><li>传递规则：如果操作A先行发生于操作B，而操作B又先行发生于操作C，则可以得出操作A先行发生于操作C；</li><li>线程启动规则：Thread对象的start()方法先行发生于此线程的每个一个动作；</li><li>线程中断规则：对线程interrupt()方法的调用先行发生于被中断线程的代码检测到中断事件的发生；</li><li>线程终结规则：线程中所有的操作都先行发生于线程的终止检测，我们可以通过Thread.join()方法结束、Thread.isAlive()的返回值手段检测到线程已经终止执行；</li><li>对象终结规则：一个对象的初始化完成先行发生于他的finalize()方法的开始；</li></ol><h3><span id="cheng-xu-ci-xu-gui-ze">程序次序规则：</span><a href="#cheng-xu-ci-xu-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp;一段代码在单线程中的执行结果是有序的，注意是执行结果，因为虚拟机、处理器会对指令进行重排序（重排序后面会详细介绍）。虽然重排序了，但是并不会影响程序的执行结果，所以程序最终执行的结果与顺序执行的结果是一致的。故而这个规则只对单线程有效，在多线程环境下无法保证正确性。</p><h3><span id="suo-ding-gui-ze">锁定规则：</span><a href="#suo-ding-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp;这个规则比较好理解，无论是在单线程环境还是多线程环境，一个锁处于被锁定状态，那么必须先执行unlock操作后面才能进行lock操作。</p><h3><span id="volatile-bian-liang-gui-ze">volatile变量规则：</span><a href="#volatile-bian-liang-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp; 这是一条比较重要的规则，它标志着volatile保证了线程可见性。通俗点讲就是如果一个线程先去写一个volatile变量，然后一个线程去读这个变量，那么这个写操作一定是happens-before读操作的。</p><h3><span id="chuan-di-gui-ze">传递规则：</span><a href="#chuan-di-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp;提现了happens-before原则具有传递性，即A happens-before B , B happens-before C，那么A happens-before C。</p><h3><span id="xian-cheng-qi-dong-gui-ze">线程启动规则：</span><a href="#xian-cheng-qi-dong-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp;假定线程A在执行过程中，通过执行ThreadB.start()来启动线程B，那么线程A对共享变量的修改在接下来线程B开始执行后确保对线程B可见。</p><h3><span id="xian-cheng-zhong-jie-gui-ze">线程终结规则：</span><a href="#xian-cheng-zhong-jie-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp;假定线程A在执行的过程中，通过制定ThreadB.join()等待线程B终止，那么线程B在终止之前对共享变量的修改在线程A等待返回后可见。</p><hr><h1><span id="zong-jie">总结</span><a href="#zong-jie" class="header-anchor">#</a></h1><p>&emsp;&emsp;上面八条是原生Java满足Happens-before关系的规则，但是我们可以对他们进行推导出其他满足happens-before的规则：</p><ol><li>将一个元素放入一个线程安全的队列的操作Happens-Before从队列中取出这个元素的操作。</li><li>将一个元素放入一个线程安全容器的操作Happens-Before从容器中取出这个元素的操作。</li><li>在CountDownLatch上的倒数操作Happens-Before CountDownLatch#await()操作。</li><li>释放Semaphore许可的操作Happens-Before获得许可操作。</li><li>Future表示的任务的所有操作Happens-Before Future#get()操作。</li><li>向Executor提交一个Runnable或Callable的操作Happens-Before任务开始执行操作。</li><li>如果两个操作不满足上述任意一个happens-before规则，那么这两个操作就没有顺序的保障，JVM就可以对这两个操作进行重排序。如果操作Ahappens-before操作B，那么操作A在内存上所做的操作对操作B都是可见的。</li></ol>]]></content>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;问题：&quot;&gt;&lt;a href=&quot;#问题：&quot; class=&quot;headerlink&quot; title=&quot;问题：&quot;&gt;&lt;/a&gt;问题：&lt;/h1&gt;&lt;p&gt;&amp;emsp;&amp;emsp;在JMM中，由于存在线程本地内存和主内存的原因，再加上重排序，会导致多线程环境下存在可见性的问题。&lt;br&gt;&amp;emsp;&amp;emsp;JDK5开始，JMM使用happens-before概念来阐述多线程之间的内存可见性问题。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;&amp;emsp;&amp;emsp;在JMM中，如果一个操作的执行结果需要对另一个操作可见，那么这两个操作之间必须存在happens-before关系。  &lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&amp;emsp;&amp;emsp;happens-before原则非常重要，它是判断数据是否存在竞争、线程是否安全的主要依据，依靠这个规则，我们解决在并发环境下两操作之间是否可能存在冲突的所有问题。&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="jvm" scheme="http://linqiankun.gitee.io/hexoblog/categories/jvm/"/>
-    
-    
-    <category term="jvm" scheme="http://linqiankun.gitee.io/hexoblog/tags/jvm/"/>
-    
-    <category term="java" scheme="http://linqiankun.gitee.io/hexoblog/tags/java/"/>
     
   </entry>
   
