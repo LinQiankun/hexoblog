@@ -907,7 +907,46 @@
   <entry>
     <title>mysql中datetime和timestamp</title>
     <url>/hexoblog/2021/04/14/mysql/mysql%E4%B8%ADdatetime%E5%92%8Ctimestamp/</url>
-    <content><![CDATA[]]></content>
+    <content><![CDATA[<h1><span id="qu-bie">区别</span><a href="#qu-bie" class="header-anchor">#</a></h1><h2><span id="date-he-datetime-timestamp-de-qu-bie">date和datetime，timestamp的区别</span><a href="#date-he-datetime-timestamp-de-qu-bie" class="header-anchor">#</a></h2><ol>
+<li>date保存的是天，精确到天</li>
+<li>datetime，timestamp精确到秒</li>
+</ol>
+<span id="more"></span>
+<h2><span id="datetime-he-timastamp">datetime和timastamp</span><a href="#datetime-he-timastamp" class="header-anchor">#</a></h2><p>&emsp;&emsp;datetime 和timestamp两者都是时间类型字段，格式都一致。</p>
+<ol>
+<li><p>受时区影响不同</p>
+<blockquote>
+<p>timestamp会跟随设置的时区变化而变化，而datetime保存的是绝对值不会变化。</p>
+</blockquote>
+</li>
+<li><p>占用存储空间不同</p>
+<blockquote>
+<p>timestamp储存占用4个字节，datetime储存占用8个字节。</p>
+</blockquote>
+</li>
+<li><p>可以表示的时间范围不同</p>
+<blockquote>
+<p>timestamp可表示范围:1970-01-01 00:00:00~2038-01-09 03:14:07，datetime支持的范围更宽1000-01-01 00:00:00 ~ 9999-12-31 23:59:59。</p>
+</blockquote>
+</li>
+<li><p>索引速度不同</p>
+<blockquote>
+<p>timestamp更轻量，索引相对datetime更快。</p>
+</blockquote>
+</li>
+<li><p>默认值不同</p>
+<blockquote>
+<p>datetime的默认值为null，timestamp的字段默认不为空（not null），默认值为当前时间（CURRENT_TIMESTAMP），如果不做特殊处理，并且update语句中没有指定该列的更新值，则默认更新为当前时间。</p>
+</blockquote>
+</li>
+<li><p>存储方式不同</p>
+<blockquote>
+<p>两者的存储方式不一样，对于timestamp，它把客户端插入的时间从当前时区转化为UTC（世界标准时间）进行存储。查询时，将其又转化为客户端当前时区进行返回。而对于datetime，不做任何改变，基本上是原样输入和输出。</p>
+</blockquote>
+</li>
+</ol>
+<p>&emsp;&emsp;在mysql5.6之前的版本，CURRENT_TIMESTAMP只能用于timestamp类型，5.6版本之后，CURRENT_TIMESTAMP也能用于datetime类型了。</p>
+]]></content>
       <categories>
         <category>mysql</category>
       </categories>
@@ -1023,19 +1062,6 @@
       </tags>
   </entry>
   <entry>
-    <title>redlock-redis分布式锁的实现</title>
-    <url>/hexoblog/2021/04/14/redis/redlock-redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9A%84%E5%AE%9E%E7%8E%B0/</url>
-    <content><![CDATA[<h1><span id="jie-shao">介绍</span><a href="#jie-shao" class="header-anchor">#</a></h1>]]></content>
-      <categories>
-        <category>redis</category>
-      </categories>
-      <tags>
-        <tag>redis</tag>
-        <tag>分布式</tag>
-        <tag>锁</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>redis安装和使用</title>
     <url>/hexoblog/2021/04/14/redis/redis%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<h1><span id="an-zhuang">安装</span><a href="#an-zhuang" class="header-anchor">#</a></h1><p>&emsp;&emsp;这里是在windows环境下的redis安装过程，两种安装方式，都比较简单。<br>&emsp;&emsp;官方提供的只有linux系统的tar.gz格式的压缩包，windows的需要在github下载。<br><a href="https://redis.io/">https://redis.io/</a><br><a href="http://www.redis.cn/">http://www.redis.cn/</a><br><a href="https://www.redis.com.cn/">https://www.redis.com.cn/</a><br><a href="https://www.redis.com.cn/redis-installation.html">https://www.redis.com.cn/redis-installation.html</a></p>
@@ -1062,6 +1088,19 @@
       <tags>
         <tag>tool</tag>
         <tag>redis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>redlock-redis分布式锁的实现</title>
+    <url>/hexoblog/2021/04/14/redis/redlock-redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9A%84%E5%AE%9E%E7%8E%B0/</url>
+    <content><![CDATA[<h1><span id="jie-shao">介绍</span><a href="#jie-shao" class="header-anchor">#</a></h1>]]></content>
+      <categories>
+        <category>redis</category>
+      </categories>
+      <tags>
+        <tag>redis</tag>
+        <tag>分布式</tag>
+        <tag>锁</tag>
       </tags>
   </entry>
   <entry>

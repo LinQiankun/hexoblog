@@ -44,8 +44,15 @@
     <link href="http://linqiankun.gitee.io/hexoblog/2021/04/14/mysql/mysql%E4%B8%ADdatetime%E5%92%8Ctimestamp/"/>
     <id>http://linqiankun.gitee.io/hexoblog/2021/04/14/mysql/mysql%E4%B8%ADdatetime%E5%92%8Ctimestamp/</id>
     <published>2021-04-14T11:15:06.000Z</published>
-    <updated>2021-04-14T11:18:32.604Z</updated>
+    <updated>2021-04-14T12:15:33.534Z</updated>
     
+    <content type="html"><![CDATA[<h1><span id="qu-bie">区别</span><a href="#qu-bie" class="header-anchor">#</a></h1><h2><span id="date-he-datetime-timestamp-de-qu-bie">date和datetime，timestamp的区别</span><a href="#date-he-datetime-timestamp-de-qu-bie" class="header-anchor">#</a></h2><ol><li>date保存的是天，精确到天</li><li>datetime，timestamp精确到秒</li></ol><span id="more"></span><h2><span id="datetime-he-timastamp">datetime和timastamp</span><a href="#datetime-he-timastamp" class="header-anchor">#</a></h2><p>&emsp;&emsp;datetime 和timestamp两者都是时间类型字段，格式都一致。</p><ol><li><p>受时区影响不同</p><blockquote><p>timestamp会跟随设置的时区变化而变化，而datetime保存的是绝对值不会变化。</p></blockquote></li><li><p>占用存储空间不同</p><blockquote><p>timestamp储存占用4个字节，datetime储存占用8个字节。</p></blockquote></li><li><p>可以表示的时间范围不同</p><blockquote><p>timestamp可表示范围:1970-01-01 00:00:00~2038-01-09 03:14:07，datetime支持的范围更宽1000-01-01 00:00:00 ~ 9999-12-31 23:59:59。</p></blockquote></li><li><p>索引速度不同</p><blockquote><p>timestamp更轻量，索引相对datetime更快。</p></blockquote></li><li><p>默认值不同</p><blockquote><p>datetime的默认值为null，timestamp的字段默认不为空（not null），默认值为当前时间（CURRENT_TIMESTAMP），如果不做特殊处理，并且update语句中没有指定该列的更新值，则默认更新为当前时间。</p></blockquote></li><li><p>存储方式不同</p><blockquote><p>两者的存储方式不一样，对于timestamp，它把客户端插入的时间从当前时区转化为UTC（世界标准时间）进行存储。查询时，将其又转化为客户端当前时区进行返回。而对于datetime，不做任何改变，基本上是原样输入和输出。</p></blockquote></li></ol><p>&emsp;&emsp;在mysql5.6之前的版本，CURRENT_TIMESTAMP只能用于timestamp类型，5.6版本之后，CURRENT_TIMESTAMP也能用于datetime类型了。</p>]]></content>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;区别&quot;&gt;&lt;a href=&quot;#区别&quot; class=&quot;headerlink&quot; title=&quot;区别&quot;&gt;&lt;/a&gt;区别&lt;/h1&gt;&lt;h2 id=&quot;date和datetime，timestamp的区别&quot;&gt;&lt;a href=&quot;#date和datetime，timestamp的区别&quot; class=&quot;headerlink&quot; title=&quot;date和datetime，timestamp的区别&quot;&gt;&lt;/a&gt;date和datetime，timestamp的区别&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;date保存的是天，精确到天&lt;/li&gt;
+&lt;li&gt;datetime，timestamp精确到秒&lt;/li&gt;
+&lt;/ol&gt;</summary>
     
     
     
