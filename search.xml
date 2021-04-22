@@ -156,15 +156,20 @@
     <title>dubboSPI扩展机制基本使用，自动包装</title>
     <url>/hexoblog/2021/04/15/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E6%9C%BA%E5%88%B6%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%EF%BC%8C%E8%87%AA%E5%8A%A8%E5%8C%85%E8%A3%85/</url>
     <content><![CDATA[<h1><span id="jie-shao">介绍</span><a href="#jie-shao" class="header-anchor">#</a></h1><p>&emsp;&emsp;DubboSPI是基于JavaSPI的一个扩展与补充。<br><a href="https://dubbo.apache.org/zh/docs/v2.7/dev/spi/">https://dubbo.apache.org/zh/docs/v2.7/dev/spi/</a></p>
-<p>用法：</p>
-<ol>
+<h2><span id="you-shi">优势：</span><a href="#you-shi" class="header-anchor">#</a></h2><ol>
+<li>Java SPI 每次都会把所有实现类都加载并实例化(是在迭代器迭代的时候创建实例)，而 Dubbo SPI 是分两段创建实例，先进行类加载，然后在使用到具体实现的时候才实例化，并且 Dubbo SPI 大量使用缓存，会把 Class 对象和实例对象都缓存起来，性能更好。</li>
+<li>Java SPI 在类加载失败的时候难以定位异常；</li>
+<li>Dubbo SPI 还支持 IOC 和 AOP 。</li>
+</ol>
+<span id="more"></span>
+
+<h2><span id="yong-fa">用法：</span><a href="#yong-fa" class="header-anchor">#</a></h2><ol>
 <li>基本使用</li>
 <li>扩展点自动包装</li>
 <li>扩展点自适应</li>
 <li>扩展点自动适配</li>
 <li>扩展点自动激活</li>
 </ol>
-<span id="more"></span>
 <hr>
 <h1><span id="ji-ben-shi-yong">基本使用</span><a href="#ji-ben-shi-yong" class="header-anchor">#</a></h1><p>&emsp;&emsp;dubboSPI的基本使用和javaSPI并无太大差异。</p>
 <p>主要区别：</p>
