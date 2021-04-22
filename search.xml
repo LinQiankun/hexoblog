@@ -266,8 +266,10 @@
 </ol>
 <hr>
 <h1><span id="dubbo">DUBBO</span><a href="#dubbo" class="header-anchor">#</a></h1><p>&emsp;&emsp;它实现了面向接口的代理 RPC 调用，并且可以配合 ZooKeeper 等组件实现服务注册和发现功能，并且拥有负载均衡、容错机制等。<br>&emsp;&emsp;<a href="https://juejin.cn/post/6870276943448080392#heading-9">https://juejin.cn/post/6870276943448080392#heading-9</a></p>
-<h2><span id="jian-jie">简介</span><a href="#jian-jie" class="header-anchor">#</a></h2><h3><span id="liu-cheng">流程</span><a href="#liu-cheng" class="header-anchor">#</a></h3><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/dubbo-architecture.jpg" alt="dubbo"></p>
-<ol start="0">
+<h2><span id="jian-jie">简介</span><a href="#jian-jie" class="header-anchor">#</a></h2><h3><span id="dubbo-fen-ceng-jie-gou">dubbo分层结构</span><a href="#dubbo-fen-ceng-jie-gou" class="header-anchor">#</a></h3><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/a26bba7ba53849b9b9efbdf844f720c2_tplv-k3u1fbpfcp-zoom-1.jpg"></p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/25609524-edfea2d2c42798d0.jpg"></p>
+<h3><span id="liu-cheng">流程</span><a href="#liu-cheng" class="header-anchor">#</a></h3><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/dubbo-architecture.jpg" alt="dubbo"></p>
+<ol>
 <li>服务容器负责启动，加载，运行服务提供者。</li>
 <li>服务提供者Provider向注册中心注册自己所能提供的服务。</li>
 <li>服务消费者Consumer启动向注册中心订阅自己所需的服务。</li>
@@ -1826,6 +1828,7 @@
     <title>dubbo服务调用过程</title>
     <url>/hexoblog/2021/04/15/dubbo/dubbo%E6%9C%8D%E5%8A%A1%E8%B0%83%E7%94%A8%E8%BF%87%E7%A8%8B/</url>
     <content><![CDATA[<h1><span id="jie-shao">介绍</span><a href="#jie-shao" class="header-anchor">#</a></h1><p><a href="https://dubbo.apache.org/zh/docs/v2.7/dev/implementation/#%E8%BF%9C%E7%A8%8B%E8%B0%83%E7%94%A8%E7%BB%86%E8%8A%82">服务调用过程</a><br><a href="https://www.jianshu.com/p/01bf8ded203c">推荐</a></p>
+<h2><span id="diao-yong-de-shi-xu-tu">调用的时序图</span><a href="#diao-yong-de-shi-xu-tu" class="header-anchor">#</a></h2><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/export-refer.jpg" alt="调用时序图"></p>
 <h2><span id="bao-lu-guo-cheng">暴露过程</span><a href="#bao-lu-guo-cheng" class="header-anchor">#</a></h2><p>&emsp;&emsp;首先provider启动，通过Proxy组件根据具体的协议，将需要暴露的接口封装成invoker，invoker是dubbo一个很核心的组件，代表一个可执行体。<br>&emsp;&emsp;然后再通过Exporter包装一下，这是为了在注册中心暴露自己套的一层。然后将Exporter通过Registry注册到注册中心。 这就是整体服务暴露过程。<br>&emsp;&emsp;暴露会生成Exporter和服务提供invoker，会将Exporter保存在ExporterMap中，在调用请求到来时，会在这个map中找到对应的Exporter然后逐步还原出原来的invoker。</p>
 <span id="more"></span>
 <h2><span id="yin-ru-guo-cheng">引入过程</span><a href="#yin-ru-guo-cheng" class="header-anchor">#</a></h2><p>&emsp;&emsp;首先消费者启动会向注册中心拉取服务提供者的元信息，然后调用流程也是从 Proxy 开始，毕竟都需要代理才能无感知。<br>&emsp;&emsp;Proxy持有一个invoker对象，调用invoke之后需要通过Cluster先从Directory获取所有可调用的远程服务的Invoker列表，如果配置了某些路由规则，比如某个接口只能调用某个节点的那就再过滤一遍Invoker列表。<br>&emsp;&emsp;剩下的Invoker再通过LoadBalance做负载均衡选取一个。然后再经过Filter做一些统计什么的，再通过Client做数据传输，比如用Netty来传输。<br>&emsp;&emsp;传输需要通过Codec做协议构造，再序化，最终发往对应的服务提供者。<br>&emsp;&emsp;服务提供者接收到之后也会进行Codec协议处理，然后反序列化后将请求扔到线程池处理。某个线程会根据请求找到对应的Exporter，找到Exporter就是找到了invoker，经过一层层过滤链之后最终实现调用，最后原路返回。</p>
