@@ -6,7 +6,7 @@
   <link href="http://linqiankun.gitee.io/hexoblog/atom.xml" rel="self"/>
   
   <link href="http://linqiankun.gitee.io/hexoblog/"/>
-  <updated>2021-04-22T12:14:36.316Z</updated>
+  <updated>2021-04-23T11:34:45.159Z</updated>
   <id>http://linqiankun.gitee.io/hexoblog/</id>
   
   <author>
@@ -17,9 +17,35 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>强软弱虚引用</title>
+    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/23/md/java/%E5%BC%BA%E8%BD%AF%E5%BC%B1%E8%99%9A%E5%BC%95%E7%94%A8/"/>
+    <id>http://linqiankun.gitee.io/hexoblog/2021/04/23/md/java/%E5%BC%BA%E8%BD%AF%E5%BC%B1%E8%99%9A%E5%BC%95%E7%94%A8/</id>
+    <published>2021-04-23T07:38:10.000Z</published>
+    <updated>2021-04-23T11:34:45.159Z</updated>
+    
+    <content type="html"><![CDATA[<h1><span id="jie-shao">介绍</span><a href="#jie-shao" class="header-anchor">#</a></h1><h2><span id="zuo-yong">作用</span><a href="#zuo-yong" class="header-anchor">#</a></h2><ol><li>可以通过代码的方式决定某些对象的生命周期。</li><li>有利于JVM进行垃圾回收。</li></ol><span id="more"></span><hr><h1><span id="qiang-yin-yong">强引用</span><a href="#qiang-yin-yong" class="header-anchor">#</a></h1><p>&emsp;&emsp;对象的一般状态，初始化new出来的对象就是强引用。</p><hr><h1><span id="ruan-yin-yong">软引用</span><a href="#ruan-yin-yong" class="header-anchor">#</a></h1><blockquote><p>&emsp;&emsp;软参考对象，由垃圾收集器根据内存需求自行清除。软引用通常用于实现内存敏感缓存。<br>假设垃圾收集器在某个时间点确定对象是softly reachable 。 那时候，它可能会选择原子地清除对该对象的所有软引用，以及对任何其他可轻松访问的对象的所有软引用，该对象可以通过一个强引用链来访问该对象。 在同一时间或稍后的时间，它将排入在引用队列中注册的新清除的软引用。</p></blockquote><blockquote><p>&emsp;&emsp;在虚拟机抛出OutOfMemoryError之前，所有软引用对象可以保证被清除。 否则，在清除软引用的时间或者对一组对不同对象的引用将被清除的顺序没有约束。 但是，鼓励虚拟机实现偏离清除最近创建或最近使用的软参考。</p></blockquote><blockquote><p>&emsp;&emsp;此类的直接实例可用于实现简单的缓存; 此类或派生子类也可用于较大的数据结构以实现更复杂的高速缓存。 只要软参考的指示是强有力的，即实际使用中，软参考将不会被清除。 因此，复杂的缓存可以例如阻止其最近使用的条目被丢弃，通过保持对这些条目的强烈的指示，使剩余的条目由垃圾收集器判断丢弃。</p></blockquote><p>&emsp;&emsp;用来描述一些有用但不是必须的对象，类似于生活总可有可无的物品，在java中使用<code>java.lang.ref.SoftReference</code>类来表示。<br>&emsp;&emsp;对于软引用关联着的对象，只有在内存空间不足的时候，垃圾回收器才会回收这些对象。<br>&emsp;&emsp;只要垃圾回收器没有回收掉，程序就可以使用它。<br>&emsp;&emsp;软引用可以和一个引用队列（ReferenceQueue）联合使用，如果软引用所引用的对象被JVM回收，这个软引用就会被加入到与之关联的引用队列中。<br>&emsp;&emsp;软引用可以用来实现内存敏感的高速缓存。当内存足够大时可以把数组存入软引用，取数据时就可从内存里取数据，提高运行效率。如浏览器的后退按钮。</p><hr><h1><span id="ruo-yin-yong">弱引用</span><a href="#ruo-yin-yong" class="header-anchor">#</a></h1><blockquote><p>&emsp;&emsp;弱参考对象，不会阻止其指定对象的最终确定，最终确定，然后被回收。弱引用最常用于实现规范化映射。</p></blockquote><blockquote><p>&emsp;&emsp;假设垃圾收集器在某个时间点确定对象是weakly reachable 。 那时，它将原子地清除对该对象的所有弱引用，以及所有弱引用到任何其他弱可触及的对象，通过一连串强软引用可以从该对象到达该对象。 同时，它将声明所有以前弱可触及的对象都是可以确定的。 在同一时间或稍后的时间，它将排列在引用队列中注册的新清除的弱引用。</p></blockquote><p>&emsp;&emsp;弱引用也是描述非必须对象的。与软引用相比，弱引用具有更短暂的生命周期，当JVM进行垃圾回收时，无论内存是否充足，都会回收被弱引用关联的对象，在Java中用<code>java.lang.ref.WeakReference</code>来表示。<br>&emsp;&emsp;在垃圾回收器线程扫描它所管辖的内存区域的过程中，一旦发现了只具有弱引用的对象，不管当前内存空间足够与否，都会回收它的内存。不过，由于垃圾回收器是一个优先级很低的线程， 因此不一定会很快发现那些只具有弱引用的对象。 弱引用可以和一个引用队列（ReferenceQueue）联合使用，如果弱引用所引用的对象被垃圾回 收，Java虚拟机就会把这个弱引用加入到与之关联的引用队列中。</p><hr><h1><span id="xu-yin-yong">虚引用</span><a href="#xu-yin-yong" class="header-anchor">#</a></h1><blockquote><p>&emsp;&emsp;在收集者确定其指示物可能被回收之后排入队列的Phantom参考对象。幻像引用最常用于以比Java完成机制可能更灵活的方式安排事先清理操作。</p></blockquote><blockquote><p>&emsp;&emsp;如果垃圾收集器在某个时间点确定幻像引用的引用是phantom reachable ，那么在那个时间或稍后的时间，它将引入引用。</p></blockquote><blockquote><p>&emsp;&emsp;为了确保可回收对象保持原样，可能无法检索幻像引用的引用：虚幻引用的get方法始终返回null 。</p></blockquote><blockquote><p>&emsp;&emsp;与软弱引用不同，幻像引用在垃圾收集器排入队列时不会自动清除。 通过幻影引用可访问的对象将一直保持到所有这样的引用被清除或者自身变得不可访问。</p></blockquote><p>&emsp;&emsp;虚引用主要用来跟踪对象被垃圾回收器回收的活动。<br>&emsp;&emsp;与软弱引用不同，虚引用不影响对象的生命周期，虚引用必须和引用队列 （ReferenceQueue）联合使用。<br>&emsp;&emsp;在java中用java.lang.ref.PhantomReference类表示。如果一个对象与虚引用关联，则跟没有引用与之关联一样，在任何时候都可能被垃圾回收器回收。<br>&emsp;&emsp;当垃圾回收器准备回收一个对象时，如果发现它还有虚引用，就会在回收对象的内存之前，把这个虚引用加入到与之关联的引用队列中。程序可以通过判断引用队列中是否已经加入了虚引用，来了解被引用的对象是否将要被垃圾回收。如果程序发现某个虚引用已经被加入到引用队列，那么就可以在所引用的对象的内存被回收之前采取必要的行动。由于Object.finalize()方法的不安全性、低效性，常常使用虚引用完成对象回收前的资源释放工作。</p><blockquote><p>&emsp;&emsp;当GC一但发现了虚引用对象，将会将PhantomReference对象插入ReferenceQueue队列. * 而此时PhantomReference所指向的对象并没有被GC回收，而是要等到ReferenceQueue被你真正的处理后才会被回收。</p></blockquote><p>&emsp;&emsp;当JVM将虚引用插入到引用队列的时候，虚引用执行的对象内存还是存在的。但是PhantomReference并没有暴露API返回对象。所以如果我想做清理工作，需要继承PhantomReference类，以便访问它指向的对象。如NIO直接内存的自动回收，就使用到了sun.misc.Cleaner。</p><hr><h1><span id="zong-jie">总结</span><a href="#zong-jie" class="header-anchor">#</a></h1><table><thead><tr><th>引用类型</th><th>被回收时间</th><th>用途</th><th>生存时间</th></tr></thead><tbody><tr><td>强引用</td><td>从来不会</td><td>对象的一般状态</td><td>jvm停止运行时</td></tr><tr><td>软引用</td><td>内存不足时</td><td>对象缓存</td><td>内存不足时</td></tr><tr><td>弱引用</td><td>jvm垃圾回收时</td><td>对象缓存</td><td>gc后</td></tr><tr><td>虚引用</td><td>不知</td><td>不知</td><td>不知</td></tr></tbody></table><p>&emsp;&emsp;利用软引用和弱引用可以解决OOM的问题。</p><p><strong>利用软引用和弱引用解决OOM问题：</strong> 假如有一个应用需要读取大量的本地图片，如果每次读取图片都从硬盘读取，则会严重影响性能，但是如果全部加载到内存当中，又有可能造成内存溢出，此时使用软引用可以解决这个问题。</p><p><strong>设计思路是：</strong> 用一个HashMap来保存图片的路径和相应图片对象关联的软引用之间的映射关系，在内存不足时，JVM会自动回收这些缓存图片对象所占用的空间，从而有效地避免了OOM的问题。</p>]]></content>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h1&gt;&lt;h2 id=&quot;作用&quot;&gt;&lt;a href=&quot;#作用&quot; class=&quot;headerlink&quot; title=&quot;作用&quot;&gt;&lt;/a&gt;作用&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;可以通过代码的方式决定某些对象的生命周期。&lt;/li&gt;
+&lt;li&gt;有利于JVM进行垃圾回收。&lt;/li&gt;
+&lt;/ol&gt;</summary>
+    
+    
+    
+    <category term="java" scheme="http://linqiankun.gitee.io/hexoblog/categories/java/"/>
+    
+    
+    <category term="java" scheme="http://linqiankun.gitee.io/hexoblog/tags/java/"/>
+    
+    <category term="jvm" scheme="http://linqiankun.gitee.io/hexoblog/tags/jvm/"/>
+    
+  </entry>
+  
+  <entry>
     <title>dubbo服务引入流程</title>
-    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/22/dubbo/dubbo%E6%9C%8D%E5%8A%A1%E5%BC%95%E5%85%A5%E6%B5%81%E7%A8%8B/"/>
-    <id>http://linqiankun.gitee.io/hexoblog/2021/04/22/dubbo/dubbo%E6%9C%8D%E5%8A%A1%E5%BC%95%E5%85%A5%E6%B5%81%E7%A8%8B/</id>
+    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/22/md/dubbo/dubbo%E6%9C%8D%E5%8A%A1%E5%BC%95%E5%85%A5%E6%B5%81%E7%A8%8B/"/>
+    <id>http://linqiankun.gitee.io/hexoblog/2021/04/22/md/dubbo/dubbo%E6%9C%8D%E5%8A%A1%E5%BC%95%E5%85%A5%E6%B5%81%E7%A8%8B/</id>
     <published>2021-04-22T01:38:33.000Z</published>
     <updated>2021-04-22T12:14:36.316Z</updated>
     
@@ -39,8 +65,8 @@
   
   <entry>
     <title>dubbo服务启动暴露过程</title>
-    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/21/dubbo/dubbo%E6%9C%8D%E5%8A%A1%E5%90%AF%E5%8A%A8%E6%9A%B4%E9%9C%B2%E8%BF%87%E7%A8%8B/"/>
-    <id>http://linqiankun.gitee.io/hexoblog/2021/04/21/dubbo/dubbo%E6%9C%8D%E5%8A%A1%E5%90%AF%E5%8A%A8%E6%9A%B4%E9%9C%B2%E8%BF%87%E7%A8%8B/</id>
+    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/21/md/dubbo/dubbo%E6%9C%8D%E5%8A%A1%E5%90%AF%E5%8A%A8%E6%9A%B4%E9%9C%B2%E8%BF%87%E7%A8%8B/"/>
+    <id>http://linqiankun.gitee.io/hexoblog/2021/04/21/md/dubbo/dubbo%E6%9C%8D%E5%8A%A1%E5%90%AF%E5%8A%A8%E6%9A%B4%E9%9C%B2%E8%BF%87%E7%A8%8B/</id>
     <published>2021-04-21T10:44:34.000Z</published>
     <updated>2021-04-22T12:13:57.365Z</updated>
     
@@ -60,8 +86,8 @@
   
   <entry>
     <title>dubboSPI扩展点自动激活</title>
-    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/20/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E7%82%B9%E8%87%AA%E5%8A%A8%E6%BF%80%E6%B4%BB/"/>
-    <id>http://linqiankun.gitee.io/hexoblog/2021/04/20/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E7%82%B9%E8%87%AA%E5%8A%A8%E6%BF%80%E6%B4%BB/</id>
+    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/20/md/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E7%82%B9%E8%87%AA%E5%8A%A8%E6%BF%80%E6%B4%BB/"/>
+    <id>http://linqiankun.gitee.io/hexoblog/2021/04/20/md/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E7%82%B9%E8%87%AA%E5%8A%A8%E6%BF%80%E6%B4%BB/</id>
     <published>2021-04-20T08:29:34.000Z</published>
     <updated>2021-04-20T11:12:20.639Z</updated>
     
@@ -83,8 +109,8 @@
   
   <entry>
     <title>dubboSPI扩展机制自适应</title>
-    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/19/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E6%9C%BA%E5%88%B6%E8%87%AA%E9%80%82%E5%BA%94/"/>
-    <id>http://linqiankun.gitee.io/hexoblog/2021/04/19/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E6%9C%BA%E5%88%B6%E8%87%AA%E9%80%82%E5%BA%94/</id>
+    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/19/md/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E6%9C%BA%E5%88%B6%E8%87%AA%E9%80%82%E5%BA%94/"/>
+    <id>http://linqiankun.gitee.io/hexoblog/2021/04/19/md/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E6%9C%BA%E5%88%B6%E8%87%AA%E9%80%82%E5%BA%94/</id>
     <published>2021-04-19T09:04:29.000Z</published>
     <updated>2021-04-20T11:12:48.404Z</updated>
     
@@ -106,8 +132,8 @@
   
   <entry>
     <title>javaSPI扩展</title>
-    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/16/java/javaSPI%E6%89%A9%E5%B1%95/"/>
-    <id>http://linqiankun.gitee.io/hexoblog/2021/04/16/java/javaSPI%E6%89%A9%E5%B1%95/</id>
+    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/16/md/java/javaSPI%E6%89%A9%E5%B1%95/"/>
+    <id>http://linqiankun.gitee.io/hexoblog/2021/04/16/md/java/javaSPI%E6%89%A9%E5%B1%95/</id>
     <published>2021-04-16T11:04:34.000Z</published>
     <updated>2021-04-16T11:43:39.812Z</updated>
     
@@ -129,8 +155,8 @@
   
   <entry>
     <title>dubboSPI扩展机制基本使用，自动包装</title>
-    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/15/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E6%9C%BA%E5%88%B6%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%EF%BC%8C%E8%87%AA%E5%8A%A8%E5%8C%85%E8%A3%85/"/>
-    <id>http://linqiankun.gitee.io/hexoblog/2021/04/15/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E6%9C%BA%E5%88%B6%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%EF%BC%8C%E8%87%AA%E5%8A%A8%E5%8C%85%E8%A3%85/</id>
+    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/15/md/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E6%9C%BA%E5%88%B6%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%EF%BC%8C%E8%87%AA%E5%8A%A8%E5%8C%85%E8%A3%85/"/>
+    <id>http://linqiankun.gitee.io/hexoblog/2021/04/15/md/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E6%9C%BA%E5%88%B6%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%EF%BC%8C%E8%87%AA%E5%8A%A8%E5%8C%85%E8%A3%85/</id>
     <published>2021-04-15T12:30:48.000Z</published>
     <updated>2021-04-22T12:40:31.832Z</updated>
     
@@ -157,8 +183,8 @@
   
   <entry>
     <title>dubbo服务调用过程</title>
-    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/15/dubbo/dubbo%E6%9C%8D%E5%8A%A1%E8%B0%83%E7%94%A8%E8%BF%87%E7%A8%8B/"/>
-    <id>http://linqiankun.gitee.io/hexoblog/2021/04/15/dubbo/dubbo%E6%9C%8D%E5%8A%A1%E8%B0%83%E7%94%A8%E8%BF%87%E7%A8%8B/</id>
+    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/15/md/dubbo/dubbo%E6%9C%8D%E5%8A%A1%E8%B0%83%E7%94%A8%E8%BF%87%E7%A8%8B/"/>
+    <id>http://linqiankun.gitee.io/hexoblog/2021/04/15/md/dubbo/dubbo%E6%9C%8D%E5%8A%A1%E8%B0%83%E7%94%A8%E8%BF%87%E7%A8%8B/</id>
     <published>2021-04-15T11:57:16.000Z</published>
     <updated>2021-04-23T07:04:39.167Z</updated>
     
@@ -178,8 +204,8 @@
   
   <entry>
     <title>dubbo基础及介绍</title>
-    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/15/dubbo/dubbo%E5%9F%BA%E7%A1%80%E5%8F%8A%E4%BB%8B%E7%BB%8D/"/>
-    <id>http://linqiankun.gitee.io/hexoblog/2021/04/15/dubbo/dubbo%E5%9F%BA%E7%A1%80%E5%8F%8A%E4%BB%8B%E7%BB%8D/</id>
+    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/15/md/dubbo/dubbo%E5%9F%BA%E7%A1%80%E5%8F%8A%E4%BB%8B%E7%BB%8D/"/>
+    <id>http://linqiankun.gitee.io/hexoblog/2021/04/15/md/dubbo/dubbo%E5%9F%BA%E7%A1%80%E5%8F%8A%E4%BB%8B%E7%BB%8D/</id>
     <published>2021-04-15T11:02:02.000Z</published>
     <updated>2021-04-23T07:02:41.549Z</updated>
     
@@ -199,8 +225,8 @@
   
   <entry>
     <title>redis安装和使用</title>
-    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/14/redis/redis%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/"/>
-    <id>http://linqiankun.gitee.io/hexoblog/2021/04/14/redis/redis%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/</id>
+    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/14/md/redis/redis%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/"/>
+    <id>http://linqiankun.gitee.io/hexoblog/2021/04/14/md/redis/redis%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/</id>
     <published>2021-04-14T11:22:26.000Z</published>
     <updated>2021-04-15T12:36:25.647Z</updated>
     
@@ -222,8 +248,8 @@
   
   <entry>
     <title>mysql中datetime和timestamp</title>
-    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/14/mysql/mysql%E4%B8%ADdatetime%E5%92%8Ctimestamp/"/>
-    <id>http://linqiankun.gitee.io/hexoblog/2021/04/14/mysql/mysql%E4%B8%ADdatetime%E5%92%8Ctimestamp/</id>
+    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/14/md/mysql/mysql%E4%B8%ADdatetime%E5%92%8Ctimestamp/"/>
+    <id>http://linqiankun.gitee.io/hexoblog/2021/04/14/md/mysql/mysql%E4%B8%ADdatetime%E5%92%8Ctimestamp/</id>
     <published>2021-04-14T11:15:06.000Z</published>
     <updated>2021-04-14T12:15:33.534Z</updated>
     
@@ -248,8 +274,8 @@
   
   <entry>
     <title>mysql浮点数精度</title>
-    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/14/mysql/mysql%E6%B5%AE%E7%82%B9%E6%95%B0%E7%B2%BE%E5%BA%A6/"/>
-    <id>http://linqiankun.gitee.io/hexoblog/2021/04/14/mysql/mysql%E6%B5%AE%E7%82%B9%E6%95%B0%E7%B2%BE%E5%BA%A6/</id>
+    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/14/md/mysql/mysql%E6%B5%AE%E7%82%B9%E6%95%B0%E7%B2%BE%E5%BA%A6/"/>
+    <id>http://linqiankun.gitee.io/hexoblog/2021/04/14/md/mysql/mysql%E6%B5%AE%E7%82%B9%E6%95%B0%E7%B2%BE%E5%BA%A6/</id>
     <published>2021-04-14T06:44:09.000Z</published>
     <updated>2021-04-15T08:47:09.089Z</updated>
     
@@ -271,8 +297,8 @@
   
   <entry>
     <title>redis分布式锁</title>
-    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/14/redis/redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/"/>
-    <id>http://linqiankun.gitee.io/hexoblog/2021/04/14/redis/redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/</id>
+    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/14/md/redis/redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/"/>
+    <id>http://linqiankun.gitee.io/hexoblog/2021/04/14/md/redis/redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/</id>
     <published>2021-04-14T06:02:57.000Z</published>
     <updated>2021-04-14T11:34:21.769Z</updated>
     
@@ -296,8 +322,8 @@
   
   <entry>
     <title>docker启动springboot</title>
-    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/12/docker/docker%E5%90%AF%E5%8A%A8springboot/"/>
-    <id>http://linqiankun.gitee.io/hexoblog/2021/04/12/docker/docker%E5%90%AF%E5%8A%A8springboot/</id>
+    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/12/md/docker/docker%E5%90%AF%E5%8A%A8springboot/"/>
+    <id>http://linqiankun.gitee.io/hexoblog/2021/04/12/md/docker/docker%E5%90%AF%E5%8A%A8springboot/</id>
     <published>2021-04-12T03:10:15.000Z</published>
     <updated>2021-04-14T11:53:14.367Z</updated>
     
@@ -325,8 +351,8 @@
   
   <entry>
     <title>docker启动vue</title>
-    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/12/docker/docker%E5%90%AF%E5%8A%A8vue/"/>
-    <id>http://linqiankun.gitee.io/hexoblog/2021/04/12/docker/docker%E5%90%AF%E5%8A%A8vue/</id>
+    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/12/md/docker/docker%E5%90%AF%E5%8A%A8vue/"/>
+    <id>http://linqiankun.gitee.io/hexoblog/2021/04/12/md/docker/docker%E5%90%AF%E5%8A%A8vue/</id>
     <published>2021-04-12T03:10:01.000Z</published>
     <updated>2021-04-14T11:53:11.828Z</updated>
     
@@ -354,8 +380,8 @@
   
   <entry>
     <title>deepin搭建java开发环境</title>
-    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/11/linux/deepin%E6%90%AD%E5%BB%BAjava%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/"/>
-    <id>http://linqiankun.gitee.io/hexoblog/2021/04/11/linux/deepin%E6%90%AD%E5%BB%BAjava%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</id>
+    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/11/md/linux/deepin%E6%90%AD%E5%BB%BAjava%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/"/>
+    <id>http://linqiankun.gitee.io/hexoblog/2021/04/11/md/linux/deepin%E6%90%AD%E5%BB%BAjava%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</id>
     <published>2021-04-11T11:20:49.000Z</published>
     <updated>2021-04-15T12:37:15.569Z</updated>
     
@@ -380,8 +406,8 @@
   
   <entry>
     <title>deepin安装docker</title>
-    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/11/linux/deepin%E5%AE%89%E8%A3%85docker/"/>
-    <id>http://linqiankun.gitee.io/hexoblog/2021/04/11/linux/deepin%E5%AE%89%E8%A3%85docker/</id>
+    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/11/md/linux/deepin%E5%AE%89%E8%A3%85docker/"/>
+    <id>http://linqiankun.gitee.io/hexoblog/2021/04/11/md/linux/deepin%E5%AE%89%E8%A3%85docker/</id>
     <published>2021-04-11T11:20:00.000Z</published>
     <updated>2021-04-13T01:49:34.179Z</updated>
     
@@ -410,8 +436,8 @@
   
   <entry>
     <title>linux基本操作</title>
-    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/10/linux/linux%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/"/>
-    <id>http://linqiankun.gitee.io/hexoblog/2021/04/10/linux/linux%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</id>
+    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/10/md/linux/linux%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/"/>
+    <id>http://linqiankun.gitee.io/hexoblog/2021/04/10/md/linux/linux%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</id>
     <published>2021-04-10T13:05:10.000Z</published>
     <updated>2021-04-11T12:04:17.602Z</updated>
     
@@ -436,8 +462,8 @@
   
   <entry>
     <title>jvm命令</title>
-    <link href="http://linqiankun.gitee.io/hexoblog/2021/03/29/jvm/jvm%E5%91%BD%E4%BB%A4/"/>
-    <id>http://linqiankun.gitee.io/hexoblog/2021/03/29/jvm/jvm%E5%91%BD%E4%BB%A4/</id>
+    <link href="http://linqiankun.gitee.io/hexoblog/2021/03/29/md/jvm/jvm%E5%91%BD%E4%BB%A4/"/>
+    <id>http://linqiankun.gitee.io/hexoblog/2021/03/29/md/jvm/jvm%E5%91%BD%E4%BB%A4/</id>
     <published>2021-03-29T12:00:19.000Z</published>
     <updated>2021-04-14T02:48:40.972Z</updated>
     
@@ -464,8 +490,8 @@
   
   <entry>
     <title>一致性hash</title>
-    <link href="http://linqiankun.gitee.io/hexoblog/2021/03/26/%E5%88%86%E5%B8%83%E5%BC%8F/%E4%B8%80%E8%87%B4%E6%80%A7hash/"/>
-    <id>http://linqiankun.gitee.io/hexoblog/2021/03/26/%E5%88%86%E5%B8%83%E5%BC%8F/%E4%B8%80%E8%87%B4%E6%80%A7hash/</id>
+    <link href="http://linqiankun.gitee.io/hexoblog/2021/03/26/md/%E5%88%86%E5%B8%83%E5%BC%8F/%E4%B8%80%E8%87%B4%E6%80%A7hash/"/>
+    <id>http://linqiankun.gitee.io/hexoblog/2021/03/26/md/%E5%88%86%E5%B8%83%E5%BC%8F/%E4%B8%80%E8%87%B4%E6%80%A7hash/</id>
     <published>2021-03-26T02:49:58.000Z</published>
     <updated>2021-04-14T02:48:40.962Z</updated>
     
@@ -482,46 +508,6 @@
     <category term="分布式" scheme="http://linqiankun.gitee.io/hexoblog/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
     
     <category term="hash" scheme="http://linqiankun.gitee.io/hexoblog/tags/hash/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>dcokerdesktop小问题排查</title>
-    <link href="http://linqiankun.gitee.io/hexoblog/2021/03/14/docker/dcokerdesktop%E5%B0%8F%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5/"/>
-    <id>http://linqiankun.gitee.io/hexoblog/2021/03/14/docker/dcokerdesktop%E5%B0%8F%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5/</id>
-    <published>2021-03-14T07:56:42.000Z</published>
-    <updated>2021-03-14T09:22:00.144Z</updated>
-    
-    <content type="html"><![CDATA[<div class="toc"><!-- toc --><ul><li><a href="#wen-ti">问题</a><ul><li><a href="#qi-dong-wen-ti">启动问题</a><ul><li><a href="#docker-qi-dong-shi-bai">docker启动失败</a></li></ul></li></ul></li></ul><!-- tocstop --></div><h1><span id="wen-ti">问题</span><a href="#wen-ti" class="header-anchor">#</a></h1><h2><span id="qi-dong-wen-ti">启动问题</span><a href="#qi-dong-wen-ti" class="header-anchor">#</a></h2><h3><span id="docker-qi-dong-shi-bai">docker启动失败</span><a href="#docker-qi-dong-shi-bai" class="header-anchor">#</a></h3><span id="more"></span><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Error%202021_3_14%2017_02_08.png" alt="启动失败"></p><p>&emsp;&emsp;dockerdesktop在启动时，发生此错误，因为wsl未启动或者wsl启动出现问题。</p><h4><span id="jie-jue">解决</span><a href="#jie-jue" class="header-anchor">#</a></h4><p>&emsp;&emsp;解决掉对应的wsl错误即可。这里的问题是：</p><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Ubuntu%2020.04%20LTS%202021_3_14%2016_01_57.png" alt="参考的对象不支持的操作"></p><p>&emsp;&emsp;是因为wsl的问题，将其解决即可。</p>]]></content>
-    
-    
-    <summary type="html">&lt;div class=&quot;tocStart&quot;&gt;&lt;/div&gt;
-
-&lt;!-- toc --&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;#wen-ti&quot;&gt;问题&lt;/a&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;#qi-dong-wen-ti&quot;&gt;启动问题&lt;/a&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;#docker-qi-dong-shi-bai&quot;&gt;docker启动失败&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;!-- tocstop --&gt;
-
-&lt;div class=&quot;tocEnd&quot;&gt;&lt;/div&gt;
-
-&lt;h1 id=&quot;问题&quot;&gt;&lt;a href=&quot;#问题&quot; class=&quot;headerlink&quot; title=&quot;问题&quot;&gt;&lt;/a&gt;问题&lt;/h1&gt;&lt;h2 id=&quot;启动问题&quot;&gt;&lt;a href=&quot;#启动问题&quot; class=&quot;headerlink&quot; title=&quot;启动问题&quot;&gt;&lt;/a&gt;启动问题&lt;/h2&gt;&lt;h3 id=&quot;docker启动失败&quot;&gt;&lt;a href=&quot;#docker启动失败&quot; class=&quot;headerlink&quot; title=&quot;docker启动失败&quot;&gt;&lt;/a&gt;docker启动失败&lt;/h3&gt;</summary>
-    
-    
-    
-    <category term="docker" scheme="http://linqiankun.gitee.io/hexoblog/categories/docker/"/>
-    
-    
-    <category term="docker" scheme="http://linqiankun.gitee.io/hexoblog/tags/docker/"/>
-    
-    <category term="wsl" scheme="http://linqiankun.gitee.io/hexoblog/tags/wsl/"/>
     
   </entry>
   
