@@ -36,9 +36,9 @@
     <category term="java" scheme="http://linqiankun.gitee.io/hexoblog/categories/java/"/>
     
     
-    <category term="java" scheme="http://linqiankun.gitee.io/hexoblog/tags/java/"/>
-    
     <category term="jvm" scheme="http://linqiankun.gitee.io/hexoblog/tags/jvm/"/>
+    
+    <category term="java" scheme="http://linqiankun.gitee.io/hexoblog/tags/java/"/>
     
   </entry>
   
@@ -147,9 +147,9 @@
     <category term="java" scheme="http://linqiankun.gitee.io/hexoblog/categories/java/"/>
     
     
-    <category term="SPI" scheme="http://linqiankun.gitee.io/hexoblog/tags/SPI/"/>
-    
     <category term="java" scheme="http://linqiankun.gitee.io/hexoblog/tags/java/"/>
+    
+    <category term="SPI" scheme="http://linqiankun.gitee.io/hexoblog/tags/SPI/"/>
     
   </entry>
   
@@ -480,9 +480,9 @@
     <category term="tool" scheme="http://linqiankun.gitee.io/hexoblog/categories/tool/"/>
     
     
-    <category term="tool" scheme="http://linqiankun.gitee.io/hexoblog/tags/tool/"/>
-    
     <category term="jvm" scheme="http://linqiankun.gitee.io/hexoblog/tags/jvm/"/>
+    
+    <category term="tool" scheme="http://linqiankun.gitee.io/hexoblog/tags/tool/"/>
     
     <category term="jdk" scheme="http://linqiankun.gitee.io/hexoblog/tags/jdk/"/>
     
