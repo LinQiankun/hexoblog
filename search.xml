@@ -1054,12 +1054,12 @@
 <h3><span id="yun-xing-shi-chang-liang-chi">运行时常量池</span><a href="#yun-xing-shi-chang-liang-chi" class="header-anchor">#</a></h3><p>&emsp;&emsp;根据规范-&gt;运行时常量池是类文件中constant_pool表的每个类或每个接口的运行时表示形式（4.4）。<br>&emsp;&emsp;Class文件常量池将在类加载后进入方法区的运行时常量池中存放（移除永久代的搬迁中会没了吧）。</p>
 <h3><span id="zi-fu-chuan-chang-liang-chi">字符串<em>常量池</em></span><a href="#zi-fu-chuan-chang-liang-chi" class="header-anchor">#</a></h3><p><a href="https://tech.meituan.com/2014/03/06/in-depth-understanding-string-intern.html">https://tech.meituan.com/2014/03/06/in-depth-understanding-string-intern.html</a></p>
 <blockquote>
-<p>感觉有问题</p>
+<p>感觉有问题<br>String s = new String(“1”); 不考虑引用的情况下，不仅仅在堆上会分配一块内存，还会再字符串常量池生成一个对象。引号里面的再常量池，new出来的再堆上上，s在栈里，指向了堆里new的玩意。</p>
 </blockquote>
 <ol>
 <li>在jdk1.6（含）之前也是方法区的一部分，并且其中存放的是字符串的实例。</li>
-<li>在jdk1.7（含）之后是在堆内存之中，存储的是字符串对象的引用，字符串实例是在堆中。</li>
-<li>jdk1.8已移除永久代，字符串常量池是在本地内存当中，存储的也只是引用，实例在堆中。</li>
+<li>在jdk1.7（含）之后是在堆内存之中，存储的是字符串对象的引用，也存储实例，字符串实例是在堆中。</li>
+<li>jdk1.8已移除永久代，字符串常量池是在本地内存当中，存储的也只是引用，也存储实例，实例在堆中。</li>
 </ol>
 <p>&emsp;&emsp;JVM 中除了字符串常量池，8种基本数据类型中除了两种浮点类型剩余的6种基本数据类型的包装类，都使用了缓冲池技术，但是 Byte、Short、Integer、Long、Character 这5种整型的包装类也只是在对应值在 [-128,127] 时才会使用缓冲池，超出此范围仍然会去创建新的对象。</p>
 ]]></content>
