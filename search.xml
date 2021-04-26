@@ -153,30 +153,6 @@
       </tags>
   </entry>
   <entry>
-    <title>dubboSPI扩展机制自适应</title>
-    <url>/hexoblog/2021/04/19/md/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E6%9C%BA%E5%88%B6%E8%87%AA%E9%80%82%E5%BA%94/</url>
-    <content><![CDATA[<h1><span id="kuo-zhan-dian-zi-gua-ying">扩展点自适应</span><a href="#kuo-zhan-dian-zi-gua-ying" class="header-anchor">#</a></h1><h2><span id="jie-shao">介绍</span><a href="#jie-shao" class="header-anchor">#</a></h2><p>&emsp;&emsp;ExtensionLoader注入的依赖扩展点是一个Adaptive实例，直到扩展点方法执行时才决定调用是哪一个扩展点实现。<br>&emsp;&emsp;dubbo使用url对象传递对象信息，包含key和value。<br>&emsp;&emsp;扩展点方法调用会有URL参数（或是参数有URL成员）这样依赖的扩展点也可以从URL拿到配置信息，所有的扩展点自己定好配置的 Key后，配置信息从URL上从最外层传入。URL在配置传递上即是一条总线。</p>
-<span id="more"></span>
-<h2><span id="adaptive-zhu-jie">@Adaptive注解</span><a href="#adaptive-zhu-jie" class="header-anchor">#</a></h2><p>&emsp;&emsp;表示该类是一个扩展类（Adaptive实例），不需要生成代理方法直接使用即可。<br>&emsp;&emsp;在方法上则表示该方法需生成代理, 此时就需要用到上面提到的URL参数。<br>&emsp;&emsp;如果作用在方法会帮我们在运行时动态生成一个Adaptive实例（只包含扩展方法的），如果作用在类上就相当于自己定义了一个现成的。</p>
-<h3><span id="zhu-jie-zai-shi-xian-lei-shang">注解在实现类上</span><a href="#zhu-jie-zai-shi-xian-lei-shang" class="header-anchor">#</a></h3><p>&emsp;&emsp;表示该类是一个扩展类，不需要生成代理方法直接使用即可。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 扩展的接口</span></span><br><span class="line"><span class="meta">@SPI</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">AdaptiveService</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 是扩展类</span></span><br><span class="line"><span class="meta">@Adaptive</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AdaptiveServiceImpl</span> <span class="keyword">implements</span> <span class="title">AdaptiveService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 同样需要文件</span></span><br><span class="line"><span class="comment">// 文件名为接口全限定名</span></span><br><span class="line"><span class="comment">// 内容为key=value，value为实现类全限定名</span></span><br><span class="line">AdaptiveService=com.lin.extendAdaptive.extend.impl.AdaptiveServiceImpl</span><br><span class="line"></span><br><span class="line"><span class="comment">// 启动类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExtendAdaptiveMain</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ExtensionLoader&lt;AdaptiveService&gt; extensionLoader = ExtensionLoader.getExtensionLoader(AdaptiveService.class);</span><br><span class="line">        AdaptiveService adaptiveExtension = extensionLoader.getAdaptiveExtension();</span><br><span class="line">        adaptiveExtension.sayHello();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3><span id="zhu-jie-zai-jie-kou-fang-fa-shang">注解在接口方法上</span><a href="#zhu-jie-zai-jie-kou-fang-fa-shang" class="header-anchor">#</a></h3><p>&emsp;&emsp;在方法上则表示该方法需生成代理, 此时就需要用到上面提到的URL参数。<br>&emsp;&emsp;当注解在接口方法上时，方法中需要传入一个URL参数，或者包装有URL参数时，会通过动态编译获得一个Adaptive实例。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 接口</span></span><br><span class="line"><span class="meta">@SPI</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MethodAdaptiveService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Adaptive(&#123;&quot;key&quot;&#125;)</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(URL url)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 实现类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MethodAdaptiveServiceImpl</span> <span class="keyword">implements</span> <span class="title">MethodAdaptiveService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(URL url)</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;method&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// META—INF文件与注解在类上时相同</span></span><br><span class="line">MethodAdaptiveService=com.lin.extendAdaptive.extend.impl.MethodAdaptiveServiceImpl</span><br><span class="line"></span><br><span class="line"><span class="comment">// 启动</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ExtensionLoader&lt;MethodAdaptiveService&gt; extensionLoader = ExtensionLoader.getExtensionLoader(MethodAdaptiveService.class);</span><br><span class="line">        MethodAdaptiveService adaptiveExtension = extensionLoader.getAdaptiveExtension();</span><br><span class="line">        HashMap hashMap = <span class="keyword">new</span> HashMap();</span><br><span class="line">        <span class="comment">// key与接口中注解的key相同，value与文件中声明的名称相同</span></span><br><span class="line">        hashMap.put(<span class="string">&quot;key&quot;</span>,<span class="string">&quot;MethodAdaptiveService&quot;</span>);</span><br><span class="line">        URL url = <span class="keyword">new</span> URL(<span class="string">&quot;dubbo&quot;</span>,<span class="string">&quot;localhost&quot;</span>,<span class="number">8080</span>,hashMap);</span><br><span class="line">        adaptiveExtension.sayHello(url);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 生成的实例</span></span><br><span class="line"><span class="keyword">package</span> com.lin.extendAdaptive.extend;</span><br><span class="line"><span class="keyword">import</span> org.apache.dubbo.common.extension.ExtensionLoader;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MethodAdaptiveService</span>$<span class="title">Adaptive</span> <span class="keyword">implements</span> <span class="title">com</span>.<span class="title">lin</span>.<span class="title">extendAdaptive</span>.<span class="title">extend</span>.<span class="title">MethodAdaptiveService</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(org.apache.dubbo.common.URL arg0)</span>  </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (arg0 == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">&quot;url == null&quot;</span>);</span><br><span class="line">        org.apache.dubbo.common.URL url = arg0;</span><br><span class="line">        String extName = url.getParameter(<span class="string">&quot;key&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span>(extName == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">&quot;Failed to get extension (com.lin.extendAdaptive.extend.MethodAdaptiveService) name from url (&quot;</span> + url.toString() + <span class="string">&quot;) use keys([key])&quot;</span>);</span><br><span class="line">        com.lin.extendAdaptive.extend.MethodAdaptiveService extension = (com.lin.extendAdaptive.extend.MethodAdaptiveService)ExtensionLoader.getExtensionLoader(com.lin.extendAdaptive.extend.MethodAdaptiveService.class).getExtension(extName);</span><br><span class="line">        extension.sayHello(url);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, dubbo version: <span class="number">2.7</span><span class="number">.1</span>, current host: <span class="number">192.168</span><span class="number">.139</span><span class="number">.15</span></span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;程序运行时，会经过动态编译过程生成MethodAdaptiveService对应的Adaptive实例，即MethodAdaptiveService$Adaptive。<br>&emsp;&emsp;就是在程序运行过程中，根据条件，通过拼接字符串的形式生成java源码，然后进行编译获得对应的实例。</p>
-<hr>
-<h1><span id="kuo-zhan-dian-zi-dong-zhu-ru">扩展点自动注入</span><a href="#kuo-zhan-dian-zi-dong-zhu-ru" class="header-anchor">#</a></h1><p>有bug稍后。</p>
-]]></content>
-      <categories>
-        <category>dubbo</category>
-      </categories>
-      <tags>
-        <tag>dubbo</tag>
-        <tag>SPI</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>dubboSPI扩展机制基本使用，自动包装</title>
     <url>/hexoblog/2021/04/15/md/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E6%9C%BA%E5%88%B6%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%EF%BC%8C%E8%87%AA%E5%8A%A8%E5%8C%85%E8%A3%85/</url>
     <content><![CDATA[<h1><span id="jie-shao">介绍</span><a href="#jie-shao" class="header-anchor">#</a></h1><p>&emsp;&emsp;DubboSPI是基于JavaSPI的一个扩展与补充。<br><a href="https://dubbo.apache.org/zh/docs/v2.7/dev/spi/">https://dubbo.apache.org/zh/docs/v2.7/dev/spi/</a></p>
@@ -233,6 +209,30 @@
 <h2><span id="xiu-gai-meta-inf-xia-wen-jian-nei-rong">修改META-INF下文件内容</span><a href="#xiu-gai-meta-inf-xia-wen-jian-nei-rong" class="header-anchor">#</a></h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ExtendService=com.lin.extendwrapper.extend.impl.ExtendServiceImpl</span><br><span class="line"><span class="comment"># 增加一行</span></span><br><span class="line">ExtendService=com.lin.extendwrapper.extend.impl.ExtendServiceImplWrapper</span><br></pre></td></tr></table></figure>
 
 <h2><span id="zong-jie">总结</span><a href="#zong-jie" class="header-anchor">#</a></h2><p>&emsp;&emsp;扩展点自动包装，会在通过ExtensionLoader获取扩展点时判断是否是包装类。如果是wrapper包装类，就是调用wrapper的service中的方法，包装后执行。</p>
+]]></content>
+      <categories>
+        <category>dubbo</category>
+      </categories>
+      <tags>
+        <tag>dubbo</tag>
+        <tag>SPI</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>dubboSPI扩展机制自适应</title>
+    <url>/hexoblog/2021/04/19/md/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E6%9C%BA%E5%88%B6%E8%87%AA%E9%80%82%E5%BA%94/</url>
+    <content><![CDATA[<h1><span id="kuo-zhan-dian-zi-gua-ying">扩展点自适应</span><a href="#kuo-zhan-dian-zi-gua-ying" class="header-anchor">#</a></h1><h2><span id="jie-shao">介绍</span><a href="#jie-shao" class="header-anchor">#</a></h2><p>&emsp;&emsp;ExtensionLoader注入的依赖扩展点是一个Adaptive实例，直到扩展点方法执行时才决定调用是哪一个扩展点实现。<br>&emsp;&emsp;dubbo使用url对象传递对象信息，包含key和value。<br>&emsp;&emsp;扩展点方法调用会有URL参数（或是参数有URL成员）这样依赖的扩展点也可以从URL拿到配置信息，所有的扩展点自己定好配置的 Key后，配置信息从URL上从最外层传入。URL在配置传递上即是一条总线。</p>
+<span id="more"></span>
+<h2><span id="adaptive-zhu-jie">@Adaptive注解</span><a href="#adaptive-zhu-jie" class="header-anchor">#</a></h2><p>&emsp;&emsp;表示该类是一个扩展类（Adaptive实例），不需要生成代理方法直接使用即可。<br>&emsp;&emsp;在方法上则表示该方法需生成代理, 此时就需要用到上面提到的URL参数。<br>&emsp;&emsp;如果作用在方法会帮我们在运行时动态生成一个Adaptive实例（只包含扩展方法的），如果作用在类上就相当于自己定义了一个现成的。</p>
+<h3><span id="zhu-jie-zai-shi-xian-lei-shang">注解在实现类上</span><a href="#zhu-jie-zai-shi-xian-lei-shang" class="header-anchor">#</a></h3><p>&emsp;&emsp;表示该类是一个扩展类，不需要生成代理方法直接使用即可。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 扩展的接口</span></span><br><span class="line"><span class="meta">@SPI</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">AdaptiveService</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 是扩展类</span></span><br><span class="line"><span class="meta">@Adaptive</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AdaptiveServiceImpl</span> <span class="keyword">implements</span> <span class="title">AdaptiveService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 同样需要文件</span></span><br><span class="line"><span class="comment">// 文件名为接口全限定名</span></span><br><span class="line"><span class="comment">// 内容为key=value，value为实现类全限定名</span></span><br><span class="line">AdaptiveService=com.lin.extendAdaptive.extend.impl.AdaptiveServiceImpl</span><br><span class="line"></span><br><span class="line"><span class="comment">// 启动类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExtendAdaptiveMain</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ExtensionLoader&lt;AdaptiveService&gt; extensionLoader = ExtensionLoader.getExtensionLoader(AdaptiveService.class);</span><br><span class="line">        AdaptiveService adaptiveExtension = extensionLoader.getAdaptiveExtension();</span><br><span class="line">        adaptiveExtension.sayHello();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3><span id="zhu-jie-zai-jie-kou-fang-fa-shang">注解在接口方法上</span><a href="#zhu-jie-zai-jie-kou-fang-fa-shang" class="header-anchor">#</a></h3><p>&emsp;&emsp;在方法上则表示该方法需生成代理, 此时就需要用到上面提到的URL参数。<br>&emsp;&emsp;当注解在接口方法上时，方法中需要传入一个URL参数，或者包装有URL参数时，会通过动态编译获得一个Adaptive实例。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 接口</span></span><br><span class="line"><span class="meta">@SPI</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MethodAdaptiveService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Adaptive(&#123;&quot;key&quot;&#125;)</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(URL url)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 实现类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MethodAdaptiveServiceImpl</span> <span class="keyword">implements</span> <span class="title">MethodAdaptiveService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(URL url)</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;method&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// META—INF文件与注解在类上时相同</span></span><br><span class="line">MethodAdaptiveService=com.lin.extendAdaptive.extend.impl.MethodAdaptiveServiceImpl</span><br><span class="line"></span><br><span class="line"><span class="comment">// 启动</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ExtensionLoader&lt;MethodAdaptiveService&gt; extensionLoader = ExtensionLoader.getExtensionLoader(MethodAdaptiveService.class);</span><br><span class="line">        MethodAdaptiveService adaptiveExtension = extensionLoader.getAdaptiveExtension();</span><br><span class="line">        HashMap hashMap = <span class="keyword">new</span> HashMap();</span><br><span class="line">        <span class="comment">// key与接口中注解的key相同，value与文件中声明的名称相同</span></span><br><span class="line">        hashMap.put(<span class="string">&quot;key&quot;</span>,<span class="string">&quot;MethodAdaptiveService&quot;</span>);</span><br><span class="line">        URL url = <span class="keyword">new</span> URL(<span class="string">&quot;dubbo&quot;</span>,<span class="string">&quot;localhost&quot;</span>,<span class="number">8080</span>,hashMap);</span><br><span class="line">        adaptiveExtension.sayHello(url);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 生成的实例</span></span><br><span class="line"><span class="keyword">package</span> com.lin.extendAdaptive.extend;</span><br><span class="line"><span class="keyword">import</span> org.apache.dubbo.common.extension.ExtensionLoader;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MethodAdaptiveService</span>$<span class="title">Adaptive</span> <span class="keyword">implements</span> <span class="title">com</span>.<span class="title">lin</span>.<span class="title">extendAdaptive</span>.<span class="title">extend</span>.<span class="title">MethodAdaptiveService</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(org.apache.dubbo.common.URL arg0)</span>  </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (arg0 == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">&quot;url == null&quot;</span>);</span><br><span class="line">        org.apache.dubbo.common.URL url = arg0;</span><br><span class="line">        String extName = url.getParameter(<span class="string">&quot;key&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span>(extName == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">&quot;Failed to get extension (com.lin.extendAdaptive.extend.MethodAdaptiveService) name from url (&quot;</span> + url.toString() + <span class="string">&quot;) use keys([key])&quot;</span>);</span><br><span class="line">        com.lin.extendAdaptive.extend.MethodAdaptiveService extension = (com.lin.extendAdaptive.extend.MethodAdaptiveService)ExtensionLoader.getExtensionLoader(com.lin.extendAdaptive.extend.MethodAdaptiveService.class).getExtension(extName);</span><br><span class="line">        extension.sayHello(url);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, dubbo version: <span class="number">2.7</span><span class="number">.1</span>, current host: <span class="number">192.168</span><span class="number">.139</span><span class="number">.15</span></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;程序运行时，会经过动态编译过程生成MethodAdaptiveService对应的Adaptive实例，即MethodAdaptiveService$Adaptive。<br>&emsp;&emsp;就是在程序运行过程中，根据条件，通过拼接字符串的形式生成java源码，然后进行编译获得对应的实例。</p>
+<hr>
+<h1><span id="kuo-zhan-dian-zi-dong-zhu-ru">扩展点自动注入</span><a href="#kuo-zhan-dian-zi-dong-zhu-ru" class="header-anchor">#</a></h1><p>有bug稍后。</p>
 ]]></content>
       <categories>
         <category>dubbo</category>
@@ -578,8 +578,8 @@
         <category>java</category>
       </categories>
       <tags>
-        <tag>jvm</tag>
         <tag>java</tag>
+        <tag>jvm</tag>
       </tags>
   </entry>
   <entry>
@@ -842,6 +842,409 @@
       </tags>
   </entry>
   <entry>
+    <title>Volatile</title>
+    <url>/hexoblog/2021/03/03/md/jvm/Volatile/</url>
+    <content><![CDATA[<h1><span id="jmm">JMM</span><a href="#jmm" class="header-anchor">#</a></h1><p>&emsp;&emsp;Java内存模型，是虚拟机规范中所定义的一种内存模型，Java内存模型是标准化的，屏蔽掉了底层计算机之间的区别。<br>&emsp;&emsp;Java内存模型描述了Java程序中各种变量（线程共享变量）的访问规则，以及在JVM中将变量，存储到内存和从内存中读取变量这样的底层细节。</p>
+<span id="more"></span>
+
+<h2><span id="gui-ding">规定</span><a href="#gui-ding" class="header-anchor">#</a></h2><p>&emsp;&emsp;所有的共享变量都存储于主内存，这里所说的变量指的是实例变量和类变量，不包含局部变量，因为局部变量是线程私有的，不存在竞争问题。<br>&emsp;&emsp;线程对所有变量的操作都必须在工作内存中完成，而不能直接操作主内存中的变量。<br>&emsp;&emsp;不同的线程也不能直接访问对方工作内存中的变量，线程间变量的值的传递需要通过主内存中转来完成。</p>
+<hr>
+<h1><span id="ke-jian-xing-wen-ti">可见性问题</span><a href="#ke-jian-xing-wen-ti" class="header-anchor">#</a></h1><h2><span id="tong-guo-jia-synchronized-lai-jie-jue-ke-jian-xing-wen-ti">通过加synchronized来解决可见性问题：</span><a href="#tong-guo-jia-synchronized-lai-jie-jue-ke-jian-xing-wen-ti" class="header-anchor">#</a></h2><p>&emsp;&emsp;因为某一个线程进入synchronized代码块前后，线程会获得锁，清空工作内存，从主内存拷贝共享变量最新的值到工作内存成为副本，执行代码，将修改后的副本的值刷新回主内存中，线程释放锁。<br>&emsp;&emsp;而获取不到锁的线程会阻塞等待，所以变量的值肯定一直都是最新的。</p>
+<h2><span id="tong-guo-volatile-jie-jue-ke-jian-xing-wen-ti">通过volatile解决可见性问题：</span><a href="#tong-guo-volatile-jie-jue-ke-jian-xing-wen-ti" class="header-anchor">#</a></h2><p>&emsp;&emsp;每个线程操作数据的时候会把数据从主内存读取到自己的工作内存，如果他操作了数据并且写回了，其他已经读取的线程的变量副本就会失效了，需要对数据进行操作又要再次去主内存中读取了。</p>
+<hr>
+<h1><span id="huan-cun-chu-li">缓存处理</span><a href="#huan-cun-chu-li" class="header-anchor">#</a></h1><h2><span id="huan-cun-yi-zhi-xing-xie-yi">缓存一致性协议</span><a href="#huan-cun-yi-zhi-xing-xie-yi" class="header-anchor">#</a></h2><p>&emsp;&emsp;多个处理器的运算任务涉及同一块主内存区域时，将导致各自的缓存数据不一致，问题在于同步回主内存时以谁的缓存数据为准。<br>&emsp;&emsp;为了解决一致性的问题，需要各个处理器在访问缓存时都遵循一些协议，在读写时要根据协议操作，这类协议有MSI，MESI，Synapse，Firefly，Firefly等。</p>
+<h2><span id="mesi">MESI</span><a href="#mesi" class="header-anchor">#</a></h2><p>&emsp;&emsp;当cpu写数据时，如果发现操作的变量是工作内存，即在其他cpu中也存在该变量的副本，会发出信号通知其他cpu将该变量的缓存行设置为无效状态，因此当其他cpu要读取这个变量时，会发现自己缓存中缓存该变量的缓存行是无效的，那么他就会从内存重新读取。</p>
+<h2><span id="xiu-tan">嗅探：</span><a href="#xiu-tan" class="header-anchor">#</a></h2><p>&emsp;&emsp;每个处理器通过嗅探在总线上传播的数据来检查自己缓存的值是不是过期了，当处理器发现自己缓存行对应的内存地址被修改，就会将当前处理器的缓存行设置成无效状态，当处理器对这个数据进行修改操作时，会重新从系统内存中把数据读到处理器缓存里。</p>
+<h2><span id="zong-xian-feng-bao">总线风暴：</span><a href="#zong-xian-feng-bao" class="header-anchor">#</a></h2><p>&emsp;&emsp;由于volatile的MESI缓存一致性协议，需要不断的从主内存嗅探和CAS不断循环，无效交互会导致总线带宽达到峰值。所以不应该大量使用volatile，什么时候使用volatile什么时候使用锁，需要具体判断。</p>
+<hr>
+<h1><span id="zhi-ling-chong-pai-xu">指令重排序</span><a href="#zhi-ling-chong-pai-xu" class="header-anchor">#</a></h1><p>&emsp;&emsp;为了提高性能，编译器和处理器常常会对既定的代码执行顺序进行指令重排序。</p>
+<h2><span id="guo-cheng">过程:</span><a href="#guo-cheng" class="header-anchor">#</a></h2><blockquote>
+<p> 源代码——&gt;编译器优化重排序——&gt;指令级并行重排序——&gt;内存系统重排序——〉最终执行指令序列</p>
+</blockquote>
+<p>&emsp;&emsp;一个好的内存模型，实际上会放松对处理器和编译器规则的束缚，也就是说软件技术和硬件技术都为同一个目标，而进行奋斗。在不改变程序执行结果的前提下，尽可能提高运行效率。<br>&emsp;&emsp;JMM对底层减少约束，使其能够发挥自身优势。</p>
+<h2><span id="san-chong-chong-pai-xu">三种重排序</span><a href="#san-chong-chong-pai-xu" class="header-anchor">#</a></h2><ol>
+<li>编译器优化的重排序。编译器在不改变单线程程序语义的前提下，可以重新安排语句的执行顺序。</li>
+<li>指令级并行的重排序。现代处理器采用了指令级并行技术来讲多条指令重叠执行。如果不存在数据依赖性，处理器可以改变语句对应机器指令的执行顺序。</li>
+<li>内存系统的重排序。由于处理器使用缓存和读/写缓冲区，这使得读取和存储操作看上去可能是在乱序执行的。</li>
+</ol>
+<h2><span id="as-if-serial">as-if-serial：</span><a href="#as-if-serial" class="header-anchor">#</a></h2><p>&emsp;&emsp;不管怎么重排序，单线程下的执行结果不能被改变。<br>&emsp;&emsp;编译器、runtime和处理器都必须遵守as-if-serial语义。</p>
+<h2><span id="nei-cun-ping-zhang">内存屏障：</span><a href="#nei-cun-ping-zhang" class="header-anchor">#</a></h2><p>&emsp;&emsp;java编译器会在生成指令系列时在适当的位置会插入内存屏障指令来禁止特定类型的处理器重排序。<br>&emsp;&emsp;为了实现volatile的内存语义，JMM会限制特定类型的编译器和处理器重排序，JMM会针对编译器制定volatile重排序规则表：</p>
+<table>
+<thead>
+<tr>
+<th>是否能重排序</th>
+<th>第二个操作</th>
+<th>普通读写</th>
+<th>vol读</th>
+<th>vol写</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>第一个操作</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>普通读写</td>
+<td></td>
+<td></td>
+<td></td>
+<td>NO</td>
+</tr>
+<tr>
+<td>vol读</td>
+<td></td>
+<td>NO</td>
+<td>NO</td>
+<td>NO</td>
+</tr>
+<tr>
+<td>vol写</td>
+<td></td>
+<td></td>
+<td>NO</td>
+<td>NO</td>
+</tr>
+</tbody></table>
+<p>需要注意的是：</p>
+<ol>
+<li>volatile写是分别在前面和后面插入内存屏障.</li>
+<li>而volatile读是在后面插入两个内存屏障。</li>
+</ol>
+<h3><span id="xie-nei-cun-ping-zhang">写内存屏障：</span><a href="#xie-nei-cun-ping-zhang" class="header-anchor">#</a></h3><blockquote>
+<p>普通读——&gt;普通写——&gt;storestore屏障(禁止上面写和其他重排序)——&gt;vol写——&gt;storestore屏障(禁止下面读和其他重排序)</p>
+</blockquote>
+<h3><span id="du-nei-cun-ping-zhang">读内存屏障：</span><a href="#du-nei-cun-ping-zhang" class="header-anchor">#</a></h3><blockquote>
+<p>vol读——&gt;loadload屏障(禁止下面读重排序)——&gt;loadload屏障(禁止下面写重排序)——&gt;普通读——&gt;普通写</p>
+</blockquote>
+<p>&emsp;&emsp;为了提高处理速度，JVM会对代码进行编译优化，也就是指令重排序优化，并发编程下指令重排序会带来一些安全隐患：如指令重排序导致的多个线程操作之间的不可见性。<br>&emsp;&emsp;从JDK5开始，提出了happens-before的概念，通过这个概念来阐述操作之间的内存可见性。</p>
+<h3><span id="happens-before">happens-before:</span><a href="#happens-before" class="header-anchor">#</a></h3><p>&emsp;&emsp;<a href>happens-before</a><br>&emsp;&emsp;如果一个操作执行的结果需要对另一个操作可见，那么这两个操作之间必须存在happens-before关系。<br>&emsp;&emsp;volatile域规则：对一个volatile的写操作，happens-before于任意线程后续对这volatile域的读。</p>
+<h3><span id="volatile-wu-fa-bao-zheng-yuan-zi-xing">volatile无法保证原子性：</span><a href="#volatile-wu-fa-bao-zheng-yuan-zi-xing" class="header-anchor">#</a></h3><p>&emsp;&emsp;假设现在有N个线程对同一个变量进累加也是没办法保证结果是对的，因为读写这个过并不是原子性的。<br>&emsp;&emsp;要解决也简单，要么用原子类，比AtomicInteger，要么加锁(记得关注Atomic的底层。</p>
+<h3><span id="volatile-yu-synchronized-de-qu-bie">volatile与synchronized的区别：</span><a href="#volatile-yu-synchronized-de-qu-bie" class="header-anchor">#</a></h3><p>&emsp;&emsp;volatile只能修饰实例变量和类变量，而synchronized可以修饰方法，以及代码块。<br>&emsp;&emsp;volatile保证数据的可见性，但是保证原子性(多线程进行写操作，不保证线程安全)而synchronized是一种排他(互斥)的机制。  &amp;emsp&emsp;volatile用于禁止指令重排序：可以解决例双重检查对象初始化代码执行乱序问题。<br>&emsp;&emsp;volatile可以看做是轻量版synchronized，volatile不保证原子性，但是如是对一个共享变量进行多个线程的赋值，     而有其他的操作，那么就可以用volatile来代synchronized，因为赋值本身是有原子性的，volatile又保证了可见性，所以就可以保证线程安了。</p>
+<hr>
+<h1><span id="zong-jie">总结</span><a href="#zong-jie" class="header-anchor">#</a></h1><ol>
+<li>volatile修饰符适用于以下场景：某个属性被多个线程共享，其中有一个线程修改了此属性，其他线程可以立即得到修改后的值，比如boolean flag;或者作为触发器，实现轻量级同步。</li>
+<li>volatile属性的读写操作都是无锁的，它不能替代synchronized，因为它没有提供原子性和互斥性。因为无锁，不需要花费时间在获取锁和释放锁_上，所以说它是低成本的。</li>
+<li>volatile只能作用于属性，我们用volatile修饰属性，这样compilers就不会对这个属性做指令重排序。</li>
+<li>volatile提供了可见性，任何一个线程对其的修改将立马对其他线程可见，volatile属性不会被线程缓存，始终从主存中读取。</li>
+<li>volatile提供了happens-before保证，对volatile变量v的写入happens-before所有其他线程后续对v的读操作。</li>
+<li>volatile可以使得long和double的赋值是原子的。</li>
+<li>volatile可以在单例双重检查中实现可见性和禁止指令重排序，从而保证安全性。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>jvm</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>jvm</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>happens-before</title>
+    <url>/hexoblog/2021/03/03/md/jvm/happens-before/</url>
+    <content><![CDATA[<h1><span id="wen-ti">问题：</span><a href="#wen-ti" class="header-anchor">#</a></h1><p>&emsp;&emsp;在JMM中，由于存在线程本地内存和主内存的原因，再加上重排序，会导致多线程环境下存在可见性的问题。<br>&emsp;&emsp;JDK5开始，JMM使用happens-before概念来阐述多线程之间的内存可见性问题。</p>
+<blockquote>
+<p>&emsp;&emsp;在JMM中，如果一个操作的执行结果需要对另一个操作可见，那么这两个操作之间必须存在happens-before关系。  </p>
+</blockquote>
+<p>&emsp;&emsp;happens-before原则非常重要，它是判断数据是否存在竞争、线程是否安全的主要依据，依靠这个规则，我们解决在并发环境下两操作之间是否可能存在冲突的所有问题。</p>
+<span id="more"></span>
+
+<hr>
+<h1><span id="nei-rong">内容：</span><a href="#nei-rong" class="header-anchor">#</a></h1><h2><span id="happens-before-yuan-ze-ding-yi">happens-before原则定义：</span><a href="#happens-before-yuan-ze-ding-yi" class="header-anchor">#</a></h2><ol>
+<li>如果一个操作happens-before另一个操作，那么第一个操作的执行结果将对第二个操作可见，而且第一个操作的执行顺序在第二个操作之前。</li>
+<li>两个操作之间存在happens-before原则，并不意味着一定要按照happens-before原则制定的顺序来执行。如果重排序之后的执行结果与按照happens-before关系来执行的结果一致，那么这种重排序并不非法。</li>
+</ol>
+<h2><span id="happens-before-yuan-ze-gui-ze">happens-before原则规则：</span><a href="#happens-before-yuan-ze-gui-ze" class="header-anchor">#</a></h2><ol>
+<li>程序次序规则：一个线程内，按照代码顺序，书写在前面的操作先行发生于书写在后面的操作；</li>
+<li>锁定规则：一个unLock操作先行发生于后面对同一个锁额lock操作；</li>
+<li>volatile变量规则：对一个变量的写操作先行发生于后面对这个变量的读操作；</li>
+<li>传递规则：如果操作A先行发生于操作B，而操作B又先行发生于操作C，则可以得出操作A先行发生于操作C；</li>
+<li>线程启动规则：Thread对象的start()方法先行发生于此线程的每个一个动作；</li>
+<li>线程中断规则：对线程interrupt()方法的调用先行发生于被中断线程的代码检测到中断事件的发生；</li>
+<li>线程终结规则：线程中所有的操作都先行发生于线程的终止检测，我们可以通过Thread.join()方法结束、Thread.isAlive()的返回值手段检测到线程已经终止执行；</li>
+<li>对象终结规则：一个对象的初始化完成先行发生于他的finalize()方法的开始；</li>
+</ol>
+<h3><span id="cheng-xu-ci-xu-gui-ze">程序次序规则：</span><a href="#cheng-xu-ci-xu-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp;一段代码在单线程中的执行结果是有序的，注意是执行结果，因为虚拟机、处理器会对指令进行重排序（重排序后面会详细介绍）。虽然重排序了，但是并不会影响程序的执行结果，所以程序最终执行的结果与顺序执行的结果是一致的。故而这个规则只对单线程有效，在多线程环境下无法保证正确性。</p>
+<h3><span id="suo-ding-gui-ze">锁定规则：</span><a href="#suo-ding-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp;这个规则比较好理解，无论是在单线程环境还是多线程环境，一个锁处于被锁定状态，那么必须先执行unlock操作后面才能进行lock操作。</p>
+<h3><span id="volatile-bian-liang-gui-ze">volatile变量规则：</span><a href="#volatile-bian-liang-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp; 这是一条比较重要的规则，它标志着volatile保证了线程可见性。通俗点讲就是如果一个线程先去写一个volatile变量，然后一个线程去读这个变量，那么这个写操作一定是happens-before读操作的。</p>
+<h3><span id="chuan-di-gui-ze">传递规则：</span><a href="#chuan-di-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp;提现了happens-before原则具有传递性，即A happens-before B , B happens-before C，那么A happens-before C。</p>
+<h3><span id="xian-cheng-qi-dong-gui-ze">线程启动规则：</span><a href="#xian-cheng-qi-dong-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp;假定线程A在执行过程中，通过执行ThreadB.start()来启动线程B，那么线程A对共享变量的修改在接下来线程B开始执行后确保对线程B可见。</p>
+<h3><span id="xian-cheng-zhong-jie-gui-ze">线程终结规则：</span><a href="#xian-cheng-zhong-jie-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp;假定线程A在执行的过程中，通过制定ThreadB.join()等待线程B终止，那么线程B在终止之前对共享变量的修改在线程A等待返回后可见。</p>
+<hr>
+<h1><span id="zong-jie">总结</span><a href="#zong-jie" class="header-anchor">#</a></h1><p>&emsp;&emsp;上面八条是原生Java满足Happens-before关系的规则，但是我们可以对他们进行推导出其他满足happens-before的规则：</p>
+<ol>
+<li>将一个元素放入一个线程安全的队列的操作Happens-Before从队列中取出这个元素的操作。</li>
+<li>将一个元素放入一个线程安全容器的操作Happens-Before从容器中取出这个元素的操作。</li>
+<li>在CountDownLatch上的倒数操作Happens-Before CountDownLatch#await()操作。</li>
+<li>释放Semaphore许可的操作Happens-Before获得许可操作。</li>
+<li>Future表示的任务的所有操作Happens-Before Future#get()操作。</li>
+<li>向Executor提交一个Runnable或Callable的操作Happens-Before任务开始执行操作。</li>
+<li>如果两个操作不满足上述任意一个happens-before规则，那么这两个操作就没有顺序的保障，JVM就可以对这两个操作进行重排序。如果操作Ahappens-before操作B，那么操作A在内存上所做的操作对操作B都是可见的。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>jvm</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>jvm</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>jvm中方法区_永久代_元空间</title>
+    <url>/hexoblog/2021/04/25/md/jvm/jvm%E4%B8%AD%E6%96%B9%E6%B3%95%E5%8C%BA-%E6%B0%B8%E4%B9%85%E4%BB%A3-%E5%85%83%E7%A9%BA%E9%97%B4/</url>
+    <content><![CDATA[<h1><span id="fang-fa-qu">方法区：</span><a href="#fang-fa-qu" class="header-anchor">#</a></h1><p>&emsp;&emsp;来看点jvm规范中的原文，7和8一样的。  </p>
+<span id="more"></span>
+
+<blockquote>
+<p>&emsp;The Java Virtual Machine has a method area that is shared among all Java Virtual Machine threads. The method area is analogous to the storage area for compiled code of a conventional language or analogous to the “text” segment in an operating system process. <strong>It stores per-class structures such as the run-time constant pool, field and method data, and the code for methods and constructors, including the special methods (§2.9) used in class and instance initialization and interface initialization.</strong>  </p>
+<p>&emsp;The method area is created on virtual machine start-up. <strong>Although the method area is logically part of the heap,</strong> simple implementations may choose not to either garbage collect or compact it. This specification does not mandate the location of the method area or the policies used to manage compiled code. The method area may be of a fixed size or may be expanded as required by the computation and may be contracted if a larger method area becomes unnecessary. The memory for the method area does not need to be contiguous.</p>
+<blockquote>
+<p>&emsp;A Java Virtual Machine implementation may provide the programmer or the user control over the initial size of the method area, as well as, in the case of a varying-size method area, control over the maximum and minimum method area size.</p>
+</blockquote>
+<p>The following exceptional condition is associated with the method area:</p>
+<ul>
+<li>If memory in the method area cannot be made available to satisfy an allocation request, the Java Virtual Machine throws an <strong>OutOfMemoryError.</strong></li>
+</ul>
+</blockquote>
+<p>&emsp;&emsp;方法区是逻辑上的东西，是JVM规范的东西，所有虚拟机必须遵守的。<br>&emsp;&emsp;根据JVM规范中，<strong>它存储每个类的结构，如运行时常量池、字段和方法数据，以及方法和构造函数的代码，包括在类和实例初始化和接口初始化中使用的特殊方法（2.9）。</strong><br>&emsp;&emsp;jvm规范中也说了，方法区域是在虚拟机启动时创建的。虽然方法区域是<strong>在堆的逻辑部分</strong>，简单实现可以选择不垃圾收集或压缩。此版本的Java虚拟机规范<strong>不强制指定方法区域的位置</strong>或用于管理的策略编译的代码。<br>&emsp;&emsp;因此不同的虚拟机，或者不同的版本对方法区有了不同的实现，比如1.7中的永久代，1.8中的元空间。而方法区也被称为非堆。</p>
+<hr>
+<h1><span id="yong-jiu-dai-permgen">永久代（PermGen）</span><a href="#yong-jiu-dai-permgen" class="header-anchor">#</a></h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E5%86%85%E5%AD%98.jpg" alt="堆与永久代是连续的"></p>
+<p>&emsp;&emsp;在HotSpot虚拟中永久代是jdk1.7的实现，在HotSpot上把<strong>GC分代收集扩展至方法区</strong>，或者说使用永久代来实现方法区，而在其他虚拟机中并没有永久代的说法。<br>&emsp;&emsp;HotSpot使用GC分代来实现方法区内存回收。这里的垃圾回收是和老年代是绑定在一起的。<br>&emsp;&emsp;永久代的大小是启动时限制死的没有办法调整的，在动态生成类较多的情况下，容易出现内存溢出的问题，比如大量jsp页面的情况下，每个jsp都会生成servlet。<br>&emsp;&emsp;在1.7中，永久代和java堆是隔离的，但是他们使用的内存空间是连续的，也可以说永久代使用的是jvm的内存。<br>&emsp;&emsp;在HotSpot虚拟中这个实现在jdk1.8中被移除了。  </p>
+<hr>
+<h1><span id="yuan-kong-jian-matespace">元空间（matespace）</span><a href="#yuan-kong-jian-matespace" class="header-anchor">#</a></h1><p>&emsp;&emsp;元空间是HotSpot虚拟机在jdk1.8对jvm规范的实现。<br>&emsp;&emsp;在1.8中，将1.7中永久代保存的数据一部分转移到了java堆中，一部分转移到了元空间中。<br>&emsp;&emsp;1.8中，元空间不在与堆连续，也就是不在jvm中了，而是使用本地内存。<br>&emsp;&emsp;本地内存又称为C-heap，是jvm自身进程使用的。元空间在的这部分内存因为不在jvm中，而不会发生GC。<br>&emsp;&emsp;理论上元空间不在会发生向永久代的内存溢出的问题，因为主机内存可以无限使用，这样可以加载的类的数量就不再受限制，但是一般可以通过参数设置最大空间。<br>&emsp;&emsp;元空间的大小如果不进行设置，JVM会自动根据类的元数据大小动态增加元空间的容量。<br>&emsp;&emsp;对于元空间的内存管理，jvm采用元空间虚拟机管理。在元空间中，类和其元数据的生命周期和其对应的类加载器是相同的。话句话说，只要类加载器存活，其加载的类的元数据也是存活的，因而不会被回收掉。<br>&emsp;&emsp;每一个类加载的存储区域都称为一个元空间，也就是元空间再主存中是零散的，所有的元空间合起来就是说的元空间。当一个类加载器被垃圾回收器标记为不再存活，其对应的元空间会被回收。在元空间的回收过程中没有重定位和压缩等操作。但是元空间内的元数据会进行扫描来确定Java引用。</p>
+<hr>
+<h1><span id="zong-jie">总结</span><a href="#zong-jie" class="header-anchor">#</a></h1><p>&emsp;&emsp;永久代是jdk1.7的实现，元空间是1.8的实现。</p>
+<h2><span id="yi-chu-yong-jiu-dai-yuan-yin">移除永久代原因</span><a href="#yi-chu-yong-jiu-dai-yuan-yin" class="header-anchor">#</a></h2><ol>
+<li><p>字符串存在永久代中，现实使用中易出问题, 由于永久代内存经常不够用或发生内存泄露，爆出异常。这一步再1.6更新到1.7时已经完成，也就是说移除永久代是持续的，分布的。</p>
+<blockquote>
+<p>JDK1.7及之后版本的JVM已经将字符串常量池从方法区中移了出来，在Java 堆（Heap）中开辟了一块区域存放字符串常量池。</p>
+</blockquote>
+</li>
+<li><p>类及方法的信息等比较难确定其大小，因此对于永久代的大小指定比较困难，太小容易出现永久代溢出，太大则容易导致老年代溢出。</p>
+</li>
+<li><p>永久代会为GC带来不必要的复杂度，并且回收效率偏低。</p>
+</li>
+<li><p>为了HotSpot和JRockit合并产生一个超级JVM。</p>
+<p>&emsp;&emsp;移除工作从jdk1.7就开始了，只是没有完全移除。譬如符号引用(Symbols)转移到了native heap：字面量(interned strings)转移到了java heap；类的静态变量(class statics)转移到了java heap。</p>
+<blockquote>
+<p>字面量就是<code>String hello = &quot;helle&quot;</code>，中引号中的部分，声明为final的（基本数据类型）常量值。<br>符号引用就是编译阶段，引用代替其他类的地址的东西。</p>
+</blockquote>
+</li>
+</ol>
+<h2><span id="qu-bie">区别</span><a href="#qu-bie" class="header-anchor">#</a></h2><ol>
+<li>1.7与1.8的版本区别。</li>
+<li>永久代在jvm中，元空间不在。 </li>
+<li>永久代大小是固定的，元空间不固定。</li>
+<li>永久代内存是连续的且与堆相连，元空间内存是分散的。</li>
+<li>永久代由JVM管理，元空间由元空间虚拟机管理。</li>
+<li>永久代的GC与老年代绑定在一起，元空间是所持有其的类加载器被标记不在存活则会释放，还给操作系统。</li>
+</ol>
+<h2><span id="cun-chu-nei-rong">存储内容</span><a href="#cun-chu-nei-rong" class="header-anchor">#</a></h2><p><a href="https://blog.csdn.net/WatsonYee/article/details/82839688?utm_medium=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromMachineLearnPai2~default-3.control&dist_request_id=&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromMachineLearnPai2~default-3.control">https://blog.csdn.net/WatsonYee/article/details/82839688?utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromMachineLearnPai2%7Edefault-3.control&amp;dist_request_id=&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromMachineLearnPai2%7Edefault-3.control</a><br><a href="https://blog.csdn.net/leunging/article/details/80599282#comments_15970151">https://blog.csdn.net/leunging/article/details/80599282#comments_15970151</a></p>
+<p>&emsp;&emsp;根据JVM规范，方法区存储类的结构、运行时常量池、字段和方法数据，以及方法和构造函数的代码，包括在类和实例初始化和接口初始化中使用的特殊方法。<br>&emsp;&emsp;所以：—&gt;线程共享的，主要存储类信息、常量池、静态变量、JIT编译后的代码等数据。方法区理论上来说是堆的逻辑组成部分；<br>&emsp;对于常量池：</p>
+<ol>
+<li>class文件常量池</li>
+<li>运行时常量池</li>
+<li>字符串常量池</li>
+</ol>
+<h3><span id="class-wen-jian-chang-liang-chi">class文件常量池</span><a href="#class-wen-jian-chang-liang-chi" class="header-anchor">#</a></h3><p>&emsp;&emsp;Class文件常量池指的是编译生成的class字节码文件，其结构中有一项是常量池（Constant Pool Table），用于存放编译期生成的各种<strong>字面量和符号引用</strong>（这里会被拆分、搬迁，看上面），这部分内容将在类加载后进入方法区的运行时常量池中存放。这里的数据貌似在jdk1.7被拆分了。</p>
+<h3><span id="yun-xing-shi-chang-liang-chi">运行时常量池</span><a href="#yun-xing-shi-chang-liang-chi" class="header-anchor">#</a></h3><p>&emsp;&emsp;根据规范-&gt;运行时常量池是类文件中constant_pool表的每个类或每个接口的运行时表示形式（4.4）。<br>&emsp;&emsp;Class文件常量池将在类加载后进入方法区的运行时常量池中存放（移除永久代的搬迁中会没了吧）。</p>
+<h3><span id="zi-fu-chuan-chang-liang-chi">字符串<em>常量池</em></span><a href="#zi-fu-chuan-chang-liang-chi" class="header-anchor">#</a></h3><p><a href="https://tech.meituan.com/2014/03/06/in-depth-understanding-string-intern.html">https://tech.meituan.com/2014/03/06/in-depth-understanding-string-intern.html</a></p>
+<blockquote>
+<p>感觉有问题</p>
+</blockquote>
+<ol>
+<li>在jdk1.6（含）之前也是方法区的一部分，并且其中存放的是字符串的实例。</li>
+<li>在jdk1.7（含）之后是在堆内存之中，存储的是字符串对象的引用，字符串实例是在堆中。</li>
+<li>jdk1.8已移除永久代，字符串常量池是在本地内存当中，存储的也只是引用，实例在堆中。</li>
+</ol>
+<p>&emsp;&emsp;JVM 中除了字符串常量池，8种基本数据类型中除了两种浮点类型剩余的6种基本数据类型的包装类，都使用了缓冲池技术，但是 Byte、Short、Integer、Long、Character 这5种整型的包装类也只是在对应值在 [-128,127] 时才会使用缓冲池，超出此范围仍然会去创建新的对象。</p>
+]]></content>
+      <categories>
+        <category>jvm</category>
+      </categories>
+      <tags>
+        <tag>jvm</tag>
+        <tag>memory</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>jvm内存结构</title>
+    <url>/hexoblog/2021/04/25/md/jvm/jvm%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/</url>
+    <content><![CDATA[<h1><span id="jvm-nei-cun-jie-gou">JVM内存结构</span><a href="#jvm-nei-cun-jie-gou" class="header-anchor">#</a></h1><p>&emsp;&emsp;我们称的内存结构，在虚拟机规范中称为<strong>运行时数据区</strong>。</p>
+<p>&emsp;&emsp;看下原文解释：</p>
+<blockquote>
+<p>&emsp;&emsp;Java虚拟机定义了在程序执行过程中使用的各种运行时数据区域。<strong>其中一些数据区域在Java虚拟机启动时创建，只有在Java虚拟机退出时才被销毁。其他数据区域是每个线程。每个线程的数据区域在创建线程时被创建，并在线程退出时被销毁。</strong></p>
+</blockquote>
+<span id="more"></span>
+
+<p>&emsp;&emsp;在JVM虚拟机规范中，规范了jvm中逻辑上的内存区域。jvm规范中共有6大块：</p>
+<ol>
+<li>程序计数器（The pc Register）。</li>
+<li>java虚拟机栈（Java Virtual Machine Stacks）。</li>
+<li>堆（Heap）。</li>
+<li>方法区（Method Area）。</li>
+<li>运行时常量池（Run-Time Constant Pool）。</li>
+<li>本地方法栈（Native Method Stacks）。</li>
+</ol>
+<hr>
+<h1><span id="cheng-xu-ji-shu-qi-the-pc-register">程序计数器（The pc Register）</span><a href="#cheng-xu-ji-shu-qi-the-pc-register" class="header-anchor">#</a></h1><p>&emsp;&emsp;原文机翻一波：</p>
+<blockquote>
+<p>&emsp;&emsp;Java虚拟机可以同时支持许多执行线程（JLS17）。<strong>每个Java虚拟机线程都有它自己的pc（程序计数器）寄存器。</strong> 在任何时候，每个Java虚拟机线程都在执行一个单一方法的代码，即该线程的当前方法（2.6）。<strong>如果该方法不是本机的，则pc寄存器包含当前正在执行的Java虚拟机指令的地址。如果该线程当前要执行的方法是本机的，则未定义Java虚拟机的pc寄存器的值。</strong> Java虚拟机的pc寄存器足够宽，可以在特定的平台上保存一个返回地址或一个本机指针。</p>
+</blockquote>
+<p>&emsp;&emsp;当前线程所执行的字节码的行号指示器，它会指出下一条将要执行的指令的地址，字节码解释器就是通过改变计数器的值来选取程序接下来执行的操作。<br>&emsp;&emsp;程序计数器是线程私有的一小块内存，每个线程都有独立的程序计数器，保证线程切换后回到正确的位置。<br>&emsp;&emsp;保存内容：</p>
+<ol>
+<li>执行的如果是是Native方法，则为空。</li>
+<li>线程正在执行java方法，则计数器记录的是正在执行的虚拟机字节码指令的地址。</li>
+</ol>
+<blockquote>
+<p>唯一一个不会出现OOM的内存区域。</p>
+</blockquote>
+<hr>
+<h1><span id="java-xu-ni-ji-zhan-java-virtual-machine-stacks">java虚拟机栈（Java Virtual Machine Stacks）</span><a href="#java-xu-ni-ji-zhan-java-virtual-machine-stacks" class="header-anchor">#</a></h1><p>&emsp;&emsp;机翻一波：</p>
+<blockquote>
+<p>&emsp;&emsp;<strong>每个Java虚拟机线程都有一个私有的Java虚拟机堆栈，它与线程同时创建。</strong> Java虚拟机堆栈可存储帧（2.6）。Java虚拟机堆栈类似于传统语言如C的堆栈：<strong>它包含局部变量和部分结果，并在方法调用和返回中发挥作用。</strong> 因为Java虚拟机堆栈永远不会被直接操作，除非是推送和弹出帧，所以帧可以被堆分配。Java虚拟机堆栈的内存不需要是连续的。</p>
+</blockquote>
+<p>&emsp;&emsp;和程序计数器一样，Java虚拟机栈也是线程私有的，在线程创建时Java虚拟机栈会被创建，每个方法在执行的同时都会创建一个栈帧，用于存放局部变量表，操作数栈，动态链接，方法出口等信息。调用方法时压栈，方法返回时出栈。</p>
+<p><a href="https://blog.csdn.net/Jbinbin/article/details/86302768">https://blog.csdn.net/Jbinbin/article/details/86302768</a></p>
+<ol>
+<li>局部变量表：是存放方法参数和局部变量的区域，存放了各种基本类型。对象引用，returnAddress类型，局部变量表所需空间在编译期间就已经确定并完成分配，在方法运行期间不会被改变。<blockquote>
+<p>&emsp;&emsp;虚拟机是使用局部变量表完成参数值到参数变量列表的传递过程的，如果是实例方法（非static），那么局部变量表的第0位索引的Slot默认是用于传递方法所属对象实例的引用，在方法中通过this访问。</p>
+</blockquote>
+</li>
+<li>操作数栈：是个初始状态为空的桶式结构栈。<blockquote>
+<p>&emsp;&emsp;虚拟机在操作数栈中存储数据的方式和在局部变量区中是一样的：如int、long、float、double、reference和returnType的存储。对于byte、short以及char类型的值在压入到操作数栈之前，也会被转换为int。<br>&emsp;&emsp;虚拟机把操作数栈作为它的工作区——大多数指令都要从这里弹出数据，执行运算，然后把结果压回操作数栈。比如，iadd指令就要从操作数栈中弹出两个整数，执行加法运算，其结果又压回到操作数栈中，看看下面的示例，它演示了虚拟机是如何把两个int类型的局部变量相加，再把结果保存到第三个局部变量的。</p>
+</blockquote>
+</li>
+<li>动态链接：每个栈帧中包含一个在常量池中对当前方法的引用，目的是支持方法调用过程的动态连接。</li>
+<li>方法出口：<ol>
+<li>正常退出：遇到方法的返回字节码指令。</li>
+<li>异常退出：<ol>
+<li>栈溢出：StackOverFlowError，如果线程中的计算需要比允许的更大的 Java 虚拟机堆栈。</li>
+<li>内存溢出：如果 Java 虚拟机堆栈可以动态扩展，并且尝试扩展，但无法提供足够的内存来实现扩展，或者如果无法提供足够的内存来为新线程创建初始 Java 虚拟机堆栈。</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<hr>
+<h1><span id="dui-heap">堆（Heap）</span><a href="#dui-heap" class="header-anchor">#</a></h1><p>&emsp;&emsp;来一波：</p>
+<blockquote>
+<p>&emsp;&emsp;Java虚拟机有一个由所有<strong>Java虚拟机线程共享的堆。堆是用来分配所有类实例和数组的内存的运行时数据区域。</strong><br>&emsp;&emsp;该堆是在虚拟机启动时创建的。对象的堆存储由自动存储管理系统（称为垃圾回收器）回收；永远不会显式释放对象。Java虚拟机假设没有特定类型的自动存储管理系统，并且可以根据实现者的系统要求来选择存储管理技术。堆可能是固定的大小，也可以根据计算的要求进行扩展，如果没有必要使用更大的堆，则可以进行收缩。堆的内存不需要是连续的。<br>&emsp;&emsp;本规范允许Java虚拟机堆栈具有固定的大小，或者按照计算的需要动态扩展和收缩。如果Java虚拟机堆栈是固定大小的，则在创建每个Java虚拟机堆栈时，可以独立选择每个Java虚拟机堆栈的大小。</p>
+</blockquote>
+<p>&emsp;&emsp;这里是JVM管理的内存里最大的一块，存放对象实例，在虚拟机启动时创建。<br>&emsp;&emsp;根据对象存活的周期不同，JVM把堆内存进行分带管理，由垃圾收集器进行对象的回收管理。</p>
+<hr>
+<h1><span id="fang-fa-qu-method-area">方法区（Method Area）</span><a href="#fang-fa-qu-method-area" class="header-anchor">#</a></h1><p>&emsp;&emsp;机翻：</p>
+<blockquote>
+<p>&emsp;&emsp;Java虚拟机具有在所有Java虚拟机线程之间共享的方法区域。该方法区域类似于传统语言编译代码的存储区域，或类似于操作系统过程中的“文本”段。<strong>它存储每个类的结构，如运行时常量池、字段和方法数据，以及方法和构造函数的代码，包括在类和实例初始化和接口初始化中使用的特殊方法（2.9）。</strong><br>&emsp;&emsp;方法区域是在虚拟机启动时创建的。虽然方法区域是<strong>在堆的逻辑部分</strong>，简单实现可以选择不垃圾收集或压缩。此版本的Java虚拟机规范<strong>不强制指定方法区域的位置</strong>或用于管理的策略编译的代码。方法区域可以具有固定的大小，或者可以根据计算的需要进行扩展，并且如果方法区域变得更大，则可以收缩没必要。方法区域的内存不需要是连续的。</p>
+</blockquote>
+<p>&emsp;&emsp;与堆一样是线程共享的，存储被类加载器加载的类信息，常量，静态变量等，就是编译器编译后的代码等数据。<br>&emsp;&emsp;如果方法区域中的内存无法满足分配请求，则Java虚拟机将抛出OutOfMemoryError。<br>&emsp;&emsp;方法区在jdk1.7和1.8之间，落地的物理实现有了区别。</p>
+<hr>
+<h1><span id="yun-xing-shi-chang-liang-chi-run-time-constant-pool">运行时常量池（Run-Time Constant Pool）</span><a href="#yun-xing-shi-chang-liang-chi-run-time-constant-pool" class="header-anchor">#</a></h1><p>&emsp;&emsp;机翻搞起来：</p>
+<blockquote>
+<p>&emsp;&emsp;运行时常量池是类文件中constant_pool表的每个类或每个接口的运行时表示形式（4.4）。它包含几种常量，从编译时已知的数字文本到在运行时必须解析的方法和字段引用。运行时常量池提供的函数类似于传统编程语言的符号表的函数，尽管它包含了比典型的符号表更广泛的数据范围。<br><strong>每个运行时常量池都从Java虚拟机的方法区域（2.5.4）进行分配。</strong>类或接口的运行时常量池将在由Java虚拟机创建（5.3）时构建。</p>
+</blockquote>
+<p>&emsp;&emsp;通俗来说，运行时常量池用于存放编译期生成的各种字面量和符号引用。并不是编译器才产生常量，运行期间也有可能将新的常量放入常量池。<br>&emsp;&emsp;创建类或接口时，如果构造运行时常量池需要的内存超过Java虚拟机的方法区域可以提供的内存，则Java虚拟机将抛出OutOfMemoryError。</p>
+<blockquote>
+<p>constant_pool表，指的是类在编译过程中生成的常量表。</p>
+</blockquote>
+<hr>
+<h1><span id="ben-di-fang-fa-zhan-native-method-stacks">本地方法栈（Native Method Stacks）</span><a href="#ben-di-fang-fa-zhan-native-method-stacks" class="header-anchor">#</a></h1><p>&emsp;&emsp;机翻再来：</p>
+<blockquote>
+<p>&emsp;&emsp;Java虚拟机的实现可以使用传统的堆栈，俗称“C堆栈”，来支持本地方法(用Java编程语言以外的语言编写的方法)。本地方法堆栈也可以使用解释器的实现Java虚拟机的指令集的语言如C.Java虚拟机实现不能加载本地方法，本身不依赖于传统的栈不需要提供本地方法堆栈。如果提供了这些，则通常在创建每个线程时为每个线程分配本机方法堆栈。<br>&emsp;&emsp;本规范允许本地方法堆栈具有固定的大小，或者按照计算的要求动态地扩展和收缩。如果本机方法堆栈的大小是固定，则在创建每个本机方法堆栈时，可以独立选择每个本机方法堆栈的大小。</p>
+</blockquote>
+<p>&emsp;&emsp;本地方法栈与虚拟机栈类似，不过本地方法栈保存本地方法。<br>&emsp;&emsp;如果线程中的计算需要比允许的更大的本机方法堆栈，则Java虚拟机将抛出StackOverFlowError。<br>&emsp;&emsp;如果可以动态扩展本机方法堆栈，并且尝试进行本机方法堆栈扩展，但可用内存不足，或者如果没有足够的内存可以为新线程创建初始本机方法堆栈，则Java虚拟机将抛出OutOfMemoryError。</p>
+<hr>
+<h1><span id="zong-jie">总结</span><a href="#zong-jie" class="header-anchor">#</a></h1><p>&emsp;&emsp;JVM规范中，逻辑上就规范了这6中内存区域，但并没有规范实际的虚拟机该如何实现，不同的虚拟机可以安照该规范有不同的实现，相同虚拟机不同版本也可能有不同的实现，按照规范即可。<br>&emsp;&emsp;规范中规定了一些内存区域是线程共享的，这种区域就随着虚拟机的创建销毁而进行分配回收，而一些线程独享的内存区域就随着线程的创建销毁而分配回收。</p>
+<ol>
+<li>线程共享的区域：<ol>
+<li>堆</li>
+<li>方法区（非堆）</li>
+<li>运行时常量池</li>
+</ol>
+</li>
+<li>线程独享的区域：<ol>
+<li>java虚拟机栈</li>
+<li>本地方法栈</li>
+<li>程序计数器</li>
+</ol>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>jvm</category>
+      </categories>
+      <tags>
+        <tag>jvm</tag>
+        <tag>memory</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>jvm命令</title>
+    <url>/hexoblog/2021/03/29/md/jvm/jvm%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h1><span id="jvm-ming-ling-de-shi-yong">JVM命令的使用</span><a href="#jvm-ming-ling-de-shi-yong" class="header-anchor">#</a></h1><p><a href="https://blog.csdn.net/wangxiaotongfan/article/details/82560739">https://blog.csdn.net/wangxiaotongfan/article/details/82560739</a></p>
+<h2><span id="jps">JPS</span><a href="#jps" class="header-anchor">#</a></h2><h3><span id="jie-shao">介绍</span><a href="#jie-shao" class="header-anchor">#</a></h3><p>&emsp;&emsp;显示当前系统的java进程。</p>
+<h3><span id="ge-shi">格式</span><a href="#ge-shi" class="header-anchor">#</a></h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3><span id="can-shu">参数</span><a href="#can-shu" class="header-anchor">#</a></h3><ol>
+<li>-q：只显示pid，不显示class名称，jar文件名和传递给main方法的参数。</li>
+<li>-l：输出应用程序main class的完整package名或者应用程序的jar文件完整路径名。</li>
+<li>-m：输出jvm启动时传递给main方法启动。</li>
+<li>-v：输出JVM启动时显示指定的JVM参数。</li>
+</ol>
+<h2><span id="jstat">JSTAT</span><a href="#jstat" class="header-anchor">#</a></h2><h3><span id="jie-shao">介绍</span><a href="#jie-shao" class="header-anchor">#</a></h3><p>&emsp;&emsp;用于监视虚拟机运行时状态信息的命令，它可以显示出虚拟机进程中的类装载、内存、垃圾收集、JIT编译(Just In Time Compiler, 即时编译器)等运行数据。</p>
+<h3><span id="ge-shi">格式</span><a href="#ge-shi" class="header-anchor">#</a></h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3><span id="can-shu">参数</span><a href="#can-shu" class="header-anchor">#</a></h3><p>if [ “$DEBUG” = “true” ]; then<br>  echo -e “\033[0;31m debug is open,port=$DEBUG_PORT \033[0m”<br>  JAVA_OPTS=”$JAVA_OPTS -Xdebug -Xrunjdwp:transport=dt_socket,address=$DEBUG_PORT,server=y,suspend=y”<br>fi</p>
+<p>JAVA_HEAP_DUMP_OPTS=-XX:HeapDumpPath=$LOG_HOME/dump.hprof<br>JAVA_OPTS=”$JAVA_OPTS -Dserver.port=$PORT -Dlog.home=$LOG_HOME -Duse.flume=false -Xms128m -Xmx2048m -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=1024m -Dfile.encoding=utf-8 -XX:+HeapDumpOnOutOfMemoryError $JAVA_HEAP_DUMP_OPTS”<br>#JAVA_OPTS=”$JAVA_OPTS -XX:+TraceClassLoading -XX:+TraceClassUnloading”</p>
+]]></content>
+      <categories>
+        <category>tool</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>jvm</tag>
+        <tag>jdk</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>jvm调优</title>
+    <url>/hexoblog/2021/03/04/md/jvm/jvm%E8%B0%83%E4%BC%98/</url>
+    <content><![CDATA[<p><a href="https://baijiahao.baidu.com/s?id=1617167971312758600&wfr=spider&for=pc">jvm性能调优的6大步骤</a></p>
+<span id="more"></span>
+
+<hr>
+<h1><span id="diao-you-fang-fa-yu-bu-zou">调优方法与步骤</span><a href="#diao-you-fang-fa-yu-bu-zou" class="header-anchor">#</a></h1><ol>
+<li>监控GC的状态</li>
+<li>生成堆的dump文件</li>
+<li>分析dump文件</li>
+<li>分析结果判断是否需要优化</li>
+<li>调整GC类型和内存分配</li>
+<li>不断分析和调整</li>
+</ol>
+<hr>
+<h1><span id="diao-you-can-kao-can-shu">调优参考参数</span><a href="#diao-you-can-kao-can-shu" class="header-anchor">#</a></h1><ol>
+<li>调整jvm堆内存的占用空间</li>
+<li>调整新生代老年代占用堆空间的比例，</li>
+<li>老年代与新生代设置多大合理<ol>
+<li>大的年轻代将会导致普通GC的周期延长，但会增加GC的时间，小的老年代必定会导致频繁的full GC  </li>
+<li>小的年轻代导致普通GC的频繁发生，但GC的时间短，大的老年代将会减少full GC的频率</li>
+</ol>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>jvm</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>jvm</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>deepin安装docker</title>
     <url>/hexoblog/2021/04/11/md/linux/deepin%E5%AE%89%E8%A3%85docker/</url>
     <content><![CDATA[<h1><span id="an-zhuang">安装</span><a href="#an-zhuang" class="header-anchor">#</a></h1><p>&emsp;&emsp;写个毛啊，官方的直接搞来，<a href="https://wiki.deepin.org/wiki/Docker">https://wiki.deepin.org/wiki/Docke</a>。</p>
@@ -965,325 +1368,89 @@
       </tags>
   </entry>
   <entry>
-    <title>Volatile</title>
-    <url>/hexoblog/2021/03/03/md/jvm/Volatile/</url>
-    <content><![CDATA[<h1><span id="jmm">JMM</span><a href="#jmm" class="header-anchor">#</a></h1><p>&emsp;&emsp;Java内存模型，是虚拟机规范中所定义的一种内存模型，Java内存模型是标准化的，屏蔽掉了底层计算机之间的区别。<br>&emsp;&emsp;Java内存模型描述了Java程序中各种变量（线程共享变量）的访问规则，以及在JVM中将变量，存储到内存和从内存中读取变量这样的底层细节。</p>
+    <title>mysql中datetime和timestamp</title>
+    <url>/hexoblog/2021/04/14/md/mysql/mysql%E4%B8%ADdatetime%E5%92%8Ctimestamp/</url>
+    <content><![CDATA[<h1><span id="qu-bie">区别</span><a href="#qu-bie" class="header-anchor">#</a></h1><h2><span id="date-he-datetime-timestamp-de-qu-bie">date和datetime，timestamp的区别</span><a href="#date-he-datetime-timestamp-de-qu-bie" class="header-anchor">#</a></h2><ol>
+<li>date保存的是天，精确到天</li>
+<li>datetime，timestamp精确到秒</li>
+</ol>
 <span id="more"></span>
-
-<h2><span id="gui-ding">规定</span><a href="#gui-ding" class="header-anchor">#</a></h2><p>&emsp;&emsp;所有的共享变量都存储于主内存，这里所说的变量指的是实例变量和类变量，不包含局部变量，因为局部变量是线程私有的，不存在竞争问题。<br>&emsp;&emsp;线程对所有变量的操作都必须在工作内存中完成，而不能直接操作主内存中的变量。<br>&emsp;&emsp;不同的线程也不能直接访问对方工作内存中的变量，线程间变量的值的传递需要通过主内存中转来完成。</p>
-<hr>
-<h1><span id="ke-jian-xing-wen-ti">可见性问题</span><a href="#ke-jian-xing-wen-ti" class="header-anchor">#</a></h1><h2><span id="tong-guo-jia-synchronized-lai-jie-jue-ke-jian-xing-wen-ti">通过加synchronized来解决可见性问题：</span><a href="#tong-guo-jia-synchronized-lai-jie-jue-ke-jian-xing-wen-ti" class="header-anchor">#</a></h2><p>&emsp;&emsp;因为某一个线程进入synchronized代码块前后，线程会获得锁，清空工作内存，从主内存拷贝共享变量最新的值到工作内存成为副本，执行代码，将修改后的副本的值刷新回主内存中，线程释放锁。<br>&emsp;&emsp;而获取不到锁的线程会阻塞等待，所以变量的值肯定一直都是最新的。</p>
-<h2><span id="tong-guo-volatile-jie-jue-ke-jian-xing-wen-ti">通过volatile解决可见性问题：</span><a href="#tong-guo-volatile-jie-jue-ke-jian-xing-wen-ti" class="header-anchor">#</a></h2><p>&emsp;&emsp;每个线程操作数据的时候会把数据从主内存读取到自己的工作内存，如果他操作了数据并且写回了，其他已经读取的线程的变量副本就会失效了，需要对数据进行操作又要再次去主内存中读取了。</p>
-<hr>
-<h1><span id="huan-cun-chu-li">缓存处理</span><a href="#huan-cun-chu-li" class="header-anchor">#</a></h1><h2><span id="huan-cun-yi-zhi-xing-xie-yi">缓存一致性协议</span><a href="#huan-cun-yi-zhi-xing-xie-yi" class="header-anchor">#</a></h2><p>&emsp;&emsp;多个处理器的运算任务涉及同一块主内存区域时，将导致各自的缓存数据不一致，问题在于同步回主内存时以谁的缓存数据为准。<br>&emsp;&emsp;为了解决一致性的问题，需要各个处理器在访问缓存时都遵循一些协议，在读写时要根据协议操作，这类协议有MSI，MESI，Synapse，Firefly，Firefly等。</p>
-<h2><span id="mesi">MESI</span><a href="#mesi" class="header-anchor">#</a></h2><p>&emsp;&emsp;当cpu写数据时，如果发现操作的变量是工作内存，即在其他cpu中也存在该变量的副本，会发出信号通知其他cpu将该变量的缓存行设置为无效状态，因此当其他cpu要读取这个变量时，会发现自己缓存中缓存该变量的缓存行是无效的，那么他就会从内存重新读取。</p>
-<h2><span id="xiu-tan">嗅探：</span><a href="#xiu-tan" class="header-anchor">#</a></h2><p>&emsp;&emsp;每个处理器通过嗅探在总线上传播的数据来检查自己缓存的值是不是过期了，当处理器发现自己缓存行对应的内存地址被修改，就会将当前处理器的缓存行设置成无效状态，当处理器对这个数据进行修改操作时，会重新从系统内存中把数据读到处理器缓存里。</p>
-<h2><span id="zong-xian-feng-bao">总线风暴：</span><a href="#zong-xian-feng-bao" class="header-anchor">#</a></h2><p>&emsp;&emsp;由于volatile的MESI缓存一致性协议，需要不断的从主内存嗅探和CAS不断循环，无效交互会导致总线带宽达到峰值。所以不应该大量使用volatile，什么时候使用volatile什么时候使用锁，需要具体判断。</p>
-<hr>
-<h1><span id="zhi-ling-chong-pai-xu">指令重排序</span><a href="#zhi-ling-chong-pai-xu" class="header-anchor">#</a></h1><p>&emsp;&emsp;为了提高性能，编译器和处理器常常会对既定的代码执行顺序进行指令重排序。</p>
-<h2><span id="guo-cheng">过程:</span><a href="#guo-cheng" class="header-anchor">#</a></h2><blockquote>
-<p> 源代码——&gt;编译器优化重排序——&gt;指令级并行重排序——&gt;内存系统重排序——〉最终执行指令序列</p>
-</blockquote>
-<p>&emsp;&emsp;一个好的内存模型，实际上会放松对处理器和编译器规则的束缚，也就是说软件技术和硬件技术都为同一个目标，而进行奋斗。在不改变程序执行结果的前提下，尽可能提高运行效率。<br>&emsp;&emsp;JMM对底层减少约束，使其能够发挥自身优势。</p>
-<h2><span id="san-chong-chong-pai-xu">三种重排序</span><a href="#san-chong-chong-pai-xu" class="header-anchor">#</a></h2><ol>
-<li>编译器优化的重排序。编译器在不改变单线程程序语义的前提下，可以重新安排语句的执行顺序。</li>
-<li>指令级并行的重排序。现代处理器采用了指令级并行技术来讲多条指令重叠执行。如果不存在数据依赖性，处理器可以改变语句对应机器指令的执行顺序。</li>
-<li>内存系统的重排序。由于处理器使用缓存和读/写缓冲区，这使得读取和存储操作看上去可能是在乱序执行的。</li>
-</ol>
-<h2><span id="as-if-serial">as-if-serial：</span><a href="#as-if-serial" class="header-anchor">#</a></h2><p>&emsp;&emsp;不管怎么重排序，单线程下的执行结果不能被改变。<br>&emsp;&emsp;编译器、runtime和处理器都必须遵守as-if-serial语义。</p>
-<h2><span id="nei-cun-ping-zhang">内存屏障：</span><a href="#nei-cun-ping-zhang" class="header-anchor">#</a></h2><p>&emsp;&emsp;java编译器会在生成指令系列时在适当的位置会插入内存屏障指令来禁止特定类型的处理器重排序。<br>&emsp;&emsp;为了实现volatile的内存语义，JMM会限制特定类型的编译器和处理器重排序，JMM会针对编译器制定volatile重排序规则表：</p>
-<table>
-<thead>
-<tr>
-<th>是否能重排序</th>
-<th>第二个操作</th>
-<th>普通读写</th>
-<th>vol读</th>
-<th>vol写</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>第一个操作</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>普通读写</td>
-<td></td>
-<td></td>
-<td></td>
-<td>NO</td>
-</tr>
-<tr>
-<td>vol读</td>
-<td></td>
-<td>NO</td>
-<td>NO</td>
-<td>NO</td>
-</tr>
-<tr>
-<td>vol写</td>
-<td></td>
-<td></td>
-<td>NO</td>
-<td>NO</td>
-</tr>
-</tbody></table>
-<p>需要注意的是：</p>
+<h2><span id="datetime-he-timastamp">datetime和timastamp</span><a href="#datetime-he-timastamp" class="header-anchor">#</a></h2><p>&emsp;&emsp;datetime 和timestamp两者都是时间类型字段，格式都一致。</p>
 <ol>
-<li>volatile写是分别在前面和后面插入内存屏障.</li>
-<li>而volatile读是在后面插入两个内存屏障。</li>
-</ol>
-<h3><span id="xie-nei-cun-ping-zhang">写内存屏障：</span><a href="#xie-nei-cun-ping-zhang" class="header-anchor">#</a></h3><blockquote>
-<p>普通读——&gt;普通写——&gt;storestore屏障(禁止上面写和其他重排序)——&gt;vol写——&gt;storestore屏障(禁止下面读和其他重排序)</p>
+<li><p>受时区影响不同</p>
+<blockquote>
+<p>timestamp会跟随设置的时区变化而变化，而datetime保存的是绝对值不会变化。</p>
 </blockquote>
-<h3><span id="du-nei-cun-ping-zhang">读内存屏障：</span><a href="#du-nei-cun-ping-zhang" class="header-anchor">#</a></h3><blockquote>
-<p>vol读——&gt;loadload屏障(禁止下面读重排序)——&gt;loadload屏障(禁止下面写重排序)——&gt;普通读——&gt;普通写</p>
+</li>
+<li><p>占用存储空间不同</p>
+<blockquote>
+<p>timestamp储存占用4个字节，datetime储存占用8个字节。</p>
 </blockquote>
-<p>&emsp;&emsp;为了提高处理速度，JVM会对代码进行编译优化，也就是指令重排序优化，并发编程下指令重排序会带来一些安全隐患：如指令重排序导致的多个线程操作之间的不可见性。<br>&emsp;&emsp;从JDK5开始，提出了happens-before的概念，通过这个概念来阐述操作之间的内存可见性。</p>
-<h3><span id="happens-before">happens-before:</span><a href="#happens-before" class="header-anchor">#</a></h3><p>&emsp;&emsp;<a href>happens-before</a><br>&emsp;&emsp;如果一个操作执行的结果需要对另一个操作可见，那么这两个操作之间必须存在happens-before关系。<br>&emsp;&emsp;volatile域规则：对一个volatile的写操作，happens-before于任意线程后续对这volatile域的读。</p>
-<h3><span id="volatile-wu-fa-bao-zheng-yuan-zi-xing">volatile无法保证原子性：</span><a href="#volatile-wu-fa-bao-zheng-yuan-zi-xing" class="header-anchor">#</a></h3><p>&emsp;&emsp;假设现在有N个线程对同一个变量进累加也是没办法保证结果是对的，因为读写这个过并不是原子性的。<br>&emsp;&emsp;要解决也简单，要么用原子类，比AtomicInteger，要么加锁(记得关注Atomic的底层。</p>
-<h3><span id="volatile-yu-synchronized-de-qu-bie">volatile与synchronized的区别：</span><a href="#volatile-yu-synchronized-de-qu-bie" class="header-anchor">#</a></h3><p>&emsp;&emsp;volatile只能修饰实例变量和类变量，而synchronized可以修饰方法，以及代码块。<br>&emsp;&emsp;volatile保证数据的可见性，但是保证原子性(多线程进行写操作，不保证线程安全)而synchronized是一种排他(互斥)的机制。  &amp;emsp&emsp;volatile用于禁止指令重排序：可以解决例双重检查对象初始化代码执行乱序问题。<br>&emsp;&emsp;volatile可以看做是轻量版synchronized，volatile不保证原子性，但是如是对一个共享变量进行多个线程的赋值，     而有其他的操作，那么就可以用volatile来代synchronized，因为赋值本身是有原子性的，volatile又保证了可见性，所以就可以保证线程安了。</p>
-<hr>
-<h1><span id="zong-jie">总结</span><a href="#zong-jie" class="header-anchor">#</a></h1><ol>
-<li>volatile修饰符适用于以下场景：某个属性被多个线程共享，其中有一个线程修改了此属性，其他线程可以立即得到修改后的值，比如boolean flag;或者作为触发器，实现轻量级同步。</li>
-<li>volatile属性的读写操作都是无锁的，它不能替代synchronized，因为它没有提供原子性和互斥性。因为无锁，不需要花费时间在获取锁和释放锁_上，所以说它是低成本的。</li>
-<li>volatile只能作用于属性，我们用volatile修饰属性，这样compilers就不会对这个属性做指令重排序。</li>
-<li>volatile提供了可见性，任何一个线程对其的修改将立马对其他线程可见，volatile属性不会被线程缓存，始终从主存中读取。</li>
-<li>volatile提供了happens-before保证，对volatile变量v的写入happens-before所有其他线程后续对v的读操作。</li>
-<li>volatile可以使得long和double的赋值是原子的。</li>
-<li>volatile可以在单例双重检查中实现可见性和禁止指令重排序，从而保证安全性。</li>
+</li>
+<li><p>可以表示的时间范围不同</p>
+<blockquote>
+<p>timestamp可表示范围:1970-01-01 00:00:00~2038-01-09 03:14:07，datetime支持的范围更宽1000-01-01 00:00:00 ~ 9999-12-31 23:59:59。</p>
+</blockquote>
+</li>
+<li><p>索引速度不同</p>
+<blockquote>
+<p>timestamp更轻量，索引相对datetime更快。</p>
+</blockquote>
+</li>
+<li><p>默认值不同</p>
+<blockquote>
+<p>datetime的默认值为null，timestamp的字段默认不为空（not null），默认值为当前时间（CURRENT_TIMESTAMP），如果不做特殊处理，并且update语句中没有指定该列的更新值，则默认更新为当前时间。</p>
+</blockquote>
+</li>
+<li><p>存储方式不同</p>
+<blockquote>
+<p>两者的存储方式不一样，对于timestamp，它把客户端插入的时间从当前时区转化为UTC（世界标准时间）进行存储。查询时，将其又转化为客户端当前时区进行返回。而对于datetime，不做任何改变，基本上是原样输入和输出。</p>
+</blockquote>
+</li>
 </ol>
+<p>&emsp;&emsp;在mysql5.6之前的版本，CURRENT_TIMESTAMP只能用于timestamp类型，5.6版本之后，CURRENT_TIMESTAMP也能用于datetime类型了。</p>
 ]]></content>
       <categories>
-        <category>jvm</category>
+        <category>mysql</category>
       </categories>
       <tags>
-        <tag>jvm</tag>
-        <tag>java</tag>
+        <tag>mysql</tag>
+        <tag>数据类型</tag>
       </tags>
   </entry>
   <entry>
-    <title>happens-before</title>
-    <url>/hexoblog/2021/03/03/md/jvm/happens-before/</url>
-    <content><![CDATA[<h1><span id="wen-ti">问题：</span><a href="#wen-ti" class="header-anchor">#</a></h1><p>&emsp;&emsp;在JMM中，由于存在线程本地内存和主内存的原因，再加上重排序，会导致多线程环境下存在可见性的问题。<br>&emsp;&emsp;JDK5开始，JMM使用happens-before概念来阐述多线程之间的内存可见性问题。</p>
-<blockquote>
-<p>&emsp;&emsp;在JMM中，如果一个操作的执行结果需要对另一个操作可见，那么这两个操作之间必须存在happens-before关系。  </p>
-</blockquote>
-<p>&emsp;&emsp;happens-before原则非常重要，它是判断数据是否存在竞争、线程是否安全的主要依据，依靠这个规则，我们解决在并发环境下两操作之间是否可能存在冲突的所有问题。</p>
+    <title>mysql浮点数精度</title>
+    <url>/hexoblog/2021/04/14/md/mysql/mysql%E6%B5%AE%E7%82%B9%E6%95%B0%E7%B2%BE%E5%BA%A6/</url>
+    <content><![CDATA[<h1><span id="xiao-shu-lei-xing">小数类型</span><a href="#xiao-shu-lei-xing" class="header-anchor">#</a></h1><h2><span id="fu-dian-shu">浮点数</span><a href="#fu-dian-shu" class="header-anchor">#</a></h2><p>&emsp;&emsp;浮点型又称之为精度类型：是一种有可能丢失精度的数据类型，数据有可能不那么准确（由其是在超出范围的时候）。<br>&emsp;&emsp;浮点型之所以能够存储较大的数值（不精确），原因就是利用存储数据的位来存储指数。</p>
 <span id="more"></span>
-
-<hr>
-<h1><span id="nei-rong">内容：</span><a href="#nei-rong" class="header-anchor">#</a></h1><h2><span id="happens-before-yuan-ze-ding-yi">happens-before原则定义：</span><a href="#happens-before-yuan-ze-ding-yi" class="header-anchor">#</a></h2><ol>
-<li>如果一个操作happens-before另一个操作，那么第一个操作的执行结果将对第二个操作可见，而且第一个操作的执行顺序在第二个操作之前。</li>
-<li>两个操作之间存在happens-before原则，并不意味着一定要按照happens-before原则制定的顺序来执行。如果重排序之后的执行结果与按照happens-before关系来执行的结果一致，那么这种重排序并不非法。</li>
-</ol>
-<h2><span id="happens-before-yuan-ze-gui-ze">happens-before原则规则：</span><a href="#happens-before-yuan-ze-gui-ze" class="header-anchor">#</a></h2><ol>
-<li>程序次序规则：一个线程内，按照代码顺序，书写在前面的操作先行发生于书写在后面的操作；</li>
-<li>锁定规则：一个unLock操作先行发生于后面对同一个锁额lock操作；</li>
-<li>volatile变量规则：对一个变量的写操作先行发生于后面对这个变量的读操作；</li>
-<li>传递规则：如果操作A先行发生于操作B，而操作B又先行发生于操作C，则可以得出操作A先行发生于操作C；</li>
-<li>线程启动规则：Thread对象的start()方法先行发生于此线程的每个一个动作；</li>
-<li>线程中断规则：对线程interrupt()方法的调用先行发生于被中断线程的代码检测到中断事件的发生；</li>
-<li>线程终结规则：线程中所有的操作都先行发生于线程的终止检测，我们可以通过Thread.join()方法结束、Thread.isAlive()的返回值手段检测到线程已经终止执行；</li>
-<li>对象终结规则：一个对象的初始化完成先行发生于他的finalize()方法的开始；</li>
-</ol>
-<h3><span id="cheng-xu-ci-xu-gui-ze">程序次序规则：</span><a href="#cheng-xu-ci-xu-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp;一段代码在单线程中的执行结果是有序的，注意是执行结果，因为虚拟机、处理器会对指令进行重排序（重排序后面会详细介绍）。虽然重排序了，但是并不会影响程序的执行结果，所以程序最终执行的结果与顺序执行的结果是一致的。故而这个规则只对单线程有效，在多线程环境下无法保证正确性。</p>
-<h3><span id="suo-ding-gui-ze">锁定规则：</span><a href="#suo-ding-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp;这个规则比较好理解，无论是在单线程环境还是多线程环境，一个锁处于被锁定状态，那么必须先执行unlock操作后面才能进行lock操作。</p>
-<h3><span id="volatile-bian-liang-gui-ze">volatile变量规则：</span><a href="#volatile-bian-liang-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp; 这是一条比较重要的规则，它标志着volatile保证了线程可见性。通俗点讲就是如果一个线程先去写一个volatile变量，然后一个线程去读这个变量，那么这个写操作一定是happens-before读操作的。</p>
-<h3><span id="chuan-di-gui-ze">传递规则：</span><a href="#chuan-di-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp;提现了happens-before原则具有传递性，即A happens-before B , B happens-before C，那么A happens-before C。</p>
-<h3><span id="xian-cheng-qi-dong-gui-ze">线程启动规则：</span><a href="#xian-cheng-qi-dong-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp;假定线程A在执行过程中，通过执行ThreadB.start()来启动线程B，那么线程A对共享变量的修改在接下来线程B开始执行后确保对线程B可见。</p>
-<h3><span id="xian-cheng-zhong-jie-gui-ze">线程终结规则：</span><a href="#xian-cheng-zhong-jie-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp;假定线程A在执行的过程中，通过制定ThreadB.join()等待线程B终止，那么线程B在终止之前对共享变量的修改在线程A等待返回后可见。</p>
-<hr>
-<h1><span id="zong-jie">总结</span><a href="#zong-jie" class="header-anchor">#</a></h1><p>&emsp;&emsp;上面八条是原生Java满足Happens-before关系的规则，但是我们可以对他们进行推导出其他满足happens-before的规则：</p>
-<ol>
-<li>将一个元素放入一个线程安全的队列的操作Happens-Before从队列中取出这个元素的操作。</li>
-<li>将一个元素放入一个线程安全容器的操作Happens-Before从容器中取出这个元素的操作。</li>
-<li>在CountDownLatch上的倒数操作Happens-Before CountDownLatch#await()操作。</li>
-<li>释放Semaphore许可的操作Happens-Before获得许可操作。</li>
-<li>Future表示的任务的所有操作Happens-Before Future#get()操作。</li>
-<li>向Executor提交一个Runnable或Callable的操作Happens-Before任务开始执行操作。</li>
-<li>如果两个操作不满足上述任意一个happens-before规则，那么这两个操作就没有顺序的保障，JVM就可以对这两个操作进行重排序。如果操作Ahappens-before操作B，那么操作A在内存上所做的操作对操作B都是可见的。</li>
-</ol>
+<h3><span id="float">float</span><a href="#float" class="header-anchor">#</a></h3><p>&emsp;&emsp;单精度浮点数，采用4个字节存储，保证7个位的精度。<br>&emsp;&emsp;Float(M,D)：表示一共存储M个有效数字，其中小数部分占D位。M(1<del>255)称为精度，D(1</del>30)称为标度且不能大于M-2，是可选的。<br>&emsp;&emsp;对于小数位数超长的，会采用四舍五入进行进位。</p>
+<h3><span id="double">double</span><a href="#double" class="header-anchor">#</a></h3><p>&emsp;&emsp;双精度浮点数，采用8个字节存储，表示的范围更大，精度最大15位。</p>
+<h2><span id="ding-dian-shu">定点数</span><a href="#ding-dian-shu" class="header-anchor">#</a></h2><p>&emsp;&emsp;能够保证数据精确的小数（小数部分可能不精确，超出长度会四舍五入），整数部分一定精确。<br>&emsp;&emsp;mysql中定点数只有一种，就是Decimal(M,D)。<br>&emsp;&emsp;Decimal定点数：系统自动根据存储的数据来分配存储空间，每大概9个数就会分配四个字节来进行存储，同时小数和整数部分是分开的。采用M+2个字节存储。<br>&emsp;&emsp;Decimal(M,D)：M表示总长度，最大值不能超过65，D代表小数部分长度，最长不能超过30。（默认为10，0）是必选的。</p>
 ]]></content>
       <categories>
-        <category>jvm</category>
+        <category>mysql</category>
       </categories>
       <tags>
-        <tag>jvm</tag>
-        <tag>java</tag>
+        <tag>mysql</tag>
+        <tag>数据类型</tag>
       </tags>
   </entry>
   <entry>
-    <title>jvm命令</title>
-    <url>/hexoblog/2021/03/29/md/jvm/jvm%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<h1><span id="jvm-ming-ling-de-shi-yong">JVM命令的使用</span><a href="#jvm-ming-ling-de-shi-yong" class="header-anchor">#</a></h1><p><a href="https://blog.csdn.net/wangxiaotongfan/article/details/82560739">https://blog.csdn.net/wangxiaotongfan/article/details/82560739</a></p>
-<h2><span id="jps">JPS</span><a href="#jps" class="header-anchor">#</a></h2><h3><span id="jie-shao">介绍</span><a href="#jie-shao" class="header-anchor">#</a></h3><p>&emsp;&emsp;显示当前系统的java进程。</p>
-<h3><span id="ge-shi">格式</span><a href="#ge-shi" class="header-anchor">#</a></h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+    <title>mysql常用命令</title>
+    <url>/hexoblog/2021/03/12/md/mysql/mysql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h1><span id="chang-yong-ming-ling">常用命令</span><a href="#chang-yong-ming-ling" class="header-anchor">#</a></h1><h2><span id="xiu-gai-mysql-shi-qu">修改mysql时区</span><a href="#xiu-gai-mysql-shi-qu" class="header-anchor">#</a></h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看时区</span></span><br><span class="line">show variables like <span class="string">&quot;%time_zone%&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置时区为UTC+8:00</span></span><br><span class="line"><span class="built_in">set</span> global time_zone = <span class="string">&#x27;+8:00&#x27;</span>;</span><br><span class="line"><span class="built_in">set</span> time_zone = <span class="string">&#x27;+8:00&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 刷新立即生效</span></span><br><span class="line">flush privileges；</span><br></pre></td></tr></table></figure>
 
-<h3><span id="can-shu">参数</span><a href="#can-shu" class="header-anchor">#</a></h3><ol>
-<li>-q：只显示pid，不显示class名称，jar文件名和传递给main方法的参数。</li>
-<li>-l：输出应用程序main class的完整package名或者应用程序的jar文件完整路径名。</li>
-<li>-m：输出jvm启动时传递给main方法启动。</li>
-<li>-v：输出JVM启动时显示指定的JVM参数。</li>
-</ol>
-<h2><span id="jstat">JSTAT</span><a href="#jstat" class="header-anchor">#</a></h2><h3><span id="jie-shao">介绍</span><a href="#jie-shao" class="header-anchor">#</a></h3><p>&emsp;&emsp;用于监视虚拟机运行时状态信息的命令，它可以显示出虚拟机进程中的类装载、内存、垃圾收集、JIT编译(Just In Time Compiler, 即时编译器)等运行数据。</p>
-<h3><span id="ge-shi">格式</span><a href="#ge-shi" class="header-anchor">#</a></h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3><span id="can-shu">参数</span><a href="#can-shu" class="header-anchor">#</a></h3><p>if [ “$DEBUG” = “true” ]; then<br>  echo -e “\033[0;31m debug is open,port=$DEBUG_PORT \033[0m”<br>  JAVA_OPTS=”$JAVA_OPTS -Xdebug -Xrunjdwp:transport=dt_socket,address=$DEBUG_PORT,server=y,suspend=y”<br>fi</p>
-<p>JAVA_HEAP_DUMP_OPTS=-XX:HeapDumpPath=$LOG_HOME/dump.hprof<br>JAVA_OPTS=”$JAVA_OPTS -Dserver.port=$PORT -Dlog.home=$LOG_HOME -Duse.flume=false -Xms128m -Xmx2048m -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=1024m -Dfile.encoding=utf-8 -XX:+HeapDumpOnOutOfMemoryError $JAVA_HEAP_DUMP_OPTS”<br>#JAVA_OPTS=”$JAVA_OPTS -XX:+TraceClassLoading -XX:+TraceClassUnloading”</p>
-]]></content>
-      <categories>
-        <category>tool</category>
-      </categories>
-      <tags>
-        <tag>jvm</tag>
-        <tag>tool</tag>
-        <tag>jdk</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>jvm内存结构</title>
-    <url>/hexoblog/2021/04/25/md/jvm/jvm%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/</url>
-    <content><![CDATA[<h1><span id="jvm-nei-cun-jie-gou">JVM内存结构</span><a href="#jvm-nei-cun-jie-gou" class="header-anchor">#</a></h1><p>&emsp;&emsp;我们称的内存结构，在虚拟机规范中称为<strong>运行时数据区</strong>。</p>
-<p>&emsp;&emsp;看下原文解释：</p>
-<blockquote>
-<p>&emsp;&emsp;Java虚拟机定义了在程序执行过程中使用的各种运行时数据区域。<strong>其中一些数据区域在Java虚拟机启动时创建，只有在Java虚拟机退出时才被销毁。其他数据区域是每个线程。每个线程的数据区域在创建线程时被创建，并在线程退出时被销毁。</strong></p>
-</blockquote>
 <span id="more"></span>
+<h2><span id="shi-yong-mysql-binlog">使用mysql binlog</span><a href="#shi-yong-mysql-binlog" class="header-anchor">#</a></h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看日志是否开启</span></span><br><span class="line">show variables like <span class="string">&#x27;log_%&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看binlog配置</span></span><br><span class="line">show variables like <span class="string">&#x27;binlog_%&#x27;</span>; </span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看数据库当前日志情况</span></span><br><span class="line">show master status;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看所有日志文件</span></span><br><span class="line">show binary logs;</span><br><span class="line">show master logs;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 根据事件查看文件</span></span><br><span class="line">show binlog events <span class="keyword">in</span> <span class="string">&#x27;$&#123;binlogname&#125;&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看binlog日志文件内容</span></span><br><span class="line">mysqlbinlog  <span class="variable">$&#123;binlogname&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 以人类能看懂的方式查看binlog文件内容</span></span><br><span class="line">mysqlbinlog --base64-output=decode-rows -vvvvvv <span class="variable">$&#123;binlogname&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用-r命令将日志转写进sql</span></span><br><span class="line">mysqlbinlog --base64-output=decode-rows -vvvvvv <span class="variable">$&#123;binlogname&#125;</span> -r <span class="variable">$&#123;sqlname.sql&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 还原数据库</span></span><br><span class="line">mysqlbinlog --start-positoin=<span class="variable">$&#123;number&#125;</span> --stop-position=<span class="variable">$&#123;number&#125;</span> <span class="variable">$&#123;binlogname&#125;</span> -d <span class="variable">$&#123;databasename&#125;</span> | mysql -u<span class="variable">$&#123;username&#125;</span> -p<span class="variable">$&#123;password&#125;</span></span><br></pre></td></tr></table></figure>
 
-<p>&emsp;&emsp;在JVM虚拟机规范中，规范了jvm中逻辑上的内存区域。jvm规范中共有6大块：</p>
-<ol>
-<li>程序计数器（The pc Register）。</li>
-<li>java虚拟机栈（Java Virtual Machine Stacks）。</li>
-<li>堆（Heap）。</li>
-<li>方法区（Method Area）。</li>
-<li>运行时常量池（Run-Time Constant Pool）。</li>
-<li>本地方法栈（Native Method Stacks）。</li>
-</ol>
-<hr>
-<h1><span id="cheng-xu-ji-shu-qi-the-pc-register">程序计数器（The pc Register）</span><a href="#cheng-xu-ji-shu-qi-the-pc-register" class="header-anchor">#</a></h1><p>&emsp;&emsp;原文机翻一波：</p>
-<blockquote>
-<p>&emsp;&emsp;Java虚拟机可以同时支持许多执行线程（JLS17）。<strong>每个Java虚拟机线程都有它自己的pc（程序计数器）寄存器。</strong> 在任何时候，每个Java虚拟机线程都在执行一个单一方法的代码，即该线程的当前方法（2.6）。<strong>如果该方法不是本机的，则pc寄存器包含当前正在执行的Java虚拟机指令的地址。如果该线程当前要执行的方法是本机的，则未定义Java虚拟机的pc寄存器的值。</strong> Java虚拟机的pc寄存器足够宽，可以在特定的平台上保存一个返回地址或一个本机指针。</p>
-</blockquote>
-<p>&emsp;&emsp;当前线程所执行的字节码的行号指示器，它会指出下一条将要执行的指令的地址，字节码解释器就是通过改变计数器的值来选取程序接下来执行的操作。<br>&emsp;&emsp;程序计数器是线程私有的一小块内存，每个线程都有独立的程序计数器，保证线程切换后回到正确的位置。<br>&emsp;&emsp;保存内容：</p>
-<ol>
-<li>执行的如果是是Native方法，则为空。</li>
-<li>线程正在执行java方法，则计数器记录的是正在执行的虚拟机字节码指令的地址。</li>
-</ol>
-<blockquote>
-<p>唯一一个不会出现OOM的内存区域。</p>
-</blockquote>
-<hr>
-<h1><span id="java-xu-ni-ji-zhan-java-virtual-machine-stacks">java虚拟机栈（Java Virtual Machine Stacks）</span><a href="#java-xu-ni-ji-zhan-java-virtual-machine-stacks" class="header-anchor">#</a></h1><p>&emsp;&emsp;机翻一波：</p>
-<blockquote>
-<p>&emsp;&emsp;<strong>每个Java虚拟机线程都有一个私有的Java虚拟机堆栈，它与线程同时创建。</strong> Java虚拟机堆栈可存储帧（2.6）。Java虚拟机堆栈类似于传统语言如C的堆栈：<strong>它包含局部变量和部分结果，并在方法调用和返回中发挥作用。</strong> 因为Java虚拟机堆栈永远不会被直接操作，除非是推送和弹出帧，所以帧可以被堆分配。Java虚拟机堆栈的内存不需要是连续的。</p>
-</blockquote>
-<p>&emsp;&emsp;和程序计数器一样，Java虚拟机栈也是线程私有的，在线程创建时Java虚拟机栈会被创建，每个方法在执行的同时都会创建一个栈帧，用于存放局部变量表，操作数栈，动态链接，方法出口等信息。调用方法时压栈，方法返回时出栈。</p>
-<p><a href="https://blog.csdn.net/Jbinbin/article/details/86302768">https://blog.csdn.net/Jbinbin/article/details/86302768</a></p>
-<ol>
-<li>局部变量表：是存放方法参数和局部变量的区域，存放了各种基本类型。对象引用，returnAddress类型，局部变量表所需空间在编译期间就已经确定并完成分配，在方法运行期间不会被改变。<blockquote>
-<p>&emsp;&emsp;虚拟机是使用局部变量表完成参数值到参数变量列表的传递过程的，如果是实例方法（非static），那么局部变量表的第0位索引的Slot默认是用于传递方法所属对象实例的引用，在方法中通过this访问。</p>
-</blockquote>
-</li>
-<li>操作数栈：是个初始状态为空的桶式结构栈。<blockquote>
-<p>&emsp;&emsp;虚拟机在操作数栈中存储数据的方式和在局部变量区中是一样的：如int、long、float、double、reference和returnType的存储。对于byte、short以及char类型的值在压入到操作数栈之前，也会被转换为int。<br>&emsp;&emsp;虚拟机把操作数栈作为它的工作区——大多数指令都要从这里弹出数据，执行运算，然后把结果压回操作数栈。比如，iadd指令就要从操作数栈中弹出两个整数，执行加法运算，其结果又压回到操作数栈中，看看下面的示例，它演示了虚拟机是如何把两个int类型的局部变量相加，再把结果保存到第三个局部变量的。</p>
-</blockquote>
-</li>
-<li>动态链接：每个栈帧中包含一个在常量池中对当前方法的引用，目的是支持方法调用过程的动态连接。</li>
-<li>方法出口：<ol>
-<li>正常退出：遇到方法的返回字节码指令。</li>
-<li>异常退出：<ol>
-<li>栈溢出：StackOverFlowError，如果线程中的计算需要比允许的更大的 Java 虚拟机堆栈。</li>
-<li>内存溢出：如果 Java 虚拟机堆栈可以动态扩展，并且尝试扩展，但无法提供足够的内存来实现扩展，或者如果无法提供足够的内存来为新线程创建初始 Java 虚拟机堆栈。</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-<hr>
-<h1><span id="dui-heap">堆（Heap）</span><a href="#dui-heap" class="header-anchor">#</a></h1><p>&emsp;&emsp;来一波：</p>
-<blockquote>
-<p>&emsp;&emsp;Java虚拟机有一个由所有<strong>Java虚拟机线程共享的堆。堆是用来分配所有类实例和数组的内存的运行时数据区域。</strong><br>&emsp;&emsp;该堆是在虚拟机启动时创建的。对象的堆存储由自动存储管理系统（称为垃圾回收器）回收；永远不会显式释放对象。Java虚拟机假设没有特定类型的自动存储管理系统，并且可以根据实现者的系统要求来选择存储管理技术。堆可能是固定的大小，也可以根据计算的要求进行扩展，如果没有必要使用更大的堆，则可以进行收缩。堆的内存不需要是连续的。<br>&emsp;&emsp;本规范允许Java虚拟机堆栈具有固定的大小，或者按照计算的需要动态扩展和收缩。如果Java虚拟机堆栈是固定大小的，则在创建每个Java虚拟机堆栈时，可以独立选择每个Java虚拟机堆栈的大小。</p>
-</blockquote>
-<p>&emsp;&emsp;这里是JVM管理的内存里最大的一块，存放对象实例，在虚拟机启动时创建。<br>&emsp;&emsp;根据对象存活的周期不同，JVM把堆内存进行分带管理，由垃圾收集器进行对象的回收管理。</p>
-<hr>
-<h1><span id="fang-fa-qu-method-area">方法区（Method Area）</span><a href="#fang-fa-qu-method-area" class="header-anchor">#</a></h1><p>&emsp;&emsp;机翻：</p>
-<blockquote>
-<p>&emsp;&emsp;Java虚拟机具有在所有Java虚拟机线程之间共享的方法区域。该方法区域类似于传统语言编译代码的存储区域，或类似于操作系统过程中的“文本”段。<strong>它存储每个类的结构，如运行时常量池、字段和方法数据，以及方法和构造函数的代码，包括在类和实例初始化和接口初始化中使用的特殊方法（2.9）。</strong><br>&emsp;&emsp;方法区域是在虚拟机启动时创建的。虽然方法区域是<strong>在堆的逻辑部分</strong>，简单实现可以选择不垃圾收集或压缩。此版本的Java虚拟机规范<strong>不强制指定方法区域的位置</strong>或用于管理的策略编译的代码。方法区域可以具有固定的大小，或者可以根据计算的需要进行扩展，并且如果方法区域变得更大，则可以收缩没必要。方法区域的内存不需要是连续的。</p>
-</blockquote>
-<p>&emsp;&emsp;与堆一样是线程共享的，存储被类加载器加载的类信息，常量，静态变量等，就是编译器编译后的代码等数据。<br>&emsp;&emsp;如果方法区域中的内存无法满足分配请求，则Java虚拟机将抛出OutOfMemoryError。<br>&emsp;&emsp;方法区在jdk1.7和1.8之间，落地的物理实现有了区别。</p>
-<hr>
-<h1><span id="yun-xing-shi-chang-liang-chi-run-time-constant-pool">运行时常量池（Run-Time Constant Pool）</span><a href="#yun-xing-shi-chang-liang-chi-run-time-constant-pool" class="header-anchor">#</a></h1><p>&emsp;&emsp;机翻搞起来：</p>
-<blockquote>
-<p>&emsp;&emsp;运行时常量池是类文件中constant_pool表的每类或每接口的运行时表示形式（4.4）。它包含几种常量，从编译时已知的数字文本到在运行时必须解析的方法和字段引用。运行时常量池提供的函数类似于传统编程语言的符号表的函数，尽管它包含了比典型的符号表更广泛的数据范围。<br><strong>每个运行时常量池都从Java虚拟机的方法区域（2.5.4）进行分配。</strong>类或接口的运行时常量池将在由Java虚拟机创建（5.3）时构建。</p>
-</blockquote>
-<p>&emsp;&emsp;通俗来说，运行时常量池用于存放编译期生成的各种字面量和符号引用。并不是编译器才产生常量，运行期间也有可能将新的常量放入常量池。<br>&emsp;&emsp;创建类或接口时，如果构造运行时常量池需要的内存超过Java虚拟机的方法区域可以提供的内存，则Java虚拟机将抛出OutOfMemoryError。</p>
-<hr>
-<h1><span id="ben-di-fang-fa-zhan-native-method-stacks">本地方法栈（Native Method Stacks）</span><a href="#ben-di-fang-fa-zhan-native-method-stacks" class="header-anchor">#</a></h1><p>&emsp;&emsp;机翻再来：</p>
-<blockquote>
-<p>&emsp;&emsp;Java虚拟机的实现可以使用传统的堆栈，俗称“C堆栈”，来支持本地方法(用Java编程语言以外的语言编写的方法)。本地方法堆栈也可以使用解释器的实现Java虚拟机的指令集的语言如C.Java虚拟机实现不能加载本地方法，本身不依赖于传统的栈不需要提供本地方法堆栈。如果提供了这些，则通常在创建每个线程时为每个线程分配本机方法堆栈。<br>&emsp;&emsp;本规范允许本地方法堆栈具有固定的大小，或者按照计算的要求动态地扩展和收缩。如果本机方法堆栈的大小是固定，则在创建每个本机方法堆栈时，可以独立选择每个本机方法堆栈的大小。</p>
-</blockquote>
-<p>&emsp;&emsp;本地方法栈与虚拟机栈类似，不过本地方法栈保存本地方法。<br>&emsp;&emsp;如果线程中的计算需要比允许的更大的本机方法堆栈，则Java虚拟机将抛出StackOverFlowError。<br>&emsp;&emsp;如果可以动态扩展本机方法堆栈，并且尝试进行本机方法堆栈扩展，但可用内存不足，或者如果没有足够的内存可以为新线程创建初始本机方法堆栈，则Java虚拟机将抛出OutOfMemoryError。</p>
-<hr>
-<h1><span id="zong-jie">总结</span><a href="#zong-jie" class="header-anchor">#</a></h1><p>&emsp;&emsp;JVM规范中，逻辑上就规范了这6中内存区域，但并没有规范实际的虚拟机该如何实现，不同的虚拟机可以安照该规范有不同的实现，相同虚拟机不同版本也可能有不同的实现，按照规范即可。<br>&emsp;&emsp;规范中规定了一些内存区域是线程共享的，这种区域就随着虚拟机的创建销毁而进行分配回收，而一些线程独享的内存区域就随着线程的创建销毁而分配回收。</p>
-<ol>
-<li>线程共享的区域：<ol>
-<li>堆</li>
-<li>方法区（非堆）</li>
-<li>运行时常量池</li>
-</ol>
-</li>
-<li>线程独享的区域：<ol>
-<li>java虚拟机栈</li>
-<li>本地方法栈</li>
-<li>程序计数器</li>
-</ol>
-</li>
-</ol>
-]]></content>
+<p>&emsp;&emsp;转写进文件的日志不能直接执行，不过我们可以从其中提取有用信息。<br>&emsp;&emsp;因为binlog日志里面会将删除等操作全部保存下来，所以再还原数据库信息时一定不能全部解析，需要指定确切位置。<br>&emsp;&emsp;指定位置，数据库，时间，端口，host的命令都可以跟在mysqlbinlog后面，不只只用来恢复，转储，查看都可以。这些命令可以排列组合，放在日志名称前即可。</p>
+<p>mysqlbinlog其他参数：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 起始位置</span></span><br><span class="line">--start-position=<span class="variable">$&#123;positiom number&#125;</span></span><br><span class="line"><span class="comment"># 结束位置</span></span><br><span class="line">--stop-position=<span class="variable">$&#123;position number&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 开始时间</span></span><br><span class="line">--start-datetime=<span class="variable">$&#123;starttime&#125;</span></span><br><span class="line"><span class="comment"># 结束时间</span></span><br><span class="line">--stop-datetime=<span class="variable">$&#123;stoptime&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 数据库</span></span><br><span class="line">-d <span class="variable">$&#123;databasename&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 端口号(大写的P)</span></span><br><span class="line">-P <span class="variable">$&#123;port&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ip地址</span></span><br><span class="line">-h <span class="variable">$&#123;hosts&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># serverId</span></span><br><span class="line">--server-id=<span class="variable">$&#123;server-id&#125;</span></span><br></pre></td></tr></table></figure>]]></content>
       <categories>
-        <category>jvm</category>
+        <category>mysql</category>
       </categories>
       <tags>
-        <tag>jvm</tag>
-        <tag>memory</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>jvm调优</title>
-    <url>/hexoblog/2021/03/04/md/jvm/jvm%E8%B0%83%E4%BC%98/</url>
-    <content><![CDATA[<p><a href="https://baijiahao.baidu.com/s?id=1617167971312758600&wfr=spider&for=pc">jvm性能调优的6大步骤</a></p>
-<span id="more"></span>
-
-<hr>
-<h1><span id="diao-you-fang-fa-yu-bu-zou">调优方法与步骤</span><a href="#diao-you-fang-fa-yu-bu-zou" class="header-anchor">#</a></h1><ol>
-<li>监控GC的状态</li>
-<li>生成堆的dump文件</li>
-<li>分析dump文件</li>
-<li>分析结果判断是否需要优化</li>
-<li>调整GC类型和内存分配</li>
-<li>不断分析和调整</li>
-</ol>
-<hr>
-<h1><span id="diao-you-can-kao-can-shu">调优参考参数</span><a href="#diao-you-can-kao-can-shu" class="header-anchor">#</a></h1><ol>
-<li>调整jvm堆内存的占用空间</li>
-<li>调整新生代老年代占用堆空间的比例，</li>
-<li>老年代与新生代设置多大合理<ol>
-<li>大的年轻代将会导致普通GC的周期延长，但会增加GC的时间，小的老年代必定会导致频繁的full GC  </li>
-<li>小的年轻代导致普通GC的频繁发生，但GC的时间短，大的老年代将会减少full GC的频率</li>
-</ol>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>jvm</category>
-      </categories>
-      <tags>
-        <tag>jvm</tag>
-        <tag>tool</tag>
+        <tag>mysql</tag>
       </tags>
   </entry>
   <entry>
@@ -1338,92 +1505,6 @@
       <tags>
         <tag>java</tag>
         <tag>mybatis</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mysql中datetime和timestamp</title>
-    <url>/hexoblog/2021/04/14/md/mysql/mysql%E4%B8%ADdatetime%E5%92%8Ctimestamp/</url>
-    <content><![CDATA[<h1><span id="qu-bie">区别</span><a href="#qu-bie" class="header-anchor">#</a></h1><h2><span id="date-he-datetime-timestamp-de-qu-bie">date和datetime，timestamp的区别</span><a href="#date-he-datetime-timestamp-de-qu-bie" class="header-anchor">#</a></h2><ol>
-<li>date保存的是天，精确到天</li>
-<li>datetime，timestamp精确到秒</li>
-</ol>
-<span id="more"></span>
-<h2><span id="datetime-he-timastamp">datetime和timastamp</span><a href="#datetime-he-timastamp" class="header-anchor">#</a></h2><p>&emsp;&emsp;datetime 和timestamp两者都是时间类型字段，格式都一致。</p>
-<ol>
-<li><p>受时区影响不同</p>
-<blockquote>
-<p>timestamp会跟随设置的时区变化而变化，而datetime保存的是绝对值不会变化。</p>
-</blockquote>
-</li>
-<li><p>占用存储空间不同</p>
-<blockquote>
-<p>timestamp储存占用4个字节，datetime储存占用8个字节。</p>
-</blockquote>
-</li>
-<li><p>可以表示的时间范围不同</p>
-<blockquote>
-<p>timestamp可表示范围:1970-01-01 00:00:00~2038-01-09 03:14:07，datetime支持的范围更宽1000-01-01 00:00:00 ~ 9999-12-31 23:59:59。</p>
-</blockquote>
-</li>
-<li><p>索引速度不同</p>
-<blockquote>
-<p>timestamp更轻量，索引相对datetime更快。</p>
-</blockquote>
-</li>
-<li><p>默认值不同</p>
-<blockquote>
-<p>datetime的默认值为null，timestamp的字段默认不为空（not null），默认值为当前时间（CURRENT_TIMESTAMP），如果不做特殊处理，并且update语句中没有指定该列的更新值，则默认更新为当前时间。</p>
-</blockquote>
-</li>
-<li><p>存储方式不同</p>
-<blockquote>
-<p>两者的存储方式不一样，对于timestamp，它把客户端插入的时间从当前时区转化为UTC（世界标准时间）进行存储。查询时，将其又转化为客户端当前时区进行返回。而对于datetime，不做任何改变，基本上是原样输入和输出。</p>
-</blockquote>
-</li>
-</ol>
-<p>&emsp;&emsp;在mysql5.6之前的版本，CURRENT_TIMESTAMP只能用于timestamp类型，5.6版本之后，CURRENT_TIMESTAMP也能用于datetime类型了。</p>
-]]></content>
-      <categories>
-        <category>mysql</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
-        <tag>数据类型</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mysql常用命令</title>
-    <url>/hexoblog/2021/03/12/md/mysql/mysql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<h1><span id="chang-yong-ming-ling">常用命令</span><a href="#chang-yong-ming-ling" class="header-anchor">#</a></h1><h2><span id="xiu-gai-mysql-shi-qu">修改mysql时区</span><a href="#xiu-gai-mysql-shi-qu" class="header-anchor">#</a></h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看时区</span></span><br><span class="line">show variables like <span class="string">&quot;%time_zone%&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置时区为UTC+8:00</span></span><br><span class="line"><span class="built_in">set</span> global time_zone = <span class="string">&#x27;+8:00&#x27;</span>;</span><br><span class="line"><span class="built_in">set</span> time_zone = <span class="string">&#x27;+8:00&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 刷新立即生效</span></span><br><span class="line">flush privileges；</span><br></pre></td></tr></table></figure>
-
-<span id="more"></span>
-<h2><span id="shi-yong-mysql-binlog">使用mysql binlog</span><a href="#shi-yong-mysql-binlog" class="header-anchor">#</a></h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看日志是否开启</span></span><br><span class="line">show variables like <span class="string">&#x27;log_%&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看binlog配置</span></span><br><span class="line">show variables like <span class="string">&#x27;binlog_%&#x27;</span>; </span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看数据库当前日志情况</span></span><br><span class="line">show master status;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看所有日志文件</span></span><br><span class="line">show binary logs;</span><br><span class="line">show master logs;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 根据事件查看文件</span></span><br><span class="line">show binlog events <span class="keyword">in</span> <span class="string">&#x27;$&#123;binlogname&#125;&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看binlog日志文件内容</span></span><br><span class="line">mysqlbinlog  <span class="variable">$&#123;binlogname&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 以人类能看懂的方式查看binlog文件内容</span></span><br><span class="line">mysqlbinlog --base64-output=decode-rows -vvvvvv <span class="variable">$&#123;binlogname&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用-r命令将日志转写进sql</span></span><br><span class="line">mysqlbinlog --base64-output=decode-rows -vvvvvv <span class="variable">$&#123;binlogname&#125;</span> -r <span class="variable">$&#123;sqlname.sql&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 还原数据库</span></span><br><span class="line">mysqlbinlog --start-positoin=<span class="variable">$&#123;number&#125;</span> --stop-position=<span class="variable">$&#123;number&#125;</span> <span class="variable">$&#123;binlogname&#125;</span> -d <span class="variable">$&#123;databasename&#125;</span> | mysql -u<span class="variable">$&#123;username&#125;</span> -p<span class="variable">$&#123;password&#125;</span></span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;转写进文件的日志不能直接执行，不过我们可以从其中提取有用信息。<br>&emsp;&emsp;因为binlog日志里面会将删除等操作全部保存下来，所以再还原数据库信息时一定不能全部解析，需要指定确切位置。<br>&emsp;&emsp;指定位置，数据库，时间，端口，host的命令都可以跟在mysqlbinlog后面，不只只用来恢复，转储，查看都可以。这些命令可以排列组合，放在日志名称前即可。</p>
-<p>mysqlbinlog其他参数：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 起始位置</span></span><br><span class="line">--start-position=<span class="variable">$&#123;positiom number&#125;</span></span><br><span class="line"><span class="comment"># 结束位置</span></span><br><span class="line">--stop-position=<span class="variable">$&#123;position number&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 开始时间</span></span><br><span class="line">--start-datetime=<span class="variable">$&#123;starttime&#125;</span></span><br><span class="line"><span class="comment"># 结束时间</span></span><br><span class="line">--stop-datetime=<span class="variable">$&#123;stoptime&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 数据库</span></span><br><span class="line">-d <span class="variable">$&#123;databasename&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 端口号(大写的P)</span></span><br><span class="line">-P <span class="variable">$&#123;port&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ip地址</span></span><br><span class="line">-h <span class="variable">$&#123;hosts&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># serverId</span></span><br><span class="line">--server-id=<span class="variable">$&#123;server-id&#125;</span></span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>mysql</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mysql浮点数精度</title>
-    <url>/hexoblog/2021/04/14/md/mysql/mysql%E6%B5%AE%E7%82%B9%E6%95%B0%E7%B2%BE%E5%BA%A6/</url>
-    <content><![CDATA[<h1><span id="xiao-shu-lei-xing">小数类型</span><a href="#xiao-shu-lei-xing" class="header-anchor">#</a></h1><h2><span id="fu-dian-shu">浮点数</span><a href="#fu-dian-shu" class="header-anchor">#</a></h2><p>&emsp;&emsp;浮点型又称之为精度类型：是一种有可能丢失精度的数据类型，数据有可能不那么准确（由其是在超出范围的时候）。<br>&emsp;&emsp;浮点型之所以能够存储较大的数值（不精确），原因就是利用存储数据的位来存储指数。</p>
-<span id="more"></span>
-<h3><span id="float">float</span><a href="#float" class="header-anchor">#</a></h3><p>&emsp;&emsp;单精度浮点数，采用4个字节存储，保证7个位的精度。<br>&emsp;&emsp;Float(M,D)：表示一共存储M个有效数字，其中小数部分占D位。M(1<del>255)称为精度，D(1</del>30)称为标度且不能大于M-2，是可选的。<br>&emsp;&emsp;对于小数位数超长的，会采用四舍五入进行进位。</p>
-<h3><span id="double">double</span><a href="#double" class="header-anchor">#</a></h3><p>&emsp;&emsp;双精度浮点数，采用8个字节存储，表示的范围更大，精度最大15位。</p>
-<h2><span id="ding-dian-shu">定点数</span><a href="#ding-dian-shu" class="header-anchor">#</a></h2><p>&emsp;&emsp;能够保证数据精确的小数（小数部分可能不精确，超出长度会四舍五入），整数部分一定精确。<br>&emsp;&emsp;mysql中定点数只有一种，就是Decimal(M,D)。<br>&emsp;&emsp;Decimal定点数：系统自动根据存储的数据来分配存储空间，每大概9个数就会分配四个字节来进行存储，同时小数和整数部分是分开的。采用M+2个字节存储。<br>&emsp;&emsp;Decimal(M,D)：M表示总长度，最大值不能超过65，D代表小数部分长度，最长不能超过30。（默认为10，0）是必选的。</p>
-]]></content>
-      <categories>
-        <category>mysql</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
-        <tag>数据类型</tag>
       </tags>
   </entry>
   <entry>
@@ -1503,6 +1584,34 @@
       </tags>
   </entry>
   <entry>
+    <title>redis安装和使用</title>
+    <url>/hexoblog/2021/04/14/md/redis/redis%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h1><span id="an-zhuang">安装</span><a href="#an-zhuang" class="header-anchor">#</a></h1><p>&emsp;&emsp;这里是在windows环境下的redis安装过程，两种安装方式，都比较简单。<br>&emsp;&emsp;官方提供的只有linux系统的tar.gz格式的压缩包，windows的需要在github下载。<br><a href="https://redis.io/">https://redis.io/</a><br><a href="http://www.redis.cn/">http://www.redis.cn/</a><br><a href="https://www.redis.com.cn/">https://www.redis.com.cn/</a><br><a href="https://www.redis.com.cn/redis-installation.html">https://www.redis.com.cn/redis-installation.html</a></p>
+<span id="more"></span>
+<h2><span id="msi-an-zhuang">msi安装</span><a href="#msi-an-zhuang" class="header-anchor">#</a></h2><ol>
+<li>下载msi安装文件<blockquote>
+<p>官方提供的只有tar.gz格式压缩包下载，msi需要在github下载<br><a href="https://github.com/MicrosoftArchive/redis/releases">https://github.com/MicrosoftArchive/redis/releases</a></p>
+</blockquote>
+</li>
+<li>双击运行</li>
+<li>完成安装</li>
+</ol>
+<h2><span id="zip-an-zhuang">zip安装</span><a href="#zip-an-zhuang" class="header-anchor">#</a></h2><ol>
+<li>下载zip压缩包</li>
+<li>将压缩包解压至你准备安装的路径</li>
+<li>解压完成就是安装完成</li>
+</ol>
+<hr>
+<h1><span id="shi-yong">使用</span><a href="#shi-yong" class="header-anchor">#</a></h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 先进入安装目录</span></span><br><span class="line"><span class="built_in">cd</span> &lt;安装目录&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动</span></span><br><span class="line"><span class="comment"># 作为普通软件启动，命令行关闭则关闭</span></span><br><span class="line">redis-server.exe redis.windows.conf</span><br><span class="line"><span class="comment"># 作为服务启动，不跟随命令行</span></span><br><span class="line">redis-server.exe redis.windows-service.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 客户端连接</span></span><br><span class="line">redis-cli.exe</span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭</span></span><br><span class="line">redis-server.exe --service-stop</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>redis</category>
+      </categories>
+      <tags>
+        <tag>redis</tag>
+        <tag>tool</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>缓存击穿、穿透、雪崩</title>
     <url>/hexoblog/2021/03/08/md/redis/%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF%E3%80%81%E7%A9%BF%E9%80%8F%E3%80%81%E9%9B%AA%E5%B4%A9/</url>
     <content><![CDATA[<p><a href="https://my.oschina.net/linqiankun/blog/3191886">缓存击穿，穿透，雪崩</a></p>
@@ -1535,34 +1644,6 @@
       <tags>
         <tag>redis</tag>
         <tag>缓存</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>redis安装和使用</title>
-    <url>/hexoblog/2021/04/14/md/redis/redis%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h1><span id="an-zhuang">安装</span><a href="#an-zhuang" class="header-anchor">#</a></h1><p>&emsp;&emsp;这里是在windows环境下的redis安装过程，两种安装方式，都比较简单。<br>&emsp;&emsp;官方提供的只有linux系统的tar.gz格式的压缩包，windows的需要在github下载。<br><a href="https://redis.io/">https://redis.io/</a><br><a href="http://www.redis.cn/">http://www.redis.cn/</a><br><a href="https://www.redis.com.cn/">https://www.redis.com.cn/</a><br><a href="https://www.redis.com.cn/redis-installation.html">https://www.redis.com.cn/redis-installation.html</a></p>
-<span id="more"></span>
-<h2><span id="msi-an-zhuang">msi安装</span><a href="#msi-an-zhuang" class="header-anchor">#</a></h2><ol>
-<li>下载msi安装文件<blockquote>
-<p>官方提供的只有tar.gz格式压缩包下载，msi需要在github下载<br><a href="https://github.com/MicrosoftArchive/redis/releases">https://github.com/MicrosoftArchive/redis/releases</a></p>
-</blockquote>
-</li>
-<li>双击运行</li>
-<li>完成安装</li>
-</ol>
-<h2><span id="zip-an-zhuang">zip安装</span><a href="#zip-an-zhuang" class="header-anchor">#</a></h2><ol>
-<li>下载zip压缩包</li>
-<li>将压缩包解压至你准备安装的路径</li>
-<li>解压完成就是安装完成</li>
-</ol>
-<hr>
-<h1><span id="shi-yong">使用</span><a href="#shi-yong" class="header-anchor">#</a></h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 先进入安装目录</span></span><br><span class="line"><span class="built_in">cd</span> &lt;安装目录&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动</span></span><br><span class="line"><span class="comment"># 作为普通软件启动，命令行关闭则关闭</span></span><br><span class="line">redis-server.exe redis.windows.conf</span><br><span class="line"><span class="comment"># 作为服务启动，不跟随命令行</span></span><br><span class="line">redis-server.exe redis.windows-service.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 客户端连接</span></span><br><span class="line">redis-cli.exe</span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭</span></span><br><span class="line">redis-server.exe --service-stop</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>redis</category>
-      </categories>
-      <tags>
-        <tag>redis</tag>
-        <tag>tool</tag>
       </tags>
   </entry>
   <entry>
