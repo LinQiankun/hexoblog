@@ -370,9 +370,9 @@
     
     <category term="docker" scheme="http://linqiankun.gitee.io/hexoblog/tags/docker/"/>
     
-    <category term="tool" scheme="http://linqiankun.gitee.io/hexoblog/tags/tool/"/>
-    
     <category term="springboot" scheme="http://linqiankun.gitee.io/hexoblog/tags/springboot/"/>
+    
+    <category term="tool" scheme="http://linqiankun.gitee.io/hexoblog/tags/tool/"/>
     
   </entry>
   
@@ -397,11 +397,11 @@
     <category term="docker" scheme="http://linqiankun.gitee.io/hexoblog/categories/docker/"/>
     
     
-    <category term="vue" scheme="http://linqiankun.gitee.io/hexoblog/tags/vue/"/>
-    
     <category term="docker" scheme="http://linqiankun.gitee.io/hexoblog/tags/docker/"/>
     
     <category term="tool" scheme="http://linqiankun.gitee.io/hexoblog/tags/tool/"/>
+    
+    <category term="vue" scheme="http://linqiankun.gitee.io/hexoblog/tags/vue/"/>
     
   </entry>
   
