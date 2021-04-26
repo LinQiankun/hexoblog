@@ -6,7 +6,7 @@
   <link href="http://linqiankun.gitee.io/hexoblog/atom.xml" rel="self"/>
   
   <link href="http://linqiankun.gitee.io/hexoblog/"/>
-  <updated>2021-04-26T03:15:33.322Z</updated>
+  <updated>2021-04-26T05:38:41.390Z</updated>
   <id>http://linqiankun.gitee.io/hexoblog/</id>
   
   <author>
@@ -15,19 +15,6 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>JVM—GC</title>
-    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/26/JVM%E2%80%94GC/"/>
-    <id>http://linqiankun.gitee.io/hexoblog/2021/04/26/JVM%E2%80%94GC/</id>
-    <published>2021-04-26T03:15:33.000Z</published>
-    <updated>2021-04-26T03:15:33.322Z</updated>
-    
-    
-    
-    
-    
-  </entry>
   
   <entry>
     <title>jvm内存结构</title>
@@ -497,6 +484,34 @@
     <category term="tool" scheme="http://linqiankun.gitee.io/hexoblog/tags/tool/"/>
     
     <category term="linux" scheme="http://linqiankun.gitee.io/hexoblog/tags/linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>jvm命令</title>
+    <link href="http://linqiankun.gitee.io/hexoblog/2021/03/29/md/jvm/jvm%E5%91%BD%E4%BB%A4/"/>
+    <id>http://linqiankun.gitee.io/hexoblog/2021/03/29/md/jvm/jvm%E5%91%BD%E4%BB%A4/</id>
+    <published>2021-03-29T12:00:19.000Z</published>
+    <updated>2021-04-14T02:48:40.972Z</updated>
+    
+    <content type="html"><![CDATA[<h1><span id="jvm-ming-ling-de-shi-yong">JVM命令的使用</span><a href="#jvm-ming-ling-de-shi-yong" class="header-anchor">#</a></h1><p><a href="https://blog.csdn.net/wangxiaotongfan/article/details/82560739">https://blog.csdn.net/wangxiaotongfan/article/details/82560739</a></p><h2><span id="jps">JPS</span><a href="#jps" class="header-anchor">#</a></h2><h3><span id="jie-shao">介绍</span><a href="#jie-shao" class="header-anchor">#</a></h3><p>&emsp;&emsp;显示当前系统的java进程。</p><h3><span id="ge-shi">格式</span><a href="#ge-shi" class="header-anchor">#</a></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure><h3><span id="can-shu">参数</span><a href="#can-shu" class="header-anchor">#</a></h3><ol><li>-q：只显示pid，不显示class名称，jar文件名和传递给main方法的参数。</li><li>-l：输出应用程序main class的完整package名或者应用程序的jar文件完整路径名。</li><li>-m：输出jvm启动时传递给main方法启动。</li><li>-v：输出JVM启动时显示指定的JVM参数。</li></ol><h2><span id="jstat">JSTAT</span><a href="#jstat" class="header-anchor">#</a></h2><h3><span id="jie-shao">介绍</span><a href="#jie-shao" class="header-anchor">#</a></h3><p>&emsp;&emsp;用于监视虚拟机运行时状态信息的命令，它可以显示出虚拟机进程中的类装载、内存、垃圾收集、JIT编译(Just In Time Compiler, 即时编译器)等运行数据。</p><h3><span id="ge-shi">格式</span><a href="#ge-shi" class="header-anchor">#</a></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure><h3><span id="can-shu">参数</span><a href="#can-shu" class="header-anchor">#</a></h3><p>if [ “$DEBUG” = “true” ]; then<br>  echo -e “\033[0;31m debug is open,port=$DEBUG_PORT \033[0m”<br>  JAVA_OPTS=”$JAVA_OPTS -Xdebug -Xrunjdwp:transport=dt_socket,address=$DEBUG_PORT,server=y,suspend=y”<br>fi</p><p>JAVA_HEAP_DUMP_OPTS=-XX:HeapDumpPath=$LOG_HOME/dump.hprof<br>JAVA_OPTS=”$JAVA_OPTS -Dserver.port=$PORT -Dlog.home=$LOG_HOME -Duse.flume=false -Xms128m -Xmx2048m -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=1024m -Dfile.encoding=utf-8 -XX:+HeapDumpOnOutOfMemoryError $JAVA_HEAP_DUMP_OPTS”<br>#JAVA_OPTS=”$JAVA_OPTS -XX:+TraceClassLoading -XX:+TraceClassUnloading”</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1&gt;&lt;span id=&quot;jvm-ming-ling-de-shi-yong&quot;&gt;JVM命令的使用&lt;/span&gt;&lt;a href=&quot;#jvm-ming-ling-de-shi-yong&quot; class=&quot;header-anchor&quot;&gt;#&lt;/a&gt;&lt;/h1&gt;&lt;p&gt;&lt;a href=&quot;htt</summary>
+      
+    
+    
+    
+    <category term="tool" scheme="http://linqiankun.gitee.io/hexoblog/categories/tool/"/>
+    
+    
+    <category term="jvm" scheme="http://linqiankun.gitee.io/hexoblog/tags/jvm/"/>
+    
+    <category term="tool" scheme="http://linqiankun.gitee.io/hexoblog/tags/tool/"/>
+    
+    <category term="jdk" scheme="http://linqiankun.gitee.io/hexoblog/tags/jdk/"/>
     
   </entry>
   

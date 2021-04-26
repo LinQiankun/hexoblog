@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>JVM—GC</title>
-    <url>/hexoblog/2021/04/26/JVM%E2%80%94GC/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>docker启动vue</title>
     <url>/hexoblog/2021/04/12/md/docker/docker%E5%90%AF%E5%8A%A8vue/</url>
     <content><![CDATA[<h1><span id="zhun-bei">准备</span><a href="#zhun-bei" class="header-anchor">#</a></h1><p>&emsp;&emsp;需要准备东西有：</p>
@@ -34,42 +29,6 @@
         <tag>vue</tag>
         <tag>docker</tag>
         <tag>tool</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>dcokerdesktop小问题排查</title>
-    <url>/hexoblog/2021/03/14/md/docker/dcokerdesktop%E5%B0%8F%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5/</url>
-    <content><![CDATA[<div class="toc">
-
-<!-- toc -->
-
-<ul>
-<li><a href="#wen-ti">问题</a><ul>
-<li><a href="#qi-dong-wen-ti">启动问题</a><ul>
-<li><a href="#docker-qi-dong-shi-bai">docker启动失败</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<!-- tocstop -->
-
-</div>
-
-<h1><span id="wen-ti">问题</span><a href="#wen-ti" class="header-anchor">#</a></h1><h2><span id="qi-dong-wen-ti">启动问题</span><a href="#qi-dong-wen-ti" class="header-anchor">#</a></h2><h3><span id="docker-qi-dong-shi-bai">docker启动失败</span><a href="#docker-qi-dong-shi-bai" class="header-anchor">#</a></h3><span id="more"></span>
-
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Error%202021_3_14%2017_02_08.png" alt="启动失败"></p>
-<p>&emsp;&emsp;dockerdesktop在启动时，发生此错误，因为wsl未启动或者wsl启动出现问题。</p>
-<h4><span id="jie-jue">解决</span><a href="#jie-jue" class="header-anchor">#</a></h4><p>&emsp;&emsp;解决掉对应的wsl错误即可。这里的问题是：</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Ubuntu%2020.04%20LTS%202021_3_14%2016_01_57.png" alt="参考的对象不支持的操作"></p>
-<p>&emsp;&emsp;是因为wsl的问题，将其解决即可。</p>
-]]></content>
-      <categories>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>wsl</tag>
       </tags>
   </entry>
   <entry>
@@ -119,6 +78,42 @@
       </tags>
   </entry>
   <entry>
+    <title>dcokerdesktop小问题排查</title>
+    <url>/hexoblog/2021/03/14/md/docker/dcokerdesktop%E5%B0%8F%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5/</url>
+    <content><![CDATA[<div class="toc">
+
+<!-- toc -->
+
+<ul>
+<li><a href="#wen-ti">问题</a><ul>
+<li><a href="#qi-dong-wen-ti">启动问题</a><ul>
+<li><a href="#docker-qi-dong-shi-bai">docker启动失败</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+
+</div>
+
+<h1><span id="wen-ti">问题</span><a href="#wen-ti" class="header-anchor">#</a></h1><h2><span id="qi-dong-wen-ti">启动问题</span><a href="#qi-dong-wen-ti" class="header-anchor">#</a></h2><h3><span id="docker-qi-dong-shi-bai">docker启动失败</span><a href="#docker-qi-dong-shi-bai" class="header-anchor">#</a></h3><span id="more"></span>
+
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Error%202021_3_14%2017_02_08.png" alt="启动失败"></p>
+<p>&emsp;&emsp;dockerdesktop在启动时，发生此错误，因为wsl未启动或者wsl启动出现问题。</p>
+<h4><span id="jie-jue">解决</span><a href="#jie-jue" class="header-anchor">#</a></h4><p>&emsp;&emsp;解决掉对应的wsl错误即可。这里的问题是：</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Ubuntu%2020.04%20LTS%202021_3_14%2016_01_57.png" alt="参考的对象不支持的操作"></p>
+<p>&emsp;&emsp;是因为wsl的问题，将其解决即可。</p>
+]]></content>
+      <categories>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>wsl</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>docker安装与使用</title>
     <url>/hexoblog/2021/03/05/md/docker/docker%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<h1><span id="docker-jie-shao">docker介绍：</span><a href="#docker-jie-shao" class="header-anchor">#</a></h1><p>&emsp;&emsp;docker是个鲸鱼，拉了很多集装箱的鲸鱼。<br>&emsp;&emsp;docker是个开源的容器引擎。可以让开发者快速将他们的应用及依赖打包到一个可移植的容器中，然后发布到不同的平台。</p>
@@ -155,89 +150,6 @@
         <tag>docker</tag>
         <tag>tool</tag>
         <tag>wsl</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>dubboSPI扩展点自动激活</title>
-    <url>/hexoblog/2021/04/20/md/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E7%82%B9%E8%87%AA%E5%8A%A8%E6%BF%80%E6%B4%BB/</url>
-    <content><![CDATA[<h1><span id="kuo-zhan-dian-zi-dong-ji-huo">扩展点自动激活</span><a href="#kuo-zhan-dian-zi-dong-ji-huo" class="header-anchor">#</a></h1><p>&emsp;&emsp;对于集合类扩展点，比如：Filter, InvokerListener, ExportListener, TelnetHandler, StatusChecker 等，可以同时加载多个实现，此时，可以用自动激活来简化配置。</p>
-<span id="more"></span>
-
-<h2><span id="shi-xian">实现</span><a href="#shi-xian" class="header-anchor">#</a></h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 激活过滤器</span></span><br><span class="line"><span class="meta">@Activate</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FilterOne</span> <span class="keyword">implements</span> <span class="title">Filter</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest request, ServletResponse response, FilterChain chain)</span></span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>dubbo</category>
-      </categories>
-      <tags>
-        <tag>dubbo</tag>
-        <tag>SPI</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>dubboSPI扩展机制自适应</title>
-    <url>/hexoblog/2021/04/19/md/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E6%9C%BA%E5%88%B6%E8%87%AA%E9%80%82%E5%BA%94/</url>
-    <content><![CDATA[<h1><span id="kuo-zhan-dian-zi-gua-ying">扩展点自适应</span><a href="#kuo-zhan-dian-zi-gua-ying" class="header-anchor">#</a></h1><h2><span id="jie-shao">介绍</span><a href="#jie-shao" class="header-anchor">#</a></h2><p>&emsp;&emsp;ExtensionLoader注入的依赖扩展点是一个Adaptive实例，直到扩展点方法执行时才决定调用是哪一个扩展点实现。<br>&emsp;&emsp;dubbo使用url对象传递对象信息，包含key和value。<br>&emsp;&emsp;扩展点方法调用会有URL参数（或是参数有URL成员）这样依赖的扩展点也可以从URL拿到配置信息，所有的扩展点自己定好配置的 Key后，配置信息从URL上从最外层传入。URL在配置传递上即是一条总线。</p>
-<span id="more"></span>
-<h2><span id="adaptive-zhu-jie">@Adaptive注解</span><a href="#adaptive-zhu-jie" class="header-anchor">#</a></h2><p>&emsp;&emsp;表示该类是一个扩展类（Adaptive实例），不需要生成代理方法直接使用即可。<br>&emsp;&emsp;在方法上则表示该方法需生成代理, 此时就需要用到上面提到的URL参数。<br>&emsp;&emsp;如果作用在方法会帮我们在运行时动态生成一个Adaptive实例（只包含扩展方法的），如果作用在类上就相当于自己定义了一个现成的。</p>
-<h3><span id="zhu-jie-zai-shi-xian-lei-shang">注解在实现类上</span><a href="#zhu-jie-zai-shi-xian-lei-shang" class="header-anchor">#</a></h3><p>&emsp;&emsp;表示该类是一个扩展类，不需要生成代理方法直接使用即可。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 扩展的接口</span></span><br><span class="line"><span class="meta">@SPI</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">AdaptiveService</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 是扩展类</span></span><br><span class="line"><span class="meta">@Adaptive</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AdaptiveServiceImpl</span> <span class="keyword">implements</span> <span class="title">AdaptiveService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 同样需要文件</span></span><br><span class="line"><span class="comment">// 文件名为接口全限定名</span></span><br><span class="line"><span class="comment">// 内容为key=value，value为实现类全限定名</span></span><br><span class="line">AdaptiveService=com.lin.extendAdaptive.extend.impl.AdaptiveServiceImpl</span><br><span class="line"></span><br><span class="line"><span class="comment">// 启动类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExtendAdaptiveMain</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ExtensionLoader&lt;AdaptiveService&gt; extensionLoader = ExtensionLoader.getExtensionLoader(AdaptiveService.class);</span><br><span class="line">        AdaptiveService adaptiveExtension = extensionLoader.getAdaptiveExtension();</span><br><span class="line">        adaptiveExtension.sayHello();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3><span id="zhu-jie-zai-jie-kou-fang-fa-shang">注解在接口方法上</span><a href="#zhu-jie-zai-jie-kou-fang-fa-shang" class="header-anchor">#</a></h3><p>&emsp;&emsp;在方法上则表示该方法需生成代理, 此时就需要用到上面提到的URL参数。<br>&emsp;&emsp;当注解在接口方法上时，方法中需要传入一个URL参数，或者包装有URL参数时，会通过动态编译获得一个Adaptive实例。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 接口</span></span><br><span class="line"><span class="meta">@SPI</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MethodAdaptiveService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Adaptive(&#123;&quot;key&quot;&#125;)</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(URL url)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 实现类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MethodAdaptiveServiceImpl</span> <span class="keyword">implements</span> <span class="title">MethodAdaptiveService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(URL url)</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;method&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// META—INF文件与注解在类上时相同</span></span><br><span class="line">MethodAdaptiveService=com.lin.extendAdaptive.extend.impl.MethodAdaptiveServiceImpl</span><br><span class="line"></span><br><span class="line"><span class="comment">// 启动</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ExtensionLoader&lt;MethodAdaptiveService&gt; extensionLoader = ExtensionLoader.getExtensionLoader(MethodAdaptiveService.class);</span><br><span class="line">        MethodAdaptiveService adaptiveExtension = extensionLoader.getAdaptiveExtension();</span><br><span class="line">        HashMap hashMap = <span class="keyword">new</span> HashMap();</span><br><span class="line">        <span class="comment">// key与接口中注解的key相同，value与文件中声明的名称相同</span></span><br><span class="line">        hashMap.put(<span class="string">&quot;key&quot;</span>,<span class="string">&quot;MethodAdaptiveService&quot;</span>);</span><br><span class="line">        URL url = <span class="keyword">new</span> URL(<span class="string">&quot;dubbo&quot;</span>,<span class="string">&quot;localhost&quot;</span>,<span class="number">8080</span>,hashMap);</span><br><span class="line">        adaptiveExtension.sayHello(url);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 生成的实例</span></span><br><span class="line"><span class="keyword">package</span> com.lin.extendAdaptive.extend;</span><br><span class="line"><span class="keyword">import</span> org.apache.dubbo.common.extension.ExtensionLoader;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MethodAdaptiveService</span>$<span class="title">Adaptive</span> <span class="keyword">implements</span> <span class="title">com</span>.<span class="title">lin</span>.<span class="title">extendAdaptive</span>.<span class="title">extend</span>.<span class="title">MethodAdaptiveService</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(org.apache.dubbo.common.URL arg0)</span>  </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (arg0 == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">&quot;url == null&quot;</span>);</span><br><span class="line">        org.apache.dubbo.common.URL url = arg0;</span><br><span class="line">        String extName = url.getParameter(<span class="string">&quot;key&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span>(extName == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">&quot;Failed to get extension (com.lin.extendAdaptive.extend.MethodAdaptiveService) name from url (&quot;</span> + url.toString() + <span class="string">&quot;) use keys([key])&quot;</span>);</span><br><span class="line">        com.lin.extendAdaptive.extend.MethodAdaptiveService extension = (com.lin.extendAdaptive.extend.MethodAdaptiveService)ExtensionLoader.getExtensionLoader(com.lin.extendAdaptive.extend.MethodAdaptiveService.class).getExtension(extName);</span><br><span class="line">        extension.sayHello(url);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, dubbo version: <span class="number">2.7</span><span class="number">.1</span>, current host: <span class="number">192.168</span><span class="number">.139</span><span class="number">.15</span></span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;程序运行时，会经过动态编译过程生成MethodAdaptiveService对应的Adaptive实例，即MethodAdaptiveService$Adaptive。<br>&emsp;&emsp;就是在程序运行过程中，根据条件，通过拼接字符串的形式生成java源码，然后进行编译获得对应的实例。</p>
-<hr>
-<h1><span id="kuo-zhan-dian-zi-dong-zhu-ru">扩展点自动注入</span><a href="#kuo-zhan-dian-zi-dong-zhu-ru" class="header-anchor">#</a></h1><p>有bug稍后。</p>
-]]></content>
-      <categories>
-        <category>dubbo</category>
-      </categories>
-      <tags>
-        <tag>dubbo</tag>
-        <tag>SPI</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>dubbo基础及介绍</title>
-    <url>/hexoblog/2021/04/15/md/dubbo/dubbo%E5%9F%BA%E7%A1%80%E5%8F%8A%E4%BB%8B%E7%BB%8D/</url>
-    <content><![CDATA[<h1><span id="rpc">RPC</span><a href="#rpc" class="header-anchor">#</a></h1><h2><span id="jie-shao">介绍</span><a href="#jie-shao" class="header-anchor">#</a></h2><p>&emsp;&emsp;RPC，Remote Procedure Call 即远程过程调用，远程过程调用其实对标的是本地过程调用。<br>&emsp;&emsp;远程调用的方法可以走http协议也可以是基于tcp的自定义协议。</p>
-<span id="more"></span>
-<h2><span id="jie-gou">结构</span><a href="#jie-gou" class="header-anchor">#</a></h2><p>&emsp;&emsp;一个RPC框架要做的就是约定通信协议，序列化格式，容错机制，负载均衡策略，监控运维和一个注册中心。</p>
-<ol>
-<li>服务消费者</li>
-<li>服务提供者</li>
-<li>注册中心</li>
-<li>监控中心</li>
-</ol>
-<hr>
-<h1><span id="dubbo">DUBBO</span><a href="#dubbo" class="header-anchor">#</a></h1><p>&emsp;&emsp;它实现了面向接口的代理 RPC 调用，并且可以配合 ZooKeeper 等组件实现服务注册和发现功能，并且拥有负载均衡、容错机制等。<br>&emsp;&emsp;<a href="https://juejin.cn/post/6870276943448080392#heading-9">https://juejin.cn/post/6870276943448080392#heading-9</a></p>
-<h2><span id="jian-jie">简介</span><a href="#jian-jie" class="header-anchor">#</a></h2><h3><span id="dubbo-de-zuo-yong">dubbo的作用</span><a href="#dubbo-de-zuo-yong" class="header-anchor">#</a></h3><ol>
-<li>透明化的远程方法调用，就像调用本地方法一样调用远程方法，只需简单配置，没有任何API侵入。</li>
-<li>软负载均衡及容错机制，可在内网替代F5等硬件负载均衡器，降低成本，减少单点。</li>
-<li>服务自动注册与发现，不再需要写死服务提供方地址，注册中心基于接口名查询服务提供者的IP地址，并且能够平滑添加或删除。</li>
-</ol>
-<h3><span id="dubbo-fen-ceng-jie-gou">dubbo分层结构</span><a href="#dubbo-fen-ceng-jie-gou" class="header-anchor">#</a></h3><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/a26bba7ba53849b9b9efbdf844f720c2_tplv-k3u1fbpfcp-zoom-1.jpg" alt="dubbo的十层结构"></p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/25609524-edfea2d2c42798d0.jpg" alt="dubbo的十层结构"></p>
-<h3><span id="liu-cheng">流程</span><a href="#liu-cheng" class="header-anchor">#</a></h3><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/dubbo-architecture.jpg" alt="dubbo结构"></p>
-<ol>
-<li>服务容器负责启动，加载，运行服务提供者。</li>
-<li>服务提供者Provider向注册中心注册自己所能提供的服务。</li>
-<li>服务消费者Consumer启动向注册中心订阅自己所需的服务。</li>
-<li>注册中心将提供者元信息通知给消费者，消费者从注册中心获取提供者的地址。</li>
-<li>通过负载均衡选择一个Provider直接调用。如果失败，则会重新选择另一台进行调用。</li>
-<li>如果提供者有变更，注册中心会将变更推送给消费者。</li>
-<li>服务提供者和消费者都会在内存中记录着调用的次数和时间，然后定时（每分钟）的发送统计数据到监控中心。</li>
-</ol>
-<h3><span id="tips">TIPS</span><a href="#tips" class="header-anchor">#</a></h3><ol>
-<li>注册中心和监控中心是可选的，可以直接在配置中写提供者和消费者直连。</li>
-<li>注册中心、提供方和消费方之间都是长连接，和监控方不是长连接，并且消费方是直接调用提供方，不经过注册中心。</li>
-<li>注册中心和监控中心宕机了也不会影响到已经正常运行的提供者和消费者，因为消费者有本地缓存提供者的信息。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>dubbo</category>
-      </categories>
-      <tags>
-        <tag>dubbo</tag>
       </tags>
   </entry>
   <entry>
@@ -307,6 +219,89 @@
       </tags>
   </entry>
   <entry>
+    <title>dubboSPI扩展机制自适应</title>
+    <url>/hexoblog/2021/04/19/md/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E6%9C%BA%E5%88%B6%E8%87%AA%E9%80%82%E5%BA%94/</url>
+    <content><![CDATA[<h1><span id="kuo-zhan-dian-zi-gua-ying">扩展点自适应</span><a href="#kuo-zhan-dian-zi-gua-ying" class="header-anchor">#</a></h1><h2><span id="jie-shao">介绍</span><a href="#jie-shao" class="header-anchor">#</a></h2><p>&emsp;&emsp;ExtensionLoader注入的依赖扩展点是一个Adaptive实例，直到扩展点方法执行时才决定调用是哪一个扩展点实现。<br>&emsp;&emsp;dubbo使用url对象传递对象信息，包含key和value。<br>&emsp;&emsp;扩展点方法调用会有URL参数（或是参数有URL成员）这样依赖的扩展点也可以从URL拿到配置信息，所有的扩展点自己定好配置的 Key后，配置信息从URL上从最外层传入。URL在配置传递上即是一条总线。</p>
+<span id="more"></span>
+<h2><span id="adaptive-zhu-jie">@Adaptive注解</span><a href="#adaptive-zhu-jie" class="header-anchor">#</a></h2><p>&emsp;&emsp;表示该类是一个扩展类（Adaptive实例），不需要生成代理方法直接使用即可。<br>&emsp;&emsp;在方法上则表示该方法需生成代理, 此时就需要用到上面提到的URL参数。<br>&emsp;&emsp;如果作用在方法会帮我们在运行时动态生成一个Adaptive实例（只包含扩展方法的），如果作用在类上就相当于自己定义了一个现成的。</p>
+<h3><span id="zhu-jie-zai-shi-xian-lei-shang">注解在实现类上</span><a href="#zhu-jie-zai-shi-xian-lei-shang" class="header-anchor">#</a></h3><p>&emsp;&emsp;表示该类是一个扩展类，不需要生成代理方法直接使用即可。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 扩展的接口</span></span><br><span class="line"><span class="meta">@SPI</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">AdaptiveService</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 是扩展类</span></span><br><span class="line"><span class="meta">@Adaptive</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AdaptiveServiceImpl</span> <span class="keyword">implements</span> <span class="title">AdaptiveService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 同样需要文件</span></span><br><span class="line"><span class="comment">// 文件名为接口全限定名</span></span><br><span class="line"><span class="comment">// 内容为key=value，value为实现类全限定名</span></span><br><span class="line">AdaptiveService=com.lin.extendAdaptive.extend.impl.AdaptiveServiceImpl</span><br><span class="line"></span><br><span class="line"><span class="comment">// 启动类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExtendAdaptiveMain</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ExtensionLoader&lt;AdaptiveService&gt; extensionLoader = ExtensionLoader.getExtensionLoader(AdaptiveService.class);</span><br><span class="line">        AdaptiveService adaptiveExtension = extensionLoader.getAdaptiveExtension();</span><br><span class="line">        adaptiveExtension.sayHello();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3><span id="zhu-jie-zai-jie-kou-fang-fa-shang">注解在接口方法上</span><a href="#zhu-jie-zai-jie-kou-fang-fa-shang" class="header-anchor">#</a></h3><p>&emsp;&emsp;在方法上则表示该方法需生成代理, 此时就需要用到上面提到的URL参数。<br>&emsp;&emsp;当注解在接口方法上时，方法中需要传入一个URL参数，或者包装有URL参数时，会通过动态编译获得一个Adaptive实例。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 接口</span></span><br><span class="line"><span class="meta">@SPI</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MethodAdaptiveService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Adaptive(&#123;&quot;key&quot;&#125;)</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(URL url)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 实现类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MethodAdaptiveServiceImpl</span> <span class="keyword">implements</span> <span class="title">MethodAdaptiveService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(URL url)</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;method&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// META—INF文件与注解在类上时相同</span></span><br><span class="line">MethodAdaptiveService=com.lin.extendAdaptive.extend.impl.MethodAdaptiveServiceImpl</span><br><span class="line"></span><br><span class="line"><span class="comment">// 启动</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ExtensionLoader&lt;MethodAdaptiveService&gt; extensionLoader = ExtensionLoader.getExtensionLoader(MethodAdaptiveService.class);</span><br><span class="line">        MethodAdaptiveService adaptiveExtension = extensionLoader.getAdaptiveExtension();</span><br><span class="line">        HashMap hashMap = <span class="keyword">new</span> HashMap();</span><br><span class="line">        <span class="comment">// key与接口中注解的key相同，value与文件中声明的名称相同</span></span><br><span class="line">        hashMap.put(<span class="string">&quot;key&quot;</span>,<span class="string">&quot;MethodAdaptiveService&quot;</span>);</span><br><span class="line">        URL url = <span class="keyword">new</span> URL(<span class="string">&quot;dubbo&quot;</span>,<span class="string">&quot;localhost&quot;</span>,<span class="number">8080</span>,hashMap);</span><br><span class="line">        adaptiveExtension.sayHello(url);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 生成的实例</span></span><br><span class="line"><span class="keyword">package</span> com.lin.extendAdaptive.extend;</span><br><span class="line"><span class="keyword">import</span> org.apache.dubbo.common.extension.ExtensionLoader;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MethodAdaptiveService</span>$<span class="title">Adaptive</span> <span class="keyword">implements</span> <span class="title">com</span>.<span class="title">lin</span>.<span class="title">extendAdaptive</span>.<span class="title">extend</span>.<span class="title">MethodAdaptiveService</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(org.apache.dubbo.common.URL arg0)</span>  </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (arg0 == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">&quot;url == null&quot;</span>);</span><br><span class="line">        org.apache.dubbo.common.URL url = arg0;</span><br><span class="line">        String extName = url.getParameter(<span class="string">&quot;key&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span>(extName == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">&quot;Failed to get extension (com.lin.extendAdaptive.extend.MethodAdaptiveService) name from url (&quot;</span> + url.toString() + <span class="string">&quot;) use keys([key])&quot;</span>);</span><br><span class="line">        com.lin.extendAdaptive.extend.MethodAdaptiveService extension = (com.lin.extendAdaptive.extend.MethodAdaptiveService)ExtensionLoader.getExtensionLoader(com.lin.extendAdaptive.extend.MethodAdaptiveService.class).getExtension(extName);</span><br><span class="line">        extension.sayHello(url);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, dubbo version: <span class="number">2.7</span><span class="number">.1</span>, current host: <span class="number">192.168</span><span class="number">.139</span><span class="number">.15</span></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;程序运行时，会经过动态编译过程生成MethodAdaptiveService对应的Adaptive实例，即MethodAdaptiveService$Adaptive。<br>&emsp;&emsp;就是在程序运行过程中，根据条件，通过拼接字符串的形式生成java源码，然后进行编译获得对应的实例。</p>
+<hr>
+<h1><span id="kuo-zhan-dian-zi-dong-zhu-ru">扩展点自动注入</span><a href="#kuo-zhan-dian-zi-dong-zhu-ru" class="header-anchor">#</a></h1><p>有bug稍后。</p>
+]]></content>
+      <categories>
+        <category>dubbo</category>
+      </categories>
+      <tags>
+        <tag>dubbo</tag>
+        <tag>SPI</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>dubboSPI扩展点自动激活</title>
+    <url>/hexoblog/2021/04/20/md/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E7%82%B9%E8%87%AA%E5%8A%A8%E6%BF%80%E6%B4%BB/</url>
+    <content><![CDATA[<h1><span id="kuo-zhan-dian-zi-dong-ji-huo">扩展点自动激活</span><a href="#kuo-zhan-dian-zi-dong-ji-huo" class="header-anchor">#</a></h1><p>&emsp;&emsp;对于集合类扩展点，比如：Filter, InvokerListener, ExportListener, TelnetHandler, StatusChecker 等，可以同时加载多个实现，此时，可以用自动激活来简化配置。</p>
+<span id="more"></span>
+
+<h2><span id="shi-xian">实现</span><a href="#shi-xian" class="header-anchor">#</a></h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 激活过滤器</span></span><br><span class="line"><span class="meta">@Activate</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FilterOne</span> <span class="keyword">implements</span> <span class="title">Filter</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest request, ServletResponse response, FilterChain chain)</span></span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>dubbo</category>
+      </categories>
+      <tags>
+        <tag>dubbo</tag>
+        <tag>SPI</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>dubbo基础及介绍</title>
+    <url>/hexoblog/2021/04/15/md/dubbo/dubbo%E5%9F%BA%E7%A1%80%E5%8F%8A%E4%BB%8B%E7%BB%8D/</url>
+    <content><![CDATA[<h1><span id="rpc">RPC</span><a href="#rpc" class="header-anchor">#</a></h1><h2><span id="jie-shao">介绍</span><a href="#jie-shao" class="header-anchor">#</a></h2><p>&emsp;&emsp;RPC，Remote Procedure Call 即远程过程调用，远程过程调用其实对标的是本地过程调用。<br>&emsp;&emsp;远程调用的方法可以走http协议也可以是基于tcp的自定义协议。</p>
+<span id="more"></span>
+<h2><span id="jie-gou">结构</span><a href="#jie-gou" class="header-anchor">#</a></h2><p>&emsp;&emsp;一个RPC框架要做的就是约定通信协议，序列化格式，容错机制，负载均衡策略，监控运维和一个注册中心。</p>
+<ol>
+<li>服务消费者</li>
+<li>服务提供者</li>
+<li>注册中心</li>
+<li>监控中心</li>
+</ol>
+<hr>
+<h1><span id="dubbo">DUBBO</span><a href="#dubbo" class="header-anchor">#</a></h1><p>&emsp;&emsp;它实现了面向接口的代理 RPC 调用，并且可以配合 ZooKeeper 等组件实现服务注册和发现功能，并且拥有负载均衡、容错机制等。<br>&emsp;&emsp;<a href="https://juejin.cn/post/6870276943448080392#heading-9">https://juejin.cn/post/6870276943448080392#heading-9</a></p>
+<h2><span id="jian-jie">简介</span><a href="#jian-jie" class="header-anchor">#</a></h2><h3><span id="dubbo-de-zuo-yong">dubbo的作用</span><a href="#dubbo-de-zuo-yong" class="header-anchor">#</a></h3><ol>
+<li>透明化的远程方法调用，就像调用本地方法一样调用远程方法，只需简单配置，没有任何API侵入。</li>
+<li>软负载均衡及容错机制，可在内网替代F5等硬件负载均衡器，降低成本，减少单点。</li>
+<li>服务自动注册与发现，不再需要写死服务提供方地址，注册中心基于接口名查询服务提供者的IP地址，并且能够平滑添加或删除。</li>
+</ol>
+<h3><span id="dubbo-fen-ceng-jie-gou">dubbo分层结构</span><a href="#dubbo-fen-ceng-jie-gou" class="header-anchor">#</a></h3><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/a26bba7ba53849b9b9efbdf844f720c2_tplv-k3u1fbpfcp-zoom-1.jpg" alt="dubbo的十层结构"></p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/25609524-edfea2d2c42798d0.jpg" alt="dubbo的十层结构"></p>
+<h3><span id="liu-cheng">流程</span><a href="#liu-cheng" class="header-anchor">#</a></h3><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/dubbo-architecture.jpg" alt="dubbo结构"></p>
+<ol>
+<li>服务容器负责启动，加载，运行服务提供者。</li>
+<li>服务提供者Provider向注册中心注册自己所能提供的服务。</li>
+<li>服务消费者Consumer启动向注册中心订阅自己所需的服务。</li>
+<li>注册中心将提供者元信息通知给消费者，消费者从注册中心获取提供者的地址。</li>
+<li>通过负载均衡选择一个Provider直接调用。如果失败，则会重新选择另一台进行调用。</li>
+<li>如果提供者有变更，注册中心会将变更推送给消费者。</li>
+<li>服务提供者和消费者都会在内存中记录着调用的次数和时间，然后定时（每分钟）的发送统计数据到监控中心。</li>
+</ol>
+<h3><span id="tips">TIPS</span><a href="#tips" class="header-anchor">#</a></h3><ol>
+<li>注册中心和监控中心是可选的，可以直接在配置中写提供者和消费者直连。</li>
+<li>注册中心、提供方和消费方之间都是长连接，和监控方不是长连接，并且消费方是直接调用提供方，不经过注册中心。</li>
+<li>注册中心和监控中心宕机了也不会影响到已经正常运行的提供者和消费者，因为消费者有本地缓存提供者的信息。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>dubbo</category>
+      </categories>
+      <tags>
+        <tag>dubbo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>filter_interceptor</title>
     <url>/hexoblog/2021/03/01/md/java/filter-interceptor/</url>
     <content><![CDATA[<h2><span id="guo-lu-qi">过滤器</span><a href="#guo-lu-qi" class="header-anchor">#</a></h2><p>&emsp;&emsp;过滤器是用来过滤的，java的过滤器能够为我们提供系统级别的过滤，也就是说能够过滤所有的web请求，这一点是拦截器做不到的。<br>&emsp;&emsp;在java web中，你传入的request，response提前过滤掉一些信息，或者提前设置一些参数，然后在传入Servlet进行业务逻辑，比如过滤掉非法url和非法字符串。<br>&emsp;&emsp;filter流程是线性的，url传来之后，检查之后，可保持原来的流程继续向下执行，被下一个filter，servlet接收。</p>
@@ -325,6 +320,83 @@
       <tags>
         <tag>filter</tag>
         <tag>interceptor</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>javaSPI扩展</title>
+    <url>/hexoblog/2021/04/16/md/java/javaSPI%E6%89%A9%E5%B1%95/</url>
+    <content><![CDATA[<h1><span id="jie-shao">介绍</span><a href="#jie-shao" class="header-anchor">#</a></h1><p>&emsp;&emsp;SPI就是一种服务发现机制。<br>&emsp;&emsp;SPI 是一种将服务接口与服务实现分离以达到解耦、大大提升了程序可扩展性的机制。引入服务提供者就是引入了 spi 接口的实现者，通过本地的注册发现获取到具体的实现类，轻松可插拔。<br>&emsp;&emsp;Java SPI 就是把某个接口的 指定实现类 （通过在指定文件配置的方式）给实例化出来了。</p>
+<span id="more"></span>
+<hr>
+<h1><span id="shi-yong">使用</span><a href="#shi-yong" class="header-anchor">#</a></h1><p>&emsp;&emsp;需要准备一个maven工程，以此为蓝本，进行开发。</p>
+<h2><span id="chuang-jian-jie-kou-ji-shi-xian-lei">创建接口及实现类</span><a href="#chuang-jian-jie-kou-ji-shi-xian-lei" class="header-anchor">#</a></h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 接口</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">HelloService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 实现类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloServiceImpl1</span> <span class="keyword">implements</span> <span class="title">HelloService</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;hello1&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloServiceImpl2</span> <span class="keyword">implements</span> <span class="title">HelloService</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;hello2&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2><span id="chuang-jian-meta-inf-service-wen-jian-jia-jian-li-wen-jian">创建META-INF/service文件夹，建立文件</span><a href="#chuang-jian-meta-inf-service-wen-jian-jia-jian-li-wen-jian" class="header-anchor">#</a></h2><p>&emsp;&emsp;这里建立的文件名与接口的全限定名相同，文件的内容为接口实现类的全限定名。</p>
+<figure class="highlight txt"><table><tr><td class="code"><pre><span class="line">com.lin.javaspi.service.impl.HelloServiceImpl1</span><br><span class="line">com.lin.javaspi.service.impl.HelloServiceImpl2</span><br></pre></td></tr></table></figure>
+
+<h2><span id="qi-dong-fang-fa">启动方法</span><a href="#qi-dong-fang-fa" class="header-anchor">#</a></h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> ClassNotFoundException, IllegalAccessException, InstantiationException </span>&#123;</span><br><span class="line">        ServiceLoader&lt;HelloService&gt; load = ServiceLoader.load(HelloService.class);</span><br><span class="line">        Iterator&lt;HelloService&gt; iterator = load.iterator();</span><br><span class="line">        <span class="keyword">while</span> (iterator.hasNext())&#123;</span><br><span class="line">            HelloService next = iterator.next();</span><br><span class="line">            next.sayHello();</span><br><span class="line">        &#125;</span><br><span class="line"><span class="comment">//        Class&lt;?&gt; aClass = Class.forName(&quot;com.lin.javaspi.service.impl.HelloServiceImpl1&quot;);</span></span><br><span class="line"><span class="comment">//        HelloServiceImpl1 o = (HelloServiceImpl1) aClass.newInstance();</span></span><br><span class="line"><span class="comment">//        o.sayHello();</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1><span id="liu-cheng">流程</span><a href="#liu-cheng" class="header-anchor">#</a></h1><ol>
+<li>应用程序调用ServiceLoader.load方法。<blockquote>
+<p>ServiceLoader.load方法内先创建一个新的ServiceLoader，并实例化该类中的成员变量。</p>
+</blockquote>
+</li>
+<li>应用程序通过迭代器接口获取对象实例。<blockquote>
+<p>ServiceLoader先判断成员变量providers对象中<code>LinkedHashMap&lt;String,S&gt;</code>类型是否有缓存实例对象，如果有缓存，直接返回。</p>
+</blockquote>
+<ol>
+<li>读取META-INF/services/下的配置文件，获得所有能被实例化的类的名称，值得注意的是，ServiceLoader可以跨越jar包获取META-INF下的配置文件。</li>
+<li>通过反射方法<code>Class.forName()</code>加载类对象，并用<code>instance()</code>方法将类实例化。</li>
+<li>把实例化后的类缓存到providers对象中，<code>LinkedHashMap&lt;String,S&gt;</code>类型然后返回实例对象。</li>
+</ol>
+</li>
+</ol>
+<hr>
+<h1><span id="yao-qiu">要求</span><a href="#yao-qiu" class="header-anchor">#</a></h1><ol>
+<li>必须要有接口</li>
+<li>对应要有实现类，且具备空参构造方法。</li>
+<li>文件夹META-INF/services放置classpath目录下。</li>
+<li>以“接口全限定名”命名的文件。</li>
+<li>文件内容为接口实现类的全路径。</li>
+</ol>
+<hr>
+<h1><span id="chang-jing">场景</span><a href="#chang-jing" class="header-anchor">#</a></h1><p>&emsp;&emsp;调用者根据实际使用需要，启用、扩展、或者替换框架的实现策略</p>
+<ol>
+<li><p>jdbc</p>
+<blockquote>
+<p>不同的数据库使用不同的jdbc驱动，他们实现了相同的接口，java.sql.Driver</p>
+</blockquote>
+</li>
+<li><p>日志门面接口实现类加载</p>
+<blockquote>
+<p>slf4j加载不同的提供商的日志实现类</p>
+</blockquote>
+</li>
+<li><p>spring</p>
+</li>
+<li><p>dubbo</p>
+</li>
+</ol>
+<hr>
+<h1><span id="zong-jie">总结</span><a href="#zong-jie" class="header-anchor">#</a></h1><h2><span id="you-dian">优点</span><a href="#you-dian" class="header-anchor">#</a></h2><p>&emsp;&emsp;使用Java SPI机制的优势是实现解耦，使得第三方服务模块的装配控制的逻辑与调用者的业务代码分离，而不是耦合在一起。应用程序可以根据实际业务情况启用框架扩展或替换框架组件。<br>&emsp;&emsp;相比使用提供接口jar包，供第三方服务模块实现接口的方式，SPI的方式使得源框架，不必关心接口的实现类的路径，可以不用通过下面的方式获取接口实现类：</p>
+<ol>
+<li>代码硬编码import 导入实现类。</li>
+<li>指定类全路径反射获取，<code>Class.forName()</code>。</li>
+<li>第三方服务模块把接口实现类实例注册到指定地方，源框架从该处访问实例。</li>
+</ol>
+<p>&emsp;&emsp;通过SPI的方式，第三方服务模块实现接口后，在第三方的项目代码的META-INF/services目录下的配置文件指定实现类的全路径名，源码框架即可找到实现类。</p>
+<h2><span id="que-dian">缺点</span><a href="#que-dian" class="header-anchor">#</a></h2><ol>
+<li>虽然ServiceLoader也算是使用的延迟加载，但是基本只能通过遍历全部获取，也就是接口的实现类全部加载并实例化一遍。如果你并不想用某些实现类，它也被加载并实例化了，这就造成了浪费。获取某个实现类的方式不够灵活，只能通过Iterator形式获取，不能根据某个参数来获取对应的实现类。</li>
+<li>多个并发多线程使用ServiceLoader类的实例是不安全的。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>SPI</tag>
+        <tag>java</tag>
       </tags>
   </entry>
   <entry>
@@ -389,6 +461,31 @@
       <tags>
         <tag>thread</tag>
         <tag>threadpool</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>序列化与反序列化</title>
+    <url>/hexoblog/2021/03/08/md/java/%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/</url>
+    <content><![CDATA[<h1><span id="xu-lie-hua-yu-fan-xu-lie-hua">序列化与反序列化</span><a href="#xu-lie-hua-yu-fan-xu-lie-hua" class="header-anchor">#</a></h1><ol>
+<li>序列化：把对象转换为字节数组的过程称为对象的序列化。</li>
+<li>反序列化：把字节序列转换为对象的过程称为对象的反序列化。</li>
+</ol>
+<span id="more"></span>
+<hr>
+<h1><span id="shi-me-shi-hou-xu-yao-xu-lie-hua-yu-fan-xu-lie-hua">什么时候需要序列化与反序列化？</span><a href="#shi-me-shi-hou-xu-yao-xu-lie-hua-yu-fan-xu-lie-hua" class="header-anchor">#</a></h1><p>&emsp;&emsp;当我们只在本地 JVM 里运行下 Java 实例，这个时候是不需要什么序列化和反序列化的，但当我们需要将内存中的对象持久化到磁盘，数据库中时， 当我们需要与浏览器进行交互时，当我们需要实现 RPC 时， 这个时候就需要序列化和反序列化了。<br>&emsp;&emsp;对于与浏览器的交互，采用json格式，json格式本身就是将一个对象转换为字符串，而字符串同样是实现了序列化的。<br>&emsp;&emsp;对于将数据持久化到数据库，我们同样是将属性保存到数据库，而不是将对象保存到数据库。</p>
+<hr>
+<h1><span id="wei-shi-me-yao-shi-xian-serializable-jie-kou">为什么要实现 Serializable 接口?</span><a href="#wei-shi-me-yao-shi-xian-serializable-jie-kou" class="header-anchor">#</a></h1><p>&emsp;&emsp;在 Java 中实现了 Serializable 接口后， JVM 会在底层帮我们实现序列化和反序列化。</p>
+<hr>
+<h1><span id="wei-shi-me-huan-yao-zhi-ding-serialversionuid-de-zhi">为什么还要指定serialVersionUID的值?</span><a href="#wei-shi-me-huan-yao-zhi-ding-serialversionuid-de-zhi" class="header-anchor">#</a></h1><p>&emsp;&emsp;如果不显示指定serialVersionUID，JVM在序列化时会根据属性自动生成一个serialVersionUID，然后与属性一起序列化，再进行持久化或网络传输。<br>&emsp;&emsp;在反序列化时，JVM会再根据属性自动生成一个新版 serialVersionUID，然后将这个新版serialVersionUID与序列化时生成的旧版serialVersionUID进行比较，如果相同则反序列化成功，否则报错。<br>&emsp;&emsp;如果显示指定了serialVersionUID，JVM在序列化和反序列化时仍然都会生成一个serialVersionUID，但值为我们显示指定的值，这样在反序列化时新旧版本的 serialVersionUID 就一致了。<br>&emsp;&emsp;默认的serialVersionUID，是根据类的属性生成的，如果类的属性发生变化，serialVersionUID的值对应会发生变化，这时候去反序列化原有的对象就会失败。而显式指定之后则解决了这个问题。</p>
+<hr>
+<h1><span id="xu-lie-hua-de-qi-ta-te-xing">序列化的其他特性</span><a href="#xu-lie-hua-de-qi-ta-te-xing" class="header-anchor">#</a></h1><p>&emsp;&emsp;被transient关键字修饰的属性不会被序列化，static属性也不会被序列化。</p>
+<h2><span id="static-shu-xing-wei-shi-me-bu-hui-bei-xu-lie-hua">static 属性为什么不会被序列化?</span><a href="#static-shu-xing-wei-shi-me-bu-hui-bei-xu-lie-hua" class="header-anchor">#</a></h2><p>&emsp;&emsp;因为序列化是针对对象而言的，而static属性优先于对象存在，随着类的加载而加载，所以不会被序列化。<br>&emsp;&emsp;其实serialVersionUID属性并没有被序列化，JVM在序列化对象时会自动生成一个serialVersionUID，然后将我们显示指定的serialVersionUID属性值赋给自动生成的serialVersionUID。</p>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>序列化</tag>
       </tags>
   </entry>
   <entry>
@@ -508,108 +605,6 @@
       <tags>
         <tag>jvm</tag>
         <tag>classloader</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>序列化与反序列化</title>
-    <url>/hexoblog/2021/03/08/md/java/%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/</url>
-    <content><![CDATA[<h1><span id="xu-lie-hua-yu-fan-xu-lie-hua">序列化与反序列化</span><a href="#xu-lie-hua-yu-fan-xu-lie-hua" class="header-anchor">#</a></h1><ol>
-<li>序列化：把对象转换为字节数组的过程称为对象的序列化。</li>
-<li>反序列化：把字节序列转换为对象的过程称为对象的反序列化。</li>
-</ol>
-<span id="more"></span>
-<hr>
-<h1><span id="shi-me-shi-hou-xu-yao-xu-lie-hua-yu-fan-xu-lie-hua">什么时候需要序列化与反序列化？</span><a href="#shi-me-shi-hou-xu-yao-xu-lie-hua-yu-fan-xu-lie-hua" class="header-anchor">#</a></h1><p>&emsp;&emsp;当我们只在本地 JVM 里运行下 Java 实例，这个时候是不需要什么序列化和反序列化的，但当我们需要将内存中的对象持久化到磁盘，数据库中时， 当我们需要与浏览器进行交互时，当我们需要实现 RPC 时， 这个时候就需要序列化和反序列化了。<br>&emsp;&emsp;对于与浏览器的交互，采用json格式，json格式本身就是将一个对象转换为字符串，而字符串同样是实现了序列化的。<br>&emsp;&emsp;对于将数据持久化到数据库，我们同样是将属性保存到数据库，而不是将对象保存到数据库。</p>
-<hr>
-<h1><span id="wei-shi-me-yao-shi-xian-serializable-jie-kou">为什么要实现 Serializable 接口?</span><a href="#wei-shi-me-yao-shi-xian-serializable-jie-kou" class="header-anchor">#</a></h1><p>&emsp;&emsp;在 Java 中实现了 Serializable 接口后， JVM 会在底层帮我们实现序列化和反序列化。</p>
-<hr>
-<h1><span id="wei-shi-me-huan-yao-zhi-ding-serialversionuid-de-zhi">为什么还要指定serialVersionUID的值?</span><a href="#wei-shi-me-huan-yao-zhi-ding-serialversionuid-de-zhi" class="header-anchor">#</a></h1><p>&emsp;&emsp;如果不显示指定serialVersionUID，JVM在序列化时会根据属性自动生成一个serialVersionUID，然后与属性一起序列化，再进行持久化或网络传输。<br>&emsp;&emsp;在反序列化时，JVM会再根据属性自动生成一个新版 serialVersionUID，然后将这个新版serialVersionUID与序列化时生成的旧版serialVersionUID进行比较，如果相同则反序列化成功，否则报错。<br>&emsp;&emsp;如果显示指定了serialVersionUID，JVM在序列化和反序列化时仍然都会生成一个serialVersionUID，但值为我们显示指定的值，这样在反序列化时新旧版本的 serialVersionUID 就一致了。<br>&emsp;&emsp;默认的serialVersionUID，是根据类的属性生成的，如果类的属性发生变化，serialVersionUID的值对应会发生变化，这时候去反序列化原有的对象就会失败。而显式指定之后则解决了这个问题。</p>
-<hr>
-<h1><span id="xu-lie-hua-de-qi-ta-te-xing">序列化的其他特性</span><a href="#xu-lie-hua-de-qi-ta-te-xing" class="header-anchor">#</a></h1><p>&emsp;&emsp;被transient关键字修饰的属性不会被序列化，static属性也不会被序列化。</p>
-<h2><span id="static-shu-xing-wei-shi-me-bu-hui-bei-xu-lie-hua">static 属性为什么不会被序列化?</span><a href="#static-shu-xing-wei-shi-me-bu-hui-bei-xu-lie-hua" class="header-anchor">#</a></h2><p>&emsp;&emsp;因为序列化是针对对象而言的，而static属性优先于对象存在，随着类的加载而加载，所以不会被序列化。<br>&emsp;&emsp;其实serialVersionUID属性并没有被序列化，JVM在序列化对象时会自动生成一个serialVersionUID，然后将我们显示指定的serialVersionUID属性值赋给自动生成的serialVersionUID。</p>
-]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>序列化</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>javaSPI扩展</title>
-    <url>/hexoblog/2021/04/16/md/java/javaSPI%E6%89%A9%E5%B1%95/</url>
-    <content><![CDATA[<h1><span id="jie-shao">介绍</span><a href="#jie-shao" class="header-anchor">#</a></h1><p>&emsp;&emsp;SPI就是一种服务发现机制。<br>&emsp;&emsp;SPI 是一种将服务接口与服务实现分离以达到解耦、大大提升了程序可扩展性的机制。引入服务提供者就是引入了 spi 接口的实现者，通过本地的注册发现获取到具体的实现类，轻松可插拔。<br>&emsp;&emsp;Java SPI 就是把某个接口的 指定实现类 （通过在指定文件配置的方式）给实例化出来了。</p>
-<span id="more"></span>
-<hr>
-<h1><span id="shi-yong">使用</span><a href="#shi-yong" class="header-anchor">#</a></h1><p>&emsp;&emsp;需要准备一个maven工程，以此为蓝本，进行开发。</p>
-<h2><span id="chuang-jian-jie-kou-ji-shi-xian-lei">创建接口及实现类</span><a href="#chuang-jian-jie-kou-ji-shi-xian-lei" class="header-anchor">#</a></h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 接口</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">HelloService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 实现类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloServiceImpl1</span> <span class="keyword">implements</span> <span class="title">HelloService</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;hello1&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloServiceImpl2</span> <span class="keyword">implements</span> <span class="title">HelloService</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;hello2&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2><span id="chuang-jian-meta-inf-service-wen-jian-jia-jian-li-wen-jian">创建META-INF/service文件夹，建立文件</span><a href="#chuang-jian-meta-inf-service-wen-jian-jia-jian-li-wen-jian" class="header-anchor">#</a></h2><p>&emsp;&emsp;这里建立的文件名与接口的全限定名相同，文件的内容为接口实现类的全限定名。</p>
-<figure class="highlight txt"><table><tr><td class="code"><pre><span class="line">com.lin.javaspi.service.impl.HelloServiceImpl1</span><br><span class="line">com.lin.javaspi.service.impl.HelloServiceImpl2</span><br></pre></td></tr></table></figure>
-
-<h2><span id="qi-dong-fang-fa">启动方法</span><a href="#qi-dong-fang-fa" class="header-anchor">#</a></h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> ClassNotFoundException, IllegalAccessException, InstantiationException </span>&#123;</span><br><span class="line">        ServiceLoader&lt;HelloService&gt; load = ServiceLoader.load(HelloService.class);</span><br><span class="line">        Iterator&lt;HelloService&gt; iterator = load.iterator();</span><br><span class="line">        <span class="keyword">while</span> (iterator.hasNext())&#123;</span><br><span class="line">            HelloService next = iterator.next();</span><br><span class="line">            next.sayHello();</span><br><span class="line">        &#125;</span><br><span class="line"><span class="comment">//        Class&lt;?&gt; aClass = Class.forName(&quot;com.lin.javaspi.service.impl.HelloServiceImpl1&quot;);</span></span><br><span class="line"><span class="comment">//        HelloServiceImpl1 o = (HelloServiceImpl1) aClass.newInstance();</span></span><br><span class="line"><span class="comment">//        o.sayHello();</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h1><span id="liu-cheng">流程</span><a href="#liu-cheng" class="header-anchor">#</a></h1><ol>
-<li>应用程序调用ServiceLoader.load方法。<blockquote>
-<p>ServiceLoader.load方法内先创建一个新的ServiceLoader，并实例化该类中的成员变量。</p>
-</blockquote>
-</li>
-<li>应用程序通过迭代器接口获取对象实例。<blockquote>
-<p>ServiceLoader先判断成员变量providers对象中<code>LinkedHashMap&lt;String,S&gt;</code>类型是否有缓存实例对象，如果有缓存，直接返回。</p>
-</blockquote>
-<ol>
-<li>读取META-INF/services/下的配置文件，获得所有能被实例化的类的名称，值得注意的是，ServiceLoader可以跨越jar包获取META-INF下的配置文件。</li>
-<li>通过反射方法<code>Class.forName()</code>加载类对象，并用<code>instance()</code>方法将类实例化。</li>
-<li>把实例化后的类缓存到providers对象中，<code>LinkedHashMap&lt;String,S&gt;</code>类型然后返回实例对象。</li>
-</ol>
-</li>
-</ol>
-<hr>
-<h1><span id="yao-qiu">要求</span><a href="#yao-qiu" class="header-anchor">#</a></h1><ol>
-<li>必须要有接口</li>
-<li>对应要有实现类，且具备空参构造方法。</li>
-<li>文件夹META-INF/services放置classpath目录下。</li>
-<li>以“接口全限定名”命名的文件。</li>
-<li>文件内容为接口实现类的全路径。</li>
-</ol>
-<hr>
-<h1><span id="chang-jing">场景</span><a href="#chang-jing" class="header-anchor">#</a></h1><p>&emsp;&emsp;调用者根据实际使用需要，启用、扩展、或者替换框架的实现策略</p>
-<ol>
-<li><p>jdbc</p>
-<blockquote>
-<p>不同的数据库使用不同的jdbc驱动，他们实现了相同的接口，java.sql.Driver</p>
-</blockquote>
-</li>
-<li><p>日志门面接口实现类加载</p>
-<blockquote>
-<p>slf4j加载不同的提供商的日志实现类</p>
-</blockquote>
-</li>
-<li><p>spring</p>
-</li>
-<li><p>dubbo</p>
-</li>
-</ol>
-<hr>
-<h1><span id="zong-jie">总结</span><a href="#zong-jie" class="header-anchor">#</a></h1><h2><span id="you-dian">优点</span><a href="#you-dian" class="header-anchor">#</a></h2><p>&emsp;&emsp;使用Java SPI机制的优势是实现解耦，使得第三方服务模块的装配控制的逻辑与调用者的业务代码分离，而不是耦合在一起。应用程序可以根据实际业务情况启用框架扩展或替换框架组件。<br>&emsp;&emsp;相比使用提供接口jar包，供第三方服务模块实现接口的方式，SPI的方式使得源框架，不必关心接口的实现类的路径，可以不用通过下面的方式获取接口实现类：</p>
-<ol>
-<li>代码硬编码import 导入实现类。</li>
-<li>指定类全路径反射获取，<code>Class.forName()</code>。</li>
-<li>第三方服务模块把接口实现类实例注册到指定地方，源框架从该处访问实例。</li>
-</ol>
-<p>&emsp;&emsp;通过SPI的方式，第三方服务模块实现接口后，在第三方的项目代码的META-INF/services目录下的配置文件指定实现类的全路径名，源码框架即可找到实现类。</p>
-<h2><span id="que-dian">缺点</span><a href="#que-dian" class="header-anchor">#</a></h2><ol>
-<li>虽然ServiceLoader也算是使用的延迟加载，但是基本只能通过遍历全部获取，也就是接口的实现类全部加载并实例化一遍。如果你并不想用某些实现类，它也被加载并实例化了，这就造成了浪费。获取某个实现类的方式不够灵活，只能通过Iterator形式获取，不能根据某个参数来获取对应的实现类。</li>
-<li>多个并发多线程使用ServiceLoader类的实例是不安全的。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>SPI</tag>
-        <tag>java</tag>
       </tags>
   </entry>
   <entry>
@@ -847,57 +842,6 @@
       </tags>
   </entry>
   <entry>
-    <title>happens-before</title>
-    <url>/hexoblog/2021/03/03/md/jvm/happens-before/</url>
-    <content><![CDATA[<h1><span id="wen-ti">问题：</span><a href="#wen-ti" class="header-anchor">#</a></h1><p>&emsp;&emsp;在JMM中，由于存在线程本地内存和主内存的原因，再加上重排序，会导致多线程环境下存在可见性的问题。<br>&emsp;&emsp;JDK5开始，JMM使用happens-before概念来阐述多线程之间的内存可见性问题。</p>
-<blockquote>
-<p>&emsp;&emsp;在JMM中，如果一个操作的执行结果需要对另一个操作可见，那么这两个操作之间必须存在happens-before关系。  </p>
-</blockquote>
-<p>&emsp;&emsp;happens-before原则非常重要，它是判断数据是否存在竞争、线程是否安全的主要依据，依靠这个规则，我们解决在并发环境下两操作之间是否可能存在冲突的所有问题。</p>
-<span id="more"></span>
-
-<hr>
-<h1><span id="nei-rong">内容：</span><a href="#nei-rong" class="header-anchor">#</a></h1><h2><span id="happens-before-yuan-ze-ding-yi">happens-before原则定义：</span><a href="#happens-before-yuan-ze-ding-yi" class="header-anchor">#</a></h2><ol>
-<li>如果一个操作happens-before另一个操作，那么第一个操作的执行结果将对第二个操作可见，而且第一个操作的执行顺序在第二个操作之前。</li>
-<li>两个操作之间存在happens-before原则，并不意味着一定要按照happens-before原则制定的顺序来执行。如果重排序之后的执行结果与按照happens-before关系来执行的结果一致，那么这种重排序并不非法。</li>
-</ol>
-<h2><span id="happens-before-yuan-ze-gui-ze">happens-before原则规则：</span><a href="#happens-before-yuan-ze-gui-ze" class="header-anchor">#</a></h2><ol>
-<li>程序次序规则：一个线程内，按照代码顺序，书写在前面的操作先行发生于书写在后面的操作；</li>
-<li>锁定规则：一个unLock操作先行发生于后面对同一个锁额lock操作；</li>
-<li>volatile变量规则：对一个变量的写操作先行发生于后面对这个变量的读操作；</li>
-<li>传递规则：如果操作A先行发生于操作B，而操作B又先行发生于操作C，则可以得出操作A先行发生于操作C；</li>
-<li>线程启动规则：Thread对象的start()方法先行发生于此线程的每个一个动作；</li>
-<li>线程中断规则：对线程interrupt()方法的调用先行发生于被中断线程的代码检测到中断事件的发生；</li>
-<li>线程终结规则：线程中所有的操作都先行发生于线程的终止检测，我们可以通过Thread.join()方法结束、Thread.isAlive()的返回值手段检测到线程已经终止执行；</li>
-<li>对象终结规则：一个对象的初始化完成先行发生于他的finalize()方法的开始；</li>
-</ol>
-<h3><span id="cheng-xu-ci-xu-gui-ze">程序次序规则：</span><a href="#cheng-xu-ci-xu-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp;一段代码在单线程中的执行结果是有序的，注意是执行结果，因为虚拟机、处理器会对指令进行重排序（重排序后面会详细介绍）。虽然重排序了，但是并不会影响程序的执行结果，所以程序最终执行的结果与顺序执行的结果是一致的。故而这个规则只对单线程有效，在多线程环境下无法保证正确性。</p>
-<h3><span id="suo-ding-gui-ze">锁定规则：</span><a href="#suo-ding-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp;这个规则比较好理解，无论是在单线程环境还是多线程环境，一个锁处于被锁定状态，那么必须先执行unlock操作后面才能进行lock操作。</p>
-<h3><span id="volatile-bian-liang-gui-ze">volatile变量规则：</span><a href="#volatile-bian-liang-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp; 这是一条比较重要的规则，它标志着volatile保证了线程可见性。通俗点讲就是如果一个线程先去写一个volatile变量，然后一个线程去读这个变量，那么这个写操作一定是happens-before读操作的。</p>
-<h3><span id="chuan-di-gui-ze">传递规则：</span><a href="#chuan-di-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp;提现了happens-before原则具有传递性，即A happens-before B , B happens-before C，那么A happens-before C。</p>
-<h3><span id="xian-cheng-qi-dong-gui-ze">线程启动规则：</span><a href="#xian-cheng-qi-dong-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp;假定线程A在执行过程中，通过执行ThreadB.start()来启动线程B，那么线程A对共享变量的修改在接下来线程B开始执行后确保对线程B可见。</p>
-<h3><span id="xian-cheng-zhong-jie-gui-ze">线程终结规则：</span><a href="#xian-cheng-zhong-jie-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp;假定线程A在执行的过程中，通过制定ThreadB.join()等待线程B终止，那么线程B在终止之前对共享变量的修改在线程A等待返回后可见。</p>
-<hr>
-<h1><span id="zong-jie">总结</span><a href="#zong-jie" class="header-anchor">#</a></h1><p>&emsp;&emsp;上面八条是原生Java满足Happens-before关系的规则，但是我们可以对他们进行推导出其他满足happens-before的规则：</p>
-<ol>
-<li>将一个元素放入一个线程安全的队列的操作Happens-Before从队列中取出这个元素的操作。</li>
-<li>将一个元素放入一个线程安全容器的操作Happens-Before从容器中取出这个元素的操作。</li>
-<li>在CountDownLatch上的倒数操作Happens-Before CountDownLatch#await()操作。</li>
-<li>释放Semaphore许可的操作Happens-Before获得许可操作。</li>
-<li>Future表示的任务的所有操作Happens-Before Future#get()操作。</li>
-<li>向Executor提交一个Runnable或Callable的操作Happens-Before任务开始执行操作。</li>
-<li>如果两个操作不满足上述任意一个happens-before规则，那么这两个操作就没有顺序的保障，JVM就可以对这两个操作进行重排序。如果操作Ahappens-before操作B，那么操作A在内存上所做的操作对操作B都是可见的。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>jvm</category>
-      </categories>
-      <tags>
-        <tag>jvm</tag>
-        <tag>java</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Volatile</title>
     <url>/hexoblog/2021/03/03/md/jvm/Volatile/</url>
     <content><![CDATA[<h1><span id="jmm">JMM</span><a href="#jmm" class="header-anchor">#</a></h1><p>&emsp;&emsp;Java内存模型，是虚拟机规范中所定义的一种内存模型，Java内存模型是标准化的，屏蔽掉了底层计算机之间的区别。<br>&emsp;&emsp;Java内存模型描述了Java程序中各种变量（线程共享变量）的访问规则，以及在JVM中将变量，存储到内存和从内存中读取变量这样的底层细节。</p>
@@ -988,6 +932,57 @@
 <li>volatile提供了happens-before保证，对volatile变量v的写入happens-before所有其他线程后续对v的读操作。</li>
 <li>volatile可以使得long和double的赋值是原子的。</li>
 <li>volatile可以在单例双重检查中实现可见性和禁止指令重排序，从而保证安全性。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>jvm</category>
+      </categories>
+      <tags>
+        <tag>jvm</tag>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>happens-before</title>
+    <url>/hexoblog/2021/03/03/md/jvm/happens-before/</url>
+    <content><![CDATA[<h1><span id="wen-ti">问题：</span><a href="#wen-ti" class="header-anchor">#</a></h1><p>&emsp;&emsp;在JMM中，由于存在线程本地内存和主内存的原因，再加上重排序，会导致多线程环境下存在可见性的问题。<br>&emsp;&emsp;JDK5开始，JMM使用happens-before概念来阐述多线程之间的内存可见性问题。</p>
+<blockquote>
+<p>&emsp;&emsp;在JMM中，如果一个操作的执行结果需要对另一个操作可见，那么这两个操作之间必须存在happens-before关系。  </p>
+</blockquote>
+<p>&emsp;&emsp;happens-before原则非常重要，它是判断数据是否存在竞争、线程是否安全的主要依据，依靠这个规则，我们解决在并发环境下两操作之间是否可能存在冲突的所有问题。</p>
+<span id="more"></span>
+
+<hr>
+<h1><span id="nei-rong">内容：</span><a href="#nei-rong" class="header-anchor">#</a></h1><h2><span id="happens-before-yuan-ze-ding-yi">happens-before原则定义：</span><a href="#happens-before-yuan-ze-ding-yi" class="header-anchor">#</a></h2><ol>
+<li>如果一个操作happens-before另一个操作，那么第一个操作的执行结果将对第二个操作可见，而且第一个操作的执行顺序在第二个操作之前。</li>
+<li>两个操作之间存在happens-before原则，并不意味着一定要按照happens-before原则制定的顺序来执行。如果重排序之后的执行结果与按照happens-before关系来执行的结果一致，那么这种重排序并不非法。</li>
+</ol>
+<h2><span id="happens-before-yuan-ze-gui-ze">happens-before原则规则：</span><a href="#happens-before-yuan-ze-gui-ze" class="header-anchor">#</a></h2><ol>
+<li>程序次序规则：一个线程内，按照代码顺序，书写在前面的操作先行发生于书写在后面的操作；</li>
+<li>锁定规则：一个unLock操作先行发生于后面对同一个锁额lock操作；</li>
+<li>volatile变量规则：对一个变量的写操作先行发生于后面对这个变量的读操作；</li>
+<li>传递规则：如果操作A先行发生于操作B，而操作B又先行发生于操作C，则可以得出操作A先行发生于操作C；</li>
+<li>线程启动规则：Thread对象的start()方法先行发生于此线程的每个一个动作；</li>
+<li>线程中断规则：对线程interrupt()方法的调用先行发生于被中断线程的代码检测到中断事件的发生；</li>
+<li>线程终结规则：线程中所有的操作都先行发生于线程的终止检测，我们可以通过Thread.join()方法结束、Thread.isAlive()的返回值手段检测到线程已经终止执行；</li>
+<li>对象终结规则：一个对象的初始化完成先行发生于他的finalize()方法的开始；</li>
+</ol>
+<h3><span id="cheng-xu-ci-xu-gui-ze">程序次序规则：</span><a href="#cheng-xu-ci-xu-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp;一段代码在单线程中的执行结果是有序的，注意是执行结果，因为虚拟机、处理器会对指令进行重排序（重排序后面会详细介绍）。虽然重排序了，但是并不会影响程序的执行结果，所以程序最终执行的结果与顺序执行的结果是一致的。故而这个规则只对单线程有效，在多线程环境下无法保证正确性。</p>
+<h3><span id="suo-ding-gui-ze">锁定规则：</span><a href="#suo-ding-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp;这个规则比较好理解，无论是在单线程环境还是多线程环境，一个锁处于被锁定状态，那么必须先执行unlock操作后面才能进行lock操作。</p>
+<h3><span id="volatile-bian-liang-gui-ze">volatile变量规则：</span><a href="#volatile-bian-liang-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp; 这是一条比较重要的规则，它标志着volatile保证了线程可见性。通俗点讲就是如果一个线程先去写一个volatile变量，然后一个线程去读这个变量，那么这个写操作一定是happens-before读操作的。</p>
+<h3><span id="chuan-di-gui-ze">传递规则：</span><a href="#chuan-di-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp;提现了happens-before原则具有传递性，即A happens-before B , B happens-before C，那么A happens-before C。</p>
+<h3><span id="xian-cheng-qi-dong-gui-ze">线程启动规则：</span><a href="#xian-cheng-qi-dong-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp;假定线程A在执行过程中，通过执行ThreadB.start()来启动线程B，那么线程A对共享变量的修改在接下来线程B开始执行后确保对线程B可见。</p>
+<h3><span id="xian-cheng-zhong-jie-gui-ze">线程终结规则：</span><a href="#xian-cheng-zhong-jie-gui-ze" class="header-anchor">#</a></h3><p>&emsp;&emsp;假定线程A在执行的过程中，通过制定ThreadB.join()等待线程B终止，那么线程B在终止之前对共享变量的修改在线程A等待返回后可见。</p>
+<hr>
+<h1><span id="zong-jie">总结</span><a href="#zong-jie" class="header-anchor">#</a></h1><p>&emsp;&emsp;上面八条是原生Java满足Happens-before关系的规则，但是我们可以对他们进行推导出其他满足happens-before的规则：</p>
+<ol>
+<li>将一个元素放入一个线程安全的队列的操作Happens-Before从队列中取出这个元素的操作。</li>
+<li>将一个元素放入一个线程安全容器的操作Happens-Before从容器中取出这个元素的操作。</li>
+<li>在CountDownLatch上的倒数操作Happens-Before CountDownLatch#await()操作。</li>
+<li>释放Semaphore许可的操作Happens-Before获得许可操作。</li>
+<li>Future表示的任务的所有操作Happens-Before Future#get()操作。</li>
+<li>向Executor提交一个Runnable或Callable的操作Happens-Before任务开始执行操作。</li>
+<li>如果两个操作不满足上述任意一个happens-before规则，那么这两个操作就没有顺序的保障，JVM就可以对这两个操作进行重排序。如果操作Ahappens-before操作B，那么操作A在内存上所做的操作对操作B都是可见的。</li>
 </ol>
 ]]></content>
       <categories>
@@ -1135,22 +1130,6 @@
       </tags>
   </entry>
   <entry>
-    <title>linux基本操作</title>
-    <url>/hexoblog/2021/04/10/md/linux/linux%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
-    <content><![CDATA[<h1><span id="wen-jian-cao-zuo">文件操作</span><a href="#wen-jian-cao-zuo" class="header-anchor">#</a></h1><h2><span id="yi-dong-wen-jian-chong-ming-ming-wen-jian">移动文件/重命名文件</span><a href="#yi-dong-wen-jian-chong-ming-ming-wen-jian" class="header-anchor">#</a></h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 移动文件</span></span><br><span class="line">mv [源文件目录] [目标文件目录]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重命名文件</span></span><br><span class="line"><span class="built_in">cd</span> [目标目录]</span><br><span class="line">mv [源文件名] [目标文件名]</span><br></pre></td></tr></table></figure>
-
-<h2><span id="fu-zhi-wen-jian">复制文件</span><a href="#fu-zhi-wen-jian" class="header-anchor">#</a></h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cp [源文件目录/源文件名] [目标文件目录]</span><br></pre></td></tr></table></figure>
-
-<h2><span id="shan-chu-wen-jian">删除文件</span><a href="#shan-chu-wen-jian" class="header-anchor">#</a></h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> [目标文件目录]</span><br><span class="line">rm -rf [目标文件名]</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>tool</tag>
-        <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>jvm调优</title>
     <url>/hexoblog/2021/03/04/md/jvm/jvm%E8%B0%83%E4%BC%98/</url>
     <content><![CDATA[<p><a href="https://baijiahao.baidu.com/s?id=1617167971312758600&wfr=spider&for=pc">jvm性能调优的6大步骤</a></p>
@@ -1182,6 +1161,21 @@
       <tags>
         <tag>jvm</tag>
         <tag>tool</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>deepin安装docker</title>
+    <url>/hexoblog/2021/04/11/md/linux/deepin%E5%AE%89%E8%A3%85docker/</url>
+    <content><![CDATA[<h1><span id="an-zhuang">安装</span><a href="#an-zhuang" class="header-anchor">#</a></h1><p>&emsp;&emsp;写个毛啊，官方的直接搞来，<a href="https://wiki.deepin.org/wiki/Docker">https://wiki.deepin.org/wiki/Docke</a>。</p>
+<h1><span id="shi-yong">使用</span><a href="#shi-yong" class="header-anchor">#</a></h1>]]></content>
+      <categories>
+        <category>deepin</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>tool</tag>
+        <tag>linux</tag>
+        <tag>deepin</tag>
       </tags>
   </entry>
   <entry>
@@ -1241,18 +1235,19 @@
       </tags>
   </entry>
   <entry>
-    <title>deepin安装docker</title>
-    <url>/hexoblog/2021/04/11/md/linux/deepin%E5%AE%89%E8%A3%85docker/</url>
-    <content><![CDATA[<h1><span id="an-zhuang">安装</span><a href="#an-zhuang" class="header-anchor">#</a></h1><p>&emsp;&emsp;写个毛啊，官方的直接搞来，<a href="https://wiki.deepin.org/wiki/Docker">https://wiki.deepin.org/wiki/Docke</a>。</p>
-<h1><span id="shi-yong">使用</span><a href="#shi-yong" class="header-anchor">#</a></h1>]]></content>
+    <title>linux基本操作</title>
+    <url>/hexoblog/2021/04/10/md/linux/linux%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<h1><span id="wen-jian-cao-zuo">文件操作</span><a href="#wen-jian-cao-zuo" class="header-anchor">#</a></h1><h2><span id="yi-dong-wen-jian-chong-ming-ming-wen-jian">移动文件/重命名文件</span><a href="#yi-dong-wen-jian-chong-ming-ming-wen-jian" class="header-anchor">#</a></h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 移动文件</span></span><br><span class="line">mv [源文件目录] [目标文件目录]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重命名文件</span></span><br><span class="line"><span class="built_in">cd</span> [目标目录]</span><br><span class="line">mv [源文件名] [目标文件名]</span><br></pre></td></tr></table></figure>
+
+<h2><span id="fu-zhi-wen-jian">复制文件</span><a href="#fu-zhi-wen-jian" class="header-anchor">#</a></h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cp [源文件目录/源文件名] [目标文件目录]</span><br></pre></td></tr></table></figure>
+
+<h2><span id="shan-chu-wen-jian">删除文件</span><a href="#shan-chu-wen-jian" class="header-anchor">#</a></h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> [目标文件目录]</span><br><span class="line">rm -rf [目标文件名]</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
-        <category>deepin</category>
+        <category>linux</category>
       </categories>
       <tags>
-        <tag>docker</tag>
         <tag>tool</tag>
         <tag>linux</tag>
-        <tag>deepin</tag>
       </tags>
   </entry>
   <entry>
@@ -1289,57 +1284,6 @@
       <tags>
         <tag>wsl</tag>
         <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mysql中datetime和timestamp</title>
-    <url>/hexoblog/2021/04/14/md/mysql/mysql%E4%B8%ADdatetime%E5%92%8Ctimestamp/</url>
-    <content><![CDATA[<h1><span id="qu-bie">区别</span><a href="#qu-bie" class="header-anchor">#</a></h1><h2><span id="date-he-datetime-timestamp-de-qu-bie">date和datetime，timestamp的区别</span><a href="#date-he-datetime-timestamp-de-qu-bie" class="header-anchor">#</a></h2><ol>
-<li>date保存的是天，精确到天</li>
-<li>datetime，timestamp精确到秒</li>
-</ol>
-<span id="more"></span>
-<h2><span id="datetime-he-timastamp">datetime和timastamp</span><a href="#datetime-he-timastamp" class="header-anchor">#</a></h2><p>&emsp;&emsp;datetime 和timestamp两者都是时间类型字段，格式都一致。</p>
-<ol>
-<li><p>受时区影响不同</p>
-<blockquote>
-<p>timestamp会跟随设置的时区变化而变化，而datetime保存的是绝对值不会变化。</p>
-</blockquote>
-</li>
-<li><p>占用存储空间不同</p>
-<blockquote>
-<p>timestamp储存占用4个字节，datetime储存占用8个字节。</p>
-</blockquote>
-</li>
-<li><p>可以表示的时间范围不同</p>
-<blockquote>
-<p>timestamp可表示范围:1970-01-01 00:00:00~2038-01-09 03:14:07，datetime支持的范围更宽1000-01-01 00:00:00 ~ 9999-12-31 23:59:59。</p>
-</blockquote>
-</li>
-<li><p>索引速度不同</p>
-<blockquote>
-<p>timestamp更轻量，索引相对datetime更快。</p>
-</blockquote>
-</li>
-<li><p>默认值不同</p>
-<blockquote>
-<p>datetime的默认值为null，timestamp的字段默认不为空（not null），默认值为当前时间（CURRENT_TIMESTAMP），如果不做特殊处理，并且update语句中没有指定该列的更新值，则默认更新为当前时间。</p>
-</blockquote>
-</li>
-<li><p>存储方式不同</p>
-<blockquote>
-<p>两者的存储方式不一样，对于timestamp，它把客户端插入的时间从当前时区转化为UTC（世界标准时间）进行存储。查询时，将其又转化为客户端当前时区进行返回。而对于datetime，不做任何改变，基本上是原样输入和输出。</p>
-</blockquote>
-</li>
-</ol>
-<p>&emsp;&emsp;在mysql5.6之前的版本，CURRENT_TIMESTAMP只能用于timestamp类型，5.6版本之后，CURRENT_TIMESTAMP也能用于datetime类型了。</p>
-]]></content>
-      <categories>
-        <category>mysql</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
-        <tag>数据类型</tag>
       </tags>
   </entry>
   <entry>
@@ -1394,6 +1338,57 @@
       <tags>
         <tag>java</tag>
         <tag>mybatis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mysql中datetime和timestamp</title>
+    <url>/hexoblog/2021/04/14/md/mysql/mysql%E4%B8%ADdatetime%E5%92%8Ctimestamp/</url>
+    <content><![CDATA[<h1><span id="qu-bie">区别</span><a href="#qu-bie" class="header-anchor">#</a></h1><h2><span id="date-he-datetime-timestamp-de-qu-bie">date和datetime，timestamp的区别</span><a href="#date-he-datetime-timestamp-de-qu-bie" class="header-anchor">#</a></h2><ol>
+<li>date保存的是天，精确到天</li>
+<li>datetime，timestamp精确到秒</li>
+</ol>
+<span id="more"></span>
+<h2><span id="datetime-he-timastamp">datetime和timastamp</span><a href="#datetime-he-timastamp" class="header-anchor">#</a></h2><p>&emsp;&emsp;datetime 和timestamp两者都是时间类型字段，格式都一致。</p>
+<ol>
+<li><p>受时区影响不同</p>
+<blockquote>
+<p>timestamp会跟随设置的时区变化而变化，而datetime保存的是绝对值不会变化。</p>
+</blockquote>
+</li>
+<li><p>占用存储空间不同</p>
+<blockquote>
+<p>timestamp储存占用4个字节，datetime储存占用8个字节。</p>
+</blockquote>
+</li>
+<li><p>可以表示的时间范围不同</p>
+<blockquote>
+<p>timestamp可表示范围:1970-01-01 00:00:00~2038-01-09 03:14:07，datetime支持的范围更宽1000-01-01 00:00:00 ~ 9999-12-31 23:59:59。</p>
+</blockquote>
+</li>
+<li><p>索引速度不同</p>
+<blockquote>
+<p>timestamp更轻量，索引相对datetime更快。</p>
+</blockquote>
+</li>
+<li><p>默认值不同</p>
+<blockquote>
+<p>datetime的默认值为null，timestamp的字段默认不为空（not null），默认值为当前时间（CURRENT_TIMESTAMP），如果不做特殊处理，并且update语句中没有指定该列的更新值，则默认更新为当前时间。</p>
+</blockquote>
+</li>
+<li><p>存储方式不同</p>
+<blockquote>
+<p>两者的存储方式不一样，对于timestamp，它把客户端插入的时间从当前时区转化为UTC（世界标准时间）进行存储。查询时，将其又转化为客户端当前时区进行返回。而对于datetime，不做任何改变，基本上是原样输入和输出。</p>
+</blockquote>
+</li>
+</ol>
+<p>&emsp;&emsp;在mysql5.6之前的版本，CURRENT_TIMESTAMP只能用于timestamp类型，5.6版本之后，CURRENT_TIMESTAMP也能用于datetime类型了。</p>
+]]></content>
+      <categories>
+        <category>mysql</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+        <tag>数据类型</tag>
       </tags>
   </entry>
   <entry>
@@ -1508,6 +1503,34 @@
       </tags>
   </entry>
   <entry>
+    <title>redis安装和使用</title>
+    <url>/hexoblog/2021/04/14/md/redis/redis%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h1><span id="an-zhuang">安装</span><a href="#an-zhuang" class="header-anchor">#</a></h1><p>&emsp;&emsp;这里是在windows环境下的redis安装过程，两种安装方式，都比较简单。<br>&emsp;&emsp;官方提供的只有linux系统的tar.gz格式的压缩包，windows的需要在github下载。<br><a href="https://redis.io/">https://redis.io/</a><br><a href="http://www.redis.cn/">http://www.redis.cn/</a><br><a href="https://www.redis.com.cn/">https://www.redis.com.cn/</a><br><a href="https://www.redis.com.cn/redis-installation.html">https://www.redis.com.cn/redis-installation.html</a></p>
+<span id="more"></span>
+<h2><span id="msi-an-zhuang">msi安装</span><a href="#msi-an-zhuang" class="header-anchor">#</a></h2><ol>
+<li>下载msi安装文件<blockquote>
+<p>官方提供的只有tar.gz格式压缩包下载，msi需要在github下载<br><a href="https://github.com/MicrosoftArchive/redis/releases">https://github.com/MicrosoftArchive/redis/releases</a></p>
+</blockquote>
+</li>
+<li>双击运行</li>
+<li>完成安装</li>
+</ol>
+<h2><span id="zip-an-zhuang">zip安装</span><a href="#zip-an-zhuang" class="header-anchor">#</a></h2><ol>
+<li>下载zip压缩包</li>
+<li>将压缩包解压至你准备安装的路径</li>
+<li>解压完成就是安装完成</li>
+</ol>
+<hr>
+<h1><span id="shi-yong">使用</span><a href="#shi-yong" class="header-anchor">#</a></h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 先进入安装目录</span></span><br><span class="line"><span class="built_in">cd</span> &lt;安装目录&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动</span></span><br><span class="line"><span class="comment"># 作为普通软件启动，命令行关闭则关闭</span></span><br><span class="line">redis-server.exe redis.windows.conf</span><br><span class="line"><span class="comment"># 作为服务启动，不跟随命令行</span></span><br><span class="line">redis-server.exe redis.windows-service.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 客户端连接</span></span><br><span class="line">redis-cli.exe</span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭</span></span><br><span class="line">redis-server.exe --service-stop</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>redis</category>
+      </categories>
+      <tags>
+        <tag>redis</tag>
+        <tag>tool</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>缓存击穿、穿透、雪崩</title>
     <url>/hexoblog/2021/03/08/md/redis/%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF%E3%80%81%E7%A9%BF%E9%80%8F%E3%80%81%E9%9B%AA%E5%B4%A9/</url>
     <content><![CDATA[<p><a href="https://my.oschina.net/linqiankun/blog/3191886">缓存击穿，穿透，雪崩</a></p>
@@ -1540,34 +1563,6 @@
       <tags>
         <tag>redis</tag>
         <tag>缓存</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>redis安装和使用</title>
-    <url>/hexoblog/2021/04/14/md/redis/redis%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h1><span id="an-zhuang">安装</span><a href="#an-zhuang" class="header-anchor">#</a></h1><p>&emsp;&emsp;这里是在windows环境下的redis安装过程，两种安装方式，都比较简单。<br>&emsp;&emsp;官方提供的只有linux系统的tar.gz格式的压缩包，windows的需要在github下载。<br><a href="https://redis.io/">https://redis.io/</a><br><a href="http://www.redis.cn/">http://www.redis.cn/</a><br><a href="https://www.redis.com.cn/">https://www.redis.com.cn/</a><br><a href="https://www.redis.com.cn/redis-installation.html">https://www.redis.com.cn/redis-installation.html</a></p>
-<span id="more"></span>
-<h2><span id="msi-an-zhuang">msi安装</span><a href="#msi-an-zhuang" class="header-anchor">#</a></h2><ol>
-<li>下载msi安装文件<blockquote>
-<p>官方提供的只有tar.gz格式压缩包下载，msi需要在github下载<br><a href="https://github.com/MicrosoftArchive/redis/releases">https://github.com/MicrosoftArchive/redis/releases</a></p>
-</blockquote>
-</li>
-<li>双击运行</li>
-<li>完成安装</li>
-</ol>
-<h2><span id="zip-an-zhuang">zip安装</span><a href="#zip-an-zhuang" class="header-anchor">#</a></h2><ol>
-<li>下载zip压缩包</li>
-<li>将压缩包解压至你准备安装的路径</li>
-<li>解压完成就是安装完成</li>
-</ol>
-<hr>
-<h1><span id="shi-yong">使用</span><a href="#shi-yong" class="header-anchor">#</a></h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 先进入安装目录</span></span><br><span class="line"><span class="built_in">cd</span> &lt;安装目录&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动</span></span><br><span class="line"><span class="comment"># 作为普通软件启动，命令行关闭则关闭</span></span><br><span class="line">redis-server.exe redis.windows.conf</span><br><span class="line"><span class="comment"># 作为服务启动，不跟随命令行</span></span><br><span class="line">redis-server.exe redis.windows-service.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 客户端连接</span></span><br><span class="line">redis-cli.exe</span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭</span></span><br><span class="line">redis-server.exe --service-stop</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>redis</category>
-      </categories>
-      <tags>
-        <tag>redis</tag>
-        <tag>tool</tag>
       </tags>
   </entry>
   <entry>
@@ -1622,38 +1617,6 @@
       <tags>
         <tag>spring</tag>
         <tag>acid</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>swagger3</title>
-    <url>/hexoblog/2021/03/03/md/tool/swagger3/</url>
-    <content><![CDATA[<h1><span id="shi-yong-guo-cheng">使用过程</span><a href="#shi-yong-guo-cheng" class="header-anchor">#</a></h1><h2><span id="yin-bao">引包</span><a href="#yin-bao" class="header-anchor">#</a></h2><p>&emsp;&emsp;swagger3升级后，引入的包做相应升级，且集成进springboot启动器内，这里直接引入即可。</p>
-<span id="more"></span>
-
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- swagger--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.springfox<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>springfox-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h2><span id="pei-zhi">配置</span><a href="#pei-zhi" class="header-anchor">#</a></h2><p>&emsp;&emsp;这里配置与swagger2发生了些许变化：</p>
-<h3><span id="qi-dong-lei">启动类</span><a href="#qi-dong-lei" class="header-anchor">#</a></h3><p>&emsp;&emsp;启动类中开启swagger的注解变为** @EnableOpenApi**。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@EnableOpenApi</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EbwcrmApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(EbwcrmApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3><span id="pei-zhi-lei">配置类</span><a href="#pei-zhi-lei" class="header-anchor">#</a></h3><p>&emsp;&emsp;配置类中Docket类型需要修改为** DocumentationType.OAS_30**。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ConditionalOnProperty(value = &#123;&quot;ebwcrm.api.enable-swagger&quot;&#125;, havingValue = &quot;true&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SwaggerConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Docket <span class="title">createRestApi</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Docket(DocumentationType.OAS_30).apiInfo(apiInfo()).select()</span><br><span class="line">                .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class)).paths(PathSelectors.any()).build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 构建 api文档的详细信息函数,注意这里的注解引用的是哪个</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> ApiInfo <span class="title">apiInfo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ApiInfoBuilder()</span><br><span class="line">                <span class="comment">// 页面标题</span></span><br><span class="line">                .title(<span class="string">&quot;集盈客Api接口文档&quot;</span>)</span><br><span class="line">                <span class="comment">// 创建人</span></span><br><span class="line">                .contact(<span class="keyword">new</span> Contact(<span class="string">&quot;linqiankun&quot;</span>, <span class="string">&quot;http://localhost:8008/ebwcrm/swagger-ui/index.html&quot;</span>, <span class="string">&quot;linqiankun_51309@QQ.com&quot;</span>))</span><br><span class="line">                <span class="comment">// 版本号</span></span><br><span class="line">                .version(<span class="string">&quot;1.0&quot;</span>)</span><br><span class="line">                <span class="comment">// 描述</span></span><br><span class="line">                .description(<span class="string">&quot;根据服务端接口规范设计:http://doc.fed.weidai.work/docs/web/api&quot;</span>).build();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;拦截器中需要对swagger的静态资源进行放行，以免启动后无法访问到swagger。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addInterceptors</span><span class="params">(InterceptorRegistry registry)</span> </span>&#123;</span><br><span class="line">    List&lt;String&gt; pathPattern = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    pathPattern.add(<span class="string">&quot;/**&quot;</span>);</span><br><span class="line">    List&lt;String&gt; excludePattern = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    excludePattern.add(<span class="string">&quot;/swagger-ui/**&quot;</span>);</span><br><span class="line">    excludePattern.add(<span class="string">&quot;/swagger-resources/**&quot;</span>);</span><br><span class="line">    excludePattern.add(<span class="string">&quot;/v3/api-docs&quot;</span>);</span><br><span class="line">    registry.addInterceptor(loginInterceptor)</span><br><span class="line">            .addPathPatterns(pathPattern)</span><br><span class="line">            .excludePathPatterns(excludePattern);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2><span id="shi-yong">使用</span><a href="#shi-yong" class="header-anchor">#</a></h2><p>&emsp;&emsp;接口使用的注解，与swagger2基本相同。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/miUser&quot;)</span></span><br><span class="line"><span class="meta">@Api(tags = &quot;Controller&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MiUserController</span> </span>&#123;  </span><br><span class="line"></span><br><span class="line">    <span class="meta">@ApiOperation(&quot;updatePassword&quot;)</span></span><br><span class="line">    <span class="meta">@PostMapping(&quot;updatePassword&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> EBwcrmResult <span class="title">updatePassword</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;swagger3相对于swagger2的文档路径发生了改变。</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">http://&lt;ip&gt;:&lt;port&gt;/&lt;applicattion&gt;/swagger-ui/index.html</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>tool</category>
-      </categories>
-      <tags>
-        <tag>tool</tag>
-        <tag>springboot</tag>
-        <tag>swagger</tag>
       </tags>
   </entry>
   <entry>
@@ -1733,6 +1696,38 @@
       <tags>
         <tag>tool</tag>
         <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>swagger3</title>
+    <url>/hexoblog/2021/03/03/md/tool/swagger3/</url>
+    <content><![CDATA[<h1><span id="shi-yong-guo-cheng">使用过程</span><a href="#shi-yong-guo-cheng" class="header-anchor">#</a></h1><h2><span id="yin-bao">引包</span><a href="#yin-bao" class="header-anchor">#</a></h2><p>&emsp;&emsp;swagger3升级后，引入的包做相应升级，且集成进springboot启动器内，这里直接引入即可。</p>
+<span id="more"></span>
+
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- swagger--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.springfox<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>springfox-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2><span id="pei-zhi">配置</span><a href="#pei-zhi" class="header-anchor">#</a></h2><p>&emsp;&emsp;这里配置与swagger2发生了些许变化：</p>
+<h3><span id="qi-dong-lei">启动类</span><a href="#qi-dong-lei" class="header-anchor">#</a></h3><p>&emsp;&emsp;启动类中开启swagger的注解变为** @EnableOpenApi**。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@EnableOpenApi</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EbwcrmApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(EbwcrmApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3><span id="pei-zhi-lei">配置类</span><a href="#pei-zhi-lei" class="header-anchor">#</a></h3><p>&emsp;&emsp;配置类中Docket类型需要修改为** DocumentationType.OAS_30**。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ConditionalOnProperty(value = &#123;&quot;ebwcrm.api.enable-swagger&quot;&#125;, havingValue = &quot;true&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SwaggerConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Docket <span class="title">createRestApi</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Docket(DocumentationType.OAS_30).apiInfo(apiInfo()).select()</span><br><span class="line">                .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class)).paths(PathSelectors.any()).build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 构建 api文档的详细信息函数,注意这里的注解引用的是哪个</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> ApiInfo <span class="title">apiInfo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ApiInfoBuilder()</span><br><span class="line">                <span class="comment">// 页面标题</span></span><br><span class="line">                .title(<span class="string">&quot;集盈客Api接口文档&quot;</span>)</span><br><span class="line">                <span class="comment">// 创建人</span></span><br><span class="line">                .contact(<span class="keyword">new</span> Contact(<span class="string">&quot;linqiankun&quot;</span>, <span class="string">&quot;http://localhost:8008/ebwcrm/swagger-ui/index.html&quot;</span>, <span class="string">&quot;linqiankun_51309@QQ.com&quot;</span>))</span><br><span class="line">                <span class="comment">// 版本号</span></span><br><span class="line">                .version(<span class="string">&quot;1.0&quot;</span>)</span><br><span class="line">                <span class="comment">// 描述</span></span><br><span class="line">                .description(<span class="string">&quot;根据服务端接口规范设计:http://doc.fed.weidai.work/docs/web/api&quot;</span>).build();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;拦截器中需要对swagger的静态资源进行放行，以免启动后无法访问到swagger。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addInterceptors</span><span class="params">(InterceptorRegistry registry)</span> </span>&#123;</span><br><span class="line">    List&lt;String&gt; pathPattern = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    pathPattern.add(<span class="string">&quot;/**&quot;</span>);</span><br><span class="line">    List&lt;String&gt; excludePattern = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    excludePattern.add(<span class="string">&quot;/swagger-ui/**&quot;</span>);</span><br><span class="line">    excludePattern.add(<span class="string">&quot;/swagger-resources/**&quot;</span>);</span><br><span class="line">    excludePattern.add(<span class="string">&quot;/v3/api-docs&quot;</span>);</span><br><span class="line">    registry.addInterceptor(loginInterceptor)</span><br><span class="line">            .addPathPatterns(pathPattern)</span><br><span class="line">            .excludePathPatterns(excludePattern);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2><span id="shi-yong">使用</span><a href="#shi-yong" class="header-anchor">#</a></h2><p>&emsp;&emsp;接口使用的注解，与swagger2基本相同。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/miUser&quot;)</span></span><br><span class="line"><span class="meta">@Api(tags = &quot;Controller&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MiUserController</span> </span>&#123;  </span><br><span class="line"></span><br><span class="line">    <span class="meta">@ApiOperation(&quot;updatePassword&quot;)</span></span><br><span class="line">    <span class="meta">@PostMapping(&quot;updatePassword&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> EBwcrmResult <span class="title">updatePassword</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;swagger3相对于swagger2的文档路径发生了改变。</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">http://&lt;ip&gt;:&lt;port&gt;/&lt;applicattion&gt;/swagger-ui/index.html</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>tool</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>springboot</tag>
+        <tag>swagger</tag>
       </tags>
   </entry>
   <entry>
@@ -1912,48 +1907,6 @@
       </tags>
   </entry>
   <entry>
-    <title>分布式事务</title>
-    <url>/hexoblog/2021/03/02/md/%E5%88%86%E5%B8%83%E5%BC%8F/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/</url>
-    <content><![CDATA[<h1><span id="fen-bu-shi-shi-wu-lei-xing">分布式事务类型：</span><a href="#fen-bu-shi-shi-wu-lei-xing" class="header-anchor">#</a></h1><p>分布式事务处理机制共有四种：</p>
-<ol>
-<li>两阶段提交</li>
-<li>TCC事务（事务补偿）</li>
-<li>本地消息表（异步确保），</li>
-<li>MQ事务消息。</li>
-</ol>
-<span id="more"></span>
-
-<h2><span id="liang-jie-duan-ti-jiao">两阶段提交：</span><a href="#liang-jie-duan-ti-jiao" class="header-anchor">#</a></h2><p>&emsp;&emsp;与数据库XA事务一样，两阶段提交使用XA协议。<br>&emsp;&emsp;两阶段提交这种方案属于牺牲了一部分可用性来换取的一致性。</p>
-<h3><span id="you-dian">优点：</span><a href="#you-dian" class="header-anchor">#</a></h3><p>&emsp;&emsp;尽量保证了数据的强一致，适合对数据强一致要求很高的关键领域。</p>
-<h3><span id="que-dian">缺点：</span><a href="#que-dian" class="header-anchor">#</a></h3><p>&emsp;&emsp;实现复杂，牺牲了可用性，对性能影响较大，不适合高并发高性能场景，如分布式系统跨接口调用。</p>
-<h2><span id="tcc-shi-wu">TCC事务：</span><a href="#tcc-shi-wu" class="header-anchor">#</a></h2><p>&emsp;&emsp;TCC其实就是采用的补偿机制，其核心思想是：针对每个操作，都要注册一个与其对应的确认和补偿操作。分为三个阶段：</p>
-<ol>
-<li> Try阶段主要是对业务系统做检测和资源预留。</li>
-<li> Confirm阶段主要是对业务系统做确认提交，Try阶段执行成功并开始执行Confirm阶段时，默认Confirm阶段是不会出错的。即：只要Try成功，Confirm一定成功。</li>
-<li> Cancel阶段主要是在业务执行错误，需要回滚的状态下，执行的业务取消，预留资源释放。</li>
-</ol>
-<h3><span id="you-dian">优点：</span><a href="#you-dian" class="header-anchor">#</a></h3><p>&emsp;&emsp;跟2阶段提交比起来，实现及流程相对简单了些，但数据的一致性也要比2阶段提交要差一些。</p>
-<h3><span id="que-dian">缺点：</span><a href="#que-dian" class="header-anchor">#</a></h3><p>&emsp;&emsp;在2，3步中都可能失败。TCC是一种应用层的补偿方式，需要程序员在实现时写很多补偿的代码，一些场景中，一些业务流程用TCC不太好定义及处理。</p>
-<h2><span id="ben-di-xiao-xi-biao">本地消息表：</span><a href="#ben-di-xiao-xi-biao" class="header-anchor">#</a></h2><p>&emsp;&emsp;使用最多的，核心思想是将分布式事务拆分成本地事务进行处理，来源于ebay。</p>
-<p>基本思路就是：</p>
-<p>&emsp;&emsp;消息生产方，需要额外建一个消息表，并记录消息发送状态。消息表和业务数据要在一个事务里提交，也就是说他们要在一个数据库里面。然后会经由MQ发送到消息的消费方。如果消息发送失败，会进行重试发送。<br>&emsp;&emsp;消息消费方，需要处理这个消息，并完成这个的业务逻辑。如果此时本地事务处理成功，表明已经处理成功了，如果处理失败，那么就会重试执行。如果是业务上面的失败，可以给生产方发送一个业务补偿消息，通知生产方进行回滚等操作。<br>&emsp;&emsp;生产方和消费方定时扫描本地消息表，把还没处理完成的消息或者失败的消息在发送一遍。<br>&emsp;&emsp;这种方案遵循最终一致性。</p>
-<h3><span id="you-dian">优点：</span><a href="#you-dian" class="header-anchor">#</a></h3><p>&emsp;&emsp;一种非常经典的实现， 避免的分布式事务，实现了最终一致性。</p>
-<h3><span id="que-dian">缺点：</span><a href="#que-dian" class="header-anchor">#</a></h3><p>&emsp;&emsp;消息表会耦合到业务系统中，如果没有封装好的解决方案，会有很多杂活需要处理。</p>
-<h2><span id="mq-shi-wu-xiao-xi">MQ事务消息：</span><a href="#mq-shi-wu-xiao-xi" class="header-anchor">#</a></h2><p>&emsp;&emsp;有一些第三方的MQ是支持事务消息的，比如RocketMQ，他们支持事务消息的方式也是类似于采用的二阶段提交，但一些主流的MQ都是不支持事务消息的，如RabbitMQ和Kafka都不支持。</p>
-<p>以阿里的RocketMQ为例：</p>
-<p>&emsp;&emsp;第一阶段Prepared消息，会拿到消息的地址。<br>&emsp;&emsp;第二阶段执行本地事务，第三阶段通过第一阶段拿到的地址去访问消息，并修改状态。<br>&emsp;&emsp;也就是说在业务方法内部要想消息队列提交两次请求，一次发送消息和一次确认消息。如果确认消息发送失败了，RocketMQ会定期扫描消息集群中的事务消息，这是发现了Prepared消息，它会像消息发送者确认，所以生产方需要实现一个check接口，RocketMQ会根据发送端设置的策略来决定是回滚还是继续发送确认消息。这样就保证了消息发送与本地事务同时成功或同时失败。</p>
-<h3><span id="you-dian">优点：</span><a href="#you-dian" class="header-anchor">#</a></h3><p>&emsp;&emsp;实现了最终一致性，不需要依赖本地数据库事务。</p>
-<h3><span id="que-dian">缺点：</span><a href="#que-dian" class="header-anchor">#</a></h3><p>&emsp;&emsp;实现难度大，主流MQ不支持，RocketMQ事务消息部分代码未开源。</p>
-]]></content>
-      <categories>
-        <category>架构</category>
-      </categories>
-      <tags>
-        <tag>分布式</tag>
-        <tag>acid</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>一致性hash</title>
     <url>/hexoblog/2021/03/26/md/%E5%88%86%E5%B8%83%E5%BC%8F/%E4%B8%80%E8%87%B4%E6%80%A7hash/</url>
     <content><![CDATA[<h1><span id="jie-shao">介绍</span><a href="#jie-shao" class="header-anchor">#</a></h1><p>&emsp;&emsp;在分布式系统中，通常不同的机器存储着不同的数据，例如redis集群中存储的数据。<br>&emsp;&emsp;这些数据通常采用hash算法来计算出应该存储在那台机器上。但是，当集群中的节点增加或者减少时，通过原有的hash算法计算出来的位置将会完全错误。<br>&emsp;&emsp;一致性hash就是为了解决这种问题诞生的。</p>
@@ -2039,6 +1992,48 @@
       <tags>
         <tag>分布式</tag>
         <tag>lock</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>分布式事务</title>
+    <url>/hexoblog/2021/03/02/md/%E5%88%86%E5%B8%83%E5%BC%8F/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/</url>
+    <content><![CDATA[<h1><span id="fen-bu-shi-shi-wu-lei-xing">分布式事务类型：</span><a href="#fen-bu-shi-shi-wu-lei-xing" class="header-anchor">#</a></h1><p>分布式事务处理机制共有四种：</p>
+<ol>
+<li>两阶段提交</li>
+<li>TCC事务（事务补偿）</li>
+<li>本地消息表（异步确保），</li>
+<li>MQ事务消息。</li>
+</ol>
+<span id="more"></span>
+
+<h2><span id="liang-jie-duan-ti-jiao">两阶段提交：</span><a href="#liang-jie-duan-ti-jiao" class="header-anchor">#</a></h2><p>&emsp;&emsp;与数据库XA事务一样，两阶段提交使用XA协议。<br>&emsp;&emsp;两阶段提交这种方案属于牺牲了一部分可用性来换取的一致性。</p>
+<h3><span id="you-dian">优点：</span><a href="#you-dian" class="header-anchor">#</a></h3><p>&emsp;&emsp;尽量保证了数据的强一致，适合对数据强一致要求很高的关键领域。</p>
+<h3><span id="que-dian">缺点：</span><a href="#que-dian" class="header-anchor">#</a></h3><p>&emsp;&emsp;实现复杂，牺牲了可用性，对性能影响较大，不适合高并发高性能场景，如分布式系统跨接口调用。</p>
+<h2><span id="tcc-shi-wu">TCC事务：</span><a href="#tcc-shi-wu" class="header-anchor">#</a></h2><p>&emsp;&emsp;TCC其实就是采用的补偿机制，其核心思想是：针对每个操作，都要注册一个与其对应的确认和补偿操作。分为三个阶段：</p>
+<ol>
+<li> Try阶段主要是对业务系统做检测和资源预留。</li>
+<li> Confirm阶段主要是对业务系统做确认提交，Try阶段执行成功并开始执行Confirm阶段时，默认Confirm阶段是不会出错的。即：只要Try成功，Confirm一定成功。</li>
+<li> Cancel阶段主要是在业务执行错误，需要回滚的状态下，执行的业务取消，预留资源释放。</li>
+</ol>
+<h3><span id="you-dian">优点：</span><a href="#you-dian" class="header-anchor">#</a></h3><p>&emsp;&emsp;跟2阶段提交比起来，实现及流程相对简单了些，但数据的一致性也要比2阶段提交要差一些。</p>
+<h3><span id="que-dian">缺点：</span><a href="#que-dian" class="header-anchor">#</a></h3><p>&emsp;&emsp;在2，3步中都可能失败。TCC是一种应用层的补偿方式，需要程序员在实现时写很多补偿的代码，一些场景中，一些业务流程用TCC不太好定义及处理。</p>
+<h2><span id="ben-di-xiao-xi-biao">本地消息表：</span><a href="#ben-di-xiao-xi-biao" class="header-anchor">#</a></h2><p>&emsp;&emsp;使用最多的，核心思想是将分布式事务拆分成本地事务进行处理，来源于ebay。</p>
+<p>基本思路就是：</p>
+<p>&emsp;&emsp;消息生产方，需要额外建一个消息表，并记录消息发送状态。消息表和业务数据要在一个事务里提交，也就是说他们要在一个数据库里面。然后会经由MQ发送到消息的消费方。如果消息发送失败，会进行重试发送。<br>&emsp;&emsp;消息消费方，需要处理这个消息，并完成这个的业务逻辑。如果此时本地事务处理成功，表明已经处理成功了，如果处理失败，那么就会重试执行。如果是业务上面的失败，可以给生产方发送一个业务补偿消息，通知生产方进行回滚等操作。<br>&emsp;&emsp;生产方和消费方定时扫描本地消息表，把还没处理完成的消息或者失败的消息在发送一遍。<br>&emsp;&emsp;这种方案遵循最终一致性。</p>
+<h3><span id="you-dian">优点：</span><a href="#you-dian" class="header-anchor">#</a></h3><p>&emsp;&emsp;一种非常经典的实现， 避免的分布式事务，实现了最终一致性。</p>
+<h3><span id="que-dian">缺点：</span><a href="#que-dian" class="header-anchor">#</a></h3><p>&emsp;&emsp;消息表会耦合到业务系统中，如果没有封装好的解决方案，会有很多杂活需要处理。</p>
+<h2><span id="mq-shi-wu-xiao-xi">MQ事务消息：</span><a href="#mq-shi-wu-xiao-xi" class="header-anchor">#</a></h2><p>&emsp;&emsp;有一些第三方的MQ是支持事务消息的，比如RocketMQ，他们支持事务消息的方式也是类似于采用的二阶段提交，但一些主流的MQ都是不支持事务消息的，如RabbitMQ和Kafka都不支持。</p>
+<p>以阿里的RocketMQ为例：</p>
+<p>&emsp;&emsp;第一阶段Prepared消息，会拿到消息的地址。<br>&emsp;&emsp;第二阶段执行本地事务，第三阶段通过第一阶段拿到的地址去访问消息，并修改状态。<br>&emsp;&emsp;也就是说在业务方法内部要想消息队列提交两次请求，一次发送消息和一次确认消息。如果确认消息发送失败了，RocketMQ会定期扫描消息集群中的事务消息，这是发现了Prepared消息，它会像消息发送者确认，所以生产方需要实现一个check接口，RocketMQ会根据发送端设置的策略来决定是回滚还是继续发送确认消息。这样就保证了消息发送与本地事务同时成功或同时失败。</p>
+<h3><span id="you-dian">优点：</span><a href="#you-dian" class="header-anchor">#</a></h3><p>&emsp;&emsp;实现了最终一致性，不需要依赖本地数据库事务。</p>
+<h3><span id="que-dian">缺点：</span><a href="#que-dian" class="header-anchor">#</a></h3><p>&emsp;&emsp;实现难度大，主流MQ不支持，RocketMQ事务消息部分代码未开源。</p>
+]]></content>
+      <categories>
+        <category>架构</category>
+      </categories>
+      <tags>
+        <tag>分布式</tag>
+        <tag>acid</tag>
       </tags>
   </entry>
   <entry>
