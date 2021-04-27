@@ -438,13 +438,6 @@
   </url>
   
   <url>
-    <loc>http://linqiankun.gitee.io/hexoblog/tags/java/</loc>
-    <lastmod>2021-04-27</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://linqiankun.gitee.io/hexoblog/tags/thread/</loc>
     <lastmod>2021-04-27</lastmod>
     <changefreq>daily</changefreq>
@@ -453,6 +446,13 @@
   
   <url>
     <loc>http://linqiankun.gitee.io/hexoblog/tags/threadpool/</loc>
+    <lastmod>2021-04-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://linqiankun.gitee.io/hexoblog/tags/java/</loc>
     <lastmod>2021-04-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -487,6 +487,20 @@
   </url>
   
   <url>
+    <loc>http://linqiankun.gitee.io/hexoblog/tags/linux/</loc>
+    <lastmod>2021-04-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://linqiankun.gitee.io/hexoblog/tags/deepin/</loc>
+    <lastmod>2021-04-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://linqiankun.gitee.io/hexoblog/tags/GC/</loc>
     <lastmod>2021-04-27</lastmod>
     <changefreq>daily</changefreq>
@@ -508,27 +522,6 @@
   </url>
   
   <url>
-    <loc>http://linqiankun.gitee.io/hexoblog/tags/linux/</loc>
-    <lastmod>2021-04-27</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://linqiankun.gitee.io/hexoblog/tags/deepin/</loc>
-    <lastmod>2021-04-27</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://linqiankun.gitee.io/hexoblog/tags/mybatis/</loc>
-    <lastmod>2021-04-27</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://linqiankun.gitee.io/hexoblog/tags/mysql/</loc>
     <lastmod>2021-04-27</lastmod>
     <changefreq>daily</changefreq>
@@ -537,6 +530,13 @@
   
   <url>
     <loc>http://linqiankun.gitee.io/hexoblog/tags/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/</loc>
+    <lastmod>2021-04-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://linqiankun.gitee.io/hexoblog/tags/mybatis/</loc>
     <lastmod>2021-04-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -571,13 +571,6 @@
   </url>
   
   <url>
-    <loc>http://linqiankun.gitee.io/hexoblog/tags/swagger/</loc>
-    <lastmod>2021-04-27</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://linqiankun.gitee.io/hexoblog/tags/hexo/</loc>
     <lastmod>2021-04-27</lastmod>
     <changefreq>daily</changefreq>
@@ -585,7 +578,7 @@
   </url>
   
   <url>
-    <loc>http://linqiankun.gitee.io/hexoblog/tags/hash/</loc>
+    <loc>http://linqiankun.gitee.io/hexoblog/tags/swagger/</loc>
     <lastmod>2021-04-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -593,6 +586,13 @@
   
   <url>
     <loc>http://linqiankun.gitee.io/hexoblog/tags/zookeeper/</loc>
+    <lastmod>2021-04-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://linqiankun.gitee.io/hexoblog/tags/hash/</loc>
     <lastmod>2021-04-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -629,20 +629,6 @@
   </url>
   
   <url>
-    <loc>http://linqiankun.gitee.io/hexoblog/categories/jvm/</loc>
-    <lastmod>2021-04-27</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://linqiankun.gitee.io/hexoblog/categories/tool/</loc>
-    <lastmod>2021-04-27</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://linqiankun.gitee.io/hexoblog/categories/deepin/</loc>
     <lastmod>2021-04-27</lastmod>
     <changefreq>daily</changefreq>
@@ -657,7 +643,14 @@
   </url>
   
   <url>
-    <loc>http://linqiankun.gitee.io/hexoblog/categories/mybatis/</loc>
+    <loc>http://linqiankun.gitee.io/hexoblog/categories/jvm/</loc>
+    <lastmod>2021-04-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://linqiankun.gitee.io/hexoblog/categories/tool/</loc>
     <lastmod>2021-04-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -671,7 +664,21 @@
   </url>
   
   <url>
+    <loc>http://linqiankun.gitee.io/hexoblog/categories/mybatis/</loc>
+    <lastmod>2021-04-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://linqiankun.gitee.io/hexoblog/categories/spring/</loc>
+    <lastmod>2021-04-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://linqiankun.gitee.io/hexoblog/categories/zookeeper/</loc>
     <lastmod>2021-04-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -686,13 +693,6 @@
   
   <url>
     <loc>http://linqiankun.gitee.io/hexoblog/categories/%E6%9E%B6%E6%9E%84/</loc>
-    <lastmod>2021-04-27</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://linqiankun.gitee.io/hexoblog/categories/zookeeper/</loc>
     <lastmod>2021-04-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
