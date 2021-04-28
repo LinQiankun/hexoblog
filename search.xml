@@ -22,6 +22,45 @@
       </tags>
   </entry>
   <entry>
+    <title>docker安装与使用</title>
+    <url>/hexoblog/2021/03/05/md/docker/docker%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h1 id="docker介绍："><a href="#docker介绍：" class="headerlink" title="docker介绍："></a>docker介绍：</h1><p>&emsp;&emsp;docker是个鲸鱼，拉了很多集装箱的鲸鱼。<br>&emsp;&emsp;docker是个开源的容器引擎。可以让开发者快速将他们的应用及依赖打包到一个可移植的容器中，然后发布到不同的平台。</p>
+<h2 id="docker的优点："><a href="#docker的优点：" class="headerlink" title="docker的优点："></a>docker的优点：</h2><p><strong>省时，省事，省钱。</strong></p>
+<span id="more"></span>
+
+<hr>
+<h1 id="docker安装："><a href="#docker安装：" class="headerlink" title="docker安装："></a>docker安装：</h1><p>&emsp;&emsp;这里介绍docker在windows平台家庭版下的安装。</p>
+<p>&emsp;&emsp;在windows家庭版下，安装docker需要先开启计算机的虚拟化功能，并且需要先安装wsl。</p>
+<h2 id="开启计算机的虚拟化功能："><a href="#开启计算机的虚拟化功能：" class="headerlink" title="开启计算机的虚拟化功能："></a>开启计算机的虚拟化功能：</h2><p>&emsp;&emsp;在控制面板-&gt;程序-&gt;启用或关闭Windows功能中开启即可：</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Windows%20%E5%8A%9F%E8%83%BD%202021_3_5%2015_47_19.png" alt="windows功能"></p>
+<p>&emsp;&emsp;我么这里将虚拟机平台（hyper-v）和适用于linux的windows子系统同时勾选，下面的勾选为了下一步的安装wsl的ubuntu。<br>&emsp;&emsp;点击确定，等待执行完，重启电脑就可以了。</p>
+<h2 id="安装Ubuntu"><a href="#安装Ubuntu" class="headerlink" title="安装Ubuntu"></a>安装Ubuntu</h2><p>&emsp;&emsp;我们在microsoft store中直接搜索linux，就会出现很多linux发行版，这里我选择的时ubuntu，也可以选择其他自己喜欢的发行版。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Microsoft%20Store%202021_3_5%2015_54_47.png" alt="microsoft store"></p>
+<h2 id="安装docker-desktop"><a href="#安装docker-desktop" class="headerlink" title="安装docker-desktop"></a>安装docker-desktop</h2><p>&emsp;&emsp;这里去官网下载<a href="https://www.docker.com/products/docker-desktop">docker-desktop</a>。<br>&emsp;&emsp;下载后双击打开下载的exe文件，完成安装。整个安装过程还是很简单的，不过这里的只是社区版，仅提供4个月的支持，不推荐生产使用。<br>&emsp;&emsp;点击右上角的齿轮图标可以设置界面，可以设置不自动启动，也可以在配置安装的wsl连接docker。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Settings%202021_3_5%2016_18_18.png" alt="设置不自动启动" title="不自动启动"></p>
+<p>开启refresh后，wsl中可以连接docker。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Settings%202021_3_5%2016_18_08.png" alt="wsl连接docker" title="wsl连接docker"></p>
+<p>&emsp;&emsp;安装完成后可以用命令进行验证，查看版本号等。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker -v</span><br><span class="line">docker version</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;出现下面的结果即为安装成功：</p>
+<img src="https://gitee.com/linqiankun/picurl/raw/master/java/Windows%20PowerShell%202021_3_5%2016_25_22.png" alt="Windows PowerShell 2021_3_5 16_25_22"  />
+
+<p>&emsp;&emsp;当然这样安装的docker是运行在一个轻量级的linux虚拟机上的，（图中的**OS/Arch选项）当然docker也提供了在windows的，但是那必须在win10 专业版，教育版，企业版上才行。<br>&emsp;&emsp;接下来就可以愉快的玩耍了。</p>
+<h1 id="基础使用："><a href="#基础使用：" class="headerlink" title="基础使用："></a>基础使用：</h1><h2 id="启动docker"><a href="#启动docker" class="headerlink" title="启动docker"></a>启动docker</h2><p>&emsp;&emsp;这样安装的docker安装成功后就启动起来了，就可以直接使用了。<br>&emsp;&emsp;这样的貌似不能用syatemctl进行启动。</p>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看镜像列表</span></span><br><span class="line">docker image ls</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在仓库中查找镜像</span></span><br><span class="line">docker search &lt;imagetitle&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 下载镜像</span></span><br><span class="line">docker pull &lt;imagetitle&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除镜像(需要无运行该镜像的容器)</span></span><br><span class="line">docker rmi &lt;imageId&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看镜像</span></span><br><span class="line">docker inspect &lt;imageId&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行镜像</span></span><br><span class="line">docker run -p &lt;port&gt;:&lt;port&gt; &lt;imagetitle&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看容器列表（运行中的镜像）</span></span><br><span class="line">docker container ls</span><br><span class="line">docker ps</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看所有容器</span></span><br><span class="line">docker ps -a</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除容器</span></span><br><span class="line">docker rm &lt;containerId&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 也可以直接运行容器</span></span><br><span class="line">docker start &lt;containerId&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启</span></span><br><span class="line">docker restart &lt;contarinerId&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 停止</span></span><br><span class="line">docker stop &lt;containerId&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 进入容器</span></span><br><span class="line">docker <span class="built_in">exec</span> -it &lt;containerId&gt;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>wsl</tag>
+        <tag>tool</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>docker启动vue</title>
     <url>/hexoblog/2021/04/12/md/docker/docker%E5%90%AF%E5%8A%A8vue/</url>
     <content><![CDATA[<h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><p>&emsp;&emsp;需要准备东西有：</p>
@@ -49,8 +88,8 @@
       </categories>
       <tags>
         <tag>docker</tag>
-        <tag>vue</tag>
         <tag>tool</tag>
+        <tag>vue</tag>
       </tags>
   </entry>
   <entry>
@@ -98,45 +137,6 @@
         <tag>docker</tag>
         <tag>tool</tag>
         <tag>springboot</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>docker安装与使用</title>
-    <url>/hexoblog/2021/03/05/md/docker/docker%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h1 id="docker介绍："><a href="#docker介绍：" class="headerlink" title="docker介绍："></a>docker介绍：</h1><p>&emsp;&emsp;docker是个鲸鱼，拉了很多集装箱的鲸鱼。<br>&emsp;&emsp;docker是个开源的容器引擎。可以让开发者快速将他们的应用及依赖打包到一个可移植的容器中，然后发布到不同的平台。</p>
-<h2 id="docker的优点："><a href="#docker的优点：" class="headerlink" title="docker的优点："></a>docker的优点：</h2><p><strong>省时，省事，省钱。</strong></p>
-<span id="more"></span>
-
-<hr>
-<h1 id="docker安装："><a href="#docker安装：" class="headerlink" title="docker安装："></a>docker安装：</h1><p>&emsp;&emsp;这里介绍docker在windows平台家庭版下的安装。</p>
-<p>&emsp;&emsp;在windows家庭版下，安装docker需要先开启计算机的虚拟化功能，并且需要先安装wsl。</p>
-<h2 id="开启计算机的虚拟化功能："><a href="#开启计算机的虚拟化功能：" class="headerlink" title="开启计算机的虚拟化功能："></a>开启计算机的虚拟化功能：</h2><p>&emsp;&emsp;在控制面板-&gt;程序-&gt;启用或关闭Windows功能中开启即可：</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Windows%20%E5%8A%9F%E8%83%BD%202021_3_5%2015_47_19.png" alt="windows功能"></p>
-<p>&emsp;&emsp;我么这里将虚拟机平台（hyper-v）和适用于linux的windows子系统同时勾选，下面的勾选为了下一步的安装wsl的ubuntu。<br>&emsp;&emsp;点击确定，等待执行完，重启电脑就可以了。</p>
-<h2 id="安装Ubuntu"><a href="#安装Ubuntu" class="headerlink" title="安装Ubuntu"></a>安装Ubuntu</h2><p>&emsp;&emsp;我们在microsoft store中直接搜索linux，就会出现很多linux发行版，这里我选择的时ubuntu，也可以选择其他自己喜欢的发行版。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Microsoft%20Store%202021_3_5%2015_54_47.png" alt="microsoft store"></p>
-<h2 id="安装docker-desktop"><a href="#安装docker-desktop" class="headerlink" title="安装docker-desktop"></a>安装docker-desktop</h2><p>&emsp;&emsp;这里去官网下载<a href="https://www.docker.com/products/docker-desktop">docker-desktop</a>。<br>&emsp;&emsp;下载后双击打开下载的exe文件，完成安装。整个安装过程还是很简单的，不过这里的只是社区版，仅提供4个月的支持，不推荐生产使用。<br>&emsp;&emsp;点击右上角的齿轮图标可以设置界面，可以设置不自动启动，也可以在配置安装的wsl连接docker。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Settings%202021_3_5%2016_18_18.png" alt="设置不自动启动" title="不自动启动"></p>
-<p>开启refresh后，wsl中可以连接docker。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Settings%202021_3_5%2016_18_08.png" alt="wsl连接docker" title="wsl连接docker"></p>
-<p>&emsp;&emsp;安装完成后可以用命令进行验证，查看版本号等。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker -v</span><br><span class="line">docker version</span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;出现下面的结果即为安装成功：</p>
-<img src="https://gitee.com/linqiankun/picurl/raw/master/java/Windows%20PowerShell%202021_3_5%2016_25_22.png" alt="Windows PowerShell 2021_3_5 16_25_22"  />
-
-<p>&emsp;&emsp;当然这样安装的docker是运行在一个轻量级的linux虚拟机上的，（图中的**OS/Arch选项）当然docker也提供了在windows的，但是那必须在win10 专业版，教育版，企业版上才行。<br>&emsp;&emsp;接下来就可以愉快的玩耍了。</p>
-<h1 id="基础使用："><a href="#基础使用：" class="headerlink" title="基础使用："></a>基础使用：</h1><h2 id="启动docker"><a href="#启动docker" class="headerlink" title="启动docker"></a>启动docker</h2><p>&emsp;&emsp;这样安装的docker安装成功后就启动起来了，就可以直接使用了。<br>&emsp;&emsp;这样的貌似不能用syatemctl进行启动。</p>
-<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看镜像列表</span></span><br><span class="line">docker image ls</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在仓库中查找镜像</span></span><br><span class="line">docker search &lt;imagetitle&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 下载镜像</span></span><br><span class="line">docker pull &lt;imagetitle&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除镜像(需要无运行该镜像的容器)</span></span><br><span class="line">docker rmi &lt;imageId&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看镜像</span></span><br><span class="line">docker inspect &lt;imageId&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行镜像</span></span><br><span class="line">docker run -p &lt;port&gt;:&lt;port&gt; &lt;imagetitle&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看容器列表（运行中的镜像）</span></span><br><span class="line">docker container ls</span><br><span class="line">docker ps</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看所有容器</span></span><br><span class="line">docker ps -a</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除容器</span></span><br><span class="line">docker rm &lt;containerId&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 也可以直接运行容器</span></span><br><span class="line">docker start &lt;containerId&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启</span></span><br><span class="line">docker restart &lt;contarinerId&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 停止</span></span><br><span class="line">docker stop &lt;containerId&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 进入容器</span></span><br><span class="line">docker <span class="built_in">exec</span> -it &lt;containerId&gt;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>wsl</tag>
-        <tag>tool</tag>
       </tags>
   </entry>
   <entry>
@@ -230,21 +230,6 @@
       </tags>
   </entry>
   <entry>
-    <title>dubboSPI扩展点自动激活</title>
-    <url>/hexoblog/2021/04/20/md/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E7%82%B9%E8%87%AA%E5%8A%A8%E6%BF%80%E6%B4%BB/</url>
-    <content><![CDATA[<h1 id="扩展点自动激活"><a href="#扩展点自动激活" class="headerlink" title="扩展点自动激活"></a>扩展点自动激活</h1><p>&emsp;&emsp;对于集合类扩展点，比如：Filter, InvokerListener, ExportListener, TelnetHandler, StatusChecker 等，可以同时加载多个实现，此时，可以用自动激活来简化配置。</p>
-<span id="more"></span>
-
-<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 激活过滤器</span></span><br><span class="line"><span class="meta">@Activate</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FilterOne</span> <span class="keyword">implements</span> <span class="title">Filter</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest request, ServletResponse response, FilterChain chain)</span></span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>dubbo</category>
-      </categories>
-      <tags>
-        <tag>dubbo</tag>
-        <tag>SPI</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>dubbo基础及介绍</title>
     <url>/hexoblog/2021/04/15/md/dubbo/dubbo%E5%9F%BA%E7%A1%80%E5%8F%8A%E4%BB%8B%E7%BB%8D/</url>
     <content><![CDATA[<h1 id="RPC"><a href="#RPC" class="headerlink" title="RPC"></a>RPC</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>&emsp;&emsp;RPC，Remote Procedure Call 即远程过程调用，远程过程调用其实对标的是本地过程调用。<br>&emsp;&emsp;远程调用的方法可以走http协议也可以是基于tcp的自定义协议。</p>
@@ -286,6 +271,21 @@
       </categories>
       <tags>
         <tag>dubbo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>dubboSPI扩展点自动激活</title>
+    <url>/hexoblog/2021/04/20/md/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E7%82%B9%E8%87%AA%E5%8A%A8%E6%BF%80%E6%B4%BB/</url>
+    <content><![CDATA[<h1 id="扩展点自动激活"><a href="#扩展点自动激活" class="headerlink" title="扩展点自动激活"></a>扩展点自动激活</h1><p>&emsp;&emsp;对于集合类扩展点，比如：Filter, InvokerListener, ExportListener, TelnetHandler, StatusChecker 等，可以同时加载多个实现，此时，可以用自动激活来简化配置。</p>
+<span id="more"></span>
+
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 激活过滤器</span></span><br><span class="line"><span class="meta">@Activate</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FilterOne</span> <span class="keyword">implements</span> <span class="title">Filter</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest request, ServletResponse response, FilterChain chain)</span></span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>dubbo</category>
+      </categories>
+      <tags>
+        <tag>dubbo</tag>
+        <tag>SPI</tag>
       </tags>
   </entry>
   <entry>
@@ -573,125 +573,6 @@
       </tags>
   </entry>
   <entry>
-    <title>类加载机制</title>
-    <url>/hexoblog/2021/03/02/md/java/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/</url>
-    <content><![CDATA[<h1 id="介绍："><a href="#介绍：" class="headerlink" title="介绍："></a>介绍：</h1><h2 id="什么是类的加载？"><a href="#什么是类的加载？" class="headerlink" title="什么是类的加载？"></a>什么是类的加载？</h2><p>​&emsp;​&emsp;类的加载是指将类的.class文件中的二进制数据读入到内存中，将其放在运行时数据区的方法区内，然后在堆区创建一个java.lang.class对象，用来封装类在方法区内的数据结构。<br>​​&emsp;​&emsp;类的加载的最终产品是位于堆区中的class对象，class对象封装了类在方法区内的数据结构，并且提供了访问方法区内的数据结构的接口。</p>
-<span id="more"></span>
-
-<h2 id="在什么时候启动类加载？"><a href="#在什么时候启动类加载？" class="headerlink" title="在什么时候启动类加载？"></a>在什么时候启动类加载？</h2><p>​​&emsp;​&emsp;类的加载并不需要某个类被“首次主动使用”时再加载它，JVM规范允许类加载器在预料某个类将要被预先使用时就预先加载它，如果在预先加载过程中遇到了.class文件缺失或存在错误，类加载器必须在程序首次主动使用该类时才报告错误，如果这个类一直没有被程序主动使用，那么类加载器就不会报告错误。</p>
-<h2 id="从哪个地方加载类？"><a href="#从哪个地方加载类？" class="headerlink" title="从哪个地方加载类？"></a>从哪个地方加载类？</h2><ol>
-<li>从本地系统中直接加载。</li>
-<li>通过网络下载.class文件。</li>
-<li>从zip、jar等归档文件中加载.class文件。</li>
-<li>从专有数据库中提取.class文件。</li>
-<li>将java源代码编译为.class文件。</li>
-</ol>
-<hr>
-<h1 id="类加载机制："><a href="#类加载机制：" class="headerlink" title="类加载机制："></a>类加载机制：</h1><p>​&emsp;​&emsp;加载主要是将.class文件（也可以是zip包）通过二进制流读入到jvm中，在加载阶段JVM需要完成3件事情。</p>
-<h2 id="加载："><a href="#加载：" class="headerlink" title="加载："></a>加载：</h2><p>​&emsp;​&emsp;加载主要是将.class文件（也可以是zip包）通过二进制流读入到jvm中，在加载阶段JVM需要完成3件事情。</p>
-<ol>
-<li>通过classloader在classpath中获取XXX.class文件，将其以二进制流的方式读入内存。</li>
-<li>将字节流代表的静态存储结构，转化为方法区的运行时存储结构。</li>
-<li>在内存中生成一个该类的java.lang.class对象，作为方法区这个类的各种数据的访问入口。</li>
-</ol>
-<h2 id="连接："><a href="#连接：" class="headerlink" title="连接："></a>连接：</h2><h3 id="验证："><a href="#验证：" class="headerlink" title="验证："></a>验证：</h3><p>​&emsp;​&emsp;主要是确保加载进来的字节流符合JVM规范，验证阶段会有4个检验动作：</p>
-<ol>
-<li>文件格式验证：验证.class文件字节流是否符合class文件的格式的规范，并且能够被当前版本的虚拟机处理。这里主要被魔数、主版本号、常量池等等的校验。</li>
-<li>元数据验证：验证是否符合java语言规范，主要是对字节码描述的信息进行语义分析，以保证其描述的信息符合java语言规范的要求，比如说验证这个类是不是有父类，类中的字段方法是不是和父类冲突等等。</li>
-<li>字节码验证：确保程序语义合法，符合逻辑，是整个验证过程最复杂的阶段。主要是通过数据流和控制流分析，确保程序语义是合法的、符合逻辑。在元数据验证那个阶段对数据类型做出验证后，这个阶段主要对类的方法做出分析，保证类的方法在运行时不会做出危害虚拟机安全的事。</li>
-<li>符号引用验证：确保下一步的解析能正常执行，它是验证的最后一个阶段，发生在虚拟机将符号引用转化为直接引用的时候。主要是对类自身以外的信息进行校验。目的是确保解析动作能够完成。</li>
-</ol>
-<p>​&emsp;​&emsp;对整个类加载机制而言，验证阶段是一个很重要但是非必需的阶段，如果我们的代码能够确保没有问题，那么我们就没有必要去验证，毕竟验证需要花费一定的的时间。当然我们可以使用-Xverfity:none来关闭大部分的验证。</p>
-<h3 id="准备："><a href="#准备：" class="headerlink" title="准备："></a>准备：</h3><p>​&emsp;​&emsp;准备是连接阶段的第二步，主要为静态变量在方法区分配内存，并设置默认初始值。</p>
-<ol>
-<li>类变量会分配内存，但是实例变量不会，实例变量主要随着对象的实例化一块分配到java堆中。</li>
-<li>这里的初始值指的是数据类型默认值，而不是代码中被显式赋予的值，但是如果同时被static和final修饰准备阶段后就已经赋值了，普通赋值位于其他阶段。</li>
-</ol>
-<h3 id="解析："><a href="#解析：" class="headerlink" title="解析："></a>解析：</h3><p>​&emsp;​&emsp;解析是连接阶段的第三步，是虚拟机将常量池内的符合引用替换为直接引用的过程。</p>
-<ol>
-<li>符号引用：以一组符号来描述所引用的目标，可以是任何形式的字面量，只要是能无歧义的定位到目标就好。</li>
-<li>直接引用：直接引用可以是指向目标的指针、相对偏移量或者是一个能直接引用或间接定位到目标的句柄。和虚拟机实现的内存有关，不同的虚拟机直接引用一般不同。</li>
-</ol>
-<p>​&emsp;​&emsp;解析动作主要针对类或接口、字段、类方法、接口方法、方法类型、方法句柄和调用点限定符7类符号引用进行。</p>
-<h2 id="初始化："><a href="#初始化：" class="headerlink" title="初始化："></a>初始化：</h2><p>​​&emsp;​&emsp;这是类加载机制的最后一步，在这个阶段，java代码才开始真正执行。我们知道，在准备阶段已经为类变量赋过一次值，在初始化阶段，程序员可以根据自己的需求来赋值了。<br>​​&emsp;​&emsp;在初始化阶段，主要为类的静态变量赋予正确的初始值，JVM负责对类进行初始化，主要对类变量进行初始化。在Java中对类变量进行初始值设定有两种方式：</p>
-<ol>
-<li>声明变量是指定初始值。</li>
-<li>使用静态代码块为类变量指定初始值。</li>
-</ol>
-<h3 id="JVM初始化步骤："><a href="#JVM初始化步骤：" class="headerlink" title="JVM初始化步骤："></a>JVM初始化步骤：</h3><ol>
-<li>假如这个类还没有被加载和连接，则程序先加载并连接该类。</li>
-<li>假如该类的直接父类还没有被初始化，则先初始化其直接父类。</li>
-<li>假如类中有初始化语句，则系统依次执行这些初始化语句。</li>
-</ol>
-<h3 id="类的初始化时机："><a href="#类的初始化时机：" class="headerlink" title="类的初始化时机："></a>类的初始化时机：</h3><p>​&emsp;​&emsp;只有对类的主动使用时才会导致类的初始化，主动使用包括以下6种：</p>
-<ol>
-<li>创建类的实例，也就是new的时候。</li>
-<li>访问某个类或接口的静态变量，或者对静态变量赋值。</li>
-<li>调用类的静态方法。</li>
-<li>反射操作。</li>
-<li>初始化某个类，则其父类也会被初始化。</li>
-<li>虚拟机启动时被标明为启动类的类，直接用java.exe来运行某个类。</li>
-</ol>
-<hr>
-<h1 id="类加载器："><a href="#类加载器：" class="headerlink" title="类加载器："></a>类加载器：</h1><h2 id="自带类加载器："><a href="#自带类加载器：" class="headerlink" title="自带类加载器："></a>自带类加载器：</h2><p>java语言系统自带有3个类加载器：</p>
-<ol>
-<li>BootStrap ClassLoader：跟类（启动，引导）加载器。它负责加载java的核心类。他比较特殊，因为它是由原生c++代码实现的，并不是java.lang.ClassLoader的子类。</li>
-<li>Extension ClassLoader：扩展类加载器。它负责加载jre的扩展目录（%JAVA_HOME%/jre/lib/ext）中的jar包的类，我们可以通过把自己开发的类打成jar包放入扩展目录来为java提供核心类以外的新功能。</li>
-<li>System ClassLoader（Application ClassLoader）：系统类加载器。它负责再jvm启动时加载来自java命令的-classpath选项、java.class.path系统属性，或CLASSPATH环境变量所指定的jar包和类路径。程序可以通过ClassLoader的静态方法getSystemClassLoader来获取系统类加载器。</li>
-</ol>
-<p>​​&emsp;​&emsp;应用程序都是由这三种类加载器互相配合进行加载的，如果有必要，我们还可以加入自定义的类加载器。因为jvm自带的 ClassLoader只是懂得从本地文件系统加载标准的java class文件，因此如果我们编写了自己的ClassLoader，便可以做到以下几点：</p>
-<ol>
-<li>在执行非置信代码前，自动验证数字签名。</li>
-<li>动态的创建符合用户特定需要的定制化构建类。</li>
-<li>从特定的场所取得java class，例如数据库和网络中。</li>
-</ol>
-<h2 id="自定义类加载器："><a href="#自定义类加载器：" class="headerlink" title="自定义类加载器："></a>自定义类加载器：</h2><p>​​&emsp;​&emsp;Custom ClassLoader：通过java.lang.ClassLoader的子类自定义加载class，属于应用程序根据自身需要定义的ClassLoader，如Tomcat，jboss都会根据j2ee规范自行实现ClassLoader。<br>​​&emsp;​&emsp;自定义类加载器的核心在于对字节码文件的获取，如果是加密的字节码则需要在该类中对文件进行解密。有几点需要注意：</p>
-<ol>
-<li>这里传递的文件名是类的全限定名。</li>
-<li>重写findClass而不重新loadClass，重新loadClass会破坏双亲委派模式。</li>
-</ol>
-<h2 id="类的三种加载方式："><a href="#类的三种加载方式：" class="headerlink" title="类的三种加载方式："></a>类的三种加载方式：</h2><ol>
-<li>通过命令行启动应用时由jvm初始化加载含有main()方法的主类。</li>
-<li>通过Class.forName()方法动态加载，会默认执行初始化块（static{}），但是Class.forName(name,initlize,loader)中的initlize可指定是否要执行初始化块。</li>
-<li>通过ClassLoader.loadClass()方法动态加载，不会执行初始化块。</li>
-</ol>
-<h3 id="Class-forName-和ClassLoader-loadClass-的区别："><a href="#Class-forName-和ClassLoader-loadClass-的区别：" class="headerlink" title="Class.forName()和ClassLoader.loadClass()的区别："></a>Class.forName()和ClassLoader.loadClass()的区别：</h3><ol>
-<li>Class.forName()：将类的.class文件加载到jvm中之外，还会对类进行解释，执行类中的static块；</li>
-<li>ClassLoader.loadClass()：只干一件事情，就是将.class文件加载到jvm中，不会执行static中的内容,只有在newInstance才会去执行static块。</li>
-<li>Class.forName(name, initialize, loader)带参函数也可控制是否加载static块。并且只有调用了newInstance()方法采用调用构造函数，创建类的对象 。</li>
-</ol>
-<h2 id="JVM类加载机制："><a href="#JVM类加载机制：" class="headerlink" title="JVM类加载机制："></a>JVM类加载机制：</h2><ol>
-<li>全盘负责：当一个类加载器负责加载某个Class时，该Class所依赖的和引用的其他Class也将由该类加载器负责载入，除非显示使用另外一个类加载器来载入。</li>
-<li>父类委托：先让父类加载器试图加载该类，只有在父类加载器无法加载该类时才尝试从自己的类路径中加载该类。</li>
-<li>缓存机制：缓存机制将会保证所有加载过的Class都会被缓存，当程序中需要使用某个Class时，类加载器先从缓存区寻找该Class，只有缓存区不存在，系统才会读取该类对应的二进制数据，并将其转换成Class对象，存入缓存区。这就是为什么修改了Class后，必须重启JVM，程序的修改才会生效。</li>
-</ol>
-<h2 id="双亲委派模型："><a href="#双亲委派模型：" class="headerlink" title="双亲委派模型："></a>双亲委派模型：</h2><ol>
-<li>当AppClassLoader加载一个Class时，他首先不会自己去尝试加载这个类，而是把这个加载请求委托给父类加载器ExtClassLoader去完成。</li>
-<li>当ExtClassLoader加载一个Class时，它首先也不会自己去尝试加载这个类，而是把类加载请求委派给BootStrapClassLoader去完成。</li>
-<li>如果BootStrapClassLoader加载失败（例如再$JAVSA_HOME/jre/lib里未查找到该class），会使用ExtClassLoader来尝试加载。</li>
-<li>若ExtClassLoader也加载失败，则会使用AppClassLoader来加载，如果AppClassLoader也加载失败，则会报出异常ClassNotFoundException。</li>
-</ol>
-<h3 id="意义："><a href="#意义：" class="headerlink" title="意义："></a>意义：</h3><ol>
-<li>系统类防止内存中出现多份的同样的字节码。</li>
-<li>保证Java程序安全稳定运行。</li>
-</ol>
-<h2 id="结束生命周期："><a href="#结束生命周期：" class="headerlink" title="结束生命周期："></a>结束生命周期：</h2><p>在以下几种情况，Java虚拟机将结束生命周期：</p>
-<ol>
-<li>执行了System.exit()方法。</li>
-<li>程序正常执行结束。</li>
-<li>程序在执行过程中，遇到了异常或错误而异常终止。</li>
-<li>由于操作系统出现错误，而导致Java虚拟机进程终止。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>jvm</tag>
-        <tag>classloader</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>锁</title>
     <url>/hexoblog/2021/03/02/md/java/%E9%94%81/</url>
     <content><![CDATA[<h1 id="乐观锁："><a href="#乐观锁：" class="headerlink" title="乐观锁："></a>乐观锁：</h1><p>&emsp;&emsp;乐观锁不是数据库自带的，需要我们去实现。总是假设最好的情况，每次去拿数据时都会认为数据没有被修改，所以不会上锁，但是在提交更新的时候会去判断一下在此期间别人有没有更改数据，可以使用版本号机制算法或者CAS算法实现。乐观锁适用于读多于写的情况，可以提高吞吐量。</p>
@@ -832,119 +713,169 @@
       </tags>
   </entry>
   <entry>
-    <title>JVM—GC</title>
-    <url>/hexoblog/2021/04/26/md/jvm/JVM%E2%80%94GC/</url>
-    <content><![CDATA[<h1 id="GC"><a href="#GC" class="headerlink" title="GC"></a>GC</h1><p>&emsp;&emsp;GC就是垃圾收集，java提供的GC功能可以自动监测对象是否超过作用域从而达到自动回收的目的。<br>&emsp;&emsp;对于GC来说，当对象被创建的时候，GC就开始监控这个对象的地址、大小及使用情况。  </p>
+    <title>类加载机制</title>
+    <url>/hexoblog/2021/03/02/md/java/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/</url>
+    <content><![CDATA[<h1 id="介绍："><a href="#介绍：" class="headerlink" title="介绍："></a>介绍：</h1><h2 id="什么是类的加载？"><a href="#什么是类的加载？" class="headerlink" title="什么是类的加载？"></a>什么是类的加载？</h2><p>​&emsp;​&emsp;类的加载是指将类的.class文件中的二进制数据读入到内存中，将其放在运行时数据区的方法区内，然后在堆区创建一个java.lang.class对象，用来封装类在方法区内的数据结构。<br>​​&emsp;​&emsp;类的加载的最终产品是位于堆区中的class对象，class对象封装了类在方法区内的数据结构，并且提供了访问方法区内的数据结构的接口。</p>
+<span id="more"></span>
+
+<h2 id="在什么时候启动类加载？"><a href="#在什么时候启动类加载？" class="headerlink" title="在什么时候启动类加载？"></a>在什么时候启动类加载？</h2><p>​​&emsp;​&emsp;类的加载并不需要某个类被“首次主动使用”时再加载它，JVM规范允许类加载器在预料某个类将要被预先使用时就预先加载它，如果在预先加载过程中遇到了.class文件缺失或存在错误，类加载器必须在程序首次主动使用该类时才报告错误，如果这个类一直没有被程序主动使用，那么类加载器就不会报告错误。</p>
+<h2 id="从哪个地方加载类？"><a href="#从哪个地方加载类？" class="headerlink" title="从哪个地方加载类？"></a>从哪个地方加载类？</h2><ol>
+<li>从本地系统中直接加载。</li>
+<li>通过网络下载.class文件。</li>
+<li>从zip、jar等归档文件中加载.class文件。</li>
+<li>从专有数据库中提取.class文件。</li>
+<li>将java源代码编译为.class文件。</li>
+</ol>
+<hr>
+<h1 id="类加载机制："><a href="#类加载机制：" class="headerlink" title="类加载机制："></a>类加载机制：</h1><p>​&emsp;​&emsp;加载主要是将.class文件（也可以是zip包）通过二进制流读入到jvm中，在加载阶段JVM需要完成3件事情。</p>
+<h2 id="加载："><a href="#加载：" class="headerlink" title="加载："></a>加载：</h2><p>​&emsp;​&emsp;加载主要是将.class文件（也可以是zip包）通过二进制流读入到jvm中，在加载阶段JVM需要完成3件事情。</p>
+<ol>
+<li>通过classloader在classpath中获取XXX.class文件，将其以二进制流的方式读入内存。</li>
+<li>将字节流代表的静态存储结构，转化为方法区的运行时存储结构。</li>
+<li>在内存中生成一个该类的java.lang.class对象，作为方法区这个类的各种数据的访问入口。</li>
+</ol>
+<h2 id="连接："><a href="#连接：" class="headerlink" title="连接："></a>连接：</h2><h3 id="验证："><a href="#验证：" class="headerlink" title="验证："></a>验证：</h3><p>​&emsp;​&emsp;主要是确保加载进来的字节流符合JVM规范，验证阶段会有4个检验动作：</p>
+<ol>
+<li>文件格式验证：验证.class文件字节流是否符合class文件的格式的规范，并且能够被当前版本的虚拟机处理。这里主要被魔数、主版本号、常量池等等的校验。</li>
+<li>元数据验证：验证是否符合java语言规范，主要是对字节码描述的信息进行语义分析，以保证其描述的信息符合java语言规范的要求，比如说验证这个类是不是有父类，类中的字段方法是不是和父类冲突等等。</li>
+<li>字节码验证：确保程序语义合法，符合逻辑，是整个验证过程最复杂的阶段。主要是通过数据流和控制流分析，确保程序语义是合法的、符合逻辑。在元数据验证那个阶段对数据类型做出验证后，这个阶段主要对类的方法做出分析，保证类的方法在运行时不会做出危害虚拟机安全的事。</li>
+<li>符号引用验证：确保下一步的解析能正常执行，它是验证的最后一个阶段，发生在虚拟机将符号引用转化为直接引用的时候。主要是对类自身以外的信息进行校验。目的是确保解析动作能够完成。</li>
+</ol>
+<p>​&emsp;​&emsp;对整个类加载机制而言，验证阶段是一个很重要但是非必需的阶段，如果我们的代码能够确保没有问题，那么我们就没有必要去验证，毕竟验证需要花费一定的的时间。当然我们可以使用-Xverfity:none来关闭大部分的验证。</p>
+<h3 id="准备："><a href="#准备：" class="headerlink" title="准备："></a>准备：</h3><p>​&emsp;​&emsp;准备是连接阶段的第二步，主要为静态变量在方法区分配内存，并设置默认初始值。</p>
+<ol>
+<li>类变量会分配内存，但是实例变量不会，实例变量主要随着对象的实例化一块分配到java堆中。</li>
+<li>这里的初始值指的是数据类型默认值，而不是代码中被显式赋予的值，但是如果同时被static和final修饰准备阶段后就已经赋值了，普通赋值位于其他阶段。</li>
+</ol>
+<h3 id="解析："><a href="#解析：" class="headerlink" title="解析："></a>解析：</h3><p>​&emsp;​&emsp;解析是连接阶段的第三步，是虚拟机将常量池内的符合引用替换为直接引用的过程。</p>
+<ol>
+<li>符号引用：以一组符号来描述所引用的目标，可以是任何形式的字面量，只要是能无歧义的定位到目标就好。</li>
+<li>直接引用：直接引用可以是指向目标的指针、相对偏移量或者是一个能直接引用或间接定位到目标的句柄。和虚拟机实现的内存有关，不同的虚拟机直接引用一般不同。</li>
+</ol>
+<p>​&emsp;​&emsp;解析动作主要针对类或接口、字段、类方法、接口方法、方法类型、方法句柄和调用点限定符7类符号引用进行。</p>
+<h2 id="初始化："><a href="#初始化：" class="headerlink" title="初始化："></a>初始化：</h2><p>​​&emsp;​&emsp;这是类加载机制的最后一步，在这个阶段，java代码才开始真正执行。我们知道，在准备阶段已经为类变量赋过一次值，在初始化阶段，程序员可以根据自己的需求来赋值了。<br>​​&emsp;​&emsp;在初始化阶段，主要为类的静态变量赋予正确的初始值，JVM负责对类进行初始化，主要对类变量进行初始化。在Java中对类变量进行初始值设定有两种方式：</p>
+<ol>
+<li>声明变量是指定初始值。</li>
+<li>使用静态代码块为类变量指定初始值。</li>
+</ol>
+<h3 id="JVM初始化步骤："><a href="#JVM初始化步骤：" class="headerlink" title="JVM初始化步骤："></a>JVM初始化步骤：</h3><ol>
+<li>假如这个类还没有被加载和连接，则程序先加载并连接该类。</li>
+<li>假如该类的直接父类还没有被初始化，则先初始化其直接父类。</li>
+<li>假如类中有初始化语句，则系统依次执行这些初始化语句。</li>
+</ol>
+<h3 id="类的初始化时机："><a href="#类的初始化时机：" class="headerlink" title="类的初始化时机："></a>类的初始化时机：</h3><p>​&emsp;​&emsp;只有对类的主动使用时才会导致类的初始化，主动使用包括以下6种：</p>
+<ol>
+<li>创建类的实例，也就是new的时候。</li>
+<li>访问某个类或接口的静态变量，或者对静态变量赋值。</li>
+<li>调用类的静态方法。</li>
+<li>反射操作。</li>
+<li>初始化某个类，则其父类也会被初始化。</li>
+<li>虚拟机启动时被标明为启动类的类，直接用java.exe来运行某个类。</li>
+</ol>
+<hr>
+<h1 id="类加载器："><a href="#类加载器：" class="headerlink" title="类加载器："></a>类加载器：</h1><h2 id="自带类加载器："><a href="#自带类加载器：" class="headerlink" title="自带类加载器："></a>自带类加载器：</h2><p>java语言系统自带有3个类加载器：</p>
+<ol>
+<li>BootStrap ClassLoader：跟类（启动，引导）加载器。它负责加载java的核心类。他比较特殊，因为它是由原生c++代码实现的，并不是java.lang.ClassLoader的子类。</li>
+<li>Extension ClassLoader：扩展类加载器。它负责加载jre的扩展目录（%JAVA_HOME%/jre/lib/ext）中的jar包的类，我们可以通过把自己开发的类打成jar包放入扩展目录来为java提供核心类以外的新功能。</li>
+<li>System ClassLoader（Application ClassLoader）：系统类加载器。它负责再jvm启动时加载来自java命令的-classpath选项、java.class.path系统属性，或CLASSPATH环境变量所指定的jar包和类路径。程序可以通过ClassLoader的静态方法getSystemClassLoader来获取系统类加载器。</li>
+</ol>
+<p>​​&emsp;​&emsp;应用程序都是由这三种类加载器互相配合进行加载的，如果有必要，我们还可以加入自定义的类加载器。因为jvm自带的 ClassLoader只是懂得从本地文件系统加载标准的java class文件，因此如果我们编写了自己的ClassLoader，便可以做到以下几点：</p>
+<ol>
+<li>在执行非置信代码前，自动验证数字签名。</li>
+<li>动态的创建符合用户特定需要的定制化构建类。</li>
+<li>从特定的场所取得java class，例如数据库和网络中。</li>
+</ol>
+<h2 id="自定义类加载器："><a href="#自定义类加载器：" class="headerlink" title="自定义类加载器："></a>自定义类加载器：</h2><p>​​&emsp;​&emsp;Custom ClassLoader：通过java.lang.ClassLoader的子类自定义加载class，属于应用程序根据自身需要定义的ClassLoader，如Tomcat，jboss都会根据j2ee规范自行实现ClassLoader。<br>​​&emsp;​&emsp;自定义类加载器的核心在于对字节码文件的获取，如果是加密的字节码则需要在该类中对文件进行解密。有几点需要注意：</p>
+<ol>
+<li>这里传递的文件名是类的全限定名。</li>
+<li>重写findClass而不重新loadClass，重新loadClass会破坏双亲委派模式。</li>
+</ol>
+<h2 id="类的三种加载方式："><a href="#类的三种加载方式：" class="headerlink" title="类的三种加载方式："></a>类的三种加载方式：</h2><ol>
+<li>通过命令行启动应用时由jvm初始化加载含有main()方法的主类。</li>
+<li>通过Class.forName()方法动态加载，会默认执行初始化块（static{}），但是Class.forName(name,initlize,loader)中的initlize可指定是否要执行初始化块。</li>
+<li>通过ClassLoader.loadClass()方法动态加载，不会执行初始化块。</li>
+</ol>
+<h3 id="Class-forName-和ClassLoader-loadClass-的区别："><a href="#Class-forName-和ClassLoader-loadClass-的区别：" class="headerlink" title="Class.forName()和ClassLoader.loadClass()的区别："></a>Class.forName()和ClassLoader.loadClass()的区别：</h3><ol>
+<li>Class.forName()：将类的.class文件加载到jvm中之外，还会对类进行解释，执行类中的static块；</li>
+<li>ClassLoader.loadClass()：只干一件事情，就是将.class文件加载到jvm中，不会执行static中的内容,只有在newInstance才会去执行static块。</li>
+<li>Class.forName(name, initialize, loader)带参函数也可控制是否加载static块。并且只有调用了newInstance()方法采用调用构造函数，创建类的对象 。</li>
+</ol>
+<h2 id="JVM类加载机制："><a href="#JVM类加载机制：" class="headerlink" title="JVM类加载机制："></a>JVM类加载机制：</h2><ol>
+<li>全盘负责：当一个类加载器负责加载某个Class时，该Class所依赖的和引用的其他Class也将由该类加载器负责载入，除非显示使用另外一个类加载器来载入。</li>
+<li>父类委托：先让父类加载器试图加载该类，只有在父类加载器无法加载该类时才尝试从自己的类路径中加载该类。</li>
+<li>缓存机制：缓存机制将会保证所有加载过的Class都会被缓存，当程序中需要使用某个Class时，类加载器先从缓存区寻找该Class，只有缓存区不存在，系统才会读取该类对应的二进制数据，并将其转换成Class对象，存入缓存区。这就是为什么修改了Class后，必须重启JVM，程序的修改才会生效。</li>
+</ol>
+<h2 id="双亲委派模型："><a href="#双亲委派模型：" class="headerlink" title="双亲委派模型："></a>双亲委派模型：</h2><ol>
+<li>当AppClassLoader加载一个Class时，他首先不会自己去尝试加载这个类，而是把这个加载请求委托给父类加载器ExtClassLoader去完成。</li>
+<li>当ExtClassLoader加载一个Class时，它首先也不会自己去尝试加载这个类，而是把类加载请求委派给BootStrapClassLoader去完成。</li>
+<li>如果BootStrapClassLoader加载失败（例如再$JAVSA_HOME/jre/lib里未查找到该class），会使用ExtClassLoader来尝试加载。</li>
+<li>若ExtClassLoader也加载失败，则会使用AppClassLoader来加载，如果AppClassLoader也加载失败，则会报出异常ClassNotFoundException。</li>
+</ol>
+<h3 id="意义："><a href="#意义：" class="headerlink" title="意义："></a>意义：</h3><ol>
+<li>系统类防止内存中出现多份的同样的字节码。</li>
+<li>保证Java程序安全稳定运行。</li>
+</ol>
+<h2 id="结束生命周期："><a href="#结束生命周期：" class="headerlink" title="结束生命周期："></a>结束生命周期：</h2><p>在以下几种情况，Java虚拟机将结束生命周期：</p>
+<ol>
+<li>执行了System.exit()方法。</li>
+<li>程序正常执行结束。</li>
+<li>程序在执行过程中，遇到了异常或错误而异常终止。</li>
+<li>由于操作系统出现错误，而导致Java虚拟机进程终止。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>jvm</tag>
+        <tag>classloader</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JVM内存分配策略</title>
+    <url>/hexoblog/2021/04/27/md/jvm/JVM%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;就是java对象在堆上分配空间的策略。<br>&emsp;&emsp;具体的分配策略取决于使用那种垃圾回收器的组合，还有虚拟机中参数的设置。这里的一般是分代收集算法下的情况。</p>
 <span id="more"></span>
 
 <hr>
-<h1 id="对象确定"><a href="#对象确定" class="headerlink" title="对象确定"></a>对象确定</h1><p>&emsp;&emsp;垃圾收集器在做垃圾回收的时候，首先需要判定的就是哪些内存是需要被回收的，哪些对象是存活的，是不可以被回收的；哪些对象已经死亡了，需要被回收。<br>&emsp;&emsp;一般通过两种算法确定那些对象需要被回收：</p>
-<h2 id="引用计数器法"><a href="#引用计数器法" class="headerlink" title="引用计数器法"></a>引用计数器法</h2><p>&emsp;&emsp;为每个对象创建一个引用计数（被引用，即由引用指向这个对象），有对象引用时计数器 +1，引用被释放时计数 -1，当计数器为 0 时就可以被回收。但是他有一个缺点是不能解决循环引用的问题。<br>&emsp;&emsp;当一个对象被当作垃圾收集时，它引用的任何对象的计数器的值都减一。</p>
-<h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><p>&emsp;&emsp;引用计数法实现起来比较简单，对程序不被长时间打断的实时环境比较有利。</p>
-<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><p>&emsp;&emsp;需要额外的空间来存储计数器，难以检测出对象之间的循环引用。</p>
-<h2 id="可达性分析算法"><a href="#可达性分析算法" class="headerlink" title="可达性分析算法"></a>可达性分析算法</h2><p>&emsp;&emsp;可达性分析法也被称之为根搜索法。<br>&emsp;&emsp;可达性是指，如果一个对象会被至少一个在程序中的变量通过直接或间接的方式被其他可达的对象引用，则称该对象就是可达的。这两种情况被称为可达的：</p>
+<h1 id="内存结构"><a href="#内存结构" class="headerlink" title="内存结构"></a>内存结构</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E5%A0%86%E5%86%85%E5%AD%98%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6.jpg" alt="堆内存垃圾回收"></p>
+<p>&emsp;&emsp;这里的内存结构说的是虚拟机对jvm规范中堆区域的实现，不同的虚拟机可能稍有不同。<br>&emsp;&emsp;根据分代回收算法，将堆分为新生代、老年代。新生代默认占堆空间的1/3，老年代默认占堆空间的2/3。<br>&emsp;&emsp;新生代使用复制算法，有3个区，Eden、To Survivor、From Survivor，它们的默认占比是8:1:1，它的执行流程如下：</p>
 <ol>
-<li><p>对象属于根集中的对象。</p>
-<blockquote>
-<p>根集指的是正在执行的java程序可以访问的引用变量的集合，程序可以使用引用变量访问对象的属性和调用对象的方法。根集中的对象也就是GC Roots。</p>
-</blockquote>
-</li>
-<li><p>对象被一个可达的对象引用。</p>
-<p>&emsp;&emsp;也就是说，从GC Roots开始向下搜索，搜索所走过的路径称为引用链。当一个对象到GC Roots没有任何引用链相连时，则证明此对象是可以被回收的。<br>&emsp;&emsp;在java中，可以被当做GC Roots的对象有：</p>
-</li>
-<li><p>虚拟机栈（栈帧中的本地变量表）中引用的对象。</p>
-</li>
-<li><p>方法区中的常量引用的对象。</p>
-</li>
-<li><p>方法区中的类静态属性引用的对象。</p>
-</li>
-<li><p>本地方法栈中 JNI（Native 方法）的引用对象。</p>
-</li>
-<li><p>活跃线程（已启动且未停止的 Java 线程）。</p>
-</li>
+<li>在GC开始的时候，对象只会存在于Eden区和名为“From”的Survivor区，Survivor区“To”是空的。紧接着进行GC，Eden区中所有存活的对象都会被复制到“To Survivor区”，仍存活的对象会根据他们的年龄值来决定去向。年龄达到一定值(年龄阈值，可以通过-XX:MaxTenuringThreshold来设置)的对象会被移动到年老代中。</li>
+<li>清空Eden和From Survivor分区。</li>
+<li>这时From Survivor和To Survivor分区会互换角色，分区交换，From Survivor变To Survivor，To Survivor变From Survivor。</li>
+<li>每次在From Survivor到To Survivor移动时都存活的对象，年龄就+1，当年龄到达15（默认配置是 15）时，升级为老生代。大对象也会直接进入老生代。</li>
 </ol>
-<p>&emsp;&emsp;当一个对象到根对象没有任何引用链相连，则成为这个对象是不可达的，也称为不可达对象，是可以被回收的。</p>
-<h3 id="二次标记"><a href="#二次标记" class="headerlink" title="二次标记"></a>二次标记</h3><p>&emsp;&emsp;在可达性分析算法中，对象有两种状态，要么是可达的要么是不可达的，在判断一个对象可达性的时候就需要对对象进行标记。  </p>
-<ul>
-<li>开始进行标记前，需要先暂停线程，否则对象图如果一直在变化的话是无法真正去遍历它的。</li>
-<li>暂停时间的长短并不取决于堆内对象的多少也不是堆的大小，而是存活对象的多少。因此，调高堆的大小并不会影响到标记阶段的时间长短。</li>
-<li>在可达性分析算法中，要真正宣告一个对象死亡，至少要经过两次标记过程：<ul>
-<li>&emsp;&emsp;如果对象在进行根搜索后发现没有与根对象相连接的引用链，那它会被第一次标记并且进行一次筛选。筛选的条件是此对象是否有必要执行<code>finalize()</code>。当对象没有覆盖<code>finaliza()</code>方法，或<code>finalize()</code>方法已经被虚拟机调用过，虚拟机将这两种情况都视为没有必要执行。</li>
-<li>&emsp;&emsp;如果该对象被判定为有必要执行<code>finalize()</code>方法，那么这个对象将会被放置在一个名为<strong>F-Quene</strong>的队列中，并在稍后由虚拟机自动建立的、低优先级的Finalizer线程去执行<code>finalize()</code>方法。这个方法是对象逃脱死亡命运的最后一次机会，稍后GC将对F-Quene中的对象进行第二次小规模的标记， 如果要在<code>finalize()</code>方法中成功拯救自己，只要在<code>finalize()</code>中让该对象与引用链上的任何一个对象重新建立关联即可。而如果对象这时还没有关联到引用链上的任何一个对象，那么他就会被回收。</li>
-</ul>
-</li>
-<li>GC 判断对象是否可达看的是强引用。</li>
-</ul>
-<h3 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;可以解决循环引用的问题，不需要占用额外的空间。</p>
-<h3 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;多线程场景下，其他线程可能会更新已经访问过的对象的引用。</p>
+<p>&emsp;&emsp;老生代当空间占用到达某个值之后就会触发全局垃圾收回，一般使用标记整理的执行算法。以上这些循环往复就构成了整个分代垃圾回收的整体执行流程。</p>
 <hr>
-<h1 id="垃圾收集算法"><a href="#垃圾收集算法" class="headerlink" title="垃圾收集算法"></a>垃圾收集算法</h1><p>&emsp;&emsp;在确定那些对象需要被回收后，接下来就需要垃圾收集器通过垃圾收集算法进行垃圾回收了。</p>
-<h2 id="标记清除算法"><a href="#标记清除算法" class="headerlink" title="标记清除算法"></a>标记清除算法</h2><p>&emsp;&emsp;先标记Java堆中可回收的对象，然后直接进行回收操作。<br>&emsp;&emsp;分为标记和清除两个阶段。<br>&emsp;&emsp;首先标记出所需回收的对象，在标记完成后统一回收掉所有被标记的对象，它的标记过程其实就是前面的可达性分析法中判定垃圾对象的标记过程。</p>
-<h3 id="优点-1"><a href="#优点-1" class="headerlink" title="优点"></a>优点</h3><p>&emsp;&emsp;不需要进行对象的移动，并且仅对不存活的对象进行处理，在存活对象比较多的情况下极为高效。 </p>
-<h3 id="缺点-1"><a href="#缺点-1" class="headerlink" title="缺点"></a>缺点</h3><p>&emsp;&emsp;标记和清除过程的效率都不高，这种方法需要使用一个空闲列表来记录所有的空闲区域以及大小，对空闲列表的管理会增加分配对象时的工作量；标记清除后会产生大量不连续的内存碎片，虽然空闲区域的大小是足够的，但却可能没有一个单一区域能够满足这次分配所需的大小，因此本次分配还是会失败，不得不触发另一次垃圾收集动作。</p>
-<h2 id="标记整理算法"><a href="#标记整理算法" class="headerlink" title="标记整理算法"></a>标记整理算法</h2><p>&emsp;&emsp;与“标记-清除算法”的唯一区别就是在回收操作完成后，会将零散的空间碎片进行整理。<br>&emsp;&emsp;整理算法的清除过程与清出算法的稍有不同，它不是直接对可回收对象进行清理，而是让所有的对象都向一端移动，然后直接清理掉端边界以外的内存。在基于“标记-整理”算法的收集器的实现中，一般增加句柄和句柄表。</p>
-<h3 id="优点-2"><a href="#优点-2" class="headerlink" title="优点"></a>优点</h3><p>&emsp;&emsp;经过整理之后，新对象的分配只需要通过指针碰撞便能完成，比较简单；使用这种方法，空闲区域的位置是始终可知的，也不会再有碎片的问题了。</p>
-<h3 id="缺点-2"><a href="#缺点-2" class="headerlink" title="缺点"></a>缺点</h3><p>&emsp;&emsp;GC暂停的时间会增长，因为你需要将所有的对象都拷贝到一个新的地方，还得更新它们的引用地址。</p>
-<h2 id="复制算法"><a href="#复制算法" class="headerlink" title="复制算法"></a>复制算法</h2><p>&emsp;&emsp;常见的是将Java堆划分为一个Eden空间和两个Survivor空间，默认比例为8:1:1，每次使用一个Eden空间和一个Survivor空间。<br>&emsp;&emsp;复制算法是为了解决句柄的开销和堆碎片的回收。<br>&emsp;&emsp;它将内存按容量分为大小相等的两块，每次只使用其中的一块（对象面），当这一块的内存用完了，就将还存活着的对象复制到另外一块内存上面（空闲面），然后再把已使用过的内存空间一次清理掉。<br>&emsp;&emsp;复制算法比较适合于新生代（短生存期的对象），在老年代（长生存期的对象）中，对象存活率比较高，如果执行较多的复制操作，效率将会变低，所以老年代一般会选用其他算法，如“标记-整理”算法。</p>
-<h3 id="优点-3"><a href="#优点-3" class="headerlink" title="优点"></a>优点</h3><p>&emsp;&emsp;标记阶段和复制阶段可以同时进行；每次只对一块内存进行回收，运行高效；只需移动栈顶指针，按顺序分配内存即可，实现简单；内存回收时不用考虑内存碎片的出现。</p>
-<h3 id="缺点-3"><a href="#缺点-3" class="headerlink" title="缺点"></a>缺点</h3><p>&emsp;&emsp;需要一块能容纳下所有存活对象的额外的内存空间。因此，可一次性分配的最大内存缩小了一半。即内存使用率不高，只有原来的一半。</p>
-<h2 id="分代收集算法"><a href="#分代收集算法" class="headerlink" title="分代收集算法"></a>分代收集算法</h2><p>&emsp;&emsp;将Java堆分为新生代和老年代，一般来说新生代采用“复制算法”，而老年代则采用“标记-清除算法”或者“标记-整理算法”，具体则要根据JVM实际实现，不同的虚拟机实现可能不同。<br>&emsp;&emsp;在jdk1.7前还有永久代，永久代的GC是绑定在老年代一起的。<br>&emsp;&emsp;新生代又被进一步划分为Eden和Survivor区，其中Survivor由FromSpace（Survivor0）和ToSpace（Survivor1）组成。<br>&emsp;&emsp;创建的对象的内存都在堆中分配，其大小可以通过-Xmx和-Xms来控制。<br>&emsp;&emsp;当前主流虚拟机都采用分代收集。</p>
-<hr>
-<h1 id="垃圾收集器"><a href="#垃圾收集器" class="headerlink" title="垃圾收集器"></a>垃圾收集器</h1><p>&emsp;&emsp;其中用于回收新生代的收集器包括Serial、PraNew、Parallel Scavenge。<br>&emsp;&emsp;回收老年代的收集器包括Serial Old、Parallel Old、CMS。<br>&emsp;&emsp;有用于回收整个Java堆的G1收集器。<br>&emsp;&emsp;垃圾回收线程相对于工作线程是独立的，当需要执行垃圾回收时，会先停止工作线程，然后通知垃圾回收线程执行。</p>
-<h2 id="新生代垃圾收集器"><a href="#新生代垃圾收集器" class="headerlink" title="新生代垃圾收集器"></a>新生代垃圾收集器</h2><h3 id="Serial"><a href="#Serial" class="headerlink" title="Serial"></a>Serial</h3><p>&emsp;&emsp;串行垃圾回收器，采用<strong>单线程</strong>的方式进行收集，采用的是<strong>复制算法</strong>，在GC线程执行时，系统不允许工作线程打扰。这个过程中应用程序会进入暂停状态，即Stop-the-world。<br>&emsp;&emsp;STW这个过程对用户不可见，用户仅感知到系统卡顿了一会。STW时间的长短是衡量性能的指标。<br>&emsp;&emsp;单核的系统下，不存在线程之间的交互，这种可以提高效率。</p>
-<h3 id="PraNew"><a href="#PraNew" class="headerlink" title="PraNew"></a>PraNew</h3><p>&emsp;&emsp;并行垃圾回收器，采用的是<strong>多线程</strong>的方式，使用了多个GC线程，也采用<strong>复制算法</strong>，可以看做是Serial的多线程版本。<br>&emsp;&emsp;单核情况下，系统无法发挥多线程的优势，效率会比Serial差。</p>
-<h3 id="Parallel-Scavenge"><a href="#Parallel-Scavenge" class="headerlink" title="Parallel Scavenge"></a>Parallel Scavenge</h3><p>&emsp;&emsp;新生代并行收集器，相对PreNew，追求高吞吐亮，同样采用<strong>复制算法</strong>，又称为吞吐亮优先收集器。<br>&emsp;&emsp;Serial与PargNew比较关注STW时间，而Parallel Scavenge更关注吞吐量。  </p>
-<blockquote>
-<p>吞吐量就是 CPU 用于运行用户代码的时间与 CPU 总消耗时间的比值。<code>吞吐量 = 运行用户代码时间 /（运行用户代码时间 + 垃圾收集时间）</code>。</p>
-</blockquote>
-<h4 id="侧重点"><a href="#侧重点" class="headerlink" title="侧重点"></a>侧重点</h4><h5 id="高吞吐量"><a href="#高吞吐量" class="headerlink" title="高吞吐量"></a>高吞吐量</h5><p>&emsp;GC 的总时间越短，系统的吞吐量则越高。换句话说，高吞吐量则意味着，STW 的时间可能会比正常的时间多一点，也就更加适合那种不存在太多交互的后台的系统，因为对实时性的要求不是很高，就可以高效率的完成任务。</p>
-<h5 id="短STW"><a href="#短STW" class="headerlink" title="短STW"></a>短STW</h5><p>&emsp;&emsp;STW 的时间短，则说明对系统的响应速度要求很高，因为要跟用户频繁的交互。因为低响应时间会带来较高的用户体验。</p>
-<h2 id="老年代垃圾收集器"><a href="#老年代垃圾收集器" class="headerlink" title="老年代垃圾收集器"></a>老年代垃圾收集器</h2><h3 id="Serial-Old"><a href="#Serial-Old" class="headerlink" title="Serial Old"></a>Serial Old</h3><p>&emsp;&emsp;Serial Old是Serial的老年代版本，使用的<strong>标记-整理算法</strong>。<br>&emsp;&emsp;Serial Old是给client模式下的JVM使用。</p>
-<h3 id="Parallel-Old"><a href="#Parallel-Old" class="headerlink" title="Parallel Old"></a>Parallel Old</h3><p>&emsp;&emsp;是Parallel Scavenge的老年代版本，同样是多线程的，采用<strong>标记整理</strong>算法。<br>&emsp;&emsp;特性与Parallel Scavenge相似，同样是吞吐量优先。</p>
-<h3 id="CMS（Concurrent-Mark-Swee）"><a href="#CMS（Concurrent-Mark-Swee）" class="headerlink" title="CMS（Concurrent Mark Swee）"></a>CMS（Concurrent Mark Swee）</h3><p>&emsp;&emsp;采用<strong>标记清除算法</strong>，重点关注于最短的STW时间。<br>&emsp;&emsp;它的过程分为4步：</p>
+<h1 id="策略"><a href="#策略" class="headerlink" title="策略"></a>策略</h1><p>&emsp;&emsp;常见的内存分配策略为：</p>
 <ol>
-<li><strong>初始标记</strong>：标记从GCRoots出发能够关联到的所有对象，此时需要STW，但是不需要很多时间。</li>
-<li><strong>并发标记</strong>：多线程对所有对象通过GC Roots Tracing进行可达性分析，这个过程较为耗时。这个阶段程序仍在执行。</li>
-<li><strong>重新标记</strong>：重新标记是为了修正在并发标记阶段，发生错误的一些数据。并发标记过程中，程序仍在运行，有些对象的状态可能会发生变化，所以需要重新标记，这个过程需要STW。</li>
-<li><strong>并发清除</strong>：标记完成后进行清除。</li>
+<li><p>对象优先在Eden分配。</p>
+</li>
+<li><p>大对象直接进入老年代。</p>
+</li>
+<li><p>长期存活的对象进入老年代。</p>
+</li>
+<li><p>动态对象年龄判断。</p>
+</li>
+<li><p>空间分配担保。</p>
+<h2 id="对象优先在Eden区"><a href="#对象优先在Eden区" class="headerlink" title="对象优先在Eden区"></a>对象优先在Eden区</h2></li>
 </ol>
-<h4 id="优点-4"><a href="#优点-4" class="headerlink" title="优点"></a>优点</h4><p>&emsp;&emsp;并发收集，低STW。<br>&emsp;&emsp;将标记阶段，以流水线的方式拆分为3端，将耗时最长的阶段，与程序并发执行，仅需要两个很少的停顿阶段，降低STW时间，达到近似并发的目的。<br>&emsp;&emsp;初始标记&lt;重复标记&lt;并发标记</p>
-<h4 id="缺点-4"><a href="#缺点-4" class="headerlink" title="缺点"></a>缺点</h4><p>&emsp;&emsp;缺点也很明显：</p>
+<p>&emsp;&emsp;多数情况下，新对象都在新生代Eden区分配，当Eden区没有足够空间进行分配时，虚拟机将发起一次Minor GC，即发生在新生代的垃圾收集。<br>&emsp;&emsp;如果分配后还是没有足够的空间，就会启动分配担保机制在老年代分配空间。</p>
+<h2 id="大对象直接进入老年代"><a href="#大对象直接进入老年代" class="headerlink" title="大对象直接进入老年代"></a>大对象直接进入老年代</h2><p>&emsp;&emsp;所谓大对象就是指需要大量连续内存空间的Java对象，最典型的大对象就是那种很长的字符串以及数组。可以通过虚拟机参数<code>-XX:PretenureSizeThreshold</code>控制大对象的最小临界值。<br>&emsp;&emsp;新生代使用的是复制算法来处理垃圾回收的，如果大对象直接在新生代分配就会导致Eden区和两个Survivor区之间发生大量的内存复制。<br>&emsp;&emsp;经常出现大对象，会导致在内存还有不少时就触发垃圾回收。</p>
 <ul>
-<li><p>对CPU资源很敏感，CPU资源很少时，系统占用很多，GC就占用很少，吞吐量就很低。</p>
-</li>
-<li><p>无法处理浮动垃圾。</p>
-</li>
-<li><p>基于标记清除算法，一堆问题。</p>
-<h2 id="堆垃圾收集器"><a href="#堆垃圾收集器" class="headerlink" title="堆垃圾收集器"></a>堆垃圾收集器</h2></li>
+<li><strong>Minor GC</strong>：指发生在新生代的GC，一般速度非常快。</li>
+<li><strong>Full GC</strong>：是指发生在老年代的GC，一般出现这种必然会伴随Minor GC，通常会被Minor GC慢10倍。</li>
 </ul>
-<h3 id="G1收集器"><a href="#G1收集器" class="headerlink" title="G1收集器"></a>G1收集器</h3><p>&emsp;&emsp;G1全称Garbage First。G1收集器基于<strong>标记整理算法</strong>实现，相对于前面的垃圾回收器，G1收集器在实现高吞吐的同时尽可能减少STW时间。<br>&emsp;&emsp;G1收集器特点：</p>
-<ol>
-<li><strong>并行与并发</strong>：G1能充分利用多CPU、多核环境下的硬件优势，使用多个CPU来缩短STW停顿的时间，部分其他收集器原来需要停顿Java线程执行的GC操作，G1收集器仍然可以通过并发的方式让Java程序继续运行。</li>
-<li><strong>分代收集</strong>：打破了原有的分代模型，将堆划分为一个个区域。</li>
-<li><strong>空间整合</strong>：与CMS的“标记-清除”算法不同，G1从整体来看是基于“标记-整理”算法实现的收集器，从局部（两个Region之间）上来看是基于“复制”算法实现的。但无论如何，这两种算法都意味着G1运作期间<strong>不会产生内存空间碎片</strong>，收集后能提供规整的可用内存。这种特性有利于程序长时间运行，分配大对象时不会因为无法找到连续内存空间而提前触发下一次GC。</li>
-<li><strong>可预测的停顿</strong>：这是G1相对于CMS的一个优势，降低停顿时间是G1和CMS共同的关注点。</li>
-</ol>
-<p>&emsp;&emsp;G1收集器打破了以往将收集范围固定在新生代，老年代的模式，G1将堆划分为一个个小的Region块（区域大小相同的内存单元）。<br>&emsp;&emsp;每个Region被标记了E、S、O 和 H，这些区域在逻辑上被映射为Eden，Survivor、老年代和大对象区。存活的对象从一个区域转移（即复制或移动）到另一个区域，区域被设计为并行收集垃圾，可能会暂停所有应用线程。<br>&emsp;&emsp;Humongous区域（标记H区）是为了那些存储超过50%标准Region大小的对象而设计的，它用来专门存放巨型对象。如果一个H区装不下一个巨型对象，那么G1会寻找连续的H分区来存储。为了能找到连续的H区，有时候不得不启动 Full GC。<br>&emsp;&emsp;G1 收集器之所以能建立可预测的停顿时间模型，是因为它可以有计划地避免在整个Java堆中进行全区域的垃圾收集。G1会通过一个合理的计算模型，计算出每个Region的收集成本并量化，这样一来，收集器在给定了“停顿”时间限制的情况下，总是能选择一组恰当的Region作为收集目标，让其收集开销满足这个限制条件，以此达到实时收集的目的。  </p>
-<p>&emsp;&emsp;G1收集器工作过程：</p>
-<ol>
-<li><strong>初始标记</strong>：仅仅只是标记一下GC Roots能直接关联到的对象，并且修改TAMS（Next Top at Mark Start）的值，让下一阶段用户程序并发运行时，能在正确可用的Region中创建新对象，这阶段需要停顿线程，但耗时很短。</li>
-<li><strong>并发标记</strong>：是从GC Roots开始堆中对象进行可达性分析，找出存活的对象，这阶段耗时较长，但可与用户程序并发执行。</li>
-<li><strong>最终标记</strong>：是为了修正并发标记期间因用户程序继续运作而导致标记产生变动的那一部分标记记录，虚拟机将这段时间对象变化记录在线程Remembered Set Logs里面，最终标记阶段需要把Remembered Set Logs的数据合并到Remembered Set中，这阶段需要停顿线程，但是可并行执行。类似于CMS的重复标记，但是这里可以并发执行。</li>
-<li><strong>筛选回收</strong>：首先对各个Region的回收价值和成本进行排序，根据用户所期望的GC停顿时间来制定回收计划。这个阶段也可以做到与用户程序一起并发执行，但是因为只回收一部分Region，时间是用户可控制的，而且停顿用户线程将大幅提高收集效率。</li>
-</ol>
-<p>&emsp;&emsp;G1的回收模式可以分为两种：</p>
-<ol>
-<li><strong>Young GC</strong>：在分配一般对象（非巨型对象）时，当所有Eden区域使用达到最大阀值并且无法申请足够内存时，会触发一次YoungGC。每次Young GC会回收所有Eden以及Survivor区，并且将存活对象复制到Old区以及另一部分的Survivor区。</li>
-<li><strong>Mixed GC</strong>：当越来越多的对象晋升到老年代时，为了避免堆内存被耗尽，虚拟机会触发一个混合的垃圾收集器，即Mixed GC，该算法并不是一个Old GC，除了回收整个新生代，还会回收一部分的老年代，这里需要注意：是一部分老年代，而不是全部老年代，可以选择哪些Old区域进行收集，从而可以对垃圾回收的耗时时间进行控制。G1没有Full GC概念，需要Full GC时，调用Serial Old GC进行全堆扫描。</li>
-</ol>
+<h2 id="长期存活的对象进入老年代"><a href="#长期存活的对象进入老年代" class="headerlink" title="长期存活的对象进入老年代"></a>长期存活的对象进入老年代</h2><p>&emsp;&emsp;在分代收集算法中需要确定那些对象该进入老年代，那些不用进入。<br>&emsp;&emsp;虚拟机给每个对象定义了一个对象年龄计数器，如果对象在Eden区出生，并且能够被Survivor容纳，将被移动到Survivor空间中，这时设置对象年龄为1。对象在Survivor区中每过一次Minor GC年龄就加 1，当年龄达到一定程度（默认 15）就会被晋升到老年代。可以通过参数<code>-XX:MaxTenuringThreshold</code>设置进入老年代的年龄上限。</p>
+<h2 id="动态对象年龄判断"><a href="#动态对象年龄判断" class="headerlink" title="动态对象年龄判断"></a>动态对象年龄判断</h2><p>&emsp;&emsp;虚拟机并不是永远地要求对象的年龄必须达到了MaxTenuringThreshold才能晋升老年代，如果在Survivor空间中相同年龄所有对象大小的总和大于Survivor空间的一半，年龄大于等于该年龄的对象就可以直接进入老年代。</p>
+<h2 id="空间分配担保"><a href="#空间分配担保" class="headerlink" title="空间分配担保"></a>空间分配担保</h2><p>&emsp;&emsp;在发生Minor GC之前，虚拟机会先检查老年代最大可用的连续空间是否大于新生代所有对象总空间，如果这个条件成立，那么Minor GC可以确保是安全的。如果不成立，则虚拟机会查看HandlePromotionFailure设置值是否允许担保失败。如果允许，那么会继续检查老年代最大可用的连续空间是否大于历次晋升到老年代对象的平均大小，如果大于，将尝试进行一次Minor GC，尽管这次Minor GC是有风险的；如果小于，或者HandlePromotionFailure设置不允许冒险，这这时也要改为进行一次Full GC（指发生在老年代的GC，会发生STW）。实际上，在 JDK 6 Update 24之后的规则变为只要老年代的连续空间大于新生代对象总大小或者历次晋升的平均大小就会进行Minor GC，否则就进行Full GC。</p>
 ]]></content>
       <categories>
         <category>jvm</category>
       </categories>
       <tags>
         <tag>jvm</tag>
-        <tag>GC</tag>
         <tag>memory</tag>
       </tags>
   </entry>
@@ -1050,57 +981,6 @@
       </tags>
   </entry>
   <entry>
-    <title>happens-before</title>
-    <url>/hexoblog/2021/03/03/md/jvm/happens-before/</url>
-    <content><![CDATA[<h1 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h1><p>&emsp;&emsp;在JMM中，由于存在线程本地内存和主内存的原因，再加上重排序，会导致多线程环境下存在可见性的问题。<br>&emsp;&emsp;JDK5开始，JMM使用happens-before概念来阐述多线程之间的内存可见性问题。</p>
-<blockquote>
-<p>&emsp;&emsp;在JMM中，如果一个操作的执行结果需要对另一个操作可见，那么这两个操作之间必须存在happens-before关系。  </p>
-</blockquote>
-<p>&emsp;&emsp;happens-before原则非常重要，它是判断数据是否存在竞争、线程是否安全的主要依据，依靠这个规则，我们解决在并发环境下两操作之间是否可能存在冲突的所有问题。</p>
-<span id="more"></span>
-
-<hr>
-<h1 id="内容："><a href="#内容：" class="headerlink" title="内容："></a>内容：</h1><h2 id="happens-before原则定义："><a href="#happens-before原则定义：" class="headerlink" title="happens-before原则定义："></a>happens-before原则定义：</h2><ol>
-<li>如果一个操作happens-before另一个操作，那么第一个操作的执行结果将对第二个操作可见，而且第一个操作的执行顺序在第二个操作之前。</li>
-<li>两个操作之间存在happens-before原则，并不意味着一定要按照happens-before原则制定的顺序来执行。如果重排序之后的执行结果与按照happens-before关系来执行的结果一致，那么这种重排序并不非法。</li>
-</ol>
-<h2 id="happens-before原则规则："><a href="#happens-before原则规则：" class="headerlink" title="happens-before原则规则："></a>happens-before原则规则：</h2><ol>
-<li>程序次序规则：一个线程内，按照代码顺序，书写在前面的操作先行发生于书写在后面的操作；</li>
-<li>锁定规则：一个unLock操作先行发生于后面对同一个锁额lock操作；</li>
-<li>volatile变量规则：对一个变量的写操作先行发生于后面对这个变量的读操作；</li>
-<li>传递规则：如果操作A先行发生于操作B，而操作B又先行发生于操作C，则可以得出操作A先行发生于操作C；</li>
-<li>线程启动规则：Thread对象的start()方法先行发生于此线程的每个一个动作；</li>
-<li>线程中断规则：对线程interrupt()方法的调用先行发生于被中断线程的代码检测到中断事件的发生；</li>
-<li>线程终结规则：线程中所有的操作都先行发生于线程的终止检测，我们可以通过Thread.join()方法结束、Thread.isAlive()的返回值手段检测到线程已经终止执行；</li>
-<li>对象终结规则：一个对象的初始化完成先行发生于他的finalize()方法的开始；</li>
-</ol>
-<h3 id="程序次序规则："><a href="#程序次序规则：" class="headerlink" title="程序次序规则："></a>程序次序规则：</h3><p>&emsp;&emsp;一段代码在单线程中的执行结果是有序的，注意是执行结果，因为虚拟机、处理器会对指令进行重排序（重排序后面会详细介绍）。虽然重排序了，但是并不会影响程序的执行结果，所以程序最终执行的结果与顺序执行的结果是一致的。故而这个规则只对单线程有效，在多线程环境下无法保证正确性。</p>
-<h3 id="锁定规则："><a href="#锁定规则：" class="headerlink" title="锁定规则："></a>锁定规则：</h3><p>&emsp;&emsp;这个规则比较好理解，无论是在单线程环境还是多线程环境，一个锁处于被锁定状态，那么必须先执行unlock操作后面才能进行lock操作。</p>
-<h3 id="volatile变量规则："><a href="#volatile变量规则：" class="headerlink" title="volatile变量规则："></a>volatile变量规则：</h3><p>&emsp;&emsp; 这是一条比较重要的规则，它标志着volatile保证了线程可见性。通俗点讲就是如果一个线程先去写一个volatile变量，然后一个线程去读这个变量，那么这个写操作一定是happens-before读操作的。</p>
-<h3 id="传递规则："><a href="#传递规则：" class="headerlink" title="传递规则："></a>传递规则：</h3><p>&emsp;&emsp;提现了happens-before原则具有传递性，即A happens-before B , B happens-before C，那么A happens-before C。</p>
-<h3 id="线程启动规则："><a href="#线程启动规则：" class="headerlink" title="线程启动规则："></a>线程启动规则：</h3><p>&emsp;&emsp;假定线程A在执行过程中，通过执行ThreadB.start()来启动线程B，那么线程A对共享变量的修改在接下来线程B开始执行后确保对线程B可见。</p>
-<h3 id="线程终结规则："><a href="#线程终结规则：" class="headerlink" title="线程终结规则："></a>线程终结规则：</h3><p>&emsp;&emsp;假定线程A在执行的过程中，通过制定ThreadB.join()等待线程B终止，那么线程B在终止之前对共享变量的修改在线程A等待返回后可见。</p>
-<hr>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>&emsp;&emsp;上面八条是原生Java满足Happens-before关系的规则，但是我们可以对他们进行推导出其他满足happens-before的规则：</p>
-<ol>
-<li>将一个元素放入一个线程安全的队列的操作Happens-Before从队列中取出这个元素的操作。</li>
-<li>将一个元素放入一个线程安全容器的操作Happens-Before从容器中取出这个元素的操作。</li>
-<li>在CountDownLatch上的倒数操作Happens-Before CountDownLatch#await()操作。</li>
-<li>释放Semaphore许可的操作Happens-Before获得许可操作。</li>
-<li>Future表示的任务的所有操作Happens-Before Future#get()操作。</li>
-<li>向Executor提交一个Runnable或Callable的操作Happens-Before任务开始执行操作。</li>
-<li>如果两个操作不满足上述任意一个happens-before规则，那么这两个操作就没有顺序的保障，JVM就可以对这两个操作进行重排序。如果操作Ahappens-before操作B，那么操作A在内存上所做的操作对操作B都是可见的。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>jvm</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>jvm</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>jvm中方法区_永久代_元空间</title>
     <url>/hexoblog/2021/04/25/md/jvm/jvm%E4%B8%AD%E6%96%B9%E6%B3%95%E5%8C%BA-%E6%B0%B8%E4%B9%85%E4%BB%A3-%E5%85%83%E7%A9%BA%E9%97%B4/</url>
     <content><![CDATA[<h1 id="方法区："><a href="#方法区：" class="headerlink" title="方法区："></a>方法区：</h1><p>&emsp;&emsp;来看点jvm规范中的原文，7和8一样的。  </p>
@@ -1176,6 +1056,57 @@
       <tags>
         <tag>jvm</tag>
         <tag>memory</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>happens-before</title>
+    <url>/hexoblog/2021/03/03/md/jvm/happens-before/</url>
+    <content><![CDATA[<h1 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h1><p>&emsp;&emsp;在JMM中，由于存在线程本地内存和主内存的原因，再加上重排序，会导致多线程环境下存在可见性的问题。<br>&emsp;&emsp;JDK5开始，JMM使用happens-before概念来阐述多线程之间的内存可见性问题。</p>
+<blockquote>
+<p>&emsp;&emsp;在JMM中，如果一个操作的执行结果需要对另一个操作可见，那么这两个操作之间必须存在happens-before关系。  </p>
+</blockquote>
+<p>&emsp;&emsp;happens-before原则非常重要，它是判断数据是否存在竞争、线程是否安全的主要依据，依靠这个规则，我们解决在并发环境下两操作之间是否可能存在冲突的所有问题。</p>
+<span id="more"></span>
+
+<hr>
+<h1 id="内容："><a href="#内容：" class="headerlink" title="内容："></a>内容：</h1><h2 id="happens-before原则定义："><a href="#happens-before原则定义：" class="headerlink" title="happens-before原则定义："></a>happens-before原则定义：</h2><ol>
+<li>如果一个操作happens-before另一个操作，那么第一个操作的执行结果将对第二个操作可见，而且第一个操作的执行顺序在第二个操作之前。</li>
+<li>两个操作之间存在happens-before原则，并不意味着一定要按照happens-before原则制定的顺序来执行。如果重排序之后的执行结果与按照happens-before关系来执行的结果一致，那么这种重排序并不非法。</li>
+</ol>
+<h2 id="happens-before原则规则："><a href="#happens-before原则规则：" class="headerlink" title="happens-before原则规则："></a>happens-before原则规则：</h2><ol>
+<li>程序次序规则：一个线程内，按照代码顺序，书写在前面的操作先行发生于书写在后面的操作；</li>
+<li>锁定规则：一个unLock操作先行发生于后面对同一个锁额lock操作；</li>
+<li>volatile变量规则：对一个变量的写操作先行发生于后面对这个变量的读操作；</li>
+<li>传递规则：如果操作A先行发生于操作B，而操作B又先行发生于操作C，则可以得出操作A先行发生于操作C；</li>
+<li>线程启动规则：Thread对象的start()方法先行发生于此线程的每个一个动作；</li>
+<li>线程中断规则：对线程interrupt()方法的调用先行发生于被中断线程的代码检测到中断事件的发生；</li>
+<li>线程终结规则：线程中所有的操作都先行发生于线程的终止检测，我们可以通过Thread.join()方法结束、Thread.isAlive()的返回值手段检测到线程已经终止执行；</li>
+<li>对象终结规则：一个对象的初始化完成先行发生于他的finalize()方法的开始；</li>
+</ol>
+<h3 id="程序次序规则："><a href="#程序次序规则：" class="headerlink" title="程序次序规则："></a>程序次序规则：</h3><p>&emsp;&emsp;一段代码在单线程中的执行结果是有序的，注意是执行结果，因为虚拟机、处理器会对指令进行重排序（重排序后面会详细介绍）。虽然重排序了，但是并不会影响程序的执行结果，所以程序最终执行的结果与顺序执行的结果是一致的。故而这个规则只对单线程有效，在多线程环境下无法保证正确性。</p>
+<h3 id="锁定规则："><a href="#锁定规则：" class="headerlink" title="锁定规则："></a>锁定规则：</h3><p>&emsp;&emsp;这个规则比较好理解，无论是在单线程环境还是多线程环境，一个锁处于被锁定状态，那么必须先执行unlock操作后面才能进行lock操作。</p>
+<h3 id="volatile变量规则："><a href="#volatile变量规则：" class="headerlink" title="volatile变量规则："></a>volatile变量规则：</h3><p>&emsp;&emsp; 这是一条比较重要的规则，它标志着volatile保证了线程可见性。通俗点讲就是如果一个线程先去写一个volatile变量，然后一个线程去读这个变量，那么这个写操作一定是happens-before读操作的。</p>
+<h3 id="传递规则："><a href="#传递规则：" class="headerlink" title="传递规则："></a>传递规则：</h3><p>&emsp;&emsp;提现了happens-before原则具有传递性，即A happens-before B , B happens-before C，那么A happens-before C。</p>
+<h3 id="线程启动规则："><a href="#线程启动规则：" class="headerlink" title="线程启动规则："></a>线程启动规则：</h3><p>&emsp;&emsp;假定线程A在执行过程中，通过执行ThreadB.start()来启动线程B，那么线程A对共享变量的修改在接下来线程B开始执行后确保对线程B可见。</p>
+<h3 id="线程终结规则："><a href="#线程终结规则：" class="headerlink" title="线程终结规则："></a>线程终结规则：</h3><p>&emsp;&emsp;假定线程A在执行的过程中，通过制定ThreadB.join()等待线程B终止，那么线程B在终止之前对共享变量的修改在线程A等待返回后可见。</p>
+<hr>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>&emsp;&emsp;上面八条是原生Java满足Happens-before关系的规则，但是我们可以对他们进行推导出其他满足happens-before的规则：</p>
+<ol>
+<li>将一个元素放入一个线程安全的队列的操作Happens-Before从队列中取出这个元素的操作。</li>
+<li>将一个元素放入一个线程安全容器的操作Happens-Before从容器中取出这个元素的操作。</li>
+<li>在CountDownLatch上的倒数操作Happens-Before CountDownLatch#await()操作。</li>
+<li>释放Semaphore许可的操作Happens-Before获得许可操作。</li>
+<li>Future表示的任务的所有操作Happens-Before Future#get()操作。</li>
+<li>向Executor提交一个Runnable或Callable的操作Happens-Before任务开始执行操作。</li>
+<li>如果两个操作不满足上述任意一个happens-before规则，那么这两个操作就没有顺序的保障，JVM就可以对这两个操作进行重排序。如果操作Ahappens-before操作B，那么操作A在内存上所做的操作对操作B都是可见的。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>jvm</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>jvm</tag>
       </tags>
   </entry>
   <entry>
@@ -1352,21 +1283,6 @@
       </tags>
   </entry>
   <entry>
-    <title>deepin安装docker</title>
-    <url>/hexoblog/2021/04/11/md/linux/deepin%E5%AE%89%E8%A3%85docker/</url>
-    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;写个毛啊，官方的直接搞来，<a href="https://wiki.deepin.org/wiki/Docker">https://wiki.deepin.org/wiki/Docke</a>。</p>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1>]]></content>
-      <categories>
-        <category>deepin</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>tool</tag>
-        <tag>linux</tag>
-        <tag>deepin</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>deepin搭建java开发环境</title>
     <url>/hexoblog/2021/04/11/md/linux/deepin%E6%90%AD%E5%BB%BAjava%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</url>
     <content><![CDATA[<h1 id="安装jdk"><a href="#安装jdk" class="headerlink" title="安装jdk"></a>安装jdk</h1><p>&emsp;&emsp;安装之前最好先获取管理员权限。</p>
@@ -1417,6 +1333,21 @@
         <category>deepin</category>
       </categories>
       <tags>
+        <tag>tool</tag>
+        <tag>linux</tag>
+        <tag>deepin</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>deepin安装docker</title>
+    <url>/hexoblog/2021/04/11/md/linux/deepin%E5%AE%89%E8%A3%85docker/</url>
+    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;写个毛啊，官方的直接搞来，<a href="https://wiki.deepin.org/wiki/Docker">https://wiki.deepin.org/wiki/Docke</a>。</p>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1>]]></content>
+      <categories>
+        <category>deepin</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
         <tag>tool</tag>
         <tag>linux</tag>
         <tag>deepin</tag>
@@ -1515,6 +1446,24 @@
       </tags>
   </entry>
   <entry>
+    <title>mysql常用命令</title>
+    <url>/hexoblog/2021/03/12/md/mysql/mysql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><h2 id="修改mysql时区"><a href="#修改mysql时区" class="headerlink" title="修改mysql时区"></a>修改mysql时区</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看时区</span></span><br><span class="line">show variables like <span class="string">&quot;%time_zone%&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置时区为UTC+8:00</span></span><br><span class="line"><span class="built_in">set</span> global time_zone = <span class="string">&#x27;+8:00&#x27;</span>;</span><br><span class="line"><span class="built_in">set</span> time_zone = <span class="string">&#x27;+8:00&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 刷新立即生效</span></span><br><span class="line">flush privileges；</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+<h2 id="使用mysql-binlog"><a href="#使用mysql-binlog" class="headerlink" title="使用mysql binlog"></a>使用mysql binlog</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看日志是否开启</span></span><br><span class="line">show variables like <span class="string">&#x27;log_%&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看binlog配置</span></span><br><span class="line">show variables like <span class="string">&#x27;binlog_%&#x27;</span>; </span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看数据库当前日志情况</span></span><br><span class="line">show master status;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看所有日志文件</span></span><br><span class="line">show binary logs;</span><br><span class="line">show master logs;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 根据事件查看文件</span></span><br><span class="line">show binlog events <span class="keyword">in</span> <span class="string">&#x27;$&#123;binlogname&#125;&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看binlog日志文件内容</span></span><br><span class="line">mysqlbinlog  <span class="variable">$&#123;binlogname&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 以人类能看懂的方式查看binlog文件内容</span></span><br><span class="line">mysqlbinlog --base64-output=decode-rows -vvvvvv <span class="variable">$&#123;binlogname&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用-r命令将日志转写进sql</span></span><br><span class="line">mysqlbinlog --base64-output=decode-rows -vvvvvv <span class="variable">$&#123;binlogname&#125;</span> -r <span class="variable">$&#123;sqlname.sql&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 还原数据库</span></span><br><span class="line">mysqlbinlog --start-positoin=<span class="variable">$&#123;number&#125;</span> --stop-position=<span class="variable">$&#123;number&#125;</span> <span class="variable">$&#123;binlogname&#125;</span> -d <span class="variable">$&#123;databasename&#125;</span> | mysql -u<span class="variable">$&#123;username&#125;</span> -p<span class="variable">$&#123;password&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;转写进文件的日志不能直接执行，不过我们可以从其中提取有用信息。<br>&emsp;&emsp;因为binlog日志里面会将删除等操作全部保存下来，所以再还原数据库信息时一定不能全部解析，需要指定确切位置。<br>&emsp;&emsp;指定位置，数据库，时间，端口，host的命令都可以跟在mysqlbinlog后面，不只只用来恢复，转储，查看都可以。这些命令可以排列组合，放在日志名称前即可。</p>
+<p>mysqlbinlog其他参数：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 起始位置</span></span><br><span class="line">--start-position=<span class="variable">$&#123;positiom number&#125;</span></span><br><span class="line"><span class="comment"># 结束位置</span></span><br><span class="line">--stop-position=<span class="variable">$&#123;position number&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 开始时间</span></span><br><span class="line">--start-datetime=<span class="variable">$&#123;starttime&#125;</span></span><br><span class="line"><span class="comment"># 结束时间</span></span><br><span class="line">--stop-datetime=<span class="variable">$&#123;stoptime&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 数据库</span></span><br><span class="line">-d <span class="variable">$&#123;databasename&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 端口号(大写的P)</span></span><br><span class="line">-P <span class="variable">$&#123;port&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ip地址</span></span><br><span class="line">-h <span class="variable">$&#123;hosts&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># serverId</span></span><br><span class="line">--server-id=<span class="variable">$&#123;server-id&#125;</span></span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>mysql</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>mysql中datetime和timestamp</title>
     <url>/hexoblog/2021/04/14/md/mysql/mysql%E4%B8%ADdatetime%E5%92%8Ctimestamp/</url>
     <content><![CDATA[<h1 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h1><h2 id="date和datetime，timestamp的区别"><a href="#date和datetime，timestamp的区别" class="headerlink" title="date和datetime，timestamp的区别"></a>date和datetime，timestamp的区别</h2><ol>
@@ -1566,41 +1515,6 @@
       </tags>
   </entry>
   <entry>
-    <title>mysql常用命令</title>
-    <url>/hexoblog/2021/03/12/md/mysql/mysql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><h2 id="修改mysql时区"><a href="#修改mysql时区" class="headerlink" title="修改mysql时区"></a>修改mysql时区</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看时区</span></span><br><span class="line">show variables like <span class="string">&quot;%time_zone%&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置时区为UTC+8:00</span></span><br><span class="line"><span class="built_in">set</span> global time_zone = <span class="string">&#x27;+8:00&#x27;</span>;</span><br><span class="line"><span class="built_in">set</span> time_zone = <span class="string">&#x27;+8:00&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 刷新立即生效</span></span><br><span class="line">flush privileges；</span><br></pre></td></tr></table></figure>
-
-<span id="more"></span>
-<h2 id="使用mysql-binlog"><a href="#使用mysql-binlog" class="headerlink" title="使用mysql binlog"></a>使用mysql binlog</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看日志是否开启</span></span><br><span class="line">show variables like <span class="string">&#x27;log_%&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看binlog配置</span></span><br><span class="line">show variables like <span class="string">&#x27;binlog_%&#x27;</span>; </span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看数据库当前日志情况</span></span><br><span class="line">show master status;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看所有日志文件</span></span><br><span class="line">show binary logs;</span><br><span class="line">show master logs;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 根据事件查看文件</span></span><br><span class="line">show binlog events <span class="keyword">in</span> <span class="string">&#x27;$&#123;binlogname&#125;&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看binlog日志文件内容</span></span><br><span class="line">mysqlbinlog  <span class="variable">$&#123;binlogname&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 以人类能看懂的方式查看binlog文件内容</span></span><br><span class="line">mysqlbinlog --base64-output=decode-rows -vvvvvv <span class="variable">$&#123;binlogname&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用-r命令将日志转写进sql</span></span><br><span class="line">mysqlbinlog --base64-output=decode-rows -vvvvvv <span class="variable">$&#123;binlogname&#125;</span> -r <span class="variable">$&#123;sqlname.sql&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 还原数据库</span></span><br><span class="line">mysqlbinlog --start-positoin=<span class="variable">$&#123;number&#125;</span> --stop-position=<span class="variable">$&#123;number&#125;</span> <span class="variable">$&#123;binlogname&#125;</span> -d <span class="variable">$&#123;databasename&#125;</span> | mysql -u<span class="variable">$&#123;username&#125;</span> -p<span class="variable">$&#123;password&#125;</span></span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;转写进文件的日志不能直接执行，不过我们可以从其中提取有用信息。<br>&emsp;&emsp;因为binlog日志里面会将删除等操作全部保存下来，所以再还原数据库信息时一定不能全部解析，需要指定确切位置。<br>&emsp;&emsp;指定位置，数据库，时间，端口，host的命令都可以跟在mysqlbinlog后面，不只只用来恢复，转储，查看都可以。这些命令可以排列组合，放在日志名称前即可。</p>
-<p>mysqlbinlog其他参数：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 起始位置</span></span><br><span class="line">--start-position=<span class="variable">$&#123;positiom number&#125;</span></span><br><span class="line"><span class="comment"># 结束位置</span></span><br><span class="line">--stop-position=<span class="variable">$&#123;position number&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 开始时间</span></span><br><span class="line">--start-datetime=<span class="variable">$&#123;starttime&#125;</span></span><br><span class="line"><span class="comment"># 结束时间</span></span><br><span class="line">--stop-datetime=<span class="variable">$&#123;stoptime&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 数据库</span></span><br><span class="line">-d <span class="variable">$&#123;databasename&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 端口号(大写的P)</span></span><br><span class="line">-P <span class="variable">$&#123;port&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ip地址</span></span><br><span class="line">-h <span class="variable">$&#123;hosts&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># serverId</span></span><br><span class="line">--server-id=<span class="variable">$&#123;server-id&#125;</span></span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>mysql</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mysql浮点数精度</title>
-    <url>/hexoblog/2021/04/14/md/mysql/mysql%E6%B5%AE%E7%82%B9%E6%95%B0%E7%B2%BE%E5%BA%A6/</url>
-    <content><![CDATA[<h1 id="小数类型"><a href="#小数类型" class="headerlink" title="小数类型"></a>小数类型</h1><h2 id="浮点数"><a href="#浮点数" class="headerlink" title="浮点数"></a>浮点数</h2><p>&emsp;&emsp;浮点型又称之为精度类型：是一种有可能丢失精度的数据类型，数据有可能不那么准确（由其是在超出范围的时候）。<br>&emsp;&emsp;浮点型之所以能够存储较大的数值（不精确），原因就是利用存储数据的位来存储指数。</p>
-<span id="more"></span>
-<h3 id="float"><a href="#float" class="headerlink" title="float"></a>float</h3><p>&emsp;&emsp;单精度浮点数，采用4个字节存储，保证7个位的精度。<br>&emsp;&emsp;Float(M,D)：表示一共存储M个有效数字，其中小数部分占D位。M(1<del>255)称为精度，D(1</del>30)称为标度且不能大于M-2，是可选的。<br>&emsp;&emsp;对于小数位数超长的，会采用四舍五入进行进位。</p>
-<h3 id="double"><a href="#double" class="headerlink" title="double"></a>double</h3><p>&emsp;&emsp;双精度浮点数，采用8个字节存储，表示的范围更大，精度最大15位。</p>
-<h2 id="定点数"><a href="#定点数" class="headerlink" title="定点数"></a>定点数</h2><p>&emsp;&emsp;能够保证数据精确的小数（小数部分可能不精确，超出长度会四舍五入），整数部分一定精确。<br>&emsp;&emsp;mysql中定点数只有一种，就是Decimal(M,D)。<br>&emsp;&emsp;Decimal定点数：系统自动根据存储的数据来分配存储空间，每大概9个数就会分配四个字节来进行存储，同时小数和整数部分是分开的。采用M+2个字节存储。<br>&emsp;&emsp;Decimal(M,D)：M表示总长度，最大值不能超过65，D代表小数部分长度，最长不能超过30。（默认为10，0）是必选的。</p>
-]]></content>
-      <categories>
-        <category>mysql</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
-        <tag>数据类型</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>redis为什么这么快</title>
     <url>/hexoblog/2021/03/08/md/redis/redis%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%99%E4%B9%88%E5%BF%AB/</url>
     <content><![CDATA[<h1 id="redis为什么这么快？"><a href="#redis为什么这么快？" class="headerlink" title="redis为什么这么快？"></a>redis为什么这么快？</h1><ol>
@@ -1628,31 +1542,20 @@
       </tags>
   </entry>
   <entry>
-    <title>redis安装和使用</title>
-    <url>/hexoblog/2021/04/14/md/redis/redis%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;这里是在windows环境下的redis安装过程，两种安装方式，都比较简单。<br>&emsp;&emsp;官方提供的只有linux系统的tar.gz格式的压缩包，windows的需要在github下载。<br><a href="https://redis.io/">https://redis.io/</a><br><a href="http://www.redis.cn/">http://www.redis.cn/</a><br><a href="https://www.redis.com.cn/">https://www.redis.com.cn/</a><br><a href="https://www.redis.com.cn/redis-installation.html">https://www.redis.com.cn/redis-installation.html</a></p>
+    <title>mysql浮点数精度</title>
+    <url>/hexoblog/2021/04/14/md/mysql/mysql%E6%B5%AE%E7%82%B9%E6%95%B0%E7%B2%BE%E5%BA%A6/</url>
+    <content><![CDATA[<h1 id="小数类型"><a href="#小数类型" class="headerlink" title="小数类型"></a>小数类型</h1><h2 id="浮点数"><a href="#浮点数" class="headerlink" title="浮点数"></a>浮点数</h2><p>&emsp;&emsp;浮点型又称之为精度类型：是一种有可能丢失精度的数据类型，数据有可能不那么准确（由其是在超出范围的时候）。<br>&emsp;&emsp;浮点型之所以能够存储较大的数值（不精确），原因就是利用存储数据的位来存储指数。</p>
 <span id="more"></span>
-<h2 id="msi安装"><a href="#msi安装" class="headerlink" title="msi安装"></a>msi安装</h2><ol>
-<li>下载msi安装文件<blockquote>
-<p>官方提供的只有tar.gz格式压缩包下载，msi需要在github下载<br><a href="https://github.com/MicrosoftArchive/redis/releases">https://github.com/MicrosoftArchive/redis/releases</a></p>
-</blockquote>
-</li>
-<li>双击运行</li>
-<li>完成安装</li>
-</ol>
-<h2 id="zip安装"><a href="#zip安装" class="headerlink" title="zip安装"></a>zip安装</h2><ol>
-<li>下载zip压缩包</li>
-<li>将压缩包解压至你准备安装的路径</li>
-<li>解压完成就是安装完成</li>
-</ol>
-<hr>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 先进入安装目录</span></span><br><span class="line"><span class="built_in">cd</span> &lt;安装目录&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动</span></span><br><span class="line"><span class="comment"># 作为普通软件启动，命令行关闭则关闭</span></span><br><span class="line">redis-server.exe redis.windows.conf</span><br><span class="line"><span class="comment"># 作为服务启动，不跟随命令行</span></span><br><span class="line">redis-server.exe redis.windows-service.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 客户端连接</span></span><br><span class="line">redis-cli.exe</span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭</span></span><br><span class="line">redis-server.exe --service-stop</span><br></pre></td></tr></table></figure>]]></content>
+<h3 id="float"><a href="#float" class="headerlink" title="float"></a>float</h3><p>&emsp;&emsp;单精度浮点数，采用4个字节存储，保证7个位的精度。<br>&emsp;&emsp;Float(M,D)：表示一共存储M个有效数字，其中小数部分占D位。M(1<del>255)称为精度，D(1</del>30)称为标度且不能大于M-2，是可选的。<br>&emsp;&emsp;对于小数位数超长的，会采用四舍五入进行进位。</p>
+<h3 id="double"><a href="#double" class="headerlink" title="double"></a>double</h3><p>&emsp;&emsp;双精度浮点数，采用8个字节存储，表示的范围更大，精度最大15位。</p>
+<h2 id="定点数"><a href="#定点数" class="headerlink" title="定点数"></a>定点数</h2><p>&emsp;&emsp;能够保证数据精确的小数（小数部分可能不精确，超出长度会四舍五入），整数部分一定精确。<br>&emsp;&emsp;mysql中定点数只有一种，就是Decimal(M,D)。<br>&emsp;&emsp;Decimal定点数：系统自动根据存储的数据来分配存储空间，每大概9个数就会分配四个字节来进行存储，同时小数和整数部分是分开的。采用M+2个字节存储。<br>&emsp;&emsp;Decimal(M,D)：M表示总长度，最大值不能超过65，D代表小数部分长度，最长不能超过30。（默认为10，0）是必选的。</p>
+]]></content>
       <categories>
-        <category>redis</category>
+        <category>mysql</category>
       </categories>
       <tags>
-        <tag>redis</tag>
-        <tag>tool</tag>
+        <tag>mysql</tag>
+        <tag>数据类型</tag>
       </tags>
   </entry>
   <entry>
@@ -1796,6 +1699,34 @@
       </tags>
   </entry>
   <entry>
+    <title>redis安装和使用</title>
+    <url>/hexoblog/2021/04/14/md/redis/redis%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;这里是在windows环境下的redis安装过程，两种安装方式，都比较简单。<br>&emsp;&emsp;官方提供的只有linux系统的tar.gz格式的压缩包，windows的需要在github下载。<br><a href="https://redis.io/">https://redis.io/</a><br><a href="http://www.redis.cn/">http://www.redis.cn/</a><br><a href="https://www.redis.com.cn/">https://www.redis.com.cn/</a><br><a href="https://www.redis.com.cn/redis-installation.html">https://www.redis.com.cn/redis-installation.html</a></p>
+<span id="more"></span>
+<h2 id="msi安装"><a href="#msi安装" class="headerlink" title="msi安装"></a>msi安装</h2><ol>
+<li>下载msi安装文件<blockquote>
+<p>官方提供的只有tar.gz格式压缩包下载，msi需要在github下载<br><a href="https://github.com/MicrosoftArchive/redis/releases">https://github.com/MicrosoftArchive/redis/releases</a></p>
+</blockquote>
+</li>
+<li>双击运行</li>
+<li>完成安装</li>
+</ol>
+<h2 id="zip安装"><a href="#zip安装" class="headerlink" title="zip安装"></a>zip安装</h2><ol>
+<li>下载zip压缩包</li>
+<li>将压缩包解压至你准备安装的路径</li>
+<li>解压完成就是安装完成</li>
+</ol>
+<hr>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 先进入安装目录</span></span><br><span class="line"><span class="built_in">cd</span> &lt;安装目录&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动</span></span><br><span class="line"><span class="comment"># 作为普通软件启动，命令行关闭则关闭</span></span><br><span class="line">redis-server.exe redis.windows.conf</span><br><span class="line"><span class="comment"># 作为服务启动，不跟随命令行</span></span><br><span class="line">redis-server.exe redis.windows-service.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 客户端连接</span></span><br><span class="line">redis-cli.exe</span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭</span></span><br><span class="line">redis-server.exe --service-stop</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>redis</category>
+      </categories>
+      <tags>
+        <tag>redis</tag>
+        <tag>tool</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>git</title>
     <url>/hexoblog/2021/03/03/md/tool/git/</url>
     <content><![CDATA[<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><h2 id="将本地文件推送至远程"><a href="#将本地文件推送至远程" class="headerlink" title="将本地文件推送至远程"></a>将本地文件推送至远程</h2><ol>
@@ -1832,35 +1763,27 @@
       </tags>
   </entry>
   <entry>
-    <title>swagger3</title>
-    <url>/hexoblog/2021/03/03/md/tool/swagger3/</url>
-    <content><![CDATA[<h1 id="使用过程"><a href="#使用过程" class="headerlink" title="使用过程"></a>使用过程</h1><h2 id="引包"><a href="#引包" class="headerlink" title="引包"></a>引包</h2><p>&emsp;&emsp;swagger3升级后，引入的包做相应升级，且集成进springboot启动器内，这里直接引入即可。</p>
-<span id="more"></span>
+    <title>zookeeper</title>
+    <url>/hexoblog/2021/03/03/md/zookeeper/zookeeper/</url>
+    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><span id="more"></span>
 
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- swagger--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.springfox<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>springfox-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>&emsp;&emsp;这里配置与swagger2发生了些许变化：</p>
-<h3 id="启动类"><a href="#启动类" class="headerlink" title="启动类"></a>启动类</h3><p>&emsp;&emsp;启动类中开启swagger的注解变为** @EnableOpenApi**。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@EnableOpenApi</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EbwcrmApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(EbwcrmApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="配置类"><a href="#配置类" class="headerlink" title="配置类"></a>配置类</h3><p>&emsp;&emsp;配置类中Docket类型需要修改为** DocumentationType.OAS_30**。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ConditionalOnProperty(value = &#123;&quot;ebwcrm.api.enable-swagger&quot;&#125;, havingValue = &quot;true&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SwaggerConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Docket <span class="title">createRestApi</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Docket(DocumentationType.OAS_30).apiInfo(apiInfo()).select()</span><br><span class="line">                .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class)).paths(PathSelectors.any()).build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 构建 api文档的详细信息函数,注意这里的注解引用的是哪个</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> ApiInfo <span class="title">apiInfo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ApiInfoBuilder()</span><br><span class="line">                <span class="comment">// 页面标题</span></span><br><span class="line">                .title(<span class="string">&quot;集盈客Api接口文档&quot;</span>)</span><br><span class="line">                <span class="comment">// 创建人</span></span><br><span class="line">                .contact(<span class="keyword">new</span> Contact(<span class="string">&quot;linqiankun&quot;</span>, <span class="string">&quot;http://localhost:8008/ebwcrm/swagger-ui/index.html&quot;</span>, <span class="string">&quot;linqiankun_51309@QQ.com&quot;</span>))</span><br><span class="line">                <span class="comment">// 版本号</span></span><br><span class="line">                .version(<span class="string">&quot;1.0&quot;</span>)</span><br><span class="line">                <span class="comment">// 描述</span></span><br><span class="line">                .description(<span class="string">&quot;根据服务端接口规范设计:http://doc.fed.weidai.work/docs/web/api&quot;</span>).build();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;拦截器中需要对swagger的静态资源进行放行，以免启动后无法访问到swagger。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addInterceptors</span><span class="params">(InterceptorRegistry registry)</span> </span>&#123;</span><br><span class="line">    List&lt;String&gt; pathPattern = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    pathPattern.add(<span class="string">&quot;/**&quot;</span>);</span><br><span class="line">    List&lt;String&gt; excludePattern = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    excludePattern.add(<span class="string">&quot;/swagger-ui/**&quot;</span>);</span><br><span class="line">    excludePattern.add(<span class="string">&quot;/swagger-resources/**&quot;</span>);</span><br><span class="line">    excludePattern.add(<span class="string">&quot;/v3/api-docs&quot;</span>);</span><br><span class="line">    registry.addInterceptor(loginInterceptor)</span><br><span class="line">            .addPathPatterns(pathPattern)</span><br><span class="line">            .excludePathPatterns(excludePattern);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>&emsp;&emsp;接口使用的注解，与swagger2基本相同。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/miUser&quot;)</span></span><br><span class="line"><span class="meta">@Api(tags = &quot;Controller&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MiUserController</span> </span>&#123;  </span><br><span class="line"></span><br><span class="line">    <span class="meta">@ApiOperation(&quot;updatePassword&quot;)</span></span><br><span class="line">    <span class="meta">@PostMapping(&quot;updatePassword&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> EBwcrmResult <span class="title">updatePassword</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;swagger3相对于swagger2的文档路径发生了改变。</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">http://&lt;ip&gt;:&lt;port&gt;/&lt;applicattion&gt;/swagger-ui/index.html</span><br></pre></td></tr></table></figure>]]></content>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><h2 id="查看dubbo服务"><a href="#查看dubbo服务" class="headerlink" title="查看dubbo服务"></a>查看dubbo服务</h2><ol>
+<li><p>使用zk客户端连接</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">./zkcli.sh</span><br><span class="line">./zkcli.bat</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看服务的提供者</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ls /dubbo/****.***.Service/Providers</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看服务的消费者</p>
+ <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ls /dubbo/****.****.Service/Consumers</span><br></pre></td></tr></table></figure></li>
+</ol>
+]]></content>
       <categories>
         <category>tool</category>
       </categories>
       <tags>
         <tag>tool</tag>
-        <tag>springboot</tag>
-        <tag>swagger</tag>
+        <tag>zookeeper</tag>
       </tags>
   </entry>
   <entry>
@@ -1904,6 +1827,38 @@
       <tags>
         <tag>tool</tag>
         <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>swagger3</title>
+    <url>/hexoblog/2021/03/03/md/tool/swagger3/</url>
+    <content><![CDATA[<h1 id="使用过程"><a href="#使用过程" class="headerlink" title="使用过程"></a>使用过程</h1><h2 id="引包"><a href="#引包" class="headerlink" title="引包"></a>引包</h2><p>&emsp;&emsp;swagger3升级后，引入的包做相应升级，且集成进springboot启动器内，这里直接引入即可。</p>
+<span id="more"></span>
+
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- swagger--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.springfox<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>springfox-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>&emsp;&emsp;这里配置与swagger2发生了些许变化：</p>
+<h3 id="启动类"><a href="#启动类" class="headerlink" title="启动类"></a>启动类</h3><p>&emsp;&emsp;启动类中开启swagger的注解变为** @EnableOpenApi**。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@EnableOpenApi</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EbwcrmApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(EbwcrmApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置类"><a href="#配置类" class="headerlink" title="配置类"></a>配置类</h3><p>&emsp;&emsp;配置类中Docket类型需要修改为** DocumentationType.OAS_30**。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ConditionalOnProperty(value = &#123;&quot;ebwcrm.api.enable-swagger&quot;&#125;, havingValue = &quot;true&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SwaggerConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Docket <span class="title">createRestApi</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Docket(DocumentationType.OAS_30).apiInfo(apiInfo()).select()</span><br><span class="line">                .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class)).paths(PathSelectors.any()).build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 构建 api文档的详细信息函数,注意这里的注解引用的是哪个</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> ApiInfo <span class="title">apiInfo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ApiInfoBuilder()</span><br><span class="line">                <span class="comment">// 页面标题</span></span><br><span class="line">                .title(<span class="string">&quot;集盈客Api接口文档&quot;</span>)</span><br><span class="line">                <span class="comment">// 创建人</span></span><br><span class="line">                .contact(<span class="keyword">new</span> Contact(<span class="string">&quot;linqiankun&quot;</span>, <span class="string">&quot;http://localhost:8008/ebwcrm/swagger-ui/index.html&quot;</span>, <span class="string">&quot;linqiankun_51309@QQ.com&quot;</span>))</span><br><span class="line">                <span class="comment">// 版本号</span></span><br><span class="line">                .version(<span class="string">&quot;1.0&quot;</span>)</span><br><span class="line">                <span class="comment">// 描述</span></span><br><span class="line">                .description(<span class="string">&quot;根据服务端接口规范设计:http://doc.fed.weidai.work/docs/web/api&quot;</span>).build();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;拦截器中需要对swagger的静态资源进行放行，以免启动后无法访问到swagger。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addInterceptors</span><span class="params">(InterceptorRegistry registry)</span> </span>&#123;</span><br><span class="line">    List&lt;String&gt; pathPattern = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    pathPattern.add(<span class="string">&quot;/**&quot;</span>);</span><br><span class="line">    List&lt;String&gt; excludePattern = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    excludePattern.add(<span class="string">&quot;/swagger-ui/**&quot;</span>);</span><br><span class="line">    excludePattern.add(<span class="string">&quot;/swagger-resources/**&quot;</span>);</span><br><span class="line">    excludePattern.add(<span class="string">&quot;/v3/api-docs&quot;</span>);</span><br><span class="line">    registry.addInterceptor(loginInterceptor)</span><br><span class="line">            .addPathPatterns(pathPattern)</span><br><span class="line">            .excludePathPatterns(excludePattern);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>&emsp;&emsp;接口使用的注解，与swagger2基本相同。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/miUser&quot;)</span></span><br><span class="line"><span class="meta">@Api(tags = &quot;Controller&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MiUserController</span> </span>&#123;  </span><br><span class="line"></span><br><span class="line">    <span class="meta">@ApiOperation(&quot;updatePassword&quot;)</span></span><br><span class="line">    <span class="meta">@PostMapping(&quot;updatePassword&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> EBwcrmResult <span class="title">updatePassword</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;swagger3相对于swagger2的文档路径发生了改变。</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">http://&lt;ip&gt;:&lt;port&gt;/&lt;applicattion&gt;/swagger-ui/index.html</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>tool</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>springboot</tag>
+        <tag>swagger</tag>
       </tags>
   </entry>
   <entry>
@@ -2059,72 +2014,6 @@
       </tags>
   </entry>
   <entry>
-    <title>zookeeper</title>
-    <url>/hexoblog/2021/03/03/md/zookeeper/zookeeper/</url>
-    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><span id="more"></span>
-
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><h2 id="查看dubbo服务"><a href="#查看dubbo服务" class="headerlink" title="查看dubbo服务"></a>查看dubbo服务</h2><ol>
-<li><p>使用zk客户端连接</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">./zkcli.sh</span><br><span class="line">./zkcli.bat</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查看服务的提供者</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ls /dubbo/****.***.Service/Providers</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查看服务的消费者</p>
- <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ls /dubbo/****.****.Service/Consumers</span><br></pre></td></tr></table></figure></li>
-</ol>
-]]></content>
-      <categories>
-        <category>tool</category>
-      </categories>
-      <tags>
-        <tag>tool</tag>
-        <tag>zookeeper</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>分布式事务</title>
-    <url>/hexoblog/2021/03/02/md/%E5%88%86%E5%B8%83%E5%BC%8F/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/</url>
-    <content><![CDATA[<h1 id="分布式事务类型："><a href="#分布式事务类型：" class="headerlink" title="分布式事务类型："></a>分布式事务类型：</h1><p>分布式事务处理机制共有四种：</p>
-<ol>
-<li>两阶段提交</li>
-<li>TCC事务（事务补偿）</li>
-<li>本地消息表（异步确保），</li>
-<li>MQ事务消息。</li>
-</ol>
-<span id="more"></span>
-
-<h2 id="两阶段提交："><a href="#两阶段提交：" class="headerlink" title="两阶段提交："></a>两阶段提交：</h2><p>&emsp;&emsp;与数据库XA事务一样，两阶段提交使用XA协议。<br>&emsp;&emsp;两阶段提交这种方案属于牺牲了一部分可用性来换取的一致性。</p>
-<h3 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;尽量保证了数据的强一致，适合对数据强一致要求很高的关键领域。</p>
-<h3 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;实现复杂，牺牲了可用性，对性能影响较大，不适合高并发高性能场景，如分布式系统跨接口调用。</p>
-<h2 id="TCC事务："><a href="#TCC事务：" class="headerlink" title="TCC事务："></a>TCC事务：</h2><p>&emsp;&emsp;TCC其实就是采用的补偿机制，其核心思想是：针对每个操作，都要注册一个与其对应的确认和补偿操作。分为三个阶段：</p>
-<ol>
-<li> Try阶段主要是对业务系统做检测和资源预留。</li>
-<li> Confirm阶段主要是对业务系统做确认提交，Try阶段执行成功并开始执行Confirm阶段时，默认Confirm阶段是不会出错的。即：只要Try成功，Confirm一定成功。</li>
-<li> Cancel阶段主要是在业务执行错误，需要回滚的状态下，执行的业务取消，预留资源释放。</li>
-</ol>
-<h3 id="优点：-1"><a href="#优点：-1" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;跟2阶段提交比起来，实现及流程相对简单了些，但数据的一致性也要比2阶段提交要差一些。</p>
-<h3 id="缺点：-1"><a href="#缺点：-1" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;在2，3步中都可能失败。TCC是一种应用层的补偿方式，需要程序员在实现时写很多补偿的代码，一些场景中，一些业务流程用TCC不太好定义及处理。</p>
-<h2 id="本地消息表："><a href="#本地消息表：" class="headerlink" title="本地消息表："></a>本地消息表：</h2><p>&emsp;&emsp;使用最多的，核心思想是将分布式事务拆分成本地事务进行处理，来源于ebay。</p>
-<p>基本思路就是：</p>
-<p>&emsp;&emsp;消息生产方，需要额外建一个消息表，并记录消息发送状态。消息表和业务数据要在一个事务里提交，也就是说他们要在一个数据库里面。然后会经由MQ发送到消息的消费方。如果消息发送失败，会进行重试发送。<br>&emsp;&emsp;消息消费方，需要处理这个消息，并完成这个的业务逻辑。如果此时本地事务处理成功，表明已经处理成功了，如果处理失败，那么就会重试执行。如果是业务上面的失败，可以给生产方发送一个业务补偿消息，通知生产方进行回滚等操作。<br>&emsp;&emsp;生产方和消费方定时扫描本地消息表，把还没处理完成的消息或者失败的消息在发送一遍。<br>&emsp;&emsp;这种方案遵循最终一致性。</p>
-<h3 id="优点：-2"><a href="#优点：-2" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;一种非常经典的实现， 避免的分布式事务，实现了最终一致性。</p>
-<h3 id="缺点：-2"><a href="#缺点：-2" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;消息表会耦合到业务系统中，如果没有封装好的解决方案，会有很多杂活需要处理。</p>
-<h2 id="MQ事务消息："><a href="#MQ事务消息：" class="headerlink" title="MQ事务消息："></a>MQ事务消息：</h2><p>&emsp;&emsp;有一些第三方的MQ是支持事务消息的，比如RocketMQ，他们支持事务消息的方式也是类似于采用的二阶段提交，但一些主流的MQ都是不支持事务消息的，如RabbitMQ和Kafka都不支持。</p>
-<p>以阿里的RocketMQ为例：</p>
-<p>&emsp;&emsp;第一阶段Prepared消息，会拿到消息的地址。<br>&emsp;&emsp;第二阶段执行本地事务，第三阶段通过第一阶段拿到的地址去访问消息，并修改状态。<br>&emsp;&emsp;也就是说在业务方法内部要想消息队列提交两次请求，一次发送消息和一次确认消息。如果确认消息发送失败了，RocketMQ会定期扫描消息集群中的事务消息，这是发现了Prepared消息，它会像消息发送者确认，所以生产方需要实现一个check接口，RocketMQ会根据发送端设置的策略来决定是回滚还是继续发送确认消息。这样就保证了消息发送与本地事务同时成功或同时失败。</p>
-<h3 id="优点：-3"><a href="#优点：-3" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;实现了最终一致性，不需要依赖本地数据库事务。</p>
-<h3 id="缺点：-3"><a href="#缺点：-3" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;实现难度大，主流MQ不支持，RocketMQ事务消息部分代码未开源。</p>
-]]></content>
-      <categories>
-        <category>架构</category>
-      </categories>
-      <tags>
-        <tag>分布式</tag>
-        <tag>acid</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>一致性hash</title>
     <url>/hexoblog/2021/03/26/md/%E5%88%86%E5%B8%83%E5%BC%8F/%E4%B8%80%E8%87%B4%E6%80%A7hash/</url>
     <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;在分布式系统中，通常不同的机器存储着不同的数据，例如redis集群中存储的数据。<br>&emsp;&emsp;这些数据通常采用hash算法来计算出应该存储在那台机器上。但是，当集群中的节点增加或者减少时，通过原有的hash算法计算出来的位置将会完全错误。<br>&emsp;&emsp;一致性hash就是为了解决这种问题诞生的。</p>
@@ -2212,6 +2101,92 @@
       <tags>
         <tag>分布式</tag>
         <tag>lock</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>分布式事务</title>
+    <url>/hexoblog/2021/03/02/md/%E5%88%86%E5%B8%83%E5%BC%8F/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/</url>
+    <content><![CDATA[<h1 id="分布式事务类型："><a href="#分布式事务类型：" class="headerlink" title="分布式事务类型："></a>分布式事务类型：</h1><p>分布式事务处理机制共有四种：</p>
+<ol>
+<li>两阶段提交</li>
+<li>TCC事务（事务补偿）</li>
+<li>本地消息表（异步确保），</li>
+<li>MQ事务消息。</li>
+</ol>
+<span id="more"></span>
+
+<h2 id="两阶段提交："><a href="#两阶段提交：" class="headerlink" title="两阶段提交："></a>两阶段提交：</h2><p>&emsp;&emsp;与数据库XA事务一样，两阶段提交使用XA协议。<br>&emsp;&emsp;两阶段提交这种方案属于牺牲了一部分可用性来换取的一致性。</p>
+<h3 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;尽量保证了数据的强一致，适合对数据强一致要求很高的关键领域。</p>
+<h3 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;实现复杂，牺牲了可用性，对性能影响较大，不适合高并发高性能场景，如分布式系统跨接口调用。</p>
+<h2 id="TCC事务："><a href="#TCC事务：" class="headerlink" title="TCC事务："></a>TCC事务：</h2><p>&emsp;&emsp;TCC其实就是采用的补偿机制，其核心思想是：针对每个操作，都要注册一个与其对应的确认和补偿操作。分为三个阶段：</p>
+<ol>
+<li> Try阶段主要是对业务系统做检测和资源预留。</li>
+<li> Confirm阶段主要是对业务系统做确认提交，Try阶段执行成功并开始执行Confirm阶段时，默认Confirm阶段是不会出错的。即：只要Try成功，Confirm一定成功。</li>
+<li> Cancel阶段主要是在业务执行错误，需要回滚的状态下，执行的业务取消，预留资源释放。</li>
+</ol>
+<h3 id="优点：-1"><a href="#优点：-1" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;跟2阶段提交比起来，实现及流程相对简单了些，但数据的一致性也要比2阶段提交要差一些。</p>
+<h3 id="缺点：-1"><a href="#缺点：-1" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;在2，3步中都可能失败。TCC是一种应用层的补偿方式，需要程序员在实现时写很多补偿的代码，一些场景中，一些业务流程用TCC不太好定义及处理。</p>
+<h2 id="本地消息表："><a href="#本地消息表：" class="headerlink" title="本地消息表："></a>本地消息表：</h2><p>&emsp;&emsp;使用最多的，核心思想是将分布式事务拆分成本地事务进行处理，来源于ebay。</p>
+<p>基本思路就是：</p>
+<p>&emsp;&emsp;消息生产方，需要额外建一个消息表，并记录消息发送状态。消息表和业务数据要在一个事务里提交，也就是说他们要在一个数据库里面。然后会经由MQ发送到消息的消费方。如果消息发送失败，会进行重试发送。<br>&emsp;&emsp;消息消费方，需要处理这个消息，并完成这个的业务逻辑。如果此时本地事务处理成功，表明已经处理成功了，如果处理失败，那么就会重试执行。如果是业务上面的失败，可以给生产方发送一个业务补偿消息，通知生产方进行回滚等操作。<br>&emsp;&emsp;生产方和消费方定时扫描本地消息表，把还没处理完成的消息或者失败的消息在发送一遍。<br>&emsp;&emsp;这种方案遵循最终一致性。</p>
+<h3 id="优点：-2"><a href="#优点：-2" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;一种非常经典的实现， 避免的分布式事务，实现了最终一致性。</p>
+<h3 id="缺点：-2"><a href="#缺点：-2" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;消息表会耦合到业务系统中，如果没有封装好的解决方案，会有很多杂活需要处理。</p>
+<h2 id="MQ事务消息："><a href="#MQ事务消息：" class="headerlink" title="MQ事务消息："></a>MQ事务消息：</h2><p>&emsp;&emsp;有一些第三方的MQ是支持事务消息的，比如RocketMQ，他们支持事务消息的方式也是类似于采用的二阶段提交，但一些主流的MQ都是不支持事务消息的，如RabbitMQ和Kafka都不支持。</p>
+<p>以阿里的RocketMQ为例：</p>
+<p>&emsp;&emsp;第一阶段Prepared消息，会拿到消息的地址。<br>&emsp;&emsp;第二阶段执行本地事务，第三阶段通过第一阶段拿到的地址去访问消息，并修改状态。<br>&emsp;&emsp;也就是说在业务方法内部要想消息队列提交两次请求，一次发送消息和一次确认消息。如果确认消息发送失败了，RocketMQ会定期扫描消息集群中的事务消息，这是发现了Prepared消息，它会像消息发送者确认，所以生产方需要实现一个check接口，RocketMQ会根据发送端设置的策略来决定是回滚还是继续发送确认消息。这样就保证了消息发送与本地事务同时成功或同时失败。</p>
+<h3 id="优点：-3"><a href="#优点：-3" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;实现了最终一致性，不需要依赖本地数据库事务。</p>
+<h3 id="缺点：-3"><a href="#缺点：-3" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;实现难度大，主流MQ不支持，RocketMQ事务消息部分代码未开源。</p>
+]]></content>
+      <categories>
+        <category>架构</category>
+      </categories>
+      <tags>
+        <tag>分布式</tag>
+        <tag>acid</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>dubbo服务引入流程</title>
+    <url>/hexoblog/2021/04/22/md/dubbo/dubbo%E6%9C%8D%E5%8A%A1%E5%BC%95%E5%85%A5%E6%B5%81%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="服务引入流程"><a href="#服务引入流程" class="headerlink" title="服务引入流程"></a>服务引入流程</h1><p><a href="https://dubbo.apache.org/zh/docs/v2.7/dev/implementation/#%E6%9C%8D%E5%8A%A1%E6%B6%88%E8%B4%B9%E8%80%85%E6%B6%88%E8%B4%B9%E4%B8%80%E4%B8%AA%E6%9C%8D%E5%8A%A1%E7%9A%84%E8%AF%A6%E7%BB%86%E8%BF%87%E7%A8%8B">服务消费者消费一个服务的详细过程 </a></p>
+<span id="more"></span>
+
+<h2 id="服务引入时序图"><a href="#服务引入时序图" class="headerlink" title="服务引入时序图"></a>服务引入时序图</h2><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/dubbo-refer.jpg" alt="服务引入时序图"></p>
+<h2 id="服务发现与引入"><a href="#服务发现与引入" class="headerlink" title="服务发现与引入"></a>服务发现与引入</h2><p><a href="https://dubbo.apache.org/zh/docs/v2.7/dev/implementation/#%E5%BC%95%E7%94%A8%E6%9C%8D%E5%8A%A1">引用服务</a></p>
+<p>&emsp;&emsp;服务发现与引入的流程与暴露流程相似，只是经过标签初始化后，采用的是ReferenceBean对象，而服务暴露采用的是ServiceBean对象。<br>&emsp;&emsp;与暴露过程中相同，spring初始化完成bean的组装后会调用InitializingBean的afterPropertiesSet方法。<br>&emsp;&emsp;这个方法中会调用getObject方法，继续调用get方法，进入ReferenceConfig对象的init方法中。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ReferenceBean</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="meta">@SuppressWarnings(&#123;&quot;unchecked&quot;&#125;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">afterPropertiesSet</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">     <span class="comment">// 省略一堆流程</span></span><br><span class="line"></span><br><span class="line">     <span class="keyword">if</span> (shouldInit()) &#123;</span><br><span class="line">          getObject();</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">getObject</span><span class="params">()</span> </span>&#123;</span><br><span class="line">     <span class="keyword">return</span> get();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> T <span class="title">get</span><span class="params">()</span> </span>&#123;</span><br><span class="line">     checkAndUpdateSubConfigs();</span><br><span class="line"></span><br><span class="line">     <span class="keyword">if</span> (destroyed) &#123;</span><br><span class="line">          <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">&quot;The invoker of ReferenceConfig(&quot;</span> + url + <span class="string">&quot;) has already destroyed!&quot;</span>);</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">if</span> (ref == <span class="keyword">null</span>) &#123;</span><br><span class="line">          init();</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">return</span> ref;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;在ReferenceConfig的init方法中对参数进行组装，紧接者就会调用createProxy方法创建代理对象。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ReferenceConfig</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">     <span class="keyword">if</span> (initialized) &#123;</span><br><span class="line">          <span class="keyword">return</span>;</span><br><span class="line">     &#125;</span><br><span class="line">     initialized = <span class="keyword">true</span>;</span><br><span class="line">     checkStubAndLocal(interfaceClass);</span><br><span class="line">     checkMock(interfaceClass);</span><br><span class="line">     Map&lt;String, String&gt; map = <span class="keyword">new</span> HashMap&lt;String, String&gt;();</span><br><span class="line"></span><br><span class="line">     map.put(Constants.SIDE_KEY, Constants.CONSUMER_SIDE);</span><br><span class="line">     appendRuntimeParameters(map);</span><br><span class="line">     <span class="keyword">if</span> (!isGeneric()) &#123;</span><br><span class="line">          String revision = Version.getVersion(interfaceClass, version);</span><br><span class="line">          <span class="keyword">if</span> (revision != <span class="keyword">null</span> &amp;&amp; revision.length() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">               map.put(<span class="string">&quot;revision&quot;</span>, revision);</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          String[] methods = Wrapper.getWrapper(interfaceClass).getMethodNames();</span><br><span class="line">          <span class="keyword">if</span> (methods.length == <span class="number">0</span>) &#123;</span><br><span class="line">               logger.warn(<span class="string">&quot;No method found in service interface &quot;</span> + interfaceClass.getName());</span><br><span class="line">               map.put(<span class="string">&quot;methods&quot;</span>, Constants.ANY_VALUE);</span><br><span class="line">          &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">               map.put(<span class="string">&quot;methods&quot;</span>, StringUtils.join(<span class="keyword">new</span> HashSet&lt;String&gt;(Arrays.asList(methods)), <span class="string">&quot;,&quot;</span>));</span><br><span class="line">          &#125;</span><br><span class="line">     &#125;</span><br><span class="line">     map.put(Constants.INTERFACE_KEY, interfaceName);</span><br><span class="line">     appendParameters(map, application);</span><br><span class="line">     appendParameters(map, <span class="keyword">module</span>);</span><br><span class="line">     appendParameters(map, consumer, Constants.DEFAULT_KEY);</span><br><span class="line">     appendParameters(map, <span class="keyword">this</span>);</span><br><span class="line">     Map&lt;String, Object&gt; attributes = <span class="keyword">null</span>;</span><br><span class="line">     <span class="keyword">if</span> (CollectionUtils.isNotEmpty(methods)) &#123;</span><br><span class="line">          attributes = <span class="keyword">new</span> HashMap&lt;String, Object&gt;();</span><br><span class="line">          <span class="keyword">for</span> (MethodConfig methodConfig : methods) &#123;</span><br><span class="line">               appendParameters(map, methodConfig, methodConfig.getName());</span><br><span class="line">               String retryKey = methodConfig.getName() + <span class="string">&quot;.retry&quot;</span>;</span><br><span class="line">               <span class="keyword">if</span> (map.containsKey(retryKey)) &#123;</span><br><span class="line">               String retryValue = map.remove(retryKey);</span><br><span class="line">               <span class="keyword">if</span> (<span class="string">&quot;false&quot;</span>.equals(retryValue)) &#123;</span><br><span class="line">                    map.put(methodConfig.getName() + <span class="string">&quot;.retries&quot;</span>, <span class="string">&quot;0&quot;</span>);</span><br><span class="line">               &#125;</span><br><span class="line">               &#125;</span><br><span class="line">               attributes.put(methodConfig.getName(), convertMethodConfig2AyncInfo(methodConfig));</span><br><span class="line">          &#125;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     String hostToRegistry = ConfigUtils.getSystemProperty(Constants.DUBBO_IP_TO_REGISTRY);</span><br><span class="line">     <span class="keyword">if</span> (StringUtils.isEmpty(hostToRegistry)) &#123;</span><br><span class="line">          hostToRegistry = NetUtils.getLocalHost();</span><br><span class="line">     &#125;</span><br><span class="line">     map.put(Constants.REGISTER_IP_KEY, hostToRegistry);</span><br><span class="line"></span><br><span class="line">     ref = createProxy(map);</span><br><span class="line"></span><br><span class="line">     String serviceKey = URL.buildKey(interfaceName, group, version);</span><br><span class="line">     ApplicationModel.initConsumerModel(serviceKey, buildConsumerModel(serviceKey, attributes));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;createProxy方法中，会进行根据SPI机制选择不同的Protocol进行服务的发现与引入，获得invoker对象，然后对获取到的invoker对象创建代理并返回。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> T <span class="title">createProxy</span><span class="params">(Map&lt;String, String&gt; map)</span> </span>&#123;</span><br><span class="line">     <span class="keyword">if</span> (shouldJvmRefer(map)) &#123;</span><br><span class="line">          URL url = <span class="keyword">new</span> URL(Constants.LOCAL_PROTOCOL, Constants.LOCALHOST_VALUE, <span class="number">0</span>, interfaceClass.getName()).addParameters(map);</span><br><span class="line">          invoker = refprotocol.refer(interfaceClass, url);</span><br><span class="line">          <span class="keyword">if</span> (logger.isInfoEnabled()) &#123;</span><br><span class="line">               logger.info(<span class="string">&quot;Using injvm service &quot;</span> + interfaceClass.getName());</span><br><span class="line">          &#125;</span><br><span class="line">     &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="keyword">if</span> (url != <span class="keyword">null</span> &amp;&amp; url.length() &gt; <span class="number">0</span>) &#123; <span class="comment">// user specified URL, could be peer-to-peer address, or register center&#x27;s address.</span></span><br><span class="line">               String[] us = Constants.SEMICOLON_SPLIT_PATTERN.split(url);</span><br><span class="line">               <span class="keyword">if</span> (us != <span class="keyword">null</span> &amp;&amp; us.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">               <span class="keyword">for</span> (String u : us) &#123;</span><br><span class="line">                    URL url = URL.valueOf(u);</span><br><span class="line">                    <span class="keyword">if</span> (StringUtils.isEmpty(url.getPath())) &#123;</span><br><span class="line">                         url = url.setPath(interfaceName);</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">if</span> (Constants.REGISTRY_PROTOCOL.equals(url.getProtocol())) &#123;</span><br><span class="line">                         urls.add(url.addParameterAndEncoded(Constants.REFER_KEY, StringUtils.toQueryString(map)));</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                         urls.add(ClusterUtils.mergeUrl(url, map));</span><br><span class="line">                    &#125;</span><br><span class="line">               &#125;</span><br><span class="line">               &#125;</span><br><span class="line">          &#125; <span class="keyword">else</span> &#123; <span class="comment">// assemble URL from register center&#x27;s configuration</span></span><br><span class="line">               checkRegistry();</span><br><span class="line">               List&lt;URL&gt; us = loadRegistries(<span class="keyword">false</span>);</span><br><span class="line">               <span class="keyword">if</span> (CollectionUtils.isNotEmpty(us)) &#123;</span><br><span class="line">               <span class="keyword">for</span> (URL u : us) &#123;</span><br><span class="line">                    URL monitorUrl = loadMonitor(u);</span><br><span class="line">                    <span class="keyword">if</span> (monitorUrl != <span class="keyword">null</span>) &#123;</span><br><span class="line">                         map.put(Constants.MONITOR_KEY, URL.encode(monitorUrl.toFullString()));</span><br><span class="line">                    &#125;</span><br><span class="line">                    urls.add(u.addParameterAndEncoded(Constants.REFER_KEY, StringUtils.toQueryString(map)));</span><br><span class="line">               &#125;</span><br><span class="line">               &#125;</span><br><span class="line">               <span class="keyword">if</span> (urls.isEmpty()) &#123;</span><br><span class="line">               <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">&quot;No such any registry to reference &quot;</span> + interfaceName + <span class="string">&quot; on the consumer &quot;</span> + NetUtils.getLocalHost() + <span class="string">&quot; use dubbo version &quot;</span> + Version.getVersion() + <span class="string">&quot;, please config &lt;dubbo:registry address=\&quot;...\&quot; /&gt; to your spring config.&quot;</span>);</span><br><span class="line">               &#125;</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          <span class="keyword">if</span> (urls.size() == <span class="number">1</span>) &#123;</span><br><span class="line">               invoker = refprotocol.refer(interfaceClass, urls.get(<span class="number">0</span>));</span><br><span class="line">          &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">               List&lt;Invoker&lt;?&gt;&gt; invokers = <span class="keyword">new</span> ArrayList&lt;Invoker&lt;?&gt;&gt;();</span><br><span class="line">               URL registryURL = <span class="keyword">null</span>;</span><br><span class="line">               <span class="keyword">for</span> (URL url : urls) &#123;</span><br><span class="line">               invokers.add(refprotocol.refer(interfaceClass, url));</span><br><span class="line">               <span class="keyword">if</span> (Constants.REGISTRY_PROTOCOL.equals(url.getProtocol())) &#123;</span><br><span class="line">                    registryURL = url; <span class="comment">// use last registry url</span></span><br><span class="line">               &#125;</span><br><span class="line">               &#125;</span><br><span class="line">               <span class="keyword">if</span> (registryURL != <span class="keyword">null</span>) &#123; <span class="comment">// registry url is available</span></span><br><span class="line">               <span class="comment">// use RegistryAwareCluster only when register&#x27;s cluster is available</span></span><br><span class="line">               URL u = registryURL.addParameter(Constants.CLUSTER_KEY, RegistryAwareCluster.NAME);</span><br><span class="line">               <span class="comment">// The invoker wrap relation would be: RegistryAwareClusterInvoker(StaticDirectory) -&gt; FailoverClusterInvoker(RegistryDirectory, will execute route) -&gt; Invoker</span></span><br><span class="line">               invoker = cluster.join(<span class="keyword">new</span> StaticDirectory(u, invokers));</span><br><span class="line">               &#125; <span class="keyword">else</span> &#123; <span class="comment">// not a registry url, must be direct invoke.</span></span><br><span class="line">               invoker = cluster.join(<span class="keyword">new</span> StaticDirectory(invokers));</span><br><span class="line">               &#125;</span><br><span class="line">          &#125;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">if</span> (shouldCheck() &amp;&amp; !invoker.isAvailable()) &#123;</span><br><span class="line">          <span class="comment">// make it possible for consumer to retry later if provider is temporarily unavailable</span></span><br><span class="line">          initialized = <span class="keyword">false</span>;</span><br><span class="line">          <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">&quot;Failed to check the status of the service &quot;</span> + interfaceName + <span class="string">&quot;. No provider available for the service &quot;</span> + (group == <span class="keyword">null</span> ? <span class="string">&quot;&quot;</span> : group + <span class="string">&quot;/&quot;</span>) + interfaceName + (version == <span class="keyword">null</span> ? <span class="string">&quot;&quot;</span> : <span class="string">&quot;:&quot;</span> + version) + <span class="string">&quot; from the url &quot;</span> + invoker.getUrl() + <span class="string">&quot; to the consumer &quot;</span> + NetUtils.getLocalHost() + <span class="string">&quot; use dubbo version &quot;</span> + Version.getVersion());</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">if</span> (logger.isInfoEnabled()) &#123;</span><br><span class="line">          logger.info(<span class="string">&quot;Refer dubbo service &quot;</span> + interfaceClass.getName() + <span class="string">&quot; from url &quot;</span> + invoker.getUrl());</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@since</span> 2.7.0</span></span><br><span class="line"><span class="comment">     * ServiceData Store</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">     MetadataReportService metadataReportService = <span class="keyword">null</span>;</span><br><span class="line">     <span class="keyword">if</span> ((metadataReportService = getMetadataReportService()) != <span class="keyword">null</span>) &#123;</span><br><span class="line">          URL consumerURL = <span class="keyword">new</span> URL(Constants.CONSUMER_PROTOCOL, map.remove(Constants.REGISTER_IP_KEY), <span class="number">0</span>, map.get(Constants.INTERFACE_KEY), map);</span><br><span class="line">          metadataReportService.publishConsumer(consumerURL);</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="comment">// create service proxy</span></span><br><span class="line">     <span class="keyword">return</span> (T) proxyFactory.getProxy(invoker);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;在Protocol层中，也根据SPI机制选择对应的Protocol实现服务调用。</p>
+<h3 id="直连引用服务"><a href="#直连引用服务" class="headerlink" title="直连引用服务"></a>直连引用服务</h3><p><a href="https://dubbo.apache.org/zh/docs/v2.7/dev/implementation/#1-%E7%9B%B4%E8%BF%9E%E5%BC%95%E7%94%A8%E6%9C%8D%E5%8A%A1">直连引用服务</a></p>
+<p>&emsp;&emsp;当在本地直连引用服务时，默认会进入DubboProtocol，也可以配置其他协议。暴露时进入的入口为export方法，引入的入口就是refer。这里会直接返回提供者的引用。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> &lt;T&gt; <span class="function">Invoker&lt;T&gt; <span class="title">refer</span><span class="params">(Class&lt;T&gt; serviceType, URL url)</span> <span class="keyword">throws</span> RpcException </span>&#123;</span><br><span class="line">     optimizeSerialization(url);</span><br><span class="line"></span><br><span class="line">     <span class="comment">// create rpc invoker.</span></span><br><span class="line">     DubboInvoker&lt;T&gt; invoker = <span class="keyword">new</span> DubboInvoker&lt;T&gt;(serviceType, url, getClients(url), invokers);</span><br><span class="line">     invokers.add(invoker);</span><br><span class="line"></span><br><span class="line">     <span class="keyword">return</span> invoker;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;这里会调用getClients方法，进而调用initClient方法建立连接。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> ExchangeClient[] getClients(URL url) &#123;</span><br><span class="line">     <span class="comment">// whether to share connection</span></span><br><span class="line"></span><br><span class="line">     <span class="keyword">boolean</span> useShareConnect = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">int</span> connections = url.getParameter(Constants.CONNECTIONS_KEY, <span class="number">0</span>);</span><br><span class="line">     List&lt;ReferenceCountExchangeClient&gt; shareClients = <span class="keyword">null</span>;</span><br><span class="line">     <span class="comment">// if not configured, connection is shared, otherwise, one connection for one service</span></span><br><span class="line">     <span class="keyword">if</span> (connections == <span class="number">0</span>) &#123;</span><br><span class="line">          useShareConnect = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">          <span class="comment">/**</span></span><br><span class="line"><span class="comment">          * The xml configuration should have a higher priority than properties.</span></span><br><span class="line"><span class="comment">          */</span></span><br><span class="line">          String shareConnectionsStr = url.getParameter(Constants.SHARE_CONNECTIONS_KEY, (String) <span class="keyword">null</span>);</span><br><span class="line">          connections = Integer.parseInt(StringUtils.isBlank(shareConnectionsStr) ? ConfigUtils.getProperty(Constants.SHARE_CONNECTIONS_KEY,</span><br><span class="line">               Constants.DEFAULT_SHARE_CONNECTIONS) : shareConnectionsStr);</span><br><span class="line">          shareClients = getSharedClient(url, connections);</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     ExchangeClient[] clients = <span class="keyword">new</span> ExchangeClient[connections];</span><br><span class="line">     <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; clients.length; i++) &#123;</span><br><span class="line">          <span class="keyword">if</span> (useShareConnect) &#123;</span><br><span class="line">               clients[i] = shareClients.get(i);</span><br><span class="line"></span><br><span class="line">          &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">               clients[i] = initClient(url);</span><br><span class="line">          &#125;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">return</span> clients;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> ExchangeClient <span class="title">initClient</span><span class="params">(URL url)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">     <span class="comment">// client type setting.</span></span><br><span class="line">     String str = url.getParameter(Constants.CLIENT_KEY, url.getParameter(Constants.SERVER_KEY, Constants.DEFAULT_REMOTING_CLIENT));</span><br><span class="line"></span><br><span class="line">     url = url.addParameter(Constants.CODEC_KEY, DubboCodec.NAME);</span><br><span class="line">     <span class="comment">// enable heartbeat by default</span></span><br><span class="line">     url = url.addParameterIfAbsent(Constants.HEARTBEAT_KEY, String.valueOf(Constants.DEFAULT_HEARTBEAT));</span><br><span class="line"></span><br><span class="line">     <span class="comment">// BIO is not allowed since it has severe performance issue.</span></span><br><span class="line">     <span class="keyword">if</span> (str != <span class="keyword">null</span> &amp;&amp; str.length() &gt; <span class="number">0</span> &amp;&amp; !ExtensionLoader.getExtensionLoader(Transporter.class).hasExtension(str)) &#123;</span><br><span class="line">          <span class="keyword">throw</span> <span class="keyword">new</span> RpcException(<span class="string">&quot;Unsupported client type: &quot;</span> + str + <span class="string">&quot;,&quot;</span> +</span><br><span class="line">               <span class="string">&quot; supported client type is &quot;</span> + StringUtils.join(ExtensionLoader.getExtensionLoader(Transporter.class).getSupportedExtensions(), <span class="string">&quot; &quot;</span>));</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     ExchangeClient client;</span><br><span class="line">     <span class="keyword">try</span> &#123;</span><br><span class="line">          <span class="comment">// connection should be lazy</span></span><br><span class="line">          <span class="keyword">if</span> (url.getParameter(Constants.LAZY_CONNECT_KEY, <span class="keyword">false</span>)) &#123;</span><br><span class="line">               client = <span class="keyword">new</span> LazyConnectExchangeClient(url, requestHandler);</span><br><span class="line"></span><br><span class="line">          &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">               client = Exchangers.connect(url, requestHandler);</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">     &#125; <span class="keyword">catch</span> (RemotingException e) &#123;</span><br><span class="line">          <span class="keyword">throw</span> <span class="keyword">new</span> RpcException(<span class="string">&quot;Fail to create remoting client for service(&quot;</span> + url + <span class="string">&quot;): &quot;</span> + e.getMessage(), e);</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">return</span> client;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;接下来的流程与服务暴露相似，不同在于，暴露是一层一层通过bind方法暴露出去，而消费方是一层层通过connect方法建立netty连接。</p>
+<h3 id="从注册中心发现引用服务"><a href="#从注册中心发现引用服务" class="headerlink" title="从注册中心发现引用服务"></a>从注册中心发现引用服务</h3><p><a href="https://dubbo.apache.org/zh/docs/v2.7/dev/implementation/#2-%E4%BB%8E%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83%E5%8F%91%E7%8E%B0%E5%BC%95%E7%94%A8%E6%9C%8D%E5%8A%A1">从注册中心发现引用服务</a></p>
+<p>&emsp;&emsp;与暴露过程中相似，在调用Protocol获取invoker(提供者的引用)时，也会使用到SPI机制，ProtocolFilterWrapper和ProtocolListenerWrapper中：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ProtocolFilterWrapper</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> &lt;T&gt; <span class="function">Invoker&lt;T&gt; <span class="title">refer</span><span class="params">(Class&lt;T&gt; type, URL url)</span> <span class="keyword">throws</span> RpcException </span>&#123;</span><br><span class="line">     <span class="keyword">if</span> (Constants.REGISTRY_PROTOCOL.equals(url.getProtocol())) &#123;</span><br><span class="line">          <span class="keyword">return</span> protocol.refer(type, url);</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">return</span> buildInvokerChain(protocol.refer(type, url), Constants.REFERENCE_FILTER_KEY, Constants.CONSUMER);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ProtocolListenerWrapper</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> &lt;T&gt; <span class="function">Invoker&lt;T&gt; <span class="title">refer</span><span class="params">(Class&lt;T&gt; type, URL url)</span> <span class="keyword">throws</span> RpcException </span>&#123;</span><br><span class="line">     <span class="keyword">if</span> (Constants.REGISTRY_PROTOCOL.equals(url.getProtocol())) &#123;</span><br><span class="line">          <span class="keyword">return</span> protocol.refer(type, url);</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">return</span> <span class="keyword">new</span> ListenerInvokerWrapper&lt;T&gt;(protocol.refer(type, url),</span><br><span class="line">               Collections.unmodifiableList(</span><br><span class="line">                    ExtensionLoader.getExtensionLoader(InvokerListener.class)</span><br><span class="line">                              .getActivateExtension(url, Constants.INVOKER_LISTENER_KEY)));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;与暴露过程相同，这里如果发现是需要去注册中心获取服务，会直接进入RegistryProtocol中获取服务引用，在RegistryProtocol中：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="meta">@SuppressWarnings(&quot;unchecked&quot;)</span></span><br><span class="line"><span class="keyword">public</span> &lt;T&gt; <span class="function">Invoker&lt;T&gt; <span class="title">refer</span><span class="params">(Class&lt;T&gt; type, URL url)</span> <span class="keyword">throws</span> RpcException </span>&#123;</span><br><span class="line">     url = URLBuilder.from(url)</span><br><span class="line">               .setProtocol(url.getParameter(REGISTRY_KEY, DEFAULT_REGISTRY))</span><br><span class="line">               .removeParameter(REGISTRY_KEY)</span><br><span class="line">               .build();</span><br><span class="line">     Registry registry = registryFactory.getRegistry(url);</span><br><span class="line">     <span class="keyword">if</span> (RegistryService.class.equals(type)) &#123;</span><br><span class="line">          <span class="keyword">return</span> proxyFactory.getInvoker((T) registry, type, url);</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="comment">// group=&quot;a,b&quot; or group=&quot;*&quot;</span></span><br><span class="line">     Map&lt;String, String&gt; qs = StringUtils.parseQueryString(url.getParameterAndDecoded(REFER_KEY));</span><br><span class="line">     String group = qs.get(Constants.GROUP_KEY);</span><br><span class="line">     <span class="keyword">if</span> (group != <span class="keyword">null</span> &amp;&amp; group.length() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">          <span class="keyword">if</span> ((COMMA_SPLIT_PATTERN.split(group)).length &gt; <span class="number">1</span> || <span class="string">&quot;*&quot;</span>.equals(group)) &#123;</span><br><span class="line">               <span class="keyword">return</span> doRefer(getMergeableCluster(), registry, type, url);</span><br><span class="line">          &#125;</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">return</span> doRefer(cluster, registry, type, url);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> &lt;T&gt; <span class="function">Invoker&lt;T&gt; <span class="title">doRefer</span><span class="params">(Cluster cluster, Registry registry, Class&lt;T&gt; type, URL url)</span> </span>&#123;</span><br><span class="line">     RegistryDirectory&lt;T&gt; directory = <span class="keyword">new</span> RegistryDirectory&lt;T&gt;(type, url);</span><br><span class="line">     directory.setRegistry(registry);</span><br><span class="line">     directory.setProtocol(protocol);</span><br><span class="line">     <span class="comment">// all attributes of REFER_KEY</span></span><br><span class="line">     Map&lt;String, String&gt; parameters = <span class="keyword">new</span> HashMap&lt;String, String&gt;(directory.getUrl().getParameters());</span><br><span class="line">     URL subscribeUrl = <span class="keyword">new</span> URL(CONSUMER_PROTOCOL, parameters.remove(REGISTER_IP_KEY), <span class="number">0</span>, type.getName(), parameters);</span><br><span class="line">     <span class="keyword">if</span> (!ANY_VALUE.equals(url.getServiceInterface()) &amp;&amp; url.getParameter(REGISTER_KEY, <span class="keyword">true</span>)) &#123;</span><br><span class="line">          directory.setRegisteredConsumerUrl(getRegisteredConsumerUrl(subscribeUrl, url));</span><br><span class="line">          registry.register(directory.getRegisteredConsumerUrl());</span><br><span class="line">     &#125;</span><br><span class="line">     directory.buildRouterChain(subscribeUrl);</span><br><span class="line">     directory.subscribe(subscribeUrl.addParameter(CATEGORY_KEY,</span><br><span class="line">               PROVIDERS_CATEGORY + <span class="string">&quot;,&quot;</span> + CONFIGURATORS_CATEGORY + <span class="string">&quot;,&quot;</span> + ROUTERS_CATEGORY));</span><br><span class="line"></span><br><span class="line">     Invoker invoker = cluster.join(directory);</span><br><span class="line">     ProviderConsumerRegTable.registerConsumer(invoker, url, subscribeUrl, directory);</span><br><span class="line">     <span class="keyword">return</span> invoker;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;这里最终调用到了doRefer方法，在这里在注册中心，注册节点，并且订阅通知，最终返回invoker对象。这里的invoker都是服务消费invoker。<br>&emsp;&emsp;注册消费者节点后，注册目录会订阅通知。<br>&emsp;&emsp;在注册中心注册节点的过程与暴露过程一样，只不过这里注册的是消费者节点，暴露注册的是提供者节点。<br>&emsp;&emsp;在这个过程中，cluster的作用是，通过Cluster扩展点将多个多个提供者应用伪装组合成单个提供者引用。</p>
+]]></content>
+      <categories>
+        <category>dubbo</category>
+      </categories>
+      <tags>
+        <tag>dubbo</tag>
       </tags>
   </entry>
   <entry>
@@ -2307,50 +2282,6 @@
       </tags>
   </entry>
   <entry>
-    <title>dubbo服务引入流程</title>
-    <url>/hexoblog/2021/04/22/md/dubbo/dubbo%E6%9C%8D%E5%8A%A1%E5%BC%95%E5%85%A5%E6%B5%81%E7%A8%8B/</url>
-    <content><![CDATA[<h1 id="服务引入流程"><a href="#服务引入流程" class="headerlink" title="服务引入流程"></a>服务引入流程</h1><p><a href="https://dubbo.apache.org/zh/docs/v2.7/dev/implementation/#%E6%9C%8D%E5%8A%A1%E6%B6%88%E8%B4%B9%E8%80%85%E6%B6%88%E8%B4%B9%E4%B8%80%E4%B8%AA%E6%9C%8D%E5%8A%A1%E7%9A%84%E8%AF%A6%E7%BB%86%E8%BF%87%E7%A8%8B">服务消费者消费一个服务的详细过程 </a></p>
-<span id="more"></span>
-
-<h2 id="服务引入时序图"><a href="#服务引入时序图" class="headerlink" title="服务引入时序图"></a>服务引入时序图</h2><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/dubbo-refer.jpg" alt="服务引入时序图"></p>
-<h2 id="服务发现与引入"><a href="#服务发现与引入" class="headerlink" title="服务发现与引入"></a>服务发现与引入</h2><p><a href="https://dubbo.apache.org/zh/docs/v2.7/dev/implementation/#%E5%BC%95%E7%94%A8%E6%9C%8D%E5%8A%A1">引用服务</a></p>
-<p>&emsp;&emsp;服务发现与引入的流程与暴露流程相似，只是经过标签初始化后，采用的是ReferenceBean对象，而服务暴露采用的是ServiceBean对象。<br>&emsp;&emsp;与暴露过程中相同，spring初始化完成bean的组装后会调用InitializingBean的afterPropertiesSet方法。<br>&emsp;&emsp;这个方法中会调用getObject方法，继续调用get方法，进入ReferenceConfig对象的init方法中。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ReferenceBean</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="meta">@SuppressWarnings(&#123;&quot;unchecked&quot;&#125;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">afterPropertiesSet</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">     <span class="comment">// 省略一堆流程</span></span><br><span class="line"></span><br><span class="line">     <span class="keyword">if</span> (shouldInit()) &#123;</span><br><span class="line">          getObject();</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">getObject</span><span class="params">()</span> </span>&#123;</span><br><span class="line">     <span class="keyword">return</span> get();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> T <span class="title">get</span><span class="params">()</span> </span>&#123;</span><br><span class="line">     checkAndUpdateSubConfigs();</span><br><span class="line"></span><br><span class="line">     <span class="keyword">if</span> (destroyed) &#123;</span><br><span class="line">          <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">&quot;The invoker of ReferenceConfig(&quot;</span> + url + <span class="string">&quot;) has already destroyed!&quot;</span>);</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">if</span> (ref == <span class="keyword">null</span>) &#123;</span><br><span class="line">          init();</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">return</span> ref;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;在ReferenceConfig的init方法中对参数进行组装，紧接者就会调用createProxy方法创建代理对象。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ReferenceConfig</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">     <span class="keyword">if</span> (initialized) &#123;</span><br><span class="line">          <span class="keyword">return</span>;</span><br><span class="line">     &#125;</span><br><span class="line">     initialized = <span class="keyword">true</span>;</span><br><span class="line">     checkStubAndLocal(interfaceClass);</span><br><span class="line">     checkMock(interfaceClass);</span><br><span class="line">     Map&lt;String, String&gt; map = <span class="keyword">new</span> HashMap&lt;String, String&gt;();</span><br><span class="line"></span><br><span class="line">     map.put(Constants.SIDE_KEY, Constants.CONSUMER_SIDE);</span><br><span class="line">     appendRuntimeParameters(map);</span><br><span class="line">     <span class="keyword">if</span> (!isGeneric()) &#123;</span><br><span class="line">          String revision = Version.getVersion(interfaceClass, version);</span><br><span class="line">          <span class="keyword">if</span> (revision != <span class="keyword">null</span> &amp;&amp; revision.length() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">               map.put(<span class="string">&quot;revision&quot;</span>, revision);</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          String[] methods = Wrapper.getWrapper(interfaceClass).getMethodNames();</span><br><span class="line">          <span class="keyword">if</span> (methods.length == <span class="number">0</span>) &#123;</span><br><span class="line">               logger.warn(<span class="string">&quot;No method found in service interface &quot;</span> + interfaceClass.getName());</span><br><span class="line">               map.put(<span class="string">&quot;methods&quot;</span>, Constants.ANY_VALUE);</span><br><span class="line">          &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">               map.put(<span class="string">&quot;methods&quot;</span>, StringUtils.join(<span class="keyword">new</span> HashSet&lt;String&gt;(Arrays.asList(methods)), <span class="string">&quot;,&quot;</span>));</span><br><span class="line">          &#125;</span><br><span class="line">     &#125;</span><br><span class="line">     map.put(Constants.INTERFACE_KEY, interfaceName);</span><br><span class="line">     appendParameters(map, application);</span><br><span class="line">     appendParameters(map, <span class="keyword">module</span>);</span><br><span class="line">     appendParameters(map, consumer, Constants.DEFAULT_KEY);</span><br><span class="line">     appendParameters(map, <span class="keyword">this</span>);</span><br><span class="line">     Map&lt;String, Object&gt; attributes = <span class="keyword">null</span>;</span><br><span class="line">     <span class="keyword">if</span> (CollectionUtils.isNotEmpty(methods)) &#123;</span><br><span class="line">          attributes = <span class="keyword">new</span> HashMap&lt;String, Object&gt;();</span><br><span class="line">          <span class="keyword">for</span> (MethodConfig methodConfig : methods) &#123;</span><br><span class="line">               appendParameters(map, methodConfig, methodConfig.getName());</span><br><span class="line">               String retryKey = methodConfig.getName() + <span class="string">&quot;.retry&quot;</span>;</span><br><span class="line">               <span class="keyword">if</span> (map.containsKey(retryKey)) &#123;</span><br><span class="line">               String retryValue = map.remove(retryKey);</span><br><span class="line">               <span class="keyword">if</span> (<span class="string">&quot;false&quot;</span>.equals(retryValue)) &#123;</span><br><span class="line">                    map.put(methodConfig.getName() + <span class="string">&quot;.retries&quot;</span>, <span class="string">&quot;0&quot;</span>);</span><br><span class="line">               &#125;</span><br><span class="line">               &#125;</span><br><span class="line">               attributes.put(methodConfig.getName(), convertMethodConfig2AyncInfo(methodConfig));</span><br><span class="line">          &#125;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     String hostToRegistry = ConfigUtils.getSystemProperty(Constants.DUBBO_IP_TO_REGISTRY);</span><br><span class="line">     <span class="keyword">if</span> (StringUtils.isEmpty(hostToRegistry)) &#123;</span><br><span class="line">          hostToRegistry = NetUtils.getLocalHost();</span><br><span class="line">     &#125;</span><br><span class="line">     map.put(Constants.REGISTER_IP_KEY, hostToRegistry);</span><br><span class="line"></span><br><span class="line">     ref = createProxy(map);</span><br><span class="line"></span><br><span class="line">     String serviceKey = URL.buildKey(interfaceName, group, version);</span><br><span class="line">     ApplicationModel.initConsumerModel(serviceKey, buildConsumerModel(serviceKey, attributes));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;createProxy方法中，会进行根据SPI机制选择不同的Protocol进行服务的发现与引入，获得invoker对象，然后对获取到的invoker对象创建代理并返回。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> T <span class="title">createProxy</span><span class="params">(Map&lt;String, String&gt; map)</span> </span>&#123;</span><br><span class="line">     <span class="keyword">if</span> (shouldJvmRefer(map)) &#123;</span><br><span class="line">          URL url = <span class="keyword">new</span> URL(Constants.LOCAL_PROTOCOL, Constants.LOCALHOST_VALUE, <span class="number">0</span>, interfaceClass.getName()).addParameters(map);</span><br><span class="line">          invoker = refprotocol.refer(interfaceClass, url);</span><br><span class="line">          <span class="keyword">if</span> (logger.isInfoEnabled()) &#123;</span><br><span class="line">               logger.info(<span class="string">&quot;Using injvm service &quot;</span> + interfaceClass.getName());</span><br><span class="line">          &#125;</span><br><span class="line">     &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="keyword">if</span> (url != <span class="keyword">null</span> &amp;&amp; url.length() &gt; <span class="number">0</span>) &#123; <span class="comment">// user specified URL, could be peer-to-peer address, or register center&#x27;s address.</span></span><br><span class="line">               String[] us = Constants.SEMICOLON_SPLIT_PATTERN.split(url);</span><br><span class="line">               <span class="keyword">if</span> (us != <span class="keyword">null</span> &amp;&amp; us.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">               <span class="keyword">for</span> (String u : us) &#123;</span><br><span class="line">                    URL url = URL.valueOf(u);</span><br><span class="line">                    <span class="keyword">if</span> (StringUtils.isEmpty(url.getPath())) &#123;</span><br><span class="line">                         url = url.setPath(interfaceName);</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">if</span> (Constants.REGISTRY_PROTOCOL.equals(url.getProtocol())) &#123;</span><br><span class="line">                         urls.add(url.addParameterAndEncoded(Constants.REFER_KEY, StringUtils.toQueryString(map)));</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                         urls.add(ClusterUtils.mergeUrl(url, map));</span><br><span class="line">                    &#125;</span><br><span class="line">               &#125;</span><br><span class="line">               &#125;</span><br><span class="line">          &#125; <span class="keyword">else</span> &#123; <span class="comment">// assemble URL from register center&#x27;s configuration</span></span><br><span class="line">               checkRegistry();</span><br><span class="line">               List&lt;URL&gt; us = loadRegistries(<span class="keyword">false</span>);</span><br><span class="line">               <span class="keyword">if</span> (CollectionUtils.isNotEmpty(us)) &#123;</span><br><span class="line">               <span class="keyword">for</span> (URL u : us) &#123;</span><br><span class="line">                    URL monitorUrl = loadMonitor(u);</span><br><span class="line">                    <span class="keyword">if</span> (monitorUrl != <span class="keyword">null</span>) &#123;</span><br><span class="line">                         map.put(Constants.MONITOR_KEY, URL.encode(monitorUrl.toFullString()));</span><br><span class="line">                    &#125;</span><br><span class="line">                    urls.add(u.addParameterAndEncoded(Constants.REFER_KEY, StringUtils.toQueryString(map)));</span><br><span class="line">               &#125;</span><br><span class="line">               &#125;</span><br><span class="line">               <span class="keyword">if</span> (urls.isEmpty()) &#123;</span><br><span class="line">               <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">&quot;No such any registry to reference &quot;</span> + interfaceName + <span class="string">&quot; on the consumer &quot;</span> + NetUtils.getLocalHost() + <span class="string">&quot; use dubbo version &quot;</span> + Version.getVersion() + <span class="string">&quot;, please config &lt;dubbo:registry address=\&quot;...\&quot; /&gt; to your spring config.&quot;</span>);</span><br><span class="line">               &#125;</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          <span class="keyword">if</span> (urls.size() == <span class="number">1</span>) &#123;</span><br><span class="line">               invoker = refprotocol.refer(interfaceClass, urls.get(<span class="number">0</span>));</span><br><span class="line">          &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">               List&lt;Invoker&lt;?&gt;&gt; invokers = <span class="keyword">new</span> ArrayList&lt;Invoker&lt;?&gt;&gt;();</span><br><span class="line">               URL registryURL = <span class="keyword">null</span>;</span><br><span class="line">               <span class="keyword">for</span> (URL url : urls) &#123;</span><br><span class="line">               invokers.add(refprotocol.refer(interfaceClass, url));</span><br><span class="line">               <span class="keyword">if</span> (Constants.REGISTRY_PROTOCOL.equals(url.getProtocol())) &#123;</span><br><span class="line">                    registryURL = url; <span class="comment">// use last registry url</span></span><br><span class="line">               &#125;</span><br><span class="line">               &#125;</span><br><span class="line">               <span class="keyword">if</span> (registryURL != <span class="keyword">null</span>) &#123; <span class="comment">// registry url is available</span></span><br><span class="line">               <span class="comment">// use RegistryAwareCluster only when register&#x27;s cluster is available</span></span><br><span class="line">               URL u = registryURL.addParameter(Constants.CLUSTER_KEY, RegistryAwareCluster.NAME);</span><br><span class="line">               <span class="comment">// The invoker wrap relation would be: RegistryAwareClusterInvoker(StaticDirectory) -&gt; FailoverClusterInvoker(RegistryDirectory, will execute route) -&gt; Invoker</span></span><br><span class="line">               invoker = cluster.join(<span class="keyword">new</span> StaticDirectory(u, invokers));</span><br><span class="line">               &#125; <span class="keyword">else</span> &#123; <span class="comment">// not a registry url, must be direct invoke.</span></span><br><span class="line">               invoker = cluster.join(<span class="keyword">new</span> StaticDirectory(invokers));</span><br><span class="line">               &#125;</span><br><span class="line">          &#125;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">if</span> (shouldCheck() &amp;&amp; !invoker.isAvailable()) &#123;</span><br><span class="line">          <span class="comment">// make it possible for consumer to retry later if provider is temporarily unavailable</span></span><br><span class="line">          initialized = <span class="keyword">false</span>;</span><br><span class="line">          <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">&quot;Failed to check the status of the service &quot;</span> + interfaceName + <span class="string">&quot;. No provider available for the service &quot;</span> + (group == <span class="keyword">null</span> ? <span class="string">&quot;&quot;</span> : group + <span class="string">&quot;/&quot;</span>) + interfaceName + (version == <span class="keyword">null</span> ? <span class="string">&quot;&quot;</span> : <span class="string">&quot;:&quot;</span> + version) + <span class="string">&quot; from the url &quot;</span> + invoker.getUrl() + <span class="string">&quot; to the consumer &quot;</span> + NetUtils.getLocalHost() + <span class="string">&quot; use dubbo version &quot;</span> + Version.getVersion());</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">if</span> (logger.isInfoEnabled()) &#123;</span><br><span class="line">          logger.info(<span class="string">&quot;Refer dubbo service &quot;</span> + interfaceClass.getName() + <span class="string">&quot; from url &quot;</span> + invoker.getUrl());</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@since</span> 2.7.0</span></span><br><span class="line"><span class="comment">     * ServiceData Store</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">     MetadataReportService metadataReportService = <span class="keyword">null</span>;</span><br><span class="line">     <span class="keyword">if</span> ((metadataReportService = getMetadataReportService()) != <span class="keyword">null</span>) &#123;</span><br><span class="line">          URL consumerURL = <span class="keyword">new</span> URL(Constants.CONSUMER_PROTOCOL, map.remove(Constants.REGISTER_IP_KEY), <span class="number">0</span>, map.get(Constants.INTERFACE_KEY), map);</span><br><span class="line">          metadataReportService.publishConsumer(consumerURL);</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="comment">// create service proxy</span></span><br><span class="line">     <span class="keyword">return</span> (T) proxyFactory.getProxy(invoker);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;在Protocol层中，也根据SPI机制选择对应的Protocol实现服务调用。</p>
-<h3 id="直连引用服务"><a href="#直连引用服务" class="headerlink" title="直连引用服务"></a>直连引用服务</h3><p><a href="https://dubbo.apache.org/zh/docs/v2.7/dev/implementation/#1-%E7%9B%B4%E8%BF%9E%E5%BC%95%E7%94%A8%E6%9C%8D%E5%8A%A1">直连引用服务</a></p>
-<p>&emsp;&emsp;当在本地直连引用服务时，默认会进入DubboProtocol，也可以配置其他协议。暴露时进入的入口为export方法，引入的入口就是refer。这里会直接返回提供者的引用。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> &lt;T&gt; <span class="function">Invoker&lt;T&gt; <span class="title">refer</span><span class="params">(Class&lt;T&gt; serviceType, URL url)</span> <span class="keyword">throws</span> RpcException </span>&#123;</span><br><span class="line">     optimizeSerialization(url);</span><br><span class="line"></span><br><span class="line">     <span class="comment">// create rpc invoker.</span></span><br><span class="line">     DubboInvoker&lt;T&gt; invoker = <span class="keyword">new</span> DubboInvoker&lt;T&gt;(serviceType, url, getClients(url), invokers);</span><br><span class="line">     invokers.add(invoker);</span><br><span class="line"></span><br><span class="line">     <span class="keyword">return</span> invoker;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;这里会调用getClients方法，进而调用initClient方法建立连接。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> ExchangeClient[] getClients(URL url) &#123;</span><br><span class="line">     <span class="comment">// whether to share connection</span></span><br><span class="line"></span><br><span class="line">     <span class="keyword">boolean</span> useShareConnect = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">int</span> connections = url.getParameter(Constants.CONNECTIONS_KEY, <span class="number">0</span>);</span><br><span class="line">     List&lt;ReferenceCountExchangeClient&gt; shareClients = <span class="keyword">null</span>;</span><br><span class="line">     <span class="comment">// if not configured, connection is shared, otherwise, one connection for one service</span></span><br><span class="line">     <span class="keyword">if</span> (connections == <span class="number">0</span>) &#123;</span><br><span class="line">          useShareConnect = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">          <span class="comment">/**</span></span><br><span class="line"><span class="comment">          * The xml configuration should have a higher priority than properties.</span></span><br><span class="line"><span class="comment">          */</span></span><br><span class="line">          String shareConnectionsStr = url.getParameter(Constants.SHARE_CONNECTIONS_KEY, (String) <span class="keyword">null</span>);</span><br><span class="line">          connections = Integer.parseInt(StringUtils.isBlank(shareConnectionsStr) ? ConfigUtils.getProperty(Constants.SHARE_CONNECTIONS_KEY,</span><br><span class="line">               Constants.DEFAULT_SHARE_CONNECTIONS) : shareConnectionsStr);</span><br><span class="line">          shareClients = getSharedClient(url, connections);</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     ExchangeClient[] clients = <span class="keyword">new</span> ExchangeClient[connections];</span><br><span class="line">     <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; clients.length; i++) &#123;</span><br><span class="line">          <span class="keyword">if</span> (useShareConnect) &#123;</span><br><span class="line">               clients[i] = shareClients.get(i);</span><br><span class="line"></span><br><span class="line">          &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">               clients[i] = initClient(url);</span><br><span class="line">          &#125;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">return</span> clients;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> ExchangeClient <span class="title">initClient</span><span class="params">(URL url)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">     <span class="comment">// client type setting.</span></span><br><span class="line">     String str = url.getParameter(Constants.CLIENT_KEY, url.getParameter(Constants.SERVER_KEY, Constants.DEFAULT_REMOTING_CLIENT));</span><br><span class="line"></span><br><span class="line">     url = url.addParameter(Constants.CODEC_KEY, DubboCodec.NAME);</span><br><span class="line">     <span class="comment">// enable heartbeat by default</span></span><br><span class="line">     url = url.addParameterIfAbsent(Constants.HEARTBEAT_KEY, String.valueOf(Constants.DEFAULT_HEARTBEAT));</span><br><span class="line"></span><br><span class="line">     <span class="comment">// BIO is not allowed since it has severe performance issue.</span></span><br><span class="line">     <span class="keyword">if</span> (str != <span class="keyword">null</span> &amp;&amp; str.length() &gt; <span class="number">0</span> &amp;&amp; !ExtensionLoader.getExtensionLoader(Transporter.class).hasExtension(str)) &#123;</span><br><span class="line">          <span class="keyword">throw</span> <span class="keyword">new</span> RpcException(<span class="string">&quot;Unsupported client type: &quot;</span> + str + <span class="string">&quot;,&quot;</span> +</span><br><span class="line">               <span class="string">&quot; supported client type is &quot;</span> + StringUtils.join(ExtensionLoader.getExtensionLoader(Transporter.class).getSupportedExtensions(), <span class="string">&quot; &quot;</span>));</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     ExchangeClient client;</span><br><span class="line">     <span class="keyword">try</span> &#123;</span><br><span class="line">          <span class="comment">// connection should be lazy</span></span><br><span class="line">          <span class="keyword">if</span> (url.getParameter(Constants.LAZY_CONNECT_KEY, <span class="keyword">false</span>)) &#123;</span><br><span class="line">               client = <span class="keyword">new</span> LazyConnectExchangeClient(url, requestHandler);</span><br><span class="line"></span><br><span class="line">          &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">               client = Exchangers.connect(url, requestHandler);</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">     &#125; <span class="keyword">catch</span> (RemotingException e) &#123;</span><br><span class="line">          <span class="keyword">throw</span> <span class="keyword">new</span> RpcException(<span class="string">&quot;Fail to create remoting client for service(&quot;</span> + url + <span class="string">&quot;): &quot;</span> + e.getMessage(), e);</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">return</span> client;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;接下来的流程与服务暴露相似，不同在于，暴露是一层一层通过bind方法暴露出去，而消费方是一层层通过connect方法建立netty连接。</p>
-<h3 id="从注册中心发现引用服务"><a href="#从注册中心发现引用服务" class="headerlink" title="从注册中心发现引用服务"></a>从注册中心发现引用服务</h3><p><a href="https://dubbo.apache.org/zh/docs/v2.7/dev/implementation/#2-%E4%BB%8E%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83%E5%8F%91%E7%8E%B0%E5%BC%95%E7%94%A8%E6%9C%8D%E5%8A%A1">从注册中心发现引用服务</a></p>
-<p>&emsp;&emsp;与暴露过程中相似，在调用Protocol获取invoker(提供者的引用)时，也会使用到SPI机制，ProtocolFilterWrapper和ProtocolListenerWrapper中：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ProtocolFilterWrapper</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> &lt;T&gt; <span class="function">Invoker&lt;T&gt; <span class="title">refer</span><span class="params">(Class&lt;T&gt; type, URL url)</span> <span class="keyword">throws</span> RpcException </span>&#123;</span><br><span class="line">     <span class="keyword">if</span> (Constants.REGISTRY_PROTOCOL.equals(url.getProtocol())) &#123;</span><br><span class="line">          <span class="keyword">return</span> protocol.refer(type, url);</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">return</span> buildInvokerChain(protocol.refer(type, url), Constants.REFERENCE_FILTER_KEY, Constants.CONSUMER);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ProtocolListenerWrapper</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> &lt;T&gt; <span class="function">Invoker&lt;T&gt; <span class="title">refer</span><span class="params">(Class&lt;T&gt; type, URL url)</span> <span class="keyword">throws</span> RpcException </span>&#123;</span><br><span class="line">     <span class="keyword">if</span> (Constants.REGISTRY_PROTOCOL.equals(url.getProtocol())) &#123;</span><br><span class="line">          <span class="keyword">return</span> protocol.refer(type, url);</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">return</span> <span class="keyword">new</span> ListenerInvokerWrapper&lt;T&gt;(protocol.refer(type, url),</span><br><span class="line">               Collections.unmodifiableList(</span><br><span class="line">                    ExtensionLoader.getExtensionLoader(InvokerListener.class)</span><br><span class="line">                              .getActivateExtension(url, Constants.INVOKER_LISTENER_KEY)));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;与暴露过程相同，这里如果发现是需要去注册中心获取服务，会直接进入RegistryProtocol中获取服务引用，在RegistryProtocol中：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="meta">@SuppressWarnings(&quot;unchecked&quot;)</span></span><br><span class="line"><span class="keyword">public</span> &lt;T&gt; <span class="function">Invoker&lt;T&gt; <span class="title">refer</span><span class="params">(Class&lt;T&gt; type, URL url)</span> <span class="keyword">throws</span> RpcException </span>&#123;</span><br><span class="line">     url = URLBuilder.from(url)</span><br><span class="line">               .setProtocol(url.getParameter(REGISTRY_KEY, DEFAULT_REGISTRY))</span><br><span class="line">               .removeParameter(REGISTRY_KEY)</span><br><span class="line">               .build();</span><br><span class="line">     Registry registry = registryFactory.getRegistry(url);</span><br><span class="line">     <span class="keyword">if</span> (RegistryService.class.equals(type)) &#123;</span><br><span class="line">          <span class="keyword">return</span> proxyFactory.getInvoker((T) registry, type, url);</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="comment">// group=&quot;a,b&quot; or group=&quot;*&quot;</span></span><br><span class="line">     Map&lt;String, String&gt; qs = StringUtils.parseQueryString(url.getParameterAndDecoded(REFER_KEY));</span><br><span class="line">     String group = qs.get(Constants.GROUP_KEY);</span><br><span class="line">     <span class="keyword">if</span> (group != <span class="keyword">null</span> &amp;&amp; group.length() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">          <span class="keyword">if</span> ((COMMA_SPLIT_PATTERN.split(group)).length &gt; <span class="number">1</span> || <span class="string">&quot;*&quot;</span>.equals(group)) &#123;</span><br><span class="line">               <span class="keyword">return</span> doRefer(getMergeableCluster(), registry, type, url);</span><br><span class="line">          &#125;</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">return</span> doRefer(cluster, registry, type, url);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> &lt;T&gt; <span class="function">Invoker&lt;T&gt; <span class="title">doRefer</span><span class="params">(Cluster cluster, Registry registry, Class&lt;T&gt; type, URL url)</span> </span>&#123;</span><br><span class="line">     RegistryDirectory&lt;T&gt; directory = <span class="keyword">new</span> RegistryDirectory&lt;T&gt;(type, url);</span><br><span class="line">     directory.setRegistry(registry);</span><br><span class="line">     directory.setProtocol(protocol);</span><br><span class="line">     <span class="comment">// all attributes of REFER_KEY</span></span><br><span class="line">     Map&lt;String, String&gt; parameters = <span class="keyword">new</span> HashMap&lt;String, String&gt;(directory.getUrl().getParameters());</span><br><span class="line">     URL subscribeUrl = <span class="keyword">new</span> URL(CONSUMER_PROTOCOL, parameters.remove(REGISTER_IP_KEY), <span class="number">0</span>, type.getName(), parameters);</span><br><span class="line">     <span class="keyword">if</span> (!ANY_VALUE.equals(url.getServiceInterface()) &amp;&amp; url.getParameter(REGISTER_KEY, <span class="keyword">true</span>)) &#123;</span><br><span class="line">          directory.setRegisteredConsumerUrl(getRegisteredConsumerUrl(subscribeUrl, url));</span><br><span class="line">          registry.register(directory.getRegisteredConsumerUrl());</span><br><span class="line">     &#125;</span><br><span class="line">     directory.buildRouterChain(subscribeUrl);</span><br><span class="line">     directory.subscribe(subscribeUrl.addParameter(CATEGORY_KEY,</span><br><span class="line">               PROVIDERS_CATEGORY + <span class="string">&quot;,&quot;</span> + CONFIGURATORS_CATEGORY + <span class="string">&quot;,&quot;</span> + ROUTERS_CATEGORY));</span><br><span class="line"></span><br><span class="line">     Invoker invoker = cluster.join(directory);</span><br><span class="line">     ProviderConsumerRegTable.registerConsumer(invoker, url, subscribeUrl, directory);</span><br><span class="line">     <span class="keyword">return</span> invoker;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;这里最终调用到了doRefer方法，在这里在注册中心，注册节点，并且订阅通知，最终返回invoker对象。这里的invoker都是服务消费invoker。<br>&emsp;&emsp;注册消费者节点后，注册目录会订阅通知。<br>&emsp;&emsp;在注册中心注册节点的过程与暴露过程一样，只不过这里注册的是消费者节点，暴露注册的是提供者节点。<br>&emsp;&emsp;在这个过程中，cluster的作用是，通过Cluster扩展点将多个多个提供者应用伪装组合成单个提供者引用。</p>
-]]></content>
-      <categories>
-        <category>dubbo</category>
-      </categories>
-      <tags>
-        <tag>dubbo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>dubbo服务调用过程</title>
     <url>/hexoblog/2021/04/15/md/dubbo/dubbo%E6%9C%8D%E5%8A%A1%E8%B0%83%E7%94%A8%E8%BF%87%E7%A8%8B/</url>
     <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p><a href="https://dubbo.apache.org/zh/docs/v2.7/dev/implementation/#%E8%BF%9C%E7%A8%8B%E8%B0%83%E7%94%A8%E7%BB%86%E8%8A%82">服务调用过程</a><br><a href="https://www.jianshu.com/p/01bf8ded203c">推荐</a></p>
@@ -2385,6 +2316,125 @@
       </categories>
       <tags>
         <tag>dubbo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JVM—GC</title>
+    <url>/hexoblog/2021/04/26/md/jvm/JVM%E2%80%94GC/</url>
+    <content><![CDATA[<h1 id="GC"><a href="#GC" class="headerlink" title="GC"></a>GC</h1><p>&emsp;&emsp;GC就是垃圾收集，java提供的GC功能可以自动监测对象是否超过作用域从而达到自动回收的目的。<br>&emsp;&emsp;对于GC来说，当对象被创建的时候，GC就开始监控这个对象的地址、大小及使用情况。  </p>
+<span id="more"></span>
+
+<hr>
+<h1 id="对象确定"><a href="#对象确定" class="headerlink" title="对象确定"></a>对象确定</h1><p>&emsp;&emsp;垃圾收集器在做垃圾回收的时候，首先需要判定的就是哪些内存是需要被回收的，哪些对象是存活的，是不可以被回收的；哪些对象已经死亡了，需要被回收。<br>&emsp;&emsp;一般通过两种算法确定那些对象需要被回收：</p>
+<h2 id="引用计数器法"><a href="#引用计数器法" class="headerlink" title="引用计数器法"></a>引用计数器法</h2><p>&emsp;&emsp;为每个对象创建一个引用计数（被引用，即由引用指向这个对象），有对象引用时计数器 +1，引用被释放时计数 -1，当计数器为 0 时就可以被回收。但是他有一个缺点是不能解决循环引用的问题。<br>&emsp;&emsp;当一个对象被当作垃圾收集时，它引用的任何对象的计数器的值都减一。</p>
+<h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><p>&emsp;&emsp;引用计数法实现起来比较简单，对程序不被长时间打断的实时环境比较有利。</p>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><p>&emsp;&emsp;需要额外的空间来存储计数器，难以检测出对象之间的循环引用。</p>
+<h2 id="可达性分析算法"><a href="#可达性分析算法" class="headerlink" title="可达性分析算法"></a>可达性分析算法</h2><p>&emsp;&emsp;可达性分析法也被称之为根搜索法。<br>&emsp;&emsp;可达性是指，如果一个对象会被至少一个在程序中的变量通过直接或间接的方式被其他可达的对象引用，则称该对象就是可达的。这两种情况被称为可达的：</p>
+<ol>
+<li><p>对象属于根集中的对象。</p>
+<blockquote>
+<p>根集指的是正在执行的java程序可以访问的引用变量的集合，程序可以使用引用变量访问对象的属性和调用对象的方法。根集中的对象也就是GC Roots。</p>
+</blockquote>
+</li>
+<li><p>对象被一个可达的对象引用。</p>
+<p>&emsp;&emsp;也就是说，从GC Roots开始向下搜索，搜索所走过的路径称为引用链。当一个对象到GC Roots没有任何引用链相连时，则证明此对象是可以被回收的。<br>&emsp;&emsp;在java中，可以被当做GC Roots的对象有：</p>
+</li>
+<li><p>虚拟机栈（栈帧中的本地变量表）中引用的对象。</p>
+</li>
+<li><p>方法区中的常量引用的对象。</p>
+</li>
+<li><p>方法区中的类静态属性引用的对象。</p>
+</li>
+<li><p>本地方法栈中 JNI（Native 方法）的引用对象。</p>
+</li>
+<li><p>活跃线程（已启动且未停止的 Java 线程）。</p>
+</li>
+</ol>
+<p>&emsp;&emsp;当一个对象到根对象没有任何引用链相连，则成为这个对象是不可达的，也称为不可达对象，是可以被回收的。</p>
+<h3 id="二次标记"><a href="#二次标记" class="headerlink" title="二次标记"></a>二次标记</h3><p>&emsp;&emsp;在可达性分析算法中，对象有两种状态，要么是可达的要么是不可达的，在判断一个对象可达性的时候就需要对对象进行标记。  </p>
+<ul>
+<li>开始进行标记前，需要先暂停线程，否则对象图如果一直在变化的话是无法真正去遍历它的。</li>
+<li>暂停时间的长短并不取决于堆内对象的多少也不是堆的大小，而是存活对象的多少。因此，调高堆的大小并不会影响到标记阶段的时间长短。</li>
+<li>在可达性分析算法中，要真正宣告一个对象死亡，至少要经过两次标记过程：<ul>
+<li>&emsp;&emsp;如果对象在进行根搜索后发现没有与根对象相连接的引用链，那它会被第一次标记并且进行一次筛选。筛选的条件是此对象是否有必要执行<code>finalize()</code>。当对象没有覆盖<code>finaliza()</code>方法，或<code>finalize()</code>方法已经被虚拟机调用过，虚拟机将这两种情况都视为没有必要执行。</li>
+<li>&emsp;&emsp;如果该对象被判定为有必要执行<code>finalize()</code>方法，那么这个对象将会被放置在一个名为<strong>F-Quene</strong>的队列中，并在稍后由虚拟机自动建立的、低优先级的Finalizer线程去执行<code>finalize()</code>方法。这个方法是对象逃脱死亡命运的最后一次机会，稍后GC将对F-Quene中的对象进行第二次小规模的标记， 如果要在<code>finalize()</code>方法中成功拯救自己，只要在<code>finalize()</code>中让该对象与引用链上的任何一个对象重新建立关联即可。而如果对象这时还没有关联到引用链上的任何一个对象，那么他就会被回收。</li>
+</ul>
+</li>
+<li>GC 判断对象是否可达看的是强引用。</li>
+</ul>
+<h3 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;可以解决循环引用的问题，不需要占用额外的空间。</p>
+<h3 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;多线程场景下，其他线程可能会更新已经访问过的对象的引用。</p>
+<hr>
+<h1 id="垃圾收集算法"><a href="#垃圾收集算法" class="headerlink" title="垃圾收集算法"></a>垃圾收集算法</h1><p>&emsp;&emsp;在确定那些对象需要被回收后，接下来就需要垃圾收集器通过垃圾收集算法进行垃圾回收了。</p>
+<h2 id="标记清除算法"><a href="#标记清除算法" class="headerlink" title="标记清除算法"></a>标记清除算法</h2><p>&emsp;&emsp;先标记Java堆中可回收的对象，然后直接进行回收操作。<br>&emsp;&emsp;分为标记和清除两个阶段。<br>&emsp;&emsp;首先标记出所需回收的对象，在标记完成后统一回收掉所有被标记的对象，它的标记过程其实就是前面的可达性分析法中判定垃圾对象的标记过程。</p>
+<h3 id="优点-1"><a href="#优点-1" class="headerlink" title="优点"></a>优点</h3><p>&emsp;&emsp;不需要进行对象的移动，并且仅对不存活的对象进行处理，在存活对象比较多的情况下极为高效。 </p>
+<h3 id="缺点-1"><a href="#缺点-1" class="headerlink" title="缺点"></a>缺点</h3><p>&emsp;&emsp;标记和清除过程的效率都不高，这种方法需要使用一个空闲列表来记录所有的空闲区域以及大小，对空闲列表的管理会增加分配对象时的工作量；标记清除后会产生大量不连续的内存碎片，虽然空闲区域的大小是足够的，但却可能没有一个单一区域能够满足这次分配所需的大小，因此本次分配还是会失败，不得不触发另一次垃圾收集动作。</p>
+<h2 id="标记整理算法"><a href="#标记整理算法" class="headerlink" title="标记整理算法"></a>标记整理算法</h2><p>&emsp;&emsp;与“标记-清除算法”的唯一区别就是在回收操作完成后，会将零散的空间碎片进行整理。<br>&emsp;&emsp;整理算法的清除过程与清出算法的稍有不同，它不是直接对可回收对象进行清理，而是让所有的对象都向一端移动，然后直接清理掉端边界以外的内存。在基于“标记-整理”算法的收集器的实现中，一般增加句柄和句柄表。</p>
+<h3 id="优点-2"><a href="#优点-2" class="headerlink" title="优点"></a>优点</h3><p>&emsp;&emsp;经过整理之后，新对象的分配只需要通过指针碰撞便能完成，比较简单；使用这种方法，空闲区域的位置是始终可知的，也不会再有碎片的问题了。</p>
+<h3 id="缺点-2"><a href="#缺点-2" class="headerlink" title="缺点"></a>缺点</h3><p>&emsp;&emsp;GC暂停的时间会增长，因为你需要将所有的对象都拷贝到一个新的地方，还得更新它们的引用地址。</p>
+<h2 id="复制算法"><a href="#复制算法" class="headerlink" title="复制算法"></a>复制算法</h2><p>&emsp;&emsp;常见的是将Java堆划分为一个Eden空间和两个Survivor空间，默认比例为8:1:1，每次使用一个Eden空间和一个Survivor空间。<br>&emsp;&emsp;复制算法是为了解决句柄的开销和堆碎片的回收。<br>&emsp;&emsp;它将内存按容量分为大小相等的两块，每次只使用其中的一块（对象面），当这一块的内存用完了，就将还存活着的对象复制到另外一块内存上面（空闲面），然后再把已使用过的内存空间一次清理掉。<br>&emsp;&emsp;复制算法比较适合于新生代（短生存期的对象），在老年代（长生存期的对象）中，对象存活率比较高，如果执行较多的复制操作，效率将会变低，所以老年代一般会选用其他算法，如“标记-整理”算法。</p>
+<h3 id="优点-3"><a href="#优点-3" class="headerlink" title="优点"></a>优点</h3><p>&emsp;&emsp;标记阶段和复制阶段可以同时进行；每次只对一块内存进行回收，运行高效；只需移动栈顶指针，按顺序分配内存即可，实现简单；内存回收时不用考虑内存碎片的出现。</p>
+<h3 id="缺点-3"><a href="#缺点-3" class="headerlink" title="缺点"></a>缺点</h3><p>&emsp;&emsp;需要一块能容纳下所有存活对象的额外的内存空间。因此，可一次性分配的最大内存缩小了一半。即内存使用率不高，只有原来的一半。</p>
+<h2 id="分代收集算法"><a href="#分代收集算法" class="headerlink" title="分代收集算法"></a>分代收集算法</h2><p>&emsp;&emsp;将Java堆分为新生代和老年代，一般来说新生代采用“复制算法”，而老年代则采用“标记-清除算法”或者“标记-整理算法”，具体则要根据JVM实际实现，不同的虚拟机实现可能不同。<br>&emsp;&emsp;在jdk1.7前还有永久代，永久代的GC是绑定在老年代一起的。<br>&emsp;&emsp;新生代又被进一步划分为Eden和Survivor区，其中Survivor由FromSpace（Survivor0）和ToSpace（Survivor1）组成。<br>&emsp;&emsp;创建的对象的内存都在堆中分配，其大小可以通过-Xmx和-Xms来控制。<br>&emsp;&emsp;当前主流虚拟机都采用分代收集。</p>
+<hr>
+<h1 id="垃圾收集器"><a href="#垃圾收集器" class="headerlink" title="垃圾收集器"></a>垃圾收集器</h1><p>&emsp;&emsp;其中用于回收新生代的收集器包括Serial、PraNew、Parallel Scavenge。<br>&emsp;&emsp;回收老年代的收集器包括Serial Old、Parallel Old、CMS。<br>&emsp;&emsp;有用于回收整个Java堆的G1收集器。<br>&emsp;&emsp;垃圾回收线程相对于工作线程是独立的，当需要执行垃圾回收时，会先停止工作线程，然后通知垃圾回收线程执行。</p>
+<h2 id="新生代垃圾收集器"><a href="#新生代垃圾收集器" class="headerlink" title="新生代垃圾收集器"></a>新生代垃圾收集器</h2><h3 id="Serial"><a href="#Serial" class="headerlink" title="Serial"></a>Serial</h3><p>&emsp;&emsp;串行垃圾回收器，采用<strong>单线程</strong>的方式进行收集，采用的是<strong>复制算法</strong>，在GC线程执行时，系统不允许工作线程打扰。这个过程中应用程序会进入暂停状态，即Stop-the-world。<br>&emsp;&emsp;STW这个过程对用户不可见，用户仅感知到系统卡顿了一会。STW时间的长短是衡量性能的指标。<br>&emsp;&emsp;单核的系统下，不存在线程之间的交互，这种可以提高效率。</p>
+<h3 id="PraNew"><a href="#PraNew" class="headerlink" title="PraNew"></a>PraNew</h3><p>&emsp;&emsp;并行垃圾回收器，采用的是<strong>多线程</strong>的方式，使用了多个GC线程，也采用<strong>复制算法</strong>，可以看做是Serial的多线程版本。<br>&emsp;&emsp;单核情况下，系统无法发挥多线程的优势，效率会比Serial差。</p>
+<h3 id="Parallel-Scavenge"><a href="#Parallel-Scavenge" class="headerlink" title="Parallel Scavenge"></a>Parallel Scavenge</h3><p>&emsp;&emsp;新生代并行收集器，相对PreNew，追求高吞吐亮，同样采用<strong>复制算法</strong>，又称为吞吐亮优先收集器。<br>&emsp;&emsp;Serial与PargNew比较关注STW时间，而Parallel Scavenge更关注吞吐量。  </p>
+<blockquote>
+<p>吞吐量就是 CPU 用于运行用户代码的时间与 CPU 总消耗时间的比值。<code>吞吐量 = 运行用户代码时间 /（运行用户代码时间 + 垃圾收集时间）</code>。</p>
+</blockquote>
+<h4 id="侧重点"><a href="#侧重点" class="headerlink" title="侧重点"></a>侧重点</h4><h5 id="高吞吐量"><a href="#高吞吐量" class="headerlink" title="高吞吐量"></a>高吞吐量</h5><p>&emsp;GC 的总时间越短，系统的吞吐量则越高。换句话说，高吞吐量则意味着，STW 的时间可能会比正常的时间多一点，也就更加适合那种不存在太多交互的后台的系统，因为对实时性的要求不是很高，就可以高效率的完成任务。</p>
+<h5 id="短STW"><a href="#短STW" class="headerlink" title="短STW"></a>短STW</h5><p>&emsp;&emsp;STW 的时间短，则说明对系统的响应速度要求很高，因为要跟用户频繁的交互。因为低响应时间会带来较高的用户体验。</p>
+<h2 id="老年代垃圾收集器"><a href="#老年代垃圾收集器" class="headerlink" title="老年代垃圾收集器"></a>老年代垃圾收集器</h2><h3 id="Serial-Old"><a href="#Serial-Old" class="headerlink" title="Serial Old"></a>Serial Old</h3><p>&emsp;&emsp;Serial Old是Serial的老年代版本，使用的<strong>标记-整理算法</strong>。<br>&emsp;&emsp;Serial Old是给client模式下的JVM使用。</p>
+<h3 id="Parallel-Old"><a href="#Parallel-Old" class="headerlink" title="Parallel Old"></a>Parallel Old</h3><p>&emsp;&emsp;是Parallel Scavenge的老年代版本，同样是多线程的，采用<strong>标记整理</strong>算法。<br>&emsp;&emsp;特性与Parallel Scavenge相似，同样是吞吐量优先。</p>
+<h3 id="CMS（Concurrent-Mark-Swee）"><a href="#CMS（Concurrent-Mark-Swee）" class="headerlink" title="CMS（Concurrent Mark Swee）"></a>CMS（Concurrent Mark Swee）</h3><p>&emsp;&emsp;采用<strong>标记清除算法</strong>，重点关注于最短的STW时间。<br>&emsp;&emsp;它的过程分为4步：</p>
+<ol>
+<li><strong>初始标记</strong>：标记从GCRoots出发能够关联到的所有对象，此时需要STW，但是不需要很多时间。</li>
+<li><strong>并发标记</strong>：多线程对所有对象通过GC Roots Tracing进行可达性分析，这个过程较为耗时。这个阶段程序仍在执行。</li>
+<li><strong>重新标记</strong>：重新标记是为了修正在并发标记阶段，发生错误的一些数据。并发标记过程中，程序仍在运行，有些对象的状态可能会发生变化，所以需要重新标记，这个过程需要STW。</li>
+<li><strong>并发清除</strong>：标记完成后进行清除。</li>
+</ol>
+<h4 id="优点-4"><a href="#优点-4" class="headerlink" title="优点"></a>优点</h4><p>&emsp;&emsp;并发收集，低STW。<br>&emsp;&emsp;将标记阶段，以流水线的方式拆分为3端，将耗时最长的阶段，与程序并发执行，仅需要两个很少的停顿阶段，降低STW时间，达到近似并发的目的。<br>&emsp;&emsp;初始标记&lt;重复标记&lt;并发标记</p>
+<h4 id="缺点-4"><a href="#缺点-4" class="headerlink" title="缺点"></a>缺点</h4><p>&emsp;&emsp;缺点也很明显：</p>
+<ul>
+<li><p>对CPU资源很敏感，CPU资源很少时，系统占用很多，GC就占用很少，吞吐量就很低。</p>
+</li>
+<li><p>无法处理浮动垃圾。</p>
+</li>
+<li><p>基于标记清除算法，一堆问题。</p>
+<h2 id="堆垃圾收集器"><a href="#堆垃圾收集器" class="headerlink" title="堆垃圾收集器"></a>堆垃圾收集器</h2></li>
+</ul>
+<h3 id="G1收集器"><a href="#G1收集器" class="headerlink" title="G1收集器"></a>G1收集器</h3><p>&emsp;&emsp;G1全称Garbage First。G1收集器基于<strong>标记整理算法</strong>实现，相对于前面的垃圾回收器，G1收集器在实现高吞吐的同时尽可能减少STW时间。<br>&emsp;&emsp;G1收集器特点：</p>
+<ol>
+<li><strong>并行与并发</strong>：G1能充分利用多CPU、多核环境下的硬件优势，使用多个CPU来缩短STW停顿的时间，部分其他收集器原来需要停顿Java线程执行的GC操作，G1收集器仍然可以通过并发的方式让Java程序继续运行。</li>
+<li><strong>分代收集</strong>：打破了原有的分代模型，将堆划分为一个个区域。</li>
+<li><strong>空间整合</strong>：与CMS的“标记-清除”算法不同，G1从整体来看是基于“标记-整理”算法实现的收集器，从局部（两个Region之间）上来看是基于“复制”算法实现的。但无论如何，这两种算法都意味着G1运作期间<strong>不会产生内存空间碎片</strong>，收集后能提供规整的可用内存。这种特性有利于程序长时间运行，分配大对象时不会因为无法找到连续内存空间而提前触发下一次GC。</li>
+<li><strong>可预测的停顿</strong>：这是G1相对于CMS的一个优势，降低停顿时间是G1和CMS共同的关注点。</li>
+</ol>
+<p>&emsp;&emsp;G1收集器打破了以往将收集范围固定在新生代，老年代的模式，G1将堆划分为一个个小的Region块（区域大小相同的内存单元）。<br>&emsp;&emsp;每个Region被标记了E、S、O 和 H，这些区域在逻辑上被映射为Eden，Survivor、老年代和大对象区。存活的对象从一个区域转移（即复制或移动）到另一个区域，区域被设计为并行收集垃圾，可能会暂停所有应用线程。<br>&emsp;&emsp;Humongous区域（标记H区）是为了那些存储超过50%标准Region大小的对象而设计的，它用来专门存放巨型对象。如果一个H区装不下一个巨型对象，那么G1会寻找连续的H分区来存储。为了能找到连续的H区，有时候不得不启动 Full GC。<br>&emsp;&emsp;G1 收集器之所以能建立可预测的停顿时间模型，是因为它可以有计划地避免在整个Java堆中进行全区域的垃圾收集。G1会通过一个合理的计算模型，计算出每个Region的收集成本并量化，这样一来，收集器在给定了“停顿”时间限制的情况下，总是能选择一组恰当的Region作为收集目标，让其收集开销满足这个限制条件，以此达到实时收集的目的。  </p>
+<p>&emsp;&emsp;G1收集器工作过程：</p>
+<ol>
+<li><strong>初始标记</strong>：仅仅只是标记一下GC Roots能直接关联到的对象，并且修改TAMS（Next Top at Mark Start）的值，让下一阶段用户程序并发运行时，能在正确可用的Region中创建新对象，这阶段需要停顿线程，但耗时很短。</li>
+<li><strong>并发标记</strong>：是从GC Roots开始堆中对象进行可达性分析，找出存活的对象，这阶段耗时较长，但可与用户程序并发执行。</li>
+<li><strong>最终标记</strong>：是为了修正并发标记期间因用户程序继续运作而导致标记产生变动的那一部分标记记录，虚拟机将这段时间对象变化记录在线程Remembered Set Logs里面，最终标记阶段需要把Remembered Set Logs的数据合并到Remembered Set中，这阶段需要停顿线程，但是可并行执行。类似于CMS的重复标记，但是这里可以并发执行。</li>
+<li><strong>筛选回收</strong>：首先对各个Region的回收价值和成本进行排序，根据用户所期望的GC停顿时间来制定回收计划。这个阶段也可以做到与用户程序一起并发执行，但是因为只回收一部分Region，时间是用户可控制的，而且停顿用户线程将大幅提高收集效率。</li>
+</ol>
+<p>&emsp;&emsp;G1的回收模式可以分为两种：</p>
+<ol>
+<li><strong>Young GC</strong>：在分配一般对象（非巨型对象）时，当所有Eden区域使用达到最大阀值并且无法申请足够内存时，会触发一次YoungGC。每次Young GC会回收所有Eden以及Survivor区，并且将存活对象复制到Old区以及另一部分的Survivor区。</li>
+<li><strong>Mixed GC</strong>：当越来越多的对象晋升到老年代时，为了避免堆内存被耗尽，虚拟机会触发一个混合的垃圾收集器，即Mixed GC，该算法并不是一个Old GC，除了回收整个新生代，还会回收一部分的老年代，这里需要注意：是一部分老年代，而不是全部老年代，可以选择哪些Old区域进行收集，从而可以对垃圾回收的耗时时间进行控制。G1没有Full GC概念，需要Full GC时，调用Serial Old GC进行全堆扫描。</li>
+</ol>
+<hr>
+<h1 id="用一张图总结下"><a href="#用一张图总结下" class="headerlink" title="用一张图总结下"></a>用一张图总结下</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86.png" alt="垃圾收集"></p>
+]]></content>
+      <categories>
+        <category>jvm</category>
+      </categories>
+      <tags>
+        <tag>jvm</tag>
+        <tag>memory</tag>
+        <tag>GC</tag>
       </tags>
   </entry>
 </search>
