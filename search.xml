@@ -2549,7 +2549,7 @@
   <entry>
     <title>网络ISO模型</title>
     <url>/hexoblog/2021/05/06/md/internet/%E7%BD%91%E7%BB%9CISO%E6%A8%A1%E5%9E%8B/</url>
-    <content><![CDATA[<h1 id="网络模型"><a href="#网络模型" class="headerlink" title="网络模型"></a>网络模型</h1><p>在计算机网络中有著名的OSI七层协议体系结构，概念清楚，理论完整，但是它既复杂又不实用。TCP/IP体系结构则不同，得到的广泛的应用。最终结合OSI和TCP/IP的优点，采用了一种只有五层协议的体系结构。</p>
+    <content><![CDATA[<h1 id="网络模型"><a href="#网络模型" class="headerlink" title="网络模型"></a>网络模型</h1><p>&emsp;&emsp;在计算机网络中有著名的OSI七层协议体系结构，概念清楚，理论完整，但是它既复杂又不实用。TCP/IP体系结构则不同，得到的广泛的应用。最终结合OSI和TCP/IP的优点，采用了一种只有五层协议的体系结构。</p>
 <span id="more"></span>
 
 <p><a href="https://blog.csdn.net/HuoqilinHeiqiji/article/details/89703358">五层结构</a><br><a href="https://www.jianshu.com/p/bb363a41afcf">网络结构</a></p>
@@ -2591,7 +2591,8 @@
      </tr>
 </table>
 
-<h2 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h2><h3 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h3><p>&emsp;&emsp;应用层的任务是通过应用进程间的交互来完成特定的网络应用。<br>&emsp;&emsp;应用层协议定义的是应用进程间通信和交互的规则。<br>&emsp;&emsp;应用层是app访问网络、向用户显示接收到的信息的窗口。</p>
+<h2 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h2><p>&emsp;&emsp;有两张图瞅一眼：<br><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84%E4%B8%8E%E4%BD%9C%E7%94%A8.jpg" alt="各层及其作用"></p>
+<h3 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h3><p>&emsp;&emsp;应用层的任务是通过应用进程间的交互来完成特定的网络应用。<br>&emsp;&emsp;应用层协议定义的是应用进程间通信和交互的规则。<br>&emsp;&emsp;应用层是app访问网络、向用户显示接收到的信息的窗口。</p>
 <h3 id="表示层"><a href="#表示层" class="headerlink" title="表示层"></a>表示层</h3><p>&emsp;&emsp;表示层也称为转换层，在表示层提取应用层的数据，并根据需要转换格式，以便通过网络传输。<br>&emsp;&emsp;这一层可以做一些数据格式转换，加密解密，压缩等操作。</p>
 <h3 id="会话层"><a href="#会话层" class="headerlink" title="会话层"></a>会话层</h3><p>&emsp;&emsp;会话层负责建立连接，维护会话、认证，并确保安全。</p>
 <h3 id="传输层"><a href="#传输层" class="headerlink" title="传输层"></a>传输层</h3><p>&emsp;&emsp;为两个主机进程间的通信提供通用的数据传输服务。<br>&emsp;&emsp;传输层从网络层获取服务，向应用层提供服务。<br>&emsp;&emsp;只有主机的协议栈才有传输层，网络传输中的一些设备没有传输层，比如路由器。<br>&emsp;&emsp;传输层提供应用进程间的逻辑通信，通信的真正端点是应用进程。<br>&emsp;&emsp;传输层会将源端口号和目的端口号写入header中。</p>
@@ -2636,6 +2637,8 @@
 </ol>
 <hr>
 <h1 id="数据流转"><a href="#数据流转" class="headerlink" title="数据流转"></a>数据流转</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93.jpg" alt="数据流转"></p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E7%BD%91%E8%B7%AF%E5%B1%82%E5%AF%B9%E5%BA%94%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.jpg" alt="各层及其数据结构"></p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%9C%A8%E7%BD%91%E7%BB%9C%E5%B1%82.jpg" alt="数据结构"></p>
 <p>&emsp;&emsp;我们在网络中发送传输数据的时候，数据总是从一台主机的应用层传输到了，另一条台主机的应用层，这其中会包含有很多过程。<br>&emsp;&emsp;再分层结构中，数据总是在应用层产生（也有可能其他地方），在物理介质上传输。<br>&emsp;&emsp;数据在层与层之间传递的时候总是会添加上特有的首部，比如传输层会将端口号写入TCP首部，网络层会将IP地址写入IP首部。</p>
 ]]></content>
       <categories>
