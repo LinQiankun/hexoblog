@@ -22,6 +22,38 @@
       </tags>
   </entry>
   <entry>
+    <title>docker启动vue</title>
+    <url>/hexoblog/2021/04/12/md/docker/docker%E5%90%AF%E5%8A%A8vue/</url>
+    <content><![CDATA[<h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><p>&emsp;&emsp;需要准备东西有：</p>
+<ol>
+<li>docker环境</li>
+<li>vue项目</li>
+</ol>
+<span id="more"></span>
+
+<hr>
+<h1 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h1><h2 id="项目build"><a href="#项目build" class="headerlink" title="项目build"></a>项目build</h2><p>&emsp;&emsp;将vue项目build得到dist文件夹。这里是页面等资源文件。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure>
+
+<h2 id="构建"><a href="#构建" class="headerlink" title="构建"></a>构建</h2><p>&emsp;&emsp;将得到的可执行dist构建成docker镜像。</p>
+<p>&emsp;&emsp;将得到的dist文件放入指定目录下，并且在同目录下建立Dockerfile文件(文件名不能错)。<br>&emsp;&emsp;Dockerfile文件内容：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 设置基础镜像，这里使用最新的nginx镜像，前面已经拉取过了</span></span><br><span class="line">FROM nginx</span><br><span class="line"><span class="comment"># 定义作者 Edison</span></span><br><span class="line">MAINTAINER Edison </span><br><span class="line"><span class="comment"># 将dist文件中的内容复制到 /usr/share/nginx/html/ 这个目录下面</span></span><br><span class="line">COPY dist/  /usr/share/nginx/html/</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;执行docker构建命令，得到docker镜像。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker build -t &lt;镜像名称&gt; .</span><br></pre></td></tr></table></figure>
+
+<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>&emsp;&emsp;构建完成后，就可以在镜像列表查看是否有新构建的镜像，也可以运行该镜像。</p>
+]]></content>
+      <categories>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>vue</tag>
+        <tag>tool</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>docker启动springboot</title>
     <url>/hexoblog/2021/04/12/md/docker/docker%E5%90%AF%E5%8A%A8springboot/</url>
     <content><![CDATA[<h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><p>&emsp;&emsp;需要准备东西有：</p>
@@ -64,40 +96,8 @@
       </categories>
       <tags>
         <tag>docker</tag>
+        <tag>tool</tag>
         <tag>springboot</tag>
-        <tag>tool</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>docker启动vue</title>
-    <url>/hexoblog/2021/04/12/md/docker/docker%E5%90%AF%E5%8A%A8vue/</url>
-    <content><![CDATA[<h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><p>&emsp;&emsp;需要准备东西有：</p>
-<ol>
-<li>docker环境</li>
-<li>vue项目</li>
-</ol>
-<span id="more"></span>
-
-<hr>
-<h1 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h1><h2 id="项目build"><a href="#项目build" class="headerlink" title="项目build"></a>项目build</h2><p>&emsp;&emsp;将vue项目build得到dist文件夹。这里是页面等资源文件。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure>
-
-<h2 id="构建"><a href="#构建" class="headerlink" title="构建"></a>构建</h2><p>&emsp;&emsp;将得到的可执行dist构建成docker镜像。</p>
-<p>&emsp;&emsp;将得到的dist文件放入指定目录下，并且在同目录下建立Dockerfile文件(文件名不能错)。<br>&emsp;&emsp;Dockerfile文件内容：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 设置基础镜像，这里使用最新的nginx镜像，前面已经拉取过了</span></span><br><span class="line">FROM nginx</span><br><span class="line"><span class="comment"># 定义作者 Edison</span></span><br><span class="line">MAINTAINER Edison </span><br><span class="line"><span class="comment"># 将dist文件中的内容复制到 /usr/share/nginx/html/ 这个目录下面</span></span><br><span class="line">COPY dist/  /usr/share/nginx/html/</span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;执行docker构建命令，得到docker镜像。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker build -t &lt;镜像名称&gt; .</span><br></pre></td></tr></table></figure>
-
-<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>&emsp;&emsp;构建完成后，就可以在镜像列表查看是否有新构建的镜像，也可以运行该镜像。</p>
-]]></content>
-      <categories>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>tool</tag>
-        <tag>vue</tag>
       </tags>
   </entry>
   <entry>
@@ -206,21 +206,6 @@
       </tags>
   </entry>
   <entry>
-    <title>dubboSPI扩展点自动激活</title>
-    <url>/hexoblog/2021/04/20/md/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E7%82%B9%E8%87%AA%E5%8A%A8%E6%BF%80%E6%B4%BB/</url>
-    <content><![CDATA[<h1 id="扩展点自动激活"><a href="#扩展点自动激活" class="headerlink" title="扩展点自动激活"></a>扩展点自动激活</h1><p>&emsp;&emsp;对于集合类扩展点，比如：Filter, InvokerListener, ExportListener, TelnetHandler, StatusChecker 等，可以同时加载多个实现，此时，可以用自动激活来简化配置。</p>
-<span id="more"></span>
-
-<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 激活过滤器</span></span><br><span class="line"><span class="meta">@Activate</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FilterOne</span> <span class="keyword">implements</span> <span class="title">Filter</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest request, ServletResponse response, FilterChain chain)</span></span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>dubbo</category>
-      </categories>
-      <tags>
-        <tag>dubbo</tag>
-        <tag>SPI</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>dubboSPI扩展机制自适应</title>
     <url>/hexoblog/2021/04/19/md/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E6%9C%BA%E5%88%B6%E8%87%AA%E9%80%82%E5%BA%94/</url>
     <content><![CDATA[<h1 id="扩展点自适应"><a href="#扩展点自适应" class="headerlink" title="扩展点自适应"></a>扩展点自适应</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>&emsp;&emsp;ExtensionLoader注入的依赖扩展点是一个Adaptive实例，直到扩展点方法执行时才决定调用是哪一个扩展点实现。<br>&emsp;&emsp;dubbo使用url对象传递对象信息，包含key和value。<br>&emsp;&emsp;扩展点方法调用会有URL参数（或是参数有URL成员）这样依赖的扩展点也可以从URL拿到配置信息，所有的扩展点自己定好配置的 Key后，配置信息从URL上从最外层传入。URL在配置传递上即是一条总线。</p>
@@ -236,6 +221,21 @@
 <hr>
 <h1 id="扩展点自动注入"><a href="#扩展点自动注入" class="headerlink" title="扩展点自动注入"></a>扩展点自动注入</h1><p>有bug稍后。</p>
 ]]></content>
+      <categories>
+        <category>dubbo</category>
+      </categories>
+      <tags>
+        <tag>dubbo</tag>
+        <tag>SPI</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>dubboSPI扩展点自动激活</title>
+    <url>/hexoblog/2021/04/20/md/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E7%82%B9%E8%87%AA%E5%8A%A8%E6%BF%80%E6%B4%BB/</url>
+    <content><![CDATA[<h1 id="扩展点自动激活"><a href="#扩展点自动激活" class="headerlink" title="扩展点自动激活"></a>扩展点自动激活</h1><p>&emsp;&emsp;对于集合类扩展点，比如：Filter, InvokerListener, ExportListener, TelnetHandler, StatusChecker 等，可以同时加载多个实现，此时，可以用自动激活来简化配置。</p>
+<span id="more"></span>
+
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 激活过滤器</span></span><br><span class="line"><span class="meta">@Activate</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FilterOne</span> <span class="keyword">implements</span> <span class="title">Filter</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest request, ServletResponse response, FilterChain chain)</span></span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>dubbo</category>
       </categories>
@@ -387,8 +387,206 @@
         <category>网络</category>
       </categories>
       <tags>
+        <tag>TCP</tag>
         <tag>网络</tag>
-        <tag>tcp</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>TCP与UDP</title>
+    <url>/hexoblog/2021/05/07/md/internet/TCP%E4%B8%8EUDP/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;TCP是传输控制协议，UDP是用户数据报协议，均处在传输层。  </p>
+<span id="more"></span>
+
+<hr>
+<h1 id="TCP-amp-UDP"><a href="#TCP-amp-UDP" class="headerlink" title="TCP&amp;UDP"></a>TCP&amp;UDP</h1><h2 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h2><p>&emsp;&emsp;TCP的目的是提供可靠的数据传输，并在相互进行通信的设备或服务之间保持一个虚拟连接。<br>&emsp;&emsp;TCP在数据包接收无序、丢失或在交付期间被破坏时，负责数据恢复。它通过为其发送的每个数据包提供一个序号来完成此恢复。<br>&emsp;&emsp;为确保正确地接收数据，TCP要求在目标计算机成功收到数据时发回一个确认（即 ACK）。如果在某个时限内未收到相应的 ACK，将重新传送数据包。如果网络拥塞，这种重新传送将导致发送的数据包重复。但是，接收计算机可使用数据包的序号来确定它是否为重复数据包，并在必要时丢弃它。</p>
+<h2 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h2><p>&emsp;&emsp;UDP 与 TCP 的主要区别在于 UDP 不一定提供可靠的数据传输。<br>&emsp;&emsp;该协议不能保证数据准确无误地到达目的地。<br>&emsp;&emsp;许多程序将使用单独的TCP连接和单独的UDP连接。重要的状态信息随可靠的TCP连接发送，而主数据流通过UDP发送。</p>
+<h2 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h2><p><a href="https://blog.csdn.net/qq_19525389/article/details/81502805">TCP和UDP、流量控制和拥塞控制</a><br><a href="https://blog.csdn.net/HuoqilinHeiqiji/article/details/89711111?spm=1001.2014.3001.5501">TCP、UDP区别和联系</a><br><a href="https://blog.csdn.net/jackson0714/article/details/110532400">怎么用 UDP 实现 TCP？</a></p>
+<ol>
+<li><strong>TCP面向连接，UDP无连接</strong>。建立TCP连接需要经过3次握手，释放TCP连接需要经过4次挥手。UDP是无连接的，即发送数据前不需要建立连接。</li>
+<li><strong>TCP提供可靠的服务，UDP尽最大努力交付，不提供可靠的服务</strong>。TCP提供可靠的服务，通过TCP连接传输的数据，无差错，不重复，不丢失，且按顺序到达。UDP尽最大努力交付，不保证可靠交付。Tcp通过校验和重传控制，序号标识，滑动窗口、确认应答实现可靠传输。如丢包时的重发控制，还可以对次序乱掉的分包进行顺序控制。</li>
+<li>UDP具有较好的实时性，工作效率比TCP高，适用于对高速传输和实时性有较高的通信或广播通信。</li>
+<li><strong>每一条TCP连接只能是点对点的，UDP可以是一对一，一对多，多对多的交互通信</strong>。</li>
+<li><strong>TCP对系统资源要求比较多，UDP对系统资源要求比较少</strong>（这里主要是首部开销）。</li>
+<li><strong>TCP面向字节流，UDP面向报文</strong>。</li>
+<li>TCP提供全双工通信。</li>
+<li>UDP没有拥塞机制，即网络拥塞不会使源主机的发送效率降低。</li>
+</ol>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><p>&emsp;&emsp;对实时性要求比较高，网络质量要求不高，或者多点通信的时候就需要使用UDP。<br>&emsp;&emsp;当对网络通信质量要求比较高的时候就需要用TCP。</p>
+<table>
+<thead>
+<tr>
+<th>应用</th>
+<th>应用层协议</th>
+<th>传输层协议</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>名字转换</td>
+<td>DNS域名系统</td>
+<td>UDP</td>
+</tr>
+<tr>
+<td>文件传送</td>
+<td>TFTP简单文件传送协议</td>
+<td>UDP</td>
+</tr>
+<tr>
+<td>路由选择协议</td>
+<td>RIP路由信息协议</td>
+<td>UDP</td>
+</tr>
+<tr>
+<td>IP地址管理</td>
+<td>DHCP动态主机配置协议</td>
+<td>UDP</td>
+</tr>
+<tr>
+<td>网络管理</td>
+<td>SNMP简单网络管理协议</td>
+<td>UDP</td>
+</tr>
+<tr>
+<td>远程文件服务器</td>
+<td>NFS网络文件系统</td>
+<td>UDP</td>
+</tr>
+<tr>
+<td>多播</td>
+<td>IGMP网际组管理协议</td>
+<td>UDP</td>
+</tr>
+<tr>
+<td>电子邮件</td>
+<td>SMTP简单邮件传送协议</td>
+<td>TCP</td>
+</tr>
+<tr>
+<td>远程终端接入</td>
+<td>TELNET远程终端协议</td>
+<td>TCP</td>
+</tr>
+<tr>
+<td>万维网</td>
+<td>HTTP超文本传送协议</td>
+<td>TCP</td>
+</tr>
+<tr>
+<td>文件传送</td>
+<td>FTP文件传送协议</td>
+<td>TCP</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><h2 id="如何用UDP实现TCP"><a href="#如何用UDP实现TCP" class="headerlink" title="如何用UDP实现TCP?"></a>如何用UDP实现TCP?</h2><h2 id="URL访问网站时全过程？"><a href="#URL访问网站时全过程？" class="headerlink" title="URL访问网站时全过程？"></a>URL访问网站时全过程？</h2>]]></content>
+      <categories>
+        <category>网络</category>
+      </categories>
+      <tags>
+        <tag>TCP</tag>
+        <tag>网络</tag>
+        <tag>UDP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>网络ISO模型</title>
+    <url>/hexoblog/2021/05/06/md/internet/%E7%BD%91%E7%BB%9CISO%E6%A8%A1%E5%9E%8B/</url>
+    <content><![CDATA[<h1 id="网络模型"><a href="#网络模型" class="headerlink" title="网络模型"></a>网络模型</h1><p>&emsp;&emsp;在计算机网络中有著名的OSI七层协议体系结构，概念清楚，理论完整，但是它既复杂又不实用。TCP/IP体系结构则不同，得到的广泛的应用。最终结合OSI和TCP/IP的优点，采用了一种只有五层协议的体系结构。</p>
+<span id="more"></span>
+
+<p><a href="https://blog.csdn.net/HuoqilinHeiqiji/article/details/89703358">五层结构</a><br><a href="https://www.jianshu.com/p/bb363a41afcf">网络结构</a></p>
+<table border="1">
+    <tr>
+        <th>OSI体系结构</th>
+        <th>TCP/IP体系结构</th>
+        <th>五层体系结构</th>
+    </tr>
+    <tr>
+        <td>应用层</td>
+        <td rowspan="3">应用层</td>
+        <td rowspan="3">应用层</td>
+    </tr>
+    <tr>
+        <td>表示层</td>
+    </tr>
+    <tr>
+        <td>会话层</td>
+    </tr>
+    <tr>
+        <td>传输层</td>
+        <td>传输层</td>
+        <td>传输层</td>
+     </tr>
+     <tr>
+        <td>网络层</td>
+        <td>网络层</td>
+        <td>网络层</td>
+     </tr>
+     <tr>
+        <td>数据链路层</td>
+        <td rowspan="2">数据链路层</td>
+        <td>数据链路层</td>
+     </tr>
+     <tr>
+        <td>物理层</td>
+        <td>物理层</td>
+     </tr>
+</table>
+
+<h2 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h2><p>&emsp;&emsp;有两张图瞅一眼：<br><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84%E4%B8%8E%E4%BD%9C%E7%94%A8.jpg" alt="各层及其作用"></p>
+<h3 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h3><p>&emsp;&emsp;应用层的任务是通过应用进程间的交互来完成特定的网络应用。<br>&emsp;&emsp;应用层协议定义的是应用进程间通信和交互的规则。<br>&emsp;&emsp;应用层是app访问网络、向用户显示接收到的信息的窗口。</p>
+<h3 id="表示层"><a href="#表示层" class="headerlink" title="表示层"></a>表示层</h3><p>&emsp;&emsp;表示层也称为转换层，在表示层提取应用层的数据，并根据需要转换格式，以便通过网络传输。<br>&emsp;&emsp;这一层可以做一些数据格式转换，加密解密，压缩等操作。</p>
+<h3 id="会话层"><a href="#会话层" class="headerlink" title="会话层"></a>会话层</h3><p>&emsp;&emsp;会话层负责建立连接，维护会话、认证，并确保安全。</p>
+<h3 id="传输层"><a href="#传输层" class="headerlink" title="传输层"></a>传输层</h3><p>&emsp;&emsp;为两个主机进程间的通信提供通用的数据传输服务。<br>&emsp;&emsp;传输层从网络层获取服务，向应用层提供服务。<br>&emsp;&emsp;只有主机的协议栈才有传输层，网络传输中的一些设备没有传输层，比如路由器。<br>&emsp;&emsp;传输层提供应用进程间的逻辑通信，通信的真正端点是应用进程。<br>&emsp;&emsp;传输层会将源端口号和目的端口号写入header中。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E4%BC%A0%E8%BE%93%E5%B1%82%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93.jpg" alt="数据传输"></p>
+<p>&emsp;&emsp;上面客户端与服务端之间的每一次的数据传输（这里指信息传递，包括三次握手与四次挥手）都要完整的走一遍下面的流程。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E5%AE%9E%E9%99%85%E4%BC%A0%E8%BE%93%E8%BF%87%E7%A8%8B.png" alt="数据传输"></p>
+<p>&emsp;&emsp;传输层主要使用两种协议：</p>
+<ol>
+<li>TCP：传输控制协议，提供面向连接的，可靠的数据传输服务。</li>
+<li>UDP：用户数据报协议，提供面向无连接的，尽最大努力交付。</li>
+</ol>
+<h3 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a>网络层</h3><p>&emsp;&emsp;网络层为分组交换网上不同主机提供通信服务，网络层将传输层的报文封装成包和分组发送。<br>&emsp;&emsp;将数据从一台主机传输到位于不同网络中的另一台主机。还负责分组路由，即从多条路线中选取路径最短的。<br>&emsp;&emsp;网络层会将发送者，接收者的ip地址放入header中。  </p>
+<h4 id="基本功能"><a href="#基本功能" class="headerlink" title="基本功能"></a>基本功能</h4><ol>
+<li>路由</li>
+<li>逻辑寻址</li>
+</ol>
+<h3 id="数据链路层"><a href="#数据链路层" class="headerlink" title="数据链路层"></a>数据链路层</h3><p>&emsp;&emsp;两台主机间的数据传输，总是一段一段在数据链路上传送的，这就需要使用专门的链路层协议。在两个相邻节点间的链路上传送帧，每一帧包括数据和必要的控制信息（如同步信息，地址信息，差错控制等）。<br>&emsp;&emsp;数据链路层负责的是节点到节点的数据传输，负责确保在物理层上从一个节点到一个节点正确的传输数据。  </p>
+<h4 id="基本功能："><a href="#基本功能：" class="headerlink" title="基本功能："></a>基本功能：</h4><ol>
+<li><p>封装成帧</p>
+</li>
+<li><p>物理寻址</p>
+</li>
+<li><p>错误控制</p>
+</li>
+<li><p>流控制</p>
+</li>
+<li><p>访问控制</p>
+<p>&emsp;&emsp;三个基本问题：封装成帧，透明传输，差错控制。<br>&emsp;&emsp;通过ARP协议，可以获取拥有指定ip地址目标主机的mac地址。</p>
+</li>
+</ol>
+<h3 id="物理层"><a href="#物理层" class="headerlink" title="物理层"></a>物理层</h3><p>&emsp;&emsp;在物理层以比特流传输数据，其实就是二进制流，物理实现可能不同。<br>&emsp;&emsp;OSI 参考模型最底层是物理层，物理层负责在设备和物理传输介质之间传输、接收非结构化数据。  </p>
+<h4 id="基本功能：-1"><a href="#基本功能：-1" class="headerlink" title="基本功能："></a>基本功能：</h4><ol>
+<li>比特同步</li>
+<li>比特率控制</li>
+<li>物理拓补</li>
+<li>传输模式<ol>
+<li>单工</li>
+<li>半双工</li>
+<li>全双工</li>
+</ol>
+</li>
+</ol>
+<hr>
+<h1 id="数据流转"><a href="#数据流转" class="headerlink" title="数据流转"></a>数据流转</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93.jpg" alt="数据流转"></p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E7%BD%91%E8%B7%AF%E5%B1%82%E5%AF%B9%E5%BA%94%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.jpg" alt="各层及其数据结构"></p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%9C%A8%E7%BD%91%E7%BB%9C%E5%B1%82.jpg" alt="数据结构"></p>
+<p>&emsp;&emsp;我们在网络中发送传输数据的时候，数据总是从一台主机的应用层传输到了，另一条台主机的应用层，这其中会包含有很多过程。<br>&emsp;&emsp;再分层结构中，数据总是在应用层产生（也有可能其他地方），在物理介质上传输。<br>&emsp;&emsp;数据在层与层之间传递的时候总是会添加上特有的首部，比如传输层会将端口号写入TCP首部，网络层会将IP地址写入IP首部。</p>
+]]></content>
+      <categories>
+        <category>网络</category>
+      </categories>
+      <tags>
+        <tag>网络</tag>
       </tags>
   </entry>
   <entry>
@@ -795,21 +993,6 @@
       </tags>
   </entry>
   <entry>
-    <title>deepin安装docker</title>
-    <url>/hexoblog/2021/04/11/md/linux/deepin%E5%AE%89%E8%A3%85docker/</url>
-    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;写个毛啊，官方的直接搞来，<a href="https://wiki.deepin.org/wiki/Docker">https://wiki.deepin.org/wiki/Docke</a>。</p>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1>]]></content>
-      <categories>
-        <category>deepin</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>tool</tag>
-        <tag>linux</tag>
-        <tag>deepin</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>锁</title>
     <url>/hexoblog/2021/03/02/md/java/%E9%94%81/</url>
     <content><![CDATA[<h1 id="乐观锁："><a href="#乐观锁：" class="headerlink" title="乐观锁："></a>乐观锁：</h1><p>&emsp;&emsp;乐观锁不是数据库自带的，需要我们去实现。总是假设最好的情况，每次去拿数据时都会认为数据没有被修改，所以不会上锁，但是在提交更新的时候会去判断一下在此期间别人有没有更改数据，可以使用版本号机制算法或者CAS算法实现。乐观锁适用于读多于写的情况，可以提高吞吐量。</p>
@@ -950,147 +1133,54 @@
       </tags>
   </entry>
   <entry>
-    <title>deepin搭建java开发环境</title>
-    <url>/hexoblog/2021/04/11/md/linux/deepin%E6%90%AD%E5%BB%BAjava%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</url>
-    <content><![CDATA[<h1 id="安装jdk"><a href="#安装jdk" class="headerlink" title="安装jdk"></a>安装jdk</h1><p>&emsp;&emsp;安装之前最好先获取管理员权限。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 获取后需要输入密码</span></span><br><span class="line">sudo su</span><br></pre></td></tr></table></figure>
-
-<span id="more"></span>
-<h2 id="下载jdk"><a href="#下载jdk" class="headerlink" title="下载jdk"></a>下载jdk</h2><p>&emsp;&emsp;进入指定目录，下载jdk文件，我自己通常喜欢下载在<code>/usr/local/src/jdk</code>目录中，<a href="https://www.oracle.com/java/technologies/javase-jdk16-downloads.html">jdk16</a>。<br>&emsp;&emsp;<code>/usr/bin</code>是系统的软件存放的位置。<br>&emsp;&emsp;<code>/usr/local/bin</code>是我们自己的软件存放的位置。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/src/jdk</span><br><span class="line"></span><br><span class="line">wget https://download.oracle.com/otn-pub/java/jdk/16+36/7863447f0ab643c585b9bdebf67c69db/jdk-16_linux-x64_bin.tar.gz?AuthParam=1618140718_ccecc5f8b3763f1feed74a49a7f7cbb8</span><br></pre></td></tr></table></figure>
-
-<h2 id="将下载的jdk解压缩"><a href="#将下载的jdk解压缩" class="headerlink" title="将下载的jdk解压缩"></a>将下载的jdk解压缩</h2><p>&emsp;&emsp;通过wget下载的压缩包文件名称会奇奇怪怪的。如果通过浏览器下载则没有该问题。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 重命名文件</span></span><br><span class="line">mv <span class="string">&#x27;jdk-16_linux-x64_bin.tar.gz?AuthParam=1618140718_ccecc5f8b3763f1feed74a49a7f7cbb8&#x27;</span> jdk-16_linux-x64_bin.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解压缩文件</span></span><br><span class="line">tar xvf jdk-16_linux-x64_bin.tar.gz</span><br></pre></td></tr></table></figure>
-
-<h2 id="重命名文件夹（可选）"><a href="#重命名文件夹（可选）" class="headerlink" title="重命名文件夹（可选）"></a>重命名文件夹（可选）</h2><p>&emsp;&emsp;对解压后的文件夹重命名，也可以不做。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mv jdk-16_linux-x64_bin jdk16</span><br></pre></td></tr></table></figure>
-
-<h2 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h2><p>&emsp;&emsp;jdk需要配置PATH和CLASSPATH环境变量。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 系统的环境变量写在/etc/profile文件中</span></span><br><span class="line">vi /etc/profile</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在编辑器末尾添加对应的环境变量</span></span><br><span class="line"><span class="comment"># 这里的路径结合自己的实际安装路径</span></span><br><span class="line">JAVA_HOME=/usr/<span class="built_in">local</span>/jdk/jdk16</span><br><span class="line">CLASSPATH=<span class="variable">$JAVA_HOME</span>/lib</span><br><span class="line"><span class="built_in">export</span> CLASSPATH</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:&amp;JAVA_HOME/bin</span><br><span class="line"></span><br><span class="line"><span class="comment"># 退出vi并保存，这里需要强制保存</span></span><br><span class="line">esc</span><br><span class="line">:wq!</span><br><span class="line"></span><br><span class="line"><span class="comment"># 刷新使环境变量生效</span></span><br><span class="line"><span class="built_in">source</span> /etc/profile</span><br><span class="line"></span><br><span class="line"><span class="comment"># 验证，查看版本号</span></span><br><span class="line">java -version</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h1 id="安装maven"><a href="#安装maven" class="headerlink" title="安装maven"></a>安装maven</h1><h2 id="下载maven"><a href="#下载maven" class="headerlink" title="下载maven"></a>下载maven</h2><p>&emsp;&emsp;将maven下载进指定目录，这里依照个人习惯，我放在<code>/usr/local/src/maven</code>。<a href="https://mirrors.bfsu.edu.cn/apache/maven/maven-3/3.8.1/binaries/apache-maven-3.8.1-bin.tar.gz">maven3.8.1</a></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/src/maven</span><br><span class="line"></span><br><span class="line">wget https://mirrors.bfsu.edu.cn/apache/maven/maven-3/3.8.1/binaries/apache-maven-3.8.1-bin.tar.gz</span><br></pre></td></tr></table></figure>
-
-<h2 id="解压缩文件"><a href="#解压缩文件" class="headerlink" title="解压缩文件"></a>解压缩文件</h2><p>&emsp;&emsp;对下载的maven文件解压缩。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tar xvf apache-maven-3.8.1-bin.tar.gz</span><br></pre></td></tr></table></figure>
-
-<h2 id="重命名文件夹"><a href="#重命名文件夹" class="headerlink" title="重命名文件夹"></a>重命名文件夹</h2><p>&emsp;&emsp;这一步可选操作，目的是为了文件目录整洁。也可以不做。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mv apache-maven-3.8.1-bin maven3</span><br></pre></td></tr></table></figure>
-
-<h2 id="配置环境变量-1"><a href="#配置环境变量-1" class="headerlink" title="配置环境变量"></a>配置环境变量</h2><p>&emsp;&emsp;maven也需要配置PATH环境变量。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vi /etc/profile</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在编辑器末尾添加对应的环境变量</span></span><br><span class="line"><span class="comment"># 这里的路径结合自己的实际安装路径</span></span><br><span class="line">MAVEN_HOME=/usr/<span class="built_in">local</span>/maven/maven3</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:&amp;MAVEN_HOME/bin</span><br><span class="line"></span><br><span class="line"><span class="comment"># 退出vi并保存，这里需要强制保存</span></span><br><span class="line">esc</span><br><span class="line">:wq!</span><br><span class="line"></span><br><span class="line"><span class="comment"># 刷新使环境变量生效</span></span><br><span class="line"><span class="built_in">source</span> /etc/profile</span><br><span class="line"></span><br><span class="line"><span class="comment"># 验证，查看版本号</span></span><br><span class="line">mvn -v</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h1 id="安装tomcat"><a href="#安装tomcat" class="headerlink" title="安装tomcat"></a>安装tomcat</h1><h2 id="下载tomcat"><a href="#下载tomcat" class="headerlink" title="下载tomcat"></a>下载tomcat</h2><p>&emsp;&emsp;将tomcat下载进指定的位置，我放在<code>/usr/local/src/tomcat</code>。<a href="https://mirrors.tuna.tsinghua.edu.cn/apache/tomcat/tomcat-10/v10.0.5/bin/apache-tomcat-10.0.5.tar.gz">tomcat10</a></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/src/tomcat</span><br><span class="line"></span><br><span class="line">wget https://mirrors.tuna.tsinghua.edu.cn/apache/tomcat/tomcat-10/v10.0.5/bin/apache-tomcat-10.0.5.tar.gz</span><br></pre></td></tr></table></figure>
-
-<h2 id="解压压缩包"><a href="#解压压缩包" class="headerlink" title="解压压缩包"></a>解压压缩包</h2><p>&emsp;&emsp;解压下载的压缩文件。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tar xvf apache-tomcat-10.0.5.tar.gz</span><br></pre></td></tr></table></figure>
-
-<h2 id="重命名文件夹-1"><a href="#重命名文件夹-1" class="headerlink" title="重命名文件夹"></a>重命名文件夹</h2><p>&emsp;&emsp;这一步可选操作，目的是为了文件目录整洁。也可以不做。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mv apache-tomcat-10.0.5 tomcat10</span><br></pre></td></tr></table></figure>
-
-<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><p>&emsp;&emsp;进入tomcat的安装目录就可以启动tomcat了。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 进入tomcat的安装位置</span></span><br><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/src/tomcat/tomcat10/bin</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动tomcat</span></span><br><span class="line">startup.sh</span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;启动完成后可以在localhost:8080查看是否启动成功。</p>
-]]></content>
-      <categories>
-        <category>deepin</category>
-      </categories>
-      <tags>
-        <tag>tool</tag>
-        <tag>linux</tag>
-        <tag>deepin</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>linux基本操作</title>
-    <url>/hexoblog/2021/04/10/md/linux/linux%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
-    <content><![CDATA[<h1 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h1><h2 id="移动文件-重命名文件"><a href="#移动文件-重命名文件" class="headerlink" title="移动文件/重命名文件"></a>移动文件/重命名文件</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 移动文件</span></span><br><span class="line">mv [源文件目录] [目标文件目录]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重命名文件</span></span><br><span class="line"><span class="built_in">cd</span> [目标目录]</span><br><span class="line">mv [源文件名] [目标文件名]</span><br></pre></td></tr></table></figure>
-
-<h2 id="复制文件"><a href="#复制文件" class="headerlink" title="复制文件"></a>复制文件</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cp [源文件目录/源文件名] [目标文件目录]</span><br></pre></td></tr></table></figure>
-
-<h2 id="删除文件"><a href="#删除文件" class="headerlink" title="删除文件"></a>删除文件</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> [目标文件目录]</span><br><span class="line">rm -rf [目标文件名]</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>tool</tag>
-        <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>wsl小问题排查</title>
-    <url>/hexoblog/2021/03/14/md/linux/wsl%E5%B0%8F%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5/</url>
-    <content><![CDATA[<!-- toc -->
-
-<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><h2 id="网络问题"><a href="#网络问题" class="headerlink" title="网络问题"></a>网络问题</h2><h3 id="参考的对象类型不支持尝试的操作"><a href="#参考的对象类型不支持尝试的操作" class="headerlink" title="参考的对象类型不支持尝试的操作"></a>参考的对象类型不支持尝试的操作</h3><p>&emsp;&emsp;这种问题一般是因为有启动过代理软件，造成代理冲突。</p>
+    <title>JVM内存分配策略</title>
+    <url>/hexoblog/2021/04/27/md/jvm/JVM%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;就是java对象在堆上分配空间的策略。<br>&emsp;&emsp;具体的分配策略取决于使用那种垃圾回收器的组合，还有虚拟机中参数的设置。这里的一般是分代收集算法下的情况。</p>
 <span id="more"></span>
 
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Ubuntu%2020.04%20LTS%202021_3_14%2016_01_57.png" alt="参考的对象不支持的操作"></p>
-<h4 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h4><p>&emsp;&emsp;临时解决方案，重新网络信息：（管理员运行命令行）</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 重置网络信息</span></span><br><span class="line">netsh winsock reset</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>wsl</tag>
-        <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>happens-before</title>
-    <url>/hexoblog/2021/03/03/md/jvm/happens-before/</url>
-    <content><![CDATA[<h1 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h1><p>&emsp;&emsp;在JMM中，由于存在线程本地内存和主内存的原因，再加上重排序，会导致多线程环境下存在可见性的问题。<br>&emsp;&emsp;JDK5开始，JMM使用happens-before概念来阐述多线程之间的内存可见性问题。</p>
+<hr>
+<h1 id="内存结构"><a href="#内存结构" class="headerlink" title="内存结构"></a>内存结构</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E5%A0%86%E5%86%85%E5%AD%98%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6.jpg" alt="堆内存垃圾回收"></p>
+<p>&emsp;&emsp;这里的内存结构说的是虚拟机对jvm规范中堆区域的实现，不同的虚拟机可能稍有不同。<br>&emsp;&emsp;根据分代回收算法，将堆分为新生代、老年代。新生代默认占堆空间的1/3，老年代默认占堆空间的2/3。<br>&emsp;&emsp;新生代使用复制算法，有3个区，Eden、To Survivor、From Survivor，它们的默认占比是8:1:1，它的执行流程如下：</p>
 <blockquote>
-<p>&emsp;&emsp;在JMM中，如果一个操作的执行结果需要对另一个操作可见，那么这两个操作之间必须存在happens-before关系。  </p>
+<p>&emsp;&emsp;设置Survivore区可以防止频繁触发FULL GC。如果没有Survivor，Eden区每进行一次Minor GC，存活的对象就会被送到老年代，这样会使老年代很快被填满，导致老年代触发FULL GC，由于老年代的内存空间远大于新生代，所以进行一次Full GC消耗的时间比Minor GC长得多。<br>&emsp;&emsp;两个Survivor防止产生内存空间碎片。如果只有Survivor1，那么每一次当Eden区满时，触发Minor GC并把对象移入Survivor1中，如此循环对导致Survivor1中产生大量的空间碎片；所以需要有Survivor2，当Eden再一次满时，触发Minor GC，虚拟机会把 Eden中和Survivor1中的存活对象通过复制算法移入Survivor2中，这样Survivor2就不会产生内存碎片，同时Eden和Survivor1会清理内存，保证下一次Minor GC触发时的操作。</p>
 </blockquote>
-<p>&emsp;&emsp;happens-before原则非常重要，它是判断数据是否存在竞争、线程是否安全的主要依据，依靠这个规则，我们解决在并发环境下两操作之间是否可能存在冲突的所有问题。</p>
-<span id="more"></span>
-
-<hr>
-<h1 id="内容："><a href="#内容：" class="headerlink" title="内容："></a>内容：</h1><h2 id="happens-before原则定义："><a href="#happens-before原则定义：" class="headerlink" title="happens-before原则定义："></a>happens-before原则定义：</h2><ol>
-<li>如果一个操作happens-before另一个操作，那么第一个操作的执行结果将对第二个操作可见，而且第一个操作的执行顺序在第二个操作之前。</li>
-<li>两个操作之间存在happens-before原则，并不意味着一定要按照happens-before原则制定的顺序来执行。如果重排序之后的执行结果与按照happens-before关系来执行的结果一致，那么这种重排序并不非法。</li>
-</ol>
-<h2 id="happens-before原则规则："><a href="#happens-before原则规则：" class="headerlink" title="happens-before原则规则："></a>happens-before原则规则：</h2><ol>
-<li>程序次序规则：一个线程内，按照代码顺序，书写在前面的操作先行发生于书写在后面的操作；</li>
-<li>锁定规则：一个unLock操作先行发生于后面对同一个锁额lock操作；</li>
-<li>volatile变量规则：对一个变量的写操作先行发生于后面对这个变量的读操作；</li>
-<li>传递规则：如果操作A先行发生于操作B，而操作B又先行发生于操作C，则可以得出操作A先行发生于操作C；</li>
-<li>线程启动规则：Thread对象的start()方法先行发生于此线程的每个一个动作；</li>
-<li>线程中断规则：对线程interrupt()方法的调用先行发生于被中断线程的代码检测到中断事件的发生；</li>
-<li>线程终结规则：线程中所有的操作都先行发生于线程的终止检测，我们可以通过Thread.join()方法结束、Thread.isAlive()的返回值手段检测到线程已经终止执行；</li>
-<li>对象终结规则：一个对象的初始化完成先行发生于他的finalize()方法的开始；</li>
-</ol>
-<h3 id="程序次序规则："><a href="#程序次序规则：" class="headerlink" title="程序次序规则："></a>程序次序规则：</h3><p>&emsp;&emsp;一段代码在单线程中的执行结果是有序的，注意是执行结果，因为虚拟机、处理器会对指令进行重排序（重排序后面会详细介绍）。虽然重排序了，但是并不会影响程序的执行结果，所以程序最终执行的结果与顺序执行的结果是一致的。故而这个规则只对单线程有效，在多线程环境下无法保证正确性。</p>
-<h3 id="锁定规则："><a href="#锁定规则：" class="headerlink" title="锁定规则："></a>锁定规则：</h3><p>&emsp;&emsp;这个规则比较好理解，无论是在单线程环境还是多线程环境，一个锁处于被锁定状态，那么必须先执行unlock操作后面才能进行lock操作。</p>
-<h3 id="volatile变量规则："><a href="#volatile变量规则：" class="headerlink" title="volatile变量规则："></a>volatile变量规则：</h3><p>&emsp;&emsp; 这是一条比较重要的规则，它标志着volatile保证了线程可见性。通俗点讲就是如果一个线程先去写一个volatile变量，然后一个线程去读这个变量，那么这个写操作一定是happens-before读操作的。</p>
-<h3 id="传递规则："><a href="#传递规则：" class="headerlink" title="传递规则："></a>传递规则：</h3><p>&emsp;&emsp;提现了happens-before原则具有传递性，即A happens-before B , B happens-before C，那么A happens-before C。</p>
-<h3 id="线程启动规则："><a href="#线程启动规则：" class="headerlink" title="线程启动规则："></a>线程启动规则：</h3><p>&emsp;&emsp;假定线程A在执行过程中，通过执行ThreadB.start()来启动线程B，那么线程A对共享变量的修改在接下来线程B开始执行后确保对线程B可见。</p>
-<h3 id="线程终结规则："><a href="#线程终结规则：" class="headerlink" title="线程终结规则："></a>线程终结规则：</h3><p>&emsp;&emsp;假定线程A在执行的过程中，通过制定ThreadB.join()等待线程B终止，那么线程B在终止之前对共享变量的修改在线程A等待返回后可见。</p>
-<hr>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>&emsp;&emsp;上面八条是原生Java满足Happens-before关系的规则，但是我们可以对他们进行推导出其他满足happens-before的规则：</p>
 <ol>
-<li>将一个元素放入一个线程安全的队列的操作Happens-Before从队列中取出这个元素的操作。</li>
-<li>将一个元素放入一个线程安全容器的操作Happens-Before从容器中取出这个元素的操作。</li>
-<li>在CountDownLatch上的倒数操作Happens-Before CountDownLatch#await()操作。</li>
-<li>释放Semaphore许可的操作Happens-Before获得许可操作。</li>
-<li>Future表示的任务的所有操作Happens-Before Future#get()操作。</li>
-<li>向Executor提交一个Runnable或Callable的操作Happens-Before任务开始执行操作。</li>
-<li>如果两个操作不满足上述任意一个happens-before规则，那么这两个操作就没有顺序的保障，JVM就可以对这两个操作进行重排序。如果操作Ahappens-before操作B，那么操作A在内存上所做的操作对操作B都是可见的。</li>
+<li>在GC开始的时候，对象只会存在于Eden区和名为“From”的Survivor区，Survivor区“To”是空的。紧接着进行GC，Eden区中所有存活的对象都会被复制到“To Survivor区”，仍存活的对象会根据他们的年龄值来决定去向。年龄达到一定值(年龄阈值，可以通过-XX:MaxTenuringThreshold来设置)的对象会被移动到年老代中。</li>
+<li>清空Eden和From Survivor分区。</li>
+<li>这时From Survivor和To Survivor分区会互换角色，分区交换，From Survivor变To Survivor，To Survivor变From Survivor。</li>
+<li>每次在From Survivor到To Survivor移动时都存活的对象，年龄就+1，当年龄到达15（默认配置是 15）时，升级为老生代。大对象也会直接进入老生代。</li>
 </ol>
+<p>&emsp;&emsp;老生代当空间占用到达某个值之后就会触发全局垃圾收回，一般使用标记整理的执行算法。以上这些循环往复就构成了整个分代垃圾回收的整体执行流程。</p>
+<hr>
+<h1 id="策略"><a href="#策略" class="headerlink" title="策略"></a>策略</h1><p>&emsp;&emsp;常见的内存分配策略为：</p>
+<ol>
+<li><p>对象优先在Eden分配。</p>
+</li>
+<li><p>大对象直接进入老年代。</p>
+</li>
+<li><p>长期存活的对象进入老年代。</p>
+</li>
+<li><p>动态对象年龄判断。</p>
+</li>
+<li><p>空间分配担保。</p>
+<h2 id="对象优先在Eden区"><a href="#对象优先在Eden区" class="headerlink" title="对象优先在Eden区"></a>对象优先在Eden区</h2></li>
+</ol>
+<p>&emsp;&emsp;多数情况下，新对象都在新生代Eden区分配，当Eden区没有足够空间进行分配时，虚拟机将发起一次Minor GC，即发生在新生代的垃圾收集。<br>&emsp;&emsp;如果分配后还是没有足够的空间，就会启动分配担保机制在老年代分配空间。</p>
+<h2 id="大对象直接进入老年代"><a href="#大对象直接进入老年代" class="headerlink" title="大对象直接进入老年代"></a>大对象直接进入老年代</h2><p>&emsp;&emsp;所谓大对象就是指需要大量连续内存空间的Java对象，最典型的大对象就是那种很长的字符串以及数组。可以通过虚拟机参数<code>-XX:PretenureSizeThreshold</code>控制大对象的最小临界值。<br>&emsp;&emsp;新生代使用的是复制算法来处理垃圾回收的，如果大对象直接在新生代分配就会导致Eden区和两个Survivor区之间发生大量的内存复制。<br>&emsp;&emsp;经常出现大对象，会导致在内存还有不少时就触发垃圾回收。</p>
+<ul>
+<li><strong>Minor GC</strong>：指发生在新生代的GC，一般速度非常快。</li>
+<li><strong>Full GC</strong>：是指发生在老年代的GC，一般出现这种必然会伴随Minor GC，通常会被Minor GC慢10倍。</li>
+</ul>
+<h2 id="长期存活的对象进入老年代"><a href="#长期存活的对象进入老年代" class="headerlink" title="长期存活的对象进入老年代"></a>长期存活的对象进入老年代</h2><p>&emsp;&emsp;在分代收集算法中需要确定那些对象该进入老年代，那些不用进入。<br>&emsp;&emsp;虚拟机给每个对象定义了一个对象年龄计数器，如果对象在Eden区出生，并且能够被Survivor容纳，将被移动到Survivor空间中，这时设置对象年龄为1。对象在Survivor区中每过一次Minor GC年龄就加 1，当年龄达到一定程度（默认 15）就会被晋升到老年代。可以通过参数<code>-XX:MaxTenuringThreshold</code>设置进入老年代的年龄上限。</p>
+<h2 id="动态对象年龄判断"><a href="#动态对象年龄判断" class="headerlink" title="动态对象年龄判断"></a>动态对象年龄判断</h2><p>&emsp;&emsp;虚拟机并不是永远地要求对象的年龄必须达到了MaxTenuringThreshold才能晋升老年代，如果在Survivor空间中相同年龄所有对象大小的总和大于Survivor空间的一半，年龄大于等于该年龄的对象就可以直接进入老年代。</p>
+<h2 id="空间分配担保"><a href="#空间分配担保" class="headerlink" title="空间分配担保"></a>空间分配担保</h2><p>&emsp;&emsp;在发生Minor GC之前，虚拟机会先检查老年代最大可用的连续空间是否大于新生代所有对象总空间，如果这个条件成立，那么Minor GC可以确保是安全的。如果不成立，则虚拟机会查看HandlePromotionFailure设置值是否允许担保失败。如果允许，那么会继续检查老年代最大可用的连续空间是否大于历次晋升到老年代对象的平均大小，如果大于，将尝试进行一次Minor GC，尽管这次Minor GC是有风险的；如果小于，或者HandlePromotionFailure设置不允许冒险，这这时也要改为进行一次Full GC（指发生在老年代的GC，会发生STW）。实际上，在 JDK 6 Update 24之后的规则变为只要老年代的连续空间大于新生代对象总大小或者历次晋升的平均大小就会进行Minor GC，否则就进行Full GC。</p>
 ]]></content>
       <categories>
         <category>jvm</category>
       </categories>
       <tags>
-        <tag>java</tag>
         <tag>jvm</tag>
+        <tag>memory</tag>
       </tags>
   </entry>
   <entry>
@@ -1195,54 +1285,54 @@
       </tags>
   </entry>
   <entry>
-    <title>JVM内存分配策略</title>
-    <url>/hexoblog/2021/04/27/md/jvm/JVM%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;就是java对象在堆上分配空间的策略。<br>&emsp;&emsp;具体的分配策略取决于使用那种垃圾回收器的组合，还有虚拟机中参数的设置。这里的一般是分代收集算法下的情况。</p>
+    <title>happens-before</title>
+    <url>/hexoblog/2021/03/03/md/jvm/happens-before/</url>
+    <content><![CDATA[<h1 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h1><p>&emsp;&emsp;在JMM中，由于存在线程本地内存和主内存的原因，再加上重排序，会导致多线程环境下存在可见性的问题。<br>&emsp;&emsp;JDK5开始，JMM使用happens-before概念来阐述多线程之间的内存可见性问题。</p>
+<blockquote>
+<p>&emsp;&emsp;在JMM中，如果一个操作的执行结果需要对另一个操作可见，那么这两个操作之间必须存在happens-before关系。  </p>
+</blockquote>
+<p>&emsp;&emsp;happens-before原则非常重要，它是判断数据是否存在竞争、线程是否安全的主要依据，依靠这个规则，我们解决在并发环境下两操作之间是否可能存在冲突的所有问题。</p>
 <span id="more"></span>
 
 <hr>
-<h1 id="内存结构"><a href="#内存结构" class="headerlink" title="内存结构"></a>内存结构</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E5%A0%86%E5%86%85%E5%AD%98%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6.jpg" alt="堆内存垃圾回收"></p>
-<p>&emsp;&emsp;这里的内存结构说的是虚拟机对jvm规范中堆区域的实现，不同的虚拟机可能稍有不同。<br>&emsp;&emsp;根据分代回收算法，将堆分为新生代、老年代。新生代默认占堆空间的1/3，老年代默认占堆空间的2/3。<br>&emsp;&emsp;新生代使用复制算法，有3个区，Eden、To Survivor、From Survivor，它们的默认占比是8:1:1，它的执行流程如下：</p>
-<blockquote>
-<p>&emsp;&emsp;设置Survivore区可以防止频繁触发FULL GC。如果没有Survivor，Eden区每进行一次Minor GC，存活的对象就会被送到老年代，这样会使老年代很快被填满，导致老年代触发FULL GC，由于老年代的内存空间远大于新生代，所以进行一次Full GC消耗的时间比Minor GC长得多。<br>&emsp;&emsp;两个Survivor防止产生内存空间碎片。如果只有Survivor1，那么每一次当Eden区满时，触发Minor GC并把对象移入Survivor1中，如此循环对导致Survivor1中产生大量的空间碎片；所以需要有Survivor2，当Eden再一次满时，触发Minor GC，虚拟机会把 Eden中和Survivor1中的存活对象通过复制算法移入Survivor2中，这样Survivor2就不会产生内存碎片，同时Eden和Survivor1会清理内存，保证下一次Minor GC触发时的操作。</p>
-</blockquote>
-<ol>
-<li>在GC开始的时候，对象只会存在于Eden区和名为“From”的Survivor区，Survivor区“To”是空的。紧接着进行GC，Eden区中所有存活的对象都会被复制到“To Survivor区”，仍存活的对象会根据他们的年龄值来决定去向。年龄达到一定值(年龄阈值，可以通过-XX:MaxTenuringThreshold来设置)的对象会被移动到年老代中。</li>
-<li>清空Eden和From Survivor分区。</li>
-<li>这时From Survivor和To Survivor分区会互换角色，分区交换，From Survivor变To Survivor，To Survivor变From Survivor。</li>
-<li>每次在From Survivor到To Survivor移动时都存活的对象，年龄就+1，当年龄到达15（默认配置是 15）时，升级为老生代。大对象也会直接进入老生代。</li>
+<h1 id="内容："><a href="#内容：" class="headerlink" title="内容："></a>内容：</h1><h2 id="happens-before原则定义："><a href="#happens-before原则定义：" class="headerlink" title="happens-before原则定义："></a>happens-before原则定义：</h2><ol>
+<li>如果一个操作happens-before另一个操作，那么第一个操作的执行结果将对第二个操作可见，而且第一个操作的执行顺序在第二个操作之前。</li>
+<li>两个操作之间存在happens-before原则，并不意味着一定要按照happens-before原则制定的顺序来执行。如果重排序之后的执行结果与按照happens-before关系来执行的结果一致，那么这种重排序并不非法。</li>
 </ol>
-<p>&emsp;&emsp;老生代当空间占用到达某个值之后就会触发全局垃圾收回，一般使用标记整理的执行算法。以上这些循环往复就构成了整个分代垃圾回收的整体执行流程。</p>
+<h2 id="happens-before原则规则："><a href="#happens-before原则规则：" class="headerlink" title="happens-before原则规则："></a>happens-before原则规则：</h2><ol>
+<li>程序次序规则：一个线程内，按照代码顺序，书写在前面的操作先行发生于书写在后面的操作；</li>
+<li>锁定规则：一个unLock操作先行发生于后面对同一个锁额lock操作；</li>
+<li>volatile变量规则：对一个变量的写操作先行发生于后面对这个变量的读操作；</li>
+<li>传递规则：如果操作A先行发生于操作B，而操作B又先行发生于操作C，则可以得出操作A先行发生于操作C；</li>
+<li>线程启动规则：Thread对象的start()方法先行发生于此线程的每个一个动作；</li>
+<li>线程中断规则：对线程interrupt()方法的调用先行发生于被中断线程的代码检测到中断事件的发生；</li>
+<li>线程终结规则：线程中所有的操作都先行发生于线程的终止检测，我们可以通过Thread.join()方法结束、Thread.isAlive()的返回值手段检测到线程已经终止执行；</li>
+<li>对象终结规则：一个对象的初始化完成先行发生于他的finalize()方法的开始；</li>
+</ol>
+<h3 id="程序次序规则："><a href="#程序次序规则：" class="headerlink" title="程序次序规则："></a>程序次序规则：</h3><p>&emsp;&emsp;一段代码在单线程中的执行结果是有序的，注意是执行结果，因为虚拟机、处理器会对指令进行重排序（重排序后面会详细介绍）。虽然重排序了，但是并不会影响程序的执行结果，所以程序最终执行的结果与顺序执行的结果是一致的。故而这个规则只对单线程有效，在多线程环境下无法保证正确性。</p>
+<h3 id="锁定规则："><a href="#锁定规则：" class="headerlink" title="锁定规则："></a>锁定规则：</h3><p>&emsp;&emsp;这个规则比较好理解，无论是在单线程环境还是多线程环境，一个锁处于被锁定状态，那么必须先执行unlock操作后面才能进行lock操作。</p>
+<h3 id="volatile变量规则："><a href="#volatile变量规则：" class="headerlink" title="volatile变量规则："></a>volatile变量规则：</h3><p>&emsp;&emsp; 这是一条比较重要的规则，它标志着volatile保证了线程可见性。通俗点讲就是如果一个线程先去写一个volatile变量，然后一个线程去读这个变量，那么这个写操作一定是happens-before读操作的。</p>
+<h3 id="传递规则："><a href="#传递规则：" class="headerlink" title="传递规则："></a>传递规则：</h3><p>&emsp;&emsp;提现了happens-before原则具有传递性，即A happens-before B , B happens-before C，那么A happens-before C。</p>
+<h3 id="线程启动规则："><a href="#线程启动规则：" class="headerlink" title="线程启动规则："></a>线程启动规则：</h3><p>&emsp;&emsp;假定线程A在执行过程中，通过执行ThreadB.start()来启动线程B，那么线程A对共享变量的修改在接下来线程B开始执行后确保对线程B可见。</p>
+<h3 id="线程终结规则："><a href="#线程终结规则：" class="headerlink" title="线程终结规则："></a>线程终结规则：</h3><p>&emsp;&emsp;假定线程A在执行的过程中，通过制定ThreadB.join()等待线程B终止，那么线程B在终止之前对共享变量的修改在线程A等待返回后可见。</p>
 <hr>
-<h1 id="策略"><a href="#策略" class="headerlink" title="策略"></a>策略</h1><p>&emsp;&emsp;常见的内存分配策略为：</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>&emsp;&emsp;上面八条是原生Java满足Happens-before关系的规则，但是我们可以对他们进行推导出其他满足happens-before的规则：</p>
 <ol>
-<li><p>对象优先在Eden分配。</p>
-</li>
-<li><p>大对象直接进入老年代。</p>
-</li>
-<li><p>长期存活的对象进入老年代。</p>
-</li>
-<li><p>动态对象年龄判断。</p>
-</li>
-<li><p>空间分配担保。</p>
-<h2 id="对象优先在Eden区"><a href="#对象优先在Eden区" class="headerlink" title="对象优先在Eden区"></a>对象优先在Eden区</h2></li>
+<li>将一个元素放入一个线程安全的队列的操作Happens-Before从队列中取出这个元素的操作。</li>
+<li>将一个元素放入一个线程安全容器的操作Happens-Before从容器中取出这个元素的操作。</li>
+<li>在CountDownLatch上的倒数操作Happens-Before CountDownLatch#await()操作。</li>
+<li>释放Semaphore许可的操作Happens-Before获得许可操作。</li>
+<li>Future表示的任务的所有操作Happens-Before Future#get()操作。</li>
+<li>向Executor提交一个Runnable或Callable的操作Happens-Before任务开始执行操作。</li>
+<li>如果两个操作不满足上述任意一个happens-before规则，那么这两个操作就没有顺序的保障，JVM就可以对这两个操作进行重排序。如果操作Ahappens-before操作B，那么操作A在内存上所做的操作对操作B都是可见的。</li>
 </ol>
-<p>&emsp;&emsp;多数情况下，新对象都在新生代Eden区分配，当Eden区没有足够空间进行分配时，虚拟机将发起一次Minor GC，即发生在新生代的垃圾收集。<br>&emsp;&emsp;如果分配后还是没有足够的空间，就会启动分配担保机制在老年代分配空间。</p>
-<h2 id="大对象直接进入老年代"><a href="#大对象直接进入老年代" class="headerlink" title="大对象直接进入老年代"></a>大对象直接进入老年代</h2><p>&emsp;&emsp;所谓大对象就是指需要大量连续内存空间的Java对象，最典型的大对象就是那种很长的字符串以及数组。可以通过虚拟机参数<code>-XX:PretenureSizeThreshold</code>控制大对象的最小临界值。<br>&emsp;&emsp;新生代使用的是复制算法来处理垃圾回收的，如果大对象直接在新生代分配就会导致Eden区和两个Survivor区之间发生大量的内存复制。<br>&emsp;&emsp;经常出现大对象，会导致在内存还有不少时就触发垃圾回收。</p>
-<ul>
-<li><strong>Minor GC</strong>：指发生在新生代的GC，一般速度非常快。</li>
-<li><strong>Full GC</strong>：是指发生在老年代的GC，一般出现这种必然会伴随Minor GC，通常会被Minor GC慢10倍。</li>
-</ul>
-<h2 id="长期存活的对象进入老年代"><a href="#长期存活的对象进入老年代" class="headerlink" title="长期存活的对象进入老年代"></a>长期存活的对象进入老年代</h2><p>&emsp;&emsp;在分代收集算法中需要确定那些对象该进入老年代，那些不用进入。<br>&emsp;&emsp;虚拟机给每个对象定义了一个对象年龄计数器，如果对象在Eden区出生，并且能够被Survivor容纳，将被移动到Survivor空间中，这时设置对象年龄为1。对象在Survivor区中每过一次Minor GC年龄就加 1，当年龄达到一定程度（默认 15）就会被晋升到老年代。可以通过参数<code>-XX:MaxTenuringThreshold</code>设置进入老年代的年龄上限。</p>
-<h2 id="动态对象年龄判断"><a href="#动态对象年龄判断" class="headerlink" title="动态对象年龄判断"></a>动态对象年龄判断</h2><p>&emsp;&emsp;虚拟机并不是永远地要求对象的年龄必须达到了MaxTenuringThreshold才能晋升老年代，如果在Survivor空间中相同年龄所有对象大小的总和大于Survivor空间的一半，年龄大于等于该年龄的对象就可以直接进入老年代。</p>
-<h2 id="空间分配担保"><a href="#空间分配担保" class="headerlink" title="空间分配担保"></a>空间分配担保</h2><p>&emsp;&emsp;在发生Minor GC之前，虚拟机会先检查老年代最大可用的连续空间是否大于新生代所有对象总空间，如果这个条件成立，那么Minor GC可以确保是安全的。如果不成立，则虚拟机会查看HandlePromotionFailure设置值是否允许担保失败。如果允许，那么会继续检查老年代最大可用的连续空间是否大于历次晋升到老年代对象的平均大小，如果大于，将尝试进行一次Minor GC，尽管这次Minor GC是有风险的；如果小于，或者HandlePromotionFailure设置不允许冒险，这这时也要改为进行一次Full GC（指发生在老年代的GC，会发生STW）。实际上，在 JDK 6 Update 24之后的规则变为只要老年代的连续空间大于新生代对象总大小或者历次晋升的平均大小就会进行Minor GC，否则就进行Full GC。</p>
 ]]></content>
       <categories>
         <category>jvm</category>
       </categories>
       <tags>
+        <tag>java</tag>
         <tag>jvm</tag>
-        <tag>memory</tag>
       </tags>
   </entry>
   <entry>
@@ -1494,6 +1584,114 @@
       <tags>
         <tag>tool</tag>
         <tag>jvm</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>deepin安装docker</title>
+    <url>/hexoblog/2021/04/11/md/linux/deepin%E5%AE%89%E8%A3%85docker/</url>
+    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;写个毛啊，官方的直接搞来，<a href="https://wiki.deepin.org/wiki/Docker">https://wiki.deepin.org/wiki/Docke</a>。</p>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1>]]></content>
+      <categories>
+        <category>deepin</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>tool</tag>
+        <tag>linux</tag>
+        <tag>deepin</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>deepin搭建java开发环境</title>
+    <url>/hexoblog/2021/04/11/md/linux/deepin%E6%90%AD%E5%BB%BAjava%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</url>
+    <content><![CDATA[<h1 id="安装jdk"><a href="#安装jdk" class="headerlink" title="安装jdk"></a>安装jdk</h1><p>&emsp;&emsp;安装之前最好先获取管理员权限。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 获取后需要输入密码</span></span><br><span class="line">sudo su</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+<h2 id="下载jdk"><a href="#下载jdk" class="headerlink" title="下载jdk"></a>下载jdk</h2><p>&emsp;&emsp;进入指定目录，下载jdk文件，我自己通常喜欢下载在<code>/usr/local/src/jdk</code>目录中，<a href="https://www.oracle.com/java/technologies/javase-jdk16-downloads.html">jdk16</a>。<br>&emsp;&emsp;<code>/usr/bin</code>是系统的软件存放的位置。<br>&emsp;&emsp;<code>/usr/local/bin</code>是我们自己的软件存放的位置。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/src/jdk</span><br><span class="line"></span><br><span class="line">wget https://download.oracle.com/otn-pub/java/jdk/16+36/7863447f0ab643c585b9bdebf67c69db/jdk-16_linux-x64_bin.tar.gz?AuthParam=1618140718_ccecc5f8b3763f1feed74a49a7f7cbb8</span><br></pre></td></tr></table></figure>
+
+<h2 id="将下载的jdk解压缩"><a href="#将下载的jdk解压缩" class="headerlink" title="将下载的jdk解压缩"></a>将下载的jdk解压缩</h2><p>&emsp;&emsp;通过wget下载的压缩包文件名称会奇奇怪怪的。如果通过浏览器下载则没有该问题。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 重命名文件</span></span><br><span class="line">mv <span class="string">&#x27;jdk-16_linux-x64_bin.tar.gz?AuthParam=1618140718_ccecc5f8b3763f1feed74a49a7f7cbb8&#x27;</span> jdk-16_linux-x64_bin.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解压缩文件</span></span><br><span class="line">tar xvf jdk-16_linux-x64_bin.tar.gz</span><br></pre></td></tr></table></figure>
+
+<h2 id="重命名文件夹（可选）"><a href="#重命名文件夹（可选）" class="headerlink" title="重命名文件夹（可选）"></a>重命名文件夹（可选）</h2><p>&emsp;&emsp;对解压后的文件夹重命名，也可以不做。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mv jdk-16_linux-x64_bin jdk16</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h2><p>&emsp;&emsp;jdk需要配置PATH和CLASSPATH环境变量。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 系统的环境变量写在/etc/profile文件中</span></span><br><span class="line">vi /etc/profile</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在编辑器末尾添加对应的环境变量</span></span><br><span class="line"><span class="comment"># 这里的路径结合自己的实际安装路径</span></span><br><span class="line">JAVA_HOME=/usr/<span class="built_in">local</span>/jdk/jdk16</span><br><span class="line">CLASSPATH=<span class="variable">$JAVA_HOME</span>/lib</span><br><span class="line"><span class="built_in">export</span> CLASSPATH</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:&amp;JAVA_HOME/bin</span><br><span class="line"></span><br><span class="line"><span class="comment"># 退出vi并保存，这里需要强制保存</span></span><br><span class="line">esc</span><br><span class="line">:wq!</span><br><span class="line"></span><br><span class="line"><span class="comment"># 刷新使环境变量生效</span></span><br><span class="line"><span class="built_in">source</span> /etc/profile</span><br><span class="line"></span><br><span class="line"><span class="comment"># 验证，查看版本号</span></span><br><span class="line">java -version</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="安装maven"><a href="#安装maven" class="headerlink" title="安装maven"></a>安装maven</h1><h2 id="下载maven"><a href="#下载maven" class="headerlink" title="下载maven"></a>下载maven</h2><p>&emsp;&emsp;将maven下载进指定目录，这里依照个人习惯，我放在<code>/usr/local/src/maven</code>。<a href="https://mirrors.bfsu.edu.cn/apache/maven/maven-3/3.8.1/binaries/apache-maven-3.8.1-bin.tar.gz">maven3.8.1</a></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/src/maven</span><br><span class="line"></span><br><span class="line">wget https://mirrors.bfsu.edu.cn/apache/maven/maven-3/3.8.1/binaries/apache-maven-3.8.1-bin.tar.gz</span><br></pre></td></tr></table></figure>
+
+<h2 id="解压缩文件"><a href="#解压缩文件" class="headerlink" title="解压缩文件"></a>解压缩文件</h2><p>&emsp;&emsp;对下载的maven文件解压缩。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tar xvf apache-maven-3.8.1-bin.tar.gz</span><br></pre></td></tr></table></figure>
+
+<h2 id="重命名文件夹"><a href="#重命名文件夹" class="headerlink" title="重命名文件夹"></a>重命名文件夹</h2><p>&emsp;&emsp;这一步可选操作，目的是为了文件目录整洁。也可以不做。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mv apache-maven-3.8.1-bin maven3</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置环境变量-1"><a href="#配置环境变量-1" class="headerlink" title="配置环境变量"></a>配置环境变量</h2><p>&emsp;&emsp;maven也需要配置PATH环境变量。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vi /etc/profile</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在编辑器末尾添加对应的环境变量</span></span><br><span class="line"><span class="comment"># 这里的路径结合自己的实际安装路径</span></span><br><span class="line">MAVEN_HOME=/usr/<span class="built_in">local</span>/maven/maven3</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:&amp;MAVEN_HOME/bin</span><br><span class="line"></span><br><span class="line"><span class="comment"># 退出vi并保存，这里需要强制保存</span></span><br><span class="line">esc</span><br><span class="line">:wq!</span><br><span class="line"></span><br><span class="line"><span class="comment"># 刷新使环境变量生效</span></span><br><span class="line"><span class="built_in">source</span> /etc/profile</span><br><span class="line"></span><br><span class="line"><span class="comment"># 验证，查看版本号</span></span><br><span class="line">mvn -v</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="安装tomcat"><a href="#安装tomcat" class="headerlink" title="安装tomcat"></a>安装tomcat</h1><h2 id="下载tomcat"><a href="#下载tomcat" class="headerlink" title="下载tomcat"></a>下载tomcat</h2><p>&emsp;&emsp;将tomcat下载进指定的位置，我放在<code>/usr/local/src/tomcat</code>。<a href="https://mirrors.tuna.tsinghua.edu.cn/apache/tomcat/tomcat-10/v10.0.5/bin/apache-tomcat-10.0.5.tar.gz">tomcat10</a></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/src/tomcat</span><br><span class="line"></span><br><span class="line">wget https://mirrors.tuna.tsinghua.edu.cn/apache/tomcat/tomcat-10/v10.0.5/bin/apache-tomcat-10.0.5.tar.gz</span><br></pre></td></tr></table></figure>
+
+<h2 id="解压压缩包"><a href="#解压压缩包" class="headerlink" title="解压压缩包"></a>解压压缩包</h2><p>&emsp;&emsp;解压下载的压缩文件。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tar xvf apache-tomcat-10.0.5.tar.gz</span><br></pre></td></tr></table></figure>
+
+<h2 id="重命名文件夹-1"><a href="#重命名文件夹-1" class="headerlink" title="重命名文件夹"></a>重命名文件夹</h2><p>&emsp;&emsp;这一步可选操作，目的是为了文件目录整洁。也可以不做。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mv apache-tomcat-10.0.5 tomcat10</span><br></pre></td></tr></table></figure>
+
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><p>&emsp;&emsp;进入tomcat的安装目录就可以启动tomcat了。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 进入tomcat的安装位置</span></span><br><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/src/tomcat/tomcat10/bin</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动tomcat</span></span><br><span class="line">startup.sh</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;启动完成后可以在localhost:8080查看是否启动成功。</p>
+]]></content>
+      <categories>
+        <category>deepin</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>linux</tag>
+        <tag>deepin</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>linux基本操作</title>
+    <url>/hexoblog/2021/04/10/md/linux/linux%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<h1 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h1><h2 id="移动文件-重命名文件"><a href="#移动文件-重命名文件" class="headerlink" title="移动文件/重命名文件"></a>移动文件/重命名文件</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 移动文件</span></span><br><span class="line">mv [源文件目录] [目标文件目录]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重命名文件</span></span><br><span class="line"><span class="built_in">cd</span> [目标目录]</span><br><span class="line">mv [源文件名] [目标文件名]</span><br></pre></td></tr></table></figure>
+
+<h2 id="复制文件"><a href="#复制文件" class="headerlink" title="复制文件"></a>复制文件</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cp [源文件目录/源文件名] [目标文件目录]</span><br></pre></td></tr></table></figure>
+
+<h2 id="删除文件"><a href="#删除文件" class="headerlink" title="删除文件"></a>删除文件</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> [目标文件目录]</span><br><span class="line">rm -rf [目标文件名]</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>wsl小问题排查</title>
+    <url>/hexoblog/2021/03/14/md/linux/wsl%E5%B0%8F%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5/</url>
+    <content><![CDATA[<!-- toc -->
+
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><h2 id="网络问题"><a href="#网络问题" class="headerlink" title="网络问题"></a>网络问题</h2><h3 id="参考的对象类型不支持尝试的操作"><a href="#参考的对象类型不支持尝试的操作" class="headerlink" title="参考的对象类型不支持尝试的操作"></a>参考的对象类型不支持尝试的操作</h3><p>&emsp;&emsp;这种问题一般是因为有启动过代理软件，造成代理冲突。</p>
+<span id="more"></span>
+
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Ubuntu%2020.04%20LTS%202021_3_14%2016_01_57.png" alt="参考的对象不支持的操作"></p>
+<h4 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h4><p>&emsp;&emsp;临时解决方案，重新网络信息：（管理员运行命令行）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 重置网络信息</span></span><br><span class="line">netsh winsock reset</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>wsl</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -1869,38 +2067,6 @@
       </tags>
   </entry>
   <entry>
-    <title>swagger3</title>
-    <url>/hexoblog/2021/03/03/md/tool/swagger3/</url>
-    <content><![CDATA[<h1 id="使用过程"><a href="#使用过程" class="headerlink" title="使用过程"></a>使用过程</h1><h2 id="引包"><a href="#引包" class="headerlink" title="引包"></a>引包</h2><p>&emsp;&emsp;swagger3升级后，引入的包做相应升级，且集成进springboot启动器内，这里直接引入即可。</p>
-<span id="more"></span>
-
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- swagger--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.springfox<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>springfox-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>&emsp;&emsp;这里配置与swagger2发生了些许变化：</p>
-<h3 id="启动类"><a href="#启动类" class="headerlink" title="启动类"></a>启动类</h3><p>&emsp;&emsp;启动类中开启swagger的注解变为** @EnableOpenApi**。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@EnableOpenApi</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EbwcrmApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(EbwcrmApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="配置类"><a href="#配置类" class="headerlink" title="配置类"></a>配置类</h3><p>&emsp;&emsp;配置类中Docket类型需要修改为** DocumentationType.OAS_30**。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ConditionalOnProperty(value = &#123;&quot;ebwcrm.api.enable-swagger&quot;&#125;, havingValue = &quot;true&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SwaggerConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Docket <span class="title">createRestApi</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Docket(DocumentationType.OAS_30).apiInfo(apiInfo()).select()</span><br><span class="line">                .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class)).paths(PathSelectors.any()).build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 构建 api文档的详细信息函数,注意这里的注解引用的是哪个</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> ApiInfo <span class="title">apiInfo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ApiInfoBuilder()</span><br><span class="line">                <span class="comment">// 页面标题</span></span><br><span class="line">                .title(<span class="string">&quot;集盈客Api接口文档&quot;</span>)</span><br><span class="line">                <span class="comment">// 创建人</span></span><br><span class="line">                .contact(<span class="keyword">new</span> Contact(<span class="string">&quot;linqiankun&quot;</span>, <span class="string">&quot;http://localhost:8008/ebwcrm/swagger-ui/index.html&quot;</span>, <span class="string">&quot;linqiankun_51309@QQ.com&quot;</span>))</span><br><span class="line">                <span class="comment">// 版本号</span></span><br><span class="line">                .version(<span class="string">&quot;1.0&quot;</span>)</span><br><span class="line">                <span class="comment">// 描述</span></span><br><span class="line">                .description(<span class="string">&quot;根据服务端接口规范设计:http://doc.fed.weidai.work/docs/web/api&quot;</span>).build();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;拦截器中需要对swagger的静态资源进行放行，以免启动后无法访问到swagger。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addInterceptors</span><span class="params">(InterceptorRegistry registry)</span> </span>&#123;</span><br><span class="line">    List&lt;String&gt; pathPattern = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    pathPattern.add(<span class="string">&quot;/**&quot;</span>);</span><br><span class="line">    List&lt;String&gt; excludePattern = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    excludePattern.add(<span class="string">&quot;/swagger-ui/**&quot;</span>);</span><br><span class="line">    excludePattern.add(<span class="string">&quot;/swagger-resources/**&quot;</span>);</span><br><span class="line">    excludePattern.add(<span class="string">&quot;/v3/api-docs&quot;</span>);</span><br><span class="line">    registry.addInterceptor(loginInterceptor)</span><br><span class="line">            .addPathPatterns(pathPattern)</span><br><span class="line">            .excludePathPatterns(excludePattern);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>&emsp;&emsp;接口使用的注解，与swagger2基本相同。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/miUser&quot;)</span></span><br><span class="line"><span class="meta">@Api(tags = &quot;Controller&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MiUserController</span> </span>&#123;  </span><br><span class="line"></span><br><span class="line">    <span class="meta">@ApiOperation(&quot;updatePassword&quot;)</span></span><br><span class="line">    <span class="meta">@PostMapping(&quot;updatePassword&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> EBwcrmResult <span class="title">updatePassword</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;swagger3相对于swagger2的文档路径发生了改变。</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">http://&lt;ip&gt;:&lt;port&gt;/&lt;applicattion&gt;/swagger-ui/index.html</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>tool</category>
-      </categories>
-      <tags>
-        <tag>springboot</tag>
-        <tag>tool</tag>
-        <tag>swagger</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>hexo使用</title>
     <url>/hexoblog/2021/03/04/md/tool/hexo%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><p>[toc]</p>
@@ -1941,6 +2107,38 @@
       <tags>
         <tag>tool</tag>
         <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>swagger3</title>
+    <url>/hexoblog/2021/03/03/md/tool/swagger3/</url>
+    <content><![CDATA[<h1 id="使用过程"><a href="#使用过程" class="headerlink" title="使用过程"></a>使用过程</h1><h2 id="引包"><a href="#引包" class="headerlink" title="引包"></a>引包</h2><p>&emsp;&emsp;swagger3升级后，引入的包做相应升级，且集成进springboot启动器内，这里直接引入即可。</p>
+<span id="more"></span>
+
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- swagger--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.springfox<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>springfox-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>&emsp;&emsp;这里配置与swagger2发生了些许变化：</p>
+<h3 id="启动类"><a href="#启动类" class="headerlink" title="启动类"></a>启动类</h3><p>&emsp;&emsp;启动类中开启swagger的注解变为** @EnableOpenApi**。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@EnableOpenApi</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EbwcrmApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(EbwcrmApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置类"><a href="#配置类" class="headerlink" title="配置类"></a>配置类</h3><p>&emsp;&emsp;配置类中Docket类型需要修改为** DocumentationType.OAS_30**。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ConditionalOnProperty(value = &#123;&quot;ebwcrm.api.enable-swagger&quot;&#125;, havingValue = &quot;true&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SwaggerConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Docket <span class="title">createRestApi</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Docket(DocumentationType.OAS_30).apiInfo(apiInfo()).select()</span><br><span class="line">                .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class)).paths(PathSelectors.any()).build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 构建 api文档的详细信息函数,注意这里的注解引用的是哪个</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> ApiInfo <span class="title">apiInfo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ApiInfoBuilder()</span><br><span class="line">                <span class="comment">// 页面标题</span></span><br><span class="line">                .title(<span class="string">&quot;集盈客Api接口文档&quot;</span>)</span><br><span class="line">                <span class="comment">// 创建人</span></span><br><span class="line">                .contact(<span class="keyword">new</span> Contact(<span class="string">&quot;linqiankun&quot;</span>, <span class="string">&quot;http://localhost:8008/ebwcrm/swagger-ui/index.html&quot;</span>, <span class="string">&quot;linqiankun_51309@QQ.com&quot;</span>))</span><br><span class="line">                <span class="comment">// 版本号</span></span><br><span class="line">                .version(<span class="string">&quot;1.0&quot;</span>)</span><br><span class="line">                <span class="comment">// 描述</span></span><br><span class="line">                .description(<span class="string">&quot;根据服务端接口规范设计:http://doc.fed.weidai.work/docs/web/api&quot;</span>).build();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;拦截器中需要对swagger的静态资源进行放行，以免启动后无法访问到swagger。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addInterceptors</span><span class="params">(InterceptorRegistry registry)</span> </span>&#123;</span><br><span class="line">    List&lt;String&gt; pathPattern = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    pathPattern.add(<span class="string">&quot;/**&quot;</span>);</span><br><span class="line">    List&lt;String&gt; excludePattern = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    excludePattern.add(<span class="string">&quot;/swagger-ui/**&quot;</span>);</span><br><span class="line">    excludePattern.add(<span class="string">&quot;/swagger-resources/**&quot;</span>);</span><br><span class="line">    excludePattern.add(<span class="string">&quot;/v3/api-docs&quot;</span>);</span><br><span class="line">    registry.addInterceptor(loginInterceptor)</span><br><span class="line">            .addPathPatterns(pathPattern)</span><br><span class="line">            .excludePathPatterns(excludePattern);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>&emsp;&emsp;接口使用的注解，与swagger2基本相同。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/miUser&quot;)</span></span><br><span class="line"><span class="meta">@Api(tags = &quot;Controller&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MiUserController</span> </span>&#123;  </span><br><span class="line"></span><br><span class="line">    <span class="meta">@ApiOperation(&quot;updatePassword&quot;)</span></span><br><span class="line">    <span class="meta">@PostMapping(&quot;updatePassword&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> EBwcrmResult <span class="title">updatePassword</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;swagger3相对于swagger2的文档路径发生了改变。</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">http://&lt;ip&gt;:&lt;port&gt;/&lt;applicattion&gt;/swagger-ui/index.html</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>tool</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>springboot</tag>
+        <tag>swagger</tag>
       </tags>
   </entry>
   <entry>
@@ -2544,108 +2742,6 @@
         <tag>jvm</tag>
         <tag>memory</tag>
         <tag>GC</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>网络ISO模型</title>
-    <url>/hexoblog/2021/05/06/md/internet/%E7%BD%91%E7%BB%9CISO%E6%A8%A1%E5%9E%8B/</url>
-    <content><![CDATA[<h1 id="网络模型"><a href="#网络模型" class="headerlink" title="网络模型"></a>网络模型</h1><p>&emsp;&emsp;在计算机网络中有著名的OSI七层协议体系结构，概念清楚，理论完整，但是它既复杂又不实用。TCP/IP体系结构则不同，得到的广泛的应用。最终结合OSI和TCP/IP的优点，采用了一种只有五层协议的体系结构。</p>
-<span id="more"></span>
-
-<p><a href="https://blog.csdn.net/HuoqilinHeiqiji/article/details/89703358">五层结构</a><br><a href="https://www.jianshu.com/p/bb363a41afcf">网络结构</a></p>
-<table border="1">
-    <tr>
-        <th>OSI体系结构</th>
-        <th>TCP/IP体系结构</th>
-        <th>五层体系结构</th>
-    </tr>
-    <tr>
-        <td>应用层</td>
-        <td rowspan="3">应用层</td>
-        <td rowspan="3">应用层</td>
-    </tr>
-    <tr>
-        <td>表示层</td>
-    </tr>
-    <tr>
-        <td>会话层</td>
-    </tr>
-    <tr>
-        <td>传输层</td>
-        <td>传输层</td>
-        <td>传输层</td>
-     </tr>
-     <tr>
-        <td>网络层</td>
-        <td>网络层</td>
-        <td>网络层</td>
-     </tr>
-     <tr>
-        <td>数据链路层</td>
-        <td rowspan="2">数据链路层</td>
-        <td>数据链路层</td>
-     </tr>
-     <tr>
-        <td>物理层</td>
-        <td>物理层</td>
-     </tr>
-</table>
-
-<h2 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h2><p>&emsp;&emsp;有两张图瞅一眼：<br><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84%E4%B8%8E%E4%BD%9C%E7%94%A8.jpg" alt="各层及其作用"></p>
-<h3 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h3><p>&emsp;&emsp;应用层的任务是通过应用进程间的交互来完成特定的网络应用。<br>&emsp;&emsp;应用层协议定义的是应用进程间通信和交互的规则。<br>&emsp;&emsp;应用层是app访问网络、向用户显示接收到的信息的窗口。</p>
-<h3 id="表示层"><a href="#表示层" class="headerlink" title="表示层"></a>表示层</h3><p>&emsp;&emsp;表示层也称为转换层，在表示层提取应用层的数据，并根据需要转换格式，以便通过网络传输。<br>&emsp;&emsp;这一层可以做一些数据格式转换，加密解密，压缩等操作。</p>
-<h3 id="会话层"><a href="#会话层" class="headerlink" title="会话层"></a>会话层</h3><p>&emsp;&emsp;会话层负责建立连接，维护会话、认证，并确保安全。</p>
-<h3 id="传输层"><a href="#传输层" class="headerlink" title="传输层"></a>传输层</h3><p>&emsp;&emsp;为两个主机进程间的通信提供通用的数据传输服务。<br>&emsp;&emsp;传输层从网络层获取服务，向应用层提供服务。<br>&emsp;&emsp;只有主机的协议栈才有传输层，网络传输中的一些设备没有传输层，比如路由器。<br>&emsp;&emsp;传输层提供应用进程间的逻辑通信，通信的真正端点是应用进程。<br>&emsp;&emsp;传输层会将源端口号和目的端口号写入header中。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E4%BC%A0%E8%BE%93%E5%B1%82%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93.jpg" alt="数据传输"></p>
-<p>&emsp;&emsp;上面客户端与服务端之间的每一次的数据传输（这里指信息传递，包括三次握手与四次挥手）都要完整的走一遍下面的流程。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E5%AE%9E%E9%99%85%E4%BC%A0%E8%BE%93%E8%BF%87%E7%A8%8B.png" alt="数据传输"></p>
-<p>&emsp;&emsp;传输层主要使用两种协议：</p>
-<ol>
-<li>TCP：传输控制协议，提供面向连接的，可靠的数据传输服务。</li>
-<li>UDP：用户数据报协议，提供面向无连接的，尽最大努力交付。</li>
-</ol>
-<h3 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a>网络层</h3><p>&emsp;&emsp;网络层为分组交换网上不同主机提供通信服务，网络层将传输层的报文封装成包和分组发送。<br>&emsp;&emsp;将数据从一台主机传输到位于不同网络中的另一台主机。还负责分组路由，即从多条路线中选取路径最短的。<br>&emsp;&emsp;网络层会将发送者，接收者的ip地址放入header中。  </p>
-<h4 id="基本功能"><a href="#基本功能" class="headerlink" title="基本功能"></a>基本功能</h4><ol>
-<li>路由</li>
-<li>逻辑寻址</li>
-</ol>
-<h3 id="数据链路层"><a href="#数据链路层" class="headerlink" title="数据链路层"></a>数据链路层</h3><p>&emsp;&emsp;两台主机间的数据传输，总是一段一段在数据链路上传送的，这就需要使用专门的链路层协议。在两个相邻节点间的链路上传送帧，每一帧包括数据和必要的控制信息（如同步信息，地址信息，差错控制等）。<br>&emsp;&emsp;数据链路层负责的是节点到节点的数据传输，负责确保在物理层上从一个节点到一个节点正确的传输数据。  </p>
-<h4 id="基本功能："><a href="#基本功能：" class="headerlink" title="基本功能："></a>基本功能：</h4><ol>
-<li><p>封装成帧</p>
-</li>
-<li><p>物理寻址</p>
-</li>
-<li><p>错误控制</p>
-</li>
-<li><p>流控制</p>
-</li>
-<li><p>访问控制</p>
-<p>&emsp;&emsp;三个基本问题：封装成帧，透明传输，差错控制。<br>&emsp;&emsp;通过ARP协议，可以获取拥有指定ip地址目标主机的mac地址。</p>
-</li>
-</ol>
-<h3 id="物理层"><a href="#物理层" class="headerlink" title="物理层"></a>物理层</h3><p>&emsp;&emsp;在物理层以比特流传输数据，其实就是二进制流，物理实现可能不同。<br>&emsp;&emsp;OSI 参考模型最底层是物理层，物理层负责在设备和物理传输介质之间传输、接收非结构化数据。  </p>
-<h4 id="基本功能：-1"><a href="#基本功能：-1" class="headerlink" title="基本功能："></a>基本功能：</h4><ol>
-<li>比特同步</li>
-<li>比特率控制</li>
-<li>物理拓补</li>
-<li>传输模式<ol>
-<li>单工</li>
-<li>半双工</li>
-<li>全双工</li>
-</ol>
-</li>
-</ol>
-<hr>
-<h1 id="数据流转"><a href="#数据流转" class="headerlink" title="数据流转"></a>数据流转</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93.jpg" alt="数据流转"></p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E7%BD%91%E8%B7%AF%E5%B1%82%E5%AF%B9%E5%BA%94%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.jpg" alt="各层及其数据结构"></p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%9C%A8%E7%BD%91%E7%BB%9C%E5%B1%82.jpg" alt="数据结构"></p>
-<p>&emsp;&emsp;我们在网络中发送传输数据的时候，数据总是从一台主机的应用层传输到了，另一条台主机的应用层，这其中会包含有很多过程。<br>&emsp;&emsp;再分层结构中，数据总是在应用层产生（也有可能其他地方），在物理介质上传输。<br>&emsp;&emsp;数据在层与层之间传递的时候总是会添加上特有的首部，比如传输层会将端口号写入TCP首部，网络层会将IP地址写入IP首部。</p>
-]]></content>
-      <categories>
-        <category>网络</category>
-      </categories>
-      <tags>
-        <tag>网络</tag>
       </tags>
   </entry>
 </search>
