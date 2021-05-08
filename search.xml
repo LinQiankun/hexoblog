@@ -2791,6 +2791,8 @@
     <title>HTTP HTTPS HTTP2</title>
     <url>/hexoblog/2021/05/08/md/internet/HTTP-HTTPS-HTTP2/</url>
     <content><![CDATA[<h1 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h1><p>&emsp;&emsp;超文本传输协议，是从web服务器传输超文本标记语言到本地浏览器的传送协议，默认工作在80端口。</p>
+<span id="more"></span>
+
 <h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>&emsp;&emsp;HTTP是一个基于TCP/IP协议来传输数据的应用层协议，传输的数据类型可以为，html文件、图片文件、查询结果等。<br>&emsp;&emsp;HTTP一般用于B/S架构（浏览器、服务器），浏览器作为HTTP客户端通过URL向HTTP服务端即WEB服务器发送所有请求。</p>
 <h2 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h2><ol>
 <li>建立TCP/IP连接，客户端与服务器通过Socket三次握手进行连接。</li>
@@ -2854,7 +2856,36 @@
 <li>HTTPS其实就是建构在SSL/TLS之上的HTTP协议，所以，要比较HTTPS比HTTP要更耗费服务器资源。</li>
 </ol>
 <hr>
-<h1 id="HTTP2"><a href="#HTTP2" class="headerlink" title="HTTP2"></a>HTTP2</h1>]]></content>
+<h1 id="HTTP2"><a href="#HTTP2" class="headerlink" title="HTTP2"></a>HTTP2</h1><p>&emsp;&emsp;HTTP/2.0的目标是改善用户在使用Web时的速度体验。</p>
+<h2 id="新特点"><a href="#新特点" class="headerlink" title="新特点"></a>新特点</h2><p><a href="https://juejin.cn/post/6844903545532071943">HTTP2.0新特性</a><br><a href="https://www.jianshu.com/p/1afebe13c63e">HTTPS和HTTP2.0详解
+</a><br><a href="https://www.jsahz.com/wz/15616.html">HTTP 2.0 详细介绍</a></p>
+<h3 id="二进制分帧"><a href="#二进制分帧" class="headerlink" title="二进制分帧"></a>二进制分帧</h3><p>&emsp;&emsp;相对于HTTP1.0和HTTP1.1，2.0在应用层与传输层中间增加了一个二进制分帧层。<br>&emsp;&emsp;在二进制分帧层上，HTTP2.0会将所有传输信息分割为更小的消息和帧，并对它们采用二进制格式的编码将其封装。其中，HTTP1.X中的首部信息header封装到Headers帧中，而request body将被封装到Data帧中。<br>&emsp;&emsp;HTTP2.0通信都在一个TCP连接上完成，这个连接可以承载任意数量的双向数据流，相应的每个数据流以消息的形式发送。而消息由一或多个帧组成，这些帧可以乱序发送，然后根据每个帧首部的流标识符重新组装。  </p>
+<h3 id="首部压缩"><a href="#首部压缩" class="headerlink" title="首部压缩"></a>首部压缩</h3><p>&emsp;&emsp;HTTP1.x每次通讯（请求或响应）都会携带首部信息用于描述资源属性。而HTTP2.0在客户端和服务端之间使用首部表来跟踪和存储之前发送的键值对。请求与响应首部的定义在HTTP2.0中基本没有变，只是所有首部键必须全部小写，而且要求行要独立为:method:、:scheme:、:host:、:path:这些键值对。<br>&emsp;&emsp;HTTP2.0使用encoder来减少需要传输的header大小，通讯双方各自cache一份header fields（首部表）表，既避免了重复header的传输，又减小了需要传输的大小。</p>
+<h4 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h4><p>&emsp;&emsp;使报头更紧凑，更快速传输，有利于移动网络环境。减少每次通讯的数据量，使网络拥塞状态得以改善。</p>
+<h4 id="工作流程-1"><a href="#工作流程-1" class="headerlink" title="工作流程"></a>工作流程</h4><p>&emsp;&emsp;对于相同的数据，不再重新通过每次请求和响应发送。每个新的首部键值对要么追加到当前表的末尾，要么替换表中之前的值。首部表在HTTP2.0的链接存续期内始终存在，由客户端和服务端共同渐进的更新。</p>
+<h3 id="流量控制"><a href="#流量控制" class="headerlink" title="流量控制"></a>流量控制</h3><p>&emsp;&emsp;HTTP2.0为数据流和连接的流量提供了一个简单的机制：</p>
+<ol>
+<li>流量基于HTTP链接的每一跳进行，而非端到端的控制。</li>
+<li>流量控制基于窗口更新帧进行，即接收方广播自己准备接收某个数据流的多少字节，以及对整个链接要接收多少个字节。</li>
+<li>流量控制有方向性，即接收方可能根据自己的情况为每个流乃至整个链接设置任意窗口大小。</li>
+<li>流量控制可以由接收方禁用，包括针对个别的流和针对整个链接。</li>
+<li>帧的类型决定了流量控制是否适用于帧，目前只有DATA帧服从流量控制，所有其他类型的帧并不会消耗流量控制窗口的空间。这保证了重要的控制帧不会被流量控制阻塞。</li>
+</ol>
+<h3 id="多路复用"><a href="#多路复用" class="headerlink" title="多路复用"></a>多路复用</h3><p>&emsp;&emsp;基于二进制分帧层，HTTP2.0可以在共享TCP链接的基础上同时发送请求和响应。HTTP消息被分解为独立的帧，而不破坏消息本身的语义，交错发出去，在另一端根据流标识符和首部将他们重新组装起来。<br>&emsp;&emsp;即连接共享，即每一个request都是是用作连接共享机制的。一个request对应一个id，这样一个连接上可以有多个request，每个连接的request可以随机的混杂在一起，接收方可以根据request的id将request再归属到各自不同的服务端请求里面。</p>
+<h4 id="优化-1"><a href="#优化-1" class="headerlink" title="优化"></a>优化</h4><ol>
+<li>可以并行交错的发送请求和响应，这些请求和响应之间互不影响。</li>
+<li>只使用一个链接即可并行发送多个请求和响应。</li>
+<li>消除不必要的延迟，从而减少页面加载的时间。</li>
+<li>不必再为绕过HTTP1.x限制而多做很多工作。</li>
+</ol>
+<h3 id="请求优先级"><a href="#请求优先级" class="headerlink" title="请求优先级"></a>请求优先级</h3><p>&emsp;&emsp;HTTP消息分为很多独立帧之后，就可以通过优化这些帧的交错和传输顺序进一步优化性能。</p>
+<h4 id="优化-2"><a href="#优化-2" class="headerlink" title="优化"></a>优化</h4><p>&emsp;&emsp;服务器可以根据流的优先级控制资源分配（CPU、内存、宽带），而在响应数据准备好之后，优先将最高优先级的帧发送给客户端。浏览器可以在发现资源时立即分派请求，指定每个流的优先级，让服务器决定最优的响应次序。这样请求就不用排队了，既节省了时间，又最大限度的利用了每个连接。</p>
+<h3 id="服务端推送"><a href="#服务端推送" class="headerlink" title="服务端推送"></a>服务端推送</h3><p>&emsp;&emsp;服务器可以对一个客户端请求发送多个响应。服务器向客户端推送资源无需客户端明确的请求。<br>&emsp;&emsp;服务端根据客户端的请求，提前返回多个响应，推送额外的资源给客户端。</p>
+<h4 id="优化-3"><a href="#优化-3" class="headerlink" title="优化"></a>优化</h4><ol>
+<li>减轻数据传送的冗余步骤。</li>
+<li>加快页面响应速度。</li>
+</ol>
+]]></content>
       <categories>
         <category>网络</category>
       </categories>
