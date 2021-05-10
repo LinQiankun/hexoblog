@@ -1,59 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>dcokerdesktop小问题排查</title>
-    <url>/hexoblog/2021/03/14/md/docker/dcokerdesktop%E5%B0%8F%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5/</url>
-    <content><![CDATA[<!-- toc -->
-
-<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><h2 id="启动问题"><a href="#启动问题" class="headerlink" title="启动问题"></a>启动问题</h2><h3 id="docker启动失败"><a href="#docker启动失败" class="headerlink" title="docker启动失败"></a>docker启动失败</h3><span id="more"></span>
-
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Error%202021_3_14%2017_02_08.png" alt="启动失败"></p>
-<p>&emsp;&emsp;dockerdesktop在启动时，发生此错误，因为wsl未启动或者wsl启动出现问题。</p>
-<h4 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h4><p>&emsp;&emsp;解决掉对应的wsl错误即可。这里的问题是：</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Ubuntu%2020.04%20LTS%202021_3_14%2016_01_57.png" alt="参考的对象不支持的操作"></p>
-<p>&emsp;&emsp;是因为wsl的问题，将其解决即可。</p>
-]]></content>
-      <categories>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>wsl</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>docker启动vue</title>
-    <url>/hexoblog/2021/04/12/md/docker/docker%E5%90%AF%E5%8A%A8vue/</url>
-    <content><![CDATA[<h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><p>&emsp;&emsp;需要准备东西有：</p>
-<ol>
-<li>docker环境</li>
-<li>vue项目</li>
-</ol>
-<span id="more"></span>
-
-<hr>
-<h1 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h1><h2 id="项目build"><a href="#项目build" class="headerlink" title="项目build"></a>项目build</h2><p>&emsp;&emsp;将vue项目build得到dist文件夹。这里是页面等资源文件。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure>
-
-<h2 id="构建"><a href="#构建" class="headerlink" title="构建"></a>构建</h2><p>&emsp;&emsp;将得到的可执行dist构建成docker镜像。</p>
-<p>&emsp;&emsp;将得到的dist文件放入指定目录下，并且在同目录下建立Dockerfile文件(文件名不能错)。<br>&emsp;&emsp;Dockerfile文件内容：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 设置基础镜像，这里使用最新的nginx镜像，前面已经拉取过了</span></span><br><span class="line">FROM nginx</span><br><span class="line"><span class="comment"># 定义作者 Edison</span></span><br><span class="line">MAINTAINER Edison </span><br><span class="line"><span class="comment"># 将dist文件中的内容复制到 /usr/share/nginx/html/ 这个目录下面</span></span><br><span class="line">COPY dist/  /usr/share/nginx/html/</span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;执行docker构建命令，得到docker镜像。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker build -t &lt;镜像名称&gt; .</span><br></pre></td></tr></table></figure>
-
-<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>&emsp;&emsp;构建完成后，就可以在镜像列表查看是否有新构建的镜像，也可以运行该镜像。</p>
-]]></content>
-      <categories>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>vue</tag>
-        <tag>tool</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>docker启动springboot</title>
     <url>/hexoblog/2021/04/12/md/docker/docker%E5%90%AF%E5%8A%A8springboot/</url>
     <content><![CDATA[<h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><p>&emsp;&emsp;需要准备东西有：</p>
@@ -96,8 +43,29 @@
       </categories>
       <tags>
         <tag>docker</tag>
-        <tag>tool</tag>
         <tag>springboot</tag>
+        <tag>tool</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>dcokerdesktop小问题排查</title>
+    <url>/hexoblog/2021/03/14/md/docker/dcokerdesktop%E5%B0%8F%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5/</url>
+    <content><![CDATA[<!-- toc -->
+
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><h2 id="启动问题"><a href="#启动问题" class="headerlink" title="启动问题"></a>启动问题</h2><h3 id="docker启动失败"><a href="#docker启动失败" class="headerlink" title="docker启动失败"></a>docker启动失败</h3><span id="more"></span>
+
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Error%202021_3_14%2017_02_08.png" alt="启动失败"></p>
+<p>&emsp;&emsp;dockerdesktop在启动时，发生此错误，因为wsl未启动或者wsl启动出现问题。</p>
+<h4 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h4><p>&emsp;&emsp;解决掉对应的wsl错误即可。这里的问题是：</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Ubuntu%2020.04%20LTS%202021_3_14%2016_01_57.png" alt="参考的对象不支持的操作"></p>
+<p>&emsp;&emsp;是因为wsl的问题，将其解决即可。</p>
+]]></content>
+      <categories>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>wsl</tag>
       </tags>
   </entry>
   <entry>
@@ -135,8 +103,40 @@
       </categories>
       <tags>
         <tag>docker</tag>
-        <tag>wsl</tag>
         <tag>tool</tag>
+        <tag>wsl</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>docker启动vue</title>
+    <url>/hexoblog/2021/04/12/md/docker/docker%E5%90%AF%E5%8A%A8vue/</url>
+    <content><![CDATA[<h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><p>&emsp;&emsp;需要准备东西有：</p>
+<ol>
+<li>docker环境</li>
+<li>vue项目</li>
+</ol>
+<span id="more"></span>
+
+<hr>
+<h1 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h1><h2 id="项目build"><a href="#项目build" class="headerlink" title="项目build"></a>项目build</h2><p>&emsp;&emsp;将vue项目build得到dist文件夹。这里是页面等资源文件。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure>
+
+<h2 id="构建"><a href="#构建" class="headerlink" title="构建"></a>构建</h2><p>&emsp;&emsp;将得到的可执行dist构建成docker镜像。</p>
+<p>&emsp;&emsp;将得到的dist文件放入指定目录下，并且在同目录下建立Dockerfile文件(文件名不能错)。<br>&emsp;&emsp;Dockerfile文件内容：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 设置基础镜像，这里使用最新的nginx镜像，前面已经拉取过了</span></span><br><span class="line">FROM nginx</span><br><span class="line"><span class="comment"># 定义作者 Edison</span></span><br><span class="line">MAINTAINER Edison </span><br><span class="line"><span class="comment"># 将dist文件中的内容复制到 /usr/share/nginx/html/ 这个目录下面</span></span><br><span class="line">COPY dist/  /usr/share/nginx/html/</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;执行docker构建命令，得到docker镜像。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker build -t &lt;镜像名称&gt; .</span><br></pre></td></tr></table></figure>
+
+<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>&emsp;&emsp;构建完成后，就可以在镜像列表查看是否有新构建的镜像，也可以运行该镜像。</p>
+]]></content>
+      <categories>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>tool</tag>
+        <tag>vue</tag>
       </tags>
   </entry>
   <entry>
@@ -206,6 +206,21 @@
       </tags>
   </entry>
   <entry>
+    <title>dubboSPI扩展点自动激活</title>
+    <url>/hexoblog/2021/04/20/md/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E7%82%B9%E8%87%AA%E5%8A%A8%E6%BF%80%E6%B4%BB/</url>
+    <content><![CDATA[<h1 id="扩展点自动激活"><a href="#扩展点自动激活" class="headerlink" title="扩展点自动激活"></a>扩展点自动激活</h1><p>&emsp;&emsp;对于集合类扩展点，比如：Filter, InvokerListener, ExportListener, TelnetHandler, StatusChecker 等，可以同时加载多个实现，此时，可以用自动激活来简化配置。</p>
+<span id="more"></span>
+
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 激活过滤器</span></span><br><span class="line"><span class="meta">@Activate</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FilterOne</span> <span class="keyword">implements</span> <span class="title">Filter</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest request, ServletResponse response, FilterChain chain)</span></span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>dubbo</category>
+      </categories>
+      <tags>
+        <tag>dubbo</tag>
+        <tag>SPI</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>dubboSPI扩展机制自适应</title>
     <url>/hexoblog/2021/04/19/md/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E6%9C%BA%E5%88%B6%E8%87%AA%E9%80%82%E5%BA%94/</url>
     <content><![CDATA[<h1 id="扩展点自适应"><a href="#扩展点自适应" class="headerlink" title="扩展点自适应"></a>扩展点自适应</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>&emsp;&emsp;ExtensionLoader注入的依赖扩展点是一个Adaptive实例，直到扩展点方法执行时才决定调用是哪一个扩展点实现。<br>&emsp;&emsp;dubbo使用url对象传递对象信息，包含key和value。<br>&emsp;&emsp;扩展点方法调用会有URL参数（或是参数有URL成员）这样依赖的扩展点也可以从URL拿到配置信息，所有的扩展点自己定好配置的 Key后，配置信息从URL上从最外层传入。URL在配置传递上即是一条总线。</p>
@@ -221,21 +236,6 @@
 <hr>
 <h1 id="扩展点自动注入"><a href="#扩展点自动注入" class="headerlink" title="扩展点自动注入"></a>扩展点自动注入</h1><p>有bug稍后。</p>
 ]]></content>
-      <categories>
-        <category>dubbo</category>
-      </categories>
-      <tags>
-        <tag>dubbo</tag>
-        <tag>SPI</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>dubboSPI扩展点自动激活</title>
-    <url>/hexoblog/2021/04/20/md/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E7%82%B9%E8%87%AA%E5%8A%A8%E6%BF%80%E6%B4%BB/</url>
-    <content><![CDATA[<h1 id="扩展点自动激活"><a href="#扩展点自动激活" class="headerlink" title="扩展点自动激活"></a>扩展点自动激活</h1><p>&emsp;&emsp;对于集合类扩展点，比如：Filter, InvokerListener, ExportListener, TelnetHandler, StatusChecker 等，可以同时加载多个实现，此时，可以用自动激活来简化配置。</p>
-<span id="more"></span>
-
-<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 激活过滤器</span></span><br><span class="line"><span class="meta">@Activate</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FilterOne</span> <span class="keyword">implements</span> <span class="title">Filter</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest request, ServletResponse response, FilterChain chain)</span></span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>dubbo</category>
       </categories>
@@ -286,6 +286,113 @@
       </categories>
       <tags>
         <tag>dubbo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>HTTP HTTPS HTTP2</title>
+    <url>/hexoblog/2021/05/08/md/internet/HTTP-HTTPS-HTTP2/</url>
+    <content><![CDATA[<h1 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h1><p>&emsp;&emsp;超文本传输协议，是从web服务器传输超文本标记语言到本地浏览器的传送协议，默认工作在80端口。</p>
+<span id="more"></span>
+
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>&emsp;&emsp;HTTP是一个基于TCP/IP协议来传输数据的应用层协议，传输的数据类型可以为，html文件、图片文件、查询结果等。<br>&emsp;&emsp;HTTP一般用于B/S架构（浏览器、服务器），浏览器作为HTTP客户端通过URL向HTTP服务端即WEB服务器发送所有请求。</p>
+<h2 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h2><ol>
+<li>建立TCP/IP连接，客户端与服务器通过Socket三次握手进行连接。</li>
+<li>客户端向服务端发起HTTP请求。</li>
+<li>客户端发送请求头信息，请求内容，最后会发送一空白行，标示客户端请求完毕。</li>
+<li>服务器做出应答，表示对于客户端请求的应答。</li>
+<li>服务器向客户端发送应答头信息。</li>
+<li>服务器向客户端发送请求头信息后，也会发送一空白行，标示应答头信息发送完毕，接着就以Content-type要求的数据格式发送数据给客户端。</li>
+<li>服务端关闭TCP连接，如果服务器或者客户端增Connection:keep-alive就表示客户端与服务器端继续保存连接，在下次请求时可以继续使用这次的连接。</li>
+</ol>
+<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><ol>
+<li>HTTP协议支持客户端/服务端模式，也是一种请求/响应模式的协议。</li>
+<li>简单快速，客户向服务器请求服务时，只需传送请求方法和路径。请求方法常用的有GET、HEAD、POST。</li>
+<li>灵活：HTTP允许传输任意类型的数据对象。传输的类型由Content-Type加以标记。</li>
+<li>无连接：限制每次连接只处理一个请求。服务器处理完请求，并收到客户的应答后，即断开连接，但是却不利于客户端与服务器保持会话连接，为了弥补这种不足，产生了两项记录http状态的技术，一个叫做Cookie,一个叫做Session。</li>
+<li>无状态：无状态是指协议对于事务处理没有记忆，后续处理需要前面的信息，则必须重传。</li>
+</ol>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><ol>
+<li>数据明文传输，容易被窃听截取</li>
+<li>数据的完整性未校验，容易被篡改</li>
+<li>双方没有验证身份，有冒充对方的风险</li>
+</ol>
+<h2 id="URL与URI"><a href="#URL与URI" class="headerlink" title="URL与URI"></a>URL与URI</h2><ul>
+<li>URL：统一资源定位符。</li>
+<li>URI：统一资源标识符。</li>
+</ul>
+<p>&emsp;&emsp;URL是用来定位具体的资源的，标示了一个具体的资源位置。互联网上的每个文件都有一个唯一的URL。<br>&emsp;&emsp;URI是用来标示 一个具体的资源的，我们可以通过URI知道一个资源是什么。<br>&emsp;&emsp;HTTP使用统一资源标识符（Uniform Resource Identifiers, URI）来传输数据和建立连接。</p>
+<h2 id="GET与POST的区别"><a href="#GET与POST的区别" class="headerlink" title="GET与POST的区别"></a>GET与POST的区别</h2><ol>
+<li>都包含请求头请求行，post多了请求body。</li>
+<li>get多用来查询，请求参数放在url中，不会对服务器上的内容产生作用。post用来提交，如把账号密码放入body中。</li>
+<li>GET是直接添加到URL后面的，直接就可以在URL中看到内容，而POST是放在报文内部的，用户无法直接看到。</li>
+<li>GET提交的数据长度是有限制的，因为URL长度有限制，具体的长度限制视浏览器而定。而POST没有。</li>
+</ol>
+<hr>
+<h1 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h1><p>&emsp;&emsp;HTTPS就是为了解决上面HTTP的问题。默认工作在443端口。<br>&emsp;&emsp;HTTPS协议（HyperText Transfer Protocol over Secure Socket Layer）：一般理解为HTTP+SSL/TLS，通过 SSL证书来验证服务器的身份，并为浏览器和服务器之间的通信进行加密。</p>
+<h2 id="SSL-TLS"><a href="#SSL-TLS" class="headerlink" title="SSL/TLS"></a>SSL/TLS</h2><p>&emsp;&emsp;SSL：安全套接字层，SSL协议位于TCP/IP协议与各种应用层协议之间，为数据通讯提供安全支持。<br>&emsp;&emsp;TLS：传输层安全，其前身是SSL，后来改名，目前使用最广泛的是TLS 1.1、TLS 1.2。</p>
+<h2 id="HTTPS工作流程"><a href="#HTTPS工作流程" class="headerlink" title="HTTPS工作流程"></a>HTTPS工作流程</h2><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/https%E5%AF%86%E9%92%A5%E7%94%9F%E6%88%90.png" alt="密钥生成流程"></p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E6%B5%81%E7%A8%8B.gif" alt="数据传输"></p>
+<ol>
+<li>首先客户端通过URL访问服务器建立SSL连接。</li>
+<li>服务端收到客户端请求后，会将网站支持的证书信息（证书中包含公钥）传送一份给客户端。（这个证书其实就是公钥，只是包含了很多信息）</li>
+<li>客户端的服务器开始协商SSL连接的安全等级，也就是信息加密的等级。</li>
+<li>客户端的浏览器根据双方同意的安全等级，建立会话密钥，然后利用网站的公钥将会话密钥加密，并传送给网站。（会话密钥就是第一张图的随机key）</li>
+<li>服务器利用自己的私钥解密出会话密钥，这里就是连接建立完成。</li>
+<li>服务器利用会话密钥加密与客户端之间的通信。</li>
+</ol>
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><ol>
+<li>HTTPS协议多次握手，导致页面加载时间延长。</li>
+<li>HTTPS连接缓存不如HTTP高效，会增加数据开销和功耗。</li>
+<li>SSL证书需要付费。</li>
+<li>SSL涉及到的安全算法会消耗CPU资源，对服务器资源消耗较大。</li>
+<li>技术难度相比HTTP大。</li>
+<li>SSL证书通常需要绑定IP，不能在同一IP上绑定多个域名，IPv4资源不可能支撑这个消耗。</li>
+<li>HTTPS协议的加密范围也比较有限，在黑客攻击、拒绝服务攻击、服务器劫持等方面几乎起不到什么作用。最关键的，SSL证书的信用链体系并不安全，特别是在某些国家可以控制CA根证书的情况下，中间人攻击一样可行。</li>
+</ol>
+<h2 id="总结HTTPS和HTTP的区别"><a href="#总结HTTPS和HTTP的区别" class="headerlink" title="总结HTTPS和HTTP的区别"></a>总结HTTPS和HTTP的区别</h2><ol>
+<li>HTTP明文传输，数据都是未加密的，安全性较差，HTTPS（SSL+HTTP） 数据传输过程是加密的，安全性较好。</li>
+<li>使用HTTPS协议需要到CA（Certificate Authority，数字证书认证机构） 申请证书，一般免费证书较少，因而需要一定费用。证书颁发机构如：Symantec、Comodo、GoDaddy和GlobalSign等。</li>
+<li>HTTP页面响应速度比HTTPS快，主要是因为HTTP使用TCP三次握手建立连接，客户端和服务器需要交换3个包，而HTTPS除了TCP的三个包，还要加上ssl握手需要的9个包，所以一共是12个包。</li>
+<li>http和https使用的是完全不同的连接方式，用的端口也不一样，前者是80，后者是443。</li>
+<li>HTTPS其实就是建构在SSL/TLS之上的HTTP协议，所以，要比较HTTPS比HTTP要更耗费服务器资源。</li>
+</ol>
+<hr>
+<h1 id="HTTP2"><a href="#HTTP2" class="headerlink" title="HTTP2"></a>HTTP2</h1><p>&emsp;&emsp;HTTP/2.0的目标是改善用户在使用Web时的速度体验。</p>
+<h2 id="新特点"><a href="#新特点" class="headerlink" title="新特点"></a>新特点</h2><p><a href="https://juejin.cn/post/6844903545532071943">HTTP2.0新特性</a><br><a href="https://www.jianshu.com/p/1afebe13c63e">HTTPS和HTTP2.0详解
+</a><br><a href="https://www.jsahz.com/wz/15616.html">HTTP 2.0 详细介绍</a></p>
+<h3 id="二进制分帧"><a href="#二进制分帧" class="headerlink" title="二进制分帧"></a>二进制分帧</h3><p>&emsp;&emsp;相对于HTTP1.0和HTTP1.1，2.0在应用层与传输层中间增加了一个二进制分帧层。<br>&emsp;&emsp;在二进制分帧层上，HTTP2.0会将所有传输信息分割为更小的消息和帧，并对它们采用二进制格式的编码将其封装。其中，HTTP1.X中的首部信息header封装到Headers帧中，而request body将被封装到Data帧中。<br>&emsp;&emsp;HTTP2.0通信都在一个TCP连接上完成，这个连接可以承载任意数量的双向数据流，相应的每个数据流以消息的形式发送。而消息由一或多个帧组成，这些帧可以乱序发送，然后根据每个帧首部的流标识符重新组装。  </p>
+<h3 id="首部压缩"><a href="#首部压缩" class="headerlink" title="首部压缩"></a>首部压缩</h3><p>&emsp;&emsp;HTTP1.x每次通讯（请求或响应）都会携带首部信息用于描述资源属性。而HTTP2.0在客户端和服务端之间使用首部表来跟踪和存储之前发送的键值对。请求与响应首部的定义在HTTP2.0中基本没有变，只是所有首部键必须全部小写，而且要求行要独立为:method:、:scheme:、:host:、:path:这些键值对。<br>&emsp;&emsp;HTTP2.0使用encoder来减少需要传输的header大小，通讯双方各自cache一份header fields（首部表）表，既避免了重复header的传输，又减小了需要传输的大小。</p>
+<h4 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h4><p>&emsp;&emsp;使报头更紧凑，更快速传输，有利于移动网络环境。减少每次通讯的数据量，使网络拥塞状态得以改善。</p>
+<h4 id="工作流程-1"><a href="#工作流程-1" class="headerlink" title="工作流程"></a>工作流程</h4><p>&emsp;&emsp;对于相同的数据，不再重新通过每次请求和响应发送。每个新的首部键值对要么追加到当前表的末尾，要么替换表中之前的值。首部表在HTTP2.0的链接存续期内始终存在，由客户端和服务端共同渐进的更新。</p>
+<h3 id="流量控制"><a href="#流量控制" class="headerlink" title="流量控制"></a>流量控制</h3><p>&emsp;&emsp;HTTP2.0为数据流和连接的流量提供了一个简单的机制：</p>
+<ol>
+<li>流量基于HTTP链接的每一跳进行，而非端到端的控制。</li>
+<li>流量控制基于窗口更新帧进行，即接收方广播自己准备接收某个数据流的多少字节，以及对整个链接要接收多少个字节。</li>
+<li>流量控制有方向性，即接收方可能根据自己的情况为每个流乃至整个链接设置任意窗口大小。</li>
+<li>流量控制可以由接收方禁用，包括针对个别的流和针对整个链接。</li>
+<li>帧的类型决定了流量控制是否适用于帧，目前只有DATA帧服从流量控制，所有其他类型的帧并不会消耗流量控制窗口的空间。这保证了重要的控制帧不会被流量控制阻塞。</li>
+</ol>
+<h3 id="多路复用"><a href="#多路复用" class="headerlink" title="多路复用"></a>多路复用</h3><p>&emsp;&emsp;基于二进制分帧层，HTTP2.0可以在共享TCP链接的基础上同时发送请求和响应。HTTP消息被分解为独立的帧，而不破坏消息本身的语义，交错发出去，在另一端根据流标识符和首部将他们重新组装起来。<br>&emsp;&emsp;即连接共享，即每一个request都是是用作连接共享机制的。一个request对应一个id，这样一个连接上可以有多个request，每个连接的request可以随机的混杂在一起，接收方可以根据request的id将request再归属到各自不同的服务端请求里面。</p>
+<h4 id="优化-1"><a href="#优化-1" class="headerlink" title="优化"></a>优化</h4><ol>
+<li>可以并行交错的发送请求和响应，这些请求和响应之间互不影响。</li>
+<li>只使用一个链接即可并行发送多个请求和响应。</li>
+<li>消除不必要的延迟，从而减少页面加载的时间。</li>
+<li>不必再为绕过HTTP1.x限制而多做很多工作。</li>
+</ol>
+<h3 id="请求优先级"><a href="#请求优先级" class="headerlink" title="请求优先级"></a>请求优先级</h3><p>&emsp;&emsp;HTTP消息分为很多独立帧之后，就可以通过优化这些帧的交错和传输顺序进一步优化性能。</p>
+<h4 id="优化-2"><a href="#优化-2" class="headerlink" title="优化"></a>优化</h4><p>&emsp;&emsp;服务器可以根据流的优先级控制资源分配（CPU、内存、宽带），而在响应数据准备好之后，优先将最高优先级的帧发送给客户端。浏览器可以在发现资源时立即分派请求，指定每个流的优先级，让服务器决定最优的响应次序。这样请求就不用排队了，既节省了时间，又最大限度的利用了每个连接。</p>
+<h3 id="服务端推送"><a href="#服务端推送" class="headerlink" title="服务端推送"></a>服务端推送</h3><p>&emsp;&emsp;服务器可以对一个客户端请求发送多个响应。服务器向客户端推送资源无需客户端明确的请求。<br>&emsp;&emsp;服务端根据客户端的请求，提前返回多个响应，推送额外的资源给客户端。</p>
+<h4 id="优化-3"><a href="#优化-3" class="headerlink" title="优化"></a>优化</h4><ol>
+<li>减轻数据传送的冗余步骤。</li>
+<li>加快页面响应速度。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>网络</category>
+      </categories>
+      <tags>
+        <tag>HTTP</tag>
+        <tag>网络</tag>
       </tags>
   </entry>
   <entry>
@@ -387,7 +494,109 @@
         <category>网络</category>
       </categories>
       <tags>
+        <tag>网络</tag>
         <tag>TCP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>网络ISO模型</title>
+    <url>/hexoblog/2021/05/06/md/internet/%E7%BD%91%E7%BB%9CISO%E6%A8%A1%E5%9E%8B/</url>
+    <content><![CDATA[<h1 id="网络模型"><a href="#网络模型" class="headerlink" title="网络模型"></a>网络模型</h1><p>&emsp;&emsp;在计算机网络中有著名的OSI七层协议体系结构，概念清楚，理论完整，但是它既复杂又不实用。TCP/IP体系结构则不同，得到的广泛的应用。最终结合OSI和TCP/IP的优点，采用了一种只有五层协议的体系结构。</p>
+<span id="more"></span>
+
+<p><a href="https://blog.csdn.net/HuoqilinHeiqiji/article/details/89703358">五层结构</a><br><a href="https://www.jianshu.com/p/bb363a41afcf">网络结构</a></p>
+<table border="1">
+    <tr>
+        <th>OSI体系结构</th>
+        <th>TCP/IP体系结构</th>
+        <th>五层体系结构</th>
+    </tr>
+    <tr>
+        <td>应用层</td>
+        <td rowspan="3">应用层</td>
+        <td rowspan="3">应用层</td>
+    </tr>
+    <tr>
+        <td>表示层</td>
+    </tr>
+    <tr>
+        <td>会话层</td>
+    </tr>
+    <tr>
+        <td>传输层</td>
+        <td>传输层</td>
+        <td>传输层</td>
+     </tr>
+     <tr>
+        <td>网络层</td>
+        <td>网络层</td>
+        <td>网络层</td>
+     </tr>
+     <tr>
+        <td>数据链路层</td>
+        <td rowspan="2">数据链路层</td>
+        <td>数据链路层</td>
+     </tr>
+     <tr>
+        <td>物理层</td>
+        <td>物理层</td>
+     </tr>
+</table>
+
+<h2 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h2><p>&emsp;&emsp;有两张图瞅一眼：<br><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84%E4%B8%8E%E4%BD%9C%E7%94%A8.jpg" alt="各层及其作用"></p>
+<h3 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h3><p>&emsp;&emsp;应用层的任务是通过应用进程间的交互来完成特定的网络应用。<br>&emsp;&emsp;应用层协议定义的是应用进程间通信和交互的规则。<br>&emsp;&emsp;应用层是app访问网络、向用户显示接收到的信息的窗口。</p>
+<h3 id="表示层"><a href="#表示层" class="headerlink" title="表示层"></a>表示层</h3><p>&emsp;&emsp;表示层也称为转换层，在表示层提取应用层的数据，并根据需要转换格式，以便通过网络传输。<br>&emsp;&emsp;这一层可以做一些数据格式转换，加密解密，压缩等操作。</p>
+<h3 id="会话层"><a href="#会话层" class="headerlink" title="会话层"></a>会话层</h3><p>&emsp;&emsp;会话层负责建立连接，维护会话、认证，并确保安全。</p>
+<h3 id="传输层"><a href="#传输层" class="headerlink" title="传输层"></a>传输层</h3><p>&emsp;&emsp;为两个主机进程间的通信提供通用的数据传输服务。<br>&emsp;&emsp;传输层从网络层获取服务，向应用层提供服务。<br>&emsp;&emsp;只有主机的协议栈才有传输层，网络传输中的一些设备没有传输层，比如路由器。<br>&emsp;&emsp;传输层提供应用进程间的逻辑通信，通信的真正端点是应用进程。<br>&emsp;&emsp;传输层会将源端口号和目的端口号写入header中。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E4%BC%A0%E8%BE%93%E5%B1%82%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93.jpg" alt="数据传输"></p>
+<p>&emsp;&emsp;上面客户端与服务端之间的每一次的数据传输（这里指信息传递，包括三次握手与四次挥手）都要完整的走一遍下面的流程。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E5%AE%9E%E9%99%85%E4%BC%A0%E8%BE%93%E8%BF%87%E7%A8%8B.png" alt="数据传输"></p>
+<p>&emsp;&emsp;传输层主要使用两种协议：</p>
+<ol>
+<li>TCP：传输控制协议，提供面向连接的，可靠的数据传输服务。</li>
+<li>UDP：用户数据报协议，提供面向无连接的，尽最大努力交付。</li>
+</ol>
+<h3 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a>网络层</h3><p>&emsp;&emsp;网络层为分组交换网上不同主机提供通信服务，网络层将传输层的报文封装成包和分组发送。<br>&emsp;&emsp;将数据从一台主机传输到位于不同网络中的另一台主机。还负责分组路由，即从多条路线中选取路径最短的。<br>&emsp;&emsp;网络层会将发送者，接收者的ip地址放入header中。  </p>
+<h4 id="基本功能"><a href="#基本功能" class="headerlink" title="基本功能"></a>基本功能</h4><ol>
+<li>路由</li>
+<li>逻辑寻址</li>
+</ol>
+<h3 id="数据链路层"><a href="#数据链路层" class="headerlink" title="数据链路层"></a>数据链路层</h3><p>&emsp;&emsp;两台主机间的数据传输，总是一段一段在数据链路上传送的，这就需要使用专门的链路层协议。在两个相邻节点间的链路上传送帧，每一帧包括数据和必要的控制信息（如同步信息，地址信息，差错控制等）。<br>&emsp;&emsp;数据链路层负责的是节点到节点的数据传输，负责确保在物理层上从一个节点到一个节点正确的传输数据。  </p>
+<h4 id="基本功能："><a href="#基本功能：" class="headerlink" title="基本功能："></a>基本功能：</h4><ol>
+<li><p>封装成帧</p>
+</li>
+<li><p>物理寻址</p>
+</li>
+<li><p>错误控制</p>
+</li>
+<li><p>流控制</p>
+</li>
+<li><p>访问控制</p>
+<p>&emsp;&emsp;三个基本问题：封装成帧，透明传输，差错控制。<br>&emsp;&emsp;通过ARP协议，可以获取拥有指定ip地址目标主机的mac地址。</p>
+</li>
+</ol>
+<h3 id="物理层"><a href="#物理层" class="headerlink" title="物理层"></a>物理层</h3><p>&emsp;&emsp;在物理层以比特流传输数据，其实就是二进制流，物理实现可能不同。<br>&emsp;&emsp;OSI 参考模型最底层是物理层，物理层负责在设备和物理传输介质之间传输、接收非结构化数据。  </p>
+<h4 id="基本功能：-1"><a href="#基本功能：-1" class="headerlink" title="基本功能："></a>基本功能：</h4><ol>
+<li>比特同步</li>
+<li>比特率控制</li>
+<li>物理拓补</li>
+<li>传输模式<ol>
+<li>单工</li>
+<li>半双工</li>
+<li>全双工</li>
+</ol>
+</li>
+</ol>
+<hr>
+<h1 id="数据流转"><a href="#数据流转" class="headerlink" title="数据流转"></a>数据流转</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93.jpg" alt="数据流转"></p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E7%BD%91%E8%B7%AF%E5%B1%82%E5%AF%B9%E5%BA%94%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.jpg" alt="各层及其数据结构"></p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%9C%A8%E7%BD%91%E7%BB%9C%E5%B1%82.jpg" alt="数据结构"></p>
+<p>&emsp;&emsp;我们在网络中发送传输数据的时候，数据总是从一台主机的应用层传输到了，另一条台主机的应用层，这其中会包含有很多过程。<br>&emsp;&emsp;再分层结构中，数据总是在应用层产生（也有可能其他地方），在物理介质上传输。<br>&emsp;&emsp;数据在层与层之间传递的时候总是会添加上特有的首部，比如传输层会将端口号写入TCP首部，网络层会将IP地址写入IP首部。</p>
+]]></content>
+      <categories>
+        <category>网络</category>
+      </categories>
+      <tags>
         <tag>网络</tag>
       </tags>
   </entry>
@@ -525,210 +734,9 @@
         <category>网络</category>
       </categories>
       <tags>
+        <tag>网络</tag>
         <tag>TCP</tag>
-        <tag>网络</tag>
         <tag>UDP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>网络ISO模型</title>
-    <url>/hexoblog/2021/05/06/md/internet/%E7%BD%91%E7%BB%9CISO%E6%A8%A1%E5%9E%8B/</url>
-    <content><![CDATA[<h1 id="网络模型"><a href="#网络模型" class="headerlink" title="网络模型"></a>网络模型</h1><p>&emsp;&emsp;在计算机网络中有著名的OSI七层协议体系结构，概念清楚，理论完整，但是它既复杂又不实用。TCP/IP体系结构则不同，得到的广泛的应用。最终结合OSI和TCP/IP的优点，采用了一种只有五层协议的体系结构。</p>
-<span id="more"></span>
-
-<p><a href="https://blog.csdn.net/HuoqilinHeiqiji/article/details/89703358">五层结构</a><br><a href="https://www.jianshu.com/p/bb363a41afcf">网络结构</a></p>
-<table border="1">
-    <tr>
-        <th>OSI体系结构</th>
-        <th>TCP/IP体系结构</th>
-        <th>五层体系结构</th>
-    </tr>
-    <tr>
-        <td>应用层</td>
-        <td rowspan="3">应用层</td>
-        <td rowspan="3">应用层</td>
-    </tr>
-    <tr>
-        <td>表示层</td>
-    </tr>
-    <tr>
-        <td>会话层</td>
-    </tr>
-    <tr>
-        <td>传输层</td>
-        <td>传输层</td>
-        <td>传输层</td>
-     </tr>
-     <tr>
-        <td>网络层</td>
-        <td>网络层</td>
-        <td>网络层</td>
-     </tr>
-     <tr>
-        <td>数据链路层</td>
-        <td rowspan="2">数据链路层</td>
-        <td>数据链路层</td>
-     </tr>
-     <tr>
-        <td>物理层</td>
-        <td>物理层</td>
-     </tr>
-</table>
-
-<h2 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h2><p>&emsp;&emsp;有两张图瞅一眼：<br><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84%E4%B8%8E%E4%BD%9C%E7%94%A8.jpg" alt="各层及其作用"></p>
-<h3 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h3><p>&emsp;&emsp;应用层的任务是通过应用进程间的交互来完成特定的网络应用。<br>&emsp;&emsp;应用层协议定义的是应用进程间通信和交互的规则。<br>&emsp;&emsp;应用层是app访问网络、向用户显示接收到的信息的窗口。</p>
-<h3 id="表示层"><a href="#表示层" class="headerlink" title="表示层"></a>表示层</h3><p>&emsp;&emsp;表示层也称为转换层，在表示层提取应用层的数据，并根据需要转换格式，以便通过网络传输。<br>&emsp;&emsp;这一层可以做一些数据格式转换，加密解密，压缩等操作。</p>
-<h3 id="会话层"><a href="#会话层" class="headerlink" title="会话层"></a>会话层</h3><p>&emsp;&emsp;会话层负责建立连接，维护会话、认证，并确保安全。</p>
-<h3 id="传输层"><a href="#传输层" class="headerlink" title="传输层"></a>传输层</h3><p>&emsp;&emsp;为两个主机进程间的通信提供通用的数据传输服务。<br>&emsp;&emsp;传输层从网络层获取服务，向应用层提供服务。<br>&emsp;&emsp;只有主机的协议栈才有传输层，网络传输中的一些设备没有传输层，比如路由器。<br>&emsp;&emsp;传输层提供应用进程间的逻辑通信，通信的真正端点是应用进程。<br>&emsp;&emsp;传输层会将源端口号和目的端口号写入header中。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E4%BC%A0%E8%BE%93%E5%B1%82%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93.jpg" alt="数据传输"></p>
-<p>&emsp;&emsp;上面客户端与服务端之间的每一次的数据传输（这里指信息传递，包括三次握手与四次挥手）都要完整的走一遍下面的流程。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E5%AE%9E%E9%99%85%E4%BC%A0%E8%BE%93%E8%BF%87%E7%A8%8B.png" alt="数据传输"></p>
-<p>&emsp;&emsp;传输层主要使用两种协议：</p>
-<ol>
-<li>TCP：传输控制协议，提供面向连接的，可靠的数据传输服务。</li>
-<li>UDP：用户数据报协议，提供面向无连接的，尽最大努力交付。</li>
-</ol>
-<h3 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a>网络层</h3><p>&emsp;&emsp;网络层为分组交换网上不同主机提供通信服务，网络层将传输层的报文封装成包和分组发送。<br>&emsp;&emsp;将数据从一台主机传输到位于不同网络中的另一台主机。还负责分组路由，即从多条路线中选取路径最短的。<br>&emsp;&emsp;网络层会将发送者，接收者的ip地址放入header中。  </p>
-<h4 id="基本功能"><a href="#基本功能" class="headerlink" title="基本功能"></a>基本功能</h4><ol>
-<li>路由</li>
-<li>逻辑寻址</li>
-</ol>
-<h3 id="数据链路层"><a href="#数据链路层" class="headerlink" title="数据链路层"></a>数据链路层</h3><p>&emsp;&emsp;两台主机间的数据传输，总是一段一段在数据链路上传送的，这就需要使用专门的链路层协议。在两个相邻节点间的链路上传送帧，每一帧包括数据和必要的控制信息（如同步信息，地址信息，差错控制等）。<br>&emsp;&emsp;数据链路层负责的是节点到节点的数据传输，负责确保在物理层上从一个节点到一个节点正确的传输数据。  </p>
-<h4 id="基本功能："><a href="#基本功能：" class="headerlink" title="基本功能："></a>基本功能：</h4><ol>
-<li><p>封装成帧</p>
-</li>
-<li><p>物理寻址</p>
-</li>
-<li><p>错误控制</p>
-</li>
-<li><p>流控制</p>
-</li>
-<li><p>访问控制</p>
-<p>&emsp;&emsp;三个基本问题：封装成帧，透明传输，差错控制。<br>&emsp;&emsp;通过ARP协议，可以获取拥有指定ip地址目标主机的mac地址。</p>
-</li>
-</ol>
-<h3 id="物理层"><a href="#物理层" class="headerlink" title="物理层"></a>物理层</h3><p>&emsp;&emsp;在物理层以比特流传输数据，其实就是二进制流，物理实现可能不同。<br>&emsp;&emsp;OSI 参考模型最底层是物理层，物理层负责在设备和物理传输介质之间传输、接收非结构化数据。  </p>
-<h4 id="基本功能：-1"><a href="#基本功能：-1" class="headerlink" title="基本功能："></a>基本功能：</h4><ol>
-<li>比特同步</li>
-<li>比特率控制</li>
-<li>物理拓补</li>
-<li>传输模式<ol>
-<li>单工</li>
-<li>半双工</li>
-<li>全双工</li>
-</ol>
-</li>
-</ol>
-<hr>
-<h1 id="数据流转"><a href="#数据流转" class="headerlink" title="数据流转"></a>数据流转</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93.jpg" alt="数据流转"></p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E7%BD%91%E8%B7%AF%E5%B1%82%E5%AF%B9%E5%BA%94%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.jpg" alt="各层及其数据结构"></p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%9C%A8%E7%BD%91%E7%BB%9C%E5%B1%82.jpg" alt="数据结构"></p>
-<p>&emsp;&emsp;我们在网络中发送传输数据的时候，数据总是从一台主机的应用层传输到了，另一条台主机的应用层，这其中会包含有很多过程。<br>&emsp;&emsp;再分层结构中，数据总是在应用层产生（也有可能其他地方），在物理介质上传输。<br>&emsp;&emsp;数据在层与层之间传递的时候总是会添加上特有的首部，比如传输层会将端口号写入TCP首部，网络层会将IP地址写入IP首部。</p>
-]]></content>
-      <categories>
-        <category>网络</category>
-      </categories>
-      <tags>
-        <tag>网络</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>filter_interceptor</title>
-    <url>/hexoblog/2021/03/01/md/java/filter-interceptor/</url>
-    <content><![CDATA[<h2 id="过滤器"><a href="#过滤器" class="headerlink" title="过滤器"></a>过滤器</h2><p>&emsp;&emsp;过滤器是用来过滤的，java的过滤器能够为我们提供系统级别的过滤，也就是说能够过滤所有的web请求，这一点是拦截器做不到的。<br>&emsp;&emsp;在java web中，你传入的request，response提前过滤掉一些信息，或者提前设置一些参数，然后在传入Servlet进行业务逻辑，比如过滤掉非法url和非法字符串。<br>&emsp;&emsp;filter流程是线性的，url传来之后，检查之后，可保持原来的流程继续向下执行，被下一个filter，servlet接收。</p>
-<span id="more"></span>
-
-<hr>
-<h2 id="拦截器"><a href="#拦截器" class="headerlink" title="拦截器"></a>拦截器</h2><p>&emsp;&emsp;java里面的拦截器提供的是非系统级别的拦截，也就是说，就覆盖面来说，拦截器不如过滤器强大但是更有针对性。<br>&emsp;&emsp;java中的拦截器是基于java反射机制实现的，更准确的划分，应该是基于jdk实现的动态代理。它依赖于具体的接口，在运行期间动态生成字节码。<br>&emsp;&emsp;拦截器是动态拦截Action调用的对象，他提供了一种机制可以使开发者在一个ation执行的前后执行一段代码，也可以在一个action执行前阻止其执行，同时也提供了一种可以提取action中可重用代码的方式。在AOP中，拦截器用于在某个方法或字段被访问之前，进行拦截然后再之前或之后加入某些操作。java的拦截器主要用于插件上，扩展件上，有点类似于面向切面的技术，在用之前要先在配置文件里声明。</p>
-<hr>
-<h2 id="监听器"><a href="#监听器" class="headerlink" title="监听器"></a>监听器</h2><p>&emsp;&emsp;java的监听器也是系统级别的监听。监听器随web应用的启动而启动。<br>&emsp;&emsp;java的监听器在c/s模式里面经常用到，它会对特定的事件产生一个处理。监听器在很多模式下用到，比如说观察者模式，就是使用监听器来实现的，又比如统计网站的在线人数。servlet监听器用于监听一些重要事件的发生，监听器对象可以在事件发生前，发生后做一些必要的处理。</p>
-<hr>
-<h1 id="对照"><a href="#对照" class="headerlink" title="对照"></a>对照</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/interceptor_filter_1.jpg" alt="对照"></p>
-]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>filter</tag>
-        <tag>interceptor</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>javaSPI扩展</title>
-    <url>/hexoblog/2021/04/16/md/java/javaSPI%E6%89%A9%E5%B1%95/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;SPI就是一种服务发现机制。<br>&emsp;&emsp;SPI 是一种将服务接口与服务实现分离以达到解耦、大大提升了程序可扩展性的机制。引入服务提供者就是引入了 spi 接口的实现者，通过本地的注册发现获取到具体的实现类，轻松可插拔。<br>&emsp;&emsp;Java SPI 就是把某个接口的 指定实现类 （通过在指定文件配置的方式）给实例化出来了。</p>
-<span id="more"></span>
-
-<hr>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><p>&emsp;&emsp;需要准备一个maven工程，以此为蓝本，进行开发。</p>
-<h2 id="创建接口及实现类"><a href="#创建接口及实现类" class="headerlink" title="创建接口及实现类"></a>创建接口及实现类</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 接口</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">HelloService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 实现类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloServiceImpl1</span> <span class="keyword">implements</span> <span class="title">HelloService</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;hello1&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloServiceImpl2</span> <span class="keyword">implements</span> <span class="title">HelloService</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;hello2&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="创建META-INF-service文件夹，建立文件"><a href="#创建META-INF-service文件夹，建立文件" class="headerlink" title="创建META-INF/service文件夹，建立文件"></a>创建META-INF/service文件夹，建立文件</h2><p>&emsp;&emsp;这里建立的文件名与接口的全限定名相同，文件的内容为接口实现类的全限定名。</p>
-<figure class="highlight txt"><table><tr><td class="code"><pre><span class="line">com.lin.javaspi.service.impl.HelloServiceImpl1</span><br><span class="line">com.lin.javaspi.service.impl.HelloServiceImpl2</span><br></pre></td></tr></table></figure>
-
-<h2 id="启动方法"><a href="#启动方法" class="headerlink" title="启动方法"></a>启动方法</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> ClassNotFoundException, IllegalAccessException, InstantiationException </span>&#123;</span><br><span class="line">        ServiceLoader&lt;HelloService&gt; load = ServiceLoader.load(HelloService.class);</span><br><span class="line">        Iterator&lt;HelloService&gt; iterator = load.iterator();</span><br><span class="line">        <span class="keyword">while</span> (iterator.hasNext())&#123;</span><br><span class="line">            HelloService next = iterator.next();</span><br><span class="line">            next.sayHello();</span><br><span class="line">        &#125;</span><br><span class="line"><span class="comment">//        Class&lt;?&gt; aClass = Class.forName(&quot;com.lin.javaspi.service.impl.HelloServiceImpl1&quot;);</span></span><br><span class="line"><span class="comment">//        HelloServiceImpl1 o = (HelloServiceImpl1) aClass.newInstance();</span></span><br><span class="line"><span class="comment">//        o.sayHello();</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h1 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h1><ol>
-<li>应用程序调用ServiceLoader.load方法。<blockquote>
-<p>ServiceLoader.load方法内先创建一个新的ServiceLoader，并实例化该类中的成员变量。</p>
-</blockquote>
-</li>
-<li>应用程序通过迭代器接口获取对象实例。<blockquote>
-<p>ServiceLoader先判断成员变量providers对象中<code>LinkedHashMap&lt;String,S&gt;</code>类型是否有缓存实例对象，如果有缓存，直接返回。</p>
-</blockquote>
-<ol>
-<li>读取META-INF/services/下的配置文件，获得所有能被实例化的类的名称，值得注意的是，ServiceLoader可以跨越jar包获取META-INF下的配置文件。</li>
-<li>通过反射方法<code>Class.forName()</code>加载类对象，并用<code>instance()</code>方法将类实例化。</li>
-<li>把实例化后的类缓存到providers对象中，<code>LinkedHashMap&lt;String,S&gt;</code>类型然后返回实例对象。</li>
-</ol>
-</li>
-</ol>
-<hr>
-<h1 id="要求"><a href="#要求" class="headerlink" title="要求"></a>要求</h1><ol>
-<li>必须要有接口</li>
-<li>对应要有实现类，且具备空参构造方法。</li>
-<li>文件夹META-INF/services放置classpath目录下。</li>
-<li>以“接口全限定名”命名的文件。</li>
-<li>文件内容为接口实现类的全路径。</li>
-</ol>
-<hr>
-<h1 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h1><p>&emsp;&emsp;调用者根据实际使用需要，启用、扩展、或者替换框架的实现策略</p>
-<ol>
-<li><p>jdbc</p>
-<blockquote>
-<p>不同的数据库使用不同的jdbc驱动，他们实现了相同的接口，java.sql.Driver</p>
-</blockquote>
-</li>
-<li><p>日志门面接口实现类加载</p>
-<blockquote>
-<p>slf4j加载不同的提供商的日志实现类</p>
-</blockquote>
-</li>
-<li><p>spring</p>
-</li>
-<li><p>dubbo</p>
-</li>
-</ol>
-<hr>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><p>&emsp;&emsp;使用Java SPI机制的优势是实现解耦，使得第三方服务模块的装配控制的逻辑与调用者的业务代码分离，而不是耦合在一起。应用程序可以根据实际业务情况启用框架扩展或替换框架组件。<br>&emsp;&emsp;相比使用提供接口jar包，供第三方服务模块实现接口的方式，SPI的方式使得源框架，不必关心接口的实现类的路径，可以不用通过下面的方式获取接口实现类：</p>
-<ol>
-<li>代码硬编码import 导入实现类。</li>
-<li>指定类全路径反射获取，<code>Class.forName()</code>。</li>
-<li>第三方服务模块把接口实现类实例注册到指定地方，源框架从该处访问实例。</li>
-</ol>
-<p>&emsp;&emsp;通过SPI的方式，第三方服务模块实现接口后，在第三方的项目代码的META-INF/services目录下的配置文件指定实现类的全路径名，源码框架即可找到实现类。</p>
-<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><ol>
-<li>虽然ServiceLoader也算是使用的延迟加载，但是基本只能通过遍历全部获取，也就是接口的实现类全部加载并实例化一遍。如果你并不想用某些实现类，它也被加载并实例化了，这就造成了浪费。获取某个实现类的方式不够灵活，只能通过Iterator形式获取，不能根据某个参数来获取对应的实现类。</li>
-<li>多个并发多线程使用ServiceLoader类的实例是不安全的。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>SPI</tag>
-        <tag>java</tag>
       </tags>
   </entry>
   <entry>
@@ -793,6 +801,27 @@
       <tags>
         <tag>thread</tag>
         <tag>threadpool</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>filter_interceptor</title>
+    <url>/hexoblog/2021/03/01/md/java/filter-interceptor/</url>
+    <content><![CDATA[<h2 id="过滤器"><a href="#过滤器" class="headerlink" title="过滤器"></a>过滤器</h2><p>&emsp;&emsp;过滤器是用来过滤的，java的过滤器能够为我们提供系统级别的过滤，也就是说能够过滤所有的web请求，这一点是拦截器做不到的。<br>&emsp;&emsp;在java web中，你传入的request，response提前过滤掉一些信息，或者提前设置一些参数，然后在传入Servlet进行业务逻辑，比如过滤掉非法url和非法字符串。<br>&emsp;&emsp;filter流程是线性的，url传来之后，检查之后，可保持原来的流程继续向下执行，被下一个filter，servlet接收。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="拦截器"><a href="#拦截器" class="headerlink" title="拦截器"></a>拦截器</h2><p>&emsp;&emsp;java里面的拦截器提供的是非系统级别的拦截，也就是说，就覆盖面来说，拦截器不如过滤器强大但是更有针对性。<br>&emsp;&emsp;java中的拦截器是基于java反射机制实现的，更准确的划分，应该是基于jdk实现的动态代理。它依赖于具体的接口，在运行期间动态生成字节码。<br>&emsp;&emsp;拦截器是动态拦截Action调用的对象，他提供了一种机制可以使开发者在一个ation执行的前后执行一段代码，也可以在一个action执行前阻止其执行，同时也提供了一种可以提取action中可重用代码的方式。在AOP中，拦截器用于在某个方法或字段被访问之前，进行拦截然后再之前或之后加入某些操作。java的拦截器主要用于插件上，扩展件上，有点类似于面向切面的技术，在用之前要先在配置文件里声明。</p>
+<hr>
+<h2 id="监听器"><a href="#监听器" class="headerlink" title="监听器"></a>监听器</h2><p>&emsp;&emsp;java的监听器也是系统级别的监听。监听器随web应用的启动而启动。<br>&emsp;&emsp;java的监听器在c/s模式里面经常用到，它会对特定的事件产生一个处理。监听器在很多模式下用到，比如说观察者模式，就是使用监听器来实现的，又比如统计网站的在线人数。servlet监听器用于监听一些重要事件的发生，监听器对象可以在事件发生前，发生后做一些必要的处理。</p>
+<hr>
+<h1 id="对照"><a href="#对照" class="headerlink" title="对照"></a>对照</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/interceptor_filter_1.jpg" alt="对照"></p>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>filter</tag>
+        <tag>interceptor</tag>
       </tags>
   </entry>
   <entry>
@@ -914,6 +943,84 @@
       <tags>
         <tag>java</tag>
         <tag>jvm</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>javaSPI扩展</title>
+    <url>/hexoblog/2021/04/16/md/java/javaSPI%E6%89%A9%E5%B1%95/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;SPI就是一种服务发现机制。<br>&emsp;&emsp;SPI 是一种将服务接口与服务实现分离以达到解耦、大大提升了程序可扩展性的机制。引入服务提供者就是引入了 spi 接口的实现者，通过本地的注册发现获取到具体的实现类，轻松可插拔。<br>&emsp;&emsp;Java SPI 就是把某个接口的 指定实现类 （通过在指定文件配置的方式）给实例化出来了。</p>
+<span id="more"></span>
+
+<hr>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><p>&emsp;&emsp;需要准备一个maven工程，以此为蓝本，进行开发。</p>
+<h2 id="创建接口及实现类"><a href="#创建接口及实现类" class="headerlink" title="创建接口及实现类"></a>创建接口及实现类</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 接口</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">HelloService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 实现类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloServiceImpl1</span> <span class="keyword">implements</span> <span class="title">HelloService</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;hello1&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloServiceImpl2</span> <span class="keyword">implements</span> <span class="title">HelloService</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;hello2&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="创建META-INF-service文件夹，建立文件"><a href="#创建META-INF-service文件夹，建立文件" class="headerlink" title="创建META-INF/service文件夹，建立文件"></a>创建META-INF/service文件夹，建立文件</h2><p>&emsp;&emsp;这里建立的文件名与接口的全限定名相同，文件的内容为接口实现类的全限定名。</p>
+<figure class="highlight txt"><table><tr><td class="code"><pre><span class="line">com.lin.javaspi.service.impl.HelloServiceImpl1</span><br><span class="line">com.lin.javaspi.service.impl.HelloServiceImpl2</span><br></pre></td></tr></table></figure>
+
+<h2 id="启动方法"><a href="#启动方法" class="headerlink" title="启动方法"></a>启动方法</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> ClassNotFoundException, IllegalAccessException, InstantiationException </span>&#123;</span><br><span class="line">        ServiceLoader&lt;HelloService&gt; load = ServiceLoader.load(HelloService.class);</span><br><span class="line">        Iterator&lt;HelloService&gt; iterator = load.iterator();</span><br><span class="line">        <span class="keyword">while</span> (iterator.hasNext())&#123;</span><br><span class="line">            HelloService next = iterator.next();</span><br><span class="line">            next.sayHello();</span><br><span class="line">        &#125;</span><br><span class="line"><span class="comment">//        Class&lt;?&gt; aClass = Class.forName(&quot;com.lin.javaspi.service.impl.HelloServiceImpl1&quot;);</span></span><br><span class="line"><span class="comment">//        HelloServiceImpl1 o = (HelloServiceImpl1) aClass.newInstance();</span></span><br><span class="line"><span class="comment">//        o.sayHello();</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h1><ol>
+<li>应用程序调用ServiceLoader.load方法。<blockquote>
+<p>ServiceLoader.load方法内先创建一个新的ServiceLoader，并实例化该类中的成员变量。</p>
+</blockquote>
+</li>
+<li>应用程序通过迭代器接口获取对象实例。<blockquote>
+<p>ServiceLoader先判断成员变量providers对象中<code>LinkedHashMap&lt;String,S&gt;</code>类型是否有缓存实例对象，如果有缓存，直接返回。</p>
+</blockquote>
+<ol>
+<li>读取META-INF/services/下的配置文件，获得所有能被实例化的类的名称，值得注意的是，ServiceLoader可以跨越jar包获取META-INF下的配置文件。</li>
+<li>通过反射方法<code>Class.forName()</code>加载类对象，并用<code>instance()</code>方法将类实例化。</li>
+<li>把实例化后的类缓存到providers对象中，<code>LinkedHashMap&lt;String,S&gt;</code>类型然后返回实例对象。</li>
+</ol>
+</li>
+</ol>
+<hr>
+<h1 id="要求"><a href="#要求" class="headerlink" title="要求"></a>要求</h1><ol>
+<li>必须要有接口</li>
+<li>对应要有实现类，且具备空参构造方法。</li>
+<li>文件夹META-INF/services放置classpath目录下。</li>
+<li>以“接口全限定名”命名的文件。</li>
+<li>文件内容为接口实现类的全路径。</li>
+</ol>
+<hr>
+<h1 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h1><p>&emsp;&emsp;调用者根据实际使用需要，启用、扩展、或者替换框架的实现策略</p>
+<ol>
+<li><p>jdbc</p>
+<blockquote>
+<p>不同的数据库使用不同的jdbc驱动，他们实现了相同的接口，java.sql.Driver</p>
+</blockquote>
+</li>
+<li><p>日志门面接口实现类加载</p>
+<blockquote>
+<p>slf4j加载不同的提供商的日志实现类</p>
+</blockquote>
+</li>
+<li><p>spring</p>
+</li>
+<li><p>dubbo</p>
+</li>
+</ol>
+<hr>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><p>&emsp;&emsp;使用Java SPI机制的优势是实现解耦，使得第三方服务模块的装配控制的逻辑与调用者的业务代码分离，而不是耦合在一起。应用程序可以根据实际业务情况启用框架扩展或替换框架组件。<br>&emsp;&emsp;相比使用提供接口jar包，供第三方服务模块实现接口的方式，SPI的方式使得源框架，不必关心接口的实现类的路径，可以不用通过下面的方式获取接口实现类：</p>
+<ol>
+<li>代码硬编码import 导入实现类。</li>
+<li>指定类全路径反射获取，<code>Class.forName()</code>。</li>
+<li>第三方服务模块把接口实现类实例注册到指定地方，源框架从该处访问实例。</li>
+</ol>
+<p>&emsp;&emsp;通过SPI的方式，第三方服务模块实现接口后，在第三方的项目代码的META-INF/services目录下的配置文件指定实现类的全路径名，源码框架即可找到实现类。</p>
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><ol>
+<li>虽然ServiceLoader也算是使用的延迟加载，但是基本只能通过遍历全部获取，也就是接口的实现类全部加载并实例化一遍。如果你并不想用某些实现类，它也被加载并实例化了，这就造成了浪费。获取某个实现类的方式不够灵活，只能通过Iterator形式获取，不能根据某个参数来获取对应的实现类。</li>
+<li>多个并发多线程使用ServiceLoader类的实例是不安全的。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>SPI</tag>
+        <tag>java</tag>
       </tags>
   </entry>
   <entry>
@@ -1227,107 +1334,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Volatile</title>
-    <url>/hexoblog/2021/03/03/md/jvm/Volatile/</url>
-    <content><![CDATA[<h1 id="JMM"><a href="#JMM" class="headerlink" title="JMM"></a>JMM</h1><p>&emsp;&emsp;Java内存模型，是虚拟机规范中所定义的一种内存模型，Java内存模型是标准化的，屏蔽掉了底层计算机之间的区别。<br>&emsp;&emsp;Java内存模型描述了Java程序中各种变量（线程共享变量）的访问规则，以及在JVM中将变量，存储到内存和从内存中读取变量这样的底层细节。</p>
-<span id="more"></span>
-
-<h2 id="规定"><a href="#规定" class="headerlink" title="规定"></a>规定</h2><p>&emsp;&emsp;所有的共享变量都存储于主内存，这里所说的变量指的是实例变量和类变量，不包含局部变量，因为局部变量是线程私有的，不存在竞争问题。<br>&emsp;&emsp;线程对所有变量的操作都必须在工作内存中完成，而不能直接操作主内存中的变量。<br>&emsp;&emsp;不同的线程也不能直接访问对方工作内存中的变量，线程间变量的值的传递需要通过主内存中转来完成。</p>
-<hr>
-<h1 id="可见性问题"><a href="#可见性问题" class="headerlink" title="可见性问题"></a>可见性问题</h1><h2 id="通过加synchronized来解决可见性问题："><a href="#通过加synchronized来解决可见性问题：" class="headerlink" title="通过加synchronized来解决可见性问题："></a>通过加synchronized来解决可见性问题：</h2><p>&emsp;&emsp;因为某一个线程进入synchronized代码块前后，线程会获得锁，清空工作内存，从主内存拷贝共享变量最新的值到工作内存成为副本，执行代码，将修改后的副本的值刷新回主内存中，线程释放锁。<br>&emsp;&emsp;而获取不到锁的线程会阻塞等待，所以变量的值肯定一直都是最新的。</p>
-<h2 id="通过volatile解决可见性问题："><a href="#通过volatile解决可见性问题：" class="headerlink" title="通过volatile解决可见性问题："></a>通过volatile解决可见性问题：</h2><p>&emsp;&emsp;每个线程操作数据的时候会把数据从主内存读取到自己的工作内存，如果他操作了数据并且写回了，其他已经读取的线程的变量副本就会失效了，需要对数据进行操作又要再次去主内存中读取了。</p>
-<hr>
-<h1 id="缓存处理"><a href="#缓存处理" class="headerlink" title="缓存处理"></a>缓存处理</h1><h2 id="缓存一致性协议"><a href="#缓存一致性协议" class="headerlink" title="缓存一致性协议"></a>缓存一致性协议</h2><p>&emsp;&emsp;多个处理器的运算任务涉及同一块主内存区域时，将导致各自的缓存数据不一致，问题在于同步回主内存时以谁的缓存数据为准。<br>&emsp;&emsp;为了解决一致性的问题，需要各个处理器在访问缓存时都遵循一些协议，在读写时要根据协议操作，这类协议有MSI，MESI，Synapse，Firefly，Firefly等。</p>
-<h2 id="MESI"><a href="#MESI" class="headerlink" title="MESI"></a>MESI</h2><p>&emsp;&emsp;当cpu写数据时，如果发现操作的变量是工作内存，即在其他cpu中也存在该变量的副本，会发出信号通知其他cpu将该变量的缓存行设置为无效状态，因此当其他cpu要读取这个变量时，会发现自己缓存中缓存该变量的缓存行是无效的，那么他就会从内存重新读取。</p>
-<h2 id="嗅探："><a href="#嗅探：" class="headerlink" title="嗅探："></a>嗅探：</h2><p>&emsp;&emsp;每个处理器通过嗅探在总线上传播的数据来检查自己缓存的值是不是过期了，当处理器发现自己缓存行对应的内存地址被修改，就会将当前处理器的缓存行设置成无效状态，当处理器对这个数据进行修改操作时，会重新从系统内存中把数据读到处理器缓存里。</p>
-<h2 id="总线风暴："><a href="#总线风暴：" class="headerlink" title="总线风暴："></a>总线风暴：</h2><p>&emsp;&emsp;由于volatile的MESI缓存一致性协议，需要不断的从主内存嗅探和CAS不断循环，无效交互会导致总线带宽达到峰值。所以不应该大量使用volatile，什么时候使用volatile什么时候使用锁，需要具体判断。</p>
-<hr>
-<h1 id="指令重排序"><a href="#指令重排序" class="headerlink" title="指令重排序"></a>指令重排序</h1><p>&emsp;&emsp;为了提高性能，编译器和处理器常常会对既定的代码执行顺序进行指令重排序。</p>
-<h2 id="过程"><a href="#过程" class="headerlink" title="过程:"></a>过程:</h2><blockquote>
-<p> 源代码——&gt;编译器优化重排序——&gt;指令级并行重排序——&gt;内存系统重排序——〉最终执行指令序列</p>
-</blockquote>
-<p>&emsp;&emsp;一个好的内存模型，实际上会放松对处理器和编译器规则的束缚，也就是说软件技术和硬件技术都为同一个目标，而进行奋斗。在不改变程序执行结果的前提下，尽可能提高运行效率。<br>&emsp;&emsp;JMM对底层减少约束，使其能够发挥自身优势。</p>
-<h2 id="三种重排序"><a href="#三种重排序" class="headerlink" title="三种重排序"></a>三种重排序</h2><ol>
-<li>编译器优化的重排序。编译器在不改变单线程程序语义的前提下，可以重新安排语句的执行顺序。</li>
-<li>指令级并行的重排序。现代处理器采用了指令级并行技术来讲多条指令重叠执行。如果不存在数据依赖性，处理器可以改变语句对应机器指令的执行顺序。</li>
-<li>内存系统的重排序。由于处理器使用缓存和读/写缓冲区，这使得读取和存储操作看上去可能是在乱序执行的。</li>
-</ol>
-<h2 id="as-if-serial："><a href="#as-if-serial：" class="headerlink" title="as-if-serial："></a>as-if-serial：</h2><p>&emsp;&emsp;不管怎么重排序，单线程下的执行结果不能被改变。<br>&emsp;&emsp;编译器、runtime和处理器都必须遵守as-if-serial语义。</p>
-<h2 id="内存屏障："><a href="#内存屏障：" class="headerlink" title="内存屏障："></a>内存屏障：</h2><p>&emsp;&emsp;java编译器会在生成指令系列时在适当的位置会插入内存屏障指令来禁止特定类型的处理器重排序。<br>&emsp;&emsp;为了实现volatile的内存语义，JMM会限制特定类型的编译器和处理器重排序，JMM会针对编译器制定volatile重排序规则表：</p>
-<table>
-<thead>
-<tr>
-<th>是否能重排序</th>
-<th>第二个操作</th>
-<th>普通读写</th>
-<th>vol读</th>
-<th>vol写</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>第一个操作</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>普通读写</td>
-<td></td>
-<td></td>
-<td></td>
-<td>NO</td>
-</tr>
-<tr>
-<td>vol读</td>
-<td></td>
-<td>NO</td>
-<td>NO</td>
-<td>NO</td>
-</tr>
-<tr>
-<td>vol写</td>
-<td></td>
-<td></td>
-<td>NO</td>
-<td>NO</td>
-</tr>
-</tbody></table>
-<p>需要注意的是：</p>
-<ol>
-<li>volatile写是分别在前面和后面插入内存屏障.</li>
-<li>而volatile读是在后面插入两个内存屏障。</li>
-</ol>
-<h3 id="写内存屏障："><a href="#写内存屏障：" class="headerlink" title="写内存屏障："></a>写内存屏障：</h3><blockquote>
-<p>普通读——&gt;普通写——&gt;storestore屏障(禁止上面写和其他重排序)——&gt;vol写——&gt;storestore屏障(禁止下面读和其他重排序)</p>
-</blockquote>
-<h3 id="读内存屏障："><a href="#读内存屏障：" class="headerlink" title="读内存屏障："></a>读内存屏障：</h3><blockquote>
-<p>vol读——&gt;loadload屏障(禁止下面读重排序)——&gt;loadload屏障(禁止下面写重排序)——&gt;普通读——&gt;普通写</p>
-</blockquote>
-<p>&emsp;&emsp;为了提高处理速度，JVM会对代码进行编译优化，也就是指令重排序优化，并发编程下指令重排序会带来一些安全隐患：如指令重排序导致的多个线程操作之间的不可见性。<br>&emsp;&emsp;从JDK5开始，提出了happens-before的概念，通过这个概念来阐述操作之间的内存可见性。</p>
-<h3 id="happens-before"><a href="#happens-before" class="headerlink" title="happens-before:"></a>happens-before:</h3><p>&emsp;&emsp;<a href="">happens-before</a><br>&emsp;&emsp;如果一个操作执行的结果需要对另一个操作可见，那么这两个操作之间必须存在happens-before关系。<br>&emsp;&emsp;volatile域规则：对一个volatile的写操作，happens-before于任意线程后续对这volatile域的读。</p>
-<h3 id="volatile无法保证原子性："><a href="#volatile无法保证原子性：" class="headerlink" title="volatile无法保证原子性："></a>volatile无法保证原子性：</h3><p>&emsp;&emsp;假设现在有N个线程对同一个变量进累加也是没办法保证结果是对的，因为读写这个过并不是原子性的。<br>&emsp;&emsp;要解决也简单，要么用原子类，比AtomicInteger，要么加锁(记得关注Atomic的底层。</p>
-<h3 id="volatile与synchronized的区别："><a href="#volatile与synchronized的区别：" class="headerlink" title="volatile与synchronized的区别："></a>volatile与synchronized的区别：</h3><p>&emsp;&emsp;volatile只能修饰实例变量和类变量，而synchronized可以修饰方法，以及代码块。<br>&emsp;&emsp;volatile保证数据的可见性，但是保证原子性(多线程进行写操作，不保证线程安全)而synchronized是一种排他(互斥)的机制。  &amp;emsp&emsp;volatile用于禁止指令重排序：可以解决例双重检查对象初始化代码执行乱序问题。<br>&emsp;&emsp;volatile可以看做是轻量版synchronized，volatile不保证原子性，但是如是对一个共享变量进行多个线程的赋值，     而有其他的操作，那么就可以用volatile来代synchronized，因为赋值本身是有原子性的，volatile又保证了可见性，所以就可以保证线程安了。</p>
-<hr>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ol>
-<li>volatile修饰符适用于以下场景：某个属性被多个线程共享，其中有一个线程修改了此属性，其他线程可以立即得到修改后的值，比如boolean flag;或者作为触发器，实现轻量级同步。</li>
-<li>volatile属性的读写操作都是无锁的，它不能替代synchronized，因为它没有提供原子性和互斥性。因为无锁，不需要花费时间在获取锁和释放锁_上，所以说它是低成本的。</li>
-<li>volatile只能作用于属性，我们用volatile修饰属性，这样compilers就不会对这个属性做指令重排序。</li>
-<li>volatile提供了可见性，任何一个线程对其的修改将立马对其他线程可见，volatile属性不会被线程缓存，始终从主存中读取。</li>
-<li>volatile提供了happens-before保证，对volatile变量v的写入happens-before所有其他线程后续对v的读操作。</li>
-<li>volatile可以使得long和double的赋值是原子的。</li>
-<li>volatile可以在单例双重检查中实现可见性和禁止指令重排序，从而保证安全性。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>jvm</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>jvm</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>happens-before</title>
     <url>/hexoblog/2021/03/03/md/jvm/happens-before/</url>
     <content><![CDATA[<h1 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h1><p>&emsp;&emsp;在JMM中，由于存在线程本地内存和主内存的原因，再加上重排序，会导致多线程环境下存在可见性的问题。<br>&emsp;&emsp;JDK5开始，JMM使用happens-before概念来阐述多线程之间的内存可见性问题。</p>
@@ -1454,6 +1460,141 @@
       <tags>
         <tag>jvm</tag>
         <tag>memory</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Volatile</title>
+    <url>/hexoblog/2021/03/03/md/jvm/Volatile/</url>
+    <content><![CDATA[<h1 id="JMM"><a href="#JMM" class="headerlink" title="JMM"></a>JMM</h1><p>&emsp;&emsp;Java内存模型，是虚拟机规范中所定义的一种内存模型，Java内存模型是标准化的，屏蔽掉了底层计算机之间的区别。<br>&emsp;&emsp;Java内存模型描述了Java程序中各种变量（线程共享变量）的访问规则，以及在JVM中将变量，存储到内存和从内存中读取变量这样的底层细节。</p>
+<span id="more"></span>
+
+<h2 id="规定"><a href="#规定" class="headerlink" title="规定"></a>规定</h2><p>&emsp;&emsp;所有的共享变量都存储于主内存，这里所说的变量指的是实例变量和类变量，不包含局部变量，因为局部变量是线程私有的，不存在竞争问题。<br>&emsp;&emsp;线程对所有变量的操作都必须在工作内存中完成，而不能直接操作主内存中的变量。<br>&emsp;&emsp;不同的线程也不能直接访问对方工作内存中的变量，线程间变量的值的传递需要通过主内存中转来完成。</p>
+<hr>
+<h1 id="可见性问题"><a href="#可见性问题" class="headerlink" title="可见性问题"></a>可见性问题</h1><h2 id="通过加synchronized来解决可见性问题："><a href="#通过加synchronized来解决可见性问题：" class="headerlink" title="通过加synchronized来解决可见性问题："></a>通过加synchronized来解决可见性问题：</h2><p>&emsp;&emsp;因为某一个线程进入synchronized代码块前后，线程会获得锁，清空工作内存，从主内存拷贝共享变量最新的值到工作内存成为副本，执行代码，将修改后的副本的值刷新回主内存中，线程释放锁。<br>&emsp;&emsp;而获取不到锁的线程会阻塞等待，所以变量的值肯定一直都是最新的。</p>
+<h2 id="通过volatile解决可见性问题："><a href="#通过volatile解决可见性问题：" class="headerlink" title="通过volatile解决可见性问题："></a>通过volatile解决可见性问题：</h2><p>&emsp;&emsp;每个线程操作数据的时候会把数据从主内存读取到自己的工作内存，如果他操作了数据并且写回了，其他已经读取的线程的变量副本就会失效了，需要对数据进行操作又要再次去主内存中读取了。</p>
+<hr>
+<h1 id="缓存处理"><a href="#缓存处理" class="headerlink" title="缓存处理"></a>缓存处理</h1><h2 id="缓存一致性协议"><a href="#缓存一致性协议" class="headerlink" title="缓存一致性协议"></a>缓存一致性协议</h2><p>&emsp;&emsp;多个处理器的运算任务涉及同一块主内存区域时，将导致各自的缓存数据不一致，问题在于同步回主内存时以谁的缓存数据为准。<br>&emsp;&emsp;为了解决一致性的问题，需要各个处理器在访问缓存时都遵循一些协议，在读写时要根据协议操作，这类协议有MSI，MESI，Synapse，Firefly，Firefly等。</p>
+<h2 id="MESI"><a href="#MESI" class="headerlink" title="MESI"></a>MESI</h2><p>&emsp;&emsp;当cpu写数据时，如果发现操作的变量是工作内存，即在其他cpu中也存在该变量的副本，会发出信号通知其他cpu将该变量的缓存行设置为无效状态，因此当其他cpu要读取这个变量时，会发现自己缓存中缓存该变量的缓存行是无效的，那么他就会从内存重新读取。</p>
+<h2 id="嗅探："><a href="#嗅探：" class="headerlink" title="嗅探："></a>嗅探：</h2><p>&emsp;&emsp;每个处理器通过嗅探在总线上传播的数据来检查自己缓存的值是不是过期了，当处理器发现自己缓存行对应的内存地址被修改，就会将当前处理器的缓存行设置成无效状态，当处理器对这个数据进行修改操作时，会重新从系统内存中把数据读到处理器缓存里。</p>
+<h2 id="总线风暴："><a href="#总线风暴：" class="headerlink" title="总线风暴："></a>总线风暴：</h2><p>&emsp;&emsp;由于volatile的MESI缓存一致性协议，需要不断的从主内存嗅探和CAS不断循环，无效交互会导致总线带宽达到峰值。所以不应该大量使用volatile，什么时候使用volatile什么时候使用锁，需要具体判断。</p>
+<hr>
+<h1 id="指令重排序"><a href="#指令重排序" class="headerlink" title="指令重排序"></a>指令重排序</h1><p>&emsp;&emsp;为了提高性能，编译器和处理器常常会对既定的代码执行顺序进行指令重排序。</p>
+<h2 id="过程"><a href="#过程" class="headerlink" title="过程:"></a>过程:</h2><blockquote>
+<p> 源代码——&gt;编译器优化重排序——&gt;指令级并行重排序——&gt;内存系统重排序——〉最终执行指令序列</p>
+</blockquote>
+<p>&emsp;&emsp;一个好的内存模型，实际上会放松对处理器和编译器规则的束缚，也就是说软件技术和硬件技术都为同一个目标，而进行奋斗。在不改变程序执行结果的前提下，尽可能提高运行效率。<br>&emsp;&emsp;JMM对底层减少约束，使其能够发挥自身优势。</p>
+<h2 id="三种重排序"><a href="#三种重排序" class="headerlink" title="三种重排序"></a>三种重排序</h2><ol>
+<li>编译器优化的重排序。编译器在不改变单线程程序语义的前提下，可以重新安排语句的执行顺序。</li>
+<li>指令级并行的重排序。现代处理器采用了指令级并行技术来讲多条指令重叠执行。如果不存在数据依赖性，处理器可以改变语句对应机器指令的执行顺序。</li>
+<li>内存系统的重排序。由于处理器使用缓存和读/写缓冲区，这使得读取和存储操作看上去可能是在乱序执行的。</li>
+</ol>
+<h2 id="as-if-serial："><a href="#as-if-serial：" class="headerlink" title="as-if-serial："></a>as-if-serial：</h2><p>&emsp;&emsp;不管怎么重排序，单线程下的执行结果不能被改变。<br>&emsp;&emsp;编译器、runtime和处理器都必须遵守as-if-serial语义。</p>
+<h2 id="内存屏障："><a href="#内存屏障：" class="headerlink" title="内存屏障："></a>内存屏障：</h2><p>&emsp;&emsp;java编译器会在生成指令系列时在适当的位置会插入内存屏障指令来禁止特定类型的处理器重排序。<br>&emsp;&emsp;为了实现volatile的内存语义，JMM会限制特定类型的编译器和处理器重排序，JMM会针对编译器制定volatile重排序规则表：</p>
+<table>
+<thead>
+<tr>
+<th>是否能重排序</th>
+<th>第二个操作</th>
+<th>普通读写</th>
+<th>vol读</th>
+<th>vol写</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>第一个操作</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>普通读写</td>
+<td></td>
+<td></td>
+<td></td>
+<td>NO</td>
+</tr>
+<tr>
+<td>vol读</td>
+<td></td>
+<td>NO</td>
+<td>NO</td>
+<td>NO</td>
+</tr>
+<tr>
+<td>vol写</td>
+<td></td>
+<td></td>
+<td>NO</td>
+<td>NO</td>
+</tr>
+</tbody></table>
+<p>需要注意的是：</p>
+<ol>
+<li>volatile写是分别在前面和后面插入内存屏障.</li>
+<li>而volatile读是在后面插入两个内存屏障。</li>
+</ol>
+<h3 id="写内存屏障："><a href="#写内存屏障：" class="headerlink" title="写内存屏障："></a>写内存屏障：</h3><blockquote>
+<p>普通读——&gt;普通写——&gt;storestore屏障(禁止上面写和其他重排序)——&gt;vol写——&gt;storestore屏障(禁止下面读和其他重排序)</p>
+</blockquote>
+<h3 id="读内存屏障："><a href="#读内存屏障：" class="headerlink" title="读内存屏障："></a>读内存屏障：</h3><blockquote>
+<p>vol读——&gt;loadload屏障(禁止下面读重排序)——&gt;loadload屏障(禁止下面写重排序)——&gt;普通读——&gt;普通写</p>
+</blockquote>
+<p>&emsp;&emsp;为了提高处理速度，JVM会对代码进行编译优化，也就是指令重排序优化，并发编程下指令重排序会带来一些安全隐患：如指令重排序导致的多个线程操作之间的不可见性。<br>&emsp;&emsp;从JDK5开始，提出了happens-before的概念，通过这个概念来阐述操作之间的内存可见性。</p>
+<h3 id="happens-before"><a href="#happens-before" class="headerlink" title="happens-before:"></a>happens-before:</h3><p>&emsp;&emsp;<a href="">happens-before</a><br>&emsp;&emsp;如果一个操作执行的结果需要对另一个操作可见，那么这两个操作之间必须存在happens-before关系。<br>&emsp;&emsp;volatile域规则：对一个volatile的写操作，happens-before于任意线程后续对这volatile域的读。</p>
+<h3 id="volatile无法保证原子性："><a href="#volatile无法保证原子性：" class="headerlink" title="volatile无法保证原子性："></a>volatile无法保证原子性：</h3><p>&emsp;&emsp;假设现在有N个线程对同一个变量进累加也是没办法保证结果是对的，因为读写这个过并不是原子性的。<br>&emsp;&emsp;要解决也简单，要么用原子类，比AtomicInteger，要么加锁(记得关注Atomic的底层。</p>
+<h3 id="volatile与synchronized的区别："><a href="#volatile与synchronized的区别：" class="headerlink" title="volatile与synchronized的区别："></a>volatile与synchronized的区别：</h3><p>&emsp;&emsp;volatile只能修饰实例变量和类变量，而synchronized可以修饰方法，以及代码块。<br>&emsp;&emsp;volatile保证数据的可见性，但是保证原子性(多线程进行写操作，不保证线程安全)而synchronized是一种排他(互斥)的机制。  &amp;emsp&emsp;volatile用于禁止指令重排序：可以解决例双重检查对象初始化代码执行乱序问题。<br>&emsp;&emsp;volatile可以看做是轻量版synchronized，volatile不保证原子性，但是如是对一个共享变量进行多个线程的赋值，     而有其他的操作，那么就可以用volatile来代synchronized，因为赋值本身是有原子性的，volatile又保证了可见性，所以就可以保证线程安了。</p>
+<hr>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ol>
+<li>volatile修饰符适用于以下场景：某个属性被多个线程共享，其中有一个线程修改了此属性，其他线程可以立即得到修改后的值，比如boolean flag;或者作为触发器，实现轻量级同步。</li>
+<li>volatile属性的读写操作都是无锁的，它不能替代synchronized，因为它没有提供原子性和互斥性。因为无锁，不需要花费时间在获取锁和释放锁_上，所以说它是低成本的。</li>
+<li>volatile只能作用于属性，我们用volatile修饰属性，这样compilers就不会对这个属性做指令重排序。</li>
+<li>volatile提供了可见性，任何一个线程对其的修改将立马对其他线程可见，volatile属性不会被线程缓存，始终从主存中读取。</li>
+<li>volatile提供了happens-before保证，对volatile变量v的写入happens-before所有其他线程后续对v的读操作。</li>
+<li>volatile可以使得long和double的赋值是原子的。</li>
+<li>volatile可以在单例双重检查中实现可见性和禁止指令重排序，从而保证安全性。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>jvm</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>jvm</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>jvm调优</title>
+    <url>/hexoblog/2021/03/04/md/jvm/jvm%E8%B0%83%E4%BC%98/</url>
+    <content><![CDATA[<p><a href="https://baijiahao.baidu.com/s?id=1617167971312758600&wfr=spider&for=pc">jvm性能调优的6大步骤</a></p>
+<span id="more"></span>
+
+<hr>
+<h1 id="调优方法与步骤"><a href="#调优方法与步骤" class="headerlink" title="调优方法与步骤"></a>调优方法与步骤</h1><ol>
+<li>监控GC的状态</li>
+<li>生成堆的dump文件</li>
+<li>分析dump文件</li>
+<li>分析结果判断是否需要优化</li>
+<li>调整GC类型和内存分配</li>
+<li>不断分析和调整</li>
+</ol>
+<hr>
+<h1 id="调优参考参数"><a href="#调优参考参数" class="headerlink" title="调优参考参数"></a>调优参考参数</h1><ol>
+<li>调整jvm堆内存的占用空间</li>
+<li>调整新生代老年代占用堆空间的比例，</li>
+<li>老年代与新生代设置多大合理<ol>
+<li>大的年轻代将会导致普通GC的周期延长，但会增加GC的时间，小的老年代必定会导致频繁的full GC  </li>
+<li>小的年轻代导致普通GC的频繁发生，但GC的时间短，大的老年代将会减少full GC的频率</li>
+</ol>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>jvm</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>jvm</tag>
       </tags>
   </entry>
   <entry>
@@ -1596,40 +1737,6 @@
       </tags>
   </entry>
   <entry>
-    <title>jvm调优</title>
-    <url>/hexoblog/2021/03/04/md/jvm/jvm%E8%B0%83%E4%BC%98/</url>
-    <content><![CDATA[<p><a href="https://baijiahao.baidu.com/s?id=1617167971312758600&wfr=spider&for=pc">jvm性能调优的6大步骤</a></p>
-<span id="more"></span>
-
-<hr>
-<h1 id="调优方法与步骤"><a href="#调优方法与步骤" class="headerlink" title="调优方法与步骤"></a>调优方法与步骤</h1><ol>
-<li>监控GC的状态</li>
-<li>生成堆的dump文件</li>
-<li>分析dump文件</li>
-<li>分析结果判断是否需要优化</li>
-<li>调整GC类型和内存分配</li>
-<li>不断分析和调整</li>
-</ol>
-<hr>
-<h1 id="调优参考参数"><a href="#调优参考参数" class="headerlink" title="调优参考参数"></a>调优参考参数</h1><ol>
-<li>调整jvm堆内存的占用空间</li>
-<li>调整新生代老年代占用堆空间的比例，</li>
-<li>老年代与新生代设置多大合理<ol>
-<li>大的年轻代将会导致普通GC的周期延长，但会增加GC的时间，小的老年代必定会导致频繁的full GC  </li>
-<li>小的年轻代导致普通GC的频繁发生，但GC的时间短，大的老年代将会减少full GC的频率</li>
-</ol>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>jvm</category>
-      </categories>
-      <tags>
-        <tag>tool</tag>
-        <tag>jvm</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>deepin安装docker</title>
     <url>/hexoblog/2021/04/11/md/linux/deepin%E5%AE%89%E8%A3%85docker/</url>
     <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;写个毛啊，官方的直接搞来，<a href="https://wiki.deepin.org/wiki/Docker">https://wiki.deepin.org/wiki/Docke</a>。</p>
@@ -1701,22 +1808,6 @@
       </tags>
   </entry>
   <entry>
-    <title>linux基本操作</title>
-    <url>/hexoblog/2021/04/10/md/linux/linux%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
-    <content><![CDATA[<h1 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h1><h2 id="移动文件-重命名文件"><a href="#移动文件-重命名文件" class="headerlink" title="移动文件/重命名文件"></a>移动文件/重命名文件</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 移动文件</span></span><br><span class="line">mv [源文件目录] [目标文件目录]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重命名文件</span></span><br><span class="line"><span class="built_in">cd</span> [目标目录]</span><br><span class="line">mv [源文件名] [目标文件名]</span><br></pre></td></tr></table></figure>
-
-<h2 id="复制文件"><a href="#复制文件" class="headerlink" title="复制文件"></a>复制文件</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cp [源文件目录/源文件名] [目标文件目录]</span><br></pre></td></tr></table></figure>
-
-<h2 id="删除文件"><a href="#删除文件" class="headerlink" title="删除文件"></a>删除文件</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> [目标文件目录]</span><br><span class="line">rm -rf [目标文件名]</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>tool</tag>
-        <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>wsl小问题排查</title>
     <url>/hexoblog/2021/03/14/md/linux/wsl%E5%B0%8F%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5/</url>
     <content><![CDATA[<!-- toc -->
@@ -1735,6 +1826,73 @@
       <tags>
         <tag>wsl</tag>
         <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>linux基本操作</title>
+    <url>/hexoblog/2021/04/10/md/linux/linux%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<h1 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h1><h2 id="移动文件-重命名文件"><a href="#移动文件-重命名文件" class="headerlink" title="移动文件/重命名文件"></a>移动文件/重命名文件</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 移动文件</span></span><br><span class="line">mv [源文件目录] [目标文件目录]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重命名文件</span></span><br><span class="line"><span class="built_in">cd</span> [目标目录]</span><br><span class="line">mv [源文件名] [目标文件名]</span><br></pre></td></tr></table></figure>
+
+<h2 id="复制文件"><a href="#复制文件" class="headerlink" title="复制文件"></a>复制文件</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cp [源文件目录/源文件名] [目标文件目录]</span><br></pre></td></tr></table></figure>
+
+<h2 id="删除文件"><a href="#删除文件" class="headerlink" title="删除文件"></a>删除文件</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> [目标文件目录]</span><br><span class="line">rm -rf [目标文件名]</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mysql中datetime和timestamp</title>
+    <url>/hexoblog/2021/04/14/md/mysql/mysql%E4%B8%ADdatetime%E5%92%8Ctimestamp/</url>
+    <content><![CDATA[<h1 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h1><h2 id="date和datetime，timestamp的区别"><a href="#date和datetime，timestamp的区别" class="headerlink" title="date和datetime，timestamp的区别"></a>date和datetime，timestamp的区别</h2><ol>
+<li>date保存的是天，精确到天</li>
+<li>datetime，timestamp精确到秒</li>
+</ol>
+<span id="more"></span>
+<h2 id="datetime和timastamp"><a href="#datetime和timastamp" class="headerlink" title="datetime和timastamp"></a>datetime和timastamp</h2><p>&emsp;&emsp;datetime 和timestamp两者都是时间类型字段，格式都一致。</p>
+<ol>
+<li><p>受时区影响不同</p>
+<blockquote>
+<p>timestamp会跟随设置的时区变化而变化，而datetime保存的是绝对值不会变化。</p>
+</blockquote>
+</li>
+<li><p>占用存储空间不同</p>
+<blockquote>
+<p>timestamp储存占用4个字节，datetime储存占用8个字节。</p>
+</blockquote>
+</li>
+<li><p>可以表示的时间范围不同</p>
+<blockquote>
+<p>timestamp可表示范围:1970-01-01 00:00:00~2038-01-09 03:14:07，datetime支持的范围更宽1000-01-01 00:00:00 ~ 9999-12-31 23:59:59。</p>
+</blockquote>
+</li>
+<li><p>索引速度不同</p>
+<blockquote>
+<p>timestamp更轻量，索引相对datetime更快。</p>
+</blockquote>
+</li>
+<li><p>默认值不同</p>
+<blockquote>
+<p>datetime的默认值为null，timestamp的字段默认不为空（not null），默认值为当前时间（CURRENT_TIMESTAMP），如果不做特殊处理，并且update语句中没有指定该列的更新值，则默认更新为当前时间。</p>
+</blockquote>
+</li>
+<li><p>存储方式不同</p>
+<blockquote>
+<p>两者的存储方式不一样，对于timestamp，它把客户端插入的时间从当前时区转化为UTC（世界标准时间）进行存储。查询时，将其又转化为客户端当前时区进行返回。而对于datetime，不做任何改变，基本上是原样输入和输出。</p>
+</blockquote>
+</li>
+</ol>
+<p>&emsp;&emsp;在mysql5.6之前的版本，CURRENT_TIMESTAMP只能用于timestamp类型，5.6版本之后，CURRENT_TIMESTAMP也能用于datetime类型了。</p>
+]]></content>
+      <categories>
+        <category>mysql</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+        <tag>数据类型</tag>
       </tags>
   </entry>
   <entry>
@@ -1790,57 +1948,6 @@
       <tags>
         <tag>java</tag>
         <tag>mybatis</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mysql中datetime和timestamp</title>
-    <url>/hexoblog/2021/04/14/md/mysql/mysql%E4%B8%ADdatetime%E5%92%8Ctimestamp/</url>
-    <content><![CDATA[<h1 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h1><h2 id="date和datetime，timestamp的区别"><a href="#date和datetime，timestamp的区别" class="headerlink" title="date和datetime，timestamp的区别"></a>date和datetime，timestamp的区别</h2><ol>
-<li>date保存的是天，精确到天</li>
-<li>datetime，timestamp精确到秒</li>
-</ol>
-<span id="more"></span>
-<h2 id="datetime和timastamp"><a href="#datetime和timastamp" class="headerlink" title="datetime和timastamp"></a>datetime和timastamp</h2><p>&emsp;&emsp;datetime 和timestamp两者都是时间类型字段，格式都一致。</p>
-<ol>
-<li><p>受时区影响不同</p>
-<blockquote>
-<p>timestamp会跟随设置的时区变化而变化，而datetime保存的是绝对值不会变化。</p>
-</blockquote>
-</li>
-<li><p>占用存储空间不同</p>
-<blockquote>
-<p>timestamp储存占用4个字节，datetime储存占用8个字节。</p>
-</blockquote>
-</li>
-<li><p>可以表示的时间范围不同</p>
-<blockquote>
-<p>timestamp可表示范围:1970-01-01 00:00:00~2038-01-09 03:14:07，datetime支持的范围更宽1000-01-01 00:00:00 ~ 9999-12-31 23:59:59。</p>
-</blockquote>
-</li>
-<li><p>索引速度不同</p>
-<blockquote>
-<p>timestamp更轻量，索引相对datetime更快。</p>
-</blockquote>
-</li>
-<li><p>默认值不同</p>
-<blockquote>
-<p>datetime的默认值为null，timestamp的字段默认不为空（not null），默认值为当前时间（CURRENT_TIMESTAMP），如果不做特殊处理，并且update语句中没有指定该列的更新值，则默认更新为当前时间。</p>
-</blockquote>
-</li>
-<li><p>存储方式不同</p>
-<blockquote>
-<p>两者的存储方式不一样，对于timestamp，它把客户端插入的时间从当前时区转化为UTC（世界标准时间）进行存储。查询时，将其又转化为客户端当前时区进行返回。而对于datetime，不做任何改变，基本上是原样输入和输出。</p>
-</blockquote>
-</li>
-</ol>
-<p>&emsp;&emsp;在mysql5.6之前的版本，CURRENT_TIMESTAMP只能用于timestamp类型，5.6版本之后，CURRENT_TIMESTAMP也能用于datetime类型了。</p>
-]]></content>
-      <categories>
-        <category>mysql</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
-        <tag>数据类型</tag>
       </tags>
   </entry>
   <entry>
@@ -1906,6 +2013,34 @@
       </tags>
   </entry>
   <entry>
+    <title>redis安装和使用</title>
+    <url>/hexoblog/2021/04/14/md/redis/redis%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;这里是在windows环境下的redis安装过程，两种安装方式，都比较简单。<br>&emsp;&emsp;官方提供的只有linux系统的tar.gz格式的压缩包，windows的需要在github下载。<br><a href="https://redis.io/">https://redis.io/</a><br><a href="http://www.redis.cn/">http://www.redis.cn/</a><br><a href="https://www.redis.com.cn/">https://www.redis.com.cn/</a><br><a href="https://www.redis.com.cn/redis-installation.html">https://www.redis.com.cn/redis-installation.html</a></p>
+<span id="more"></span>
+<h2 id="msi安装"><a href="#msi安装" class="headerlink" title="msi安装"></a>msi安装</h2><ol>
+<li>下载msi安装文件<blockquote>
+<p>官方提供的只有tar.gz格式压缩包下载，msi需要在github下载<br><a href="https://github.com/MicrosoftArchive/redis/releases">https://github.com/MicrosoftArchive/redis/releases</a></p>
+</blockquote>
+</li>
+<li>双击运行</li>
+<li>完成安装</li>
+</ol>
+<h2 id="zip安装"><a href="#zip安装" class="headerlink" title="zip安装"></a>zip安装</h2><ol>
+<li>下载zip压缩包</li>
+<li>将压缩包解压至你准备安装的路径</li>
+<li>解压完成就是安装完成</li>
+</ol>
+<hr>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 先进入安装目录</span></span><br><span class="line"><span class="built_in">cd</span> &lt;安装目录&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动</span></span><br><span class="line"><span class="comment"># 作为普通软件启动，命令行关闭则关闭</span></span><br><span class="line">redis-server.exe redis.windows.conf</span><br><span class="line"><span class="comment"># 作为服务启动，不跟随命令行</span></span><br><span class="line">redis-server.exe redis.windows-service.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 客户端连接</span></span><br><span class="line">redis-cli.exe</span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭</span></span><br><span class="line">redis-server.exe --service-stop</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>redis</category>
+      </categories>
+      <tags>
+        <tag>redis</tag>
+        <tag>tool</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>redis分布式锁</title>
     <url>/hexoblog/2021/04/14/md/redis/redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/</url>
     <content><![CDATA[<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>&emsp;&emsp;单机情况下，对于多线程情况下的竞态资源，我们可以在代码中使用synchronized或者ReentrantLock来加锁，防止发生并发问题。但是当我们的服务进行集群部署时，对于这两种加锁方式，就会失效，它们只能在单机加锁，所以就需要与之对应的分布式锁。</p>
@@ -1954,69 +2089,6 @@
         <tag>redis</tag>
         <tag>分布式</tag>
         <tag>锁</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>redis安装和使用</title>
-    <url>/hexoblog/2021/04/14/md/redis/redis%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;这里是在windows环境下的redis安装过程，两种安装方式，都比较简单。<br>&emsp;&emsp;官方提供的只有linux系统的tar.gz格式的压缩包，windows的需要在github下载。<br><a href="https://redis.io/">https://redis.io/</a><br><a href="http://www.redis.cn/">http://www.redis.cn/</a><br><a href="https://www.redis.com.cn/">https://www.redis.com.cn/</a><br><a href="https://www.redis.com.cn/redis-installation.html">https://www.redis.com.cn/redis-installation.html</a></p>
-<span id="more"></span>
-<h2 id="msi安装"><a href="#msi安装" class="headerlink" title="msi安装"></a>msi安装</h2><ol>
-<li>下载msi安装文件<blockquote>
-<p>官方提供的只有tar.gz格式压缩包下载，msi需要在github下载<br><a href="https://github.com/MicrosoftArchive/redis/releases">https://github.com/MicrosoftArchive/redis/releases</a></p>
-</blockquote>
-</li>
-<li>双击运行</li>
-<li>完成安装</li>
-</ol>
-<h2 id="zip安装"><a href="#zip安装" class="headerlink" title="zip安装"></a>zip安装</h2><ol>
-<li>下载zip压缩包</li>
-<li>将压缩包解压至你准备安装的路径</li>
-<li>解压完成就是安装完成</li>
-</ol>
-<hr>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 先进入安装目录</span></span><br><span class="line"><span class="built_in">cd</span> &lt;安装目录&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动</span></span><br><span class="line"><span class="comment"># 作为普通软件启动，命令行关闭则关闭</span></span><br><span class="line">redis-server.exe redis.windows.conf</span><br><span class="line"><span class="comment"># 作为服务启动，不跟随命令行</span></span><br><span class="line">redis-server.exe redis.windows-service.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 客户端连接</span></span><br><span class="line">redis-cli.exe</span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭</span></span><br><span class="line">redis-server.exe --service-stop</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>redis</category>
-      </categories>
-      <tags>
-        <tag>redis</tag>
-        <tag>tool</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>缓存击穿、穿透、雪崩</title>
-    <url>/hexoblog/2021/03/08/md/redis/%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF%E3%80%81%E7%A9%BF%E9%80%8F%E3%80%81%E9%9B%AA%E5%B4%A9/</url>
-    <content><![CDATA[<p><a href="https://my.oschina.net/linqiankun/blog/3191886">缓存击穿，穿透，雪崩</a></p>
-<h1 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h1><p>&emsp;&emsp;高并发系统中，大量的请求一般会落在缓存，但在某一时期，某一热点key过期，会导致大量的请求直接落到数据库，导致数据库崩溃。</p>
-<span id="more"></span>
-
-<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><ol>
-<li>设置热点key不过期。</li>
-<li>加上分布式锁，每次只有拿到锁的线程可以去访问数据库。第一个线程查询到后就会缓存起来，后面线程从缓存中拿。</li>
-</ol>
-<hr>
-<h1 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h1><p>&emsp;&emsp;正常情况下，需要查询的数据都存在，当查询一个缓存和数据库都不存在的数据时，每次请求都会落在数据库里，这种情况成称为缓存穿透。就是以一个不存在的数据去请求，每次都会落到数据库。</p>
-<h2 id="解决："><a href="#解决：" class="headerlink" title="解决："></a>解决：</h2><ol>
-<li>接口增加参数校验，不合法的直接返回。</li>
-<li>缓存空值，将对应key的value设置为空值，避免暴力攻击。同时将key失效时间设置短一些，避免影响正常使用。</li>
-<li>在网关阈值，限制同ip访问量。</li>
-<li>高级用户布隆过滤器。bloom filter，可以对key进行判断是否在数据库存在，不存在就直接返回，存在就查询出来，并刷新缓存。</li>
-</ol>
-<hr>
-<h1 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h1><p>&emsp;&emsp;某一时期发生的大规模的缓存不可用问题，过期，宕机。</p>
-<h2 id="解决：-1"><a href="#解决：-1" class="headerlink" title="解决："></a>解决：</h2><ol>
-<li>采用分布式集群，减少宕机风险。</li>
-<li>将失效时间设为随机数，避免大量同时失效。</li>
-<li>采用本地缓存加限流逻辑。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>redis</category>
-      </categories>
-      <tags>
-        <tag>redis</tag>
-        <tag>缓存</tag>
       </tags>
   </entry>
   <entry>
@@ -2074,39 +2146,38 @@
       </tags>
   </entry>
   <entry>
-    <title>git</title>
-    <url>/hexoblog/2021/03/03/md/tool/git/</url>
-    <content><![CDATA[<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><h2 id="将本地文件推送至远程"><a href="#将本地文件推送至远程" class="headerlink" title="将本地文件推送至远程"></a>将本地文件推送至远程</h2><ol>
-<li>首先在码云上建立一个项目</li>
-<li>本地建立一个文件夹</li>
-<li>进入文件夹，点击 git bash here</li>
-<li>git init  #初始化本地仓库，出现一个.git文件夹</li>
-<li>git remote add origin +远程仓库链接地址（https:/git:）</li>
-<li>git pull origin master  #将码云上的仓库pull到本地文件夹</li>
-<li>将要上传的文件，添加到刚刚创建的文件夹</li>
-<li>git add .  #（.表示所有的）或者 git add + 文件名 将文件保存到缓存区</li>
-<li>git commit -m ‘新添加的文件内容描述’  #添加文件描述</li>
-<li>git push origin master  #将本地仓库推送到远程仓库</li>
-</ol>
+    <title>缓存击穿、穿透、雪崩</title>
+    <url>/hexoblog/2021/03/08/md/redis/%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF%E3%80%81%E7%A9%BF%E9%80%8F%E3%80%81%E9%9B%AA%E5%B4%A9/</url>
+    <content><![CDATA[<p><a href="https://my.oschina.net/linqiankun/blog/3191886">缓存击穿，穿透，雪崩</a></p>
+<h1 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h1><p>&emsp;&emsp;高并发系统中，大量的请求一般会落在缓存，但在某一时期，某一热点key过期，会导致大量的请求直接落到数据库，导致数据库崩溃。</p>
 <span id="more"></span>
 
-<h2 id="删除本地仓库"><a href="#删除本地仓库" class="headerlink" title="删除本地仓库"></a>删除本地仓库</h2><ol>
-<li>进入文件夹，点击 git bash here</li>
-<li>git branch  #显示本地所有分支</li>
-<li>ls -a  #显示所有文件</li>
-<li>rm -rf .git  #删除.git文件</li>
-<li>删除文件夹</li>
+<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><ol>
+<li>设置热点key不过期。</li>
+<li>加上分布式锁，每次只有拿到锁的线程可以去访问数据库。第一个线程查询到后就会缓存起来，后面线程从缓存中拿。</li>
 </ol>
-<h2 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h2><ol>
-<li>git config  #查看配置</li>
+<hr>
+<h1 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h1><p>&emsp;&emsp;正常情况下，需要查询的数据都存在，当查询一个缓存和数据库都不存在的数据时，每次请求都会落在数据库里，这种情况成称为缓存穿透。就是以一个不存在的数据去请求，每次都会落到数据库。</p>
+<h2 id="解决："><a href="#解决：" class="headerlink" title="解决："></a>解决：</h2><ol>
+<li>接口增加参数校验，不合法的直接返回。</li>
+<li>缓存空值，将对应key的value设置为空值，避免暴力攻击。同时将key失效时间设置短一些，避免影响正常使用。</li>
+<li>在网关阈值，限制同ip访问量。</li>
+<li>高级用户布隆过滤器。bloom filter，可以对key进行判断是否在数据库存在，不存在就直接返回，存在就查询出来，并刷新缓存。</li>
+</ol>
+<hr>
+<h1 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h1><p>&emsp;&emsp;某一时期发生的大规模的缓存不可用问题，过期，宕机。</p>
+<h2 id="解决：-1"><a href="#解决：-1" class="headerlink" title="解决："></a>解决：</h2><ol>
+<li>采用分布式集群，减少宕机风险。</li>
+<li>将失效时间设为随机数，避免大量同时失效。</li>
+<li>采用本地缓存加限流逻辑。</li>
 </ol>
 ]]></content>
       <categories>
-        <category>tool</category>
+        <category>redis</category>
       </categories>
       <tags>
-        <tag>tool</tag>
-        <tag>git</tag>
+        <tag>redis</tag>
+        <tag>缓存</tag>
       </tags>
   </entry>
   <entry>
@@ -2153,6 +2224,42 @@
       </tags>
   </entry>
   <entry>
+    <title>git</title>
+    <url>/hexoblog/2021/03/03/md/tool/git/</url>
+    <content><![CDATA[<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><h2 id="将本地文件推送至远程"><a href="#将本地文件推送至远程" class="headerlink" title="将本地文件推送至远程"></a>将本地文件推送至远程</h2><ol>
+<li>首先在码云上建立一个项目</li>
+<li>本地建立一个文件夹</li>
+<li>进入文件夹，点击 git bash here</li>
+<li>git init  #初始化本地仓库，出现一个.git文件夹</li>
+<li>git remote add origin +远程仓库链接地址（https:/git:）</li>
+<li>git pull origin master  #将码云上的仓库pull到本地文件夹</li>
+<li>将要上传的文件，添加到刚刚创建的文件夹</li>
+<li>git add .  #（.表示所有的）或者 git add + 文件名 将文件保存到缓存区</li>
+<li>git commit -m ‘新添加的文件内容描述’  #添加文件描述</li>
+<li>git push origin master  #将本地仓库推送到远程仓库</li>
+</ol>
+<span id="more"></span>
+
+<h2 id="删除本地仓库"><a href="#删除本地仓库" class="headerlink" title="删除本地仓库"></a>删除本地仓库</h2><ol>
+<li>进入文件夹，点击 git bash here</li>
+<li>git branch  #显示本地所有分支</li>
+<li>ls -a  #显示所有文件</li>
+<li>rm -rf .git  #删除.git文件</li>
+<li>删除文件夹</li>
+</ol>
+<h2 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h2><ol>
+<li>git config  #查看配置</li>
+</ol>
+]]></content>
+      <categories>
+        <category>tool</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>swagger3</title>
     <url>/hexoblog/2021/03/03/md/tool/swagger3/</url>
     <content><![CDATA[<h1 id="使用过程"><a href="#使用过程" class="headerlink" title="使用过程"></a>使用过程</h1><h2 id="引包"><a href="#引包" class="headerlink" title="引包"></a>引包</h2><p>&emsp;&emsp;swagger3升级后，引入的包做相应升级，且集成进springboot启动器内，这里直接引入即可。</p>
@@ -2179,17 +2286,25 @@
         <category>tool</category>
       </categories>
       <tags>
-        <tag>tool</tag>
         <tag>springboot</tag>
+        <tag>tool</tag>
         <tag>swagger</tag>
       </tags>
   </entry>
   <entry>
     <title>zookeeper</title>
     <url>/hexoblog/2021/03/03/md/zookeeper/zookeeper/</url>
-    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><span id="more"></span>
+    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>&emsp;&emsp;zookeeper是一个分布式服务框架，主要用来解决分布式应用中经常遇到的一些数据管理问题。<br>&emsp;&emsp;zookeeper=文件系统+监听通知机制。</p>
+<span id="more"></span>
 
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><h2 id="查看dubbo服务"><a href="#查看dubbo服务" class="headerlink" title="查看dubbo服务"></a>查看dubbo服务</h2><ol>
+<h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>&emsp;&emsp;在官网下载zookeeper指定版本，<a href="https://zookeeper.apache.org/">https://zookeeper.apache.org/</a>。<br>&emsp;&emsp;下载指定的压缩包apache-zookeeper-3.7.0-bin.tar.gz。</p>
+<h2 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h2><p>&emsp;&emsp;将下载的压缩包解压到指定的目录，这里是单机模式安装。<br>&emsp;&emsp;将解压后的目录中的zoo_sample.cfg配置文件重命名为zoo.cfg。</p>
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><p>&emsp;&emsp;进入解压后目录的bin文件夹，执行zkerver.cmd命令，liunx下执行zkserver.sh程序。<br>&emsp;&emsp;如果不成功需要指定刚才配置的zoo.cfg文件的路径。  </p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 启动服务端程序</span></span><br><span class="line">&gt; zkserver</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动客户端程序（本机上）</span></span><br><span class="line">&gt; zkcli</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可以连接远程的机器</span></span><br><span class="line">&gt; zkCli.sh -server host:port</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Windows%20PowerShell%202021_5_10%2010_52_23.png" alt="启动成功"></p>
+<hr>
+<h1 id="使用-1"><a href="#使用-1" class="headerlink" title="使用"></a>使用</h1><h2 id="查看dubbo服务"><a href="#查看dubbo服务" class="headerlink" title="查看dubbo服务"></a>查看dubbo服务</h2><ol>
 <li><p>使用zk客户端连接</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">./zkcli.sh</span><br><span class="line">./zkcli.bat</span><br></pre></td></tr></table></figure>
 </li>
@@ -2204,8 +2319,8 @@
         <category>tool</category>
       </categories>
       <tags>
-        <tag>tool</tag>
         <tag>zookeeper</tag>
+        <tag>tool</tag>
       </tags>
   </entry>
   <entry>
@@ -2361,24 +2476,6 @@
       </tags>
   </entry>
   <entry>
-    <title>一致性hash</title>
-    <url>/hexoblog/2021/03/26/md/%E5%88%86%E5%B8%83%E5%BC%8F/%E4%B8%80%E8%87%B4%E6%80%A7hash/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;在分布式系统中，通常不同的机器存储着不同的数据，例如redis集群中存储的数据。<br>&emsp;&emsp;这些数据通常采用hash算法来计算出应该存储在那台机器上。但是，当集群中的节点增加或者减少时，通过原有的hash算法计算出来的位置将会完全错误。<br>&emsp;&emsp;一致性hash就是为了解决这种问题诞生的。</p>
-<span id="more"></span>
-
-<hr>
-<h1 id="内容"><a href="#内容" class="headerlink" title="内容"></a>内容</h1><p>&emsp;&emsp;在redis集群中，我们通常采用一致性hash算法计算数据具体分布在那一台机器上。<br>&emsp;&emsp;普通的hash算法通常采用取模的方式计算出hash结果，而当机器的数量发生变化，也就是除数发生变化时，取到的模也会发生变化，这时根据模数来定位数据存储的位置就会发生错误。<br>&emsp;&emsp;一致性hash算法也是采用取模的原理，来计算数据存储的位置。但与普通hash算法不同的是，一直性hash算法计算出来的并不是直接的位置，而是需要根据hash环查询地址。<br>&emsp;与普通hash算法不同的是，普通hash算法是对机器的数量取模，而一致性hash是对2^32取模。</p>
-<h2 id="hash环"><a href="#hash环" class="headerlink" title="hash环"></a>hash环</h2><p>&emsp;&emsp;在一致性hash中，构造出一个hash环（周长数量为2^32）来标记数据位置。<br>&emsp;&emsp;由于一致性hash算法采用2^32取模，所有的取模结果都将落在构造出来的hash环上。<br>&emsp;&emsp;将所有机器分布在hash环上，机器左边的数据将存储在该机器中，而右边的数据将存储在下一台机器上。因为是环状结构，这样所有的数据都保证了有机器存储。而且，因为是环，所以当环上增加机器节点时，只有该机器节点左边的一小部分数据会发生重新分配机器。</p>
-<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2>]]></content>
-      <categories>
-        <category>分布式</category>
-      </categories>
-      <tags>
-        <tag>分布式</tag>
-        <tag>hash</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>分布式事务</title>
     <url>/hexoblog/2021/03/02/md/%E5%88%86%E5%B8%83%E5%BC%8F/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/</url>
     <content><![CDATA[<h1 id="分布式事务类型："><a href="#分布式事务类型：" class="headerlink" title="分布式事务类型："></a>分布式事务类型：</h1><p>分布式事务处理机制共有四种：</p>
@@ -2418,6 +2515,24 @@
       <tags>
         <tag>分布式</tag>
         <tag>acid</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>一致性hash</title>
+    <url>/hexoblog/2021/03/26/md/%E5%88%86%E5%B8%83%E5%BC%8F/%E4%B8%80%E8%87%B4%E6%80%A7hash/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;在分布式系统中，通常不同的机器存储着不同的数据，例如redis集群中存储的数据。<br>&emsp;&emsp;这些数据通常采用hash算法来计算出应该存储在那台机器上。但是，当集群中的节点增加或者减少时，通过原有的hash算法计算出来的位置将会完全错误。<br>&emsp;&emsp;一致性hash就是为了解决这种问题诞生的。</p>
+<span id="more"></span>
+
+<hr>
+<h1 id="内容"><a href="#内容" class="headerlink" title="内容"></a>内容</h1><p>&emsp;&emsp;在redis集群中，我们通常采用一致性hash算法计算数据具体分布在那一台机器上。<br>&emsp;&emsp;普通的hash算法通常采用取模的方式计算出hash结果，而当机器的数量发生变化，也就是除数发生变化时，取到的模也会发生变化，这时根据模数来定位数据存储的位置就会发生错误。<br>&emsp;&emsp;一致性hash算法也是采用取模的原理，来计算数据存储的位置。但与普通hash算法不同的是，一直性hash算法计算出来的并不是直接的位置，而是需要根据hash环查询地址。<br>&emsp;与普通hash算法不同的是，普通hash算法是对机器的数量取模，而一致性hash是对2^32取模。</p>
+<h2 id="hash环"><a href="#hash环" class="headerlink" title="hash环"></a>hash环</h2><p>&emsp;&emsp;在一致性hash中，构造出一个hash环（周长数量为2^32）来标记数据位置。<br>&emsp;&emsp;由于一致性hash算法采用2^32取模，所有的取模结果都将落在构造出来的hash环上。<br>&emsp;&emsp;将所有机器分布在hash环上，机器左边的数据将存储在该机器中，而右边的数据将存储在下一台机器上。因为是环状结构，这样所有的数据都保证了有机器存储。而且，因为是环，所以当环上增加机器节点时，只有该机器节点左边的一小部分数据会发生重新分配机器。</p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2>]]></content>
+      <categories>
+        <category>分布式</category>
+      </categories>
+      <tags>
+        <tag>分布式</tag>
+        <tag>hash</tag>
       </tags>
   </entry>
   <entry>
@@ -2785,113 +2900,6 @@
         <tag>jvm</tag>
         <tag>memory</tag>
         <tag>GC</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>HTTP HTTPS HTTP2</title>
-    <url>/hexoblog/2021/05/08/md/internet/HTTP-HTTPS-HTTP2/</url>
-    <content><![CDATA[<h1 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h1><p>&emsp;&emsp;超文本传输协议，是从web服务器传输超文本标记语言到本地浏览器的传送协议，默认工作在80端口。</p>
-<span id="more"></span>
-
-<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>&emsp;&emsp;HTTP是一个基于TCP/IP协议来传输数据的应用层协议，传输的数据类型可以为，html文件、图片文件、查询结果等。<br>&emsp;&emsp;HTTP一般用于B/S架构（浏览器、服务器），浏览器作为HTTP客户端通过URL向HTTP服务端即WEB服务器发送所有请求。</p>
-<h2 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h2><ol>
-<li>建立TCP/IP连接，客户端与服务器通过Socket三次握手进行连接。</li>
-<li>客户端向服务端发起HTTP请求。</li>
-<li>客户端发送请求头信息，请求内容，最后会发送一空白行，标示客户端请求完毕。</li>
-<li>服务器做出应答，表示对于客户端请求的应答。</li>
-<li>服务器向客户端发送应答头信息。</li>
-<li>服务器向客户端发送请求头信息后，也会发送一空白行，标示应答头信息发送完毕，接着就以Content-type要求的数据格式发送数据给客户端。</li>
-<li>服务端关闭TCP连接，如果服务器或者客户端增Connection:keep-alive就表示客户端与服务器端继续保存连接，在下次请求时可以继续使用这次的连接。</li>
-</ol>
-<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><ol>
-<li>HTTP协议支持客户端/服务端模式，也是一种请求/响应模式的协议。</li>
-<li>简单快速，客户向服务器请求服务时，只需传送请求方法和路径。请求方法常用的有GET、HEAD、POST。</li>
-<li>灵活：HTTP允许传输任意类型的数据对象。传输的类型由Content-Type加以标记。</li>
-<li>无连接：限制每次连接只处理一个请求。服务器处理完请求，并收到客户的应答后，即断开连接，但是却不利于客户端与服务器保持会话连接，为了弥补这种不足，产生了两项记录http状态的技术，一个叫做Cookie,一个叫做Session。</li>
-<li>无状态：无状态是指协议对于事务处理没有记忆，后续处理需要前面的信息，则必须重传。</li>
-</ol>
-<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><ol>
-<li>数据明文传输，容易被窃听截取</li>
-<li>数据的完整性未校验，容易被篡改</li>
-<li>双方没有验证身份，有冒充对方的风险</li>
-</ol>
-<h2 id="URL与URI"><a href="#URL与URI" class="headerlink" title="URL与URI"></a>URL与URI</h2><ul>
-<li>URL：统一资源定位符。</li>
-<li>URI：统一资源标识符。</li>
-</ul>
-<p>&emsp;&emsp;URL是用来定位具体的资源的，标示了一个具体的资源位置。互联网上的每个文件都有一个唯一的URL。<br>&emsp;&emsp;URI是用来标示 一个具体的资源的，我们可以通过URI知道一个资源是什么。<br>&emsp;&emsp;HTTP使用统一资源标识符（Uniform Resource Identifiers, URI）来传输数据和建立连接。</p>
-<h2 id="GET与POST的区别"><a href="#GET与POST的区别" class="headerlink" title="GET与POST的区别"></a>GET与POST的区别</h2><ol>
-<li>都包含请求头请求行，post多了请求body。</li>
-<li>get多用来查询，请求参数放在url中，不会对服务器上的内容产生作用。post用来提交，如把账号密码放入body中。</li>
-<li>GET是直接添加到URL后面的，直接就可以在URL中看到内容，而POST是放在报文内部的，用户无法直接看到。</li>
-<li>GET提交的数据长度是有限制的，因为URL长度有限制，具体的长度限制视浏览器而定。而POST没有。</li>
-</ol>
-<hr>
-<h1 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h1><p>&emsp;&emsp;HTTPS就是为了解决上面HTTP的问题。默认工作在443端口。<br>&emsp;&emsp;HTTPS协议（HyperText Transfer Protocol over Secure Socket Layer）：一般理解为HTTP+SSL/TLS，通过 SSL证书来验证服务器的身份，并为浏览器和服务器之间的通信进行加密。</p>
-<h2 id="SSL-TLS"><a href="#SSL-TLS" class="headerlink" title="SSL/TLS"></a>SSL/TLS</h2><p>&emsp;&emsp;SSL：安全套接字层，SSL协议位于TCP/IP协议与各种应用层协议之间，为数据通讯提供安全支持。<br>&emsp;&emsp;TLS：传输层安全，其前身是SSL，后来改名，目前使用最广泛的是TLS 1.1、TLS 1.2。</p>
-<h2 id="HTTPS工作流程"><a href="#HTTPS工作流程" class="headerlink" title="HTTPS工作流程"></a>HTTPS工作流程</h2><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/https%E5%AF%86%E9%92%A5%E7%94%9F%E6%88%90.png" alt="密钥生成流程"></p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E6%B5%81%E7%A8%8B.gif" alt="数据传输"></p>
-<ol>
-<li>首先客户端通过URL访问服务器建立SSL连接。</li>
-<li>服务端收到客户端请求后，会将网站支持的证书信息（证书中包含公钥）传送一份给客户端。（这个证书其实就是公钥，只是包含了很多信息）</li>
-<li>客户端的服务器开始协商SSL连接的安全等级，也就是信息加密的等级。</li>
-<li>客户端的浏览器根据双方同意的安全等级，建立会话密钥，然后利用网站的公钥将会话密钥加密，并传送给网站。（会话密钥就是第一张图的随机key）</li>
-<li>服务器利用自己的私钥解密出会话密钥，这里就是连接建立完成。</li>
-<li>服务器利用会话密钥加密与客户端之间的通信。</li>
-</ol>
-<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><ol>
-<li>HTTPS协议多次握手，导致页面加载时间延长。</li>
-<li>HTTPS连接缓存不如HTTP高效，会增加数据开销和功耗。</li>
-<li>SSL证书需要付费。</li>
-<li>SSL涉及到的安全算法会消耗CPU资源，对服务器资源消耗较大。</li>
-<li>技术难度相比HTTP大。</li>
-<li>SSL证书通常需要绑定IP，不能在同一IP上绑定多个域名，IPv4资源不可能支撑这个消耗。</li>
-<li>HTTPS协议的加密范围也比较有限，在黑客攻击、拒绝服务攻击、服务器劫持等方面几乎起不到什么作用。最关键的，SSL证书的信用链体系并不安全，特别是在某些国家可以控制CA根证书的情况下，中间人攻击一样可行。</li>
-</ol>
-<h2 id="总结HTTPS和HTTP的区别"><a href="#总结HTTPS和HTTP的区别" class="headerlink" title="总结HTTPS和HTTP的区别"></a>总结HTTPS和HTTP的区别</h2><ol>
-<li>HTTP明文传输，数据都是未加密的，安全性较差，HTTPS（SSL+HTTP） 数据传输过程是加密的，安全性较好。</li>
-<li>使用HTTPS协议需要到CA（Certificate Authority，数字证书认证机构） 申请证书，一般免费证书较少，因而需要一定费用。证书颁发机构如：Symantec、Comodo、GoDaddy和GlobalSign等。</li>
-<li>HTTP页面响应速度比HTTPS快，主要是因为HTTP使用TCP三次握手建立连接，客户端和服务器需要交换3个包，而HTTPS除了TCP的三个包，还要加上ssl握手需要的9个包，所以一共是12个包。</li>
-<li>http和https使用的是完全不同的连接方式，用的端口也不一样，前者是80，后者是443。</li>
-<li>HTTPS其实就是建构在SSL/TLS之上的HTTP协议，所以，要比较HTTPS比HTTP要更耗费服务器资源。</li>
-</ol>
-<hr>
-<h1 id="HTTP2"><a href="#HTTP2" class="headerlink" title="HTTP2"></a>HTTP2</h1><p>&emsp;&emsp;HTTP/2.0的目标是改善用户在使用Web时的速度体验。</p>
-<h2 id="新特点"><a href="#新特点" class="headerlink" title="新特点"></a>新特点</h2><p><a href="https://juejin.cn/post/6844903545532071943">HTTP2.0新特性</a><br><a href="https://www.jianshu.com/p/1afebe13c63e">HTTPS和HTTP2.0详解
-</a><br><a href="https://www.jsahz.com/wz/15616.html">HTTP 2.0 详细介绍</a></p>
-<h3 id="二进制分帧"><a href="#二进制分帧" class="headerlink" title="二进制分帧"></a>二进制分帧</h3><p>&emsp;&emsp;相对于HTTP1.0和HTTP1.1，2.0在应用层与传输层中间增加了一个二进制分帧层。<br>&emsp;&emsp;在二进制分帧层上，HTTP2.0会将所有传输信息分割为更小的消息和帧，并对它们采用二进制格式的编码将其封装。其中，HTTP1.X中的首部信息header封装到Headers帧中，而request body将被封装到Data帧中。<br>&emsp;&emsp;HTTP2.0通信都在一个TCP连接上完成，这个连接可以承载任意数量的双向数据流，相应的每个数据流以消息的形式发送。而消息由一或多个帧组成，这些帧可以乱序发送，然后根据每个帧首部的流标识符重新组装。  </p>
-<h3 id="首部压缩"><a href="#首部压缩" class="headerlink" title="首部压缩"></a>首部压缩</h3><p>&emsp;&emsp;HTTP1.x每次通讯（请求或响应）都会携带首部信息用于描述资源属性。而HTTP2.0在客户端和服务端之间使用首部表来跟踪和存储之前发送的键值对。请求与响应首部的定义在HTTP2.0中基本没有变，只是所有首部键必须全部小写，而且要求行要独立为:method:、:scheme:、:host:、:path:这些键值对。<br>&emsp;&emsp;HTTP2.0使用encoder来减少需要传输的header大小，通讯双方各自cache一份header fields（首部表）表，既避免了重复header的传输，又减小了需要传输的大小。</p>
-<h4 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h4><p>&emsp;&emsp;使报头更紧凑，更快速传输，有利于移动网络环境。减少每次通讯的数据量，使网络拥塞状态得以改善。</p>
-<h4 id="工作流程-1"><a href="#工作流程-1" class="headerlink" title="工作流程"></a>工作流程</h4><p>&emsp;&emsp;对于相同的数据，不再重新通过每次请求和响应发送。每个新的首部键值对要么追加到当前表的末尾，要么替换表中之前的值。首部表在HTTP2.0的链接存续期内始终存在，由客户端和服务端共同渐进的更新。</p>
-<h3 id="流量控制"><a href="#流量控制" class="headerlink" title="流量控制"></a>流量控制</h3><p>&emsp;&emsp;HTTP2.0为数据流和连接的流量提供了一个简单的机制：</p>
-<ol>
-<li>流量基于HTTP链接的每一跳进行，而非端到端的控制。</li>
-<li>流量控制基于窗口更新帧进行，即接收方广播自己准备接收某个数据流的多少字节，以及对整个链接要接收多少个字节。</li>
-<li>流量控制有方向性，即接收方可能根据自己的情况为每个流乃至整个链接设置任意窗口大小。</li>
-<li>流量控制可以由接收方禁用，包括针对个别的流和针对整个链接。</li>
-<li>帧的类型决定了流量控制是否适用于帧，目前只有DATA帧服从流量控制，所有其他类型的帧并不会消耗流量控制窗口的空间。这保证了重要的控制帧不会被流量控制阻塞。</li>
-</ol>
-<h3 id="多路复用"><a href="#多路复用" class="headerlink" title="多路复用"></a>多路复用</h3><p>&emsp;&emsp;基于二进制分帧层，HTTP2.0可以在共享TCP链接的基础上同时发送请求和响应。HTTP消息被分解为独立的帧，而不破坏消息本身的语义，交错发出去，在另一端根据流标识符和首部将他们重新组装起来。<br>&emsp;&emsp;即连接共享，即每一个request都是是用作连接共享机制的。一个request对应一个id，这样一个连接上可以有多个request，每个连接的request可以随机的混杂在一起，接收方可以根据request的id将request再归属到各自不同的服务端请求里面。</p>
-<h4 id="优化-1"><a href="#优化-1" class="headerlink" title="优化"></a>优化</h4><ol>
-<li>可以并行交错的发送请求和响应，这些请求和响应之间互不影响。</li>
-<li>只使用一个链接即可并行发送多个请求和响应。</li>
-<li>消除不必要的延迟，从而减少页面加载的时间。</li>
-<li>不必再为绕过HTTP1.x限制而多做很多工作。</li>
-</ol>
-<h3 id="请求优先级"><a href="#请求优先级" class="headerlink" title="请求优先级"></a>请求优先级</h3><p>&emsp;&emsp;HTTP消息分为很多独立帧之后，就可以通过优化这些帧的交错和传输顺序进一步优化性能。</p>
-<h4 id="优化-2"><a href="#优化-2" class="headerlink" title="优化"></a>优化</h4><p>&emsp;&emsp;服务器可以根据流的优先级控制资源分配（CPU、内存、宽带），而在响应数据准备好之后，优先将最高优先级的帧发送给客户端。浏览器可以在发现资源时立即分派请求，指定每个流的优先级，让服务器决定最优的响应次序。这样请求就不用排队了，既节省了时间，又最大限度的利用了每个连接。</p>
-<h3 id="服务端推送"><a href="#服务端推送" class="headerlink" title="服务端推送"></a>服务端推送</h3><p>&emsp;&emsp;服务器可以对一个客户端请求发送多个响应。服务器向客户端推送资源无需客户端明确的请求。<br>&emsp;&emsp;服务端根据客户端的请求，提前返回多个响应，推送额外的资源给客户端。</p>
-<h4 id="优化-3"><a href="#优化-3" class="headerlink" title="优化"></a>优化</h4><ol>
-<li>减轻数据传送的冗余步骤。</li>
-<li>加快页面响应速度。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>网络</category>
-      </categories>
-      <tags>
-        <tag>网络</tag>
-        <tag>HTTP</tag>
       </tags>
   </entry>
 </search>
