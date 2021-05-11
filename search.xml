@@ -1724,11 +1724,11 @@
 <h2 id="JSTAT"><a href="#JSTAT" class="headerlink" title="JSTAT"></a>JSTAT</h2><h3 id="介绍-1"><a href="#介绍-1" class="headerlink" title="介绍"></a>介绍</h3><p>&emsp;&emsp;用于监视虚拟机运行时状态信息的命令，它可以显示出虚拟机进程中的类装载、内存、垃圾收集、JIT编译(Just In Time Compiler, 即时编译器)等运行数据。</p>
 <h3 id="格式-1"><a href="#格式-1" class="headerlink" title="格式"></a>格式</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h3 id="参数-1"><a href="#参数-1" class="headerlink" title="参数"></a>参数</h3><p>if [ “$DEBUG” = “true” ]; then<br>  echo -e “\033[0;31m debug is open,port=$DEBUG_PORT \033[0m”<br>  JAVA_OPTS=”$JAVA_OPTS -Xdebug -Xrunjdwp:transport=dt_socket,address=$DEBUG_PORT,server=y,suspend=y”<br>fi</p>
-<p>JAVA_HEAP_DUMP_OPTS=-XX:HeapDumpPath=$LOG_HOME/dump.hprof<br>JAVA_OPTS=”$JAVA_OPTS -Dserver.port=$PORT -Dlog.home=$LOG_HOME -Duse.flume=false -Xms128m -Xmx2048m -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=1024m -Dfile.encoding=utf-8 -XX:+HeapDumpOnOutOfMemoryError $JAVA_HEAP_DUMP_OPTS”<br>#JAVA_OPTS=”$JAVA_OPTS -XX:+TraceClassLoading -XX:+TraceClassUnloading”</p>
+<h3 id="参数-1"><a href="#参数-1" class="headerlink" title="参数"></a>参数</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$DEBUG</span>&quot;</span> = <span class="string">&quot;true&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">  <span class="built_in">echo</span> -e <span class="string">&quot;\033[0;31m debug is open,port=<span class="variable">$DEBUG_PORT</span> \033[0m&quot;</span></span><br><span class="line">  JAVA_OPTS=<span class="string">&quot;<span class="variable">$JAVA_OPTS</span> -Xdebug -Xrunjdwp:transport=dt_socket,address=<span class="variable">$DEBUG_PORT</span>,server=y,suspend=y&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line">JAVA_HEAP_DUMP_OPTS=-XX:HeapDumpPath=<span class="variable">$LOG_HOME</span>/dump.hprof</span><br><span class="line">JAVA_OPTS=<span class="string">&quot;<span class="variable">$JAVA_OPTS</span> -Dserver.port=<span class="variable">$PORT</span> -Dlog.home=<span class="variable">$LOG_HOME</span> -Duse.flume=false -Xms128m -Xmx2048m -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=1024m -Dfile.encoding=utf-8 -XX:+HeapDumpOnOutOfMemoryError <span class="variable">$JAVA_HEAP_DUMP_OPTS</span>&quot;</span></span><br><span class="line"><span class="comment">#JAVA_OPTS=&quot;$JAVA_OPTS -XX:+TraceClassLoading -XX:+TraceClassUnloading&quot;</span></span><br></pre></td></tr></table></figure>
+
 ]]></content>
       <categories>
-        <category>tool</category>
+        <category>jvm</category>
       </categories>
       <tags>
         <tag>tool</tag>
@@ -2289,38 +2289,6 @@
         <tag>springboot</tag>
         <tag>tool</tag>
         <tag>swagger</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>zookeeper</title>
-    <url>/hexoblog/2021/03/03/md/zookeeper/zookeeper/</url>
-    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>&emsp;&emsp;zookeeper是一个分布式服务框架，主要用来解决分布式应用中经常遇到的一些数据管理问题。<br>&emsp;&emsp;zookeeper=文件系统+监听通知机制。</p>
-<span id="more"></span>
-
-<h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>&emsp;&emsp;在官网下载zookeeper指定版本，<a href="https://zookeeper.apache.org/">https://zookeeper.apache.org/</a>。<br>&emsp;&emsp;下载指定的压缩包apache-zookeeper-3.7.0-bin.tar.gz。</p>
-<h2 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h2><p>&emsp;&emsp;将下载的压缩包解压到指定的目录，这里是单机模式安装。<br>&emsp;&emsp;将解压后的目录中的zoo_sample.cfg配置文件重命名为zoo.cfg。</p>
-<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><p>&emsp;&emsp;进入解压后目录的bin文件夹，执行zkerver.cmd命令，liunx下执行zkserver.sh程序。<br>&emsp;&emsp;如果不成功需要指定刚才配置的zoo.cfg文件的路径。  </p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 启动服务端程序</span></span><br><span class="line">&gt; zkserver</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动客户端程序（本机上）</span></span><br><span class="line">&gt; zkcli</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可以连接远程的机器</span></span><br><span class="line">&gt; zkCli.sh -server host:port</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Windows%20PowerShell%202021_5_10%2010_52_23.png" alt="启动成功"></p>
-<hr>
-<h1 id="使用-1"><a href="#使用-1" class="headerlink" title="使用"></a>使用</h1><h2 id="查看dubbo服务"><a href="#查看dubbo服务" class="headerlink" title="查看dubbo服务"></a>查看dubbo服务</h2><ol>
-<li><p>使用zk客户端连接</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">./zkcli.sh</span><br><span class="line">./zkcli.bat</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查看服务的提供者</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ls /dubbo/****.***.Service/Providers</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查看服务的消费者</p>
- <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ls /dubbo/****.****.Service/Consumers</span><br></pre></td></tr></table></figure></li>
-</ol>
-]]></content>
-      <categories>
-        <category>tool</category>
-      </categories>
-      <tags>
-        <tag>zookeeper</tag>
-        <tag>tool</tag>
       </tags>
   </entry>
   <entry>
@@ -2900,6 +2868,64 @@
         <tag>jvm</tag>
         <tag>memory</tag>
         <tag>GC</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>zookeeper单机安装基础使用</title>
+    <url>/hexoblog/2021/03/03/md/zookeeper/zookeeper%E5%8D%95%E6%9C%BA%E5%AE%89%E8%A3%85%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>&emsp;&emsp;zookeeper是一个分布式服务框架，主要用来解决分布式应用中经常遇到的一些数据管理问题。<br>&emsp;&emsp;zookeeper=文件系统+监听通知机制。</p>
+<span id="more"></span>
+
+<h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>&emsp;&emsp;在官网下载zookeeper指定版本，<a href="https://zookeeper.apache.org/">https://zookeeper.apache.org/</a>。<br>&emsp;&emsp;下载指定的压缩包apache-zookeeper-3.7.0-bin.tar.gz。</p>
+<h2 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h2><p>&emsp;&emsp;将下载的压缩包解压到指定的目录，这里是单机模式安装。<br>&emsp;&emsp;将解压后的目录中的zoo_sample.cfg配置文件重命名为zoo.cfg。</p>
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><p>&emsp;&emsp;进入解压后目录的bin文件夹，执行zkerver.cmd命令，liunx下执行zkserver.sh程序。<br>&emsp;&emsp;如果不成功需要指定刚才配置的zoo.cfg文件的路径。  </p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 启动服务端程序</span></span><br><span class="line">&gt; zkserver</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动客户端程序（本机上）</span></span><br><span class="line">&gt; zkcli</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可以连接远程的机器</span></span><br><span class="line">&gt; zkCli.sh -server host:port</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Windows%20PowerShell%202021_5_10%2010_52_23.png" alt="启动成功"></p>
+<hr>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><h2 id="查看dubbo服务"><a href="#查看dubbo服务" class="headerlink" title="查看dubbo服务"></a>查看dubbo服务</h2><ol>
+<li><p>使用zk客户端连接</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">./zkcli.sh</span><br><span class="line">./zkcli.bat</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看服务的提供者</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ls /dubbo/****.***.Service/Providers</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看服务的消费者</p>
+ <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ls /dubbo/****.****.Service/Consumers</span><br></pre></td></tr></table></figure></li>
+</ol>
+]]></content>
+      <categories>
+        <category>zookeeper</category>
+      </categories>
+      <tags>
+        <tag>zookeeper</tag>
+        <tag>tool</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>zookeeper集群安装使用</title>
+    <url>/hexoblog/2021/05/10/md/zookeeper/zookeeper%E9%9B%86%E7%BE%A4%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;zookeeper的安装模式分为：单机模式，集群模式，伪集群模式。<br>&emsp;&emsp;伪集群模式就是在单机上模拟集群模式。<br>&emsp;&emsp;单机模式下的安安装已经记过了。</p>
+<span id="more"></span>
+
+<hr>
+<h1 id="伪集群模式"><a href="#伪集群模式" class="headerlink" title="伪集群模式"></a>伪集群模式</h1><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><p>&emsp;&emsp;在官网下载zookeeper指定版本，<a href="https://zookeeper.apache.org/">https://zookeeper.apache.org/</a>。<br>&emsp;&emsp;下载指定的压缩包apache-zookeeper-3.7.0-bin.tar.gz。<br>&emsp;&emsp;将下载的压缩包解压到三个不同的文件夹server1，server2，server3中。</p>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>&emsp;&emsp;需要对三个zk实例进行不同配置，主要是配置端口，数据存放地址，通信地址等。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># The number of milliseconds of each tick</span></span><br><span class="line"><span class="comment"># 服务端与客户端之间的交互基本时间单元</span></span><br><span class="line">tickTime=2000</span><br><span class="line"><span class="comment"># The number of ticks that the initial </span></span><br><span class="line"><span class="comment"># synchronization phase can take</span></span><br><span class="line"><span class="comment"># 允许follower连接到leader之间，并同步到的初始化时间</span></span><br><span class="line">initLimit=10</span><br><span class="line"><span class="comment"># The number of ticks that can pass between </span></span><br><span class="line"><span class="comment"># sending a request and getting an acknowledgement</span></span><br><span class="line"><span class="comment"># Leader服务器与follower服务器之间信息同步允许的最大时间间隔，如果超过次间隔，默认follower服务器与leader服务器之间断开链接</span></span><br><span class="line">syncLimit=5</span><br><span class="line"><span class="comment"># the directory where the snapshot is stored.</span></span><br><span class="line"><span class="comment"># do not use /tmp for storage, /tmp here is just </span></span><br><span class="line"><span class="comment"># example sakes.</span></span><br><span class="line"><span class="comment"># 数据存放路径</span></span><br><span class="line">dataDir=/Program1/zookeepers/server1/tmp/zookeeper</span><br><span class="line">dataLogDir=/Program1/zookeepers/server1/<span class="built_in">log</span>/zookeeper</span><br><span class="line"><span class="comment"># the port at which the clients will connect</span></span><br><span class="line"><span class="comment"># 启动端口与连接端口</span></span><br><span class="line">clientPort=2181</span><br><span class="line"><span class="comment"># 这里的.后面的数字和下面myid</span></span><br><span class="line">server.1= 127.0.0.1:2888:3888</span><br><span class="line">server.2= 127.0.0.1:2889:3889</span><br><span class="line">server.3= 127.0.0.1:2890:3890</span><br><span class="line"><span class="comment"># the maximum number of client connections.</span></span><br><span class="line"><span class="comment"># increase this if you need to handle more clients</span></span><br><span class="line"><span class="comment">#maxClientCnxns=60</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Be sure to read the maintenance section of the </span></span><br><span class="line"><span class="comment"># administrator guide before turning on autopurge.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># http://zookeeper.apache.org/doc/current/zookeeperAdmin.html#sc_maintenance</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># The number of snapshots to retain in dataDir</span></span><br><span class="line"><span class="comment">#autopurge.snapRetainCount=3</span></span><br><span class="line"><span class="comment"># Purge task interval in hours</span></span><br><span class="line"><span class="comment"># Set to &quot;0&quot; to disable auto purge feature</span></span><br><span class="line"><span class="comment">#autopurge.purgeInterval=1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## Metrics Providers</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># https://prometheus.io Metrics Exporter</span></span><br><span class="line"><span class="comment">#metricsProvider.className=org.apache.zookeeper.metrics.prometheus.PrometheusMetricsProvider</span></span><br><span class="line"><span class="comment">#metricsProvider.httpPort=7000</span></span><br><span class="line"><span class="comment">#metricsProvider.exportJvmInfo=true</span></span><br><span class="line"><span class="comment"># 开启4字命令白名单，zkui会使用</span></span><br><span class="line">4lw.commands.whitelist=*</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;配置完成后建立myid文件，分别在每个实例对应的数据存放文件夹下建立myid文件，没有后缀名，内容填写为1、2、3即可。</p>
+<h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><p>&emsp;&emsp;分别启动3个实例。<br>&emsp;&emsp;未完全启动前会有报错，无法连接到其他实例，不用理会，继续启动即可。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> server1</span><br><span class="line">zkServer</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> server2</span><br><span class="line">zkServer</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> server3</span><br><span class="line">zkServer</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="集群模式"><a href="#集群模式" class="headerlink" title="集群模式"></a>集群模式</h1><p>&emsp;&emsp;集群模式需要在不同物理机器上安装，最好在奇数台服务器上安装。<br>&emsp;&emsp;集群模式是目前最主要的应用场景模式。<br>&emsp;&emsp;其他配置与伪集群模式的配置相同。</p>
+]]></content>
+      <categories>
+        <category>zookeeper</category>
+      </categories>
+      <tags>
+        <tag>分布式</tag>
+        <tag>zookeeper</tag>
       </tags>
   </entry>
 </search>
