@@ -6,7 +6,7 @@
   <link href="http://linqiankun.gitee.io/hexoblog/atom.xml" rel="self"/>
   
   <link href="http://linqiankun.gitee.io/hexoblog/"/>
-  <updated>2021-05-12T11:42:39.100Z</updated>
+  <updated>2021-05-13T12:04:46.723Z</updated>
   <id>http://linqiankun.gitee.io/hexoblog/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>zookeeper集群及ZAB简介</title>
+    <link href="http://linqiankun.gitee.io/hexoblog/2021/05/12/md/zookeeper/zookeeper%E9%9B%86%E7%BE%A4%E5%8F%8AZAB/"/>
+    <id>http://linqiankun.gitee.io/hexoblog/2021/05/12/md/zookeeper/zookeeper%E9%9B%86%E7%BE%A4%E5%8F%8AZAB/</id>
+    <published>2021-05-12T11:43:34.000Z</published>
+    <updated>2021-05-13T12:04:46.723Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="集群"><a href="#集群" class="headerlink" title="集群"></a>集群</h1><p>&emsp;&emsp;普通的集群模式一般是主备模式（Master/Slave模式），Master作为主服务器提供写服务，Slave作为从服务器，一般采用异步复制的方式获取Master的数据提供读服务。  </p><span id="more"></span><p>&emsp;&emsp;在Zookeeper中，没有使用传统模式，而是引入了Leader，Follower，Observer三种角色。<br>&emsp;&emsp;ZooKeeper集群中的所有机器通过一个Leader选举算法来选定一台称为 “Leader” 的机器，Leader既可以为客户端提供写服务又能提供读服务。除了Leader外，Follower和Observer都只能提供读服务。<br>&emsp;&emsp;Follower和Observer唯一的区别在于Observer机器不参与Leader的选举过程，也不参与写操作的“过半写成功”策略，因此Observer机器可以在不影响写性能的情况下提升集群的读性能。</p><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/zookeeper.jpg" alt="zookeeper角色"></p><hr><h1 id="ZAB简介"><a href="#ZAB简介" class="headerlink" title="ZAB简介"></a>ZAB简介</h1><p>&emsp;&emsp;ZAB（ZooKeeper Atomic Broadcast 原子广播）协议是为分布式协调服务ZooKeeper专门设计的一种支持崩溃恢复的原子广播协议。在ZooKeeper中，主要依赖ZAB协议来实现分布式数据一致性，基于该协议，ZooKeeper实现了一种主备模式的系统架构来保持集群中各个副本之间的数据一致性。<br>&emsp;&emsp;ZAB协议包括两种基本模式：崩溃恢复和消息广播。</p><h2 id="崩溃恢复"><a href="#崩溃恢复" class="headerlink" title="崩溃恢复"></a>崩溃恢复</h2><p>&emsp;&emsp;当整个服务框架在启动过程中，或是当Leader服务器出现网络中断、崩溃退出与重启等异常情况时，ZAB 协议就会进人恢复模式并选举产生新的Leader服务器。<br>&emsp;&emsp;当选举产生了新的Leader服务器，同时集群中已经有过半的机器与该Leader服务器完成了状态同步之后，ZAB协议就会退出恢复模式。其中，所谓的状态同步是指数据同步，用来保证集群中存在过半的机器能够和Leader服务器的数据状态保持一致。</p><h2 id="消息广播"><a href="#消息广播" class="headerlink" title="消息广播"></a>消息广播</h2><p>&emsp;&emsp;当集群中已经有过半的Follower服务器完成了和Leader服务器的状态同步，那么整个服务框架就可以进人消息广播模式了。<br>&emsp;&emsp;当一台同样遵守ZAB协议的服务器启动后加人到集群中时，如果此时集群中已经存在一个Leader服务器在负责进行消息广播，那么新加人的服务器就会自觉地进人数据恢复模式：找到Leader所在的服务器，并与其进行数据同步，然后一起参与到消息广播流程中去。<br>&emsp;&emsp;正如上文介绍中所说的，ZooKeeper设计成只允许唯一的一个Leader服务器来进行事务请求的处理。Leader服务器在接收到客户端的事务请求后，会生成对应的事务提案并发起一轮广播协议；而如果集群中的其他机器接收到客户端的事务请求，那么这些非Leader服务器会首先将这个事务请求转发给Leader服务器。</p>]]></content>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;集群&quot;&gt;&lt;a href=&quot;#集群&quot; class=&quot;headerlink&quot; title=&quot;集群&quot;&gt;&lt;/a&gt;集群&lt;/h1&gt;&lt;p&gt;&amp;emsp;&amp;emsp;普通的集群模式一般是主备模式（Master/Slave模式），Master作为主服务器提供写服务，Slave作为从服务器，一般采用异步复制的方式获取Master的数据提供读服务。  &lt;/p&gt;</summary>
+    
+    
+    
+    <category term="zookeeper" scheme="http://linqiankun.gitee.io/hexoblog/categories/zookeeper/"/>
+    
+    
+    <category term="zookeeper" scheme="http://linqiankun.gitee.io/hexoblog/tags/zookeeper/"/>
+    
+    <category term="分布" scheme="http://linqiankun.gitee.io/hexoblog/tags/%E5%88%86%E5%B8%83/"/>
+    
+  </entry>
   
   <entry>
     <title>zookeeper简述</title>
@@ -454,29 +477,6 @@
     
     
     <category term="dubbo" scheme="http://linqiankun.gitee.io/hexoblog/tags/dubbo/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>redis安装和使用</title>
-    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/14/md/redis/redis%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/"/>
-    <id>http://linqiankun.gitee.io/hexoblog/2021/04/14/md/redis/redis%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/</id>
-    <published>2021-04-14T11:22:26.000Z</published>
-    <updated>2021-04-15T12:36:25.647Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;这里是在windows环境下的redis安装过程，两种安装方式，都比较简单。<br>&emsp;&emsp;官方提供的只有linux系统的tar.gz格式的压缩包，windows的需要在github下载。<br><a href="https://redis.io/">https://redis.io/</a><br><a href="http://www.redis.cn/">http://www.redis.cn/</a><br><a href="https://www.redis.com.cn/">https://www.redis.com.cn/</a><br><a href="https://www.redis.com.cn/redis-installation.html">https://www.redis.com.cn/redis-installation.html</a></p><span id="more"></span><h2 id="msi安装"><a href="#msi安装" class="headerlink" title="msi安装"></a>msi安装</h2><ol><li>下载msi安装文件<blockquote><p>官方提供的只有tar.gz格式压缩包下载，msi需要在github下载<br><a href="https://github.com/MicrosoftArchive/redis/releases">https://github.com/MicrosoftArchive/redis/releases</a></p></blockquote></li><li>双击运行</li><li>完成安装</li></ol><h2 id="zip安装"><a href="#zip安装" class="headerlink" title="zip安装"></a>zip安装</h2><ol><li>下载zip压缩包</li><li>将压缩包解压至你准备安装的路径</li><li>解压完成就是安装完成</li></ol><hr><h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 先进入安装目录</span></span><br><span class="line"><span class="built_in">cd</span> &lt;安装目录&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动</span></span><br><span class="line"><span class="comment"># 作为普通软件启动，命令行关闭则关闭</span></span><br><span class="line">redis-server.exe redis.windows.conf</span><br><span class="line"><span class="comment"># 作为服务启动，不跟随命令行</span></span><br><span class="line">redis-server.exe redis.windows-service.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 客户端连接</span></span><br><span class="line">redis-cli.exe</span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭</span></span><br><span class="line">redis-server.exe --service-stop</span><br></pre></td></tr></table></figure>]]></content>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;安装&quot;&gt;&lt;a href=&quot;#安装&quot; class=&quot;headerlink&quot; title=&quot;安装&quot;&gt;&lt;/a&gt;安装&lt;/h1&gt;&lt;p&gt;&amp;emsp;&amp;emsp;这里是在windows环境下的redis安装过程，两种安装方式，都比较简单。&lt;br&gt;&amp;emsp;&amp;emsp;官方提供的只有linux系统的tar.gz格式的压缩包，windows的需要在github下载。&lt;br&gt;&lt;a href=&quot;https://redis.io/&quot;&gt;https://redis.io/&lt;/a&gt;&lt;br&gt;&lt;a href=&quot;http://www.redis.cn/&quot;&gt;http://www.redis.cn/&lt;/a&gt;&lt;br&gt;&lt;a href=&quot;https://www.redis.com.cn/&quot;&gt;https://www.redis.com.cn/&lt;/a&gt;&lt;br&gt;&lt;a href=&quot;https://www.redis.com.cn/redis-installation.html&quot;&gt;https://www.redis.com.cn/redis-installation.html&lt;/a&gt;&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="redis" scheme="http://linqiankun.gitee.io/hexoblog/categories/redis/"/>
-    
-    
-    <category term="redis" scheme="http://linqiankun.gitee.io/hexoblog/tags/redis/"/>
-    
-    <category term="tool" scheme="http://linqiankun.gitee.io/hexoblog/tags/tool/"/>
     
   </entry>
   

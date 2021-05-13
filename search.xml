@@ -127,7 +127,7 @@
 
 <p>&emsp;&emsp;当然这样安装的docker是运行在一个轻量级的linux虚拟机上的，（图中的**OS/Arch选项）当然docker也提供了在windows的，但是那必须在win10 专业版，教育版，企业版上才行。<br>&emsp;&emsp;接下来就可以愉快的玩耍了。</p>
 <h1 id="基础使用："><a href="#基础使用：" class="headerlink" title="基础使用："></a>基础使用：</h1><h2 id="启动docker"><a href="#启动docker" class="headerlink" title="启动docker"></a>启动docker</h2><p>&emsp;&emsp;这样安装的docker安装成功后就启动起来了，就可以直接使用了。<br>&emsp;&emsp;这样的貌似不能用syatemctl进行启动。</p>
-<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看镜像列表</span></span><br><span class="line">docker image ls</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在仓库中查找镜像</span></span><br><span class="line">docker search &lt;imagetitle&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 下载镜像</span></span><br><span class="line">docker pull &lt;imagetitle&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除镜像(需要无运行该镜像的容器)</span></span><br><span class="line">docker rmi &lt;imageId&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看镜像</span></span><br><span class="line">docker inspect &lt;imageId&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行镜像</span></span><br><span class="line">docker run -p &lt;port&gt;:&lt;port&gt; &lt;imagetitle&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看容器列表（运行中的镜像）</span></span><br><span class="line">docker container ls</span><br><span class="line">docker ps</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看所有容器</span></span><br><span class="line">docker ps -a</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除容器</span></span><br><span class="line">docker rm &lt;containerId&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 也可以直接运行容器</span></span><br><span class="line">docker start &lt;containerId&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启</span></span><br><span class="line">docker restart &lt;contarinerId&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 停止</span></span><br><span class="line">docker stop &lt;containerId&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 进入容器</span></span><br><span class="line">docker <span class="built_in">exec</span> -it &lt;containerId&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看镜像列表</span></span><br><span class="line">docker image ls</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在仓库中查找镜像</span></span><br><span class="line">docker search &lt;imagetitle&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 下载镜像</span></span><br><span class="line">docker pull &lt;imagetitle&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除镜像(需要无运行该镜像的容器)</span></span><br><span class="line">docker rmi &lt;imageId&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看镜像</span></span><br><span class="line">docker inspect &lt;imageId&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行镜像</span></span><br><span class="line">docker run -p &lt;port&gt;:&lt;port&gt; &lt;imagetitle&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看容器列表（运行中的镜像）</span></span><br><span class="line">docker container ls</span><br><span class="line">docker ps</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看所有容器</span></span><br><span class="line">docker ps -a</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除容器</span></span><br><span class="line">docker rm &lt;containerId&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 也可以直接运行容器</span></span><br><span class="line">docker start &lt;containerId&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启</span></span><br><span class="line">docker restart &lt;contarinerId&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 停止</span></span><br><span class="line">docker stop &lt;containerId&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 进入容器</span></span><br><span class="line">docker <span class="built_in">exec</span> -it &lt;containerId&gt; /bin/bash</span><br><span class="line"></span><br><span class="line"><span class="comment"># 退出容器</span></span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
 
 ]]></content>
       <categories>
@@ -2183,7 +2183,7 @@
   <entry>
     <title>git</title>
     <url>/hexoblog/2021/03/03/md/tool/git/</url>
-    <content><![CDATA[<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><h2 id="将本地文件推送至远程"><a href="#将本地文件推送至远程" class="headerlink" title="将本地文件推送至远程"></a>将本地文件推送至远程</h2><ol>
+    <content><![CDATA[<h1 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h1><h2 id="将本地文件推送至远程"><a href="#将本地文件推送至远程" class="headerlink" title="将本地文件推送至远程"></a>将本地文件推送至远程</h2><ol>
 <li>首先在码云上建立一个项目</li>
 <li>本地建立一个文件夹</li>
 <li>进入文件夹，点击 git bash here</li>
@@ -2207,7 +2207,8 @@
 <h2 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h2><ol>
 <li>git config  #查看配置</li>
 </ol>
-]]></content>
+<hr>
+<h1 id="GIT命令"><a href="#GIT命令" class="headerlink" title="GIT命令"></a>GIT命令</h1>]]></content>
       <categories>
         <category>tool</category>
       </categories>
@@ -3012,6 +3013,27 @@
         <tag>jvm</tag>
         <tag>memory</tag>
         <tag>GC</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>zookeeper集群及ZAB简介</title>
+    <url>/hexoblog/2021/05/12/md/zookeeper/zookeeper%E9%9B%86%E7%BE%A4%E5%8F%8AZAB/</url>
+    <content><![CDATA[<h1 id="集群"><a href="#集群" class="headerlink" title="集群"></a>集群</h1><p>&emsp;&emsp;普通的集群模式一般是主备模式（Master/Slave模式），Master作为主服务器提供写服务，Slave作为从服务器，一般采用异步复制的方式获取Master的数据提供读服务。  </p>
+<span id="more"></span>
+
+<p>&emsp;&emsp;在Zookeeper中，没有使用传统模式，而是引入了Leader，Follower，Observer三种角色。<br>&emsp;&emsp;ZooKeeper集群中的所有机器通过一个Leader选举算法来选定一台称为 “Leader” 的机器，Leader既可以为客户端提供写服务又能提供读服务。除了Leader外，Follower和Observer都只能提供读服务。<br>&emsp;&emsp;Follower和Observer唯一的区别在于Observer机器不参与Leader的选举过程，也不参与写操作的“过半写成功”策略，因此Observer机器可以在不影响写性能的情况下提升集群的读性能。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/zookeeper.jpg" alt="zookeeper角色"></p>
+<hr>
+<h1 id="ZAB简介"><a href="#ZAB简介" class="headerlink" title="ZAB简介"></a>ZAB简介</h1><p>&emsp;&emsp;ZAB（ZooKeeper Atomic Broadcast 原子广播）协议是为分布式协调服务ZooKeeper专门设计的一种支持崩溃恢复的原子广播协议。在ZooKeeper中，主要依赖ZAB协议来实现分布式数据一致性，基于该协议，ZooKeeper实现了一种主备模式的系统架构来保持集群中各个副本之间的数据一致性。<br>&emsp;&emsp;ZAB协议包括两种基本模式：崩溃恢复和消息广播。</p>
+<h2 id="崩溃恢复"><a href="#崩溃恢复" class="headerlink" title="崩溃恢复"></a>崩溃恢复</h2><p>&emsp;&emsp;当整个服务框架在启动过程中，或是当Leader服务器出现网络中断、崩溃退出与重启等异常情况时，ZAB 协议就会进人恢复模式并选举产生新的Leader服务器。<br>&emsp;&emsp;当选举产生了新的Leader服务器，同时集群中已经有过半的机器与该Leader服务器完成了状态同步之后，ZAB协议就会退出恢复模式。其中，所谓的状态同步是指数据同步，用来保证集群中存在过半的机器能够和Leader服务器的数据状态保持一致。</p>
+<h2 id="消息广播"><a href="#消息广播" class="headerlink" title="消息广播"></a>消息广播</h2><p>&emsp;&emsp;当集群中已经有过半的Follower服务器完成了和Leader服务器的状态同步，那么整个服务框架就可以进人消息广播模式了。<br>&emsp;&emsp;当一台同样遵守ZAB协议的服务器启动后加人到集群中时，如果此时集群中已经存在一个Leader服务器在负责进行消息广播，那么新加人的服务器就会自觉地进人数据恢复模式：找到Leader所在的服务器，并与其进行数据同步，然后一起参与到消息广播流程中去。<br>&emsp;&emsp;正如上文介绍中所说的，ZooKeeper设计成只允许唯一的一个Leader服务器来进行事务请求的处理。Leader服务器在接收到客户端的事务请求后，会生成对应的事务提案并发起一轮广播协议；而如果集群中的其他机器接收到客户端的事务请求，那么这些非Leader服务器会首先将这个事务请求转发给Leader服务器。</p>
+]]></content>
+      <categories>
+        <category>zookeeper</category>
+      </categories>
+      <tags>
+        <tag>zookeeper</tag>
+        <tag>分布</tag>
       </tags>
   </entry>
 </search>
