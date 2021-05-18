@@ -140,6 +140,206 @@
       </tags>
   </entry>
   <entry>
+    <title>dubboSPI扩展机制基本使用，自动包装</title>
+    <url>/hexoblog/2021/04/15/md/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E6%9C%BA%E5%88%B6%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%EF%BC%8C%E8%87%AA%E5%8A%A8%E5%8C%85%E8%A3%85/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;DubboSPI是基于JavaSPI的一个扩展与补充。<br><a href="https://dubbo.apache.org/zh/docs/v2.7/dev/spi/">https://dubbo.apache.org/zh/docs/v2.7/dev/spi/</a></p>
+<h2 id="优势："><a href="#优势：" class="headerlink" title="优势："></a>优势：</h2><ol>
+<li>Java SPI 每次都会把所有实现类都加载并实例化(是在迭代器迭代的时候创建实例)，而 Dubbo SPI 是分两段创建实例，先进行类加载，然后在使用到具体实现的时候才实例化，并且 Dubbo SPI 大量使用缓存，会把 Class 对象和实例对象都缓存起来，性能更好。</li>
+<li>Java SPI 在类加载失败的时候难以定位异常；</li>
+<li>Dubbo SPI 还支持 IOC 和 AOP 。</li>
+</ol>
+<span id="more"></span>
+
+<h2 id="用法："><a href="#用法：" class="headerlink" title="用法："></a>用法：</h2><ol>
+<li>基本使用</li>
+<li>扩展点自动包装</li>
+<li>扩展点自适应</li>
+<li>扩展点自动适配</li>
+<li>扩展点自动激活</li>
+</ol>
+<hr>
+<h1 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h1><p>&emsp;&emsp;dubboSPI的基本使用和javaSPI并无太大差异。</p>
+<p>主要区别：</p>
+<blockquote>
+<p>JDK标准的SPI会一次性实例化扩展点所有实现，如果有扩展实现初始化很耗时，但如果没用上也加载，会很浪费资源。dubboSPI可以选择性实例某个实现。</p>
+</blockquote>
+<ol>
+<li><p>dubboSPI需要SPI注解。</p>
+</li>
+<li><p>文件夹命名格式不同，文件内容格式不同。</p>
+<blockquote>
+<p>dubbo为META-INF/dubbo，文件内容为key=value(实现类全限定名)。<br>java为META-INF/services，文件内容直接为实现类全限定名。</p>
+</blockquote>
+</li>
+<li><p>启动的API不同。</p>
+<blockquote>
+<p>dubbo为ExtensionLoader。<br>java为ServiceLoader，是java。</p>
+</blockquote>
+</li>
+<li><p>java会扫描所有的类，无法按需加载，dubbo可以。</p>
+</li>
+</ol>
+<h2 id="定义一个接口"><a href="#定义一个接口" class="headerlink" title="定义一个接口"></a>定义一个接口</h2><p>&emsp;&emsp;需要使用SPI注解。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// dubbo需要SPI注解，SPI注解的值为默认的实现</span></span><br><span class="line"><span class="meta">@SPI</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ExtendService</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="定义实现类"><a href="#定义实现类" class="headerlink" title="定义实现类"></a>定义实现类</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExtendServiceImpl</span> <span class="keyword">implements</span> <span class="title">ExtendService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="创建文件夹"><a href="#创建文件夹" class="headerlink" title="创建文件夹"></a>创建文件夹</h2><p>&emsp;&emsp;在classpath下创建指定文件夹及文件</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 文件夹</span></span><br><span class="line"><span class="comment"># 与javaSPI文件夹不同</span></span><br><span class="line">MATA-INF/dubbo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 文件名（接口的全路径名）</span></span><br><span class="line">com.lin.extendwrapper.extend.ExtendService</span><br><span class="line"></span><br><span class="line"><span class="comment"># 文件内容</span></span><br><span class="line"><span class="comment"># key=value形式，与javaSPI不同格式</span></span><br><span class="line"><span class="comment"># 可以有多个实现</span></span><br><span class="line"><span class="comment"># java内容为实现类全限定名</span></span><br><span class="line">ExtendService=com.lin.extendwrapper.extend.impl.ExtendServiceImpl</span><br></pre></td></tr></table></figure>
+
+<h2 id="程序入口"><a href="#程序入口" class="headerlink" title="程序入口"></a>程序入口</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExtendWrapper</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 与javaSPI的API不同</span></span><br><span class="line">        ExtensionLoader&lt;ExtendService&gt; extensionLoader = ExtensionLoader.getExtensionLoader(ExtendService.class);</span><br><span class="line">        ExtendService extendService = extensionLoader.getExtension(<span class="string">&quot;ExtendService&quot;</span>);</span><br><span class="line">        extendService.sayHello();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="扩展点自动包装"><a href="#扩展点自动包装" class="headerlink" title="扩展点自动包装"></a>扩展点自动包装</h1><p>&emsp;&emsp;ExtensionLoader在加载扩展点时，如果加载到的扩展点有拷贝构造函数，则判定为扩展点Wrapper类。<br>&emsp;&emsp;这个类似于AOP。</p>
+<h2 id="增加一个实现类-包装类"><a href="#增加一个实现类-包装类" class="headerlink" title="增加一个实现类(包装类)"></a>增加一个实现类(包装类)</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExtendServiceImplWrapper</span> <span class="keyword">implements</span> <span class="title">ExtendService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> ExtendService extendService;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ExtendServiceImplWrapper</span><span class="params">(ExtendService extendService)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.extendService = extendService;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;before&quot;</span>);</span><br><span class="line">        extendService.sayHello();</span><br><span class="line">        System.out.println(<span class="string">&quot;after&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="修改META-INF下文件内容"><a href="#修改META-INF下文件内容" class="headerlink" title="修改META-INF下文件内容"></a>修改META-INF下文件内容</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ExtendService=com.lin.extendwrapper.extend.impl.ExtendServiceImpl</span><br><span class="line"><span class="comment"># 增加一行</span></span><br><span class="line">ExtendService=com.lin.extendwrapper.extend.impl.ExtendServiceImplWrapper</span><br></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>&emsp;&emsp;扩展点自动包装，会在通过ExtensionLoader获取扩展点时判断是否是包装类。如果是wrapper包装类，就是调用wrapper的service中的方法，包装后执行。</p>
+]]></content>
+      <categories>
+        <category>dubbo</category>
+      </categories>
+      <tags>
+        <tag>dubbo</tag>
+        <tag>SPI</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>dubboSPI扩展机制自适应</title>
+    <url>/hexoblog/2021/04/19/md/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E6%9C%BA%E5%88%B6%E8%87%AA%E9%80%82%E5%BA%94/</url>
+    <content><![CDATA[<h1 id="扩展点自适应"><a href="#扩展点自适应" class="headerlink" title="扩展点自适应"></a>扩展点自适应</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>&emsp;&emsp;ExtensionLoader注入的依赖扩展点是一个Adaptive实例，直到扩展点方法执行时才决定调用是哪一个扩展点实现。<br>&emsp;&emsp;dubbo使用url对象传递对象信息，包含key和value。<br>&emsp;&emsp;扩展点方法调用会有URL参数（或是参数有URL成员）这样依赖的扩展点也可以从URL拿到配置信息，所有的扩展点自己定好配置的 Key后，配置信息从URL上从最外层传入。URL在配置传递上即是一条总线。</p>
+<span id="more"></span>
+<h2 id="Adaptive注解"><a href="#Adaptive注解" class="headerlink" title="@Adaptive注解"></a>@Adaptive注解</h2><p>&emsp;&emsp;表示该类是一个扩展类（Adaptive实例），不需要生成代理方法直接使用即可。<br>&emsp;&emsp;在方法上则表示该方法需生成代理, 此时就需要用到上面提到的URL参数。<br>&emsp;&emsp;如果作用在方法会帮我们在运行时动态生成一个Adaptive实例（只包含扩展方法的），如果作用在类上就相当于自己定义了一个现成的。</p>
+<h3 id="注解在实现类上"><a href="#注解在实现类上" class="headerlink" title="注解在实现类上"></a>注解在实现类上</h3><p>&emsp;&emsp;表示该类是一个扩展类，不需要生成代理方法直接使用即可。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 扩展的接口</span></span><br><span class="line"><span class="meta">@SPI</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">AdaptiveService</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 是扩展类</span></span><br><span class="line"><span class="meta">@Adaptive</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AdaptiveServiceImpl</span> <span class="keyword">implements</span> <span class="title">AdaptiveService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 同样需要文件</span></span><br><span class="line"><span class="comment">// 文件名为接口全限定名</span></span><br><span class="line"><span class="comment">// 内容为key=value，value为实现类全限定名</span></span><br><span class="line">AdaptiveService=com.lin.extendAdaptive.extend.impl.AdaptiveServiceImpl</span><br><span class="line"></span><br><span class="line"><span class="comment">// 启动类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExtendAdaptiveMain</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ExtensionLoader&lt;AdaptiveService&gt; extensionLoader = ExtensionLoader.getExtensionLoader(AdaptiveService.class);</span><br><span class="line">        AdaptiveService adaptiveExtension = extensionLoader.getAdaptiveExtension();</span><br><span class="line">        adaptiveExtension.sayHello();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="注解在接口方法上"><a href="#注解在接口方法上" class="headerlink" title="注解在接口方法上"></a>注解在接口方法上</h3><p>&emsp;&emsp;在方法上则表示该方法需生成代理, 此时就需要用到上面提到的URL参数。<br>&emsp;&emsp;当注解在接口方法上时，方法中需要传入一个URL参数，或者包装有URL参数时，会通过动态编译获得一个Adaptive实例。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 接口</span></span><br><span class="line"><span class="meta">@SPI</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MethodAdaptiveService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Adaptive(&#123;&quot;key&quot;&#125;)</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(URL url)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 实现类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MethodAdaptiveServiceImpl</span> <span class="keyword">implements</span> <span class="title">MethodAdaptiveService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(URL url)</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;method&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// META—INF文件与注解在类上时相同</span></span><br><span class="line">MethodAdaptiveService=com.lin.extendAdaptive.extend.impl.MethodAdaptiveServiceImpl</span><br><span class="line"></span><br><span class="line"><span class="comment">// 启动</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ExtensionLoader&lt;MethodAdaptiveService&gt; extensionLoader = ExtensionLoader.getExtensionLoader(MethodAdaptiveService.class);</span><br><span class="line">        MethodAdaptiveService adaptiveExtension = extensionLoader.getAdaptiveExtension();</span><br><span class="line">        HashMap hashMap = <span class="keyword">new</span> HashMap();</span><br><span class="line">        <span class="comment">// key与接口中注解的key相同，value与文件中声明的名称相同</span></span><br><span class="line">        hashMap.put(<span class="string">&quot;key&quot;</span>,<span class="string">&quot;MethodAdaptiveService&quot;</span>);</span><br><span class="line">        URL url = <span class="keyword">new</span> URL(<span class="string">&quot;dubbo&quot;</span>,<span class="string">&quot;localhost&quot;</span>,<span class="number">8080</span>,hashMap);</span><br><span class="line">        adaptiveExtension.sayHello(url);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 生成的实例</span></span><br><span class="line"><span class="keyword">package</span> com.lin.extendAdaptive.extend;</span><br><span class="line"><span class="keyword">import</span> org.apache.dubbo.common.extension.ExtensionLoader;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MethodAdaptiveService</span>$<span class="title">Adaptive</span> <span class="keyword">implements</span> <span class="title">com</span>.<span class="title">lin</span>.<span class="title">extendAdaptive</span>.<span class="title">extend</span>.<span class="title">MethodAdaptiveService</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(org.apache.dubbo.common.URL arg0)</span>  </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (arg0 == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">&quot;url == null&quot;</span>);</span><br><span class="line">        org.apache.dubbo.common.URL url = arg0;</span><br><span class="line">        String extName = url.getParameter(<span class="string">&quot;key&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span>(extName == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">&quot;Failed to get extension (com.lin.extendAdaptive.extend.MethodAdaptiveService) name from url (&quot;</span> + url.toString() + <span class="string">&quot;) use keys([key])&quot;</span>);</span><br><span class="line">        com.lin.extendAdaptive.extend.MethodAdaptiveService extension = (com.lin.extendAdaptive.extend.MethodAdaptiveService)ExtensionLoader.getExtensionLoader(com.lin.extendAdaptive.extend.MethodAdaptiveService.class).getExtension(extName);</span><br><span class="line">        extension.sayHello(url);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, dubbo version: <span class="number">2.7</span><span class="number">.1</span>, current host: <span class="number">192.168</span><span class="number">.139</span><span class="number">.15</span></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;程序运行时，会经过动态编译过程生成MethodAdaptiveService对应的Adaptive实例，即MethodAdaptiveService$Adaptive。<br>&emsp;&emsp;就是在程序运行过程中，根据条件，通过拼接字符串的形式生成java源码，然后进行编译获得对应的实例。</p>
+<hr>
+<h1 id="扩展点自动注入"><a href="#扩展点自动注入" class="headerlink" title="扩展点自动注入"></a>扩展点自动注入</h1><p>有bug稍后。</p>
+]]></content>
+      <categories>
+        <category>dubbo</category>
+      </categories>
+      <tags>
+        <tag>dubbo</tag>
+        <tag>SPI</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>dubboSPI扩展点自动激活</title>
+    <url>/hexoblog/2021/04/20/md/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E7%82%B9%E8%87%AA%E5%8A%A8%E6%BF%80%E6%B4%BB/</url>
+    <content><![CDATA[<h1 id="扩展点自动激活"><a href="#扩展点自动激活" class="headerlink" title="扩展点自动激活"></a>扩展点自动激活</h1><p>&emsp;&emsp;对于集合类扩展点，比如：Filter, InvokerListener, ExportListener, TelnetHandler, StatusChecker 等，可以同时加载多个实现，此时，可以用自动激活来简化配置。</p>
+<span id="more"></span>
+
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 激活过滤器</span></span><br><span class="line"><span class="meta">@Activate</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FilterOne</span> <span class="keyword">implements</span> <span class="title">Filter</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest request, ServletResponse response, FilterChain chain)</span></span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>dubbo</category>
+      </categories>
+      <tags>
+        <tag>dubbo</tag>
+        <tag>SPI</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>dubbo基础及介绍</title>
+    <url>/hexoblog/2021/04/15/md/dubbo/dubbo%E5%9F%BA%E7%A1%80%E5%8F%8A%E4%BB%8B%E7%BB%8D/</url>
+    <content><![CDATA[<h1 id="RPC"><a href="#RPC" class="headerlink" title="RPC"></a>RPC</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>&emsp;&emsp;RPC，Remote Procedure Call 即远程过程调用，远程过程调用其实对标的是本地过程调用。<br>&emsp;&emsp;远程调用的方法可以走http协议也可以是基于tcp的自定义协议。</p>
+<span id="more"></span>
+<h2 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h2><p>&emsp;&emsp;一个RPC框架要做的就是约定通信协议，序列化格式，容错机制，负载均衡策略，监控运维和一个注册中心。</p>
+<ol>
+<li>服务消费者</li>
+<li>服务提供者</li>
+<li>注册中心</li>
+<li>监控中心</li>
+</ol>
+<hr>
+<h1 id="DUBBO"><a href="#DUBBO" class="headerlink" title="DUBBO"></a>DUBBO</h1><p>&emsp;&emsp;它实现了面向接口的代理 RPC 调用，并且可以配合 ZooKeeper 等组件实现服务注册和发现功能，并且拥有负载均衡、容错机制等。<br>&emsp;&emsp;<a href="https://juejin.cn/post/6870276943448080392#heading-9">https://juejin.cn/post/6870276943448080392#heading-9</a></p>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><h3 id="dubbo的作用"><a href="#dubbo的作用" class="headerlink" title="dubbo的作用"></a>dubbo的作用</h3><ol>
+<li>透明化的远程方法调用，就像调用本地方法一样调用远程方法，只需简单配置，没有任何API侵入。</li>
+<li>软负载均衡及容错机制，可在内网替代F5等硬件负载均衡器，降低成本，减少单点。</li>
+<li>服务自动注册与发现，不再需要写死服务提供方地址，注册中心基于接口名查询服务提供者的IP地址，并且能够平滑添加或删除。</li>
+</ol>
+<h3 id="dubbo分层结构"><a href="#dubbo分层结构" class="headerlink" title="dubbo分层结构"></a>dubbo分层结构</h3><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/a26bba7ba53849b9b9efbdf844f720c2_tplv-k3u1fbpfcp-zoom-1.jpg" alt="dubbo的十层结构"></p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/25609524-edfea2d2c42798d0.jpg" alt="dubbo的十层结构"></p>
+<h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/dubbo-architecture.jpg" alt="dubbo结构"></p>
+<ol>
+<li>服务容器负责启动，加载，运行服务提供者。</li>
+<li>服务提供者Provider向注册中心注册自己所能提供的服务。</li>
+<li>服务消费者Consumer启动向注册中心订阅自己所需的服务。</li>
+<li>注册中心将提供者元信息通知给消费者，消费者从注册中心获取提供者的地址。</li>
+<li>通过负载均衡选择一个Provider直接调用。如果失败，则会重新选择另一台进行调用。</li>
+<li>如果提供者有变更，注册中心会将变更推送给消费者。</li>
+<li>服务提供者和消费者都会在内存中记录着调用的次数和时间，然后定时（每分钟）的发送统计数据到监控中心。</li>
+</ol>
+<h3 id="TIPS"><a href="#TIPS" class="headerlink" title="TIPS"></a>TIPS</h3><ol>
+<li>注册中心和监控中心是可选的，可以直接在配置中写提供者和消费者直连。</li>
+<li>注册中心、提供方和消费方之间都是长连接，和监控方不是长连接，并且消费方是直接调用提供方，不经过注册中心。</li>
+<li>注册中心和监控中心宕机了也不会影响到已经正常运行的提供者和消费者，因为消费者有本地缓存提供者的信息。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>dubbo</category>
+      </categories>
+      <tags>
+        <tag>dubbo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>dubbo的9种协议</title>
+    <url>/hexoblog/2021/04/23/md/dubbo/dubbo%E7%9A%849%E7%A7%8D%E5%8D%8F%E8%AE%AE/</url>
+    <content><![CDATA[<h1 id="dubbo共有9种协议"><a href="#dubbo共有9种协议" class="headerlink" title="dubbo共有9种协议"></a>dubbo共有9种协议</h1><p>&emsp;&emsp;dubbo中支持9种协议，通过这9种协议进行调用。<br>&emsp;&emsp;dubbo支持dubbo、rmi、hessian、http、webservice、thrift、redis、memcache、rest等多种协议，但是Dubbo官网是推荐我们使用dubbo协议的。<br>&emsp;&emsp;dubbo对于9种协议的支持来自于SPI扩展机制，是SPI扩展机制在dubbo中的一个重要应用。</p>
+<span id="more"></span>
+<figure class="highlight txt"><table><tr><td class="code"><pre><span class="line">filter=org.apache.dubbo.rpc.protocol.ProtocolFilterWrapper</span><br><span class="line">listener=org.apache.dubbo.rpc.protocol.ProtocolListenerWrapper</span><br><span class="line"></span><br><span class="line">mock=org.apache.dubbo.rpc.support.MockProtocol</span><br><span class="line">dubbo=org.apache.dubbo.rpc.protocol.dubbo.DubboProtocol</span><br><span class="line">injvm=org.apache.dubbo.rpc.protocol.injvm.InjvmProtocol</span><br><span class="line">rmi=org.apache.dubbo.rpc.protocol.rmi.RmiProtocol</span><br><span class="line">hessian=org.apache.dubbo.rpc.protocol.hessian.HessianProtocol</span><br><span class="line">http=org.apache.dubbo.rpc.protocol.http.HttpProtocol</span><br><span class="line"></span><br><span class="line">org.apache.dubbo.rpc.protocol.webservice.WebServiceProtocol</span><br><span class="line">thrift=org.apache.dubbo.rpc.protocol.thrift.ThriftProtocol</span><br><span class="line">memcached=org.apache.dubbo.rpc.protocol.memcached.MemcachedProtocol</span><br><span class="line">redis=org.apache.dubbo.rpc.protocol.redis.RedisProtocol</span><br><span class="line">rest=org.apache.dubbo.rpc.protocol.rest.RestProtocol</span><br><span class="line"></span><br><span class="line">registry=org.apache.dubbo.registry.integration.RegistryProtocol</span><br><span class="line"></span><br><span class="line">qos=org.apache.dubbo.qos.protocol.QosProtocolWrapper</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://blog.csdn.net/xiaojin21cen/article/details/79834222">https://blog.csdn.net/xiaojin21cen/article/details/79834222</a></p>
+<hr>
+<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;dubbo的9种协议其实可以分为三种，一种时自定义的应用层协议，另一种是对HTTP封装的应用层协议，最后就是将缓存作为注册中心的协议。<br>&emsp;&emsp;第一种直接使用传输层TCP通道，而第二种则通过HTTP协议使用TCP通道。  </p>
+<h2 id="自定义应用层协议："><a href="#自定义应用层协议：" class="headerlink" title="自定义应用层协议："></a>自定义应用层协议：</h2><ol>
+<li><p>dubbo协议：</p>
+<blockquote>
+<p>缺省协议、单连接、长连接、TCP、NIO异步传输、Hessian 二进制序列化。<br>常规远程服务方法调用。<br>传入传出参数数据包较小（建议小于100K），消费者比提供者个数多，单一消费者无法压满提供者，尽量不要用dubbo协议传输大文件或超大字符串。</p>
+</blockquote>
+</li>
+<li><p>rmi协议：java标准远程调用协议。</p>
+<blockquote>
+<p>多连接、短连接、TCP、同步传输、java标准二进制序列化。<br>常规远程服务方法调用，与原生RMI服务互操作接口。<br>传入传出参数数据包大小混合，消费者与提供者个数差不多，可传文件。</p>
+</blockquote>
+<h2 id="封装的HTTP"><a href="#封装的HTTP" class="headerlink" title="封装的HTTP:"></a>封装的HTTP:</h2></li>
+<li><p>hessian协议：</p>
+<blockquote>
+<p>多连接、短连接、HTTP、同步传输、Hessian二进制序列化。<br>传入传出参数数据包较大，提供者比消费者个数多，提供者压力较大，可传文件。<br>页面传输，文件传输，或与原生hessian服务互操作。</p>
+</blockquote>
+</li>
+<li><p>HTTP：</p>
+<blockquote>
+<p>多连接、短连接、HTTP、同步传输、表单序列化。<br>传入传出参数数据包大小混合，提供者比消费者个数多，可用浏览器查看，可用表单或URL传入参数，暂不支持传文件。<br>需同时给应用程序和浏览器JS使用的服务。</p>
+</blockquote>
+</li>
+<li><p>WebService：</p>
+<blockquote>
+<p>多连接、短连接、HTTP、同步传输、SOAP文本序列化。<br>系统集成，跨语言调用。</p>
+</blockquote>
+</li>
+<li><p>rest：</p>
+<h2 id="缓存式协议："><a href="#缓存式协议：" class="headerlink" title="缓存式协议："></a>缓存式协议：</h2></li>
+<li><p>redis协议：</p>
+</li>
+<li><p>memcache协议：</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>dubbo</category>
+      </categories>
+      <tags>
+        <tag>dubbo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>HTTP HTTPS HTTP2</title>
     <url>/hexoblog/2021/05/08/md/internet/HTTP-HTTPS-HTTP2/</url>
     <content><![CDATA[<h1 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h1><p>&emsp;&emsp;超文本传输协议，是从web服务器传输超文本标记语言到本地浏览器的传送协议，默认工作在80端口。</p>
@@ -588,206 +788,6 @@
       </categories>
       <tags>
         <tag>网络</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>dubboSPI扩展机制基本使用，自动包装</title>
-    <url>/hexoblog/2021/04/15/md/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E6%9C%BA%E5%88%B6%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%EF%BC%8C%E8%87%AA%E5%8A%A8%E5%8C%85%E8%A3%85/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;DubboSPI是基于JavaSPI的一个扩展与补充。<br><a href="https://dubbo.apache.org/zh/docs/v2.7/dev/spi/">https://dubbo.apache.org/zh/docs/v2.7/dev/spi/</a></p>
-<h2 id="优势："><a href="#优势：" class="headerlink" title="优势："></a>优势：</h2><ol>
-<li>Java SPI 每次都会把所有实现类都加载并实例化(是在迭代器迭代的时候创建实例)，而 Dubbo SPI 是分两段创建实例，先进行类加载，然后在使用到具体实现的时候才实例化，并且 Dubbo SPI 大量使用缓存，会把 Class 对象和实例对象都缓存起来，性能更好。</li>
-<li>Java SPI 在类加载失败的时候难以定位异常；</li>
-<li>Dubbo SPI 还支持 IOC 和 AOP 。</li>
-</ol>
-<span id="more"></span>
-
-<h2 id="用法："><a href="#用法：" class="headerlink" title="用法："></a>用法：</h2><ol>
-<li>基本使用</li>
-<li>扩展点自动包装</li>
-<li>扩展点自适应</li>
-<li>扩展点自动适配</li>
-<li>扩展点自动激活</li>
-</ol>
-<hr>
-<h1 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h1><p>&emsp;&emsp;dubboSPI的基本使用和javaSPI并无太大差异。</p>
-<p>主要区别：</p>
-<blockquote>
-<p>JDK标准的SPI会一次性实例化扩展点所有实现，如果有扩展实现初始化很耗时，但如果没用上也加载，会很浪费资源。dubboSPI可以选择性实例某个实现。</p>
-</blockquote>
-<ol>
-<li><p>dubboSPI需要SPI注解。</p>
-</li>
-<li><p>文件夹命名格式不同，文件内容格式不同。</p>
-<blockquote>
-<p>dubbo为META-INF/dubbo，文件内容为key=value(实现类全限定名)。<br>java为META-INF/services，文件内容直接为实现类全限定名。</p>
-</blockquote>
-</li>
-<li><p>启动的API不同。</p>
-<blockquote>
-<p>dubbo为ExtensionLoader。<br>java为ServiceLoader，是java。</p>
-</blockquote>
-</li>
-<li><p>java会扫描所有的类，无法按需加载，dubbo可以。</p>
-</li>
-</ol>
-<h2 id="定义一个接口"><a href="#定义一个接口" class="headerlink" title="定义一个接口"></a>定义一个接口</h2><p>&emsp;&emsp;需要使用SPI注解。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// dubbo需要SPI注解，SPI注解的值为默认的实现</span></span><br><span class="line"><span class="meta">@SPI</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ExtendService</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="定义实现类"><a href="#定义实现类" class="headerlink" title="定义实现类"></a>定义实现类</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExtendServiceImpl</span> <span class="keyword">implements</span> <span class="title">ExtendService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="创建文件夹"><a href="#创建文件夹" class="headerlink" title="创建文件夹"></a>创建文件夹</h2><p>&emsp;&emsp;在classpath下创建指定文件夹及文件</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 文件夹</span></span><br><span class="line"><span class="comment"># 与javaSPI文件夹不同</span></span><br><span class="line">MATA-INF/dubbo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 文件名（接口的全路径名）</span></span><br><span class="line">com.lin.extendwrapper.extend.ExtendService</span><br><span class="line"></span><br><span class="line"><span class="comment"># 文件内容</span></span><br><span class="line"><span class="comment"># key=value形式，与javaSPI不同格式</span></span><br><span class="line"><span class="comment"># 可以有多个实现</span></span><br><span class="line"><span class="comment"># java内容为实现类全限定名</span></span><br><span class="line">ExtendService=com.lin.extendwrapper.extend.impl.ExtendServiceImpl</span><br></pre></td></tr></table></figure>
-
-<h2 id="程序入口"><a href="#程序入口" class="headerlink" title="程序入口"></a>程序入口</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExtendWrapper</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 与javaSPI的API不同</span></span><br><span class="line">        ExtensionLoader&lt;ExtendService&gt; extensionLoader = ExtensionLoader.getExtensionLoader(ExtendService.class);</span><br><span class="line">        ExtendService extendService = extensionLoader.getExtension(<span class="string">&quot;ExtendService&quot;</span>);</span><br><span class="line">        extendService.sayHello();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h1 id="扩展点自动包装"><a href="#扩展点自动包装" class="headerlink" title="扩展点自动包装"></a>扩展点自动包装</h1><p>&emsp;&emsp;ExtensionLoader在加载扩展点时，如果加载到的扩展点有拷贝构造函数，则判定为扩展点Wrapper类。<br>&emsp;&emsp;这个类似于AOP。</p>
-<h2 id="增加一个实现类-包装类"><a href="#增加一个实现类-包装类" class="headerlink" title="增加一个实现类(包装类)"></a>增加一个实现类(包装类)</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExtendServiceImplWrapper</span> <span class="keyword">implements</span> <span class="title">ExtendService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> ExtendService extendService;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ExtendServiceImplWrapper</span><span class="params">(ExtendService extendService)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.extendService = extendService;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;before&quot;</span>);</span><br><span class="line">        extendService.sayHello();</span><br><span class="line">        System.out.println(<span class="string">&quot;after&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="修改META-INF下文件内容"><a href="#修改META-INF下文件内容" class="headerlink" title="修改META-INF下文件内容"></a>修改META-INF下文件内容</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ExtendService=com.lin.extendwrapper.extend.impl.ExtendServiceImpl</span><br><span class="line"><span class="comment"># 增加一行</span></span><br><span class="line">ExtendService=com.lin.extendwrapper.extend.impl.ExtendServiceImplWrapper</span><br></pre></td></tr></table></figure>
-
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>&emsp;&emsp;扩展点自动包装，会在通过ExtensionLoader获取扩展点时判断是否是包装类。如果是wrapper包装类，就是调用wrapper的service中的方法，包装后执行。</p>
-]]></content>
-      <categories>
-        <category>dubbo</category>
-      </categories>
-      <tags>
-        <tag>dubbo</tag>
-        <tag>SPI</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>dubboSPI扩展机制自适应</title>
-    <url>/hexoblog/2021/04/19/md/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E6%9C%BA%E5%88%B6%E8%87%AA%E9%80%82%E5%BA%94/</url>
-    <content><![CDATA[<h1 id="扩展点自适应"><a href="#扩展点自适应" class="headerlink" title="扩展点自适应"></a>扩展点自适应</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>&emsp;&emsp;ExtensionLoader注入的依赖扩展点是一个Adaptive实例，直到扩展点方法执行时才决定调用是哪一个扩展点实现。<br>&emsp;&emsp;dubbo使用url对象传递对象信息，包含key和value。<br>&emsp;&emsp;扩展点方法调用会有URL参数（或是参数有URL成员）这样依赖的扩展点也可以从URL拿到配置信息，所有的扩展点自己定好配置的 Key后，配置信息从URL上从最外层传入。URL在配置传递上即是一条总线。</p>
-<span id="more"></span>
-<h2 id="Adaptive注解"><a href="#Adaptive注解" class="headerlink" title="@Adaptive注解"></a>@Adaptive注解</h2><p>&emsp;&emsp;表示该类是一个扩展类（Adaptive实例），不需要生成代理方法直接使用即可。<br>&emsp;&emsp;在方法上则表示该方法需生成代理, 此时就需要用到上面提到的URL参数。<br>&emsp;&emsp;如果作用在方法会帮我们在运行时动态生成一个Adaptive实例（只包含扩展方法的），如果作用在类上就相当于自己定义了一个现成的。</p>
-<h3 id="注解在实现类上"><a href="#注解在实现类上" class="headerlink" title="注解在实现类上"></a>注解在实现类上</h3><p>&emsp;&emsp;表示该类是一个扩展类，不需要生成代理方法直接使用即可。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 扩展的接口</span></span><br><span class="line"><span class="meta">@SPI</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">AdaptiveService</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 是扩展类</span></span><br><span class="line"><span class="meta">@Adaptive</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AdaptiveServiceImpl</span> <span class="keyword">implements</span> <span class="title">AdaptiveService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 同样需要文件</span></span><br><span class="line"><span class="comment">// 文件名为接口全限定名</span></span><br><span class="line"><span class="comment">// 内容为key=value，value为实现类全限定名</span></span><br><span class="line">AdaptiveService=com.lin.extendAdaptive.extend.impl.AdaptiveServiceImpl</span><br><span class="line"></span><br><span class="line"><span class="comment">// 启动类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExtendAdaptiveMain</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ExtensionLoader&lt;AdaptiveService&gt; extensionLoader = ExtensionLoader.getExtensionLoader(AdaptiveService.class);</span><br><span class="line">        AdaptiveService adaptiveExtension = extensionLoader.getAdaptiveExtension();</span><br><span class="line">        adaptiveExtension.sayHello();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="注解在接口方法上"><a href="#注解在接口方法上" class="headerlink" title="注解在接口方法上"></a>注解在接口方法上</h3><p>&emsp;&emsp;在方法上则表示该方法需生成代理, 此时就需要用到上面提到的URL参数。<br>&emsp;&emsp;当注解在接口方法上时，方法中需要传入一个URL参数，或者包装有URL参数时，会通过动态编译获得一个Adaptive实例。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 接口</span></span><br><span class="line"><span class="meta">@SPI</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MethodAdaptiveService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Adaptive(&#123;&quot;key&quot;&#125;)</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(URL url)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 实现类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MethodAdaptiveServiceImpl</span> <span class="keyword">implements</span> <span class="title">MethodAdaptiveService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(URL url)</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;method&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// META—INF文件与注解在类上时相同</span></span><br><span class="line">MethodAdaptiveService=com.lin.extendAdaptive.extend.impl.MethodAdaptiveServiceImpl</span><br><span class="line"></span><br><span class="line"><span class="comment">// 启动</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ExtensionLoader&lt;MethodAdaptiveService&gt; extensionLoader = ExtensionLoader.getExtensionLoader(MethodAdaptiveService.class);</span><br><span class="line">        MethodAdaptiveService adaptiveExtension = extensionLoader.getAdaptiveExtension();</span><br><span class="line">        HashMap hashMap = <span class="keyword">new</span> HashMap();</span><br><span class="line">        <span class="comment">// key与接口中注解的key相同，value与文件中声明的名称相同</span></span><br><span class="line">        hashMap.put(<span class="string">&quot;key&quot;</span>,<span class="string">&quot;MethodAdaptiveService&quot;</span>);</span><br><span class="line">        URL url = <span class="keyword">new</span> URL(<span class="string">&quot;dubbo&quot;</span>,<span class="string">&quot;localhost&quot;</span>,<span class="number">8080</span>,hashMap);</span><br><span class="line">        adaptiveExtension.sayHello(url);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 生成的实例</span></span><br><span class="line"><span class="keyword">package</span> com.lin.extendAdaptive.extend;</span><br><span class="line"><span class="keyword">import</span> org.apache.dubbo.common.extension.ExtensionLoader;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MethodAdaptiveService</span>$<span class="title">Adaptive</span> <span class="keyword">implements</span> <span class="title">com</span>.<span class="title">lin</span>.<span class="title">extendAdaptive</span>.<span class="title">extend</span>.<span class="title">MethodAdaptiveService</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(org.apache.dubbo.common.URL arg0)</span>  </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (arg0 == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">&quot;url == null&quot;</span>);</span><br><span class="line">        org.apache.dubbo.common.URL url = arg0;</span><br><span class="line">        String extName = url.getParameter(<span class="string">&quot;key&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span>(extName == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">&quot;Failed to get extension (com.lin.extendAdaptive.extend.MethodAdaptiveService) name from url (&quot;</span> + url.toString() + <span class="string">&quot;) use keys([key])&quot;</span>);</span><br><span class="line">        com.lin.extendAdaptive.extend.MethodAdaptiveService extension = (com.lin.extendAdaptive.extend.MethodAdaptiveService)ExtensionLoader.getExtensionLoader(com.lin.extendAdaptive.extend.MethodAdaptiveService.class).getExtension(extName);</span><br><span class="line">        extension.sayHello(url);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, dubbo version: <span class="number">2.7</span><span class="number">.1</span>, current host: <span class="number">192.168</span><span class="number">.139</span><span class="number">.15</span></span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;程序运行时，会经过动态编译过程生成MethodAdaptiveService对应的Adaptive实例，即MethodAdaptiveService$Adaptive。<br>&emsp;&emsp;就是在程序运行过程中，根据条件，通过拼接字符串的形式生成java源码，然后进行编译获得对应的实例。</p>
-<hr>
-<h1 id="扩展点自动注入"><a href="#扩展点自动注入" class="headerlink" title="扩展点自动注入"></a>扩展点自动注入</h1><p>有bug稍后。</p>
-]]></content>
-      <categories>
-        <category>dubbo</category>
-      </categories>
-      <tags>
-        <tag>dubbo</tag>
-        <tag>SPI</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>dubboSPI扩展点自动激活</title>
-    <url>/hexoblog/2021/04/20/md/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E7%82%B9%E8%87%AA%E5%8A%A8%E6%BF%80%E6%B4%BB/</url>
-    <content><![CDATA[<h1 id="扩展点自动激活"><a href="#扩展点自动激活" class="headerlink" title="扩展点自动激活"></a>扩展点自动激活</h1><p>&emsp;&emsp;对于集合类扩展点，比如：Filter, InvokerListener, ExportListener, TelnetHandler, StatusChecker 等，可以同时加载多个实现，此时，可以用自动激活来简化配置。</p>
-<span id="more"></span>
-
-<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 激活过滤器</span></span><br><span class="line"><span class="meta">@Activate</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FilterOne</span> <span class="keyword">implements</span> <span class="title">Filter</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest request, ServletResponse response, FilterChain chain)</span></span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>dubbo</category>
-      </categories>
-      <tags>
-        <tag>dubbo</tag>
-        <tag>SPI</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>dubbo基础及介绍</title>
-    <url>/hexoblog/2021/04/15/md/dubbo/dubbo%E5%9F%BA%E7%A1%80%E5%8F%8A%E4%BB%8B%E7%BB%8D/</url>
-    <content><![CDATA[<h1 id="RPC"><a href="#RPC" class="headerlink" title="RPC"></a>RPC</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>&emsp;&emsp;RPC，Remote Procedure Call 即远程过程调用，远程过程调用其实对标的是本地过程调用。<br>&emsp;&emsp;远程调用的方法可以走http协议也可以是基于tcp的自定义协议。</p>
-<span id="more"></span>
-<h2 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h2><p>&emsp;&emsp;一个RPC框架要做的就是约定通信协议，序列化格式，容错机制，负载均衡策略，监控运维和一个注册中心。</p>
-<ol>
-<li>服务消费者</li>
-<li>服务提供者</li>
-<li>注册中心</li>
-<li>监控中心</li>
-</ol>
-<hr>
-<h1 id="DUBBO"><a href="#DUBBO" class="headerlink" title="DUBBO"></a>DUBBO</h1><p>&emsp;&emsp;它实现了面向接口的代理 RPC 调用，并且可以配合 ZooKeeper 等组件实现服务注册和发现功能，并且拥有负载均衡、容错机制等。<br>&emsp;&emsp;<a href="https://juejin.cn/post/6870276943448080392#heading-9">https://juejin.cn/post/6870276943448080392#heading-9</a></p>
-<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><h3 id="dubbo的作用"><a href="#dubbo的作用" class="headerlink" title="dubbo的作用"></a>dubbo的作用</h3><ol>
-<li>透明化的远程方法调用，就像调用本地方法一样调用远程方法，只需简单配置，没有任何API侵入。</li>
-<li>软负载均衡及容错机制，可在内网替代F5等硬件负载均衡器，降低成本，减少单点。</li>
-<li>服务自动注册与发现，不再需要写死服务提供方地址，注册中心基于接口名查询服务提供者的IP地址，并且能够平滑添加或删除。</li>
-</ol>
-<h3 id="dubbo分层结构"><a href="#dubbo分层结构" class="headerlink" title="dubbo分层结构"></a>dubbo分层结构</h3><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/a26bba7ba53849b9b9efbdf844f720c2_tplv-k3u1fbpfcp-zoom-1.jpg" alt="dubbo的十层结构"></p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/25609524-edfea2d2c42798d0.jpg" alt="dubbo的十层结构"></p>
-<h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/dubbo-architecture.jpg" alt="dubbo结构"></p>
-<ol>
-<li>服务容器负责启动，加载，运行服务提供者。</li>
-<li>服务提供者Provider向注册中心注册自己所能提供的服务。</li>
-<li>服务消费者Consumer启动向注册中心订阅自己所需的服务。</li>
-<li>注册中心将提供者元信息通知给消费者，消费者从注册中心获取提供者的地址。</li>
-<li>通过负载均衡选择一个Provider直接调用。如果失败，则会重新选择另一台进行调用。</li>
-<li>如果提供者有变更，注册中心会将变更推送给消费者。</li>
-<li>服务提供者和消费者都会在内存中记录着调用的次数和时间，然后定时（每分钟）的发送统计数据到监控中心。</li>
-</ol>
-<h3 id="TIPS"><a href="#TIPS" class="headerlink" title="TIPS"></a>TIPS</h3><ol>
-<li>注册中心和监控中心是可选的，可以直接在配置中写提供者和消费者直连。</li>
-<li>注册中心、提供方和消费方之间都是长连接，和监控方不是长连接，并且消费方是直接调用提供方，不经过注册中心。</li>
-<li>注册中心和监控中心宕机了也不会影响到已经正常运行的提供者和消费者，因为消费者有本地缓存提供者的信息。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>dubbo</category>
-      </categories>
-      <tags>
-        <tag>dubbo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>dubbo的9种协议</title>
-    <url>/hexoblog/2021/04/23/md/dubbo/dubbo%E7%9A%849%E7%A7%8D%E5%8D%8F%E8%AE%AE/</url>
-    <content><![CDATA[<h1 id="dubbo共有9种协议"><a href="#dubbo共有9种协议" class="headerlink" title="dubbo共有9种协议"></a>dubbo共有9种协议</h1><p>&emsp;&emsp;dubbo中支持9种协议，通过这9种协议进行调用。<br>&emsp;&emsp;dubbo支持dubbo、rmi、hessian、http、webservice、thrift、redis、memcache、rest等多种协议，但是Dubbo官网是推荐我们使用dubbo协议的。<br>&emsp;&emsp;dubbo对于9种协议的支持来自于SPI扩展机制，是SPI扩展机制在dubbo中的一个重要应用。</p>
-<span id="more"></span>
-<figure class="highlight txt"><table><tr><td class="code"><pre><span class="line">filter=org.apache.dubbo.rpc.protocol.ProtocolFilterWrapper</span><br><span class="line">listener=org.apache.dubbo.rpc.protocol.ProtocolListenerWrapper</span><br><span class="line"></span><br><span class="line">mock=org.apache.dubbo.rpc.support.MockProtocol</span><br><span class="line">dubbo=org.apache.dubbo.rpc.protocol.dubbo.DubboProtocol</span><br><span class="line">injvm=org.apache.dubbo.rpc.protocol.injvm.InjvmProtocol</span><br><span class="line">rmi=org.apache.dubbo.rpc.protocol.rmi.RmiProtocol</span><br><span class="line">hessian=org.apache.dubbo.rpc.protocol.hessian.HessianProtocol</span><br><span class="line">http=org.apache.dubbo.rpc.protocol.http.HttpProtocol</span><br><span class="line"></span><br><span class="line">org.apache.dubbo.rpc.protocol.webservice.WebServiceProtocol</span><br><span class="line">thrift=org.apache.dubbo.rpc.protocol.thrift.ThriftProtocol</span><br><span class="line">memcached=org.apache.dubbo.rpc.protocol.memcached.MemcachedProtocol</span><br><span class="line">redis=org.apache.dubbo.rpc.protocol.redis.RedisProtocol</span><br><span class="line">rest=org.apache.dubbo.rpc.protocol.rest.RestProtocol</span><br><span class="line"></span><br><span class="line">registry=org.apache.dubbo.registry.integration.RegistryProtocol</span><br><span class="line"></span><br><span class="line">qos=org.apache.dubbo.qos.protocol.QosProtocolWrapper</span><br></pre></td></tr></table></figure>
-
-<p><a href="https://blog.csdn.net/xiaojin21cen/article/details/79834222">https://blog.csdn.net/xiaojin21cen/article/details/79834222</a></p>
-<hr>
-<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;dubbo的9种协议其实可以分为三种，一种时自定义的应用层协议，另一种是对HTTP封装的应用层协议，最后就是将缓存作为注册中心的协议。<br>&emsp;&emsp;第一种直接使用传输层TCP通道，而第二种则通过HTTP协议使用TCP通道。  </p>
-<h2 id="自定义应用层协议："><a href="#自定义应用层协议：" class="headerlink" title="自定义应用层协议："></a>自定义应用层协议：</h2><ol>
-<li><p>dubbo协议：</p>
-<blockquote>
-<p>缺省协议、单连接、长连接、TCP、NIO异步传输、Hessian 二进制序列化。<br>常规远程服务方法调用。<br>传入传出参数数据包较小（建议小于100K），消费者比提供者个数多，单一消费者无法压满提供者，尽量不要用dubbo协议传输大文件或超大字符串。</p>
-</blockquote>
-</li>
-<li><p>rmi协议：java标准远程调用协议。</p>
-<blockquote>
-<p>多连接、短连接、TCP、同步传输、java标准二进制序列化。<br>常规远程服务方法调用，与原生RMI服务互操作接口。<br>传入传出参数数据包大小混合，消费者与提供者个数差不多，可传文件。</p>
-</blockquote>
-<h2 id="封装的HTTP"><a href="#封装的HTTP" class="headerlink" title="封装的HTTP:"></a>封装的HTTP:</h2></li>
-<li><p>hessian协议：</p>
-<blockquote>
-<p>多连接、短连接、HTTP、同步传输、Hessian二进制序列化。<br>传入传出参数数据包较大，提供者比消费者个数多，提供者压力较大，可传文件。<br>页面传输，文件传输，或与原生hessian服务互操作。</p>
-</blockquote>
-</li>
-<li><p>HTTP：</p>
-<blockquote>
-<p>多连接、短连接、HTTP、同步传输、表单序列化。<br>传入传出参数数据包大小混合，提供者比消费者个数多，可用浏览器查看，可用表单或URL传入参数，暂不支持传文件。<br>需同时给应用程序和浏览器JS使用的服务。</p>
-</blockquote>
-</li>
-<li><p>WebService：</p>
-<blockquote>
-<p>多连接、短连接、HTTP、同步传输、SOAP文本序列化。<br>系统集成，跨语言调用。</p>
-</blockquote>
-</li>
-<li><p>rest：</p>
-<h2 id="缓存式协议："><a href="#缓存式协议：" class="headerlink" title="缓存式协议："></a>缓存式协议：</h2></li>
-<li><p>redis协议：</p>
-</li>
-<li><p>memcache协议：</p>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>dubbo</category>
-      </categories>
-      <tags>
-        <tag>dubbo</tag>
       </tags>
   </entry>
   <entry>
@@ -2064,6 +2064,34 @@
       </tags>
   </entry>
   <entry>
+    <title>redis安装和使用</title>
+    <url>/hexoblog/2021/04/14/md/redis/redis%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;这里是在windows环境下的redis安装过程，两种安装方式，都比较简单。<br>&emsp;&emsp;官方提供的只有linux系统的tar.gz格式的压缩包，windows的需要在github下载。<br><a href="https://redis.io/">https://redis.io/</a><br><a href="http://www.redis.cn/">http://www.redis.cn/</a><br><a href="https://www.redis.com.cn/">https://www.redis.com.cn/</a><br><a href="https://www.redis.com.cn/redis-installation.html">https://www.redis.com.cn/redis-installation.html</a></p>
+<span id="more"></span>
+<h2 id="msi安装"><a href="#msi安装" class="headerlink" title="msi安装"></a>msi安装</h2><ol>
+<li>下载msi安装文件<blockquote>
+<p>官方提供的只有tar.gz格式压缩包下载，msi需要在github下载<br><a href="https://github.com/MicrosoftArchive/redis/releases">https://github.com/MicrosoftArchive/redis/releases</a></p>
+</blockquote>
+</li>
+<li>双击运行</li>
+<li>完成安装</li>
+</ol>
+<h2 id="zip安装"><a href="#zip安装" class="headerlink" title="zip安装"></a>zip安装</h2><ol>
+<li>下载zip压缩包</li>
+<li>将压缩包解压至你准备安装的路径</li>
+<li>解压完成就是安装完成</li>
+</ol>
+<hr>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 先进入安装目录</span></span><br><span class="line"><span class="built_in">cd</span> &lt;安装目录&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动</span></span><br><span class="line"><span class="comment"># 作为普通软件启动，命令行关闭则关闭</span></span><br><span class="line">redis-server.exe redis.windows.conf</span><br><span class="line"><span class="comment"># 作为服务启动，不跟随命令行</span></span><br><span class="line">redis-server.exe redis.windows-service.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 客户端连接</span></span><br><span class="line">redis-cli.exe</span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭</span></span><br><span class="line">redis-server.exe --service-stop</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>redis</category>
+      </categories>
+      <tags>
+        <tag>redis</tag>
+        <tag>tool</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>redis分布式锁</title>
     <url>/hexoblog/2021/04/14/md/redis/redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/</url>
     <content><![CDATA[<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>&emsp;&emsp;单机情况下，对于多线程情况下的竞态资源，我们可以在代码中使用synchronized或者ReentrantLock来加锁，防止发生并发问题。但是当我们的服务进行集群部署时，对于这两种加锁方式，就会失效，它们只能在单机加锁，所以就需要与之对应的分布式锁。</p>
@@ -2112,34 +2140,6 @@
         <tag>redis</tag>
         <tag>分布式</tag>
         <tag>锁</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>redis安装和使用</title>
-    <url>/hexoblog/2021/04/14/md/redis/redis%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;这里是在windows环境下的redis安装过程，两种安装方式，都比较简单。<br>&emsp;&emsp;官方提供的只有linux系统的tar.gz格式的压缩包，windows的需要在github下载。<br><a href="https://redis.io/">https://redis.io/</a><br><a href="http://www.redis.cn/">http://www.redis.cn/</a><br><a href="https://www.redis.com.cn/">https://www.redis.com.cn/</a><br><a href="https://www.redis.com.cn/redis-installation.html">https://www.redis.com.cn/redis-installation.html</a></p>
-<span id="more"></span>
-<h2 id="msi安装"><a href="#msi安装" class="headerlink" title="msi安装"></a>msi安装</h2><ol>
-<li>下载msi安装文件<blockquote>
-<p>官方提供的只有tar.gz格式压缩包下载，msi需要在github下载<br><a href="https://github.com/MicrosoftArchive/redis/releases">https://github.com/MicrosoftArchive/redis/releases</a></p>
-</blockquote>
-</li>
-<li>双击运行</li>
-<li>完成安装</li>
-</ol>
-<h2 id="zip安装"><a href="#zip安装" class="headerlink" title="zip安装"></a>zip安装</h2><ol>
-<li>下载zip压缩包</li>
-<li>将压缩包解压至你准备安装的路径</li>
-<li>解压完成就是安装完成</li>
-</ol>
-<hr>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 先进入安装目录</span></span><br><span class="line"><span class="built_in">cd</span> &lt;安装目录&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动</span></span><br><span class="line"><span class="comment"># 作为普通软件启动，命令行关闭则关闭</span></span><br><span class="line">redis-server.exe redis.windows.conf</span><br><span class="line"><span class="comment"># 作为服务启动，不跟随命令行</span></span><br><span class="line">redis-server.exe redis.windows-service.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 客户端连接</span></span><br><span class="line">redis-cli.exe</span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭</span></span><br><span class="line">redis-server.exe --service-stop</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>redis</category>
-      </categories>
-      <tags>
-        <tag>redis</tag>
-        <tag>tool</tag>
       </tags>
   </entry>
   <entry>
@@ -2677,29 +2677,6 @@
       </tags>
   </entry>
   <entry>
-    <title>zookeeper实现分布式锁</title>
-    <url>/hexoblog/2021/05/18/md/zookeeper/zookeeper%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;分布式锁的作用：<strong>在整个系统提供一个全局、唯一的锁，在分布式系统中每个系统在进行相关操作的时候需要获取到该锁，才能执行相应操作</strong>。  </p>
-<span id="more"></span>
-
-<p>&emsp;&emsp;大致思想为：<strong>每个客户端对每个方法加锁时，在zookeeper上的与该方法对应的指定节点的目录下，生成一个唯一的瞬时有序节点。判断是否获取锁的方式很简单，只需要判断有序节点中序号最小的一个。当释放锁的时候，只需将这个瞬时节点删除即可。同时，其可以避免服务宕机导致的锁无法释放，而产生死锁的问题</strong>。</p>
-<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><ol>
-<li>利用Zookeeper可以创建临时有序节点的特性创建一个分布式锁。</li>
-<li>多个系统的多个线程都要在此目录下创建临时有序节点，因为Zookeeper会为我们保证节点的有序性，所以可以利用节点的顺序性来对不同线程的先来后到进行判断。此时，在分布式下应该添加锁的线程就是zk指定目录下序号最小的临时序列节点所代表的线程。</li>
-<li>当每个线程请求对应资源时，都需要现在zk指定目录下创建临时有序节点，然后获取当前目录下最小的节点序号（加锁的线程），判断最小节点是不是当前节点（是不是自己），如果是那么获取锁成功，如果不是获取锁失败。</li>
-<li>获取锁失败的线程获取当前节点上一个临时有序节点，并对此节点进行监听。当该节点删除的时候（执行结束或者掉线，释放锁）这个线程会获取到通知，代表获取到了锁。这里的每一个节点都只是监听它的上一个节点，而不是监听最小的节点。因为临时节点都是有序号的，而且序号不会回退，所以只需要监听比其小1的节点。只要比它小1的节点被删除，则它就可以拿到资源去操作。</li>
-</ol>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/zk%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81.jpg" alt="分布式锁流程"></p>
-]]></content>
-      <categories>
-        <category>zookeeper</category>
-      </categories>
-      <tags>
-        <tag>zookeeper</tag>
-        <tag>分布式锁</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>zookeeper简述</title>
     <url>/hexoblog/2021/05/11/md/zookeeper/zookeeper%E7%AE%80%E8%BF%B0/</url>
     <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;从本质上来说，Zookeeper就是一种分布式协调服务，在分布式环境中协调和管理服务是一个复杂的过程。  </p>
@@ -2783,6 +2760,29 @@
       </categories>
       <tags>
         <tag>zookeeper</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>zookeeper实现分布式锁</title>
+    <url>/hexoblog/2021/05/18/md/zookeeper/zookeeper%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;分布式锁的作用：<strong>在整个系统提供一个全局、唯一的锁，在分布式系统中每个系统在进行相关操作的时候需要获取到该锁，才能执行相应操作</strong>。  </p>
+<span id="more"></span>
+
+<p>&emsp;&emsp;大致思想为：<strong>每个客户端对每个方法加锁时，在zookeeper上的与该方法对应的指定节点的目录下，生成一个唯一的瞬时有序节点。判断是否获取锁的方式很简单，只需要判断有序节点中序号最小的一个。当释放锁的时候，只需将这个瞬时节点删除即可。同时，其可以避免服务宕机导致的锁无法释放，而产生死锁的问题</strong>。</p>
+<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><ol>
+<li>利用Zookeeper可以创建临时有序节点的特性创建一个分布式锁。</li>
+<li>多个系统的多个线程都要在此目录下创建临时有序节点，因为Zookeeper会为我们保证节点的有序性，所以可以利用节点的顺序性来对不同线程的先来后到进行判断。此时，在分布式下应该添加锁的线程就是zk指定目录下序号最小的临时序列节点所代表的线程。</li>
+<li>当每个线程请求对应资源时，都需要现在zk指定目录下创建临时有序节点，然后获取当前目录下最小的节点序号（加锁的线程），判断最小节点是不是当前节点（是不是自己），如果是那么获取锁成功，如果不是获取锁失败。</li>
+<li>获取锁失败的线程获取当前节点上一个临时有序节点，并对此节点进行监听。当该节点删除的时候（执行结束或者掉线，释放锁）这个线程会获取到通知，代表获取到了锁。这里的每一个节点都只是监听它的上一个节点，而不是监听最小的节点。因为临时节点都是有序号的，而且序号不会回退，所以只需要监听比其小1的节点。只要比它小1的节点被删除，则它就可以拿到资源去操作。</li>
+</ol>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/zk%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81.jpg" alt="分布式锁流程"></p>
+]]></content>
+      <categories>
+        <category>zookeeper</category>
+      </categories>
+      <tags>
+        <tag>zookeeper</tag>
+        <tag>分布式锁</tag>
       </tags>
   </entry>
   <entry>
