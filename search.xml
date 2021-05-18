@@ -2720,7 +2720,7 @@
 <h3 id="缺点：-1"><a href="#缺点：-1" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;通过超时来控制锁的失效时间并不是十分的靠谱。</p>
 <hr>
 <h1 id="基于Zookeeper实现分布式锁："><a href="#基于Zookeeper实现分布式锁：" class="headerlink" title="基于Zookeeper实现分布式锁："></a>基于Zookeeper实现分布式锁：</h1><p>&emsp;&emsp;基于zookeeper临时有序节点可实现的分布式锁。<br>&emsp;&emsp;大致思想为：每个客户端对每个方法加锁时，在zookeeper上的与该方法对应的指定节点的目录下，生成一个唯一的瞬时有序节点。判断是否获取锁的方式很简单，只需要判断有序节点中序号最小的一个。当释放锁的时候，只需将这个瞬时节点删除即可。同时，其可以避免服务宕机导致的锁无法释放，而产生死锁的问题。</p>
-<h2 id="如何解决前面的问题："><a href="#如何解决前面的问题：" class="headerlink" title="如何解决前面的问题："></a>如何解决前面的问题：</h2><h3 id="锁无法释放："><a href="#锁无法释放：" class="headerlink" title="锁无法释放："></a>锁无法释放：</h3><p>&emsp;&emsp;使用Zookeeper可以有效的解决锁无法释放的问题，因为在创建的时候，客户端会在zk中创建一个临时节点，一旦客户端获取到锁之后突然挂掉，那么这个临时节点就会自动删除掉。其他客户端就可以再次获得锁。</p>
+<h2 id="如何解决前面的问题："><a href="#如何解决前面的问题：" class="headerlink" title="如何解决前面的问题："></a>如何解决前面的问题：</h2><h3 id="锁无法释放："><a href="#锁无法释放：" class="headerlink" title="锁无法释放："></a>锁无法释放：</h3><p>&emsp;&emsp;使用Zookeeper可以有效的解决锁无法释放的问题，因为在创建的时候，客户端会在zk中创建一个临时节点，一旦客户端获取到锁之后突然挂掉，那么这个临时节点就会自动删除掉。其他客户端就可以再次获得锁。心跳机制会检测客户端是否在线，如果不在线则视为挂掉了，那么就自动释放锁。</p>
 <h3 id="非阻塞锁："><a href="#非阻塞锁：" class="headerlink" title="非阻塞锁："></a>非阻塞锁：</h3><p>&emsp;&emsp;使用zookeeper可以实现阻塞的锁，客户端可通过在zk中创建顺序节点，并在节点上绑定监听器，一旦节点有变化，zookeeper会通知客户端，客户端可以检查自己创建的节点是不是当前所有节点中序号最小的，如果是，那么自己就获取到锁，便可以执行业务逻辑。</p>
 <h3 id="不可重入："><a href="#不可重入：" class="headerlink" title="不可重入："></a>不可重入：</h3><p>&emsp;&emsp;使用zookeeper可以有效解决不可重入的问题，客户端在创建节点时，把当前客户端的主机信息和线程信息直接写入节点中，下次想要获取锁的时候和当前最小节点中的数据对比一下就可以。如果和自己的信息一样，那么自己直接获取到锁，如果不一样就在创建一个临时的顺序节点，参与排队。</p>
 <h3 id="单点问题："><a href="#单点问题：" class="headerlink" title="单点问题："></a>单点问题：</h3><p>&emsp;&emsp;使用zookeeper可以有效解决单点问题，zk是集群部署的，只要集群中有半数以上的机器存活，就可以对外提供服务。</p>
@@ -3183,6 +3183,80 @@
       <tags>
         <tag>zookeeper</tag>
         <tag>分布式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>dubbo的9种协议</title>
+    <url>/hexoblog/2021/04/23/md/dubbo/dubbo%E7%9A%849%E7%A7%8D%E5%8D%8F%E8%AE%AE/</url>
+    <content><![CDATA[<h1 id="dubbo共有9种协议"><a href="#dubbo共有9种协议" class="headerlink" title="dubbo共有9种协议"></a>dubbo共有9种协议</h1><p>&emsp;&emsp;dubbo中支持9种协议，通过这9种协议进行调用。<br>&emsp;&emsp;dubbo支持dubbo、rmi、hessian、http、webservice、thrift、redis、memcache、rest等多种协议，但是Dubbo官网是推荐我们使用dubbo协议的。<br>&emsp;&emsp;dubbo对于9种协议的支持来自于SPI扩展机制，是SPI扩展机制在dubbo中的一个重要应用。</p>
+<span id="more"></span>
+<figure class="highlight txt"><table><tr><td class="code"><pre><span class="line">filter=org.apache.dubbo.rpc.protocol.ProtocolFilterWrapper</span><br><span class="line">listener=org.apache.dubbo.rpc.protocol.ProtocolListenerWrapper</span><br><span class="line"></span><br><span class="line">mock=org.apache.dubbo.rpc.support.MockProtocol</span><br><span class="line">dubbo=org.apache.dubbo.rpc.protocol.dubbo.DubboProtocol</span><br><span class="line">injvm=org.apache.dubbo.rpc.protocol.injvm.InjvmProtocol</span><br><span class="line">rmi=org.apache.dubbo.rpc.protocol.rmi.RmiProtocol</span><br><span class="line">hessian=org.apache.dubbo.rpc.protocol.hessian.HessianProtocol</span><br><span class="line">http=org.apache.dubbo.rpc.protocol.http.HttpProtocol</span><br><span class="line"></span><br><span class="line">org.apache.dubbo.rpc.protocol.webservice.WebServiceProtocol</span><br><span class="line">thrift=org.apache.dubbo.rpc.protocol.thrift.ThriftProtocol</span><br><span class="line">memcached=org.apache.dubbo.rpc.protocol.memcached.MemcachedProtocol</span><br><span class="line">redis=org.apache.dubbo.rpc.protocol.redis.RedisProtocol</span><br><span class="line">rest=org.apache.dubbo.rpc.protocol.rest.RestProtocol</span><br><span class="line"></span><br><span class="line">registry=org.apache.dubbo.registry.integration.RegistryProtocol</span><br><span class="line"></span><br><span class="line">qos=org.apache.dubbo.qos.protocol.QosProtocolWrapper</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://blog.csdn.net/xiaojin21cen/article/details/79834222">https://blog.csdn.net/xiaojin21cen/article/details/79834222</a></p>
+<hr>
+<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;dubbo的9种协议其实可以分为三种，一种时自定义的应用层协议，另一种是对HTTP封装的应用层协议，最后就是将缓存作为注册中心的协议。<br>&emsp;&emsp;第一种直接使用传输层TCP通道，而第二种则通过HTTP协议使用TCP通道。  </p>
+<h2 id="自定义应用层协议："><a href="#自定义应用层协议：" class="headerlink" title="自定义应用层协议："></a>自定义应用层协议：</h2><ol>
+<li><p>dubbo协议：</p>
+<blockquote>
+<p>缺省协议、单连接、长连接、TCP、NIO异步传输、Hessian 二进制序列化。<br>常规远程服务方法调用。<br>传入传出参数数据包较小（建议小于100K），消费者比提供者个数多，单一消费者无法压满提供者，尽量不要用dubbo协议传输大文件或超大字符串。</p>
+</blockquote>
+</li>
+<li><p>rmi协议：java标准远程调用协议。</p>
+<blockquote>
+<p>多连接、短连接、TCP、同步传输、java标准二进制序列化。<br>常规远程服务方法调用，与原生RMI服务互操作接口。<br>传入传出参数数据包大小混合，消费者与提供者个数差不多，可传文件。</p>
+</blockquote>
+<h2 id="封装的HTTP"><a href="#封装的HTTP" class="headerlink" title="封装的HTTP:"></a>封装的HTTP:</h2></li>
+<li><p>hessian协议：</p>
+<blockquote>
+<p>多连接、短连接、HTTP、同步传输、Hessian二进制序列化。<br>传入传出参数数据包较大，提供者比消费者个数多，提供者压力较大，可传文件。<br>页面传输，文件传输，或与原生hessian服务互操作。</p>
+</blockquote>
+</li>
+<li><p>HTTP：</p>
+<blockquote>
+<p>多连接、短连接、HTTP、同步传输、表单序列化。<br>传入传出参数数据包大小混合，提供者比消费者个数多，可用浏览器查看，可用表单或URL传入参数，暂不支持传文件。<br>需同时给应用程序和浏览器JS使用的服务。</p>
+</blockquote>
+</li>
+<li><p>WebService：</p>
+<blockquote>
+<p>多连接、短连接、HTTP、同步传输、SOAP文本序列化。<br>系统集成，跨语言调用。</p>
+</blockquote>
+</li>
+<li><p>rest：</p>
+<h2 id="缓存式协议："><a href="#缓存式协议：" class="headerlink" title="缓存式协议："></a>缓存式协议：</h2></li>
+<li><p>redis协议：</p>
+</li>
+<li><p>memcache协议：</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>dubbo</category>
+      </categories>
+      <tags>
+        <tag>dubbo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>zookeeper实现分布式锁</title>
+    <url>/hexoblog/2021/05/18/md/zookeeper/zookeeper%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;分布式锁的作用：<strong>在整个系统提供一个全局、唯一的锁，在分布式系统中每个系统在进行相关操作的时候需要获取到该锁，才能执行相应操作</strong>。  </p>
+<span id="more"></span>
+
+<p>&emsp;&emsp;大致思想为：<strong>每个客户端对每个方法加锁时，在zookeeper上的与该方法对应的指定节点的目录下，生成一个唯一的瞬时有序节点。判断是否获取锁的方式很简单，只需要判断有序节点中序号最小的一个。当释放锁的时候，只需将这个瞬时节点删除即可。同时，其可以避免服务宕机导致的锁无法释放，而产生死锁的问题</strong>。</p>
+<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><ol>
+<li>利用Zookeeper可以创建临时有序节点的特性创建一个分布式锁。</li>
+<li>多个系统的多个线程都要在此目录下创建临时有序节点，因为Zookeeper会为我们保证节点的有序性，所以可以利用节点的顺序性来对不同线程的先来后到进行判断。此时，在分布式下应该添加锁的线程就是zk指定目录下序号最小的临时序列节点所代表的线程。</li>
+<li>当每个线程请求对应资源时，都需要现在zk指定目录下创建临时有序节点，然后获取当前目录下最小的节点序号（加锁的线程），判断最小节点是不是当前节点（是不是自己），如果是那么获取锁成功，如果不是获取锁失败。</li>
+<li>获取锁失败的线程获取当前节点上一个临时有序节点，并对此节点进行监听。当该节点删除的时候（执行结束或者掉线，释放锁）这个线程会获取到通知，代表获取到了锁。这里的每一个节点都只是监听它的上一个节点，而不是监听最小的节点。因为临时节点都是有序号的，而且序号不会回退，所以只需要监听比其小1的节点。只要比它小1的节点被删除，则它就可以拿到资源去操作。</li>
+</ol>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/zk%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81.jpg" alt="分布式锁流程"></p>
+]]></content>
+      <categories>
+        <category>zookeeper</category>
+      </categories>
+      <tags>
+        <tag>zookeeper</tag>
+        <tag>分布式锁</tag>
       </tags>
   </entry>
 </search>
