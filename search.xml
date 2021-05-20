@@ -1,145 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>dcokerdesktop小问题排查</title>
-    <url>/hexoblog/2021/03/14/md/docker/dcokerdesktop%E5%B0%8F%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5/</url>
-    <content><![CDATA[<!-- toc -->
-
-<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><h2 id="启动问题"><a href="#启动问题" class="headerlink" title="启动问题"></a>启动问题</h2><h3 id="docker启动失败"><a href="#docker启动失败" class="headerlink" title="docker启动失败"></a>docker启动失败</h3><span id="more"></span>
-
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Error%202021_3_14%2017_02_08.png" alt="启动失败"></p>
-<p>&emsp;&emsp;dockerdesktop在启动时，发生此错误，因为wsl未启动或者wsl启动出现问题。</p>
-<h4 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h4><p>&emsp;&emsp;解决掉对应的wsl错误即可。这里的问题是：</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Ubuntu%2020.04%20LTS%202021_3_14%2016_01_57.png" alt="参考的对象不支持的操作"></p>
-<p>&emsp;&emsp;是因为wsl的问题，将其解决即可。</p>
-]]></content>
-      <categories>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>wsl</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>docker启动springboot</title>
-    <url>/hexoblog/2021/04/12/md/docker/docker%E5%90%AF%E5%8A%A8springboot/</url>
-    <content><![CDATA[<h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><p>&emsp;&emsp;需要准备东西有：</p>
-<ol>
-<li>docker环境</li>
-<li>sprinboot项目</li>
-</ol>
-<span id="more"></span>
-
-<hr>
-<h1 id="手动"><a href="#手动" class="headerlink" title="手动"></a>手动</h1><h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><h3 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h3><p>&emsp;&emsp;首先将springboot项目通过maven打包，得到可执行jar包。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 删除编译文件</span></span><br><span class="line">mvn clean</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将项目打包，得到可执行jar包</span></span><br><span class="line">mvn package</span><br></pre></td></tr></table></figure>
-
-<h3 id="构建"><a href="#构建" class="headerlink" title="构建"></a>构建</h3><p>&emsp;&emsp;将得到的可执行jar包构建成docker镜像。</p>
-<p>&emsp;&emsp;将得到的jar包放入指定目录下，并且在同目录下建立Dockerfile文件(文件名不能错)。<br>&emsp;&emsp;Dockerfile文件内容：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 基础镜像，环境</span></span><br><span class="line">FROM java:8</span><br><span class="line"><span class="comment"># springboot内嵌tomcat的工作目录</span></span><br><span class="line">VOLUME /tmp</span><br><span class="line"><span class="comment"># 拷贝文件并重命名</span></span><br><span class="line">ADD &lt;包名称&gt;.jar &lt;镜像名称&gt;.jar</span><br><span class="line"><span class="comment"># 启动时的命令</span></span><br><span class="line">ENTRYPOINT [<span class="string">&quot;java&quot;</span>,<span class="string">&quot;-jar&quot;</span>,<span class="string">&quot;&lt;包名称&gt;.jar&quot;</span>]</span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;执行docker构建命令，得到docker镜像。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker build -t &lt;镜像名称&gt; .</span><br></pre></td></tr></table></figure>
-
-<h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><p>&emsp;&emsp;构建完成后，就可以在镜像列表查看是否有新构建的镜像，也可以运行该镜像。</p>
-<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h3 id="jar包名称问题"><a href="#jar包名称问题" class="headerlink" title="jar包名称问题"></a>jar包名称问题</h3><p>&emsp;&emsp;docker中镜像名称应该是使用小写字母，不可以使用大写字母，否则报错，命令行中不允许大写字母及特殊字符。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">invalid argument <span class="string">&quot;learn-0.0.1-SNAPSHOT&quot;</span> <span class="keyword">for</span> <span class="string">&quot;-t, --tag&quot;</span> flag: invalid reference format: repository name must be lowercase</span><br><span class="line">See <span class="string">&#x27;docker build --help&#x27;</span>.</span><br></pre></td></tr></table></figure>
-
-<h3 id="执行路径问题"><a href="#执行路径问题" class="headerlink" title="执行路径问题"></a>执行路径问题</h3><p>&emsp;&emsp;执行构建镜像命令应该进入所创建的目录，即在Dockerfile文件所在目录。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">failed to solve with frontend dockerfile.v0: failed to <span class="built_in">read</span> dockerfile: open /var/lib/docker/tmp/buildkit-mount528762</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h1 id="自动"><a href="#自动" class="headerlink" title="自动"></a>自动</h1><p>&emsp;&emsp;借助docker提供的maven工具，可自动构建docker镜像。</p>
-<h2 id="部署-1"><a href="#部署-1" class="headerlink" title="部署"></a>部署</h2><h3 id="引入依赖"><a href="#引入依赖" class="headerlink" title="引入依赖"></a>引入依赖</h3><p>&emsp;&emsp;首先需要引入docker的maven构建工具。</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.spotify<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>docker-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- 低版本的会报错--&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- 1.0.0不支持docker-desktop--&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">imageName</span>&gt;</span>springboot/learn<span class="tag">&lt;/<span class="name">imageName</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- Dockerfile文件所在的文件位置，可以用配置替代 --&gt;</span></span><br><span class="line">		<span class="comment">&lt;!-- &lt;dockerDirectory&gt;src/main/docker&lt;/dockerDirectory&gt; --&gt;</span></span><br><span class="line">		<span class="comment">&lt;!-- 基础镜像，运行一个springboot应用只需要基础的java环境就行 --&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">baseImage</span>&gt;</span>java:8<span class="tag">&lt;/<span class="name">baseImage</span>&gt;</span></span><br><span class="line">		<span class="comment">&lt;!-- docker启动的时候执行的命令 --&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">entryPoint</span>&gt;</span>[&quot;java&quot;, &quot;-jar&quot;, &quot;/$&#123;project.build.finalName&#125;.jar&quot;]<span class="tag">&lt;/<span class="name">entryPoint</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">resources</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">resource</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">targetPath</span>&gt;</span>/<span class="tag">&lt;/<span class="name">targetPath</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">directory</span>&gt;</span>$&#123;project.build.directory&#125;<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">include</span>&gt;</span>$&#123;project.build.finalName&#125;.jar<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">resource</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">resources</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="构建镜像"><a href="#构建镜像" class="headerlink" title="构建镜像"></a>构建镜像</h3><p>&emsp;&emsp;添加完依赖就可以对项目打包，构建。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 首先将项目打包</span></span><br><span class="line">mvn package</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用添加的maven插件将项目构建成docker镜像</span></span><br><span class="line">mvn docker:build</span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;构建完成就可以在docker镜像列表中查看。</p>
-]]></content>
-      <categories>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>springboot</tag>
-        <tag>tool</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>docker启动vue</title>
-    <url>/hexoblog/2021/04/12/md/docker/docker%E5%90%AF%E5%8A%A8vue/</url>
-    <content><![CDATA[<h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><p>&emsp;&emsp;需要准备东西有：</p>
-<ol>
-<li>docker环境</li>
-<li>vue项目</li>
-</ol>
-<span id="more"></span>
-
-<hr>
-<h1 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h1><h2 id="项目build"><a href="#项目build" class="headerlink" title="项目build"></a>项目build</h2><p>&emsp;&emsp;将vue项目build得到dist文件夹。这里是页面等资源文件。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure>
-
-<h2 id="构建"><a href="#构建" class="headerlink" title="构建"></a>构建</h2><p>&emsp;&emsp;将得到的可执行dist构建成docker镜像。</p>
-<p>&emsp;&emsp;将得到的dist文件放入指定目录下，并且在同目录下建立Dockerfile文件(文件名不能错)。<br>&emsp;&emsp;Dockerfile文件内容：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 设置基础镜像，这里使用最新的nginx镜像，前面已经拉取过了</span></span><br><span class="line">FROM nginx</span><br><span class="line"><span class="comment"># 定义作者 Edison</span></span><br><span class="line">MAINTAINER Edison </span><br><span class="line"><span class="comment"># 将dist文件中的内容复制到 /usr/share/nginx/html/ 这个目录下面</span></span><br><span class="line">COPY dist/  /usr/share/nginx/html/</span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;执行docker构建命令，得到docker镜像。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker build -t &lt;镜像名称&gt; .</span><br></pre></td></tr></table></figure>
-
-<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>&emsp;&emsp;构建完成后，就可以在镜像列表查看是否有新构建的镜像，也可以运行该镜像。</p>
-]]></content>
-      <categories>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>tool</tag>
-        <tag>vue</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>docker安装与使用</title>
-    <url>/hexoblog/2021/03/05/md/docker/docker%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h1 id="docker介绍："><a href="#docker介绍：" class="headerlink" title="docker介绍："></a>docker介绍：</h1><p>&emsp;&emsp;docker是个鲸鱼，拉了很多集装箱的鲸鱼。<br>&emsp;&emsp;docker是个开源的容器引擎。可以让开发者快速将他们的应用及依赖打包到一个可移植的容器中，然后发布到不同的平台。</p>
-<h2 id="docker的优点："><a href="#docker的优点：" class="headerlink" title="docker的优点："></a>docker的优点：</h2><p><strong>省时，省事，省钱。</strong></p>
-<span id="more"></span>
-
-<hr>
-<h1 id="docker安装："><a href="#docker安装：" class="headerlink" title="docker安装："></a>docker安装：</h1><p>&emsp;&emsp;这里介绍docker在windows平台家庭版下的安装。</p>
-<p>&emsp;&emsp;在windows家庭版下，安装docker需要先开启计算机的虚拟化功能，并且需要先安装wsl。</p>
-<h2 id="开启计算机的虚拟化功能："><a href="#开启计算机的虚拟化功能：" class="headerlink" title="开启计算机的虚拟化功能："></a>开启计算机的虚拟化功能：</h2><p>&emsp;&emsp;在控制面板-&gt;程序-&gt;启用或关闭Windows功能中开启即可：</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Windows%20%E5%8A%9F%E8%83%BD%202021_3_5%2015_47_19.png" alt="windows功能"></p>
-<p>&emsp;&emsp;我么这里将虚拟机平台（hyper-v）和适用于linux的windows子系统同时勾选，下面的勾选为了下一步的安装wsl的ubuntu。<br>&emsp;&emsp;点击确定，等待执行完，重启电脑就可以了。</p>
-<h2 id="安装Ubuntu"><a href="#安装Ubuntu" class="headerlink" title="安装Ubuntu"></a>安装Ubuntu</h2><p>&emsp;&emsp;我们在microsoft store中直接搜索linux，就会出现很多linux发行版，这里我选择的时ubuntu，也可以选择其他自己喜欢的发行版。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Microsoft%20Store%202021_3_5%2015_54_47.png" alt="microsoft store"></p>
-<h2 id="安装docker-desktop"><a href="#安装docker-desktop" class="headerlink" title="安装docker-desktop"></a>安装docker-desktop</h2><p>&emsp;&emsp;这里去官网下载<a href="https://www.docker.com/products/docker-desktop">docker-desktop</a>。<br>&emsp;&emsp;下载后双击打开下载的exe文件，完成安装。整个安装过程还是很简单的，不过这里的只是社区版，仅提供4个月的支持，不推荐生产使用。<br>&emsp;&emsp;点击右上角的齿轮图标可以设置界面，可以设置不自动启动，也可以在配置安装的wsl连接docker。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Settings%202021_3_5%2016_18_18.png" alt="设置不自动启动" title="不自动启动"></p>
-<p>开启refresh后，wsl中可以连接docker。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Settings%202021_3_5%2016_18_08.png" alt="wsl连接docker" title="wsl连接docker"></p>
-<p>&emsp;&emsp;安装完成后可以用命令进行验证，查看版本号等。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker -v</span><br><span class="line">docker version</span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;出现下面的结果即为安装成功：</p>
-<img src="https://gitee.com/linqiankun/picurl/raw/master/java/Windows%20PowerShell%202021_3_5%2016_25_22.png" alt="Windows PowerShell 2021_3_5 16_25_22"  />
-
-<p>&emsp;&emsp;当然这样安装的docker是运行在一个轻量级的linux虚拟机上的，（图中的**OS/Arch选项）当然docker也提供了在windows的，但是那必须在win10 专业版，教育版，企业版上才行。<br>&emsp;&emsp;接下来就可以愉快的玩耍了。</p>
-<h1 id="基础使用："><a href="#基础使用：" class="headerlink" title="基础使用："></a>基础使用：</h1><h2 id="启动docker"><a href="#启动docker" class="headerlink" title="启动docker"></a>启动docker</h2><p>&emsp;&emsp;这样安装的docker安装成功后就启动起来了，就可以直接使用了。<br>&emsp;&emsp;这样的貌似不能用syatemctl进行启动。</p>
-<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看镜像列表</span></span><br><span class="line">docker image ls</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在仓库中查找镜像</span></span><br><span class="line">docker search &lt;imagetitle&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 下载镜像</span></span><br><span class="line">docker pull &lt;imagetitle&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除镜像(需要无运行该镜像的容器)</span></span><br><span class="line">docker rmi &lt;imageId&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看镜像</span></span><br><span class="line">docker inspect &lt;imageId&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行镜像</span></span><br><span class="line">docker run -p &lt;port&gt;:&lt;port&gt; &lt;imagetitle&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看容器列表（运行中的镜像）</span></span><br><span class="line">docker container ls</span><br><span class="line">docker ps</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看所有容器</span></span><br><span class="line">docker ps -a</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除容器</span></span><br><span class="line">docker rm &lt;containerId&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 也可以直接运行容器</span></span><br><span class="line">docker start &lt;containerId&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启</span></span><br><span class="line">docker restart &lt;contarinerId&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 停止</span></span><br><span class="line">docker stop &lt;containerId&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 进入容器</span></span><br><span class="line">docker <span class="built_in">exec</span> -it &lt;containerId&gt; /bin/bash</span><br><span class="line"></span><br><span class="line"><span class="comment"># 退出容器</span></span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>wsl</tag>
-        <tag>tool</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>dubboSPI扩展机制基本使用，自动包装</title>
     <url>/hexoblog/2021/04/15/md/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E6%9C%BA%E5%88%B6%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%EF%BC%8C%E8%87%AA%E5%8A%A8%E5%8C%85%E8%A3%85/</url>
     <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;DubboSPI是基于JavaSPI的一个扩展与补充。<br><a href="https://dubbo.apache.org/zh/docs/v2.7/dev/spi/">https://dubbo.apache.org/zh/docs/v2.7/dev/spi/</a></p>
@@ -337,6 +198,145 @@
       </categories>
       <tags>
         <tag>dubbo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>dcokerdesktop小问题排查</title>
+    <url>/hexoblog/2021/03/14/md/docker/dcokerdesktop%E5%B0%8F%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5/</url>
+    <content><![CDATA[<!-- toc -->
+
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><h2 id="启动问题"><a href="#启动问题" class="headerlink" title="启动问题"></a>启动问题</h2><h3 id="docker启动失败"><a href="#docker启动失败" class="headerlink" title="docker启动失败"></a>docker启动失败</h3><span id="more"></span>
+
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Error%202021_3_14%2017_02_08.png" alt="启动失败"></p>
+<p>&emsp;&emsp;dockerdesktop在启动时，发生此错误，因为wsl未启动或者wsl启动出现问题。</p>
+<h4 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h4><p>&emsp;&emsp;解决掉对应的wsl错误即可。这里的问题是：</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Ubuntu%2020.04%20LTS%202021_3_14%2016_01_57.png" alt="参考的对象不支持的操作"></p>
+<p>&emsp;&emsp;是因为wsl的问题，将其解决即可。</p>
+]]></content>
+      <categories>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>wsl</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>docker启动springboot</title>
+    <url>/hexoblog/2021/04/12/md/docker/docker%E5%90%AF%E5%8A%A8springboot/</url>
+    <content><![CDATA[<h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><p>&emsp;&emsp;需要准备东西有：</p>
+<ol>
+<li>docker环境</li>
+<li>sprinboot项目</li>
+</ol>
+<span id="more"></span>
+
+<hr>
+<h1 id="手动"><a href="#手动" class="headerlink" title="手动"></a>手动</h1><h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><h3 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h3><p>&emsp;&emsp;首先将springboot项目通过maven打包，得到可执行jar包。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 删除编译文件</span></span><br><span class="line">mvn clean</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将项目打包，得到可执行jar包</span></span><br><span class="line">mvn package</span><br></pre></td></tr></table></figure>
+
+<h3 id="构建"><a href="#构建" class="headerlink" title="构建"></a>构建</h3><p>&emsp;&emsp;将得到的可执行jar包构建成docker镜像。</p>
+<p>&emsp;&emsp;将得到的jar包放入指定目录下，并且在同目录下建立Dockerfile文件(文件名不能错)。<br>&emsp;&emsp;Dockerfile文件内容：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 基础镜像，环境</span></span><br><span class="line">FROM java:8</span><br><span class="line"><span class="comment"># springboot内嵌tomcat的工作目录</span></span><br><span class="line">VOLUME /tmp</span><br><span class="line"><span class="comment"># 拷贝文件并重命名</span></span><br><span class="line">ADD &lt;包名称&gt;.jar &lt;镜像名称&gt;.jar</span><br><span class="line"><span class="comment"># 启动时的命令</span></span><br><span class="line">ENTRYPOINT [<span class="string">&quot;java&quot;</span>,<span class="string">&quot;-jar&quot;</span>,<span class="string">&quot;&lt;包名称&gt;.jar&quot;</span>]</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;执行docker构建命令，得到docker镜像。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker build -t &lt;镜像名称&gt; .</span><br></pre></td></tr></table></figure>
+
+<h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><p>&emsp;&emsp;构建完成后，就可以在镜像列表查看是否有新构建的镜像，也可以运行该镜像。</p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h3 id="jar包名称问题"><a href="#jar包名称问题" class="headerlink" title="jar包名称问题"></a>jar包名称问题</h3><p>&emsp;&emsp;docker中镜像名称应该是使用小写字母，不可以使用大写字母，否则报错，命令行中不允许大写字母及特殊字符。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">invalid argument <span class="string">&quot;learn-0.0.1-SNAPSHOT&quot;</span> <span class="keyword">for</span> <span class="string">&quot;-t, --tag&quot;</span> flag: invalid reference format: repository name must be lowercase</span><br><span class="line">See <span class="string">&#x27;docker build --help&#x27;</span>.</span><br></pre></td></tr></table></figure>
+
+<h3 id="执行路径问题"><a href="#执行路径问题" class="headerlink" title="执行路径问题"></a>执行路径问题</h3><p>&emsp;&emsp;执行构建镜像命令应该进入所创建的目录，即在Dockerfile文件所在目录。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">failed to solve with frontend dockerfile.v0: failed to <span class="built_in">read</span> dockerfile: open /var/lib/docker/tmp/buildkit-mount528762</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="自动"><a href="#自动" class="headerlink" title="自动"></a>自动</h1><p>&emsp;&emsp;借助docker提供的maven工具，可自动构建docker镜像。</p>
+<h2 id="部署-1"><a href="#部署-1" class="headerlink" title="部署"></a>部署</h2><h3 id="引入依赖"><a href="#引入依赖" class="headerlink" title="引入依赖"></a>引入依赖</h3><p>&emsp;&emsp;首先需要引入docker的maven构建工具。</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.spotify<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>docker-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- 低版本的会报错--&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- 1.0.0不支持docker-desktop--&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">imageName</span>&gt;</span>springboot/learn<span class="tag">&lt;/<span class="name">imageName</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- Dockerfile文件所在的文件位置，可以用配置替代 --&gt;</span></span><br><span class="line">		<span class="comment">&lt;!-- &lt;dockerDirectory&gt;src/main/docker&lt;/dockerDirectory&gt; --&gt;</span></span><br><span class="line">		<span class="comment">&lt;!-- 基础镜像，运行一个springboot应用只需要基础的java环境就行 --&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">baseImage</span>&gt;</span>java:8<span class="tag">&lt;/<span class="name">baseImage</span>&gt;</span></span><br><span class="line">		<span class="comment">&lt;!-- docker启动的时候执行的命令 --&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">entryPoint</span>&gt;</span>[&quot;java&quot;, &quot;-jar&quot;, &quot;/$&#123;project.build.finalName&#125;.jar&quot;]<span class="tag">&lt;/<span class="name">entryPoint</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">resources</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">resource</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">targetPath</span>&gt;</span>/<span class="tag">&lt;/<span class="name">targetPath</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">directory</span>&gt;</span>$&#123;project.build.directory&#125;<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">include</span>&gt;</span>$&#123;project.build.finalName&#125;.jar<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">resource</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">resources</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="构建镜像"><a href="#构建镜像" class="headerlink" title="构建镜像"></a>构建镜像</h3><p>&emsp;&emsp;添加完依赖就可以对项目打包，构建。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 首先将项目打包</span></span><br><span class="line">mvn package</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用添加的maven插件将项目构建成docker镜像</span></span><br><span class="line">mvn docker:build</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;构建完成就可以在docker镜像列表中查看。</p>
+]]></content>
+      <categories>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>springboot</tag>
+        <tag>tool</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>docker启动vue</title>
+    <url>/hexoblog/2021/04/12/md/docker/docker%E5%90%AF%E5%8A%A8vue/</url>
+    <content><![CDATA[<h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><p>&emsp;&emsp;需要准备东西有：</p>
+<ol>
+<li>docker环境</li>
+<li>vue项目</li>
+</ol>
+<span id="more"></span>
+
+<hr>
+<h1 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h1><h2 id="项目build"><a href="#项目build" class="headerlink" title="项目build"></a>项目build</h2><p>&emsp;&emsp;将vue项目build得到dist文件夹。这里是页面等资源文件。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure>
+
+<h2 id="构建"><a href="#构建" class="headerlink" title="构建"></a>构建</h2><p>&emsp;&emsp;将得到的可执行dist构建成docker镜像。</p>
+<p>&emsp;&emsp;将得到的dist文件放入指定目录下，并且在同目录下建立Dockerfile文件(文件名不能错)。<br>&emsp;&emsp;Dockerfile文件内容：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 设置基础镜像，这里使用最新的nginx镜像，前面已经拉取过了</span></span><br><span class="line">FROM nginx</span><br><span class="line"><span class="comment"># 定义作者 Edison</span></span><br><span class="line">MAINTAINER Edison </span><br><span class="line"><span class="comment"># 将dist文件中的内容复制到 /usr/share/nginx/html/ 这个目录下面</span></span><br><span class="line">COPY dist/  /usr/share/nginx/html/</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;执行docker构建命令，得到docker镜像。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker build -t &lt;镜像名称&gt; .</span><br></pre></td></tr></table></figure>
+
+<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>&emsp;&emsp;构建完成后，就可以在镜像列表查看是否有新构建的镜像，也可以运行该镜像。</p>
+]]></content>
+      <categories>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>tool</tag>
+        <tag>vue</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>docker安装与使用</title>
+    <url>/hexoblog/2021/03/05/md/docker/docker%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h1 id="docker介绍："><a href="#docker介绍：" class="headerlink" title="docker介绍："></a>docker介绍：</h1><p>&emsp;&emsp;docker是个鲸鱼，拉了很多集装箱的鲸鱼。<br>&emsp;&emsp;docker是个开源的容器引擎。可以让开发者快速将他们的应用及依赖打包到一个可移植的容器中，然后发布到不同的平台。</p>
+<h2 id="docker的优点："><a href="#docker的优点：" class="headerlink" title="docker的优点："></a>docker的优点：</h2><p><strong>省时，省事，省钱。</strong></p>
+<span id="more"></span>
+
+<hr>
+<h1 id="docker安装："><a href="#docker安装：" class="headerlink" title="docker安装："></a>docker安装：</h1><p>&emsp;&emsp;这里介绍docker在windows平台家庭版下的安装。</p>
+<p>&emsp;&emsp;在windows家庭版下，安装docker需要先开启计算机的虚拟化功能，并且需要先安装wsl。</p>
+<h2 id="开启计算机的虚拟化功能："><a href="#开启计算机的虚拟化功能：" class="headerlink" title="开启计算机的虚拟化功能："></a>开启计算机的虚拟化功能：</h2><p>&emsp;&emsp;在控制面板-&gt;程序-&gt;启用或关闭Windows功能中开启即可：</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Windows%20%E5%8A%9F%E8%83%BD%202021_3_5%2015_47_19.png" alt="windows功能"></p>
+<p>&emsp;&emsp;我么这里将虚拟机平台（hyper-v）和适用于linux的windows子系统同时勾选，下面的勾选为了下一步的安装wsl的ubuntu。<br>&emsp;&emsp;点击确定，等待执行完，重启电脑就可以了。</p>
+<h2 id="安装Ubuntu"><a href="#安装Ubuntu" class="headerlink" title="安装Ubuntu"></a>安装Ubuntu</h2><p>&emsp;&emsp;我们在microsoft store中直接搜索linux，就会出现很多linux发行版，这里我选择的时ubuntu，也可以选择其他自己喜欢的发行版。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Microsoft%20Store%202021_3_5%2015_54_47.png" alt="microsoft store"></p>
+<h2 id="安装docker-desktop"><a href="#安装docker-desktop" class="headerlink" title="安装docker-desktop"></a>安装docker-desktop</h2><p>&emsp;&emsp;这里去官网下载<a href="https://www.docker.com/products/docker-desktop">docker-desktop</a>。<br>&emsp;&emsp;下载后双击打开下载的exe文件，完成安装。整个安装过程还是很简单的，不过这里的只是社区版，仅提供4个月的支持，不推荐生产使用。<br>&emsp;&emsp;点击右上角的齿轮图标可以设置界面，可以设置不自动启动，也可以在配置安装的wsl连接docker。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Settings%202021_3_5%2016_18_18.png" alt="设置不自动启动" title="不自动启动"></p>
+<p>开启refresh后，wsl中可以连接docker。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Settings%202021_3_5%2016_18_08.png" alt="wsl连接docker" title="wsl连接docker"></p>
+<p>&emsp;&emsp;安装完成后可以用命令进行验证，查看版本号等。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker -v</span><br><span class="line">docker version</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;出现下面的结果即为安装成功：</p>
+<img src="https://gitee.com/linqiankun/picurl/raw/master/java/Windows%20PowerShell%202021_3_5%2016_25_22.png" alt="Windows PowerShell 2021_3_5 16_25_22"  />
+
+<p>&emsp;&emsp;当然这样安装的docker是运行在一个轻量级的linux虚拟机上的，（图中的**OS/Arch选项）当然docker也提供了在windows的，但是那必须在win10 专业版，教育版，企业版上才行。<br>&emsp;&emsp;接下来就可以愉快的玩耍了。</p>
+<h1 id="基础使用："><a href="#基础使用：" class="headerlink" title="基础使用："></a>基础使用：</h1><h2 id="启动docker"><a href="#启动docker" class="headerlink" title="启动docker"></a>启动docker</h2><p>&emsp;&emsp;这样安装的docker安装成功后就启动起来了，就可以直接使用了。<br>&emsp;&emsp;这样的貌似不能用syatemctl进行启动。</p>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看镜像列表</span></span><br><span class="line">docker image ls</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在仓库中查找镜像</span></span><br><span class="line">docker search &lt;imagetitle&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 下载镜像</span></span><br><span class="line">docker pull &lt;imagetitle&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除镜像(需要无运行该镜像的容器)</span></span><br><span class="line">docker rmi &lt;imageId&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看镜像</span></span><br><span class="line">docker inspect &lt;imageId&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行镜像</span></span><br><span class="line">docker run -p &lt;port&gt;:&lt;port&gt; &lt;imagetitle&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看容器列表（运行中的镜像）</span></span><br><span class="line">docker container ls</span><br><span class="line">docker ps</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看所有容器</span></span><br><span class="line">docker ps -a</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除容器</span></span><br><span class="line">docker rm &lt;containerId&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 也可以直接运行容器</span></span><br><span class="line">docker start &lt;containerId&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启</span></span><br><span class="line">docker restart &lt;contarinerId&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 停止</span></span><br><span class="line">docker stop &lt;containerId&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 进入容器</span></span><br><span class="line">docker <span class="built_in">exec</span> -it &lt;containerId&gt; /bin/bash</span><br><span class="line"></span><br><span class="line"><span class="comment"># 退出容器</span></span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>wsl</tag>
+        <tag>tool</tag>
       </tags>
   </entry>
   <entry>
@@ -1435,6 +1435,57 @@
       </tags>
   </entry>
   <entry>
+    <title>JVM内存分配策略</title>
+    <url>/hexoblog/2021/04/27/md/jvm/JVM%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;就是java对象在堆上分配空间的策略。<br>&emsp;&emsp;具体的分配策略取决于使用那种垃圾回收器的组合，还有虚拟机中参数的设置。这里的一般是分代收集算法下的情况。</p>
+<span id="more"></span>
+
+<hr>
+<h1 id="内存结构"><a href="#内存结构" class="headerlink" title="内存结构"></a>内存结构</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E5%A0%86%E5%86%85%E5%AD%98%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6.jpg" alt="堆内存垃圾回收"></p>
+<p>&emsp;&emsp;这里的内存结构说的是虚拟机对jvm规范中堆区域的实现，不同的虚拟机可能稍有不同。<br>&emsp;&emsp;根据分代回收算法，将堆分为新生代、老年代。新生代默认占堆空间的1/3，老年代默认占堆空间的2/3。<br>&emsp;&emsp;新生代使用复制算法，有3个区，Eden、To Survivor、From Survivor，它们的默认占比是8:1:1，它的执行流程如下：</p>
+<blockquote>
+<p>&emsp;&emsp;设置Survivore区可以防止频繁触发FULL GC。如果没有Survivor，Eden区每进行一次Minor GC，存活的对象就会被送到老年代，这样会使老年代很快被填满，导致老年代触发FULL GC，由于老年代的内存空间远大于新生代，所以进行一次Full GC消耗的时间比Minor GC长得多。<br>&emsp;&emsp;两个Survivor防止产生内存空间碎片。如果只有Survivor1，那么每一次当Eden区满时，触发Minor GC并把对象移入Survivor1中，如此循环对导致Survivor1中产生大量的空间碎片；所以需要有Survivor2，当Eden再一次满时，触发Minor GC，虚拟机会把 Eden中和Survivor1中的存活对象通过复制算法移入Survivor2中，这样Survivor2就不会产生内存碎片，同时Eden和Survivor1会清理内存，保证下一次Minor GC触发时的操作。</p>
+</blockquote>
+<ol>
+<li>在GC开始的时候，对象只会存在于Eden区和名为“From”的Survivor区，Survivor区“To”是空的。紧接着进行GC，Eden区中所有存活的对象都会被复制到“To Survivor区”，仍存活的对象会根据他们的年龄值来决定去向。年龄达到一定值(年龄阈值，可以通过-XX:MaxTenuringThreshold来设置)的对象会被移动到年老代中。</li>
+<li>清空Eden和From Survivor分区。</li>
+<li>这时From Survivor和To Survivor分区会互换角色，分区交换，From Survivor变To Survivor，To Survivor变From Survivor。</li>
+<li>每次在From Survivor到To Survivor移动时都存活的对象，年龄就+1，当年龄到达15（默认配置是 15）时，升级为老生代。大对象也会直接进入老生代。</li>
+</ol>
+<p>&emsp;&emsp;老生代当空间占用到达某个值之后就会触发全局垃圾收回，一般使用标记整理的执行算法。以上这些循环往复就构成了整个分代垃圾回收的整体执行流程。</p>
+<hr>
+<h1 id="策略"><a href="#策略" class="headerlink" title="策略"></a>策略</h1><p>&emsp;&emsp;常见的内存分配策略为：</p>
+<ol>
+<li><p>对象优先在Eden分配。</p>
+</li>
+<li><p>大对象直接进入老年代。</p>
+</li>
+<li><p>长期存活的对象进入老年代。</p>
+</li>
+<li><p>动态对象年龄判断。</p>
+</li>
+<li><p>空间分配担保。</p>
+<h2 id="对象优先在Eden区"><a href="#对象优先在Eden区" class="headerlink" title="对象优先在Eden区"></a>对象优先在Eden区</h2></li>
+</ol>
+<p>&emsp;&emsp;多数情况下，新对象都在新生代Eden区分配，当Eden区没有足够空间进行分配时，虚拟机将发起一次Minor GC，即发生在新生代的垃圾收集。<br>&emsp;&emsp;如果分配后还是没有足够的空间，就会启动分配担保机制在老年代分配空间。</p>
+<h2 id="大对象直接进入老年代"><a href="#大对象直接进入老年代" class="headerlink" title="大对象直接进入老年代"></a>大对象直接进入老年代</h2><p>&emsp;&emsp;所谓大对象就是指需要大量连续内存空间的Java对象，最典型的大对象就是那种很长的字符串以及数组。可以通过虚拟机参数<code>-XX:PretenureSizeThreshold</code>控制大对象的最小临界值。<br>&emsp;&emsp;新生代使用的是复制算法来处理垃圾回收的，如果大对象直接在新生代分配就会导致Eden区和两个Survivor区之间发生大量的内存复制。<br>&emsp;&emsp;经常出现大对象，会导致在内存还有不少时就触发垃圾回收。</p>
+<ul>
+<li><strong>Minor GC</strong>：指发生在新生代的GC，一般速度非常快。</li>
+<li><strong>Full GC</strong>：是指发生在老年代的GC，一般出现这种必然会伴随Minor GC，通常会被Minor GC慢10倍。</li>
+</ul>
+<h2 id="长期存活的对象进入老年代"><a href="#长期存活的对象进入老年代" class="headerlink" title="长期存活的对象进入老年代"></a>长期存活的对象进入老年代</h2><p>&emsp;&emsp;在分代收集算法中需要确定那些对象该进入老年代，那些不用进入。<br>&emsp;&emsp;虚拟机给每个对象定义了一个对象年龄计数器，如果对象在Eden区出生，并且能够被Survivor容纳，将被移动到Survivor空间中，这时设置对象年龄为1。对象在Survivor区中每过一次Minor GC年龄就加 1，当年龄达到一定程度（默认 15）就会被晋升到老年代。可以通过参数<code>-XX:MaxTenuringThreshold</code>设置进入老年代的年龄上限。</p>
+<h2 id="动态对象年龄判断"><a href="#动态对象年龄判断" class="headerlink" title="动态对象年龄判断"></a>动态对象年龄判断</h2><p>&emsp;&emsp;虚拟机并不是永远地要求对象的年龄必须达到了MaxTenuringThreshold才能晋升老年代，如果在Survivor空间中相同年龄所有对象大小的总和大于Survivor空间的一半，年龄大于等于该年龄的对象就可以直接进入老年代。</p>
+<h2 id="空间分配担保"><a href="#空间分配担保" class="headerlink" title="空间分配担保"></a>空间分配担保</h2><p>&emsp;&emsp;在发生Minor GC之前，虚拟机会先检查老年代最大可用的连续空间是否大于新生代所有对象总空间，如果这个条件成立，那么Minor GC可以确保是安全的。如果不成立，则虚拟机会查看HandlePromotionFailure设置值是否允许担保失败。如果允许，那么会继续检查老年代最大可用的连续空间是否大于历次晋升到老年代对象的平均大小，如果大于，将尝试进行一次Minor GC，尽管这次Minor GC是有风险的；如果小于，或者HandlePromotionFailure设置不允许冒险，这这时也要改为进行一次Full GC（指发生在老年代的GC，会发生STW）。实际上，在 JDK 6 Update 24之后的规则变为只要老年代的连续空间大于新生代对象总大小或者历次晋升的平均大小就会进行Minor GC，否则就进行Full GC。</p>
+]]></content>
+      <categories>
+        <category>jvm</category>
+      </categories>
+      <tags>
+        <tag>jvm</tag>
+        <tag>memory</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>happens-before</title>
     <url>/hexoblog/2021/03/03/md/jvm/happens-before/</url>
     <content><![CDATA[<h1 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h1><p>&emsp;&emsp;在JMM中，由于存在线程本地内存和主内存的原因，再加上重排序，会导致多线程环境下存在可见性的问题。<br>&emsp;&emsp;JDK5开始，JMM使用happens-before概念来阐述多线程之间的内存可见性问题。</p>
@@ -1675,57 +1726,6 @@
       </tags>
   </entry>
   <entry>
-    <title>JVM内存分配策略</title>
-    <url>/hexoblog/2021/04/27/md/jvm/JVM%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;就是java对象在堆上分配空间的策略。<br>&emsp;&emsp;具体的分配策略取决于使用那种垃圾回收器的组合，还有虚拟机中参数的设置。这里的一般是分代收集算法下的情况。</p>
-<span id="more"></span>
-
-<hr>
-<h1 id="内存结构"><a href="#内存结构" class="headerlink" title="内存结构"></a>内存结构</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E5%A0%86%E5%86%85%E5%AD%98%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6.jpg" alt="堆内存垃圾回收"></p>
-<p>&emsp;&emsp;这里的内存结构说的是虚拟机对jvm规范中堆区域的实现，不同的虚拟机可能稍有不同。<br>&emsp;&emsp;根据分代回收算法，将堆分为新生代、老年代。新生代默认占堆空间的1/3，老年代默认占堆空间的2/3。<br>&emsp;&emsp;新生代使用复制算法，有3个区，Eden、To Survivor、From Survivor，它们的默认占比是8:1:1，它的执行流程如下：</p>
-<blockquote>
-<p>&emsp;&emsp;设置Survivore区可以防止频繁触发FULL GC。如果没有Survivor，Eden区每进行一次Minor GC，存活的对象就会被送到老年代，这样会使老年代很快被填满，导致老年代触发FULL GC，由于老年代的内存空间远大于新生代，所以进行一次Full GC消耗的时间比Minor GC长得多。<br>&emsp;&emsp;两个Survivor防止产生内存空间碎片。如果只有Survivor1，那么每一次当Eden区满时，触发Minor GC并把对象移入Survivor1中，如此循环对导致Survivor1中产生大量的空间碎片；所以需要有Survivor2，当Eden再一次满时，触发Minor GC，虚拟机会把 Eden中和Survivor1中的存活对象通过复制算法移入Survivor2中，这样Survivor2就不会产生内存碎片，同时Eden和Survivor1会清理内存，保证下一次Minor GC触发时的操作。</p>
-</blockquote>
-<ol>
-<li>在GC开始的时候，对象只会存在于Eden区和名为“From”的Survivor区，Survivor区“To”是空的。紧接着进行GC，Eden区中所有存活的对象都会被复制到“To Survivor区”，仍存活的对象会根据他们的年龄值来决定去向。年龄达到一定值(年龄阈值，可以通过-XX:MaxTenuringThreshold来设置)的对象会被移动到年老代中。</li>
-<li>清空Eden和From Survivor分区。</li>
-<li>这时From Survivor和To Survivor分区会互换角色，分区交换，From Survivor变To Survivor，To Survivor变From Survivor。</li>
-<li>每次在From Survivor到To Survivor移动时都存活的对象，年龄就+1，当年龄到达15（默认配置是 15）时，升级为老生代。大对象也会直接进入老生代。</li>
-</ol>
-<p>&emsp;&emsp;老生代当空间占用到达某个值之后就会触发全局垃圾收回，一般使用标记整理的执行算法。以上这些循环往复就构成了整个分代垃圾回收的整体执行流程。</p>
-<hr>
-<h1 id="策略"><a href="#策略" class="headerlink" title="策略"></a>策略</h1><p>&emsp;&emsp;常见的内存分配策略为：</p>
-<ol>
-<li><p>对象优先在Eden分配。</p>
-</li>
-<li><p>大对象直接进入老年代。</p>
-</li>
-<li><p>长期存活的对象进入老年代。</p>
-</li>
-<li><p>动态对象年龄判断。</p>
-</li>
-<li><p>空间分配担保。</p>
-<h2 id="对象优先在Eden区"><a href="#对象优先在Eden区" class="headerlink" title="对象优先在Eden区"></a>对象优先在Eden区</h2></li>
-</ol>
-<p>&emsp;&emsp;多数情况下，新对象都在新生代Eden区分配，当Eden区没有足够空间进行分配时，虚拟机将发起一次Minor GC，即发生在新生代的垃圾收集。<br>&emsp;&emsp;如果分配后还是没有足够的空间，就会启动分配担保机制在老年代分配空间。</p>
-<h2 id="大对象直接进入老年代"><a href="#大对象直接进入老年代" class="headerlink" title="大对象直接进入老年代"></a>大对象直接进入老年代</h2><p>&emsp;&emsp;所谓大对象就是指需要大量连续内存空间的Java对象，最典型的大对象就是那种很长的字符串以及数组。可以通过虚拟机参数<code>-XX:PretenureSizeThreshold</code>控制大对象的最小临界值。<br>&emsp;&emsp;新生代使用的是复制算法来处理垃圾回收的，如果大对象直接在新生代分配就会导致Eden区和两个Survivor区之间发生大量的内存复制。<br>&emsp;&emsp;经常出现大对象，会导致在内存还有不少时就触发垃圾回收。</p>
-<ul>
-<li><strong>Minor GC</strong>：指发生在新生代的GC，一般速度非常快。</li>
-<li><strong>Full GC</strong>：是指发生在老年代的GC，一般出现这种必然会伴随Minor GC，通常会被Minor GC慢10倍。</li>
-</ul>
-<h2 id="长期存活的对象进入老年代"><a href="#长期存活的对象进入老年代" class="headerlink" title="长期存活的对象进入老年代"></a>长期存活的对象进入老年代</h2><p>&emsp;&emsp;在分代收集算法中需要确定那些对象该进入老年代，那些不用进入。<br>&emsp;&emsp;虚拟机给每个对象定义了一个对象年龄计数器，如果对象在Eden区出生，并且能够被Survivor容纳，将被移动到Survivor空间中，这时设置对象年龄为1。对象在Survivor区中每过一次Minor GC年龄就加 1，当年龄达到一定程度（默认 15）就会被晋升到老年代。可以通过参数<code>-XX:MaxTenuringThreshold</code>设置进入老年代的年龄上限。</p>
-<h2 id="动态对象年龄判断"><a href="#动态对象年龄判断" class="headerlink" title="动态对象年龄判断"></a>动态对象年龄判断</h2><p>&emsp;&emsp;虚拟机并不是永远地要求对象的年龄必须达到了MaxTenuringThreshold才能晋升老年代，如果在Survivor空间中相同年龄所有对象大小的总和大于Survivor空间的一半，年龄大于等于该年龄的对象就可以直接进入老年代。</p>
-<h2 id="空间分配担保"><a href="#空间分配担保" class="headerlink" title="空间分配担保"></a>空间分配担保</h2><p>&emsp;&emsp;在发生Minor GC之前，虚拟机会先检查老年代最大可用的连续空间是否大于新生代所有对象总空间，如果这个条件成立，那么Minor GC可以确保是安全的。如果不成立，则虚拟机会查看HandlePromotionFailure设置值是否允许担保失败。如果允许，那么会继续检查老年代最大可用的连续空间是否大于历次晋升到老年代对象的平均大小，如果大于，将尝试进行一次Minor GC，尽管这次Minor GC是有风险的；如果小于，或者HandlePromotionFailure设置不允许冒险，这这时也要改为进行一次Full GC（指发生在老年代的GC，会发生STW）。实际上，在 JDK 6 Update 24之后的规则变为只要老年代的连续空间大于新生代对象总大小或者历次晋升的平均大小就会进行Minor GC，否则就进行Full GC。</p>
-]]></content>
-      <categories>
-        <category>jvm</category>
-      </categories>
-      <tags>
-        <tag>jvm</tag>
-        <tag>memory</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>jvm命令</title>
     <url>/hexoblog/2021/03/29/md/jvm/jvm%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<h1 id="JVM命令的使用"><a href="#JVM命令的使用" class="headerlink" title="JVM命令的使用"></a>JVM命令的使用</h1><p><a href="https://blog.csdn.net/wangxiaotongfan/article/details/82560739">https://blog.csdn.net/wangxiaotongfan/article/details/82560739</a></p>
@@ -1951,6 +1951,24 @@
       </tags>
   </entry>
   <entry>
+    <title>mysql常用命令</title>
+    <url>/hexoblog/2021/03/12/md/mysql/mysql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><h2 id="修改mysql时区"><a href="#修改mysql时区" class="headerlink" title="修改mysql时区"></a>修改mysql时区</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看时区</span></span><br><span class="line">show variables like <span class="string">&quot;%time_zone%&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置时区为UTC+8:00</span></span><br><span class="line"><span class="built_in">set</span> global time_zone = <span class="string">&#x27;+8:00&#x27;</span>;</span><br><span class="line"><span class="built_in">set</span> time_zone = <span class="string">&#x27;+8:00&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 刷新立即生效</span></span><br><span class="line">flush privileges；</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+<h2 id="使用mysql-binlog"><a href="#使用mysql-binlog" class="headerlink" title="使用mysql binlog"></a>使用mysql binlog</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看日志是否开启</span></span><br><span class="line">show variables like <span class="string">&#x27;log_%&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看binlog配置</span></span><br><span class="line">show variables like <span class="string">&#x27;binlog_%&#x27;</span>; </span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看数据库当前日志情况</span></span><br><span class="line">show master status;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看所有日志文件</span></span><br><span class="line">show binary logs;</span><br><span class="line">show master logs;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 根据事件查看文件</span></span><br><span class="line">show binlog events <span class="keyword">in</span> <span class="string">&#x27;$&#123;binlogname&#125;&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看binlog日志文件内容</span></span><br><span class="line">mysqlbinlog  <span class="variable">$&#123;binlogname&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 以人类能看懂的方式查看binlog文件内容</span></span><br><span class="line">mysqlbinlog --base64-output=decode-rows -vvvvvv <span class="variable">$&#123;binlogname&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用-r命令将日志转写进sql</span></span><br><span class="line">mysqlbinlog --base64-output=decode-rows -vvvvvv <span class="variable">$&#123;binlogname&#125;</span> -r <span class="variable">$&#123;sqlname.sql&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 还原数据库</span></span><br><span class="line">mysqlbinlog --start-positoin=<span class="variable">$&#123;number&#125;</span> --stop-position=<span class="variable">$&#123;number&#125;</span> <span class="variable">$&#123;binlogname&#125;</span> -d <span class="variable">$&#123;databasename&#125;</span> | mysql -u<span class="variable">$&#123;username&#125;</span> -p<span class="variable">$&#123;password&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;转写进文件的日志不能直接执行，不过我们可以从其中提取有用信息。<br>&emsp;&emsp;因为binlog日志里面会将删除等操作全部保存下来，所以再还原数据库信息时一定不能全部解析，需要指定确切位置。<br>&emsp;&emsp;指定位置，数据库，时间，端口，host的命令都可以跟在mysqlbinlog后面，不只只用来恢复，转储，查看都可以。这些命令可以排列组合，放在日志名称前即可。</p>
+<p>mysqlbinlog其他参数：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 起始位置</span></span><br><span class="line">--start-position=<span class="variable">$&#123;positiom number&#125;</span></span><br><span class="line"><span class="comment"># 结束位置</span></span><br><span class="line">--stop-position=<span class="variable">$&#123;position number&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 开始时间</span></span><br><span class="line">--start-datetime=<span class="variable">$&#123;starttime&#125;</span></span><br><span class="line"><span class="comment"># 结束时间</span></span><br><span class="line">--stop-datetime=<span class="variable">$&#123;stoptime&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 数据库</span></span><br><span class="line">-d <span class="variable">$&#123;databasename&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 端口号(大写的P)</span></span><br><span class="line">-P <span class="variable">$&#123;port&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ip地址</span></span><br><span class="line">-h <span class="variable">$&#123;hosts&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># serverId</span></span><br><span class="line">--server-id=<span class="variable">$&#123;server-id&#125;</span></span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>mysql</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>mysql中datetime和timestamp</title>
     <url>/hexoblog/2021/04/14/md/mysql/mysql%E4%B8%ADdatetime%E5%92%8Ctimestamp/</url>
     <content><![CDATA[<h1 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h1><h2 id="date和datetime，timestamp的区别"><a href="#date和datetime，timestamp的区别" class="headerlink" title="date和datetime，timestamp的区别"></a>date和datetime，timestamp的区别</h2><ol>
@@ -2002,24 +2020,6 @@
       </tags>
   </entry>
   <entry>
-    <title>mysql常用命令</title>
-    <url>/hexoblog/2021/03/12/md/mysql/mysql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><h2 id="修改mysql时区"><a href="#修改mysql时区" class="headerlink" title="修改mysql时区"></a>修改mysql时区</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看时区</span></span><br><span class="line">show variables like <span class="string">&quot;%time_zone%&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置时区为UTC+8:00</span></span><br><span class="line"><span class="built_in">set</span> global time_zone = <span class="string">&#x27;+8:00&#x27;</span>;</span><br><span class="line"><span class="built_in">set</span> time_zone = <span class="string">&#x27;+8:00&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 刷新立即生效</span></span><br><span class="line">flush privileges；</span><br></pre></td></tr></table></figure>
-
-<span id="more"></span>
-<h2 id="使用mysql-binlog"><a href="#使用mysql-binlog" class="headerlink" title="使用mysql binlog"></a>使用mysql binlog</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看日志是否开启</span></span><br><span class="line">show variables like <span class="string">&#x27;log_%&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看binlog配置</span></span><br><span class="line">show variables like <span class="string">&#x27;binlog_%&#x27;</span>; </span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看数据库当前日志情况</span></span><br><span class="line">show master status;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看所有日志文件</span></span><br><span class="line">show binary logs;</span><br><span class="line">show master logs;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 根据事件查看文件</span></span><br><span class="line">show binlog events <span class="keyword">in</span> <span class="string">&#x27;$&#123;binlogname&#125;&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看binlog日志文件内容</span></span><br><span class="line">mysqlbinlog  <span class="variable">$&#123;binlogname&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 以人类能看懂的方式查看binlog文件内容</span></span><br><span class="line">mysqlbinlog --base64-output=decode-rows -vvvvvv <span class="variable">$&#123;binlogname&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用-r命令将日志转写进sql</span></span><br><span class="line">mysqlbinlog --base64-output=decode-rows -vvvvvv <span class="variable">$&#123;binlogname&#125;</span> -r <span class="variable">$&#123;sqlname.sql&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 还原数据库</span></span><br><span class="line">mysqlbinlog --start-positoin=<span class="variable">$&#123;number&#125;</span> --stop-position=<span class="variable">$&#123;number&#125;</span> <span class="variable">$&#123;binlogname&#125;</span> -d <span class="variable">$&#123;databasename&#125;</span> | mysql -u<span class="variable">$&#123;username&#125;</span> -p<span class="variable">$&#123;password&#125;</span></span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;转写进文件的日志不能直接执行，不过我们可以从其中提取有用信息。<br>&emsp;&emsp;因为binlog日志里面会将删除等操作全部保存下来，所以再还原数据库信息时一定不能全部解析，需要指定确切位置。<br>&emsp;&emsp;指定位置，数据库，时间，端口，host的命令都可以跟在mysqlbinlog后面，不只只用来恢复，转储，查看都可以。这些命令可以排列组合，放在日志名称前即可。</p>
-<p>mysqlbinlog其他参数：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 起始位置</span></span><br><span class="line">--start-position=<span class="variable">$&#123;positiom number&#125;</span></span><br><span class="line"><span class="comment"># 结束位置</span></span><br><span class="line">--stop-position=<span class="variable">$&#123;position number&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 开始时间</span></span><br><span class="line">--start-datetime=<span class="variable">$&#123;starttime&#125;</span></span><br><span class="line"><span class="comment"># 结束时间</span></span><br><span class="line">--stop-datetime=<span class="variable">$&#123;stoptime&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 数据库</span></span><br><span class="line">-d <span class="variable">$&#123;databasename&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 端口号(大写的P)</span></span><br><span class="line">-P <span class="variable">$&#123;port&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ip地址</span></span><br><span class="line">-h <span class="variable">$&#123;hosts&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># serverId</span></span><br><span class="line">--server-id=<span class="variable">$&#123;server-id&#125;</span></span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>mysql</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>mysql浮点数精度</title>
     <url>/hexoblog/2021/04/14/md/mysql/mysql%E6%B5%AE%E7%82%B9%E6%95%B0%E7%B2%BE%E5%BA%A6/</url>
     <content><![CDATA[<h1 id="小数类型"><a href="#小数类型" class="headerlink" title="小数类型"></a>小数类型</h1><h2 id="浮点数"><a href="#浮点数" class="headerlink" title="浮点数"></a>浮点数</h2><p>&emsp;&emsp;浮点型又称之为精度类型：是一种有可能丢失精度的数据类型，数据有可能不那么准确（由其是在超出范围的时候）。<br>&emsp;&emsp;浮点型之所以能够存储较大的数值（不精确），原因就是利用存储数据的位来存储指数。</p>
@@ -2034,27 +2034,6 @@
       <tags>
         <tag>mysql</tag>
         <tag>数据类型</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>nginx基础安装及使用</title>
-    <url>/hexoblog/2021/05/20/md/nginx/nginx%E5%9F%BA%E7%A1%80%E5%AE%89%E8%A3%85%E5%8F%8A%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>&emsp;&emsp;Nginx是一款轻量级的Web服务器、反向代理服务器，由于它的内存占用少，启动极快，高并发能力强，在互联网项目中广泛应用。</p>
-<span id="more"></span>
-
-<p>&emsp;&emsp;nginx可以用来做：反向代理服务器，静态Http服务器，负载均衡，虚拟主机。</p>
-<hr>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;这里的安装目前是在windows环境下，傻瓜式安装即可。  </p>
-<h2 id="下载解压"><a href="#下载解压" class="headerlink" title="下载解压"></a>下载解压</h2><p>&emsp;&emsp;nginx在windows安装很简单，下载后解压就好，纯绿色安装。<br>&emsp;&emsp;在官方地址下载nginx，解压后放在想要放的文件夹。<br>&emsp;&emsp;下载地址：<a href="http://nginx.org/en/download.html">下载地址</a>。</p>
-<hr>
-<h1 id="基础使用"><a href="#基础使用" class="headerlink" title="基础使用"></a>基础使用</h1><p>&emsp;&emsp;启动，关机，重新加载等基础操作。<br>&emsp;&emsp;如果没有配置环境变量，启动前请进入nginx安装目录，如果有配置可以不进入。  </p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 进入解压后的nginx</span></span><br><span class="line"><span class="built_in">cd</span> nginx-1.18.0</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动nginx（windows下）</span></span><br><span class="line">start nginx</span><br><span class="line">./nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 停止nginx</span></span><br><span class="line"><span class="comment"># stop是快速停止nginx，quit是有序停止nginx。</span></span><br><span class="line">./nginx -s stop</span><br><span class="line">./nginx -s quit</span><br><span class="line"><span class="comment"># 重新加载配置</span></span><br><span class="line">./nginx -s reload</span><br><span class="line"></span><br><span class="line"><span class="comment"># 校验配置</span></span><br><span class="line">./nginx -t</span><br><span class="line"><span class="comment"># 查看版本</span></span><br><span class="line">./nginx -v</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>nginx</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-        <tag>nginx</tag>
       </tags>
   </entry>
   <entry>
@@ -2138,6 +2117,34 @@
         <tag>redis</tag>
         <tag>分布式</tag>
         <tag>锁</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>redis安装和使用</title>
+    <url>/hexoblog/2021/04/14/md/redis/redis%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;这里是在windows环境下的redis安装过程，两种安装方式，都比较简单。<br>&emsp;&emsp;官方提供的只有linux系统的tar.gz格式的压缩包，windows的需要在github下载。<br><a href="https://redis.io/">https://redis.io/</a><br><a href="http://www.redis.cn/">http://www.redis.cn/</a><br><a href="https://www.redis.com.cn/">https://www.redis.com.cn/</a><br><a href="https://www.redis.com.cn/redis-installation.html">https://www.redis.com.cn/redis-installation.html</a></p>
+<span id="more"></span>
+<h2 id="msi安装"><a href="#msi安装" class="headerlink" title="msi安装"></a>msi安装</h2><ol>
+<li>下载msi安装文件<blockquote>
+<p>官方提供的只有tar.gz格式压缩包下载，msi需要在github下载<br><a href="https://github.com/MicrosoftArchive/redis/releases">https://github.com/MicrosoftArchive/redis/releases</a></p>
+</blockquote>
+</li>
+<li>双击运行</li>
+<li>完成安装</li>
+</ol>
+<h2 id="zip安装"><a href="#zip安装" class="headerlink" title="zip安装"></a>zip安装</h2><ol>
+<li>下载zip压缩包</li>
+<li>将压缩包解压至你准备安装的路径</li>
+<li>解压完成就是安装完成</li>
+</ol>
+<hr>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 先进入安装目录</span></span><br><span class="line"><span class="built_in">cd</span> &lt;安装目录&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动</span></span><br><span class="line"><span class="comment"># 作为普通软件启动，命令行关闭则关闭</span></span><br><span class="line">redis-server.exe redis.windows.conf</span><br><span class="line"><span class="comment"># 作为服务启动，不跟随命令行</span></span><br><span class="line">redis-server.exe redis.windows-service.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 客户端连接</span></span><br><span class="line">redis-cli.exe</span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭</span></span><br><span class="line">redis-server.exe --service-stop</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>redis</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>redis</tag>
       </tags>
   </entry>
   <entry>
@@ -2229,34 +2236,6 @@
       </tags>
   </entry>
   <entry>
-    <title>redis安装和使用</title>
-    <url>/hexoblog/2021/04/14/md/redis/redis%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;这里是在windows环境下的redis安装过程，两种安装方式，都比较简单。<br>&emsp;&emsp;官方提供的只有linux系统的tar.gz格式的压缩包，windows的需要在github下载。<br><a href="https://redis.io/">https://redis.io/</a><br><a href="http://www.redis.cn/">http://www.redis.cn/</a><br><a href="https://www.redis.com.cn/">https://www.redis.com.cn/</a><br><a href="https://www.redis.com.cn/redis-installation.html">https://www.redis.com.cn/redis-installation.html</a></p>
-<span id="more"></span>
-<h2 id="msi安装"><a href="#msi安装" class="headerlink" title="msi安装"></a>msi安装</h2><ol>
-<li>下载msi安装文件<blockquote>
-<p>官方提供的只有tar.gz格式压缩包下载，msi需要在github下载<br><a href="https://github.com/MicrosoftArchive/redis/releases">https://github.com/MicrosoftArchive/redis/releases</a></p>
-</blockquote>
-</li>
-<li>双击运行</li>
-<li>完成安装</li>
-</ol>
-<h2 id="zip安装"><a href="#zip安装" class="headerlink" title="zip安装"></a>zip安装</h2><ol>
-<li>下载zip压缩包</li>
-<li>将压缩包解压至你准备安装的路径</li>
-<li>解压完成就是安装完成</li>
-</ol>
-<hr>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 先进入安装目录</span></span><br><span class="line"><span class="built_in">cd</span> &lt;安装目录&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动</span></span><br><span class="line"><span class="comment"># 作为普通软件启动，命令行关闭则关闭</span></span><br><span class="line">redis-server.exe redis.windows.conf</span><br><span class="line"><span class="comment"># 作为服务启动，不跟随命令行</span></span><br><span class="line">redis-server.exe redis.windows-service.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 客户端连接</span></span><br><span class="line">redis-cli.exe</span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭</span></span><br><span class="line">redis-server.exe --service-stop</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>redis</category>
-      </categories>
-      <tags>
-        <tag>tool</tag>
-        <tag>redis</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>spring事务失效</title>
     <url>/hexoblog/2021/03/02/md/spring/spring%E4%BA%8B%E5%8A%A1%E5%A4%B1%E6%95%88/</url>
     <content><![CDATA[<h1 id="事务失效的几种类型"><a href="#事务失效的几种类型" class="headerlink" title="事务失效的几种类型"></a>事务失效的几种类型</h1><ol>
@@ -2311,6 +2290,43 @@
       </tags>
   </entry>
   <entry>
+    <title>git</title>
+    <url>/hexoblog/2021/03/03/md/tool/git/</url>
+    <content><![CDATA[<h1 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h1><h2 id="将本地文件推送至远程"><a href="#将本地文件推送至远程" class="headerlink" title="将本地文件推送至远程"></a>将本地文件推送至远程</h2><ol>
+<li>首先在码云上建立一个项目</li>
+<li>本地建立一个文件夹</li>
+<li>进入文件夹，点击 git bash here</li>
+<li>git init  #初始化本地仓库，出现一个.git文件夹</li>
+<li>git remote add origin +远程仓库链接地址（https:/git:）</li>
+<li>git pull origin master  #将码云上的仓库pull到本地文件夹</li>
+<li>将要上传的文件，添加到刚刚创建的文件夹</li>
+<li>git add .  #（.表示所有的）或者 git add + 文件名 将文件保存到缓存区</li>
+<li>git commit -m ‘新添加的文件内容描述’  #添加文件描述</li>
+<li>git push origin master  #将本地仓库推送到远程仓库</li>
+</ol>
+<span id="more"></span>
+
+<h2 id="删除本地仓库"><a href="#删除本地仓库" class="headerlink" title="删除本地仓库"></a>删除本地仓库</h2><ol>
+<li>进入文件夹，点击 git bash here</li>
+<li>git branch  #显示本地所有分支</li>
+<li>ls -a  #显示所有文件</li>
+<li>rm -rf .git  #删除.git文件</li>
+<li>删除文件夹</li>
+</ol>
+<h2 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h2><ol>
+<li>git config  #查看配置</li>
+</ol>
+<hr>
+<h1 id="GIT命令"><a href="#GIT命令" class="headerlink" title="GIT命令"></a>GIT命令</h1>]]></content>
+      <categories>
+        <category>tool</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>hexo使用</title>
     <url>/hexoblog/2021/03/04/md/tool/hexo%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><p>[toc]</p>
@@ -2354,43 +2370,6 @@
       </tags>
   </entry>
   <entry>
-    <title>git</title>
-    <url>/hexoblog/2021/03/03/md/tool/git/</url>
-    <content><![CDATA[<h1 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h1><h2 id="将本地文件推送至远程"><a href="#将本地文件推送至远程" class="headerlink" title="将本地文件推送至远程"></a>将本地文件推送至远程</h2><ol>
-<li>首先在码云上建立一个项目</li>
-<li>本地建立一个文件夹</li>
-<li>进入文件夹，点击 git bash here</li>
-<li>git init  #初始化本地仓库，出现一个.git文件夹</li>
-<li>git remote add origin +远程仓库链接地址（https:/git:）</li>
-<li>git pull origin master  #将码云上的仓库pull到本地文件夹</li>
-<li>将要上传的文件，添加到刚刚创建的文件夹</li>
-<li>git add .  #（.表示所有的）或者 git add + 文件名 将文件保存到缓存区</li>
-<li>git commit -m ‘新添加的文件内容描述’  #添加文件描述</li>
-<li>git push origin master  #将本地仓库推送到远程仓库</li>
-</ol>
-<span id="more"></span>
-
-<h2 id="删除本地仓库"><a href="#删除本地仓库" class="headerlink" title="删除本地仓库"></a>删除本地仓库</h2><ol>
-<li>进入文件夹，点击 git bash here</li>
-<li>git branch  #显示本地所有分支</li>
-<li>ls -a  #显示所有文件</li>
-<li>rm -rf .git  #删除.git文件</li>
-<li>删除文件夹</li>
-</ol>
-<h2 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h2><ol>
-<li>git config  #查看配置</li>
-</ol>
-<hr>
-<h1 id="GIT命令"><a href="#GIT命令" class="headerlink" title="GIT命令"></a>GIT命令</h1>]]></content>
-      <categories>
-        <category>tool</category>
-      </categories>
-      <tags>
-        <tag>tool</tag>
-        <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>swagger3</title>
     <url>/hexoblog/2021/03/03/md/tool/swagger3/</url>
     <content><![CDATA[<h1 id="使用过程"><a href="#使用过程" class="headerlink" title="使用过程"></a>使用过程</h1><h2 id="引包"><a href="#引包" class="headerlink" title="引包"></a>引包</h2><p>&emsp;&emsp;swagger3升级后，引入的包做相应升级，且集成进springboot启动器内，这里直接引入即可。</p>
@@ -2420,72 +2399,6 @@
         <tag>springboot</tag>
         <tag>tool</tag>
         <tag>swagger</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>zookeeper-leader选举</title>
-    <url>/hexoblog/2021/05/10/md/zookeeper/zookeeper-leader%E9%80%89%E4%B8%BE/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;ZAB协议包括了两种基本模式：崩溃恢复，数据广播。<br>&emsp;&emsp;一旦Leader服务器出现崩溃或者由于网络原因导致Leader服务器失去了与过半Follower的联系，那么就会进入崩溃恢复模式。<br>&emsp;&emsp;崩溃恢复主要包括两部分：Leader选举和数据恢复。</p>
-<span id="more"></span>
-
-<h2 id="保证数据一致性"><a href="#保证数据一致性" class="headerlink" title="保证数据一致性"></a>保证数据一致性</h2><p>&emsp;&emsp;假设两种情况：</p>
-<ol>
-<li>一个事务在Leader上提交了，并且过半的Folower都响应Ack了，但是Leader在Commit消息发出之前挂了。</li>
-<li>假设一个事务在Leader提出之后，Leader挂了。</li>
-</ol>
-<p>&emsp;&emsp;要满足上面这两个问题，必须做到：</p>
-<ol>
-<li><strong>确保已经被Leader提交的Proposal必须最终被所有的Follower服务器提交</strong>。</li>
-<li><strong>确保丢弃已经被Leader提出的但是没有被提交的Proposal</strong>。</li>
-</ol>
-<p>&emsp;&emsp;新的Leader的必须满足：</p>
-<ol>
-<li><strong>新选举出来的Leader不能包含未提交的Proposal</strong>。</li>
-<li><strong>新选举的Leader节点中含有最大的Zxid</strong>。</li>
-</ol>
-<h2 id="ZAB如何数据同步"><a href="#ZAB如何数据同步" class="headerlink" title="ZAB如何数据同步"></a>ZAB如何数据同步</h2><p>&emsp;&emsp;完成Leader选举后（新的Leader具有最高的Zxid），在正式开始工作之前（接收事务请求，然后提出新的Proposal），Leader服务器会首先确认事务日志中的所有的Proposal是否已经被集群中过半的服务器Commit。<br>&emsp;&emsp;Leader服务器需要确保所有的Follower服务器能够接收到每一条事务的Proposal，并且能将所有已经提交的事务Proposal应用到内存数据中。等到Follower将所有尚未同步的事务Proposal都从Leader服务器上同步过啦并且应用到内存数据中以后，Leader才会把该Follower加入到真正可用的Follower列表中。</p>
-<h2 id="ZAB数据同步过程中，如何处理需要丢弃的Proposal"><a href="#ZAB数据同步过程中，如何处理需要丢弃的Proposal" class="headerlink" title="ZAB数据同步过程中，如何处理需要丢弃的Proposal"></a>ZAB数据同步过程中，如何处理需要丢弃的Proposal</h2><p>&emsp;&emsp;在ZAB的事务编号Zxid设计中，Zxid是一个64位的数字。<br>&emsp;&emsp;<strong>其中低32位可以看成一个简单的单增计数器，针对客户端每一个事务请求，Leader在产生新的Proposal事务时，都会对该计数器加1。而高32位则代表了Leader周期的epoch编号</strong>。  </p>
-<blockquote>
-<p>&emsp;&emsp;epoch编号可以理解为当前集群所处的年代，或者周期。每次Leader变更之后都会在epoch的基础上加1，这样旧的Leader崩溃恢复之后，其他Follower也不会听它的了，因为Follower只服从epoch最高的Leader命令。</p>
-</blockquote>
-<p>&emsp;&emsp;每当选举产生一个新的Leader，就会从这个Leader服务器上取出本地事务日志充最大编号Proposal的Zxid，并从Zxid中解析得到对应的epoch编号，然后再对其加1，之后该编号就作为新的epoch值，并将低32位数字归零，由0开始重新生成Zxid。<br>&emsp;&emsp;ZAB协议通过epoch编号来区分Leader变化周期，能够有效避免不同的Leader错误的使用了相同的Zxid编号提出了不一样的Proposal的异常情况。<br>&emsp;&emsp;当一个包含了上一个Leader周期尚未提交过的事务Proposal的服务器启动时，当这台机器加入集群中，以Follower角色连上Leader服务器上，Leader服务器会根据自己服务器上最后提交的Proposal来和Follower服务器的Proposal进行比对，比对的结果肯定是Leader要求Follower进行一个回退操作，回退到一个确实已经被集群中过半机器Commit的最新Proposal。</p>
-<hr>
-<h1 id="Leader选举"><a href="#Leader选举" class="headerlink" title="Leader选举"></a>Leader选举</h1><p>&emsp;&emsp;选举分为四个阶段：选举阶段，发现阶段，同步阶段，广播阶段。</p>
-<h2 id="选举阶段"><a href="#选举阶段" class="headerlink" title="选举阶段"></a>选举阶段</h2><p>&emsp;&emsp;节点在一开始都处于选举阶段，只要一个节点得到超过半数节点的票数，他就可以当选准Leader，只有达到同步阶段，这个节点才能真正称为Leader。<br>&emsp;&emsp;Zookeeper规定所有有效的投票都必须在同一个轮次中，每个服务器在开始新一轮投票时，都会对自己维护的logicalClock进行自增操作。<br>&emsp;&emsp;每个服务器在广播自己的选票前，会将自己的投票箱（recvset）清空。该投票箱记录了所受到的选票。(3,2)这种格式，表示3投给了2。<br>&emsp;&emsp;广播选票后，会进行选票PK，选出准Leader。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/zab%E9%80%89%E4%B8%BE.png" alt="ZAB选举"></p>
-<h2 id="发现阶段"><a href="#发现阶段" class="headerlink" title="发现阶段"></a>发现阶段</h2><p>&emsp;&emsp;在这个阶段，Followers和上一轮选举出的准Leader进行通信，同步Followers最近接收的事务Proposal。<br>&emsp;&emsp;<em>一个Follower只会连接一个Leader，如果一个 Follower节点拒绝另一个Follower节点，则会在尝试连接时被拒绝。被拒绝之后，该节点就会进入Leader Election阶段</em>。<br>&emsp;&emsp;这个阶段的主要目标是发现当前大多数节点接收的最新Proposal，并且准Leader生成新的epoch，让Follower接收，更新它们的acceptedEpoch。</p>
-<h2 id="同步阶段"><a href="#同步阶段" class="headerlink" title="同步阶段"></a>同步阶段</h2><p>&emsp;&emsp;同步阶段主要是利用Leader前一阶段获得最新的Proposal历史，同步集群中所有的副本。<br>&emsp;&emsp;只有当超过半数节点都同步完成，准Leader才会称为真正的Leader。Follower只会接受Zxid比自己LastZxid大的Proposal。</p>
-<h2 id="广播阶段"><a href="#广播阶段" class="headerlink" title="广播阶段"></a>广播阶段</h2><p>&emsp;&emsp;到了这个阶段，Zookeeper集群才能正式向外部提供服务，并且Leader进行消息广播。如果有新节点，对新节点进行数据同步。<br>&emsp;&emsp;Zookeeper不需要得到全部的Follower的ACK，超过一般数量的ACK，就饿可以Commit。</p>
-<hr>
-<h1 id="协议实现"><a href="#协议实现" class="headerlink" title="协议实现"></a>协议实现</h1><p>&emsp;&emsp;实际的实现跟上面有所不同，分为三个阶段，将发现和同步阶段合在一起。<br>&emsp;&emsp;实际分为，选举、恢复、广播三个阶段。</p>
-<h2 id="选举阶段-1"><a href="#选举阶段-1" class="headerlink" title="选举阶段"></a>选举阶段</h2><p>&emsp;&emsp;选举阶段采用Fast Leader Election（FLE），会采用LastZxid最大的节点作为Leader，这样就省去了发现最新提议的阶段。<br>&emsp;&emsp;这是基于拥有最新提议的节点也拥有最新的提交记录。<br>&emsp;&emsp;称为Leader的条件：</p>
-<ol>
-<li>选epoch最大的。</li>
-<li>epoch相等，选Zxid最大的。</li>
-<li>若 epoch 和 zxid 相等，选择 server_id 最大的（zoo.cfg中的myid）。</li>
-</ol>
-<p>&emsp;&emsp;节点在选举开始时，都默认投票给自己，当接收其他节点的选票时，会根据上面的Leader条件 判断并且更改自己的选票，然后重新发送选票给其他节点。当有一个节点的得票超过半数，该节点会设置自己的状态为Leading ，其他节点会设置自己的状态为Following。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E9%80%89%E4%B8%BE.png" alt="选举"></p>
-<h2 id="恢复阶段"><a href="#恢复阶段" class="headerlink" title="恢复阶段"></a>恢复阶段</h2><p>&emsp;&emsp;这一阶段Follower发送他们的lastZxid给Leader，Leader根据lastZxid决定如何同步数据。这里的实现跟前面的Phase 2有所不同：Follower收到TRUNC指令会终止L.lastCommitedZxid之后的Proposal，收到DIFF指令会接收新的Proposal。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E6%81%A2%E5%A4%8D.png" alt="恢复"></p>
-<hr>
-<h1 id="两个问题"><a href="#两个问题" class="headerlink" title="两个问题"></a>两个问题</h1><h2 id="已经被处理的请求不能丢"><a href="#已经被处理的请求不能丢" class="headerlink" title="已经被处理的请求不能丢"></a>已经被处理的请求不能丢</h2><p>&emsp;&emsp;就是发送Commit提交消息时，挂掉了。</p>
-<ol>
-<li>选举拥有proposal最大值（即zxid最大）的节点作为新的 leader。<blockquote>
-<p>zxid最大也就是数据最新的节点保存了所有被COMMIT消息的proposal状态。</p>
-</blockquote>
-</li>
-<li>新的leader将自己事务日志中proposal但未COMMIT的消息处理。</li>
-<li>新的leader与follower建立先进先出的队列，先将自身有而 follower没有的proposal发送给follower，再将这些proposal的COMMIT命令发送给follower，以保证所有的follower都保存了所有的proposal、所有的follower都处理了所有的消息。通过以上策略，能保证已经被处理的消息不会丢。</li>
-</ol>
-<h2 id="没被处理的请求需要丢失"><a href="#没被处理的请求需要丢失" class="headerlink" title="没被处理的请求需要丢失"></a>没被处理的请求需要丢失</h2><p>&emsp;&emsp;当leader接收到消息请求生成proposal后就挂了，其他follower并没有收到此proposal，因此经过恢复模式重新选了leader后，这条消息是被跳过的。此时，之前挂了的leader重新启动并注册成了follower，他保留了被跳过消息的proposal状态，与整个系统的状态是不一致的，需要将其删除。<br>&emsp;&emsp;Zxid的设计的好处是旧的leader挂了后重启，它不会被选举为leader，因为此时它的zxid肯定小于当前的新leader。当旧的leader作为follower接入新的leader后，新的leader会让它将所有的拥有旧的epoch号的未被COMMIT的proposal清除。</p>
-]]></content>
-      <categories>
-        <category>zookeeper</category>
-      </categories>
-      <tags>
-        <tag>分布式</tag>
-        <tag>zookeeper</tag>
       </tags>
   </entry>
   <entry>
@@ -2568,6 +2481,72 @@
         <category>zookeeper</category>
       </categories>
       <tags>
+        <tag>zookeeper</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>zookeeper-leader选举</title>
+    <url>/hexoblog/2021/05/10/md/zookeeper/zookeeper-leader%E9%80%89%E4%B8%BE/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;ZAB协议包括了两种基本模式：崩溃恢复，数据广播。<br>&emsp;&emsp;一旦Leader服务器出现崩溃或者由于网络原因导致Leader服务器失去了与过半Follower的联系，那么就会进入崩溃恢复模式。<br>&emsp;&emsp;崩溃恢复主要包括两部分：Leader选举和数据恢复。</p>
+<span id="more"></span>
+
+<h2 id="保证数据一致性"><a href="#保证数据一致性" class="headerlink" title="保证数据一致性"></a>保证数据一致性</h2><p>&emsp;&emsp;假设两种情况：</p>
+<ol>
+<li>一个事务在Leader上提交了，并且过半的Folower都响应Ack了，但是Leader在Commit消息发出之前挂了。</li>
+<li>假设一个事务在Leader提出之后，Leader挂了。</li>
+</ol>
+<p>&emsp;&emsp;要满足上面这两个问题，必须做到：</p>
+<ol>
+<li><strong>确保已经被Leader提交的Proposal必须最终被所有的Follower服务器提交</strong>。</li>
+<li><strong>确保丢弃已经被Leader提出的但是没有被提交的Proposal</strong>。</li>
+</ol>
+<p>&emsp;&emsp;新的Leader的必须满足：</p>
+<ol>
+<li><strong>新选举出来的Leader不能包含未提交的Proposal</strong>。</li>
+<li><strong>新选举的Leader节点中含有最大的Zxid</strong>。</li>
+</ol>
+<h2 id="ZAB如何数据同步"><a href="#ZAB如何数据同步" class="headerlink" title="ZAB如何数据同步"></a>ZAB如何数据同步</h2><p>&emsp;&emsp;完成Leader选举后（新的Leader具有最高的Zxid），在正式开始工作之前（接收事务请求，然后提出新的Proposal），Leader服务器会首先确认事务日志中的所有的Proposal是否已经被集群中过半的服务器Commit。<br>&emsp;&emsp;Leader服务器需要确保所有的Follower服务器能够接收到每一条事务的Proposal，并且能将所有已经提交的事务Proposal应用到内存数据中。等到Follower将所有尚未同步的事务Proposal都从Leader服务器上同步过啦并且应用到内存数据中以后，Leader才会把该Follower加入到真正可用的Follower列表中。</p>
+<h2 id="ZAB数据同步过程中，如何处理需要丢弃的Proposal"><a href="#ZAB数据同步过程中，如何处理需要丢弃的Proposal" class="headerlink" title="ZAB数据同步过程中，如何处理需要丢弃的Proposal"></a>ZAB数据同步过程中，如何处理需要丢弃的Proposal</h2><p>&emsp;&emsp;在ZAB的事务编号Zxid设计中，Zxid是一个64位的数字。<br>&emsp;&emsp;<strong>其中低32位可以看成一个简单的单增计数器，针对客户端每一个事务请求，Leader在产生新的Proposal事务时，都会对该计数器加1。而高32位则代表了Leader周期的epoch编号</strong>。  </p>
+<blockquote>
+<p>&emsp;&emsp;epoch编号可以理解为当前集群所处的年代，或者周期。每次Leader变更之后都会在epoch的基础上加1，这样旧的Leader崩溃恢复之后，其他Follower也不会听它的了，因为Follower只服从epoch最高的Leader命令。</p>
+</blockquote>
+<p>&emsp;&emsp;每当选举产生一个新的Leader，就会从这个Leader服务器上取出本地事务日志充最大编号Proposal的Zxid，并从Zxid中解析得到对应的epoch编号，然后再对其加1，之后该编号就作为新的epoch值，并将低32位数字归零，由0开始重新生成Zxid。<br>&emsp;&emsp;ZAB协议通过epoch编号来区分Leader变化周期，能够有效避免不同的Leader错误的使用了相同的Zxid编号提出了不一样的Proposal的异常情况。<br>&emsp;&emsp;当一个包含了上一个Leader周期尚未提交过的事务Proposal的服务器启动时，当这台机器加入集群中，以Follower角色连上Leader服务器上，Leader服务器会根据自己服务器上最后提交的Proposal来和Follower服务器的Proposal进行比对，比对的结果肯定是Leader要求Follower进行一个回退操作，回退到一个确实已经被集群中过半机器Commit的最新Proposal。</p>
+<hr>
+<h1 id="Leader选举"><a href="#Leader选举" class="headerlink" title="Leader选举"></a>Leader选举</h1><p>&emsp;&emsp;选举分为四个阶段：选举阶段，发现阶段，同步阶段，广播阶段。</p>
+<h2 id="选举阶段"><a href="#选举阶段" class="headerlink" title="选举阶段"></a>选举阶段</h2><p>&emsp;&emsp;节点在一开始都处于选举阶段，只要一个节点得到超过半数节点的票数，他就可以当选准Leader，只有达到同步阶段，这个节点才能真正称为Leader。<br>&emsp;&emsp;Zookeeper规定所有有效的投票都必须在同一个轮次中，每个服务器在开始新一轮投票时，都会对自己维护的logicalClock进行自增操作。<br>&emsp;&emsp;每个服务器在广播自己的选票前，会将自己的投票箱（recvset）清空。该投票箱记录了所受到的选票。(3,2)这种格式，表示3投给了2。<br>&emsp;&emsp;广播选票后，会进行选票PK，选出准Leader。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/zab%E9%80%89%E4%B8%BE.png" alt="ZAB选举"></p>
+<h2 id="发现阶段"><a href="#发现阶段" class="headerlink" title="发现阶段"></a>发现阶段</h2><p>&emsp;&emsp;在这个阶段，Followers和上一轮选举出的准Leader进行通信，同步Followers最近接收的事务Proposal。<br>&emsp;&emsp;<em>一个Follower只会连接一个Leader，如果一个 Follower节点拒绝另一个Follower节点，则会在尝试连接时被拒绝。被拒绝之后，该节点就会进入Leader Election阶段</em>。<br>&emsp;&emsp;这个阶段的主要目标是发现当前大多数节点接收的最新Proposal，并且准Leader生成新的epoch，让Follower接收，更新它们的acceptedEpoch。</p>
+<h2 id="同步阶段"><a href="#同步阶段" class="headerlink" title="同步阶段"></a>同步阶段</h2><p>&emsp;&emsp;同步阶段主要是利用Leader前一阶段获得最新的Proposal历史，同步集群中所有的副本。<br>&emsp;&emsp;只有当超过半数节点都同步完成，准Leader才会称为真正的Leader。Follower只会接受Zxid比自己LastZxid大的Proposal。</p>
+<h2 id="广播阶段"><a href="#广播阶段" class="headerlink" title="广播阶段"></a>广播阶段</h2><p>&emsp;&emsp;到了这个阶段，Zookeeper集群才能正式向外部提供服务，并且Leader进行消息广播。如果有新节点，对新节点进行数据同步。<br>&emsp;&emsp;Zookeeper不需要得到全部的Follower的ACK，超过一般数量的ACK，就饿可以Commit。</p>
+<hr>
+<h1 id="协议实现"><a href="#协议实现" class="headerlink" title="协议实现"></a>协议实现</h1><p>&emsp;&emsp;实际的实现跟上面有所不同，分为三个阶段，将发现和同步阶段合在一起。<br>&emsp;&emsp;实际分为，选举、恢复、广播三个阶段。</p>
+<h2 id="选举阶段-1"><a href="#选举阶段-1" class="headerlink" title="选举阶段"></a>选举阶段</h2><p>&emsp;&emsp;选举阶段采用Fast Leader Election（FLE），会采用LastZxid最大的节点作为Leader，这样就省去了发现最新提议的阶段。<br>&emsp;&emsp;这是基于拥有最新提议的节点也拥有最新的提交记录。<br>&emsp;&emsp;称为Leader的条件：</p>
+<ol>
+<li>选epoch最大的。</li>
+<li>epoch相等，选Zxid最大的。</li>
+<li>若 epoch 和 zxid 相等，选择 server_id 最大的（zoo.cfg中的myid）。</li>
+</ol>
+<p>&emsp;&emsp;节点在选举开始时，都默认投票给自己，当接收其他节点的选票时，会根据上面的Leader条件 判断并且更改自己的选票，然后重新发送选票给其他节点。当有一个节点的得票超过半数，该节点会设置自己的状态为Leading ，其他节点会设置自己的状态为Following。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E9%80%89%E4%B8%BE.png" alt="选举"></p>
+<h2 id="恢复阶段"><a href="#恢复阶段" class="headerlink" title="恢复阶段"></a>恢复阶段</h2><p>&emsp;&emsp;这一阶段Follower发送他们的lastZxid给Leader，Leader根据lastZxid决定如何同步数据。这里的实现跟前面的Phase 2有所不同：Follower收到TRUNC指令会终止L.lastCommitedZxid之后的Proposal，收到DIFF指令会接收新的Proposal。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E6%81%A2%E5%A4%8D.png" alt="恢复"></p>
+<hr>
+<h1 id="两个问题"><a href="#两个问题" class="headerlink" title="两个问题"></a>两个问题</h1><h2 id="已经被处理的请求不能丢"><a href="#已经被处理的请求不能丢" class="headerlink" title="已经被处理的请求不能丢"></a>已经被处理的请求不能丢</h2><p>&emsp;&emsp;就是发送Commit提交消息时，挂掉了。</p>
+<ol>
+<li>选举拥有proposal最大值（即zxid最大）的节点作为新的 leader。<blockquote>
+<p>zxid最大也就是数据最新的节点保存了所有被COMMIT消息的proposal状态。</p>
+</blockquote>
+</li>
+<li>新的leader将自己事务日志中proposal但未COMMIT的消息处理。</li>
+<li>新的leader与follower建立先进先出的队列，先将自身有而 follower没有的proposal发送给follower，再将这些proposal的COMMIT命令发送给follower，以保证所有的follower都保存了所有的proposal、所有的follower都处理了所有的消息。通过以上策略，能保证已经被处理的消息不会丢。</li>
+</ol>
+<h2 id="没被处理的请求需要丢失"><a href="#没被处理的请求需要丢失" class="headerlink" title="没被处理的请求需要丢失"></a>没被处理的请求需要丢失</h2><p>&emsp;&emsp;当leader接收到消息请求生成proposal后就挂了，其他follower并没有收到此proposal，因此经过恢复模式重新选了leader后，这条消息是被跳过的。此时，之前挂了的leader重新启动并注册成了follower，他保留了被跳过消息的proposal状态，与整个系统的状态是不一致的，需要将其删除。<br>&emsp;&emsp;Zxid的设计的好处是旧的leader挂了后重启，它不会被选举为leader，因为此时它的zxid肯定小于当前的新leader。当旧的leader作为follower接入新的leader后，新的leader会让它将所有的拥有旧的epoch号的未被COMMIT的proposal清除。</p>
+]]></content>
+      <categories>
+        <category>zookeeper</category>
+      </categories>
+      <tags>
+        <tag>分布式</tag>
         <tag>zookeeper</tag>
       </tags>
   </entry>
@@ -2724,29 +2703,6 @@
       </tags>
   </entry>
   <entry>
-    <title>zookeeper实现分布式锁</title>
-    <url>/hexoblog/2021/05/18/md/zookeeper/zookeeper%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;分布式锁的作用：<strong>在整个系统提供一个全局、唯一的锁，在分布式系统中每个系统在进行相关操作的时候需要获取到该锁，才能执行相应操作</strong>。  </p>
-<span id="more"></span>
-
-<p>&emsp;&emsp;大致思想为：<strong>每个客户端对每个方法加锁时，在zookeeper上的与该方法对应的指定节点的目录下，生成一个唯一的瞬时有序节点。判断是否获取锁的方式很简单，只需要判断有序节点中序号最小的一个。当释放锁的时候，只需将这个瞬时节点删除即可。同时，其可以避免服务宕机导致的锁无法释放，而产生死锁的问题</strong>。</p>
-<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><ol>
-<li>利用Zookeeper可以创建临时有序节点的特性创建一个分布式锁。</li>
-<li>多个系统的多个线程都要在此目录下创建临时有序节点，因为Zookeeper会为我们保证节点的有序性，所以可以利用节点的顺序性来对不同线程的先来后到进行判断。此时，在分布式下应该添加锁的线程就是zk指定目录下序号最小的临时序列节点所代表的线程。</li>
-<li>当每个线程请求对应资源时，都需要现在zk指定目录下创建临时有序节点，然后获取当前目录下最小的节点序号（加锁的线程），判断最小节点是不是当前节点（是不是自己），如果是那么获取锁成功，如果不是获取锁失败。</li>
-<li>获取锁失败的线程获取当前节点上一个临时有序节点，并对此节点进行监听。当该节点删除的时候（执行结束或者掉线，释放锁）这个线程会获取到通知，代表获取到了锁。这里的每一个节点都只是监听它的上一个节点，而不是监听最小的节点。因为临时节点都是有序号的，而且序号不会回退，所以只需要监听比其小1的节点。只要比它小1的节点被删除，则它就可以拿到资源去操作。</li>
-</ol>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/zk%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81.jpg" alt="分布式锁流程"></p>
-]]></content>
-      <categories>
-        <category>zookeeper</category>
-      </categories>
-      <tags>
-        <tag>zookeeper</tag>
-        <tag>分布式锁</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>zookeeper单机安装基础使用</title>
     <url>/hexoblog/2021/03/03/md/zookeeper/zookeeper%E5%8D%95%E6%9C%BA%E5%AE%89%E8%A3%85%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>&emsp;&emsp;zookeeper是一个分布式服务框架，主要用来解决分布式应用中经常遇到的一些数据管理问题。<br>&emsp;&emsp;zookeeper=文件系统+监听通知机制。</p>
@@ -2776,6 +2732,29 @@
       <tags>
         <tag>tool</tag>
         <tag>zookeeper</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>zookeeper实现分布式锁</title>
+    <url>/hexoblog/2021/05/18/md/zookeeper/zookeeper%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;分布式锁的作用：<strong>在整个系统提供一个全局、唯一的锁，在分布式系统中每个系统在进行相关操作的时候需要获取到该锁，才能执行相应操作</strong>。  </p>
+<span id="more"></span>
+
+<p>&emsp;&emsp;大致思想为：<strong>每个客户端对每个方法加锁时，在zookeeper上的与该方法对应的指定节点的目录下，生成一个唯一的瞬时有序节点。判断是否获取锁的方式很简单，只需要判断有序节点中序号最小的一个。当释放锁的时候，只需将这个瞬时节点删除即可。同时，其可以避免服务宕机导致的锁无法释放，而产生死锁的问题</strong>。</p>
+<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><ol>
+<li>利用Zookeeper可以创建临时有序节点的特性创建一个分布式锁。</li>
+<li>多个系统的多个线程都要在此目录下创建临时有序节点，因为Zookeeper会为我们保证节点的有序性，所以可以利用节点的顺序性来对不同线程的先来后到进行判断。此时，在分布式下应该添加锁的线程就是zk指定目录下序号最小的临时序列节点所代表的线程。</li>
+<li>当每个线程请求对应资源时，都需要现在zk指定目录下创建临时有序节点，然后获取当前目录下最小的节点序号（加锁的线程），判断最小节点是不是当前节点（是不是自己），如果是那么获取锁成功，如果不是获取锁失败。</li>
+<li>获取锁失败的线程获取当前节点上一个临时有序节点，并对此节点进行监听。当该节点删除的时候（执行结束或者掉线，释放锁）这个线程会获取到通知，代表获取到了锁。这里的每一个节点都只是监听它的上一个节点，而不是监听最小的节点。因为临时节点都是有序号的，而且序号不会回退，所以只需要监听比其小1的节点。只要比它小1的节点被删除，则它就可以拿到资源去操作。</li>
+</ol>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/zk%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81.jpg" alt="分布式锁流程"></p>
+]]></content>
+      <categories>
+        <category>zookeeper</category>
+      </categories>
+      <tags>
+        <tag>zookeeper</tag>
+        <tag>分布式锁</tag>
       </tags>
   </entry>
   <entry>
@@ -2886,24 +2865,6 @@
       </tags>
   </entry>
   <entry>
-    <title>一致性hash</title>
-    <url>/hexoblog/2021/03/26/md/%E5%88%86%E5%B8%83%E5%BC%8F/%E4%B8%80%E8%87%B4%E6%80%A7hash/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;在分布式系统中，通常不同的机器存储着不同的数据，例如redis集群中存储的数据。<br>&emsp;&emsp;这些数据通常采用hash算法来计算出应该存储在那台机器上。但是，当集群中的节点增加或者减少时，通过原有的hash算法计算出来的位置将会完全错误。<br>&emsp;&emsp;一致性hash就是为了解决这种问题诞生的。</p>
-<span id="more"></span>
-
-<hr>
-<h1 id="内容"><a href="#内容" class="headerlink" title="内容"></a>内容</h1><p>&emsp;&emsp;在redis集群中，我们通常采用一致性hash算法计算数据具体分布在那一台机器上。<br>&emsp;&emsp;普通的hash算法通常采用取模的方式计算出hash结果，而当机器的数量发生变化，也就是除数发生变化时，取到的模也会发生变化，这时根据模数来定位数据存储的位置就会发生错误。<br>&emsp;&emsp;一致性hash算法也是采用取模的原理，来计算数据存储的位置。但与普通hash算法不同的是，一直性hash算法计算出来的并不是直接的位置，而是需要根据hash环查询地址。<br>&emsp;与普通hash算法不同的是，普通hash算法是对机器的数量取模，而一致性hash是对2^32取模。</p>
-<h2 id="hash环"><a href="#hash环" class="headerlink" title="hash环"></a>hash环</h2><p>&emsp;&emsp;在一致性hash中，构造出一个hash环（周长数量为2^32）来标记数据位置。<br>&emsp;&emsp;由于一致性hash算法采用2^32取模，所有的取模结果都将落在构造出来的hash环上。<br>&emsp;&emsp;将所有机器分布在hash环上，机器左边的数据将存储在该机器中，而右边的数据将存储在下一台机器上。因为是环状结构，这样所有的数据都保证了有机器存储。而且，因为是环，所以当环上增加机器节点时，只有该机器节点左边的一小部分数据会发生重新分配机器。</p>
-<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2>]]></content>
-      <categories>
-        <category>分布式</category>
-      </categories>
-      <tags>
-        <tag>分布式</tag>
-        <tag>hash</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>zookeeper集群安装使用</title>
     <url>/hexoblog/2021/05/10/md/zookeeper/zookeeper%E9%9B%86%E7%BE%A4%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;zookeeper的安装模式分为：单机模式，集群模式，伪集群模式。<br>&emsp;&emsp;伪集群模式就是在单机上模拟集群模式。<br>&emsp;&emsp;单机模式下的安安装已经记过了。</p>
@@ -2927,6 +2888,45 @@
       <tags>
         <tag>分布式</tag>
         <tag>zookeeper</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>nginx基础安装及使用</title>
+    <url>/hexoblog/2021/05/20/md/nginx/nginx%E5%9F%BA%E7%A1%80%E5%AE%89%E8%A3%85%E5%8F%8A%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>&emsp;&emsp;Nginx是一款轻量级的Web服务器、反向代理服务器，由于它的内存占用少，启动极快，高并发能力强，在互联网项目中广泛应用。</p>
+<span id="more"></span>
+
+<p>&emsp;&emsp;nginx可以用来做：反向代理服务器，静态Http服务器，负载均衡，虚拟主机。</p>
+<hr>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;这里的安装目前是在windows环境下，傻瓜式安装即可。  </p>
+<h2 id="下载解压"><a href="#下载解压" class="headerlink" title="下载解压"></a>下载解压</h2><p>&emsp;&emsp;nginx在windows安装很简单，下载后解压就好，纯绿色安装。<br>&emsp;&emsp;在官方地址下载nginx，解压后放在想要放的文件夹。<br>&emsp;&emsp;下载地址：<a href="http://nginx.org/en/download.html">下载地址</a>。</p>
+<hr>
+<h1 id="基础使用"><a href="#基础使用" class="headerlink" title="基础使用"></a>基础使用</h1><p>&emsp;&emsp;启动，关机，重新加载等基础操作。<br>&emsp;&emsp;如果没有配置环境变量，启动前请进入nginx安装目录，如果有配置可以不进入。  </p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 进入解压后的nginx</span></span><br><span class="line"><span class="built_in">cd</span> nginx-1.18.0</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动nginx（windows下）</span></span><br><span class="line">start nginx</span><br><span class="line">./nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 停止nginx</span></span><br><span class="line"><span class="comment"># stop是快速停止nginx，quit是有序停止nginx。</span></span><br><span class="line">./nginx -s stop</span><br><span class="line">./nginx -s quit</span><br><span class="line"><span class="comment"># 重新加载配置</span></span><br><span class="line">./nginx -s reload</span><br><span class="line"></span><br><span class="line"><span class="comment"># 校验配置</span></span><br><span class="line">./nginx -t</span><br><span class="line"><span class="comment"># 查看版本</span></span><br><span class="line">./nginx -v</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>nginx</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>nginx</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>一致性hash</title>
+    <url>/hexoblog/2021/03/26/md/%E5%88%86%E5%B8%83%E5%BC%8F/%E4%B8%80%E8%87%B4%E6%80%A7hash/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;在分布式系统中，通常不同的机器存储着不同的数据，例如redis集群中存储的数据。<br>&emsp;&emsp;这些数据通常采用hash算法来计算出应该存储在那台机器上。但是，当集群中的节点增加或者减少时，通过原有的hash算法计算出来的位置将会完全错误。<br>&emsp;&emsp;一致性hash就是为了解决这种问题诞生的。</p>
+<span id="more"></span>
+
+<hr>
+<h1 id="内容"><a href="#内容" class="headerlink" title="内容"></a>内容</h1><p>&emsp;&emsp;在redis集群中，我们通常采用一致性hash算法计算数据具体分布在那一台机器上。<br>&emsp;&emsp;普通的hash算法通常采用取模的方式计算出hash结果，而当机器的数量发生变化，也就是除数发生变化时，取到的模也会发生变化，这时根据模数来定位数据存储的位置就会发生错误。<br>&emsp;&emsp;一致性hash算法也是采用取模的原理，来计算数据存储的位置。但与普通hash算法不同的是，一直性hash算法计算出来的并不是直接的位置，而是需要根据hash环查询地址。<br>&emsp;与普通hash算法不同的是，普通hash算法是对机器的数量取模，而一致性hash是对2^32取模。</p>
+<h2 id="hash环"><a href="#hash环" class="headerlink" title="hash环"></a>hash环</h2><p>&emsp;&emsp;在一致性hash中，构造出一个hash环（周长数量为2^32）来标记数据位置。<br>&emsp;&emsp;由于一致性hash算法采用2^32取模，所有的取模结果都将落在构造出来的hash环上。<br>&emsp;&emsp;将所有机器分布在hash环上，机器左边的数据将存储在该机器中，而右边的数据将存储在下一台机器上。因为是环状结构，这样所有的数据都保证了有机器存储。而且，因为是环，所以当环上增加机器节点时，只有该机器节点左边的一小部分数据会发生重新分配机器。</p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2>]]></content>
+      <categories>
+        <category>分布式</category>
+      </categories>
+      <tags>
+        <tag>分布式</tag>
+        <tag>hash</tag>
       </tags>
   </entry>
   <entry>
