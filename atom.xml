@@ -383,9 +383,9 @@
     <category term="java" scheme="http://linqiankun.gitee.io/hexoblog/categories/java/"/>
     
     
-    <category term="java" scheme="http://linqiankun.gitee.io/hexoblog/tags/java/"/>
-    
     <category term="jvm" scheme="http://linqiankun.gitee.io/hexoblog/tags/jvm/"/>
+    
+    <category term="java" scheme="http://linqiankun.gitee.io/hexoblog/tags/java/"/>
     
   </entry>
   
