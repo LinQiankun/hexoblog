@@ -1,206 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>dubboSPI扩展机制基本使用，自动包装</title>
-    <url>/hexoblog/2021/04/15/md/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E6%9C%BA%E5%88%B6%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%EF%BC%8C%E8%87%AA%E5%8A%A8%E5%8C%85%E8%A3%85/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;DubboSPI是基于JavaSPI的一个扩展与补充。<br><a href="https://dubbo.apache.org/zh/docs/v2.7/dev/spi/">https://dubbo.apache.org/zh/docs/v2.7/dev/spi/</a></p>
-<h2 id="优势："><a href="#优势：" class="headerlink" title="优势："></a>优势：</h2><ol>
-<li>Java SPI 每次都会把所有实现类都加载并实例化(是在迭代器迭代的时候创建实例)，而 Dubbo SPI 是分两段创建实例，先进行类加载，然后在使用到具体实现的时候才实例化，并且 Dubbo SPI 大量使用缓存，会把 Class 对象和实例对象都缓存起来，性能更好。</li>
-<li>Java SPI 在类加载失败的时候难以定位异常；</li>
-<li>Dubbo SPI 还支持 IOC 和 AOP 。</li>
-</ol>
-<span id="more"></span>
-
-<h2 id="用法："><a href="#用法：" class="headerlink" title="用法："></a>用法：</h2><ol>
-<li>基本使用</li>
-<li>扩展点自动包装</li>
-<li>扩展点自适应</li>
-<li>扩展点自动适配</li>
-<li>扩展点自动激活</li>
-</ol>
-<hr>
-<h1 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h1><p>&emsp;&emsp;dubboSPI的基本使用和javaSPI并无太大差异。</p>
-<p>主要区别：</p>
-<blockquote>
-<p>JDK标准的SPI会一次性实例化扩展点所有实现，如果有扩展实现初始化很耗时，但如果没用上也加载，会很浪费资源。dubboSPI可以选择性实例某个实现。</p>
-</blockquote>
-<ol>
-<li><p>dubboSPI需要SPI注解。</p>
-</li>
-<li><p>文件夹命名格式不同，文件内容格式不同。</p>
-<blockquote>
-<p>dubbo为META-INF/dubbo，文件内容为key=value(实现类全限定名)。<br>java为META-INF/services，文件内容直接为实现类全限定名。</p>
-</blockquote>
-</li>
-<li><p>启动的API不同。</p>
-<blockquote>
-<p>dubbo为ExtensionLoader。<br>java为ServiceLoader，是java。</p>
-</blockquote>
-</li>
-<li><p>java会扫描所有的类，无法按需加载，dubbo可以。</p>
-</li>
-</ol>
-<h2 id="定义一个接口"><a href="#定义一个接口" class="headerlink" title="定义一个接口"></a>定义一个接口</h2><p>&emsp;&emsp;需要使用SPI注解。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// dubbo需要SPI注解，SPI注解的值为默认的实现</span></span><br><span class="line"><span class="meta">@SPI</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ExtendService</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="定义实现类"><a href="#定义实现类" class="headerlink" title="定义实现类"></a>定义实现类</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExtendServiceImpl</span> <span class="keyword">implements</span> <span class="title">ExtendService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="创建文件夹"><a href="#创建文件夹" class="headerlink" title="创建文件夹"></a>创建文件夹</h2><p>&emsp;&emsp;在classpath下创建指定文件夹及文件</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 文件夹</span></span><br><span class="line"><span class="comment"># 与javaSPI文件夹不同</span></span><br><span class="line">MATA-INF/dubbo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 文件名（接口的全路径名）</span></span><br><span class="line">com.lin.extendwrapper.extend.ExtendService</span><br><span class="line"></span><br><span class="line"><span class="comment"># 文件内容</span></span><br><span class="line"><span class="comment"># key=value形式，与javaSPI不同格式</span></span><br><span class="line"><span class="comment"># 可以有多个实现</span></span><br><span class="line"><span class="comment"># java内容为实现类全限定名</span></span><br><span class="line">ExtendService=com.lin.extendwrapper.extend.impl.ExtendServiceImpl</span><br></pre></td></tr></table></figure>
-
-<h2 id="程序入口"><a href="#程序入口" class="headerlink" title="程序入口"></a>程序入口</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExtendWrapper</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 与javaSPI的API不同</span></span><br><span class="line">        ExtensionLoader&lt;ExtendService&gt; extensionLoader = ExtensionLoader.getExtensionLoader(ExtendService.class);</span><br><span class="line">        ExtendService extendService = extensionLoader.getExtension(<span class="string">&quot;ExtendService&quot;</span>);</span><br><span class="line">        extendService.sayHello();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h1 id="扩展点自动包装"><a href="#扩展点自动包装" class="headerlink" title="扩展点自动包装"></a>扩展点自动包装</h1><p>&emsp;&emsp;ExtensionLoader在加载扩展点时，如果加载到的扩展点有拷贝构造函数，则判定为扩展点Wrapper类。<br>&emsp;&emsp;这个类似于AOP。</p>
-<h2 id="增加一个实现类-包装类"><a href="#增加一个实现类-包装类" class="headerlink" title="增加一个实现类(包装类)"></a>增加一个实现类(包装类)</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExtendServiceImplWrapper</span> <span class="keyword">implements</span> <span class="title">ExtendService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> ExtendService extendService;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ExtendServiceImplWrapper</span><span class="params">(ExtendService extendService)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.extendService = extendService;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;before&quot;</span>);</span><br><span class="line">        extendService.sayHello();</span><br><span class="line">        System.out.println(<span class="string">&quot;after&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="修改META-INF下文件内容"><a href="#修改META-INF下文件内容" class="headerlink" title="修改META-INF下文件内容"></a>修改META-INF下文件内容</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ExtendService=com.lin.extendwrapper.extend.impl.ExtendServiceImpl</span><br><span class="line"><span class="comment"># 增加一行</span></span><br><span class="line">ExtendService=com.lin.extendwrapper.extend.impl.ExtendServiceImplWrapper</span><br></pre></td></tr></table></figure>
-
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>&emsp;&emsp;扩展点自动包装，会在通过ExtensionLoader获取扩展点时判断是否是包装类。如果是wrapper包装类，就是调用wrapper的service中的方法，包装后执行。</p>
-]]></content>
-      <categories>
-        <category>dubbo</category>
-      </categories>
-      <tags>
-        <tag>dubbo</tag>
-        <tag>SPI</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>dubboSPI扩展机制自适应</title>
-    <url>/hexoblog/2021/04/19/md/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E6%9C%BA%E5%88%B6%E8%87%AA%E9%80%82%E5%BA%94/</url>
-    <content><![CDATA[<h1 id="扩展点自适应"><a href="#扩展点自适应" class="headerlink" title="扩展点自适应"></a>扩展点自适应</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>&emsp;&emsp;ExtensionLoader注入的依赖扩展点是一个Adaptive实例，直到扩展点方法执行时才决定调用是哪一个扩展点实现。<br>&emsp;&emsp;dubbo使用url对象传递对象信息，包含key和value。<br>&emsp;&emsp;扩展点方法调用会有URL参数（或是参数有URL成员）这样依赖的扩展点也可以从URL拿到配置信息，所有的扩展点自己定好配置的 Key后，配置信息从URL上从最外层传入。URL在配置传递上即是一条总线。</p>
-<span id="more"></span>
-<h2 id="Adaptive注解"><a href="#Adaptive注解" class="headerlink" title="@Adaptive注解"></a>@Adaptive注解</h2><p>&emsp;&emsp;表示该类是一个扩展类（Adaptive实例），不需要生成代理方法直接使用即可。<br>&emsp;&emsp;在方法上则表示该方法需生成代理, 此时就需要用到上面提到的URL参数。<br>&emsp;&emsp;如果作用在方法会帮我们在运行时动态生成一个Adaptive实例（只包含扩展方法的），如果作用在类上就相当于自己定义了一个现成的。</p>
-<h3 id="注解在实现类上"><a href="#注解在实现类上" class="headerlink" title="注解在实现类上"></a>注解在实现类上</h3><p>&emsp;&emsp;表示该类是一个扩展类，不需要生成代理方法直接使用即可。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 扩展的接口</span></span><br><span class="line"><span class="meta">@SPI</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">AdaptiveService</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 是扩展类</span></span><br><span class="line"><span class="meta">@Adaptive</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AdaptiveServiceImpl</span> <span class="keyword">implements</span> <span class="title">AdaptiveService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 同样需要文件</span></span><br><span class="line"><span class="comment">// 文件名为接口全限定名</span></span><br><span class="line"><span class="comment">// 内容为key=value，value为实现类全限定名</span></span><br><span class="line">AdaptiveService=com.lin.extendAdaptive.extend.impl.AdaptiveServiceImpl</span><br><span class="line"></span><br><span class="line"><span class="comment">// 启动类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExtendAdaptiveMain</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ExtensionLoader&lt;AdaptiveService&gt; extensionLoader = ExtensionLoader.getExtensionLoader(AdaptiveService.class);</span><br><span class="line">        AdaptiveService adaptiveExtension = extensionLoader.getAdaptiveExtension();</span><br><span class="line">        adaptiveExtension.sayHello();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="注解在接口方法上"><a href="#注解在接口方法上" class="headerlink" title="注解在接口方法上"></a>注解在接口方法上</h3><p>&emsp;&emsp;在方法上则表示该方法需生成代理, 此时就需要用到上面提到的URL参数。<br>&emsp;&emsp;当注解在接口方法上时，方法中需要传入一个URL参数，或者包装有URL参数时，会通过动态编译获得一个Adaptive实例。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 接口</span></span><br><span class="line"><span class="meta">@SPI</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MethodAdaptiveService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Adaptive(&#123;&quot;key&quot;&#125;)</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(URL url)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 实现类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MethodAdaptiveServiceImpl</span> <span class="keyword">implements</span> <span class="title">MethodAdaptiveService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(URL url)</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;method&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// META—INF文件与注解在类上时相同</span></span><br><span class="line">MethodAdaptiveService=com.lin.extendAdaptive.extend.impl.MethodAdaptiveServiceImpl</span><br><span class="line"></span><br><span class="line"><span class="comment">// 启动</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ExtensionLoader&lt;MethodAdaptiveService&gt; extensionLoader = ExtensionLoader.getExtensionLoader(MethodAdaptiveService.class);</span><br><span class="line">        MethodAdaptiveService adaptiveExtension = extensionLoader.getAdaptiveExtension();</span><br><span class="line">        HashMap hashMap = <span class="keyword">new</span> HashMap();</span><br><span class="line">        <span class="comment">// key与接口中注解的key相同，value与文件中声明的名称相同</span></span><br><span class="line">        hashMap.put(<span class="string">&quot;key&quot;</span>,<span class="string">&quot;MethodAdaptiveService&quot;</span>);</span><br><span class="line">        URL url = <span class="keyword">new</span> URL(<span class="string">&quot;dubbo&quot;</span>,<span class="string">&quot;localhost&quot;</span>,<span class="number">8080</span>,hashMap);</span><br><span class="line">        adaptiveExtension.sayHello(url);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 生成的实例</span></span><br><span class="line"><span class="keyword">package</span> com.lin.extendAdaptive.extend;</span><br><span class="line"><span class="keyword">import</span> org.apache.dubbo.common.extension.ExtensionLoader;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MethodAdaptiveService</span>$<span class="title">Adaptive</span> <span class="keyword">implements</span> <span class="title">com</span>.<span class="title">lin</span>.<span class="title">extendAdaptive</span>.<span class="title">extend</span>.<span class="title">MethodAdaptiveService</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(org.apache.dubbo.common.URL arg0)</span>  </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (arg0 == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">&quot;url == null&quot;</span>);</span><br><span class="line">        org.apache.dubbo.common.URL url = arg0;</span><br><span class="line">        String extName = url.getParameter(<span class="string">&quot;key&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span>(extName == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">&quot;Failed to get extension (com.lin.extendAdaptive.extend.MethodAdaptiveService) name from url (&quot;</span> + url.toString() + <span class="string">&quot;) use keys([key])&quot;</span>);</span><br><span class="line">        com.lin.extendAdaptive.extend.MethodAdaptiveService extension = (com.lin.extendAdaptive.extend.MethodAdaptiveService)ExtensionLoader.getExtensionLoader(com.lin.extendAdaptive.extend.MethodAdaptiveService.class).getExtension(extName);</span><br><span class="line">        extension.sayHello(url);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, dubbo version: <span class="number">2.7</span><span class="number">.1</span>, current host: <span class="number">192.168</span><span class="number">.139</span><span class="number">.15</span></span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;程序运行时，会经过动态编译过程生成MethodAdaptiveService对应的Adaptive实例，即MethodAdaptiveService$Adaptive。<br>&emsp;&emsp;就是在程序运行过程中，根据条件，通过拼接字符串的形式生成java源码，然后进行编译获得对应的实例。</p>
-<hr>
-<h1 id="扩展点自动注入"><a href="#扩展点自动注入" class="headerlink" title="扩展点自动注入"></a>扩展点自动注入</h1><p>有bug稍后。</p>
-]]></content>
-      <categories>
-        <category>dubbo</category>
-      </categories>
-      <tags>
-        <tag>dubbo</tag>
-        <tag>SPI</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>dubboSPI扩展点自动激活</title>
-    <url>/hexoblog/2021/04/20/md/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E7%82%B9%E8%87%AA%E5%8A%A8%E6%BF%80%E6%B4%BB/</url>
-    <content><![CDATA[<h1 id="扩展点自动激活"><a href="#扩展点自动激活" class="headerlink" title="扩展点自动激活"></a>扩展点自动激活</h1><p>&emsp;&emsp;对于集合类扩展点，比如：Filter, InvokerListener, ExportListener, TelnetHandler, StatusChecker 等，可以同时加载多个实现，此时，可以用自动激活来简化配置。</p>
-<span id="more"></span>
-
-<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 激活过滤器</span></span><br><span class="line"><span class="meta">@Activate</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FilterOne</span> <span class="keyword">implements</span> <span class="title">Filter</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest request, ServletResponse response, FilterChain chain)</span></span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>dubbo</category>
-      </categories>
-      <tags>
-        <tag>dubbo</tag>
-        <tag>SPI</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>dubbo基础及介绍</title>
-    <url>/hexoblog/2021/04/15/md/dubbo/dubbo%E5%9F%BA%E7%A1%80%E5%8F%8A%E4%BB%8B%E7%BB%8D/</url>
-    <content><![CDATA[<h1 id="RPC"><a href="#RPC" class="headerlink" title="RPC"></a>RPC</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>&emsp;&emsp;RPC，Remote Procedure Call 即远程过程调用，远程过程调用其实对标的是本地过程调用。<br>&emsp;&emsp;远程调用的方法可以走http协议也可以是基于tcp的自定义协议。</p>
-<span id="more"></span>
-<h2 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h2><p>&emsp;&emsp;一个RPC框架要做的就是约定通信协议，序列化格式，容错机制，负载均衡策略，监控运维和一个注册中心。</p>
-<ol>
-<li>服务消费者</li>
-<li>服务提供者</li>
-<li>注册中心</li>
-<li>监控中心</li>
-</ol>
-<hr>
-<h1 id="DUBBO"><a href="#DUBBO" class="headerlink" title="DUBBO"></a>DUBBO</h1><p>&emsp;&emsp;它实现了面向接口的代理 RPC 调用，并且可以配合 ZooKeeper 等组件实现服务注册和发现功能，并且拥有负载均衡、容错机制等。<br>&emsp;&emsp;<a href="https://juejin.cn/post/6870276943448080392#heading-9">https://juejin.cn/post/6870276943448080392#heading-9</a></p>
-<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><h3 id="dubbo的作用"><a href="#dubbo的作用" class="headerlink" title="dubbo的作用"></a>dubbo的作用</h3><ol>
-<li>透明化的远程方法调用，就像调用本地方法一样调用远程方法，只需简单配置，没有任何API侵入。</li>
-<li>软负载均衡及容错机制，可在内网替代F5等硬件负载均衡器，降低成本，减少单点。</li>
-<li>服务自动注册与发现，不再需要写死服务提供方地址，注册中心基于接口名查询服务提供者的IP地址，并且能够平滑添加或删除。</li>
-</ol>
-<h3 id="dubbo分层结构"><a href="#dubbo分层结构" class="headerlink" title="dubbo分层结构"></a>dubbo分层结构</h3><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/a26bba7ba53849b9b9efbdf844f720c2_tplv-k3u1fbpfcp-zoom-1.jpg" alt="dubbo的十层结构"></p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/25609524-edfea2d2c42798d0.jpg" alt="dubbo的十层结构"></p>
-<h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/dubbo-architecture.jpg" alt="dubbo结构"></p>
-<ol>
-<li>服务容器负责启动，加载，运行服务提供者。</li>
-<li>服务提供者Provider向注册中心注册自己所能提供的服务。</li>
-<li>服务消费者Consumer启动向注册中心订阅自己所需的服务。</li>
-<li>注册中心将提供者元信息通知给消费者，消费者从注册中心获取提供者的地址。</li>
-<li>通过负载均衡选择一个Provider直接调用。如果失败，则会重新选择另一台进行调用。</li>
-<li>如果提供者有变更，注册中心会将变更推送给消费者。</li>
-<li>服务提供者和消费者都会在内存中记录着调用的次数和时间，然后定时（每分钟）的发送统计数据到监控中心。</li>
-</ol>
-<h3 id="TIPS"><a href="#TIPS" class="headerlink" title="TIPS"></a>TIPS</h3><ol>
-<li>注册中心和监控中心是可选的，可以直接在配置中写提供者和消费者直连。</li>
-<li>注册中心、提供方和消费方之间都是长连接，和监控方不是长连接，并且消费方是直接调用提供方，不经过注册中心。</li>
-<li>注册中心和监控中心宕机了也不会影响到已经正常运行的提供者和消费者，因为消费者有本地缓存提供者的信息。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>dubbo</category>
-      </categories>
-      <tags>
-        <tag>dubbo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>dubbo的9种协议</title>
-    <url>/hexoblog/2021/04/23/md/dubbo/dubbo%E7%9A%849%E7%A7%8D%E5%8D%8F%E8%AE%AE/</url>
-    <content><![CDATA[<h1 id="dubbo共有9种协议"><a href="#dubbo共有9种协议" class="headerlink" title="dubbo共有9种协议"></a>dubbo共有9种协议</h1><p>&emsp;&emsp;dubbo中支持9种协议，通过这9种协议进行调用。<br>&emsp;&emsp;dubbo支持dubbo、rmi、hessian、http、webservice、thrift、redis、memcache、rest等多种协议，但是Dubbo官网是推荐我们使用dubbo协议的。<br>&emsp;&emsp;dubbo对于9种协议的支持来自于SPI扩展机制，是SPI扩展机制在dubbo中的一个重要应用。</p>
-<span id="more"></span>
-<figure class="highlight txt"><table><tr><td class="code"><pre><span class="line">filter=org.apache.dubbo.rpc.protocol.ProtocolFilterWrapper</span><br><span class="line">listener=org.apache.dubbo.rpc.protocol.ProtocolListenerWrapper</span><br><span class="line"></span><br><span class="line">mock=org.apache.dubbo.rpc.support.MockProtocol</span><br><span class="line">dubbo=org.apache.dubbo.rpc.protocol.dubbo.DubboProtocol</span><br><span class="line">injvm=org.apache.dubbo.rpc.protocol.injvm.InjvmProtocol</span><br><span class="line">rmi=org.apache.dubbo.rpc.protocol.rmi.RmiProtocol</span><br><span class="line">hessian=org.apache.dubbo.rpc.protocol.hessian.HessianProtocol</span><br><span class="line">http=org.apache.dubbo.rpc.protocol.http.HttpProtocol</span><br><span class="line"></span><br><span class="line">org.apache.dubbo.rpc.protocol.webservice.WebServiceProtocol</span><br><span class="line">thrift=org.apache.dubbo.rpc.protocol.thrift.ThriftProtocol</span><br><span class="line">memcached=org.apache.dubbo.rpc.protocol.memcached.MemcachedProtocol</span><br><span class="line">redis=org.apache.dubbo.rpc.protocol.redis.RedisProtocol</span><br><span class="line">rest=org.apache.dubbo.rpc.protocol.rest.RestProtocol</span><br><span class="line"></span><br><span class="line">registry=org.apache.dubbo.registry.integration.RegistryProtocol</span><br><span class="line"></span><br><span class="line">qos=org.apache.dubbo.qos.protocol.QosProtocolWrapper</span><br></pre></td></tr></table></figure>
-
-<p><a href="https://blog.csdn.net/xiaojin21cen/article/details/79834222">https://blog.csdn.net/xiaojin21cen/article/details/79834222</a></p>
-<hr>
-<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;dubbo的9种协议其实可以分为三种，一种时自定义的应用层协议，另一种是对HTTP封装的应用层协议，最后就是将缓存作为注册中心的协议。<br>&emsp;&emsp;第一种直接使用传输层TCP通道，而第二种则通过HTTP协议使用TCP通道。  </p>
-<h2 id="自定义应用层协议："><a href="#自定义应用层协议：" class="headerlink" title="自定义应用层协议："></a>自定义应用层协议：</h2><ol>
-<li><p>dubbo协议：</p>
-<blockquote>
-<p>缺省协议、单连接、长连接、TCP、NIO异步传输、Hessian 二进制序列化。<br>常规远程服务方法调用。<br>传入传出参数数据包较小（建议小于100K），消费者比提供者个数多，单一消费者无法压满提供者，尽量不要用dubbo协议传输大文件或超大字符串。</p>
-</blockquote>
-</li>
-<li><p>rmi协议：java标准远程调用协议。</p>
-<blockquote>
-<p>多连接、短连接、TCP、同步传输、java标准二进制序列化。<br>常规远程服务方法调用，与原生RMI服务互操作接口。<br>传入传出参数数据包大小混合，消费者与提供者个数差不多，可传文件。</p>
-</blockquote>
-<h2 id="封装的HTTP"><a href="#封装的HTTP" class="headerlink" title="封装的HTTP:"></a>封装的HTTP:</h2></li>
-<li><p>hessian协议：</p>
-<blockquote>
-<p>多连接、短连接、HTTP、同步传输、Hessian二进制序列化。<br>传入传出参数数据包较大，提供者比消费者个数多，提供者压力较大，可传文件。<br>页面传输，文件传输，或与原生hessian服务互操作。</p>
-</blockquote>
-</li>
-<li><p>HTTP：</p>
-<blockquote>
-<p>多连接、短连接、HTTP、同步传输、表单序列化。<br>传入传出参数数据包大小混合，提供者比消费者个数多，可用浏览器查看，可用表单或URL传入参数，暂不支持传文件。<br>需同时给应用程序和浏览器JS使用的服务。</p>
-</blockquote>
-</li>
-<li><p>WebService：</p>
-<blockquote>
-<p>多连接、短连接、HTTP、同步传输、SOAP文本序列化。<br>系统集成，跨语言调用。</p>
-</blockquote>
-</li>
-<li><p>rest：</p>
-<h2 id="缓存式协议："><a href="#缓存式协议：" class="headerlink" title="缓存式协议："></a>缓存式协议：</h2></li>
-<li><p>redis协议：</p>
-</li>
-<li><p>memcache协议：</p>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>dubbo</category>
-      </categories>
-      <tags>
-        <tag>dubbo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>dcokerdesktop小问题排查</title>
     <url>/hexoblog/2021/03/14/md/docker/dcokerdesktop%E5%B0%8F%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5/</url>
     <content><![CDATA[<!-- toc -->
@@ -340,6 +140,206 @@
       </tags>
   </entry>
   <entry>
+    <title>dubboSPI扩展机制自适应</title>
+    <url>/hexoblog/2021/04/19/md/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E6%9C%BA%E5%88%B6%E8%87%AA%E9%80%82%E5%BA%94/</url>
+    <content><![CDATA[<h1 id="扩展点自适应"><a href="#扩展点自适应" class="headerlink" title="扩展点自适应"></a>扩展点自适应</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>&emsp;&emsp;ExtensionLoader注入的依赖扩展点是一个Adaptive实例，直到扩展点方法执行时才决定调用是哪一个扩展点实现。<br>&emsp;&emsp;dubbo使用url对象传递对象信息，包含key和value。<br>&emsp;&emsp;扩展点方法调用会有URL参数（或是参数有URL成员）这样依赖的扩展点也可以从URL拿到配置信息，所有的扩展点自己定好配置的 Key后，配置信息从URL上从最外层传入。URL在配置传递上即是一条总线。</p>
+<span id="more"></span>
+<h2 id="Adaptive注解"><a href="#Adaptive注解" class="headerlink" title="@Adaptive注解"></a>@Adaptive注解</h2><p>&emsp;&emsp;表示该类是一个扩展类（Adaptive实例），不需要生成代理方法直接使用即可。<br>&emsp;&emsp;在方法上则表示该方法需生成代理, 此时就需要用到上面提到的URL参数。<br>&emsp;&emsp;如果作用在方法会帮我们在运行时动态生成一个Adaptive实例（只包含扩展方法的），如果作用在类上就相当于自己定义了一个现成的。</p>
+<h3 id="注解在实现类上"><a href="#注解在实现类上" class="headerlink" title="注解在实现类上"></a>注解在实现类上</h3><p>&emsp;&emsp;表示该类是一个扩展类，不需要生成代理方法直接使用即可。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 扩展的接口</span></span><br><span class="line"><span class="meta">@SPI</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">AdaptiveService</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 是扩展类</span></span><br><span class="line"><span class="meta">@Adaptive</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AdaptiveServiceImpl</span> <span class="keyword">implements</span> <span class="title">AdaptiveService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 同样需要文件</span></span><br><span class="line"><span class="comment">// 文件名为接口全限定名</span></span><br><span class="line"><span class="comment">// 内容为key=value，value为实现类全限定名</span></span><br><span class="line">AdaptiveService=com.lin.extendAdaptive.extend.impl.AdaptiveServiceImpl</span><br><span class="line"></span><br><span class="line"><span class="comment">// 启动类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExtendAdaptiveMain</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ExtensionLoader&lt;AdaptiveService&gt; extensionLoader = ExtensionLoader.getExtensionLoader(AdaptiveService.class);</span><br><span class="line">        AdaptiveService adaptiveExtension = extensionLoader.getAdaptiveExtension();</span><br><span class="line">        adaptiveExtension.sayHello();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="注解在接口方法上"><a href="#注解在接口方法上" class="headerlink" title="注解在接口方法上"></a>注解在接口方法上</h3><p>&emsp;&emsp;在方法上则表示该方法需生成代理, 此时就需要用到上面提到的URL参数。<br>&emsp;&emsp;当注解在接口方法上时，方法中需要传入一个URL参数，或者包装有URL参数时，会通过动态编译获得一个Adaptive实例。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 接口</span></span><br><span class="line"><span class="meta">@SPI</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MethodAdaptiveService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Adaptive(&#123;&quot;key&quot;&#125;)</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(URL url)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 实现类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MethodAdaptiveServiceImpl</span> <span class="keyword">implements</span> <span class="title">MethodAdaptiveService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(URL url)</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;method&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// META—INF文件与注解在类上时相同</span></span><br><span class="line">MethodAdaptiveService=com.lin.extendAdaptive.extend.impl.MethodAdaptiveServiceImpl</span><br><span class="line"></span><br><span class="line"><span class="comment">// 启动</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ExtensionLoader&lt;MethodAdaptiveService&gt; extensionLoader = ExtensionLoader.getExtensionLoader(MethodAdaptiveService.class);</span><br><span class="line">        MethodAdaptiveService adaptiveExtension = extensionLoader.getAdaptiveExtension();</span><br><span class="line">        HashMap hashMap = <span class="keyword">new</span> HashMap();</span><br><span class="line">        <span class="comment">// key与接口中注解的key相同，value与文件中声明的名称相同</span></span><br><span class="line">        hashMap.put(<span class="string">&quot;key&quot;</span>,<span class="string">&quot;MethodAdaptiveService&quot;</span>);</span><br><span class="line">        URL url = <span class="keyword">new</span> URL(<span class="string">&quot;dubbo&quot;</span>,<span class="string">&quot;localhost&quot;</span>,<span class="number">8080</span>,hashMap);</span><br><span class="line">        adaptiveExtension.sayHello(url);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 生成的实例</span></span><br><span class="line"><span class="keyword">package</span> com.lin.extendAdaptive.extend;</span><br><span class="line"><span class="keyword">import</span> org.apache.dubbo.common.extension.ExtensionLoader;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MethodAdaptiveService</span>$<span class="title">Adaptive</span> <span class="keyword">implements</span> <span class="title">com</span>.<span class="title">lin</span>.<span class="title">extendAdaptive</span>.<span class="title">extend</span>.<span class="title">MethodAdaptiveService</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(org.apache.dubbo.common.URL arg0)</span>  </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (arg0 == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">&quot;url == null&quot;</span>);</span><br><span class="line">        org.apache.dubbo.common.URL url = arg0;</span><br><span class="line">        String extName = url.getParameter(<span class="string">&quot;key&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span>(extName == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">&quot;Failed to get extension (com.lin.extendAdaptive.extend.MethodAdaptiveService) name from url (&quot;</span> + url.toString() + <span class="string">&quot;) use keys([key])&quot;</span>);</span><br><span class="line">        com.lin.extendAdaptive.extend.MethodAdaptiveService extension = (com.lin.extendAdaptive.extend.MethodAdaptiveService)ExtensionLoader.getExtensionLoader(com.lin.extendAdaptive.extend.MethodAdaptiveService.class).getExtension(extName);</span><br><span class="line">        extension.sayHello(url);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, dubbo version: <span class="number">2.7</span><span class="number">.1</span>, current host: <span class="number">192.168</span><span class="number">.139</span><span class="number">.15</span></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;程序运行时，会经过动态编译过程生成MethodAdaptiveService对应的Adaptive实例，即MethodAdaptiveService$Adaptive。<br>&emsp;&emsp;就是在程序运行过程中，根据条件，通过拼接字符串的形式生成java源码，然后进行编译获得对应的实例。</p>
+<hr>
+<h1 id="扩展点自动注入"><a href="#扩展点自动注入" class="headerlink" title="扩展点自动注入"></a>扩展点自动注入</h1><p>有bug稍后。</p>
+]]></content>
+      <categories>
+        <category>dubbo</category>
+      </categories>
+      <tags>
+        <tag>dubbo</tag>
+        <tag>SPI</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>dubboSPI扩展机制基本使用，自动包装</title>
+    <url>/hexoblog/2021/04/15/md/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E6%9C%BA%E5%88%B6%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%EF%BC%8C%E8%87%AA%E5%8A%A8%E5%8C%85%E8%A3%85/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;DubboSPI是基于JavaSPI的一个扩展与补充。<br><a href="https://dubbo.apache.org/zh/docs/v2.7/dev/spi/">https://dubbo.apache.org/zh/docs/v2.7/dev/spi/</a></p>
+<h2 id="优势："><a href="#优势：" class="headerlink" title="优势："></a>优势：</h2><ol>
+<li>Java SPI 每次都会把所有实现类都加载并实例化(是在迭代器迭代的时候创建实例)，而 Dubbo SPI 是分两段创建实例，先进行类加载，然后在使用到具体实现的时候才实例化，并且 Dubbo SPI 大量使用缓存，会把 Class 对象和实例对象都缓存起来，性能更好。</li>
+<li>Java SPI 在类加载失败的时候难以定位异常；</li>
+<li>Dubbo SPI 还支持 IOC 和 AOP 。</li>
+</ol>
+<span id="more"></span>
+
+<h2 id="用法："><a href="#用法：" class="headerlink" title="用法："></a>用法：</h2><ol>
+<li>基本使用</li>
+<li>扩展点自动包装</li>
+<li>扩展点自适应</li>
+<li>扩展点自动适配</li>
+<li>扩展点自动激活</li>
+</ol>
+<hr>
+<h1 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h1><p>&emsp;&emsp;dubboSPI的基本使用和javaSPI并无太大差异。</p>
+<p>主要区别：</p>
+<blockquote>
+<p>JDK标准的SPI会一次性实例化扩展点所有实现，如果有扩展实现初始化很耗时，但如果没用上也加载，会很浪费资源。dubboSPI可以选择性实例某个实现。</p>
+</blockquote>
+<ol>
+<li><p>dubboSPI需要SPI注解。</p>
+</li>
+<li><p>文件夹命名格式不同，文件内容格式不同。</p>
+<blockquote>
+<p>dubbo为META-INF/dubbo，文件内容为key=value(实现类全限定名)。<br>java为META-INF/services，文件内容直接为实现类全限定名。</p>
+</blockquote>
+</li>
+<li><p>启动的API不同。</p>
+<blockquote>
+<p>dubbo为ExtensionLoader。<br>java为ServiceLoader，是java。</p>
+</blockquote>
+</li>
+<li><p>java会扫描所有的类，无法按需加载，dubbo可以。</p>
+</li>
+</ol>
+<h2 id="定义一个接口"><a href="#定义一个接口" class="headerlink" title="定义一个接口"></a>定义一个接口</h2><p>&emsp;&emsp;需要使用SPI注解。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// dubbo需要SPI注解，SPI注解的值为默认的实现</span></span><br><span class="line"><span class="meta">@SPI</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ExtendService</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="定义实现类"><a href="#定义实现类" class="headerlink" title="定义实现类"></a>定义实现类</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExtendServiceImpl</span> <span class="keyword">implements</span> <span class="title">ExtendService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="创建文件夹"><a href="#创建文件夹" class="headerlink" title="创建文件夹"></a>创建文件夹</h2><p>&emsp;&emsp;在classpath下创建指定文件夹及文件</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 文件夹</span></span><br><span class="line"><span class="comment"># 与javaSPI文件夹不同</span></span><br><span class="line">MATA-INF/dubbo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 文件名（接口的全路径名）</span></span><br><span class="line">com.lin.extendwrapper.extend.ExtendService</span><br><span class="line"></span><br><span class="line"><span class="comment"># 文件内容</span></span><br><span class="line"><span class="comment"># key=value形式，与javaSPI不同格式</span></span><br><span class="line"><span class="comment"># 可以有多个实现</span></span><br><span class="line"><span class="comment"># java内容为实现类全限定名</span></span><br><span class="line">ExtendService=com.lin.extendwrapper.extend.impl.ExtendServiceImpl</span><br></pre></td></tr></table></figure>
+
+<h2 id="程序入口"><a href="#程序入口" class="headerlink" title="程序入口"></a>程序入口</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExtendWrapper</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 与javaSPI的API不同</span></span><br><span class="line">        ExtensionLoader&lt;ExtendService&gt; extensionLoader = ExtensionLoader.getExtensionLoader(ExtendService.class);</span><br><span class="line">        ExtendService extendService = extensionLoader.getExtension(<span class="string">&quot;ExtendService&quot;</span>);</span><br><span class="line">        extendService.sayHello();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="扩展点自动包装"><a href="#扩展点自动包装" class="headerlink" title="扩展点自动包装"></a>扩展点自动包装</h1><p>&emsp;&emsp;ExtensionLoader在加载扩展点时，如果加载到的扩展点有拷贝构造函数，则判定为扩展点Wrapper类。<br>&emsp;&emsp;这个类似于AOP。</p>
+<h2 id="增加一个实现类-包装类"><a href="#增加一个实现类-包装类" class="headerlink" title="增加一个实现类(包装类)"></a>增加一个实现类(包装类)</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExtendServiceImplWrapper</span> <span class="keyword">implements</span> <span class="title">ExtendService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> ExtendService extendService;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ExtendServiceImplWrapper</span><span class="params">(ExtendService extendService)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.extendService = extendService;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;before&quot;</span>);</span><br><span class="line">        extendService.sayHello();</span><br><span class="line">        System.out.println(<span class="string">&quot;after&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="修改META-INF下文件内容"><a href="#修改META-INF下文件内容" class="headerlink" title="修改META-INF下文件内容"></a>修改META-INF下文件内容</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ExtendService=com.lin.extendwrapper.extend.impl.ExtendServiceImpl</span><br><span class="line"><span class="comment"># 增加一行</span></span><br><span class="line">ExtendService=com.lin.extendwrapper.extend.impl.ExtendServiceImplWrapper</span><br></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>&emsp;&emsp;扩展点自动包装，会在通过ExtensionLoader获取扩展点时判断是否是包装类。如果是wrapper包装类，就是调用wrapper的service中的方法，包装后执行。</p>
+]]></content>
+      <categories>
+        <category>dubbo</category>
+      </categories>
+      <tags>
+        <tag>dubbo</tag>
+        <tag>SPI</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>dubbo基础及介绍</title>
+    <url>/hexoblog/2021/04/15/md/dubbo/dubbo%E5%9F%BA%E7%A1%80%E5%8F%8A%E4%BB%8B%E7%BB%8D/</url>
+    <content><![CDATA[<h1 id="RPC"><a href="#RPC" class="headerlink" title="RPC"></a>RPC</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>&emsp;&emsp;RPC，Remote Procedure Call 即远程过程调用，远程过程调用其实对标的是本地过程调用。<br>&emsp;&emsp;远程调用的方法可以走http协议也可以是基于tcp的自定义协议。</p>
+<span id="more"></span>
+<h2 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h2><p>&emsp;&emsp;一个RPC框架要做的就是约定通信协议，序列化格式，容错机制，负载均衡策略，监控运维和一个注册中心。</p>
+<ol>
+<li>服务消费者</li>
+<li>服务提供者</li>
+<li>注册中心</li>
+<li>监控中心</li>
+</ol>
+<hr>
+<h1 id="DUBBO"><a href="#DUBBO" class="headerlink" title="DUBBO"></a>DUBBO</h1><p>&emsp;&emsp;它实现了面向接口的代理 RPC 调用，并且可以配合 ZooKeeper 等组件实现服务注册和发现功能，并且拥有负载均衡、容错机制等。<br>&emsp;&emsp;<a href="https://juejin.cn/post/6870276943448080392#heading-9">https://juejin.cn/post/6870276943448080392#heading-9</a></p>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><h3 id="dubbo的作用"><a href="#dubbo的作用" class="headerlink" title="dubbo的作用"></a>dubbo的作用</h3><ol>
+<li>透明化的远程方法调用，就像调用本地方法一样调用远程方法，只需简单配置，没有任何API侵入。</li>
+<li>软负载均衡及容错机制，可在内网替代F5等硬件负载均衡器，降低成本，减少单点。</li>
+<li>服务自动注册与发现，不再需要写死服务提供方地址，注册中心基于接口名查询服务提供者的IP地址，并且能够平滑添加或删除。</li>
+</ol>
+<h3 id="dubbo分层结构"><a href="#dubbo分层结构" class="headerlink" title="dubbo分层结构"></a>dubbo分层结构</h3><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/a26bba7ba53849b9b9efbdf844f720c2_tplv-k3u1fbpfcp-zoom-1.jpg" alt="dubbo的十层结构"></p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/25609524-edfea2d2c42798d0.jpg" alt="dubbo的十层结构"></p>
+<h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/dubbo-architecture.jpg" alt="dubbo结构"></p>
+<ol>
+<li>服务容器负责启动，加载，运行服务提供者。</li>
+<li>服务提供者Provider向注册中心注册自己所能提供的服务。</li>
+<li>服务消费者Consumer启动向注册中心订阅自己所需的服务。</li>
+<li>注册中心将提供者元信息通知给消费者，消费者从注册中心获取提供者的地址。</li>
+<li>通过负载均衡选择一个Provider直接调用。如果失败，则会重新选择另一台进行调用。</li>
+<li>如果提供者有变更，注册中心会将变更推送给消费者。</li>
+<li>服务提供者和消费者都会在内存中记录着调用的次数和时间，然后定时（每分钟）的发送统计数据到监控中心。</li>
+</ol>
+<h3 id="TIPS"><a href="#TIPS" class="headerlink" title="TIPS"></a>TIPS</h3><ol>
+<li>注册中心和监控中心是可选的，可以直接在配置中写提供者和消费者直连。</li>
+<li>注册中心、提供方和消费方之间都是长连接，和监控方不是长连接，并且消费方是直接调用提供方，不经过注册中心。</li>
+<li>注册中心和监控中心宕机了也不会影响到已经正常运行的提供者和消费者，因为消费者有本地缓存提供者的信息。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>dubbo</category>
+      </categories>
+      <tags>
+        <tag>dubbo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>dubboSPI扩展点自动激活</title>
+    <url>/hexoblog/2021/04/20/md/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E7%82%B9%E8%87%AA%E5%8A%A8%E6%BF%80%E6%B4%BB/</url>
+    <content><![CDATA[<h1 id="扩展点自动激活"><a href="#扩展点自动激活" class="headerlink" title="扩展点自动激活"></a>扩展点自动激活</h1><p>&emsp;&emsp;对于集合类扩展点，比如：Filter, InvokerListener, ExportListener, TelnetHandler, StatusChecker 等，可以同时加载多个实现，此时，可以用自动激活来简化配置。</p>
+<span id="more"></span>
+
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 激活过滤器</span></span><br><span class="line"><span class="meta">@Activate</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FilterOne</span> <span class="keyword">implements</span> <span class="title">Filter</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest request, ServletResponse response, FilterChain chain)</span></span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>dubbo</category>
+      </categories>
+      <tags>
+        <tag>dubbo</tag>
+        <tag>SPI</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>dubbo的9种协议</title>
+    <url>/hexoblog/2021/04/23/md/dubbo/dubbo%E7%9A%849%E7%A7%8D%E5%8D%8F%E8%AE%AE/</url>
+    <content><![CDATA[<h1 id="dubbo共有9种协议"><a href="#dubbo共有9种协议" class="headerlink" title="dubbo共有9种协议"></a>dubbo共有9种协议</h1><p>&emsp;&emsp;dubbo中支持9种协议，通过这9种协议进行调用。<br>&emsp;&emsp;dubbo支持dubbo、rmi、hessian、http、webservice、thrift、redis、memcache、rest等多种协议，但是Dubbo官网是推荐我们使用dubbo协议的。<br>&emsp;&emsp;dubbo对于9种协议的支持来自于SPI扩展机制，是SPI扩展机制在dubbo中的一个重要应用。</p>
+<span id="more"></span>
+<figure class="highlight txt"><table><tr><td class="code"><pre><span class="line">filter=org.apache.dubbo.rpc.protocol.ProtocolFilterWrapper</span><br><span class="line">listener=org.apache.dubbo.rpc.protocol.ProtocolListenerWrapper</span><br><span class="line"></span><br><span class="line">mock=org.apache.dubbo.rpc.support.MockProtocol</span><br><span class="line">dubbo=org.apache.dubbo.rpc.protocol.dubbo.DubboProtocol</span><br><span class="line">injvm=org.apache.dubbo.rpc.protocol.injvm.InjvmProtocol</span><br><span class="line">rmi=org.apache.dubbo.rpc.protocol.rmi.RmiProtocol</span><br><span class="line">hessian=org.apache.dubbo.rpc.protocol.hessian.HessianProtocol</span><br><span class="line">http=org.apache.dubbo.rpc.protocol.http.HttpProtocol</span><br><span class="line"></span><br><span class="line">org.apache.dubbo.rpc.protocol.webservice.WebServiceProtocol</span><br><span class="line">thrift=org.apache.dubbo.rpc.protocol.thrift.ThriftProtocol</span><br><span class="line">memcached=org.apache.dubbo.rpc.protocol.memcached.MemcachedProtocol</span><br><span class="line">redis=org.apache.dubbo.rpc.protocol.redis.RedisProtocol</span><br><span class="line">rest=org.apache.dubbo.rpc.protocol.rest.RestProtocol</span><br><span class="line"></span><br><span class="line">registry=org.apache.dubbo.registry.integration.RegistryProtocol</span><br><span class="line"></span><br><span class="line">qos=org.apache.dubbo.qos.protocol.QosProtocolWrapper</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://blog.csdn.net/xiaojin21cen/article/details/79834222">https://blog.csdn.net/xiaojin21cen/article/details/79834222</a></p>
+<hr>
+<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;dubbo的9种协议其实可以分为三种，一种时自定义的应用层协议，另一种是对HTTP封装的应用层协议，最后就是将缓存作为注册中心的协议。<br>&emsp;&emsp;第一种直接使用传输层TCP通道，而第二种则通过HTTP协议使用TCP通道。  </p>
+<h2 id="自定义应用层协议："><a href="#自定义应用层协议：" class="headerlink" title="自定义应用层协议："></a>自定义应用层协议：</h2><ol>
+<li><p>dubbo协议：</p>
+<blockquote>
+<p>缺省协议、单连接、长连接、TCP、NIO异步传输、Hessian 二进制序列化。<br>常规远程服务方法调用。<br>传入传出参数数据包较小（建议小于100K），消费者比提供者个数多，单一消费者无法压满提供者，尽量不要用dubbo协议传输大文件或超大字符串。</p>
+</blockquote>
+</li>
+<li><p>rmi协议：java标准远程调用协议。</p>
+<blockquote>
+<p>多连接、短连接、TCP、同步传输、java标准二进制序列化。<br>常规远程服务方法调用，与原生RMI服务互操作接口。<br>传入传出参数数据包大小混合，消费者与提供者个数差不多，可传文件。</p>
+</blockquote>
+<h2 id="封装的HTTP"><a href="#封装的HTTP" class="headerlink" title="封装的HTTP:"></a>封装的HTTP:</h2></li>
+<li><p>hessian协议：</p>
+<blockquote>
+<p>多连接、短连接、HTTP、同步传输、Hessian二进制序列化。<br>传入传出参数数据包较大，提供者比消费者个数多，提供者压力较大，可传文件。<br>页面传输，文件传输，或与原生hessian服务互操作。</p>
+</blockquote>
+</li>
+<li><p>HTTP：</p>
+<blockquote>
+<p>多连接、短连接、HTTP、同步传输、表单序列化。<br>传入传出参数数据包大小混合，提供者比消费者个数多，可用浏览器查看，可用表单或URL传入参数，暂不支持传文件。<br>需同时给应用程序和浏览器JS使用的服务。</p>
+</blockquote>
+</li>
+<li><p>WebService：</p>
+<blockquote>
+<p>多连接、短连接、HTTP、同步传输、SOAP文本序列化。<br>系统集成，跨语言调用。</p>
+</blockquote>
+</li>
+<li><p>rest：</p>
+<h2 id="缓存式协议："><a href="#缓存式协议：" class="headerlink" title="缓存式协议："></a>缓存式协议：</h2></li>
+<li><p>redis协议：</p>
+</li>
+<li><p>memcache协议：</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>dubbo</category>
+      </categories>
+      <tags>
+        <tag>dubbo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>HTTP HTTPS HTTP2</title>
     <url>/hexoblog/2021/05/08/md/internet/HTTP-HTTPS-HTTP2/</url>
     <content><![CDATA[<h1 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h1><p>&emsp;&emsp;超文本传输协议，是从web服务器传输超文本标记语言到本地浏览器的传送协议，默认工作在80端口。</p>
@@ -444,109 +444,6 @@
       <tags>
         <tag>HTTP</tag>
         <tag>网络</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>TCP三次握手四次挥手</title>
-    <url>/hexoblog/2021/04/30/md/internet/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;在网络层通过IP协议可以实现两个主机之间的通信，但是无法确定是主机中的那个进程之间进行的通信，而实际及性能通信的则是主机中的进程。  </p>
-<span id="more"></span>
-
-<p>&emsp;&emsp;TCP面向连接的服务，在传送数据之前必须先建立连接，数据传送完成后要释放连接。因此TCP是一种可靠的的运输服务，但是正因为这样，不可避免的增加了许多的开销，比如确认，流量控制等。对应的应用层的协议主要有SMTP,TELNET,HTTP,FTP等。<br>&emsp;&emsp;TCP把连接作为最基本的对象，每一条TCP连接都有两个端点，这种断点我们叫作套接字（socket），它的定义为端口号拼接到IP地址即构成了套接字，例如，若IP地址为127.0.0.1 而端口号为80，那么得到的套接字为127.0.0.1:80。<br>&emsp;&emsp;TCP采用全双工通信，这要求了服务端与客户端必须双方都能进行向对方发送数据，所以建立断开连接必须建立或者断开两次。</p>
-<hr>
-<h1 id="TCP报文"><a href="#TCP报文" class="headerlink" title="TCP报文"></a>TCP报文</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/tcp%E6%8A%A5%E6%96%87%E9%A6%96%E9%83%A8.jpg" alt="TCP报文"></p>
-<ol>
-<li>源端口和目的端口：分别写入源端口和目的接口。</li>
-<li>序号：占4个字节，TCP连接中传送的字节流中的每个字节都按顺序编号。当前为301时，如果传输100个字节后，下一个报文段从401开始。</li>
-<li>确认号：占4个字节，是期望收到对方下一个报文的第一个数据字节的序号。</li>
-<li>数据偏移：占4位（半个字节），它指出TCP报文的数据距离TCP报文段的起始处有多远。</li>
-<li>保留位置：占6位，保留今后使用，但目前应都位0。</li>
-<li>紧急URG：当URG=1，表明紧急指针字段有效。告诉系统此报文段中有紧急数据。</li>
-<li>确认ACK：仅当ACK=1时，确认号字段才有效。TCP规定，在连接建立后所有报文的传输都必须把ACK置1。</li>
-<li>推送PSH：当两个应用进程进行交互式通信时，有时在一端的应用进程希望在键入一个命令后立即就能收到对方的响应，这时候就将PSH=1。</li>
-<li>复位RST：当RST=1，表明TCP连接中出现严重差错，必须释放连接，然后再重新建立连接。</li>
-<li>同步SYN：在连接建立时用来同步序号。当SYN=1，ACK=0，表明是连接请求报文，若同意连接，则响应报文中应该使SYN=1，ACK=1。</li>
-<li>终止FIN：用来释放连接。当FIN=1，表明此报文的发送方的数据已经发送完毕，并且要求释放。</li>
-<li>窗口：占2字节，指的是通知接收方，发送本报文你需要有多大的空间来接受。</li>
-<li>检验和：占2字节，校验首部和数据这两部分。</li>
-<li>紧急指针：占2字节，指出本报文段中的紧急数据的字节数。</li>
-<li>选项：长度可变，定义一些其他的可选的参数。</li>
-</ol>
-<hr>
-<h1 id="TCP连接的建立（三次握手）"><a href="#TCP连接的建立（三次握手）" class="headerlink" title="TCP连接的建立（三次握手）"></a>TCP连接的建立（三次握手）</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/tcp%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B.png" alt="TCP连接建立"></p>
-<ol>
-<li>服务端先创建传输控制块，准备监听客户端进程的连接请求，此时服务器就进入了Listen状态。</li>
-<li>客户端也建立传输控制块，向服务端发送连接请求报文，此时客户端进入SYN-SENT状态（同步已发送）。<blockquote>
-<p>TCP规定，SYN报文段（SYN=1的报文段）<strong>不能携带数据</strong>，但需消耗掉一个序号。<br>此时报文内容SYN=1，seq=x。</p>
-</blockquote>
-</li>
-<li>服务器接收到请求后，如果同意连接，则发出确认报文，此时服务器进入SYN-RCVD状态（同步收到）。<blockquote>
-<p>这个报文同样不能携带数据，需要消耗一个序号。<br>此时报文内容为SYN=1,ACK=1,seq=y,ack=x+1。seq为自己发送的序列号，ack因为上一次的发连接请求报文不带数据，所以确认号直接为x+。</p>
-</blockquote>
-</li>
-<li>客户端进程收到确认后，还要向服务器给出确认。确认后，TCP连接建立，客户端进入ESTABLISHED状态（已建立连接）。<blockquote>
-<p>TCP规定，ACK报文段可以携带数据，但是如果不携带数据则不消耗序号。<br>此时的报文内容为ACK=1,seq=x+1,ack=y+1；这里相对于同步请求是客户端发给服务端的第二个请求，所有seq为x+1。</p>
-</blockquote>
-</li>
-<li>当服务器收到客户端的确认后也进入ESTABLISHED状态，此后双方就可以开始通信了。</li>
-</ol>
-<hr>
-<h1 id="TCP连接的断开（四次回收）"><a href="#TCP连接的断开（四次回收）" class="headerlink" title="TCP连接的断开（四次回收）"></a>TCP连接的断开（四次回收）</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B.png" alt="四次挥手"></p>
-<ol>
-<li>客户端发送连接释放报文，停止发送数据，客户端进入FIN-WAIT-1状态（终止等待1）。<blockquote>
-<p>TCP规定，FIN报文段即使不携带数据，也要消耗一个序号。与SYN报文段相似。<br>此时报文内容为FIN=1,seq=u。这里的序列号跟随前面的数据的序列号，为最后一个字节数据的序列号加一。</p>
-</blockquote>
-</li>
-<li>服务器收到连接释放报文，发送出自己的释放报文，服务端进入CLOSE-WAIT状态（关闭等待）。<blockquote>
-<p>TCP服务器通知高层的应用进程，客户端向服务器的方向就释放了，这时候处于半关闭状态，即客户端已经没有数据要发送了，但是服务器若发送数据，客户端依然要接受。这个过程需要持续一段时间，等待服务器将数据发送完。<br>此时报文内容为ACK=1,seq=v,ack=u+1。</p>
-</blockquote>
-</li>
-<li>客户端收到服务器的释放确认后，进入FIN-WAIT-2状态，等待服务器发送连接释放报文，这个过程中会继续接受服务器发送的数据内容。</li>
-<li>服务器将数据发送完毕后，向客户端发送连接释放报文，服务器进入LAST-ACK状态，等待最后的确认。<blockquote>
-<p>此时报文内容为FIN=1,ACK=1,seq=w,ack=u+1，在上个过程中，客户端不会向服务端发送信息所以ack不变，而服务端会向客户端发送所以seq会变化。</p>
-</blockquote>
-</li>
-<li>客户端收到连接释放后，向服务器发出确认，客户端进入TIME-WAIT状态。<blockquote>
-<p>注意此时TCP连接还没有释放，必须经过2*MSL（最长报文段寿命）的时间后，当客户端撤销相应的TCB后，才进入CLOSED状态。<br>此时报文内容为ACK=1,seq=u+1,ack=w+1。</p>
-</blockquote>
-</li>
-<li>服务器收到确认信息后，会立即进入CLOSED状态，撤销TCB结束连接。</li>
-</ol>
-<hr>
-<h1 id="通俗一点"><a href="#通俗一点" class="headerlink" title="通俗一点"></a>通俗一点</h1><p>&emsp;&emsp;举个例子：</p>
-<ul>
-<li>甲方：你好，我是甲方，你能听到吗？</li>
-<li>乙方：你好，我能听到，我是乙方，你能听到吗？&lt;甲方收到，甲方建立连接&gt;</li>
-<li>甲方：我能听到。&lt;乙方收到，乙方建立连接&gt;</li>
-<li></li>
-<li>连接建立，开始扯皮。</li>
-<li>甲方乙方：。。。（扯皮中）。</li>
-<li></li>
-<li>甲方：我说完了，就这样吧。</li>
-<li>乙方：你说完了好的，我最后在说一下。</li>
-<li>乙方：。。。乙方批斗需求中。</li>
-<li>乙方：我也说完了，挂了吧。</li>
-<li>甲方：好的，挂了。&lt;乙方收到，乙方挂掉了&gt;</li>
-<li></li>
-<li>甲方：{等了一个来回的时间了，他应该收到了}。&lt;甲方挂掉了&gt;</li>
-</ul>
-<hr>
-<h1 id="一点问题"><a href="#一点问题" class="headerlink" title="一点问题"></a>一点问题</h1><h2 id="为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）"><a href="#为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）" class="headerlink" title="为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）"></a>为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）</h2><p>&emsp;&emsp;防止因网络抖动各种原因造成的连接请求，突然又传送到了服务端，从而产生错误。<br>&emsp;&emsp;采用两次握手的情况下，假设第一次的连接请求在网络中阻塞了，服务端没有收到客户端的请求报文就不会处理，客户端一直收不到确认就会认为服务器没有收到，则会重新发送这条请求，此后客户端和服务端完成握手，建立连接。<br>&emsp;&emsp;这时，在网络中阻塞的第一次的请求突然到达服务器就会出现问题。</p>
-<blockquote>
-<p>如果建立连接后传输完成数据且关闭连接了，就会产生重新建立连接的问题，而采用3次握手，即使服务端收到了出错的连接请求而发送了确认信息，但是客户端没有需要传输的数据，不会进行第三次握手操作，就不会产生问题。<br>如果传输数据过程中收到了错误的连接请求，即使进行确认，也不会第三次进行握手。（这里待议）</p>
-</blockquote>
-<h2 id="服务端易受到SYN攻击？"><a href="#服务端易受到SYN攻击？" class="headerlink" title="服务端易受到SYN攻击？"></a>服务端易受到SYN攻击？</h2><p>&emsp;&emsp;服务端的资源是在第二次进行握手的时候分配的，而客户端的资源是在进行第三次握手的时候分配的。所以服务器容易收到SYN洪泛攻击，就是在短时间内伪造大量不存在的ip，不断的向服务器发送SYN包，服务端则回复并等待确认包，但是源地址是虚构的，所有不会收到确认包，服务端将不断重发进行重试知道超时，这些伪造的SYN包将占用大量且长时间的占用未连接队列，导致正常请求将被丢弃，引起网络瘫痪。<br>&emsp;&emsp;可以通过降低主机的等待时间释放未连接占用，或者短时间收到某ip的重复SYN报文将丢弃后续请求。</p>
-<h2 id="为什么客户端最后还要等待2MSL？"><a href="#为什么客户端最后还要等待2MSL？" class="headerlink" title="为什么客户端最后还要等待2MSL？"></a>为什么客户端最后还要等待2MSL？</h2><p>&emsp;&emsp;保证客户端的最后一个ACK报文能够到达服务器，在服务端，没有接受到客户端的ACK就会认为服务器没有收到自己发送的FIN请求，这时就会重发FIN请求。对于客户端而言，收到FIN请求后，发送ACK确认信息，假设服务端没有收到ACK信息，就会重新发送FIN请求，客户端就会重新收到FIN请求，没有收到重新发送的FIN请求，就认为没有问题就可以断开连接了。</p>
-<h2 id="如果已经建立了连接，但是客户端突然出现故障了怎么办？"><a href="#如果已经建立了连接，但是客户端突然出现故障了怎么办？" class="headerlink" title="如果已经建立了连接，但是客户端突然出现故障了怎么办？"></a>如果已经建立了连接，但是客户端突然出现故障了怎么办？</h2><p>&emsp;&emsp;TCP设置有一个保活器，服务器每一次收到数据就会重新复位这个计时器，若计时器走完，没有收到客户端的数据，服务器就会发送探测报文，75秒一个探测报文，连续10个探测报文没有收到恢复，就认为客户端故障，断开连接。</p>
-<h2 id="为什么是四次挥手而不是三次或者五次呢？"><a href="#为什么是四次挥手而不是三次或者五次呢？" class="headerlink" title="为什么是四次挥手而不是三次或者五次呢？"></a>为什么是四次挥手而不是三次或者五次呢？</h2><p>&emsp;&emsp;第二次挥手和第三次挥手都是服务端向客户端发送报文，第二次挥手是服务端收到了客户端的断开请求，通知客户端收到了，此时客户端没有数据向服务端发送了，但不代表服务端也没有数据向客户端发送，因为服务端要把剩余还没有发送的报文发送完毕再断开连接；第三次挥手是服务端数据全部发送完毕，向客户端发送断开请求报文（FIN=1）。<br>&emsp;&emsp;如果将这两次合二为一，就会出现服务端收到请求后立即确认并且断开连接，会造成服务端发送到客户端的数据不完整。五次则没有必要。</p>
-<h2 id="问什么连接是三次断开是四次呢？"><a href="#问什么连接是三次断开是四次呢？" class="headerlink" title="问什么连接是三次断开是四次呢？"></a>问什么连接是三次断开是四次呢？</h2><p>&emsp;&emsp;断开是四次的原因和上面的问题的解答是一样的。<br>&emsp;&emsp;对于建立连接，3次其实是建立可靠连接的最小次数。可参考第一道问题。<br>&emsp;&emsp;因为当服务端收到客户端的SYN连接请求报文后，可以直接发送SYN+ACK报文。其中ACK报文是用来应答的，SYN报文是用来同步的。但是关闭连接时，当Server端收到FIN报文时，很可能并不会立即关闭连接，所以只能先回复一个ACK报文，告诉客户端，”你发的FIN报文我收到了”。只有等到我服务端所有的报文都发送完了，我才能发送FIN报文，因此不能一起发送。故需要四步握手。<br>&emsp;&emsp;四次挥手相比于三次握手，将服务端返回给客户端的ACK+SYN报文，拆成了2次发送。</p>
-]]></content>
-      <categories>
-        <category>网络</category>
-      </categories>
-      <tags>
-        <tag>网络</tag>
-        <tag>TCP</tag>
       </tags>
   </entry>
   <entry>
@@ -791,24 +688,106 @@
       </tags>
   </entry>
   <entry>
-    <title>filter_interceptor</title>
-    <url>/hexoblog/2021/03/01/md/java/filter-interceptor/</url>
-    <content><![CDATA[<h2 id="过滤器"><a href="#过滤器" class="headerlink" title="过滤器"></a>过滤器</h2><p>&emsp;&emsp;过滤器是用来过滤的，java的过滤器能够为我们提供系统级别的过滤，也就是说能够过滤所有的web请求，这一点是拦截器做不到的。<br>&emsp;&emsp;在java web中，你传入的request，response提前过滤掉一些信息，或者提前设置一些参数，然后在传入Servlet进行业务逻辑，比如过滤掉非法url和非法字符串。<br>&emsp;&emsp;filter流程是线性的，url传来之后，检查之后，可保持原来的流程继续向下执行，被下一个filter，servlet接收。</p>
+    <title>TCP三次握手四次挥手</title>
+    <url>/hexoblog/2021/04/30/md/internet/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;在网络层通过IP协议可以实现两个主机之间的通信，但是无法确定是主机中的那个进程之间进行的通信，而实际及性能通信的则是主机中的进程。  </p>
 <span id="more"></span>
 
+<p>&emsp;&emsp;TCP面向连接的服务，在传送数据之前必须先建立连接，数据传送完成后要释放连接。因此TCP是一种可靠的的运输服务，但是正因为这样，不可避免的增加了许多的开销，比如确认，流量控制等。对应的应用层的协议主要有SMTP,TELNET,HTTP,FTP等。<br>&emsp;&emsp;TCP把连接作为最基本的对象，每一条TCP连接都有两个端点，这种断点我们叫作套接字（socket），它的定义为端口号拼接到IP地址即构成了套接字，例如，若IP地址为127.0.0.1 而端口号为80，那么得到的套接字为127.0.0.1:80。<br>&emsp;&emsp;TCP采用全双工通信，这要求了服务端与客户端必须双方都能进行向对方发送数据，所以建立断开连接必须建立或者断开两次。</p>
 <hr>
-<h2 id="拦截器"><a href="#拦截器" class="headerlink" title="拦截器"></a>拦截器</h2><p>&emsp;&emsp;java里面的拦截器提供的是非系统级别的拦截，也就是说，就覆盖面来说，拦截器不如过滤器强大但是更有针对性。<br>&emsp;&emsp;java中的拦截器是基于java反射机制实现的，更准确的划分，应该是基于jdk实现的动态代理。它依赖于具体的接口，在运行期间动态生成字节码。<br>&emsp;&emsp;拦截器是动态拦截Action调用的对象，他提供了一种机制可以使开发者在一个ation执行的前后执行一段代码，也可以在一个action执行前阻止其执行，同时也提供了一种可以提取action中可重用代码的方式。在AOP中，拦截器用于在某个方法或字段被访问之前，进行拦截然后再之前或之后加入某些操作。java的拦截器主要用于插件上，扩展件上，有点类似于面向切面的技术，在用之前要先在配置文件里声明。</p>
+<h1 id="TCP报文"><a href="#TCP报文" class="headerlink" title="TCP报文"></a>TCP报文</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/tcp%E6%8A%A5%E6%96%87%E9%A6%96%E9%83%A8.jpg" alt="TCP报文"></p>
+<ol>
+<li>源端口和目的端口：分别写入源端口和目的接口。</li>
+<li>序号：占4个字节，TCP连接中传送的字节流中的每个字节都按顺序编号。当前为301时，如果传输100个字节后，下一个报文段从401开始。</li>
+<li>确认号：占4个字节，是期望收到对方下一个报文的第一个数据字节的序号。</li>
+<li>数据偏移：占4位（半个字节），它指出TCP报文的数据距离TCP报文段的起始处有多远。</li>
+<li>保留位置：占6位，保留今后使用，但目前应都位0。</li>
+<li>紧急URG：当URG=1，表明紧急指针字段有效。告诉系统此报文段中有紧急数据。</li>
+<li>确认ACK：仅当ACK=1时，确认号字段才有效。TCP规定，在连接建立后所有报文的传输都必须把ACK置1。</li>
+<li>推送PSH：当两个应用进程进行交互式通信时，有时在一端的应用进程希望在键入一个命令后立即就能收到对方的响应，这时候就将PSH=1。</li>
+<li>复位RST：当RST=1，表明TCP连接中出现严重差错，必须释放连接，然后再重新建立连接。</li>
+<li>同步SYN：在连接建立时用来同步序号。当SYN=1，ACK=0，表明是连接请求报文，若同意连接，则响应报文中应该使SYN=1，ACK=1。</li>
+<li>终止FIN：用来释放连接。当FIN=1，表明此报文的发送方的数据已经发送完毕，并且要求释放。</li>
+<li>窗口：占2字节，指的是通知接收方，发送本报文你需要有多大的空间来接受。</li>
+<li>检验和：占2字节，校验首部和数据这两部分。</li>
+<li>紧急指针：占2字节，指出本报文段中的紧急数据的字节数。</li>
+<li>选项：长度可变，定义一些其他的可选的参数。</li>
+</ol>
 <hr>
-<h2 id="监听器"><a href="#监听器" class="headerlink" title="监听器"></a>监听器</h2><p>&emsp;&emsp;java的监听器也是系统级别的监听。监听器随web应用的启动而启动。<br>&emsp;&emsp;java的监听器在c/s模式里面经常用到，它会对特定的事件产生一个处理。监听器在很多模式下用到，比如说观察者模式，就是使用监听器来实现的，又比如统计网站的在线人数。servlet监听器用于监听一些重要事件的发生，监听器对象可以在事件发生前，发生后做一些必要的处理。</p>
+<h1 id="TCP连接的建立（三次握手）"><a href="#TCP连接的建立（三次握手）" class="headerlink" title="TCP连接的建立（三次握手）"></a>TCP连接的建立（三次握手）</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/tcp%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B.png" alt="TCP连接建立"></p>
+<ol>
+<li>服务端先创建传输控制块，准备监听客户端进程的连接请求，此时服务器就进入了Listen状态。</li>
+<li>客户端也建立传输控制块，向服务端发送连接请求报文，此时客户端进入SYN-SENT状态（同步已发送）。<blockquote>
+<p>TCP规定，SYN报文段（SYN=1的报文段）<strong>不能携带数据</strong>，但需消耗掉一个序号。<br>此时报文内容SYN=1，seq=x。</p>
+</blockquote>
+</li>
+<li>服务器接收到请求后，如果同意连接，则发出确认报文，此时服务器进入SYN-RCVD状态（同步收到）。<blockquote>
+<p>这个报文同样不能携带数据，需要消耗一个序号。<br>此时报文内容为SYN=1,ACK=1,seq=y,ack=x+1。seq为自己发送的序列号，ack因为上一次的发连接请求报文不带数据，所以确认号直接为x+。</p>
+</blockquote>
+</li>
+<li>客户端进程收到确认后，还要向服务器给出确认。确认后，TCP连接建立，客户端进入ESTABLISHED状态（已建立连接）。<blockquote>
+<p>TCP规定，ACK报文段可以携带数据，但是如果不携带数据则不消耗序号。<br>此时的报文内容为ACK=1,seq=x+1,ack=y+1；这里相对于同步请求是客户端发给服务端的第二个请求，所有seq为x+1。</p>
+</blockquote>
+</li>
+<li>当服务器收到客户端的确认后也进入ESTABLISHED状态，此后双方就可以开始通信了。</li>
+</ol>
 <hr>
-<h1 id="对照"><a href="#对照" class="headerlink" title="对照"></a>对照</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/interceptor_filter_1.jpg" alt="对照"></p>
+<h1 id="TCP连接的断开（四次回收）"><a href="#TCP连接的断开（四次回收）" class="headerlink" title="TCP连接的断开（四次回收）"></a>TCP连接的断开（四次回收）</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B.png" alt="四次挥手"></p>
+<ol>
+<li>客户端发送连接释放报文，停止发送数据，客户端进入FIN-WAIT-1状态（终止等待1）。<blockquote>
+<p>TCP规定，FIN报文段即使不携带数据，也要消耗一个序号。与SYN报文段相似。<br>此时报文内容为FIN=1,seq=u。这里的序列号跟随前面的数据的序列号，为最后一个字节数据的序列号加一。</p>
+</blockquote>
+</li>
+<li>服务器收到连接释放报文，发送出自己的释放报文，服务端进入CLOSE-WAIT状态（关闭等待）。<blockquote>
+<p>TCP服务器通知高层的应用进程，客户端向服务器的方向就释放了，这时候处于半关闭状态，即客户端已经没有数据要发送了，但是服务器若发送数据，客户端依然要接受。这个过程需要持续一段时间，等待服务器将数据发送完。<br>此时报文内容为ACK=1,seq=v,ack=u+1。</p>
+</blockquote>
+</li>
+<li>客户端收到服务器的释放确认后，进入FIN-WAIT-2状态，等待服务器发送连接释放报文，这个过程中会继续接受服务器发送的数据内容。</li>
+<li>服务器将数据发送完毕后，向客户端发送连接释放报文，服务器进入LAST-ACK状态，等待最后的确认。<blockquote>
+<p>此时报文内容为FIN=1,ACK=1,seq=w,ack=u+1，在上个过程中，客户端不会向服务端发送信息所以ack不变，而服务端会向客户端发送所以seq会变化。</p>
+</blockquote>
+</li>
+<li>客户端收到连接释放后，向服务器发出确认，客户端进入TIME-WAIT状态。<blockquote>
+<p>注意此时TCP连接还没有释放，必须经过2*MSL（最长报文段寿命）的时间后，当客户端撤销相应的TCB后，才进入CLOSED状态。<br>此时报文内容为ACK=1,seq=u+1,ack=w+1。</p>
+</blockquote>
+</li>
+<li>服务器收到确认信息后，会立即进入CLOSED状态，撤销TCB结束连接。</li>
+</ol>
+<hr>
+<h1 id="通俗一点"><a href="#通俗一点" class="headerlink" title="通俗一点"></a>通俗一点</h1><p>&emsp;&emsp;举个例子：</p>
+<ul>
+<li>甲方：你好，我是甲方，你能听到吗？</li>
+<li>乙方：你好，我能听到，我是乙方，你能听到吗？&lt;甲方收到，甲方建立连接&gt;</li>
+<li>甲方：我能听到。&lt;乙方收到，乙方建立连接&gt;</li>
+<li></li>
+<li>连接建立，开始扯皮。</li>
+<li>甲方乙方：。。。（扯皮中）。</li>
+<li></li>
+<li>甲方：我说完了，就这样吧。</li>
+<li>乙方：你说完了好的，我最后在说一下。</li>
+<li>乙方：。。。乙方批斗需求中。</li>
+<li>乙方：我也说完了，挂了吧。</li>
+<li>甲方：好的，挂了。&lt;乙方收到，乙方挂掉了&gt;</li>
+<li></li>
+<li>甲方：{等了一个来回的时间了，他应该收到了}。&lt;甲方挂掉了&gt;</li>
+</ul>
+<hr>
+<h1 id="一点问题"><a href="#一点问题" class="headerlink" title="一点问题"></a>一点问题</h1><h2 id="为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）"><a href="#为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）" class="headerlink" title="为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）"></a>为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）</h2><p>&emsp;&emsp;防止因网络抖动各种原因造成的连接请求，突然又传送到了服务端，从而产生错误。<br>&emsp;&emsp;采用两次握手的情况下，假设第一次的连接请求在网络中阻塞了，服务端没有收到客户端的请求报文就不会处理，客户端一直收不到确认就会认为服务器没有收到，则会重新发送这条请求，此后客户端和服务端完成握手，建立连接。<br>&emsp;&emsp;这时，在网络中阻塞的第一次的请求突然到达服务器就会出现问题。</p>
+<blockquote>
+<p>如果建立连接后传输完成数据且关闭连接了，就会产生重新建立连接的问题，而采用3次握手，即使服务端收到了出错的连接请求而发送了确认信息，但是客户端没有需要传输的数据，不会进行第三次握手操作，就不会产生问题。<br>如果传输数据过程中收到了错误的连接请求，即使进行确认，也不会第三次进行握手。（这里待议）</p>
+</blockquote>
+<h2 id="服务端易受到SYN攻击？"><a href="#服务端易受到SYN攻击？" class="headerlink" title="服务端易受到SYN攻击？"></a>服务端易受到SYN攻击？</h2><p>&emsp;&emsp;服务端的资源是在第二次进行握手的时候分配的，而客户端的资源是在进行第三次握手的时候分配的。所以服务器容易收到SYN洪泛攻击，就是在短时间内伪造大量不存在的ip，不断的向服务器发送SYN包，服务端则回复并等待确认包，但是源地址是虚构的，所有不会收到确认包，服务端将不断重发进行重试知道超时，这些伪造的SYN包将占用大量且长时间的占用未连接队列，导致正常请求将被丢弃，引起网络瘫痪。<br>&emsp;&emsp;可以通过降低主机的等待时间释放未连接占用，或者短时间收到某ip的重复SYN报文将丢弃后续请求。</p>
+<h2 id="为什么客户端最后还要等待2MSL？"><a href="#为什么客户端最后还要等待2MSL？" class="headerlink" title="为什么客户端最后还要等待2MSL？"></a>为什么客户端最后还要等待2MSL？</h2><p>&emsp;&emsp;保证客户端的最后一个ACK报文能够到达服务器，在服务端，没有接受到客户端的ACK就会认为服务器没有收到自己发送的FIN请求，这时就会重发FIN请求。对于客户端而言，收到FIN请求后，发送ACK确认信息，假设服务端没有收到ACK信息，就会重新发送FIN请求，客户端就会重新收到FIN请求，没有收到重新发送的FIN请求，就认为没有问题就可以断开连接了。</p>
+<h2 id="如果已经建立了连接，但是客户端突然出现故障了怎么办？"><a href="#如果已经建立了连接，但是客户端突然出现故障了怎么办？" class="headerlink" title="如果已经建立了连接，但是客户端突然出现故障了怎么办？"></a>如果已经建立了连接，但是客户端突然出现故障了怎么办？</h2><p>&emsp;&emsp;TCP设置有一个保活器，服务器每一次收到数据就会重新复位这个计时器，若计时器走完，没有收到客户端的数据，服务器就会发送探测报文，75秒一个探测报文，连续10个探测报文没有收到恢复，就认为客户端故障，断开连接。</p>
+<h2 id="为什么是四次挥手而不是三次或者五次呢？"><a href="#为什么是四次挥手而不是三次或者五次呢？" class="headerlink" title="为什么是四次挥手而不是三次或者五次呢？"></a>为什么是四次挥手而不是三次或者五次呢？</h2><p>&emsp;&emsp;第二次挥手和第三次挥手都是服务端向客户端发送报文，第二次挥手是服务端收到了客户端的断开请求，通知客户端收到了，此时客户端没有数据向服务端发送了，但不代表服务端也没有数据向客户端发送，因为服务端要把剩余还没有发送的报文发送完毕再断开连接；第三次挥手是服务端数据全部发送完毕，向客户端发送断开请求报文（FIN=1）。<br>&emsp;&emsp;如果将这两次合二为一，就会出现服务端收到请求后立即确认并且断开连接，会造成服务端发送到客户端的数据不完整。五次则没有必要。</p>
+<h2 id="问什么连接是三次断开是四次呢？"><a href="#问什么连接是三次断开是四次呢？" class="headerlink" title="问什么连接是三次断开是四次呢？"></a>问什么连接是三次断开是四次呢？</h2><p>&emsp;&emsp;断开是四次的原因和上面的问题的解答是一样的。<br>&emsp;&emsp;对于建立连接，3次其实是建立可靠连接的最小次数。可参考第一道问题。<br>&emsp;&emsp;因为当服务端收到客户端的SYN连接请求报文后，可以直接发送SYN+ACK报文。其中ACK报文是用来应答的，SYN报文是用来同步的。但是关闭连接时，当Server端收到FIN报文时，很可能并不会立即关闭连接，所以只能先回复一个ACK报文，告诉客户端，”你发的FIN报文我收到了”。只有等到我服务端所有的报文都发送完了，我才能发送FIN报文，因此不能一起发送。故需要四步握手。<br>&emsp;&emsp;四次挥手相比于三次握手，将服务端返回给客户端的ACK+SYN报文，拆成了2次发送。</p>
 ]]></content>
       <categories>
-        <category>java</category>
+        <category>网络</category>
       </categories>
       <tags>
-        <tag>filter</tag>
-        <tag>interceptor</tag>
+        <tag>网络</tag>
+        <tag>TCP</tag>
       </tags>
   </entry>
   <entry>
@@ -887,6 +866,27 @@
       <tags>
         <tag>SPI</tag>
         <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>filter_interceptor</title>
+    <url>/hexoblog/2021/03/01/md/java/filter-interceptor/</url>
+    <content><![CDATA[<h2 id="过滤器"><a href="#过滤器" class="headerlink" title="过滤器"></a>过滤器</h2><p>&emsp;&emsp;过滤器是用来过滤的，java的过滤器能够为我们提供系统级别的过滤，也就是说能够过滤所有的web请求，这一点是拦截器做不到的。<br>&emsp;&emsp;在java web中，你传入的request，response提前过滤掉一些信息，或者提前设置一些参数，然后在传入Servlet进行业务逻辑，比如过滤掉非法url和非法字符串。<br>&emsp;&emsp;filter流程是线性的，url传来之后，检查之后，可保持原来的流程继续向下执行，被下一个filter，servlet接收。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="拦截器"><a href="#拦截器" class="headerlink" title="拦截器"></a>拦截器</h2><p>&emsp;&emsp;java里面的拦截器提供的是非系统级别的拦截，也就是说，就覆盖面来说，拦截器不如过滤器强大但是更有针对性。<br>&emsp;&emsp;java中的拦截器是基于java反射机制实现的，更准确的划分，应该是基于jdk实现的动态代理。它依赖于具体的接口，在运行期间动态生成字节码。<br>&emsp;&emsp;拦截器是动态拦截Action调用的对象，他提供了一种机制可以使开发者在一个ation执行的前后执行一段代码，也可以在一个action执行前阻止其执行，同时也提供了一种可以提取action中可重用代码的方式。在AOP中，拦截器用于在某个方法或字段被访问之前，进行拦截然后再之前或之后加入某些操作。java的拦截器主要用于插件上，扩展件上，有点类似于面向切面的技术，在用之前要先在配置文件里声明。</p>
+<hr>
+<h2 id="监听器"><a href="#监听器" class="headerlink" title="监听器"></a>监听器</h2><p>&emsp;&emsp;java的监听器也是系统级别的监听。监听器随web应用的启动而启动。<br>&emsp;&emsp;java的监听器在c/s模式里面经常用到，它会对特定的事件产生一个处理。监听器在很多模式下用到，比如说观察者模式，就是使用监听器来实现的，又比如统计网站的在线人数。servlet监听器用于监听一些重要事件的发生，监听器对象可以在事件发生前，发生后做一些必要的处理。</p>
+<hr>
+<h1 id="对照"><a href="#对照" class="headerlink" title="对照"></a>对照</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/interceptor_filter_1.jpg" alt="对照"></p>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>filter</tag>
+        <tag>interceptor</tag>
       </tags>
   </entry>
   <entry>
@@ -1334,6 +1334,57 @@
       </tags>
   </entry>
   <entry>
+    <title>JVM内存分配策略</title>
+    <url>/hexoblog/2021/04/27/md/jvm/JVM%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;就是java对象在堆上分配空间的策略。<br>&emsp;&emsp;具体的分配策略取决于使用那种垃圾回收器的组合，还有虚拟机中参数的设置。这里的一般是分代收集算法下的情况。</p>
+<span id="more"></span>
+
+<hr>
+<h1 id="内存结构"><a href="#内存结构" class="headerlink" title="内存结构"></a>内存结构</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E5%A0%86%E5%86%85%E5%AD%98%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6.jpg" alt="堆内存垃圾回收"></p>
+<p>&emsp;&emsp;这里的内存结构说的是虚拟机对jvm规范中堆区域的实现，不同的虚拟机可能稍有不同。<br>&emsp;&emsp;根据分代回收算法，将堆分为新生代、老年代。新生代默认占堆空间的1/3，老年代默认占堆空间的2/3。<br>&emsp;&emsp;新生代使用复制算法，有3个区，Eden、To Survivor、From Survivor，它们的默认占比是8:1:1，它的执行流程如下：</p>
+<blockquote>
+<p>&emsp;&emsp;设置Survivore区可以防止频繁触发FULL GC。如果没有Survivor，Eden区每进行一次Minor GC，存活的对象就会被送到老年代，这样会使老年代很快被填满，导致老年代触发FULL GC，由于老年代的内存空间远大于新生代，所以进行一次Full GC消耗的时间比Minor GC长得多。<br>&emsp;&emsp;两个Survivor防止产生内存空间碎片。如果只有Survivor1，那么每一次当Eden区满时，触发Minor GC并把对象移入Survivor1中，如此循环对导致Survivor1中产生大量的空间碎片；所以需要有Survivor2，当Eden再一次满时，触发Minor GC，虚拟机会把 Eden中和Survivor1中的存活对象通过复制算法移入Survivor2中，这样Survivor2就不会产生内存碎片，同时Eden和Survivor1会清理内存，保证下一次Minor GC触发时的操作。</p>
+</blockquote>
+<ol>
+<li>在GC开始的时候，对象只会存在于Eden区和名为“From”的Survivor区，Survivor区“To”是空的。紧接着进行GC，Eden区中所有存活的对象都会被复制到“To Survivor区”，仍存活的对象会根据他们的年龄值来决定去向。年龄达到一定值(年龄阈值，可以通过-XX:MaxTenuringThreshold来设置)的对象会被移动到年老代中。</li>
+<li>清空Eden和From Survivor分区。</li>
+<li>这时From Survivor和To Survivor分区会互换角色，分区交换，From Survivor变To Survivor，To Survivor变From Survivor。</li>
+<li>每次在From Survivor到To Survivor移动时都存活的对象，年龄就+1，当年龄到达15（默认配置是 15）时，升级为老生代。大对象也会直接进入老生代。</li>
+</ol>
+<p>&emsp;&emsp;老生代当空间占用到达某个值之后就会触发全局垃圾收回，一般使用标记整理的执行算法。以上这些循环往复就构成了整个分代垃圾回收的整体执行流程。</p>
+<hr>
+<h1 id="策略"><a href="#策略" class="headerlink" title="策略"></a>策略</h1><p>&emsp;&emsp;常见的内存分配策略为：</p>
+<ol>
+<li><p>对象优先在Eden分配。</p>
+</li>
+<li><p>大对象直接进入老年代。</p>
+</li>
+<li><p>长期存活的对象进入老年代。</p>
+</li>
+<li><p>动态对象年龄判断。</p>
+</li>
+<li><p>空间分配担保。</p>
+<h2 id="对象优先在Eden区"><a href="#对象优先在Eden区" class="headerlink" title="对象优先在Eden区"></a>对象优先在Eden区</h2></li>
+</ol>
+<p>&emsp;&emsp;多数情况下，新对象都在新生代Eden区分配，当Eden区没有足够空间进行分配时，虚拟机将发起一次Minor GC，即发生在新生代的垃圾收集。<br>&emsp;&emsp;如果分配后还是没有足够的空间，就会启动分配担保机制在老年代分配空间。</p>
+<h2 id="大对象直接进入老年代"><a href="#大对象直接进入老年代" class="headerlink" title="大对象直接进入老年代"></a>大对象直接进入老年代</h2><p>&emsp;&emsp;所谓大对象就是指需要大量连续内存空间的Java对象，最典型的大对象就是那种很长的字符串以及数组。可以通过虚拟机参数<code>-XX:PretenureSizeThreshold</code>控制大对象的最小临界值。<br>&emsp;&emsp;新生代使用的是复制算法来处理垃圾回收的，如果大对象直接在新生代分配就会导致Eden区和两个Survivor区之间发生大量的内存复制。<br>&emsp;&emsp;经常出现大对象，会导致在内存还有不少时就触发垃圾回收。</p>
+<ul>
+<li><strong>Minor GC</strong>：指发生在新生代的GC，一般速度非常快。</li>
+<li><strong>Full GC</strong>：是指发生在老年代的GC，一般出现这种必然会伴随Minor GC，通常会被Minor GC慢10倍。</li>
+</ul>
+<h2 id="长期存活的对象进入老年代"><a href="#长期存活的对象进入老年代" class="headerlink" title="长期存活的对象进入老年代"></a>长期存活的对象进入老年代</h2><p>&emsp;&emsp;在分代收集算法中需要确定那些对象该进入老年代，那些不用进入。<br>&emsp;&emsp;虚拟机给每个对象定义了一个对象年龄计数器，如果对象在Eden区出生，并且能够被Survivor容纳，将被移动到Survivor空间中，这时设置对象年龄为1。对象在Survivor区中每过一次Minor GC年龄就加 1，当年龄达到一定程度（默认 15）就会被晋升到老年代。可以通过参数<code>-XX:MaxTenuringThreshold</code>设置进入老年代的年龄上限。</p>
+<h2 id="动态对象年龄判断"><a href="#动态对象年龄判断" class="headerlink" title="动态对象年龄判断"></a>动态对象年龄判断</h2><p>&emsp;&emsp;虚拟机并不是永远地要求对象的年龄必须达到了MaxTenuringThreshold才能晋升老年代，如果在Survivor空间中相同年龄所有对象大小的总和大于Survivor空间的一半，年龄大于等于该年龄的对象就可以直接进入老年代。</p>
+<h2 id="空间分配担保"><a href="#空间分配担保" class="headerlink" title="空间分配担保"></a>空间分配担保</h2><p>&emsp;&emsp;在发生Minor GC之前，虚拟机会先检查老年代最大可用的连续空间是否大于新生代所有对象总空间，如果这个条件成立，那么Minor GC可以确保是安全的。如果不成立，则虚拟机会查看HandlePromotionFailure设置值是否允许担保失败。如果允许，那么会继续检查老年代最大可用的连续空间是否大于历次晋升到老年代对象的平均大小，如果大于，将尝试进行一次Minor GC，尽管这次Minor GC是有风险的；如果小于，或者HandlePromotionFailure设置不允许冒险，这这时也要改为进行一次Full GC（指发生在老年代的GC，会发生STW）。实际上，在 JDK 6 Update 24之后的规则变为只要老年代的连续空间大于新生代对象总大小或者历次晋升的平均大小就会进行Minor GC，否则就进行Full GC。</p>
+]]></content>
+      <categories>
+        <category>jvm</category>
+      </categories>
+      <tags>
+        <tag>jvm</tag>
+        <tag>memory</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Volatile</title>
     <url>/hexoblog/2021/03/03/md/jvm/Volatile/</url>
     <content><![CDATA[<h1 id="JMM"><a href="#JMM" class="headerlink" title="JMM"></a>JMM</h1><p>&emsp;&emsp;Java内存模型，是虚拟机规范中所定义的一种内存模型，Java内存模型是标准化的，屏蔽掉了底层计算机之间的区别。<br>&emsp;&emsp;Java内存模型描述了Java程序中各种变量（线程共享变量）的访问规则，以及在JVM中将变量，存储到内存和从内存中读取变量这样的底层细节。</p>
@@ -1432,57 +1483,6 @@
       <tags>
         <tag>java</tag>
         <tag>jvm</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>JVM内存分配策略</title>
-    <url>/hexoblog/2021/04/27/md/jvm/JVM%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;就是java对象在堆上分配空间的策略。<br>&emsp;&emsp;具体的分配策略取决于使用那种垃圾回收器的组合，还有虚拟机中参数的设置。这里的一般是分代收集算法下的情况。</p>
-<span id="more"></span>
-
-<hr>
-<h1 id="内存结构"><a href="#内存结构" class="headerlink" title="内存结构"></a>内存结构</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E5%A0%86%E5%86%85%E5%AD%98%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6.jpg" alt="堆内存垃圾回收"></p>
-<p>&emsp;&emsp;这里的内存结构说的是虚拟机对jvm规范中堆区域的实现，不同的虚拟机可能稍有不同。<br>&emsp;&emsp;根据分代回收算法，将堆分为新生代、老年代。新生代默认占堆空间的1/3，老年代默认占堆空间的2/3。<br>&emsp;&emsp;新生代使用复制算法，有3个区，Eden、To Survivor、From Survivor，它们的默认占比是8:1:1，它的执行流程如下：</p>
-<blockquote>
-<p>&emsp;&emsp;设置Survivore区可以防止频繁触发FULL GC。如果没有Survivor，Eden区每进行一次Minor GC，存活的对象就会被送到老年代，这样会使老年代很快被填满，导致老年代触发FULL GC，由于老年代的内存空间远大于新生代，所以进行一次Full GC消耗的时间比Minor GC长得多。<br>&emsp;&emsp;两个Survivor防止产生内存空间碎片。如果只有Survivor1，那么每一次当Eden区满时，触发Minor GC并把对象移入Survivor1中，如此循环对导致Survivor1中产生大量的空间碎片；所以需要有Survivor2，当Eden再一次满时，触发Minor GC，虚拟机会把 Eden中和Survivor1中的存活对象通过复制算法移入Survivor2中，这样Survivor2就不会产生内存碎片，同时Eden和Survivor1会清理内存，保证下一次Minor GC触发时的操作。</p>
-</blockquote>
-<ol>
-<li>在GC开始的时候，对象只会存在于Eden区和名为“From”的Survivor区，Survivor区“To”是空的。紧接着进行GC，Eden区中所有存活的对象都会被复制到“To Survivor区”，仍存活的对象会根据他们的年龄值来决定去向。年龄达到一定值(年龄阈值，可以通过-XX:MaxTenuringThreshold来设置)的对象会被移动到年老代中。</li>
-<li>清空Eden和From Survivor分区。</li>
-<li>这时From Survivor和To Survivor分区会互换角色，分区交换，From Survivor变To Survivor，To Survivor变From Survivor。</li>
-<li>每次在From Survivor到To Survivor移动时都存活的对象，年龄就+1，当年龄到达15（默认配置是 15）时，升级为老生代。大对象也会直接进入老生代。</li>
-</ol>
-<p>&emsp;&emsp;老生代当空间占用到达某个值之后就会触发全局垃圾收回，一般使用标记整理的执行算法。以上这些循环往复就构成了整个分代垃圾回收的整体执行流程。</p>
-<hr>
-<h1 id="策略"><a href="#策略" class="headerlink" title="策略"></a>策略</h1><p>&emsp;&emsp;常见的内存分配策略为：</p>
-<ol>
-<li><p>对象优先在Eden分配。</p>
-</li>
-<li><p>大对象直接进入老年代。</p>
-</li>
-<li><p>长期存活的对象进入老年代。</p>
-</li>
-<li><p>动态对象年龄判断。</p>
-</li>
-<li><p>空间分配担保。</p>
-<h2 id="对象优先在Eden区"><a href="#对象优先在Eden区" class="headerlink" title="对象优先在Eden区"></a>对象优先在Eden区</h2></li>
-</ol>
-<p>&emsp;&emsp;多数情况下，新对象都在新生代Eden区分配，当Eden区没有足够空间进行分配时，虚拟机将发起一次Minor GC，即发生在新生代的垃圾收集。<br>&emsp;&emsp;如果分配后还是没有足够的空间，就会启动分配担保机制在老年代分配空间。</p>
-<h2 id="大对象直接进入老年代"><a href="#大对象直接进入老年代" class="headerlink" title="大对象直接进入老年代"></a>大对象直接进入老年代</h2><p>&emsp;&emsp;所谓大对象就是指需要大量连续内存空间的Java对象，最典型的大对象就是那种很长的字符串以及数组。可以通过虚拟机参数<code>-XX:PretenureSizeThreshold</code>控制大对象的最小临界值。<br>&emsp;&emsp;新生代使用的是复制算法来处理垃圾回收的，如果大对象直接在新生代分配就会导致Eden区和两个Survivor区之间发生大量的内存复制。<br>&emsp;&emsp;经常出现大对象，会导致在内存还有不少时就触发垃圾回收。</p>
-<ul>
-<li><strong>Minor GC</strong>：指发生在新生代的GC，一般速度非常快。</li>
-<li><strong>Full GC</strong>：是指发生在老年代的GC，一般出现这种必然会伴随Minor GC，通常会被Minor GC慢10倍。</li>
-</ul>
-<h2 id="长期存活的对象进入老年代"><a href="#长期存活的对象进入老年代" class="headerlink" title="长期存活的对象进入老年代"></a>长期存活的对象进入老年代</h2><p>&emsp;&emsp;在分代收集算法中需要确定那些对象该进入老年代，那些不用进入。<br>&emsp;&emsp;虚拟机给每个对象定义了一个对象年龄计数器，如果对象在Eden区出生，并且能够被Survivor容纳，将被移动到Survivor空间中，这时设置对象年龄为1。对象在Survivor区中每过一次Minor GC年龄就加 1，当年龄达到一定程度（默认 15）就会被晋升到老年代。可以通过参数<code>-XX:MaxTenuringThreshold</code>设置进入老年代的年龄上限。</p>
-<h2 id="动态对象年龄判断"><a href="#动态对象年龄判断" class="headerlink" title="动态对象年龄判断"></a>动态对象年龄判断</h2><p>&emsp;&emsp;虚拟机并不是永远地要求对象的年龄必须达到了MaxTenuringThreshold才能晋升老年代，如果在Survivor空间中相同年龄所有对象大小的总和大于Survivor空间的一半，年龄大于等于该年龄的对象就可以直接进入老年代。</p>
-<h2 id="空间分配担保"><a href="#空间分配担保" class="headerlink" title="空间分配担保"></a>空间分配担保</h2><p>&emsp;&emsp;在发生Minor GC之前，虚拟机会先检查老年代最大可用的连续空间是否大于新生代所有对象总空间，如果这个条件成立，那么Minor GC可以确保是安全的。如果不成立，则虚拟机会查看HandlePromotionFailure设置值是否允许担保失败。如果允许，那么会继续检查老年代最大可用的连续空间是否大于历次晋升到老年代对象的平均大小，如果大于，将尝试进行一次Minor GC，尽管这次Minor GC是有风险的；如果小于，或者HandlePromotionFailure设置不允许冒险，这这时也要改为进行一次Full GC（指发生在老年代的GC，会发生STW）。实际上，在 JDK 6 Update 24之后的规则变为只要老年代的连续空间大于新生代对象总大小或者历次晋升的平均大小就会进行Minor GC，否则就进行Full GC。</p>
-]]></content>
-      <categories>
-        <category>jvm</category>
-      </categories>
-      <tags>
-        <tag>jvm</tag>
-        <tag>memory</tag>
       </tags>
   </entry>
   <entry>
@@ -1726,34 +1726,6 @@
       </tags>
   </entry>
   <entry>
-    <title>jvm命令</title>
-    <url>/hexoblog/2021/03/29/md/jvm/jvm%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<h1 id="JVM命令的使用"><a href="#JVM命令的使用" class="headerlink" title="JVM命令的使用"></a>JVM命令的使用</h1><p><a href="https://blog.csdn.net/wangxiaotongfan/article/details/82560739">https://blog.csdn.net/wangxiaotongfan/article/details/82560739</a></p>
-<h2 id="JPS"><a href="#JPS" class="headerlink" title="JPS"></a>JPS</h2><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>&emsp;&emsp;显示当前系统的java进程。</p>
-<h3 id="格式"><a href="#格式" class="headerlink" title="格式"></a>格式</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h3><ol>
-<li>-q：只显示pid，不显示class名称，jar文件名和传递给main方法的参数。</li>
-<li>-l：输出应用程序main class的完整package名或者应用程序的jar文件完整路径名。</li>
-<li>-m：输出jvm启动时传递给main方法启动。</li>
-<li>-v：输出JVM启动时显示指定的JVM参数。</li>
-</ol>
-<h2 id="JSTAT"><a href="#JSTAT" class="headerlink" title="JSTAT"></a>JSTAT</h2><h3 id="介绍-1"><a href="#介绍-1" class="headerlink" title="介绍"></a>介绍</h3><p>&emsp;&emsp;用于监视虚拟机运行时状态信息的命令，它可以显示出虚拟机进程中的类装载、内存、垃圾收集、JIT编译(Just In Time Compiler, 即时编译器)等运行数据。</p>
-<h3 id="格式-1"><a href="#格式-1" class="headerlink" title="格式"></a>格式</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="参数-1"><a href="#参数-1" class="headerlink" title="参数"></a>参数</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$DEBUG</span>&quot;</span> = <span class="string">&quot;true&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">  <span class="built_in">echo</span> -e <span class="string">&quot;\033[0;31m debug is open,port=<span class="variable">$DEBUG_PORT</span> \033[0m&quot;</span></span><br><span class="line">  JAVA_OPTS=<span class="string">&quot;<span class="variable">$JAVA_OPTS</span> -Xdebug -Xrunjdwp:transport=dt_socket,address=<span class="variable">$DEBUG_PORT</span>,server=y,suspend=y&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line">JAVA_HEAP_DUMP_OPTS=-XX:HeapDumpPath=<span class="variable">$LOG_HOME</span>/dump.hprof</span><br><span class="line">JAVA_OPTS=<span class="string">&quot;<span class="variable">$JAVA_OPTS</span> -Dserver.port=<span class="variable">$PORT</span> -Dlog.home=<span class="variable">$LOG_HOME</span> -Duse.flume=false -Xms128m -Xmx2048m -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=1024m -Dfile.encoding=utf-8 -XX:+HeapDumpOnOutOfMemoryError <span class="variable">$JAVA_HEAP_DUMP_OPTS</span>&quot;</span></span><br><span class="line"><span class="comment">#JAVA_OPTS=&quot;$JAVA_OPTS -XX:+TraceClassLoading -XX:+TraceClassUnloading&quot;</span></span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>jvm</category>
-      </categories>
-      <tags>
-        <tag>tool</tag>
-        <tag>jvm</tag>
-        <tag>jdk</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>jvm调优</title>
     <url>/hexoblog/2021/03/04/md/jvm/jvm%E8%B0%83%E4%BC%98/</url>
     <content><![CDATA[<p><a href="https://baijiahao.baidu.com/s?id=1617167971312758600&wfr=spider&for=pc">jvm性能调优的6大步骤</a></p>
@@ -1785,6 +1757,34 @@
       <tags>
         <tag>tool</tag>
         <tag>jvm</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>jvm命令</title>
+    <url>/hexoblog/2021/03/29/md/jvm/jvm%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h1 id="JVM命令的使用"><a href="#JVM命令的使用" class="headerlink" title="JVM命令的使用"></a>JVM命令的使用</h1><p><a href="https://blog.csdn.net/wangxiaotongfan/article/details/82560739">https://blog.csdn.net/wangxiaotongfan/article/details/82560739</a></p>
+<h2 id="JPS"><a href="#JPS" class="headerlink" title="JPS"></a>JPS</h2><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>&emsp;&emsp;显示当前系统的java进程。</p>
+<h3 id="格式"><a href="#格式" class="headerlink" title="格式"></a>格式</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h3><ol>
+<li>-q：只显示pid，不显示class名称，jar文件名和传递给main方法的参数。</li>
+<li>-l：输出应用程序main class的完整package名或者应用程序的jar文件完整路径名。</li>
+<li>-m：输出jvm启动时传递给main方法启动。</li>
+<li>-v：输出JVM启动时显示指定的JVM参数。</li>
+</ol>
+<h2 id="JSTAT"><a href="#JSTAT" class="headerlink" title="JSTAT"></a>JSTAT</h2><h3 id="介绍-1"><a href="#介绍-1" class="headerlink" title="介绍"></a>介绍</h3><p>&emsp;&emsp;用于监视虚拟机运行时状态信息的命令，它可以显示出虚拟机进程中的类装载、内存、垃圾收集、JIT编译(Just In Time Compiler, 即时编译器)等运行数据。</p>
+<h3 id="格式-1"><a href="#格式-1" class="headerlink" title="格式"></a>格式</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="参数-1"><a href="#参数-1" class="headerlink" title="参数"></a>参数</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$DEBUG</span>&quot;</span> = <span class="string">&quot;true&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">  <span class="built_in">echo</span> -e <span class="string">&quot;\033[0;31m debug is open,port=<span class="variable">$DEBUG_PORT</span> \033[0m&quot;</span></span><br><span class="line">  JAVA_OPTS=<span class="string">&quot;<span class="variable">$JAVA_OPTS</span> -Xdebug -Xrunjdwp:transport=dt_socket,address=<span class="variable">$DEBUG_PORT</span>,server=y,suspend=y&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line">JAVA_HEAP_DUMP_OPTS=-XX:HeapDumpPath=<span class="variable">$LOG_HOME</span>/dump.hprof</span><br><span class="line">JAVA_OPTS=<span class="string">&quot;<span class="variable">$JAVA_OPTS</span> -Dserver.port=<span class="variable">$PORT</span> -Dlog.home=<span class="variable">$LOG_HOME</span> -Duse.flume=false -Xms128m -Xmx2048m -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=1024m -Dfile.encoding=utf-8 -XX:+HeapDumpOnOutOfMemoryError <span class="variable">$JAVA_HEAP_DUMP_OPTS</span>&quot;</span></span><br><span class="line"><span class="comment">#JAVA_OPTS=&quot;$JAVA_OPTS -XX:+TraceClassLoading -XX:+TraceClassUnloading&quot;</span></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>jvm</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>jvm</tag>
+        <tag>jdk</tag>
       </tags>
   </entry>
   <entry>
@@ -1896,6 +1896,92 @@
       </tags>
   </entry>
   <entry>
+    <title>mysql中datetime和timestamp</title>
+    <url>/hexoblog/2021/04/14/md/mysql/mysql%E4%B8%ADdatetime%E5%92%8Ctimestamp/</url>
+    <content><![CDATA[<h1 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h1><h2 id="date和datetime，timestamp的区别"><a href="#date和datetime，timestamp的区别" class="headerlink" title="date和datetime，timestamp的区别"></a>date和datetime，timestamp的区别</h2><ol>
+<li>date保存的是天，精确到天</li>
+<li>datetime，timestamp精确到秒</li>
+</ol>
+<span id="more"></span>
+<h2 id="datetime和timastamp"><a href="#datetime和timastamp" class="headerlink" title="datetime和timastamp"></a>datetime和timastamp</h2><p>&emsp;&emsp;datetime 和timestamp两者都是时间类型字段，格式都一致。</p>
+<ol>
+<li><p>受时区影响不同</p>
+<blockquote>
+<p>timestamp会跟随设置的时区变化而变化，而datetime保存的是绝对值不会变化。</p>
+</blockquote>
+</li>
+<li><p>占用存储空间不同</p>
+<blockquote>
+<p>timestamp储存占用4个字节，datetime储存占用8个字节。</p>
+</blockquote>
+</li>
+<li><p>可以表示的时间范围不同</p>
+<blockquote>
+<p>timestamp可表示范围:1970-01-01 00:00:00~2038-01-09 03:14:07，datetime支持的范围更宽1000-01-01 00:00:00 ~ 9999-12-31 23:59:59。</p>
+</blockquote>
+</li>
+<li><p>索引速度不同</p>
+<blockquote>
+<p>timestamp更轻量，索引相对datetime更快。</p>
+</blockquote>
+</li>
+<li><p>默认值不同</p>
+<blockquote>
+<p>datetime的默认值为null，timestamp的字段默认不为空（not null），默认值为当前时间（CURRENT_TIMESTAMP），如果不做特殊处理，并且update语句中没有指定该列的更新值，则默认更新为当前时间。</p>
+</blockquote>
+</li>
+<li><p>存储方式不同</p>
+<blockquote>
+<p>两者的存储方式不一样，对于timestamp，它把客户端插入的时间从当前时区转化为UTC（世界标准时间）进行存储。查询时，将其又转化为客户端当前时区进行返回。而对于datetime，不做任何改变，基本上是原样输入和输出。</p>
+</blockquote>
+</li>
+</ol>
+<p>&emsp;&emsp;在mysql5.6之前的版本，CURRENT_TIMESTAMP只能用于timestamp类型，5.6版本之后，CURRENT_TIMESTAMP也能用于datetime类型了。</p>
+]]></content>
+      <categories>
+        <category>mysql</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+        <tag>数据类型</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mysql常用命令</title>
+    <url>/hexoblog/2021/03/12/md/mysql/mysql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><h2 id="修改mysql时区"><a href="#修改mysql时区" class="headerlink" title="修改mysql时区"></a>修改mysql时区</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看时区</span></span><br><span class="line">show variables like <span class="string">&quot;%time_zone%&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置时区为UTC+8:00</span></span><br><span class="line"><span class="built_in">set</span> global time_zone = <span class="string">&#x27;+8:00&#x27;</span>;</span><br><span class="line"><span class="built_in">set</span> time_zone = <span class="string">&#x27;+8:00&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 刷新立即生效</span></span><br><span class="line">flush privileges；</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+<h2 id="使用mysql-binlog"><a href="#使用mysql-binlog" class="headerlink" title="使用mysql binlog"></a>使用mysql binlog</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看日志是否开启</span></span><br><span class="line">show variables like <span class="string">&#x27;log_%&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看binlog配置</span></span><br><span class="line">show variables like <span class="string">&#x27;binlog_%&#x27;</span>; </span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看数据库当前日志情况</span></span><br><span class="line">show master status;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看所有日志文件</span></span><br><span class="line">show binary logs;</span><br><span class="line">show master logs;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 根据事件查看文件</span></span><br><span class="line">show binlog events <span class="keyword">in</span> <span class="string">&#x27;$&#123;binlogname&#125;&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看binlog日志文件内容</span></span><br><span class="line">mysqlbinlog  <span class="variable">$&#123;binlogname&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 以人类能看懂的方式查看binlog文件内容</span></span><br><span class="line">mysqlbinlog --base64-output=decode-rows -vvvvvv <span class="variable">$&#123;binlogname&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用-r命令将日志转写进sql</span></span><br><span class="line">mysqlbinlog --base64-output=decode-rows -vvvvvv <span class="variable">$&#123;binlogname&#125;</span> -r <span class="variable">$&#123;sqlname.sql&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 还原数据库</span></span><br><span class="line">mysqlbinlog --start-positoin=<span class="variable">$&#123;number&#125;</span> --stop-position=<span class="variable">$&#123;number&#125;</span> <span class="variable">$&#123;binlogname&#125;</span> -d <span class="variable">$&#123;databasename&#125;</span> | mysql -u<span class="variable">$&#123;username&#125;</span> -p<span class="variable">$&#123;password&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;转写进文件的日志不能直接执行，不过我们可以从其中提取有用信息。<br>&emsp;&emsp;因为binlog日志里面会将删除等操作全部保存下来，所以再还原数据库信息时一定不能全部解析，需要指定确切位置。<br>&emsp;&emsp;指定位置，数据库，时间，端口，host的命令都可以跟在mysqlbinlog后面，不只只用来恢复，转储，查看都可以。这些命令可以排列组合，放在日志名称前即可。</p>
+<p>mysqlbinlog其他参数：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 起始位置</span></span><br><span class="line">--start-position=<span class="variable">$&#123;positiom number&#125;</span></span><br><span class="line"><span class="comment"># 结束位置</span></span><br><span class="line">--stop-position=<span class="variable">$&#123;position number&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 开始时间</span></span><br><span class="line">--start-datetime=<span class="variable">$&#123;starttime&#125;</span></span><br><span class="line"><span class="comment"># 结束时间</span></span><br><span class="line">--stop-datetime=<span class="variable">$&#123;stoptime&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 数据库</span></span><br><span class="line">-d <span class="variable">$&#123;databasename&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 端口号(大写的P)</span></span><br><span class="line">-P <span class="variable">$&#123;port&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ip地址</span></span><br><span class="line">-h <span class="variable">$&#123;hosts&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># serverId</span></span><br><span class="line">--server-id=<span class="variable">$&#123;server-id&#125;</span></span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>mysql</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mysql浮点数精度</title>
+    <url>/hexoblog/2021/04/14/md/mysql/mysql%E6%B5%AE%E7%82%B9%E6%95%B0%E7%B2%BE%E5%BA%A6/</url>
+    <content><![CDATA[<h1 id="小数类型"><a href="#小数类型" class="headerlink" title="小数类型"></a>小数类型</h1><h2 id="浮点数"><a href="#浮点数" class="headerlink" title="浮点数"></a>浮点数</h2><p>&emsp;&emsp;浮点型又称之为精度类型：是一种有可能丢失精度的数据类型，数据有可能不那么准确（由其是在超出范围的时候）。<br>&emsp;&emsp;浮点型之所以能够存储较大的数值（不精确），原因就是利用存储数据的位来存储指数。</p>
+<span id="more"></span>
+<h3 id="float"><a href="#float" class="headerlink" title="float"></a>float</h3><p>&emsp;&emsp;单精度浮点数，采用4个字节存储，保证7个位的精度。<br>&emsp;&emsp;Float(M,D)：表示一共存储M个有效数字，其中小数部分占D位。M(1<del>255)称为精度，D(1</del>30)称为标度且不能大于M-2，是可选的。<br>&emsp;&emsp;对于小数位数超长的，会采用四舍五入进行进位。</p>
+<h3 id="double"><a href="#double" class="headerlink" title="double"></a>double</h3><p>&emsp;&emsp;双精度浮点数，采用8个字节存储，表示的范围更大，精度最大15位。</p>
+<h2 id="定点数"><a href="#定点数" class="headerlink" title="定点数"></a>定点数</h2><p>&emsp;&emsp;能够保证数据精确的小数（小数部分可能不精确，超出长度会四舍五入），整数部分一定精确。<br>&emsp;&emsp;mysql中定点数只有一种，就是Decimal(M,D)。<br>&emsp;&emsp;Decimal定点数：系统自动根据存储的数据来分配存储空间，每大概9个数就会分配四个字节来进行存储，同时小数和整数部分是分开的。采用M+2个字节存储。<br>&emsp;&emsp;Decimal(M,D)：M表示总长度，最大值不能超过65，D代表小数部分长度，最长不能超过30。（默认为10，0）是必选的。</p>
+]]></content>
+      <categories>
+        <category>mysql</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+        <tag>数据类型</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>mybatis连接双数据库</title>
     <url>/hexoblog/2021/03/09/md/mybatis/mybatis%E8%BF%9E%E6%8E%A5%E5%8F%8C%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
     <content><![CDATA[<h1 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h1><p>&emsp;&emsp;项目中需要从两个不同的数据库查询数据，之前实现方法是：springboot配置连接一个数据源，另一个使用jdbc代码连接。<br>&emsp;&emsp;为了改进，现在使用SpringBoot配置连接两个数据源。</p>
@@ -1951,89 +2037,24 @@
       </tags>
   </entry>
   <entry>
-    <title>mysql常用命令</title>
-    <url>/hexoblog/2021/03/12/md/mysql/mysql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><h2 id="修改mysql时区"><a href="#修改mysql时区" class="headerlink" title="修改mysql时区"></a>修改mysql时区</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看时区</span></span><br><span class="line">show variables like <span class="string">&quot;%time_zone%&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置时区为UTC+8:00</span></span><br><span class="line"><span class="built_in">set</span> global time_zone = <span class="string">&#x27;+8:00&#x27;</span>;</span><br><span class="line"><span class="built_in">set</span> time_zone = <span class="string">&#x27;+8:00&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 刷新立即生效</span></span><br><span class="line">flush privileges；</span><br></pre></td></tr></table></figure>
+    <title>nginx基础安装及使用</title>
+    <url>/hexoblog/2021/05/20/md/nginx/nginx%E5%9F%BA%E7%A1%80%E5%AE%89%E8%A3%85%E5%8F%8A%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>&emsp;&emsp;Nginx是一款轻量级的Web服务器、反向代理服务器，由于它的内存占用少，启动极快，高并发能力强，在互联网项目中广泛应用。</p>
+<span id="more"></span>
 
-<span id="more"></span>
-<h2 id="使用mysql-binlog"><a href="#使用mysql-binlog" class="headerlink" title="使用mysql binlog"></a>使用mysql binlog</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看日志是否开启</span></span><br><span class="line">show variables like <span class="string">&#x27;log_%&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看binlog配置</span></span><br><span class="line">show variables like <span class="string">&#x27;binlog_%&#x27;</span>; </span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看数据库当前日志情况</span></span><br><span class="line">show master status;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看所有日志文件</span></span><br><span class="line">show binary logs;</span><br><span class="line">show master logs;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 根据事件查看文件</span></span><br><span class="line">show binlog events <span class="keyword">in</span> <span class="string">&#x27;$&#123;binlogname&#125;&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看binlog日志文件内容</span></span><br><span class="line">mysqlbinlog  <span class="variable">$&#123;binlogname&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 以人类能看懂的方式查看binlog文件内容</span></span><br><span class="line">mysqlbinlog --base64-output=decode-rows -vvvvvv <span class="variable">$&#123;binlogname&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用-r命令将日志转写进sql</span></span><br><span class="line">mysqlbinlog --base64-output=decode-rows -vvvvvv <span class="variable">$&#123;binlogname&#125;</span> -r <span class="variable">$&#123;sqlname.sql&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 还原数据库</span></span><br><span class="line">mysqlbinlog --start-positoin=<span class="variable">$&#123;number&#125;</span> --stop-position=<span class="variable">$&#123;number&#125;</span> <span class="variable">$&#123;binlogname&#125;</span> -d <span class="variable">$&#123;databasename&#125;</span> | mysql -u<span class="variable">$&#123;username&#125;</span> -p<span class="variable">$&#123;password&#125;</span></span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;转写进文件的日志不能直接执行，不过我们可以从其中提取有用信息。<br>&emsp;&emsp;因为binlog日志里面会将删除等操作全部保存下来，所以再还原数据库信息时一定不能全部解析，需要指定确切位置。<br>&emsp;&emsp;指定位置，数据库，时间，端口，host的命令都可以跟在mysqlbinlog后面，不只只用来恢复，转储，查看都可以。这些命令可以排列组合，放在日志名称前即可。</p>
-<p>mysqlbinlog其他参数：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 起始位置</span></span><br><span class="line">--start-position=<span class="variable">$&#123;positiom number&#125;</span></span><br><span class="line"><span class="comment"># 结束位置</span></span><br><span class="line">--stop-position=<span class="variable">$&#123;position number&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 开始时间</span></span><br><span class="line">--start-datetime=<span class="variable">$&#123;starttime&#125;</span></span><br><span class="line"><span class="comment"># 结束时间</span></span><br><span class="line">--stop-datetime=<span class="variable">$&#123;stoptime&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 数据库</span></span><br><span class="line">-d <span class="variable">$&#123;databasename&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 端口号(大写的P)</span></span><br><span class="line">-P <span class="variable">$&#123;port&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ip地址</span></span><br><span class="line">-h <span class="variable">$&#123;hosts&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># serverId</span></span><br><span class="line">--server-id=<span class="variable">$&#123;server-id&#125;</span></span><br></pre></td></tr></table></figure>]]></content>
+<p>&emsp;&emsp;nginx可以用来做：反向代理服务器，静态Http服务器，负载均衡，虚拟主机。</p>
+<hr>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;这里的安装目前是在windows环境下，傻瓜式安装即可。  </p>
+<h2 id="下载解压"><a href="#下载解压" class="headerlink" title="下载解压"></a>下载解压</h2><p>&emsp;&emsp;nginx在windows安装很简单，下载后解压就好，纯绿色安装。<br>&emsp;&emsp;在官方地址下载nginx，解压后放在想要放的文件夹。<br>&emsp;&emsp;下载地址：<a href="http://nginx.org/en/download.html">下载地址</a>。</p>
+<hr>
+<h1 id="基础使用"><a href="#基础使用" class="headerlink" title="基础使用"></a>基础使用</h1><p>&emsp;&emsp;启动，关机，重新加载等基础操作。<br>&emsp;&emsp;如果没有配置环境变量，启动前请进入nginx安装目录，如果有配置可以不进入。  </p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 进入解压后的nginx</span></span><br><span class="line"><span class="built_in">cd</span> nginx-1.18.0</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动nginx（windows下）</span></span><br><span class="line">start nginx</span><br><span class="line">./nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 停止nginx</span></span><br><span class="line"><span class="comment"># stop是快速停止nginx，quit是有序停止nginx。</span></span><br><span class="line">./nginx -s stop</span><br><span class="line">./nginx -s quit</span><br><span class="line"><span class="comment"># 重新加载配置</span></span><br><span class="line">./nginx -s reload</span><br><span class="line"></span><br><span class="line"><span class="comment"># 校验配置</span></span><br><span class="line">./nginx -t</span><br><span class="line"><span class="comment"># 查看版本</span></span><br><span class="line">./nginx -v</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
-        <category>mysql</category>
+        <category>nginx</category>
       </categories>
       <tags>
-        <tag>mysql</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mysql中datetime和timestamp</title>
-    <url>/hexoblog/2021/04/14/md/mysql/mysql%E4%B8%ADdatetime%E5%92%8Ctimestamp/</url>
-    <content><![CDATA[<h1 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h1><h2 id="date和datetime，timestamp的区别"><a href="#date和datetime，timestamp的区别" class="headerlink" title="date和datetime，timestamp的区别"></a>date和datetime，timestamp的区别</h2><ol>
-<li>date保存的是天，精确到天</li>
-<li>datetime，timestamp精确到秒</li>
-</ol>
-<span id="more"></span>
-<h2 id="datetime和timastamp"><a href="#datetime和timastamp" class="headerlink" title="datetime和timastamp"></a>datetime和timastamp</h2><p>&emsp;&emsp;datetime 和timestamp两者都是时间类型字段，格式都一致。</p>
-<ol>
-<li><p>受时区影响不同</p>
-<blockquote>
-<p>timestamp会跟随设置的时区变化而变化，而datetime保存的是绝对值不会变化。</p>
-</blockquote>
-</li>
-<li><p>占用存储空间不同</p>
-<blockquote>
-<p>timestamp储存占用4个字节，datetime储存占用8个字节。</p>
-</blockquote>
-</li>
-<li><p>可以表示的时间范围不同</p>
-<blockquote>
-<p>timestamp可表示范围:1970-01-01 00:00:00~2038-01-09 03:14:07，datetime支持的范围更宽1000-01-01 00:00:00 ~ 9999-12-31 23:59:59。</p>
-</blockquote>
-</li>
-<li><p>索引速度不同</p>
-<blockquote>
-<p>timestamp更轻量，索引相对datetime更快。</p>
-</blockquote>
-</li>
-<li><p>默认值不同</p>
-<blockquote>
-<p>datetime的默认值为null，timestamp的字段默认不为空（not null），默认值为当前时间（CURRENT_TIMESTAMP），如果不做特殊处理，并且update语句中没有指定该列的更新值，则默认更新为当前时间。</p>
-</blockquote>
-</li>
-<li><p>存储方式不同</p>
-<blockquote>
-<p>两者的存储方式不一样，对于timestamp，它把客户端插入的时间从当前时区转化为UTC（世界标准时间）进行存储。查询时，将其又转化为客户端当前时区进行返回。而对于datetime，不做任何改变，基本上是原样输入和输出。</p>
-</blockquote>
-</li>
-</ol>
-<p>&emsp;&emsp;在mysql5.6之前的版本，CURRENT_TIMESTAMP只能用于timestamp类型，5.6版本之后，CURRENT_TIMESTAMP也能用于datetime类型了。</p>
-]]></content>
-      <categories>
-        <category>mysql</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
-        <tag>数据类型</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mysql浮点数精度</title>
-    <url>/hexoblog/2021/04/14/md/mysql/mysql%E6%B5%AE%E7%82%B9%E6%95%B0%E7%B2%BE%E5%BA%A6/</url>
-    <content><![CDATA[<h1 id="小数类型"><a href="#小数类型" class="headerlink" title="小数类型"></a>小数类型</h1><h2 id="浮点数"><a href="#浮点数" class="headerlink" title="浮点数"></a>浮点数</h2><p>&emsp;&emsp;浮点型又称之为精度类型：是一种有可能丢失精度的数据类型，数据有可能不那么准确（由其是在超出范围的时候）。<br>&emsp;&emsp;浮点型之所以能够存储较大的数值（不精确），原因就是利用存储数据的位来存储指数。</p>
-<span id="more"></span>
-<h3 id="float"><a href="#float" class="headerlink" title="float"></a>float</h3><p>&emsp;&emsp;单精度浮点数，采用4个字节存储，保证7个位的精度。<br>&emsp;&emsp;Float(M,D)：表示一共存储M个有效数字，其中小数部分占D位。M(1<del>255)称为精度，D(1</del>30)称为标度且不能大于M-2，是可选的。<br>&emsp;&emsp;对于小数位数超长的，会采用四舍五入进行进位。</p>
-<h3 id="double"><a href="#double" class="headerlink" title="double"></a>double</h3><p>&emsp;&emsp;双精度浮点数，采用8个字节存储，表示的范围更大，精度最大15位。</p>
-<h2 id="定点数"><a href="#定点数" class="headerlink" title="定点数"></a>定点数</h2><p>&emsp;&emsp;能够保证数据精确的小数（小数部分可能不精确，超出长度会四舍五入），整数部分一定精确。<br>&emsp;&emsp;mysql中定点数只有一种，就是Decimal(M,D)。<br>&emsp;&emsp;Decimal定点数：系统自动根据存储的数据来分配存储空间，每大概9个数就会分配四个字节来进行存储，同时小数和整数部分是分开的。采用M+2个字节存储。<br>&emsp;&emsp;Decimal(M,D)：M表示总长度，最大值不能超过65，D代表小数部分长度，最长不能超过30。（默认为10，0）是必选的。</p>
-]]></content>
-      <categories>
-        <category>mysql</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
-        <tag>数据类型</tag>
+        <tag>linux</tag>
+        <tag>nginx</tag>
       </tags>
   </entry>
   <entry>
@@ -2888,27 +2909,6 @@
       <tags>
         <tag>分布式</tag>
         <tag>zookeeper</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>nginx基础安装及使用</title>
-    <url>/hexoblog/2021/05/20/md/nginx/nginx%E5%9F%BA%E7%A1%80%E5%AE%89%E8%A3%85%E5%8F%8A%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>&emsp;&emsp;Nginx是一款轻量级的Web服务器、反向代理服务器，由于它的内存占用少，启动极快，高并发能力强，在互联网项目中广泛应用。</p>
-<span id="more"></span>
-
-<p>&emsp;&emsp;nginx可以用来做：反向代理服务器，静态Http服务器，负载均衡，虚拟主机。</p>
-<hr>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;这里的安装目前是在windows环境下，傻瓜式安装即可。  </p>
-<h2 id="下载解压"><a href="#下载解压" class="headerlink" title="下载解压"></a>下载解压</h2><p>&emsp;&emsp;nginx在windows安装很简单，下载后解压就好，纯绿色安装。<br>&emsp;&emsp;在官方地址下载nginx，解压后放在想要放的文件夹。<br>&emsp;&emsp;下载地址：<a href="http://nginx.org/en/download.html">下载地址</a>。</p>
-<hr>
-<h1 id="基础使用"><a href="#基础使用" class="headerlink" title="基础使用"></a>基础使用</h1><p>&emsp;&emsp;启动，关机，重新加载等基础操作。<br>&emsp;&emsp;如果没有配置环境变量，启动前请进入nginx安装目录，如果有配置可以不进入。  </p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 进入解压后的nginx</span></span><br><span class="line"><span class="built_in">cd</span> nginx-1.18.0</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动nginx（windows下）</span></span><br><span class="line">start nginx</span><br><span class="line">./nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 停止nginx</span></span><br><span class="line"><span class="comment"># stop是快速停止nginx，quit是有序停止nginx。</span></span><br><span class="line">./nginx -s stop</span><br><span class="line">./nginx -s quit</span><br><span class="line"><span class="comment"># 重新加载配置</span></span><br><span class="line">./nginx -s reload</span><br><span class="line"></span><br><span class="line"><span class="comment"># 校验配置</span></span><br><span class="line">./nginx -t</span><br><span class="line"><span class="comment"># 查看版本</span></span><br><span class="line">./nginx -v</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>nginx</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-        <tag>nginx</tag>
       </tags>
   </entry>
   <entry>
