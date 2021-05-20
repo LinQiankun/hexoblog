@@ -6,7 +6,7 @@
   <link href="http://linqiankun.gitee.io/hexoblog/atom.xml" rel="self"/>
   
   <link href="http://linqiankun.gitee.io/hexoblog/"/>
-  <updated>2021-05-18T11:33:13.452Z</updated>
+  <updated>2021-05-20T08:31:21.431Z</updated>
   <id>http://linqiankun.gitee.io/hexoblog/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>nginx基础安装及使用</title>
+    <link href="http://linqiankun.gitee.io/hexoblog/2021/05/20/md/nginx/nginx%E5%9F%BA%E7%A1%80%E5%AE%89%E8%A3%85%E5%8F%8A%E4%BD%BF%E7%94%A8/"/>
+    <id>http://linqiankun.gitee.io/hexoblog/2021/05/20/md/nginx/nginx%E5%9F%BA%E7%A1%80%E5%AE%89%E8%A3%85%E5%8F%8A%E4%BD%BF%E7%94%A8/</id>
+    <published>2021-05-20T07:11:44.000Z</published>
+    <updated>2021-05-20T08:31:21.431Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>&emsp;&emsp;Nginx是一款轻量级的Web服务器、反向代理服务器，由于它的内存占用少，启动极快，高并发能力强，在互联网项目中广泛应用。</p><span id="more"></span><p>&emsp;&emsp;nginx可以用来做：反向代理服务器，静态Http服务器，负载均衡，虚拟主机。</p><hr><h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;这里的安装目前是在windows环境下，傻瓜式安装即可。  </p><h2 id="下载解压"><a href="#下载解压" class="headerlink" title="下载解压"></a>下载解压</h2><p>&emsp;&emsp;nginx在windows安装很简单，下载后解压就好，纯绿色安装。<br>&emsp;&emsp;在官方地址下载nginx，解压后放在想要放的文件夹。<br>&emsp;&emsp;下载地址：<a href="http://nginx.org/en/download.html">下载地址</a>。</p><hr><h1 id="基础使用"><a href="#基础使用" class="headerlink" title="基础使用"></a>基础使用</h1><p>&emsp;&emsp;启动，关机，重新加载等基础操作。<br>&emsp;&emsp;如果没有配置环境变量，启动前请进入nginx安装目录，如果有配置可以不进入。  </p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 进入解压后的nginx</span></span><br><span class="line"><span class="built_in">cd</span> nginx-1.18.0</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动nginx（windows下）</span></span><br><span class="line">start nginx</span><br><span class="line">./nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 停止nginx</span></span><br><span class="line"><span class="comment"># stop是快速停止nginx，quit是有序停止nginx。</span></span><br><span class="line">./nginx -s stop</span><br><span class="line">./nginx -s quit</span><br><span class="line"><span class="comment"># 重新加载配置</span></span><br><span class="line">./nginx -s reload</span><br><span class="line"></span><br><span class="line"><span class="comment"># 校验配置</span></span><br><span class="line">./nginx -t</span><br><span class="line"><span class="comment"># 查看版本</span></span><br><span class="line">./nginx -v</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;简介&lt;/h1&gt;&lt;p&gt;&amp;emsp;&amp;emsp;Nginx是一款轻量级的Web服务器、反向代理服务器，由于它的内存占用少，启动极快，高并发能力强，在互联网项目中广泛应用。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="nginx" scheme="http://linqiankun.gitee.io/hexoblog/categories/nginx/"/>
+    
+    
+    <category term="linux" scheme="http://linqiankun.gitee.io/hexoblog/tags/linux/"/>
+    
+    <category term="nginx" scheme="http://linqiankun.gitee.io/hexoblog/tags/nginx/"/>
+    
+  </entry>
   
   <entry>
     <title>zookeeper实现分布式锁</title>
@@ -167,9 +190,9 @@
     <category term="网络" scheme="http://linqiankun.gitee.io/hexoblog/categories/%E7%BD%91%E7%BB%9C/"/>
     
     
-    <category term="HTTP" scheme="http://linqiankun.gitee.io/hexoblog/tags/HTTP/"/>
-    
     <category term="网络" scheme="http://linqiankun.gitee.io/hexoblog/tags/%E7%BD%91%E7%BB%9C/"/>
+    
+    <category term="HTTP" scheme="http://linqiankun.gitee.io/hexoblog/tags/HTTP/"/>
     
   </entry>
   
@@ -190,9 +213,9 @@
     <category term="网络" scheme="http://linqiankun.gitee.io/hexoblog/categories/%E7%BD%91%E7%BB%9C/"/>
     
     
-    <category term="网络" scheme="http://linqiankun.gitee.io/hexoblog/tags/%E7%BD%91%E7%BB%9C/"/>
-    
     <category term="TCP" scheme="http://linqiankun.gitee.io/hexoblog/tags/TCP/"/>
+    
+    <category term="网络" scheme="http://linqiankun.gitee.io/hexoblog/tags/%E7%BD%91%E7%BB%9C/"/>
     
     <category term="UDP" scheme="http://linqiankun.gitee.io/hexoblog/tags/UDP/"/>
     
@@ -236,9 +259,9 @@
     <category term="网络" scheme="http://linqiankun.gitee.io/hexoblog/categories/%E7%BD%91%E7%BB%9C/"/>
     
     
-    <category term="网络" scheme="http://linqiankun.gitee.io/hexoblog/tags/%E7%BD%91%E7%BB%9C/"/>
-    
     <category term="TCP" scheme="http://linqiankun.gitee.io/hexoblog/tags/TCP/"/>
+    
+    <category term="网络" scheme="http://linqiankun.gitee.io/hexoblog/tags/%E7%BD%91%E7%BB%9C/"/>
     
   </entry>
   
@@ -440,29 +463,6 @@
     
     
     <summary type="html">&lt;h1 id=&quot;扩展点自动激活&quot;&gt;&lt;a href=&quot;#扩展点自动激活&quot; class=&quot;headerlink&quot; title=&quot;扩展点自动激活&quot;&gt;&lt;/a&gt;扩展点自动激活&lt;/h1&gt;&lt;p&gt;&amp;emsp;&amp;emsp;对于集合类扩展点，比如：Filter, InvokerListener, ExportListener, TelnetHandler, StatusChecker 等，可以同时加载多个实现，此时，可以用自动激活来简化配置。&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="dubbo" scheme="http://linqiankun.gitee.io/hexoblog/categories/dubbo/"/>
-    
-    
-    <category term="dubbo" scheme="http://linqiankun.gitee.io/hexoblog/tags/dubbo/"/>
-    
-    <category term="SPI" scheme="http://linqiankun.gitee.io/hexoblog/tags/SPI/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>dubboSPI扩展机制自适应</title>
-    <link href="http://linqiankun.gitee.io/hexoblog/2021/04/19/md/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E6%9C%BA%E5%88%B6%E8%87%AA%E9%80%82%E5%BA%94/"/>
-    <id>http://linqiankun.gitee.io/hexoblog/2021/04/19/md/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E6%9C%BA%E5%88%B6%E8%87%AA%E9%80%82%E5%BA%94/</id>
-    <published>2021-04-19T09:04:29.000Z</published>
-    <updated>2021-04-20T11:12:48.404Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="扩展点自适应"><a href="#扩展点自适应" class="headerlink" title="扩展点自适应"></a>扩展点自适应</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>&emsp;&emsp;ExtensionLoader注入的依赖扩展点是一个Adaptive实例，直到扩展点方法执行时才决定调用是哪一个扩展点实现。<br>&emsp;&emsp;dubbo使用url对象传递对象信息，包含key和value。<br>&emsp;&emsp;扩展点方法调用会有URL参数（或是参数有URL成员）这样依赖的扩展点也可以从URL拿到配置信息，所有的扩展点自己定好配置的 Key后，配置信息从URL上从最外层传入。URL在配置传递上即是一条总线。</p><span id="more"></span><h2 id="Adaptive注解"><a href="#Adaptive注解" class="headerlink" title="@Adaptive注解"></a>@Adaptive注解</h2><p>&emsp;&emsp;表示该类是一个扩展类（Adaptive实例），不需要生成代理方法直接使用即可。<br>&emsp;&emsp;在方法上则表示该方法需生成代理, 此时就需要用到上面提到的URL参数。<br>&emsp;&emsp;如果作用在方法会帮我们在运行时动态生成一个Adaptive实例（只包含扩展方法的），如果作用在类上就相当于自己定义了一个现成的。</p><h3 id="注解在实现类上"><a href="#注解在实现类上" class="headerlink" title="注解在实现类上"></a>注解在实现类上</h3><p>&emsp;&emsp;表示该类是一个扩展类，不需要生成代理方法直接使用即可。</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 扩展的接口</span></span><br><span class="line"><span class="meta">@SPI</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">AdaptiveService</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 是扩展类</span></span><br><span class="line"><span class="meta">@Adaptive</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AdaptiveServiceImpl</span> <span class="keyword">implements</span> <span class="title">AdaptiveService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 同样需要文件</span></span><br><span class="line"><span class="comment">// 文件名为接口全限定名</span></span><br><span class="line"><span class="comment">// 内容为key=value，value为实现类全限定名</span></span><br><span class="line">AdaptiveService=com.lin.extendAdaptive.extend.impl.AdaptiveServiceImpl</span><br><span class="line"></span><br><span class="line"><span class="comment">// 启动类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExtendAdaptiveMain</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ExtensionLoader&lt;AdaptiveService&gt; extensionLoader = ExtensionLoader.getExtensionLoader(AdaptiveService.class);</span><br><span class="line">        AdaptiveService adaptiveExtension = extensionLoader.getAdaptiveExtension();</span><br><span class="line">        adaptiveExtension.sayHello();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h3 id="注解在接口方法上"><a href="#注解在接口方法上" class="headerlink" title="注解在接口方法上"></a>注解在接口方法上</h3><p>&emsp;&emsp;在方法上则表示该方法需生成代理, 此时就需要用到上面提到的URL参数。<br>&emsp;&emsp;当注解在接口方法上时，方法中需要传入一个URL参数，或者包装有URL参数时，会通过动态编译获得一个Adaptive实例。</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 接口</span></span><br><span class="line"><span class="meta">@SPI</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MethodAdaptiveService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Adaptive(&#123;&quot;key&quot;&#125;)</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(URL url)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 实现类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MethodAdaptiveServiceImpl</span> <span class="keyword">implements</span> <span class="title">MethodAdaptiveService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(URL url)</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;method&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// META—INF文件与注解在类上时相同</span></span><br><span class="line">MethodAdaptiveService=com.lin.extendAdaptive.extend.impl.MethodAdaptiveServiceImpl</span><br><span class="line"></span><br><span class="line"><span class="comment">// 启动</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ExtensionLoader&lt;MethodAdaptiveService&gt; extensionLoader = ExtensionLoader.getExtensionLoader(MethodAdaptiveService.class);</span><br><span class="line">        MethodAdaptiveService adaptiveExtension = extensionLoader.getAdaptiveExtension();</span><br><span class="line">        HashMap hashMap = <span class="keyword">new</span> HashMap();</span><br><span class="line">        <span class="comment">// key与接口中注解的key相同，value与文件中声明的名称相同</span></span><br><span class="line">        hashMap.put(<span class="string">&quot;key&quot;</span>,<span class="string">&quot;MethodAdaptiveService&quot;</span>);</span><br><span class="line">        URL url = <span class="keyword">new</span> URL(<span class="string">&quot;dubbo&quot;</span>,<span class="string">&quot;localhost&quot;</span>,<span class="number">8080</span>,hashMap);</span><br><span class="line">        adaptiveExtension.sayHello(url);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 生成的实例</span></span><br><span class="line"><span class="keyword">package</span> com.lin.extendAdaptive.extend;</span><br><span class="line"><span class="keyword">import</span> org.apache.dubbo.common.extension.ExtensionLoader;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MethodAdaptiveService</span>$<span class="title">Adaptive</span> <span class="keyword">implements</span> <span class="title">com</span>.<span class="title">lin</span>.<span class="title">extendAdaptive</span>.<span class="title">extend</span>.<span class="title">MethodAdaptiveService</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(org.apache.dubbo.common.URL arg0)</span>  </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (arg0 == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">&quot;url == null&quot;</span>);</span><br><span class="line">        org.apache.dubbo.common.URL url = arg0;</span><br><span class="line">        String extName = url.getParameter(<span class="string">&quot;key&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span>(extName == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">&quot;Failed to get extension (com.lin.extendAdaptive.extend.MethodAdaptiveService) name from url (&quot;</span> + url.toString() + <span class="string">&quot;) use keys([key])&quot;</span>);</span><br><span class="line">        com.lin.extendAdaptive.extend.MethodAdaptiveService extension = (com.lin.extendAdaptive.extend.MethodAdaptiveService)ExtensionLoader.getExtensionLoader(com.lin.extendAdaptive.extend.MethodAdaptiveService.class).getExtension(extName);</span><br><span class="line">        extension.sayHello(url);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, dubbo version: <span class="number">2.7</span><span class="number">.1</span>, current host: <span class="number">192.168</span><span class="number">.139</span><span class="number">.15</span></span><br></pre></td></tr></table></figure><p>&emsp;&emsp;程序运行时，会经过动态编译过程生成MethodAdaptiveService对应的Adaptive实例，即MethodAdaptiveService$Adaptive。<br>&emsp;&emsp;就是在程序运行过程中，根据条件，通过拼接字符串的形式生成java源码，然后进行编译获得对应的实例。</p><hr><h1 id="扩展点自动注入"><a href="#扩展点自动注入" class="headerlink" title="扩展点自动注入"></a>扩展点自动注入</h1><p>有bug稍后。</p>]]></content>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;扩展点自适应&quot;&gt;&lt;a href=&quot;#扩展点自适应&quot; class=&quot;headerlink&quot; title=&quot;扩展点自适应&quot;&gt;&lt;/a&gt;扩展点自适应&lt;/h1&gt;&lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h2&gt;&lt;p&gt;&amp;emsp;&amp;emsp;ExtensionLoader注入的依赖扩展点是一个Adaptive实例，直到扩展点方法执行时才决定调用是哪一个扩展点实现。&lt;br&gt;&amp;emsp;&amp;emsp;dubbo使用url对象传递对象信息，包含key和value。&lt;br&gt;&amp;emsp;&amp;emsp;扩展点方法调用会有URL参数（或是参数有URL成员）这样依赖的扩展点也可以从URL拿到配置信息，所有的扩展点自己定好配置的 Key后，配置信息从URL上从最外层传入。URL在配置传递上即是一条总线。&lt;/p&gt;</summary>
     
     
     
