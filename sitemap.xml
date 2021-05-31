@@ -895,13 +895,6 @@
   </url>
   
   <url>
-    <loc>http://linqiankun.gitee.io/hexoblog/categories/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/rocketmq/</loc>
-    <lastmod>2021-05-31</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://linqiankun.gitee.io/hexoblog/categories/CI-CD/</loc>
     <lastmod>2021-05-31</lastmod>
     <changefreq>daily</changefreq>
@@ -910,6 +903,13 @@
   
   <url>
     <loc>http://linqiankun.gitee.io/hexoblog/categories/docker/</loc>
+    <lastmod>2021-05-31</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://linqiankun.gitee.io/hexoblog/categories/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/rocketmq/</loc>
     <lastmod>2021-05-31</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
