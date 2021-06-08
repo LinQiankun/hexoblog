@@ -5,6 +5,9 @@
     <url>/hexoblog/2021/05/28/TODO/</url>
     <content><![CDATA[<h1 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h1><span id="more"></span>
 
+<h2 id="QUEST-TODO"><a href="#QUEST-TODO" class="headerlink" title="QUEST_TODO"></a>QUEST_TODO</h2><ul>
+<li><input disabled="" type="checkbox"> zk同时接收到创建节点请求</li>
+</ul>
 <h2 id="POSTS-TODO"><a href="#POSTS-TODO" class="headerlink" title="POSTS_TODO"></a>POSTS_TODO</h2><ul>
 <li><input disabled="" type="checkbox"> rocketmq负载均衡代码</li>
 <li><input disabled="" type="checkbox"> rocketmq消息可靠性消费重试代码</li>
@@ -16,7 +19,7 @@
 </ul>
 <hr>
 <h2 id="DRAFTS-TODO"><a href="#DRAFTS-TODO" class="headerlink" title="DRAFTS_TODO"></a>DRAFTS_TODO</h2><ul>
-<li><input disabled="" type="checkbox"> IO</li>
+<li><input checked="" disabled="" type="checkbox"> IO</li>
 <li><input disabled="" type="checkbox"> kafka简介</li>
 <li><input disabled="" type="checkbox"> rocketmq-Broker启动流程</li>
 <li><input checked="" disabled="" type="checkbox"> rocketmq-NameServer启动流程</li>
@@ -51,6 +54,239 @@
       </tags>
   </entry>
   <entry>
+    <title>IO模型</title>
+    <url>/hexoblog/2021/03/29/md/IO/IO%E6%A8%A1%E5%9E%8B/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;IO是输入输出，IO是面向流的。<br>&emsp;&emsp;java中有三种IO模型： BIO，NIO，AIO。它们又可以分为同步异步，阻塞与非阻塞。<br>&emsp;&emsp;而在linux中有5中IO模型。</p>
+<span id="more"></span>
+
+<hr>
+<h1 id="同步与异步"><a href="#同步与异步" class="headerlink" title="同步与异步"></a>同步与异步</h1><p>&emsp;&emsp;同步与异步说的都是<strong>被调用者</strong>。<br>&emsp;&emsp;同步就是发起一个调用后，被调用者未处理完以前，不用返回。<br>&emsp;&emsp;异步就是发起一个调用后，立刻得到被调用者的回应，表示收到请求，但是并没有返回结果；被调用者通常依靠事件，回调等机制通知调用者返回结果。</p>
+<hr>
+<h1 id="阻塞与非阻塞"><a href="#阻塞与非阻塞" class="headerlink" title="阻塞与非阻塞"></a>阻塞与非阻塞</h1><p>&emsp;&emsp;阻塞与非阻塞说的都是<strong>调用者</strong>。<br>&emsp;&emsp;阻塞就是发起一个请求，调用者一直等待请求结果返回，也就是当前线程会被挂起，无法从事其他任务，只有当条件就绪才能继续。<br>&emsp;&emsp;非阻塞就是发起一个请求，调用者不用一直等着结果返回，可以先去干其他事情。</p>
+<hr>
+<h1 id="BIO、NIO、AIO"><a href="#BIO、NIO、AIO" class="headerlink" title="BIO、NIO、AIO"></a>BIO、NIO、AIO</h1><p>&emsp;&emsp;这些都是经典的IO模型，IO模型就是使用什么样的通道进行数据的发送和接收，很大程度上决定了程序通信的性能。</p>
+<ul>
+<li>BIO：BIO就是传统的IO模型，是<strong>同步阻塞的IO模型</strong>，java.io包中类就是BIO的工具，它提供了很多IO功能，比如输入输出流，对文件进行操作。在网络编程(Socket通信)中也同样进行IO操作。<blockquote>
+<p>服务器实现模式为一个连接一个线程，即客户端有连接请求时服务器端就需要启动一个线程进行处理，如果这个连接不作任何事情会造成不必要的线程开销。</p>
+</blockquote>
+</li>
+<li>NIO：NIO是一种<strong>同步非阻塞的IO模型</strong>，对应java.nio包，提供了Channel , Selector，Buffer等抽象。<blockquote>
+<p>服务器实现模式为一个线程处理多个请求(连接)，即客户端发送的连接请求会被注册到多路复用器上，多路复用器轮询到有 I/O 请求就会进行处理。</p>
+</blockquote>
+</li>
+<li>AIO：<strong>异步非阻塞的IO模型</strong>，是改进版的NIO。<blockquote>
+<p>AIO 引入了异步通道的概念，采用了Proactor模式，简化了程序编写，有效的请求才启动线程，它的特点是先由操作系统完成后才通知服务端程序启动线程去处理，一般适用于连接数较多且连接时间较长的应用。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="举个例子"><a href="#举个例子" class="headerlink" title="举个例子"></a>举个例子</h2><p>&emsp;&emsp;以讲的很多的烧水为例子。</p>
+<ul>
+<li>BIO就是叫一个线程停留在一个水壶那，直到这个水壶烧开，才去处理下一个水壶。  </li>
+<li>NIO是叫一个线程不停的循环观察每一个水壶，根据每个水壶当前的状态去处理。  </li>
+<li>AIO是每个水壶上装一个开关，当水开了以后会提醒对应的线程去处理。</li>
+</ul>
+<h2 id="场景分析"><a href="#场景分析" class="headerlink" title="场景分析"></a>场景分析</h2><ul>
+<li>BIO 方式适用于<strong>连接数比较小且固定的架构</strong>，这种方式对服务器资源要求比较高，并发局限于应用中。</li>
+<li>NIO 方式适用于<strong>连接数目多且连接比较短的架构</strong>，比如聊天服务器，弹幕系统，服务器间通讯等，编程比较复杂，JDK1.4开始支持。</li>
+<li>AIO 方式适用于<strong>连接数目多且连接比较长的架构</strong>，比如相册服务器，充分调用 OS 参与并发操作，变成比较复杂，JDK7 开始支持。</li>
+</ul>
+<hr>
+<h1 id="linux的5中IO模型"><a href="#linux的5中IO模型" class="headerlink" title="linux的5中IO模型"></a>linux的5中IO模型</h1><p>&emsp;&emsp;linux中共有5中IO模型：阻塞IO，非阻塞IO，IO复用模型，信号驱动IO模型，异步IO模型；最后一种是异步的其他都是同步的。</p>
+<p><a href="https://juejin.cn/post/6844903664256024584">掘金大神的文章</a></p>
+<hr>
+<h1 id="参考资料-amp-鸣谢"><a href="#参考资料-amp-鸣谢" class="headerlink" title="参考资料 &amp; 鸣谢"></a>参考资料 &amp; 鸣谢</h1><ul>
+<li><a href="https://juejin.cn/post/6844903664256024584">BIO，NIO，AIO概览</a></li>
+<li><a href="https://juejin.cn/post/6869537077122301965#heading-6">为什么一个还没毕业的大学生能够把 IO 讲的这么好？</a></li>
+<li><a href="https://segmentfault.com/a/1190000037714804">理解什么是BIO/NIO/AIO</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>io</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>io</tag>
+        <tag>网络</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>NIO</title>
+    <url>/hexoblog/2021/06/08/md/IO/NIO/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;NIO是当下非常火热的一种IO工作方式，它能够解决传统BIO的痛点：阻塞。<br>&emsp;&emsp;NIO是一种同步非阻塞的I/O模型，在Java 1.4 中引入了NIO框架，对应 java.nio 包，提供了 Channel , Selector，Buffer等抽象。<br>&emsp;&emsp;同步非阻塞式IO以块的方式处理数据，面向缓存区的，采用多路复，Reactor模式，基于事件驱动。Netty是实现了NIO的一个流行框架，JBoss的。</p>
+<span id="more"></span>
+
+<ul>
+<li>BIO如果遇到IO阻塞时，线程将会被挂起，直到IO完成后才唤醒线程，线程切换带来了额外的开销。</li>
+<li>BIO中每个IO都需要有对应的一个线程去专门处理该次IO请求，会让服务器的压力迅速提高。</li>
+</ul>
+<hr>
+<h1 id="NIO与BIO的区别"><a href="#NIO与BIO的区别" class="headerlink" title="NIO与BIO的区别"></a>NIO与BIO的区别</h1><p>&emsp;&emsp;BIO是面向流的IO，它建立的通道都是单向的，所以输入和输出流的通道不相同，必须建立2个通道，通道内的都是传输==0101001···==的字节数据。<br>&emsp;&emsp;NIO是面向缓冲区的，它会建立一个通道（Channel），该通道我们可以理解为铁路，该铁路上可以运输各种货物，而通道上会有一个缓冲区（Buffer）用于存储真正的数据，缓冲区我们可以理解为一辆火车。通道（铁路）只是作为运输数据的一个连接资源，而真正存储数据的是缓冲区（火车）。即通道负责传输，缓冲区负责存储。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/BIO%E7%BB%93%E6%9E%84.jpg" alt="BIO结构"><br><img src="https://gitee.com/linqiankun/picurl/raw/master/java/NIO%E7%BB%93%E6%9E%84.jpg" alt="NIO结构"></p>
+<p>&emsp;&emsp;区别基本可以用下表表示：</p>
+<table>
+<thead>
+<tr>
+<th>BIO</th>
+<th>NIO</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>面向流</td>
+<td>面向缓冲区</td>
+</tr>
+<tr>
+<td>单向通道</td>
+<td>双向通道</td>
+</tr>
+<tr>
+<td>阻塞IO</td>
+<td>非阻塞IO</td>
+</tr>
+<tr>
+<td>—</td>
+<td>选择器Selectors</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="概念介绍"><a href="#概念介绍" class="headerlink" title="概念介绍"></a>概念介绍</h1><h2 id="缓冲区（Buffer）"><a href="#缓冲区（Buffer）" class="headerlink" title="缓冲区（Buffer）"></a>缓冲区（Buffer）</h2><p>&emsp;缓冲区是存储数据的区域，在 Java 中，缓冲区就是数组，为了可以操作不同数据类型的数据，Java 提供了许多不同类型的缓冲区，除了布尔类型以外，其它基本数据类型都有对应的缓冲区数组对象。<br>&emsp;&emsp;因为NIO是基于缓冲的，所以buffer是最底层的必要类，这也是IO和NIO的根本不同，虽然stream等有buffer开头的扩展类，但只是流的包装类，还是从流读到缓冲区，而NIO却是直接读到buffer中进行操作。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/NIOBuffer.jpg" alt="Buffer"></p>
+<h2 id="通道（Channel）"><a href="#通道（Channel）" class="headerlink" title="通道（Channel）"></a>通道（Channel）</h2><p>&emsp;&emsp;类似于IO的stream，但是不同的是除了FileChannel，其他的channel都能以非阻塞状态运行。FileChannel执行的是文件的操作，可以直接DMA操作内存而不依赖于CPU。其他比如socketchannel就可以在数据准备好时才进行调用。IO分为磁盘IO和网络IO，所以通常意义上的NIO是指网络IO，即除FileChnnel之外的channel都可以非阻塞。<br>&emsp;&emsp;通道是可以双向读写的，传统的 BIO 需要使用输入/输出流表示数据的流向，在 NIO 中可以减少通道资源的消耗。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/NIOChannel.jpg" alt="Channel"></p>
+<p>可以通过 getChannel() 方法获取一个通道，支持获取通道的类如下：</p>
+<ul>
+<li>文件IO：FileInputStream、FileOutputStream、RandomAccessFile</li>
+<li>TCP网络IO：Socket、ServerSocket</li>
+<li>UDP网络IO：DatagramSocket</li>
+</ul>
+<h2 id="选择器（Selectors）"><a href="#选择器（Selectors）" class="headerlink" title="选择器（Selectors）"></a>选择器（Selectors）</h2><p>&emsp;&emsp;选择器是提升IO性能的灵魂之一，它底层利用了多路复用IO机制，让选择器可以监听多个IO连接，根据IO的状态响应到服务器端进行处理。通俗地说：选择器可以监听多个IO连接，而传统的BIO每个IO连接都需要有一个线程去监听和处理。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/NIOSelectors.jpg" alt="Selectors"></p>
+<p>&emsp;&emsp;在BIO中，每个Socket都需要有一个专门的线程去处理每个请求，而在NIO中，只需要一个Selector即可监听各个Socket请求，而且Selector并不是阻塞的，所以不会因为多个线程之间切换导致上下文切换带来的开销。<br>&emsp;&emsp;在Java NIO中，选择器是使用Selector类表示，Selector可以接收各种IO连接，在IO状态准备就绪时，会通知该通道注册的 elector，Selector在下一次轮询时会发现该IO连接就绪，进而处理该连接，Selector选择器主要用于网络IO当中。<br>&emsp;&emsp;选择器的作用就是：<strong>监听多个IO通道，当有通道就绪时选择器会轮询发现该通道，并做相应的处理。那么IO状态分为很多种，我们如何去识别就绪的通道是处于哪种状态呢？在Java中提供了选择键（SelectionKey）。</strong></p>
+<h3 id="选择键（SelectionKey）"><a href="#选择键（SelectionKey）" class="headerlink" title="选择键（SelectionKey）"></a>选择键（SelectionKey）</h3><p>&emsp;&emsp;在选择器轮询到有就绪通道时，会返回这些通道的就绪选择键（SelectionKey），通过选择键可以获取到通道进行操作。<br>&emsp;&emsp;java中提供了四种选择键：</p>
+<ul>
+<li>SelectionKey.OP_READ：套接字通道准备好进行读操作</li>
+<li>SelectionKey.OP_WRITE：套接字通道准备好进行写操作</li>
+<li>SelectionKey.OP_ACCEPT：服务器套接字通道接受其它通道</li>
+<li>SelectionKey.OP_CONNECT：套接字通道准备完成连接</li>
+</ul>
+<hr>
+<h1 id="参考文献-amp-鸣谢"><a href="#参考文献-amp-鸣谢" class="headerlink" title="参考文献 &amp; 鸣谢"></a>参考文献 &amp; 鸣谢</h1><ul>
+<li><a href="https://juejin.cn/post/6869537077122301965#heading-6">为什么一个还没毕业的大学生能够把 IO 讲的这么好？</a></li>
+<li><a href="https://segmentfault.com/a/1190000021493582">BIO、NIO、AIO疑点解析</a></li>
+<li><a href="https://segmentfault.com/a/1190000037714804">理解什么是BIO/NIO/AIO</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>io</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>io</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>java传统IO流-BIO</title>
+    <url>/hexoblog/2021/06/08/md/IO/java%E4%BC%A0%E7%BB%9FIO%E6%B5%81-BIO/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;数据都以二进制存储在设备中，流就是将这些数据以二进制在各种设备间进行传输。  </p>
+<span id="more"></span>
+
+<p>&emsp;&emsp;IO流的核心特点：</p>
+<ol>
+<li>顺序读写：读写数据时，大部分情况下都是按照顺序读写，读取时从文件开头的第一个字节到最后一个字节，写出时也是也如此（RandomAccessFile 可以实现随机读写）。</li>
+<li>读写数据时本质上都是对字节数组做读取和写出操作，即使是字符流，也是在字节流基础上转化为一个个字符，所以字节数组是 IO 流读写数据的本质。</li>
+</ol>
+<hr>
+<h1 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h1><p>&emsp;&emsp;流根据数据的流向不同分为：输入流和输出流。</p>
+<ul>
+<li>输入流：从磁盘或者其它外设中将数据输入到进程中。</li>
+<li>输出流：从进程中将数据输出到磁盘或者其他外设中保存。</li>
+</ul>
+<h2 id="字符流-amp-字节流"><a href="#字符流-amp-字节流" class="headerlink" title="字符流&amp;字节流"></a>字符流&amp;字节流</h2><p>&emsp;&emsp;根据处理数据的基本单位不同分为：字节流和字符流。</p>
+<ul>
+<li>字节流：以<strong>字节（1Byte=8bit）</strong> 为单位做数据的传输。</li>
+<li>字符流：以字符为单位做数据的传输。<blockquote>
+<p>字符流的本质也是通过字节流读取，Java 中的字符采用 Unicode 标准，在读取和输出的过程中，通过以字符为单位，查找对应的码表将字节转换为对应的字符。</p>
+</blockquote>
+</li>
+</ul>
+<p>&emsp;&emsp;根据这两种分类，在java.io包中定义了四个顶层的抽象：</p>
+<table>
+<thead>
+<tr>
+<th>数据类型/数据流向</th>
+<th>字节流</th>
+<th>字符流</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>输入流</td>
+<td>InputStream</td>
+<td>Reader</td>
+</tr>
+<tr>
+<td>输出流</td>
+<td>OutputStream</td>
+<td>Writer</td>
+</tr>
+</tbody></table>
+<p>&emsp;&emsp;在这四个顶层抽象下面还有很多的成员，分别有不同的作用。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/io.jpg" alt="io"><br><img src="https://gitee.com/linqiankun/picurl/raw/master/java/IO.jpeg" alt="IO"></p>
+<p>&emsp;&emsp;java中处理传输用的外，还提供了一堆扩展的流，比如压缩，序列化用的。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/JAVAIO.png" alt="IO"></p>
+<p>&emsp;&emsp;这其中还提供了用于字节流与字符流中间的转换流。</p>
+<table>
+<thead>
+<tr>
+<th>转换流/数据类型</th>
+<th>转换</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>输入（字节-&gt;字符）</td>
+<td>InputStreamReader</td>
+</tr>
+<tr>
+<td>输出（字符-&gt;字节）</td>
+<td>OutputStreamWriter</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>在存储设备上，所有数据都是以字节为单位存储的，所以输入到内存时必定是以字节为单位输入，输出到存储设备时必须是以字节为单位输出，字节流才是计算机最根本的存储方式，而字符流是在字节流的基础上对数据进行转换，输出字符，但每个字符依旧是以字节为单位存储的。</p>
+</blockquote>
+<h2 id="节点流和处理流"><a href="#节点流和处理流" class="headerlink" title="节点流和处理流"></a>节点流和处理流</h2><p>&emsp;&emsp;这是对流的根据功能的再一次分类。</p>
+<ul>
+<li>节点流：节点流是真正传输数据的流对象，用于向特定的一个地方（节点）读写数据，称为节点流。</li>
+<li>处理流：处理流是对节点流的封装，使用外层的处理流读写数据，本质上是利用节点流的功能，外层的处理流可以提供额外的功能。处理流的基类都是以Filter开头。</li>
+</ul>
+<hr>
+<h1 id="字节流和字符流的转换"><a href="#字节流和字符流的转换" class="headerlink" title="字节流和字符流的转换"></a>字节流和字符流的转换</h1><p>&emsp;&emsp;从任何地方把数据读入到内存都是先以字节流形式读取，即使是使用字符流去读取数据，依然成立，因为数据永远是以字节的形式存在于互联网和硬件设备中，字符流是通过字符集的映射，才能够将字节转换为字符。  </p>
+<p>&emsp;&emsp;java中提供了两种转换流：</p>
+<ul>
+<li>InputStreamReader：从字节流转换为字符流，将字节数据转换为字符数据读入到内存。</li>
+<li>OutputStreamWriter：从字符流转换为字节流，将字符数据转换为字节数据写出到指定位置。</li>
+</ul>
+<blockquote>
+<ol>
+<li>传统的 BIO 是以流为基本单位处理数据的，想象成水流，一点点地传输字节数据，IO 流传输的过程永远是以字节形式传输。</li>
+<li>字节流和字符流的区别在于操作的数据单位不相同，字符流是通过将字节数据通过字符集映射成对应的字符，字符流本质上也是字节流。</li>
+</ol>
+</blockquote>
+<hr>
+<h1 id="参考文献-amp-鸣谢"><a href="#参考文献-amp-鸣谢" class="headerlink" title="参考文献 &amp; 鸣谢"></a>参考文献 &amp; 鸣谢</h1><p><a href="https://segmentfault.com/a/1190000037714804">JAVA IO BIO NIO AIO</a></p>
+<ul>
+<li><a href="https://juejin.cn/post/6844903664256024584">BIO，NIO，AIO概览</a></li>
+<li><a href="https://juejin.cn/post/6869537077122301965#heading-6">为什么一个还没毕业的大学生能够把 IO 讲的这么好？</a></li>
+<li><a href="https://segmentfault.com/a/1190000037714804">理解什么是BIO/NIO/AIO</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>io</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>io</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>dcokerdesktop小问题排查</title>
     <url>/hexoblog/2021/03/14/md/docker/dcokerdesktop%E5%B0%8F%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5/</url>
     <content><![CDATA[<!-- toc -->
@@ -69,6 +305,43 @@
       <tags>
         <tag>docker</tag>
         <tag>wsl</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>docker启动vue</title>
+    <url>/hexoblog/2021/04/12/md/docker/docker%E5%90%AF%E5%8A%A8vue/</url>
+    <content><![CDATA[<h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><p>&emsp;&emsp;需要准备东西有：</p>
+<ol>
+<li>docker环境</li>
+<li>vue项目</li>
+</ol>
+<span id="more"></span>
+
+<hr>
+<h1 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h1><h2 id="项目build"><a href="#项目build" class="headerlink" title="项目build"></a>项目build</h2><p>&emsp;&emsp;将vue项目build得到dist文件夹。这里是页面等资源文件。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">npm</span> run build<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="构建"><a href="#构建" class="headerlink" title="构建"></a>构建</h2><p>&emsp;&emsp;将得到的可执行dist构建成docker镜像。</p>
+<p>&emsp;&emsp;将得到的dist文件放入指定目录下，并且在同目录下建立Dockerfile文件(文件名不能错)。<br>&emsp;&emsp;Dockerfile文件内容：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 设置基础镜像，这里使用最新的nginx镜像，前面已经拉取过了</span>
+FROM nginx
+<span class="token comment"># 定义作者 Edison</span>
+MAINTAINER Edison 
+<span class="token comment"># 将dist文件中的内容复制到 /usr/share/nginx/html/ 这个目录下面</span>
+COPY dist/  /usr/share/nginx/html/<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>&emsp;&emsp;执行docker构建命令，得到docker镜像。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">docker build -t <span class="token operator">&lt;</span>镜像名称<span class="token operator">></span> <span class="token builtin class-name">.</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>&emsp;&emsp;构建完成后，就可以在镜像列表查看是否有新构建的镜像，也可以运行该镜像。</p>
+]]></content>
+      <categories>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>docker</tag>
+        <tag>vue</tag>
       </tags>
   </entry>
   <entry>
@@ -154,43 +427,6 @@ mvn docker:build<span aria-hidden="true" class="line-numbers-rows"><span></span>
         <tag>tool</tag>
         <tag>docker</tag>
         <tag>springboot</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>docker启动vue</title>
-    <url>/hexoblog/2021/04/12/md/docker/docker%E5%90%AF%E5%8A%A8vue/</url>
-    <content><![CDATA[<h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><p>&emsp;&emsp;需要准备东西有：</p>
-<ol>
-<li>docker环境</li>
-<li>vue项目</li>
-</ol>
-<span id="more"></span>
-
-<hr>
-<h1 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h1><h2 id="项目build"><a href="#项目build" class="headerlink" title="项目build"></a>项目build</h2><p>&emsp;&emsp;将vue项目build得到dist文件夹。这里是页面等资源文件。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">npm</span> run build<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="构建"><a href="#构建" class="headerlink" title="构建"></a>构建</h2><p>&emsp;&emsp;将得到的可执行dist构建成docker镜像。</p>
-<p>&emsp;&emsp;将得到的dist文件放入指定目录下，并且在同目录下建立Dockerfile文件(文件名不能错)。<br>&emsp;&emsp;Dockerfile文件内容：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 设置基础镜像，这里使用最新的nginx镜像，前面已经拉取过了</span>
-FROM nginx
-<span class="token comment"># 定义作者 Edison</span>
-MAINTAINER Edison 
-<span class="token comment"># 将dist文件中的内容复制到 /usr/share/nginx/html/ 这个目录下面</span>
-COPY dist/  /usr/share/nginx/html/<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>&emsp;&emsp;执行docker构建命令，得到docker镜像。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">docker build -t <span class="token operator">&lt;</span>镜像名称<span class="token operator">></span> <span class="token builtin class-name">.</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>&emsp;&emsp;构建完成后，就可以在镜像列表查看是否有新构建的镜像，也可以运行该镜像。</p>
-]]></content>
-      <categories>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>tool</tag>
-        <tag>docker</tag>
-        <tag>vue</tag>
       </tags>
   </entry>
   <entry>
@@ -629,502 +865,6 @@ qos&#x3D;org.apache.dubbo.qos.protocol.QosProtocolWrapper<span aria-hidden="true
       </tags>
   </entry>
   <entry>
-    <title>HTTP HTTPS HTTP2</title>
-    <url>/hexoblog/2021/05/08/md/internet/HTTP-HTTPS-HTTP2/</url>
-    <content><![CDATA[<h1 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h1><p>&emsp;&emsp;超文本传输协议，是从web服务器传输超文本标记语言到本地浏览器的传送协议，默认工作在80端口。</p>
-<span id="more"></span>
-
-<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>&emsp;&emsp;HTTP是一个基于TCP/IP协议来传输数据的应用层协议，传输的数据类型可以为，html文件、图片文件、查询结果等。<br>&emsp;&emsp;HTTP一般用于B/S架构（浏览器、服务器），浏览器作为HTTP客户端通过URL向HTTP服务端即WEB服务器发送所有请求。</p>
-<h2 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h2><ol>
-<li>建立TCP/IP连接，客户端与服务器通过Socket三次握手进行连接。</li>
-<li>客户端向服务端发起HTTP请求。</li>
-<li>客户端发送请求头信息，请求内容，最后会发送一空白行，标示客户端请求完毕。</li>
-<li>服务器做出应答，表示对于客户端请求的应答。</li>
-<li>服务器向客户端发送应答头信息。</li>
-<li>服务器向客户端发送请求头信息后，也会发送一空白行，标示应答头信息发送完毕，接着就以Content-type要求的数据格式发送数据给客户端。</li>
-<li>服务端关闭TCP连接，如果服务器或者客户端增Connection:keep-alive就表示客户端与服务器端继续保存连接，在下次请求时可以继续使用这次的连接。</li>
-</ol>
-<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><ol>
-<li>HTTP协议支持客户端/服务端模式，也是一种请求/响应模式的协议。</li>
-<li>简单快速，客户向服务器请求服务时，只需传送请求方法和路径。请求方法常用的有GET、HEAD、POST。</li>
-<li>灵活：HTTP允许传输任意类型的数据对象。传输的类型由Content-Type加以标记。</li>
-<li>无连接：限制每次连接只处理一个请求。服务器处理完请求，并收到客户的应答后，即断开连接，但是却不利于客户端与服务器保持会话连接，为了弥补这种不足，产生了两项记录http状态的技术，一个叫做Cookie,一个叫做Session。</li>
-<li>无状态：无状态是指协议对于事务处理没有记忆，后续处理需要前面的信息，则必须重传。</li>
-</ol>
-<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><ol>
-<li>数据明文传输，容易被窃听截取</li>
-<li>数据的完整性未校验，容易被篡改</li>
-<li>双方没有验证身份，有冒充对方的风险</li>
-</ol>
-<h2 id="URL与URI"><a href="#URL与URI" class="headerlink" title="URL与URI"></a>URL与URI</h2><ul>
-<li>URL：统一资源定位符。</li>
-<li>URI：统一资源标识符。</li>
-</ul>
-<p>&emsp;&emsp;URL是用来定位具体的资源的，标示了一个具体的资源位置。互联网上的每个文件都有一个唯一的URL。<br>&emsp;&emsp;URI是用来标示 一个具体的资源的，我们可以通过URI知道一个资源是什么。<br>&emsp;&emsp;HTTP使用统一资源标识符（Uniform Resource Identifiers, URI）来传输数据和建立连接。</p>
-<h2 id="GET与POST的区别"><a href="#GET与POST的区别" class="headerlink" title="GET与POST的区别"></a>GET与POST的区别</h2><ol>
-<li>都包含请求头请求行，post多了请求body。</li>
-<li>get多用来查询，请求参数放在url中，不会对服务器上的内容产生作用。post用来提交，如把账号密码放入body中。</li>
-<li>GET是直接添加到URL后面的，直接就可以在URL中看到内容，而POST是放在报文内部的，用户无法直接看到。</li>
-<li>GET提交的数据长度是有限制的，因为URL长度有限制，具体的长度限制视浏览器而定。而POST没有。</li>
-</ol>
-<hr>
-<h1 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h1><p>&emsp;&emsp;HTTPS就是为了解决上面HTTP的问题。默认工作在443端口。<br>&emsp;&emsp;HTTPS协议（HyperText Transfer Protocol over Secure Socket Layer）：一般理解为HTTP+SSL/TLS，通过 SSL证书来验证服务器的身份，并为浏览器和服务器之间的通信进行加密。</p>
-<h2 id="SSL-TLS"><a href="#SSL-TLS" class="headerlink" title="SSL/TLS"></a>SSL/TLS</h2><p>&emsp;&emsp;SSL：安全套接字层，SSL协议位于TCP/IP协议与各种应用层协议之间，为数据通讯提供安全支持。<br>&emsp;&emsp;TLS：传输层安全，其前身是SSL，后来改名，目前使用最广泛的是TLS 1.1、TLS 1.2。</p>
-<h2 id="HTTPS工作流程"><a href="#HTTPS工作流程" class="headerlink" title="HTTPS工作流程"></a>HTTPS工作流程</h2><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/https%E5%AF%86%E9%92%A5%E7%94%9F%E6%88%90.png" alt="密钥生成流程"></p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E6%B5%81%E7%A8%8B.gif" alt="数据传输"></p>
-<ol>
-<li>首先客户端通过URL访问服务器建立SSL连接。</li>
-<li>服务端收到客户端请求后，会将网站支持的证书信息（证书中包含公钥）传送一份给客户端。（这个证书其实就是公钥，只是包含了很多信息）</li>
-<li>客户端的服务器开始协商SSL连接的安全等级，也就是信息加密的等级。</li>
-<li>客户端的浏览器根据双方同意的安全等级，建立会话密钥，然后利用网站的公钥将会话密钥加密，并传送给网站。（会话密钥就是第一张图的随机key）</li>
-<li>服务器利用自己的私钥解密出会话密钥，这里就是连接建立完成。</li>
-<li>服务器利用会话密钥加密与客户端之间的通信。</li>
-</ol>
-<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><ol>
-<li>HTTPS协议多次握手，导致页面加载时间延长。</li>
-<li>HTTPS连接缓存不如HTTP高效，会增加数据开销和功耗。</li>
-<li>SSL证书需要付费。</li>
-<li>SSL涉及到的安全算法会消耗CPU资源，对服务器资源消耗较大。</li>
-<li>技术难度相比HTTP大。</li>
-<li>SSL证书通常需要绑定IP，不能在同一IP上绑定多个域名，IPv4资源不可能支撑这个消耗。</li>
-<li>HTTPS协议的加密范围也比较有限，在黑客攻击、拒绝服务攻击、服务器劫持等方面几乎起不到什么作用。最关键的，SSL证书的信用链体系并不安全，特别是在某些国家可以控制CA根证书的情况下，中间人攻击一样可行。</li>
-</ol>
-<h2 id="总结HTTPS和HTTP的区别"><a href="#总结HTTPS和HTTP的区别" class="headerlink" title="总结HTTPS和HTTP的区别"></a>总结HTTPS和HTTP的区别</h2><ol>
-<li>HTTP明文传输，数据都是未加密的，安全性较差，HTTPS（SSL+HTTP） 数据传输过程是加密的，安全性较好。</li>
-<li>使用HTTPS协议需要到CA（Certificate Authority，数字证书认证机构） 申请证书，一般免费证书较少，因而需要一定费用。证书颁发机构如：Symantec、Comodo、GoDaddy和GlobalSign等。</li>
-<li>HTTP页面响应速度比HTTPS快，主要是因为HTTP使用TCP三次握手建立连接，客户端和服务器需要交换3个包，而HTTPS除了TCP的三个包，还要加上ssl握手需要的9个包，所以一共是12个包。</li>
-<li>http和https使用的是完全不同的连接方式，用的端口也不一样，前者是80，后者是443。</li>
-<li>HTTPS其实就是建构在SSL/TLS之上的HTTP协议，所以，要比较HTTPS比HTTP要更耗费服务器资源。</li>
-</ol>
-<hr>
-<h1 id="HTTP2"><a href="#HTTP2" class="headerlink" title="HTTP2"></a>HTTP2</h1><p>&emsp;&emsp;HTTP/2.0的目标是改善用户在使用Web时的速度体验。</p>
-<h2 id="新特点"><a href="#新特点" class="headerlink" title="新特点"></a>新特点</h2><p><a href="https://juejin.cn/post/6844903545532071943">HTTP2.0新特性</a><br><a href="https://www.jianshu.com/p/1afebe13c63e">HTTPS和HTTP2.0详解
-</a><br><a href="https://www.jsahz.com/wz/15616.html">HTTP 2.0 详细介绍</a></p>
-<h3 id="二进制分帧"><a href="#二进制分帧" class="headerlink" title="二进制分帧"></a>二进制分帧</h3><p>&emsp;&emsp;相对于HTTP1.0和HTTP1.1，2.0在应用层与传输层中间增加了一个二进制分帧层。<br>&emsp;&emsp;在二进制分帧层上，HTTP2.0会将所有传输信息分割为更小的消息和帧，并对它们采用二进制格式的编码将其封装。其中，HTTP1.X中的首部信息header封装到Headers帧中，而request body将被封装到Data帧中。<br>&emsp;&emsp;HTTP2.0通信都在一个TCP连接上完成，这个连接可以承载任意数量的双向数据流，相应的每个数据流以消息的形式发送。而消息由一或多个帧组成，这些帧可以乱序发送，然后根据每个帧首部的流标识符重新组装。  </p>
-<h3 id="首部压缩"><a href="#首部压缩" class="headerlink" title="首部压缩"></a>首部压缩</h3><p>&emsp;&emsp;HTTP1.x每次通讯（请求或响应）都会携带首部信息用于描述资源属性。而HTTP2.0在客户端和服务端之间使用首部表来跟踪和存储之前发送的键值对。请求与响应首部的定义在HTTP2.0中基本没有变，只是所有首部键必须全部小写，而且要求行要独立为:method:、:scheme:、:host:、:path:这些键值对。<br>&emsp;&emsp;HTTP2.0使用encoder来减少需要传输的header大小，通讯双方各自cache一份header fields（首部表）表，既避免了重复header的传输，又减小了需要传输的大小。</p>
-<h4 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h4><p>&emsp;&emsp;使报头更紧凑，更快速传输，有利于移动网络环境。减少每次通讯的数据量，使网络拥塞状态得以改善。</p>
-<h4 id="工作流程-1"><a href="#工作流程-1" class="headerlink" title="工作流程"></a>工作流程</h4><p>&emsp;&emsp;对于相同的数据，不再重新通过每次请求和响应发送。每个新的首部键值对要么追加到当前表的末尾，要么替换表中之前的值。首部表在HTTP2.0的链接存续期内始终存在，由客户端和服务端共同渐进的更新。</p>
-<h3 id="流量控制"><a href="#流量控制" class="headerlink" title="流量控制"></a>流量控制</h3><p>&emsp;&emsp;HTTP2.0为数据流和连接的流量提供了一个简单的机制：</p>
-<ol>
-<li>流量基于HTTP链接的每一跳进行，而非端到端的控制。</li>
-<li>流量控制基于窗口更新帧进行，即接收方广播自己准备接收某个数据流的多少字节，以及对整个链接要接收多少个字节。</li>
-<li>流量控制有方向性，即接收方可能根据自己的情况为每个流乃至整个链接设置任意窗口大小。</li>
-<li>流量控制可以由接收方禁用，包括针对个别的流和针对整个链接。</li>
-<li>帧的类型决定了流量控制是否适用于帧，目前只有DATA帧服从流量控制，所有其他类型的帧并不会消耗流量控制窗口的空间。这保证了重要的控制帧不会被流量控制阻塞。</li>
-</ol>
-<h3 id="多路复用"><a href="#多路复用" class="headerlink" title="多路复用"></a>多路复用</h3><p>&emsp;&emsp;基于二进制分帧层，HTTP2.0可以在共享TCP链接的基础上同时发送请求和响应。HTTP消息被分解为独立的帧，而不破坏消息本身的语义，交错发出去，在另一端根据流标识符和首部将他们重新组装起来。<br>&emsp;&emsp;即连接共享，即每一个request都是是用作连接共享机制的。一个request对应一个id，这样一个连接上可以有多个request，每个连接的request可以随机的混杂在一起，接收方可以根据request的id将request再归属到各自不同的服务端请求里面。</p>
-<h4 id="优化-1"><a href="#优化-1" class="headerlink" title="优化"></a>优化</h4><ol>
-<li>可以并行交错的发送请求和响应，这些请求和响应之间互不影响。</li>
-<li>只使用一个链接即可并行发送多个请求和响应。</li>
-<li>消除不必要的延迟，从而减少页面加载的时间。</li>
-<li>不必再为绕过HTTP1.x限制而多做很多工作。</li>
-</ol>
-<h3 id="请求优先级"><a href="#请求优先级" class="headerlink" title="请求优先级"></a>请求优先级</h3><p>&emsp;&emsp;HTTP消息分为很多独立帧之后，就可以通过优化这些帧的交错和传输顺序进一步优化性能。</p>
-<h4 id="优化-2"><a href="#优化-2" class="headerlink" title="优化"></a>优化</h4><p>&emsp;&emsp;服务器可以根据流的优先级控制资源分配（CPU、内存、宽带），而在响应数据准备好之后，优先将最高优先级的帧发送给客户端。浏览器可以在发现资源时立即分派请求，指定每个流的优先级，让服务器决定最优的响应次序。这样请求就不用排队了，既节省了时间，又最大限度的利用了每个连接。</p>
-<h3 id="服务端推送"><a href="#服务端推送" class="headerlink" title="服务端推送"></a>服务端推送</h3><p>&emsp;&emsp;服务器可以对一个客户端请求发送多个响应。服务器向客户端推送资源无需客户端明确的请求。<br>&emsp;&emsp;服务端根据客户端的请求，提前返回多个响应，推送额外的资源给客户端。</p>
-<h4 id="优化-3"><a href="#优化-3" class="headerlink" title="优化"></a>优化</h4><ol>
-<li>减轻数据传送的冗余步骤。</li>
-<li>加快页面响应速度。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>网络</category>
-        <category>HTTP</category>
-      </categories>
-      <tags>
-        <tag>HTTP</tag>
-        <tag>网络</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>TCP三次握手四次挥手</title>
-    <url>/hexoblog/2021/04/30/md/internet/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;在网络层通过IP协议可以实现两个主机之间的通信，但是无法确定是主机中的那个进程之间进行的通信，而实际及性能通信的则是主机中的进程。  </p>
-<span id="more"></span>
-
-<p>&emsp;&emsp;TCP面向连接的服务，在传送数据之前必须先建立连接，数据传送完成后要释放连接。因此TCP是一种可靠的的运输服务，但是正因为这样，不可避免的增加了许多的开销，比如确认，流量控制等。对应的应用层的协议主要有SMTP,TELNET,HTTP,FTP等。<br>&emsp;&emsp;TCP把连接作为最基本的对象，每一条TCP连接都有两个端点，这种断点我们叫作套接字（socket），它的定义为端口号拼接到IP地址即构成了套接字，例如，若IP地址为127.0.0.1 而端口号为80，那么得到的套接字为127.0.0.1:80。<br>&emsp;&emsp;TCP采用全双工通信，这要求了服务端与客户端必须双方都能进行向对方发送数据，所以建立断开连接必须建立或者断开两次。</p>
-<hr>
-<h1 id="TCP报文"><a href="#TCP报文" class="headerlink" title="TCP报文"></a>TCP报文</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/tcp%E6%8A%A5%E6%96%87%E9%A6%96%E9%83%A8.jpg" alt="TCP报文"></p>
-<ol>
-<li>源端口和目的端口：分别写入源端口和目的接口。</li>
-<li>序号：占4个字节，TCP连接中传送的字节流中的每个字节都按顺序编号。当前为301时，如果传输100个字节后，下一个报文段从401开始。</li>
-<li>确认号：占4个字节，是期望收到对方下一个报文的第一个数据字节的序号。</li>
-<li>数据偏移：占4位（半个字节），它指出TCP报文的数据距离TCP报文段的起始处有多远。</li>
-<li>保留位置：占6位，保留今后使用，但目前应都位0。</li>
-<li>紧急URG：当URG=1，表明紧急指针字段有效。告诉系统此报文段中有紧急数据。</li>
-<li>确认ACK：仅当ACK=1时，确认号字段才有效。TCP规定，在连接建立后所有报文的传输都必须把ACK置1。</li>
-<li>推送PSH：当两个应用进程进行交互式通信时，有时在一端的应用进程希望在键入一个命令后立即就能收到对方的响应，这时候就将PSH=1。</li>
-<li>复位RST：当RST=1，表明TCP连接中出现严重差错，必须释放连接，然后再重新建立连接。</li>
-<li>同步SYN：在连接建立时用来同步序号。当SYN=1，ACK=0，表明是连接请求报文，若同意连接，则响应报文中应该使SYN=1，ACK=1。</li>
-<li>终止FIN：用来释放连接。当FIN=1，表明此报文的发送方的数据已经发送完毕，并且要求释放。</li>
-<li>窗口：占2字节，指的是通知接收方，发送本报文你需要有多大的空间来接受。</li>
-<li>检验和：占2字节，校验首部和数据这两部分。</li>
-<li>紧急指针：占2字节，指出本报文段中的紧急数据的字节数。</li>
-<li>选项：长度可变，定义一些其他的可选的参数。</li>
-</ol>
-<hr>
-<h1 id="TCP连接的建立（三次握手）"><a href="#TCP连接的建立（三次握手）" class="headerlink" title="TCP连接的建立（三次握手）"></a>TCP连接的建立（三次握手）</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/tcp%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B.png" alt="TCP连接建立"></p>
-<ol>
-<li>服务端先创建传输控制块，准备监听客户端进程的连接请求，此时服务器就进入了Listen状态。</li>
-<li>客户端也建立传输控制块，向服务端发送连接请求报文，此时客户端进入SYN-SENT状态（同步已发送）。<blockquote>
-<p>TCP规定，SYN报文段（SYN=1的报文段）<strong>不能携带数据</strong>，但需消耗掉一个序号。<br>此时报文内容SYN=1，seq=x。</p>
-</blockquote>
-</li>
-<li>服务器接收到请求后，如果同意连接，则发出确认报文，此时服务器进入SYN-RCVD状态（同步收到）。<blockquote>
-<p>这个报文同样不能携带数据，需要消耗一个序号。<br>此时报文内容为SYN=1,ACK=1,seq=y,ack=x+1。seq为自己发送的序列号，ack因为上一次的发连接请求报文不带数据，所以确认号直接为x+。</p>
-</blockquote>
-</li>
-<li>客户端进程收到确认后，还要向服务器给出确认。确认后，TCP连接建立，客户端进入ESTABLISHED状态（已建立连接）。<blockquote>
-<p>TCP规定，ACK报文段可以携带数据，但是如果不携带数据则不消耗序号。<br>此时的报文内容为ACK=1,seq=x+1,ack=y+1；这里相对于同步请求是客户端发给服务端的第二个请求，所有seq为x+1。</p>
-</blockquote>
-</li>
-<li>当服务器收到客户端的确认后也进入ESTABLISHED状态，此后双方就可以开始通信了。</li>
-</ol>
-<hr>
-<h1 id="TCP连接的断开（四次回收）"><a href="#TCP连接的断开（四次回收）" class="headerlink" title="TCP连接的断开（四次回收）"></a>TCP连接的断开（四次回收）</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B.png" alt="四次挥手"></p>
-<ol>
-<li>客户端发送连接释放报文，停止发送数据，客户端进入FIN-WAIT-1状态（终止等待1）。<blockquote>
-<p>TCP规定，FIN报文段即使不携带数据，也要消耗一个序号。与SYN报文段相似。<br>此时报文内容为FIN=1,seq=u。这里的序列号跟随前面的数据的序列号，为最后一个字节数据的序列号加一。</p>
-</blockquote>
-</li>
-<li>服务器收到连接释放报文，发送出自己的释放报文，服务端进入CLOSE-WAIT状态（关闭等待）。<blockquote>
-<p>TCP服务器通知高层的应用进程，客户端向服务器的方向就释放了，这时候处于半关闭状态，即客户端已经没有数据要发送了，但是服务器若发送数据，客户端依然要接受。这个过程需要持续一段时间，等待服务器将数据发送完。<br>此时报文内容为ACK=1,seq=v,ack=u+1。</p>
-</blockquote>
-</li>
-<li>客户端收到服务器的释放确认后，进入FIN-WAIT-2状态，等待服务器发送连接释放报文，这个过程中会继续接受服务器发送的数据内容。</li>
-<li>服务器将数据发送完毕后，向客户端发送连接释放报文，服务器进入LAST-ACK状态，等待最后的确认。<blockquote>
-<p>此时报文内容为FIN=1,ACK=1,seq=w,ack=u+1，在上个过程中，客户端不会向服务端发送信息所以ack不变，而服务端会向客户端发送所以seq会变化。</p>
-</blockquote>
-</li>
-<li>客户端收到连接释放后，向服务器发出确认，客户端进入TIME-WAIT状态。<blockquote>
-<p>注意此时TCP连接还没有释放，必须经过2*MSL（最长报文段寿命）的时间后，当客户端撤销相应的TCB后，才进入CLOSED状态。<br>此时报文内容为ACK=1,seq=u+1,ack=w+1。</p>
-</blockquote>
-</li>
-<li>服务器收到确认信息后，会立即进入CLOSED状态，撤销TCB结束连接。</li>
-</ol>
-<hr>
-<h1 id="通俗一点"><a href="#通俗一点" class="headerlink" title="通俗一点"></a>通俗一点</h1><p>&emsp;&emsp;举个例子：</p>
-<ul>
-<li>甲方：你好，我是甲方，你能听到吗？</li>
-<li>乙方：你好，我能听到，我是乙方，你能听到吗？&lt;甲方收到，甲方建立连接&gt;</li>
-<li>甲方：我能听到。&lt;乙方收到，乙方建立连接&gt;</li>
-<li></li>
-<li>连接建立，开始扯皮。</li>
-<li>甲方乙方：。。。（扯皮中）。</li>
-<li></li>
-<li>甲方：我说完了，就这样吧。</li>
-<li>乙方：你说完了好的，我最后在说一下。</li>
-<li>乙方：。。。乙方批斗需求中。</li>
-<li>乙方：我也说完了，挂了吧。</li>
-<li>甲方：好的，挂了。&lt;乙方收到，乙方挂掉了&gt;</li>
-<li></li>
-<li>甲方：{等了一个来回的时间了，他应该收到了}。&lt;甲方挂掉了&gt;</li>
-</ul>
-<hr>
-<h1 id="一点问题"><a href="#一点问题" class="headerlink" title="一点问题"></a>一点问题</h1><h2 id="为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）"><a href="#为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）" class="headerlink" title="为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）"></a>为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）</h2><p>&emsp;&emsp;防止因网络抖动各种原因造成的连接请求，突然又传送到了服务端，从而产生错误。<br>&emsp;&emsp;采用两次握手的情况下，假设第一次的连接请求在网络中阻塞了，服务端没有收到客户端的请求报文就不会处理，客户端一直收不到确认就会认为服务器没有收到，则会重新发送这条请求，此后客户端和服务端完成握手，建立连接。<br>&emsp;&emsp;这时，在网络中阻塞的第一次的请求突然到达服务器就会出现问题。</p>
-<blockquote>
-<p>如果建立连接后传输完成数据且关闭连接了，就会产生重新建立连接的问题，而采用3次握手，即使服务端收到了出错的连接请求而发送了确认信息，但是客户端没有需要传输的数据，不会进行第三次握手操作，就不会产生问题。<br>如果传输数据过程中收到了错误的连接请求，即使进行确认，也不会第三次进行握手。（这里待议）</p>
-</blockquote>
-<h2 id="服务端易受到SYN攻击？"><a href="#服务端易受到SYN攻击？" class="headerlink" title="服务端易受到SYN攻击？"></a>服务端易受到SYN攻击？</h2><p>&emsp;&emsp;服务端的资源是在第二次进行握手的时候分配的，而客户端的资源是在进行第三次握手的时候分配的。所以服务器容易收到SYN洪泛攻击，就是在短时间内伪造大量不存在的ip，不断的向服务器发送SYN包，服务端则回复并等待确认包，但是源地址是虚构的，所有不会收到确认包，服务端将不断重发进行重试知道超时，这些伪造的SYN包将占用大量且长时间的占用未连接队列，导致正常请求将被丢弃，引起网络瘫痪。<br>&emsp;&emsp;可以通过降低主机的等待时间释放未连接占用，或者短时间收到某ip的重复SYN报文将丢弃后续请求。</p>
-<h2 id="为什么客户端最后还要等待2MSL？"><a href="#为什么客户端最后还要等待2MSL？" class="headerlink" title="为什么客户端最后还要等待2MSL？"></a>为什么客户端最后还要等待2MSL？</h2><p>&emsp;&emsp;保证客户端的最后一个ACK报文能够到达服务器，在服务端，没有接受到客户端的ACK就会认为服务器没有收到自己发送的FIN请求，这时就会重发FIN请求。对于客户端而言，收到FIN请求后，发送ACK确认信息，假设服务端没有收到ACK信息，就会重新发送FIN请求，客户端就会重新收到FIN请求，没有收到重新发送的FIN请求，就认为没有问题就可以断开连接了。</p>
-<h2 id="如果已经建立了连接，但是客户端突然出现故障了怎么办？"><a href="#如果已经建立了连接，但是客户端突然出现故障了怎么办？" class="headerlink" title="如果已经建立了连接，但是客户端突然出现故障了怎么办？"></a>如果已经建立了连接，但是客户端突然出现故障了怎么办？</h2><p>&emsp;&emsp;TCP设置有一个保活器，服务器每一次收到数据就会重新复位这个计时器，若计时器走完，没有收到客户端的数据，服务器就会发送探测报文，75秒一个探测报文，连续10个探测报文没有收到恢复，就认为客户端故障，断开连接。</p>
-<h2 id="为什么是四次挥手而不是三次或者五次呢？"><a href="#为什么是四次挥手而不是三次或者五次呢？" class="headerlink" title="为什么是四次挥手而不是三次或者五次呢？"></a>为什么是四次挥手而不是三次或者五次呢？</h2><p>&emsp;&emsp;第二次挥手和第三次挥手都是服务端向客户端发送报文，第二次挥手是服务端收到了客户端的断开请求，通知客户端收到了，此时客户端没有数据向服务端发送了，但不代表服务端也没有数据向客户端发送，因为服务端要把剩余还没有发送的报文发送完毕再断开连接；第三次挥手是服务端数据全部发送完毕，向客户端发送断开请求报文（FIN=1）。<br>&emsp;&emsp;如果将这两次合二为一，就会出现服务端收到请求后立即确认并且断开连接，会造成服务端发送到客户端的数据不完整。五次则没有必要。</p>
-<h2 id="问什么连接是三次断开是四次呢？"><a href="#问什么连接是三次断开是四次呢？" class="headerlink" title="问什么连接是三次断开是四次呢？"></a>问什么连接是三次断开是四次呢？</h2><p>&emsp;&emsp;断开是四次的原因和上面的问题的解答是一样的。<br>&emsp;&emsp;对于建立连接，3次其实是建立可靠连接的最小次数。可参考第一道问题。<br>&emsp;&emsp;因为当服务端收到客户端的SYN连接请求报文后，可以直接发送SYN+ACK报文。其中ACK报文是用来应答的，SYN报文是用来同步的。但是关闭连接时，当Server端收到FIN报文时，很可能并不会立即关闭连接，所以只能先回复一个ACK报文，告诉客户端，”你发的FIN报文我收到了”。只有等到我服务端所有的报文都发送完了，我才能发送FIN报文，因此不能一起发送。故需要四步握手。<br>&emsp;&emsp;四次挥手相比于三次握手，将服务端返回给客户端的ACK+SYN报文，拆成了2次发送。</p>
-]]></content>
-      <categories>
-        <category>网络</category>
-        <category>TCP</category>
-      </categories>
-      <tags>
-        <tag>网络</tag>
-        <tag>TCP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>TCP与UDP</title>
-    <url>/hexoblog/2021/05/07/md/internet/TCP%E4%B8%8EUDP/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;TCP是传输控制协议，UDP是用户数据报协议，均处在传输层。  </p>
-<span id="more"></span>
-
-<hr>
-<h1 id="TCP-amp-UDP"><a href="#TCP-amp-UDP" class="headerlink" title="TCP&amp;UDP"></a>TCP&amp;UDP</h1><h2 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h2><p>&emsp;&emsp;TCP的目的是提供可靠的数据传输，并在相互进行通信的设备或服务之间保持一个虚拟连接。<br>&emsp;&emsp;TCP在数据包接收无序、丢失或在交付期间被破坏时，负责数据恢复。它通过为其发送的每个数据包提供一个序号来完成此恢复。<br>&emsp;&emsp;为确保正确地接收数据，TCP要求在目标计算机成功收到数据时发回一个确认（即 ACK）。如果在某个时限内未收到相应的 ACK，将重新传送数据包。如果网络拥塞，这种重新传送将导致发送的数据包重复。但是，接收计算机可使用数据包的序号来确定它是否为重复数据包，并在必要时丢弃它。</p>
-<h2 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h2><p>&emsp;&emsp;UDP 与 TCP 的主要区别在于 UDP 不一定提供可靠的数据传输。<br>&emsp;&emsp;该协议不能保证数据准确无误地到达目的地。<br>&emsp;&emsp;许多程序将使用单独的TCP连接和单独的UDP连接。重要的状态信息随可靠的TCP连接发送，而主数据流通过UDP发送。</p>
-<h2 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h2><p><a href="https://blog.csdn.net/qq_19525389/article/details/81502805">TCP和UDP、流量控制和拥塞控制</a><br><a href="https://blog.csdn.net/HuoqilinHeiqiji/article/details/89711111?spm=1001.2014.3001.5501">TCP、UDP区别和联系</a><br><a href="https://blog.csdn.net/jackson0714/article/details/110532400">怎么用 UDP 实现 TCP？</a></p>
-<ol>
-<li><strong>TCP面向连接，UDP无连接</strong>。建立TCP连接需要经过3次握手，释放TCP连接需要经过4次挥手。UDP是无连接的，即发送数据前不需要建立连接。</li>
-<li><strong>TCP提供可靠的服务，UDP尽最大努力交付，不提供可靠的服务</strong>。TCP提供可靠的服务，通过TCP连接传输的数据，无差错，不重复，不丢失，且按顺序到达。UDP尽最大努力交付，不保证可靠交付。Tcp通过校验和重传控制，序号标识，滑动窗口、确认应答实现可靠传输。如丢包时的重发控制，还可以对次序乱掉的分包进行顺序控制。</li>
-<li>UDP具有较好的实时性，工作效率比TCP高，适用于对高速传输和实时性有较高的通信或广播通信。</li>
-<li><strong>每一条TCP连接只能是点对点的，UDP可以是一对一，一对多，多对多的交互通信</strong>。</li>
-<li><strong>TCP对系统资源要求比较多，UDP对系统资源要求比较少</strong>（这里主要是首部开销）。</li>
-<li><strong>TCP面向字节流，UDP面向报文</strong>。</li>
-<li>TCP提供全双工通信。</li>
-<li>UDP没有拥塞机制，即网络拥塞不会使源主机的发送效率降低。</li>
-</ol>
-<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><p>&emsp;&emsp;对实时性要求比较高，网络质量要求不高，或者多点通信的时候就需要使用UDP。<br>&emsp;&emsp;当对网络通信质量要求比较高的时候就需要用TCP。</p>
-<table>
-<thead>
-<tr>
-<th>应用</th>
-<th>应用层协议</th>
-<th>传输层协议</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>名字转换</td>
-<td>DNS域名系统</td>
-<td>UDP</td>
-</tr>
-<tr>
-<td>文件传送</td>
-<td>TFTP简单文件传送协议</td>
-<td>UDP</td>
-</tr>
-<tr>
-<td>路由选择协议</td>
-<td>RIP路由信息协议</td>
-<td>UDP</td>
-</tr>
-<tr>
-<td>IP地址管理</td>
-<td>DHCP动态主机配置协议</td>
-<td>UDP</td>
-</tr>
-<tr>
-<td>网络管理</td>
-<td>SNMP简单网络管理协议</td>
-<td>UDP</td>
-</tr>
-<tr>
-<td>远程文件服务器</td>
-<td>NFS网络文件系统</td>
-<td>UDP</td>
-</tr>
-<tr>
-<td>多播</td>
-<td>IGMP网际组管理协议</td>
-<td>UDP</td>
-</tr>
-<tr>
-<td>电子邮件</td>
-<td>SMTP简单邮件传送协议</td>
-<td>TCP</td>
-</tr>
-<tr>
-<td>远程终端接入</td>
-<td>TELNET远程终端协议</td>
-<td>TCP</td>
-</tr>
-<tr>
-<td>万维网</td>
-<td>HTTP超文本传送协议</td>
-<td>TCP</td>
-</tr>
-<tr>
-<td>文件传送</td>
-<td>FTP文件传送协议</td>
-<td>TCP</td>
-</tr>
-</tbody></table>
-<hr>
-<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><h2 id="如何用UDP实现TCP"><a href="#如何用UDP实现TCP" class="headerlink" title="如何用UDP实现TCP?"></a>如何用UDP实现TCP?</h2><p>&emsp;&emsp;根据TCP于UDP的区别进行补全即可。<br>&emsp;&emsp;采用三次或者四次UDP数据模拟三次握手和四次挥手，然后补全其他的确认机制等。<br>&emsp;&emsp;实现方式：</p>
-<ol>
-<li>将实现放到应用层，然后类似TCP，实现确认机制，重传机制，和窗口确认机制，即在应用层实现确认重传这些。</li>
-<li>给数据包进行编号，按顺序接收并存储，接收端收到数据包后发送确认信息给发送端，发送端接收到确认信息后继续发送，若接收端接收的数据不是期望的顺序编号，则要求重发；（主要解决丢包和包无序的问题）。</li>
-</ol>
-<h2 id="TCP如何保证可靠传输？"><a href="#TCP如何保证可靠传输？" class="headerlink" title="TCP如何保证可靠传输？"></a>TCP如何保证可靠传输？</h2><p>&emsp;&emsp;TCP通过序列号、检验和、确认应答信号、重发控制、连接管理、窗口控制、流量控制、拥塞控制实现可靠性。</p>
-<ol>
-<li>应用数据被分割成TCP认为最适合发送的数据块。</li>
-<li>TCP给发送的每一个包进行编号，接收方对数据包进行排序，把有序数据传送给应用层。用于进行<strong>顺序控制</strong>。</li>
-<li><strong>检验和</strong>：TCP包首部和数据计算得到的检验和，接收方会对这个检验和进行验证，如果有差错，TCP将丢弃这个报文段，并且不对这个报文段进行确认。</li>
-<li>TCP的接收端会丢弃重复接收的数据。但是会<strong>发送确认</strong>，属于停止等待协议。</li>
-<li><strong>流量控制</strong>：针对高效传输，TCP连接的每一方都有固定大小的缓冲空间，TCP的接收端只允许发送端发送接收端缓冲区能接纳的数据。当接收方来不及处理发送方的数据，能提示发送方降低发送的速率，防止包丢失。TCP使用的流量控制协议是可变大小的滑动窗口协议。（TCP利用<strong>滑动窗口</strong>实现流量控制）</li>
-<li><strong>拥塞控制</strong>：当网络拥塞时，减少数据的发送。开始启动时，有慢启动算法，防止启动时发送大量数据造成网络拥塞。</li>
-<li><strong>停止等待协议</strong>：它的基本原理就是每发完一个分组就- 停止发送，等待对方确认。在收到确认后再发下一个分组。</li>
-<li><strong>超时重传</strong>：针对数据包丢失或者定时器超时。当TCP发出一个段后，它启动一个定时器，等待目的端确认收到这个报文段。如果不能及时收到一个确认，将重发这个报文段。</li>
-</ol>
-<h2 id="URL访问网站时全过程？"><a href="#URL访问网站时全过程？" class="headerlink" title="URL访问网站时全过程？"></a>URL访问网站时全过程？</h2><p><a href="https://blog.csdn.net/accepted_accepted/article/details/107997540">浏览器输入URL到响应页面的全过程</a></p>
-<p>&emsp;&emsp;这个过程基本分为：</p>
-<ol>
-<li>输入URL域名[<a href="http://www.baidu.com]">www.baidu.com]</a></li>
-<li>域名解析成IP地址<ol>
-<li>查找浏览器缓存，返回IP地址</li>
-<li>查找系统缓存，返回IP地址（hosts文件）</li>
-<li>路由器查找路由器缓存，返回IP地址</li>
-<li>递归查询，本地域名服务器查询缓存，返回IP</li>
-<li>迭代查询，本地域名服务器向跟域名查询</li>
-<li>根域名服务器不返回直接的IP地址，根域名服务器告诉本地域名服务器，下一次应查询的顶级域名服务器dns.com的IP地址。</li>
-<li>本地域名服务器向顶级域名服务器dns.com进行查询。</li>
-<li>顶级域名服务器dns.com告诉本地域名服务器，下一次应查询的权限域名服务器dns.baidu.com的IP地址。</li>
-<li>本地域名服务器向权限域名服务器dns.baidu.com进行查询。</li>
-<li>权限域名服务器dns.baidu.com告诉本地域名服务器，所查询的主机<a href="http://www.baidu.com的ip地址./">www.baidu.com的IP地址。</a></li>
-<li>本地域名服务器将查询结果返回客户主机，并加入自己的缓存。</li>
-</ol>
-</li>
-<li>与目的主机进行TCP连接（三次握手建立连接）<ol>
-<li>客户主机发出建立连接的请求</li>
-<li>目的主机发出确认及建立连接的信息</li>
-<li>客户主机发出确认信息</li>
-</ol>
-</li>
-<li>发送与收取数据<ol>
-<li>发送Http Request请求</li>
-<li>应用服务器响应处理请求返回页面数据</li>
-</ol>
-</li>
-<li>断开TCP连接（四次挥手释放连接）<ol>
-<li>客户主机发送释放连接的请求</li>
-<li>目的主机发出确认信息</li>
-<li>目的主机发出释放连接的请求</li>
-<li>客户主机发出确认信息，等待一段时间后释放链家</li>
-</ol>
-</li>
-<li>客户端显示解析渲染</li>
-</ol>
-]]></content>
-      <categories>
-        <category>网络</category>
-        <category>TCP</category>
-        <category>UDP</category>
-      </categories>
-      <tags>
-        <tag>网络</tag>
-        <tag>TCP</tag>
-        <tag>UDP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>异常的三次握手四次挥手</title>
-    <url>/hexoblog/2021/05/21/md/internet/%E5%BC%82%E5%B8%B8%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;TCP作为一个靠谱的协议，在传输数据的前后，需要在双端之间建立连接，并在双端各自维护连接的状态。<br>&emsp;&emsp;建立连接前，TCP会通过三次握手来保证双端状态正确，然后就可以正常传输数据了。当数据传输完成，需要断开连接的时候，TCP会通过四次握手来完成双端的断连，并回收各自的资源。<br>&emsp;&emsp;这个过程中也会产生各种问题，有因网络原因造成的也有其他原因造成的。一般来说主要就是丢包的问题，基本就是超时重传等来保证TCP的可靠性。</p>
-<span id="more"></span>
-
-<p><a href="https://network.51cto.com/art/202002/610542.htm">TCP异常</a></p>
-<hr>
-<h1 id="三次握手中的问题"><a href="#三次握手中的问题" class="headerlink" title="三次握手中的问题"></a>三次握手中的问题</h1><h2 id="客户端第一个SYN包丢失"><a href="#客户端第一个SYN包丢失" class="headerlink" title="客户端第一个SYN包丢失"></a>客户端第一个SYN包丢失</h2><p>&emsp;&emsp;如果客户端的第一个ACK包丢失，服务器无法收到这个包，不会做任何事情。<br>&emsp;&emsp;而在TCP协议中，某端的一组「请求-应答」中，在一定时间范围内，只要没有收到应答的「ACK」包，无论是请求包对方没有收到，还是对方的应答包自己没有收到，均认为是丢包了，都会触发超时重传机制。<br>&emsp;&emsp;此时客户端会重传丢失的SYN包。</p>
-<h2 id="服务端收到SYNd返回的SYN-ACK包丢失"><a href="#服务端收到SYNd返回的SYN-ACK包丢失" class="headerlink" title="服务端收到SYNd返回的SYN+ACK包丢失"></a>服务端收到SYNd返回的SYN+ACK包丢失</h2><p>&emsp;&emsp;此时服务端已经收到客户端的数据，并且发出了对于改信息的回复。<br>&emsp;&emsp;这个问题站在客户端而言，无法区分是服务端没有收到第一次的SYN包，还是自己没有收到回复信息，只能等待一段时间后重新发送SYN包，这和上面的情况就一样了。<br>&emsp;&emsp;对于服务端，发送了SYN+ACK包后，无法等到对方的确认ACK信息，也只能对这个SYN+ACK包进行重传。<br>&emsp;&emsp;由于客户端的重传，服务端会收到这个重传的SYN包，此时会针对这个新的SYN包立即发送SYN+ACK信息。</p>
-<h2 id="客户端收到SYN-ACK返回的ACK包丢失"><a href="#客户端收到SYN-ACK返回的ACK包丢失" class="headerlink" title="客户端收到SYN+ACK返回的ACK包丢失"></a>客户端收到SYN+ACK返回的ACK包丢失</h2><p>&emsp;&emsp;如果最后一个ACK包丢了，服务端因为收不到ACK会走重传机制，而客户端此时进入ESTABLISHED状态。<br>&emsp;&emsp;多数情况下，客户端进入ESTABLISHED状态后，则认为连接已建立，会立即发送数据。但是服务端因为没有收到最后一个ACK包，依然处于SYN-RCVD状态。<br>&emsp;&emsp;所以当服务端处于SYN-RCVD状态下时，接收到客户端真实发送来的数据包时，会认为连接已建立，并进入ESTABLISHED状态。<br>&emsp;&emsp;也有地方认为当服务端处于SYN-RCVD状态下，收到客户端的数据包后，会直接回复RST包响应，表示服务端错误，并进入CLOSE状态。<br>&emsp;&emsp;实际情况下，当客户端在ESTABLISHED状态下，开始发送数据包时，会携带上一个ACK的确认序号，所以哪怕客户端响应的ACK包丢了，服务端在收到这个数据包时，能够通过包内ACK的确认序号，正常进入ESTABLISHED状态。</p>
-<h2 id="客户端故意不发最后一次ACK包"><a href="#客户端故意不发最后一次ACK包" class="headerlink" title="客户端故意不发最后一次ACK包"></a>客户端故意不发最后一次ACK包</h2><p>-0<br>&emsp;&emsp;如果客户端是恶意的，在发送SYN包后，并收到SYN+ACK后就不回复了，那么服务端此时处于一种半连接的状态，虽然服务端会通过tcp_synack_retries配置重试的次数，不会无限等待下去，但是这也是有一个时间周期的。<br>&emsp;&emsp;如果短时间内存在大量的这种恶意连接，对服务端来说压力就会很大，这就是所谓的SYN FLOOD攻击。</p>
-<hr>
-<h1 id="四次挥手中的问题"><a href="#四次挥手中的问题" class="headerlink" title="四次挥手中的问题"></a>四次挥手中的问题</h1><h2 id="客户端断开连接的FIN包丢失"><a href="#客户端断开连接的FIN包丢失" class="headerlink" title="客户端断开连接的FIN包丢失"></a>客户端断开连接的FIN包丢失</h2><p>&emsp;&emsp;这种情况下，会触发超时重传机制，不会去考虑是自己发出的包丢失，还是无法收到对方发来的恢复，直到关闭连接。</p>
-<h2 id="服务端第一次返回的ACK包丢失"><a href="#服务端第一次返回的ACK包丢失" class="headerlink" title="服务端第一次返回的ACK包丢失"></a>服务端第一次返回的ACK包丢失</h2><p>&emsp;&emsp;这种情况下，客户端无法收到服务端返回的ACK包，会触发重传机制，重传FIN包。<br>&emsp;&emsp;而服务器收到重传的FIN包后，会立即在重传对FIN包的ACK包。<br>&emsp;&emsp;而此时服务器已经进入CLOSED-WAIT状态，开始做断开连接前的准备工作。当准备好之后，会回复FIN+ACK，这个消息是携带了之前ACK的响应序号的，这就是第三次挥手的包。</p>
-<h2 id="服务器发送的FIN-ACK包丢失"><a href="#服务器发送的FIN-ACK包丢失" class="headerlink" title="服务器发送的FIN+ACK包丢失"></a>服务器发送的FIN+ACK包丢失</h2><p>&emsp;&emsp;这是第三次挥手的包丢失了，此时客户端有两种情况，要么处于FIN-WAIT-2状态(之前的 ACK 也丢了)，会一直等待；要么处于TIME-WAIT状态，会等待 2MSL 时间。<br>&emsp;&emsp;而服务端则收不到对应的ACK确认包，则会进行超时重传。</p>
-<h2 id="客户端最后返回的ACK包丢失"><a href="#客户端最后返回的ACK包丢失" class="headerlink" title="客户端最后返回的ACK包丢失"></a>客户端最后返回的ACK包丢失</h2><p>&emsp;&emsp;客户端在回复ACK后，会进入TIME-WAIT状态，开始长达2MSL的等待，服务端因为没有收到ACK的回复，会重试一段时间，直到服务端重试超时后主动断开。<br>&emsp;&emsp;或者等待新的客户端接入后，收到服务端重试的FIN消息后，回复RST消息，在收到RST消息后，复位服务端的状态。</p>
-<h2 id="客户端收到ACK后服务端跑路"><a href="#客户端收到ACK后服务端跑路" class="headerlink" title="客户端收到ACK后服务端跑路"></a>客户端收到ACK后服务端跑路</h2><p>&emsp;&emsp;客户端在收到ACK后，进入了FIN-WAIT-2状态，等待服务端发来的FIN包，而如果服务端跑路了，这个包永远都等不到。<br>&emsp;&emsp;在TCP协议中，是没有对这个状态的处理机制的。但是协议不管，系统来凑，操作系统会接管这个状态，在一段时间后，直接进行客户端关闭，这中间会用心跳等进行检测。</p>
-<h2 id="客户端收到ACK后客户端跑路"><a href="#客户端收到ACK后客户端跑路" class="headerlink" title="客户端收到ACK后客户端跑路"></a>客户端收到ACK后客户端跑路</h2><p>&emsp;&emsp;客户端收到ACK后直接跑路，服务端后续在发送的FIN+ACK就没有接收端，也就不会得到回复，会不断的走TCP的超时重试的机制，此时服务端处于LAST-ACK状态。<br>&emsp;&emsp;这种情况下，有两种情况：在超过一定时间后，服务器直接进行关闭，这种类似于客户端的关闭；另一种情况则是收到客户端的RST消息，关闭连接。<br>&emsp;&emsp;RST消息是一种重置消息，表示当前错误了，应该回到初始的状态。如果客户端跑路后有新的客户端接入，会在此发送SYN以期望建立连接，此时这个SYN将被忽略，并直接回复FIN+ACK消息，新客户端在收到FIN消息后是不会认的，并且会回复一个RST消息。</p>
-]]></content>
-      <categories>
-        <category>网络</category>
-        <category>TCP</category>
-      </categories>
-      <tags>
-        <tag>网络</tag>
-        <tag>TCP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>网络ISO模型</title>
-    <url>/hexoblog/2021/05/06/md/internet/%E7%BD%91%E7%BB%9CISO%E6%A8%A1%E5%9E%8B/</url>
-    <content><![CDATA[<h1 id="网络模型"><a href="#网络模型" class="headerlink" title="网络模型"></a>网络模型</h1><p>&emsp;&emsp;在计算机网络中有著名的OSI七层协议体系结构，概念清楚，理论完整，但是它既复杂又不实用。TCP/IP体系结构则不同，得到的广泛的应用。最终结合OSI和TCP/IP的优点，采用了一种只有五层协议的体系结构。</p>
-<span id="more"></span>
-
-<p><a href="https://blog.csdn.net/HuoqilinHeiqiji/article/details/89703358">五层结构</a><br><a href="https://www.jianshu.com/p/bb363a41afcf">网络结构</a></p>
-<table border="1">
-    <tr>
-        <th>OSI体系结构</th>
-        <th>TCP/IP体系结构</th>
-        <th>五层体系结构</th>
-    </tr>
-    <tr>
-        <td>应用层</td>
-        <td rowspan="3">应用层</td>
-        <td rowspan="3">应用层</td>
-    </tr>
-    <tr>
-        <td>表示层</td>
-    </tr>
-    <tr>
-        <td>会话层</td>
-    </tr>
-    <tr>
-        <td>传输层</td>
-        <td>传输层</td>
-        <td>传输层</td>
-     </tr>
-     <tr>
-        <td>网络层</td>
-        <td>网络层</td>
-        <td>网络层</td>
-     </tr>
-     <tr>
-        <td>数据链路层</td>
-        <td rowspan="2">数据链路层</td>
-        <td>数据链路层</td>
-     </tr>
-     <tr>
-        <td>物理层</td>
-        <td>物理层</td>
-     </tr>
-</table>
-
-<h2 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h2><p>&emsp;&emsp;有两张图瞅一眼：<br><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84%E4%B8%8E%E4%BD%9C%E7%94%A8.jpg" alt="各层及其作用"></p>
-<h3 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h3><p>&emsp;&emsp;应用层的任务是通过应用进程间的交互来完成特定的网络应用。<br>&emsp;&emsp;应用层协议定义的是应用进程间通信和交互的规则。<br>&emsp;&emsp;应用层是app访问网络、向用户显示接收到的信息的窗口。</p>
-<h3 id="表示层"><a href="#表示层" class="headerlink" title="表示层"></a>表示层</h3><p>&emsp;&emsp;表示层也称为转换层，在表示层提取应用层的数据，并根据需要转换格式，以便通过网络传输。<br>&emsp;&emsp;这一层可以做一些数据格式转换，加密解密，压缩等操作。</p>
-<h3 id="会话层"><a href="#会话层" class="headerlink" title="会话层"></a>会话层</h3><p>&emsp;&emsp;会话层负责建立连接，维护会话、认证，并确保安全。</p>
-<h3 id="传输层"><a href="#传输层" class="headerlink" title="传输层"></a>传输层</h3><p>&emsp;&emsp;为两个主机进程间的通信提供通用的数据传输服务。<br>&emsp;&emsp;传输层从网络层获取服务，向应用层提供服务。<br>&emsp;&emsp;只有主机的协议栈才有传输层，网络传输中的一些设备没有传输层，比如路由器。<br>&emsp;&emsp;传输层提供应用进程间的逻辑通信，通信的真正端点是应用进程。<br>&emsp;&emsp;传输层会将源端口号和目的端口号写入header中。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E4%BC%A0%E8%BE%93%E5%B1%82%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93.jpg" alt="数据传输"></p>
-<p>&emsp;&emsp;上面客户端与服务端之间的每一次的数据传输（这里指信息传递，包括三次握手与四次挥手）都要完整的走一遍下面的流程。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E5%AE%9E%E9%99%85%E4%BC%A0%E8%BE%93%E8%BF%87%E7%A8%8B.png" alt="数据传输"></p>
-<p>&emsp;&emsp;传输层主要使用两种协议：</p>
-<ol>
-<li>TCP：传输控制协议，提供面向连接的，可靠的数据传输服务。</li>
-<li>UDP：用户数据报协议，提供面向无连接的，尽最大努力交付。</li>
-</ol>
-<h3 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a>网络层</h3><p>&emsp;&emsp;网络层为分组交换网上不同主机提供通信服务，网络层将传输层的报文封装成包和分组发送。<br>&emsp;&emsp;将数据从一台主机传输到位于不同网络中的另一台主机。还负责分组路由，即从多条路线中选取路径最短的。<br>&emsp;&emsp;网络层会将发送者，接收者的ip地址放入header中。  </p>
-<h4 id="基本功能"><a href="#基本功能" class="headerlink" title="基本功能"></a>基本功能</h4><ol>
-<li>路由</li>
-<li>逻辑寻址</li>
-</ol>
-<h3 id="数据链路层"><a href="#数据链路层" class="headerlink" title="数据链路层"></a>数据链路层</h3><p>&emsp;&emsp;两台主机间的数据传输，总是一段一段在数据链路上传送的，这就需要使用专门的链路层协议。在两个相邻节点间的链路上传送帧，每一帧包括数据和必要的控制信息（如同步信息，地址信息，差错控制等）。<br>&emsp;&emsp;数据链路层负责的是节点到节点的数据传输，负责确保在物理层上从一个节点到一个节点正确的传输数据。  </p>
-<h4 id="基本功能："><a href="#基本功能：" class="headerlink" title="基本功能："></a>基本功能：</h4><ol>
-<li><p>封装成帧</p>
-</li>
-<li><p>物理寻址</p>
-</li>
-<li><p>错误控制</p>
-</li>
-<li><p>流控制</p>
-</li>
-<li><p>访问控制</p>
-<p>&emsp;&emsp;三个基本问题：封装成帧，透明传输，差错控制。<br>&emsp;&emsp;通过ARP协议，可以获取拥有指定ip地址目标主机的mac地址。</p>
-</li>
-</ol>
-<h3 id="物理层"><a href="#物理层" class="headerlink" title="物理层"></a>物理层</h3><p>&emsp;&emsp;在物理层以比特流传输数据，其实就是二进制流，物理实现可能不同。<br>&emsp;&emsp;OSI 参考模型最底层是物理层，物理层负责在设备和物理传输介质之间传输、接收非结构化数据。  </p>
-<h4 id="基本功能：-1"><a href="#基本功能：-1" class="headerlink" title="基本功能："></a>基本功能：</h4><ol>
-<li>比特同步</li>
-<li>比特率控制</li>
-<li>物理拓补</li>
-<li>传输模式<ol>
-<li>单工</li>
-<li>半双工</li>
-<li>全双工</li>
-</ol>
-</li>
-</ol>
-<hr>
-<h1 id="数据流转"><a href="#数据流转" class="headerlink" title="数据流转"></a>数据流转</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93.jpg" alt="数据流转"></p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E7%BD%91%E8%B7%AF%E5%B1%82%E5%AF%B9%E5%BA%94%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.jpg" alt="各层及其数据结构"></p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%9C%A8%E7%BD%91%E7%BB%9C%E5%B1%82.jpg" alt="数据结构"></p>
-<p>&emsp;&emsp;我们在网络中发送传输数据的时候，数据总是从一台主机的应用层传输到了，另一条台主机的应用层，这其中会包含有很多过程。<br>&emsp;&emsp;再分层结构中，数据总是在应用层产生（也有可能其他地方），在物理介质上传输。<br>&emsp;&emsp;数据在层与层之间传递的时候总是会添加上特有的首部，比如传输层会将端口号写入TCP首部，网络层会将IP地址写入IP首部。</p>
-]]></content>
-      <categories>
-        <category>网络</category>
-        <category>ISO</category>
-      </categories>
-      <tags>
-        <tag>网络</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>filter_interceptor</title>
     <url>/hexoblog/2021/03/01/md/java/filter-interceptor/</url>
     <content><![CDATA[<h2 id="过滤器"><a href="#过滤器" class="headerlink" title="过滤器"></a>过滤器</h2><p>&emsp;&emsp;过滤器是用来过滤的，java的过滤器能够为我们提供系统级别的过滤，也就是说能够过滤所有的web请求，这一点是拦截器做不到的。<br>&emsp;&emsp;在java web中，你传入的request，response提前过滤掉一些信息，或者提前设置一些参数，然后在传入Servlet进行业务逻辑，比如过滤掉非法url和非法字符串。<br>&emsp;&emsp;filter流程是线性的，url传来之后，检查之后，可保持原来的流程继续向下执行，被下一个filter，servlet接收。</p>
@@ -1249,8 +989,8 @@ com.lin.javaspi.service.impl.HelloServiceImpl2<span aria-hidden="true" class="li
         <category>java</category>
       </categories>
       <tags>
-        <tag>SPI</tag>
         <tag>java</tag>
+        <tag>SPI</tag>
       </tags>
   </entry>
   <entry>
@@ -1701,6 +1441,558 @@ SELECT ... FOR UPDATE<span aria-hidden="true" class="line-numbers-rows"><span></
       </tags>
   </entry>
   <entry>
+    <title>HTTP HTTPS HTTP2</title>
+    <url>/hexoblog/2021/05/08/md/internet/HTTP-HTTPS-HTTP2/</url>
+    <content><![CDATA[<h1 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h1><p>&emsp;&emsp;超文本传输协议，是从web服务器传输超文本标记语言到本地浏览器的传送协议，默认工作在80端口。</p>
+<span id="more"></span>
+
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>&emsp;&emsp;HTTP是一个基于TCP/IP协议来传输数据的应用层协议，传输的数据类型可以为，html文件、图片文件、查询结果等。<br>&emsp;&emsp;HTTP一般用于B/S架构（浏览器、服务器），浏览器作为HTTP客户端通过URL向HTTP服务端即WEB服务器发送所有请求。</p>
+<h2 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h2><ol>
+<li>建立TCP/IP连接，客户端与服务器通过Socket三次握手进行连接。</li>
+<li>客户端向服务端发起HTTP请求。</li>
+<li>客户端发送请求头信息，请求内容，最后会发送一空白行，标示客户端请求完毕。</li>
+<li>服务器做出应答，表示对于客户端请求的应答。</li>
+<li>服务器向客户端发送应答头信息。</li>
+<li>服务器向客户端发送请求头信息后，也会发送一空白行，标示应答头信息发送完毕，接着就以Content-type要求的数据格式发送数据给客户端。</li>
+<li>服务端关闭TCP连接，如果服务器或者客户端增Connection:keep-alive就表示客户端与服务器端继续保存连接，在下次请求时可以继续使用这次的连接。</li>
+</ol>
+<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><ol>
+<li>HTTP协议支持客户端/服务端模式，也是一种请求/响应模式的协议。</li>
+<li>简单快速，客户向服务器请求服务时，只需传送请求方法和路径。请求方法常用的有GET、HEAD、POST。</li>
+<li>灵活：HTTP允许传输任意类型的数据对象。传输的类型由Content-Type加以标记。</li>
+<li>无连接：限制每次连接只处理一个请求。服务器处理完请求，并收到客户的应答后，即断开连接，但是却不利于客户端与服务器保持会话连接，为了弥补这种不足，产生了两项记录http状态的技术，一个叫做Cookie,一个叫做Session。</li>
+<li>无状态：无状态是指协议对于事务处理没有记忆，后续处理需要前面的信息，则必须重传。</li>
+</ol>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><ol>
+<li>数据明文传输，容易被窃听截取</li>
+<li>数据的完整性未校验，容易被篡改</li>
+<li>双方没有验证身份，有冒充对方的风险</li>
+</ol>
+<h2 id="URL与URI"><a href="#URL与URI" class="headerlink" title="URL与URI"></a>URL与URI</h2><ul>
+<li>URL：统一资源定位符。</li>
+<li>URI：统一资源标识符。</li>
+</ul>
+<p>&emsp;&emsp;URL是用来定位具体的资源的，标示了一个具体的资源位置。互联网上的每个文件都有一个唯一的URL。<br>&emsp;&emsp;URI是用来标示 一个具体的资源的，我们可以通过URI知道一个资源是什么。<br>&emsp;&emsp;HTTP使用统一资源标识符（Uniform Resource Identifiers, URI）来传输数据和建立连接。</p>
+<h2 id="GET与POST的区别"><a href="#GET与POST的区别" class="headerlink" title="GET与POST的区别"></a>GET与POST的区别</h2><ol>
+<li>都包含请求头请求行，post多了请求body。</li>
+<li>get多用来查询，请求参数放在url中，不会对服务器上的内容产生作用。post用来提交，如把账号密码放入body中。</li>
+<li>GET是直接添加到URL后面的，直接就可以在URL中看到内容，而POST是放在报文内部的，用户无法直接看到。</li>
+<li>GET提交的数据长度是有限制的，因为URL长度有限制，具体的长度限制视浏览器而定。而POST没有。</li>
+</ol>
+<hr>
+<h1 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h1><p>&emsp;&emsp;HTTPS就是为了解决上面HTTP的问题。默认工作在443端口。<br>&emsp;&emsp;HTTPS协议（HyperText Transfer Protocol over Secure Socket Layer）：一般理解为HTTP+SSL/TLS，通过 SSL证书来验证服务器的身份，并为浏览器和服务器之间的通信进行加密。</p>
+<h2 id="SSL-TLS"><a href="#SSL-TLS" class="headerlink" title="SSL/TLS"></a>SSL/TLS</h2><p>&emsp;&emsp;SSL：安全套接字层，SSL协议位于TCP/IP协议与各种应用层协议之间，为数据通讯提供安全支持。<br>&emsp;&emsp;TLS：传输层安全，其前身是SSL，后来改名，目前使用最广泛的是TLS 1.1、TLS 1.2。</p>
+<h2 id="HTTPS工作流程"><a href="#HTTPS工作流程" class="headerlink" title="HTTPS工作流程"></a>HTTPS工作流程</h2><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/https%E5%AF%86%E9%92%A5%E7%94%9F%E6%88%90.png" alt="密钥生成流程"></p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E6%B5%81%E7%A8%8B.gif" alt="数据传输"></p>
+<ol>
+<li>首先客户端通过URL访问服务器建立SSL连接。</li>
+<li>服务端收到客户端请求后，会将网站支持的证书信息（证书中包含公钥）传送一份给客户端。（这个证书其实就是公钥，只是包含了很多信息）</li>
+<li>客户端的服务器开始协商SSL连接的安全等级，也就是信息加密的等级。</li>
+<li>客户端的浏览器根据双方同意的安全等级，建立会话密钥，然后利用网站的公钥将会话密钥加密，并传送给网站。（会话密钥就是第一张图的随机key）</li>
+<li>服务器利用自己的私钥解密出会话密钥，这里就是连接建立完成。</li>
+<li>服务器利用会话密钥加密与客户端之间的通信。</li>
+</ol>
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><ol>
+<li>HTTPS协议多次握手，导致页面加载时间延长。</li>
+<li>HTTPS连接缓存不如HTTP高效，会增加数据开销和功耗。</li>
+<li>SSL证书需要付费。</li>
+<li>SSL涉及到的安全算法会消耗CPU资源，对服务器资源消耗较大。</li>
+<li>技术难度相比HTTP大。</li>
+<li>SSL证书通常需要绑定IP，不能在同一IP上绑定多个域名，IPv4资源不可能支撑这个消耗。</li>
+<li>HTTPS协议的加密范围也比较有限，在黑客攻击、拒绝服务攻击、服务器劫持等方面几乎起不到什么作用。最关键的，SSL证书的信用链体系并不安全，特别是在某些国家可以控制CA根证书的情况下，中间人攻击一样可行。</li>
+</ol>
+<h2 id="总结HTTPS和HTTP的区别"><a href="#总结HTTPS和HTTP的区别" class="headerlink" title="总结HTTPS和HTTP的区别"></a>总结HTTPS和HTTP的区别</h2><ol>
+<li>HTTP明文传输，数据都是未加密的，安全性较差，HTTPS（SSL+HTTP） 数据传输过程是加密的，安全性较好。</li>
+<li>使用HTTPS协议需要到CA（Certificate Authority，数字证书认证机构） 申请证书，一般免费证书较少，因而需要一定费用。证书颁发机构如：Symantec、Comodo、GoDaddy和GlobalSign等。</li>
+<li>HTTP页面响应速度比HTTPS快，主要是因为HTTP使用TCP三次握手建立连接，客户端和服务器需要交换3个包，而HTTPS除了TCP的三个包，还要加上ssl握手需要的9个包，所以一共是12个包。</li>
+<li>http和https使用的是完全不同的连接方式，用的端口也不一样，前者是80，后者是443。</li>
+<li>HTTPS其实就是建构在SSL/TLS之上的HTTP协议，所以，要比较HTTPS比HTTP要更耗费服务器资源。</li>
+</ol>
+<hr>
+<h1 id="HTTP2"><a href="#HTTP2" class="headerlink" title="HTTP2"></a>HTTP2</h1><p>&emsp;&emsp;HTTP/2.0的目标是改善用户在使用Web时的速度体验。</p>
+<h2 id="新特点"><a href="#新特点" class="headerlink" title="新特点"></a>新特点</h2><p><a href="https://juejin.cn/post/6844903545532071943">HTTP2.0新特性</a><br><a href="https://www.jianshu.com/p/1afebe13c63e">HTTPS和HTTP2.0详解
+</a><br><a href="https://www.jsahz.com/wz/15616.html">HTTP 2.0 详细介绍</a></p>
+<h3 id="二进制分帧"><a href="#二进制分帧" class="headerlink" title="二进制分帧"></a>二进制分帧</h3><p>&emsp;&emsp;相对于HTTP1.0和HTTP1.1，2.0在应用层与传输层中间增加了一个二进制分帧层。<br>&emsp;&emsp;在二进制分帧层上，HTTP2.0会将所有传输信息分割为更小的消息和帧，并对它们采用二进制格式的编码将其封装。其中，HTTP1.X中的首部信息header封装到Headers帧中，而request body将被封装到Data帧中。<br>&emsp;&emsp;HTTP2.0通信都在一个TCP连接上完成，这个连接可以承载任意数量的双向数据流，相应的每个数据流以消息的形式发送。而消息由一或多个帧组成，这些帧可以乱序发送，然后根据每个帧首部的流标识符重新组装。  </p>
+<h3 id="首部压缩"><a href="#首部压缩" class="headerlink" title="首部压缩"></a>首部压缩</h3><p>&emsp;&emsp;HTTP1.x每次通讯（请求或响应）都会携带首部信息用于描述资源属性。而HTTP2.0在客户端和服务端之间使用首部表来跟踪和存储之前发送的键值对。请求与响应首部的定义在HTTP2.0中基本没有变，只是所有首部键必须全部小写，而且要求行要独立为:method:、:scheme:、:host:、:path:这些键值对。<br>&emsp;&emsp;HTTP2.0使用encoder来减少需要传输的header大小，通讯双方各自cache一份header fields（首部表）表，既避免了重复header的传输，又减小了需要传输的大小。</p>
+<h4 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h4><p>&emsp;&emsp;使报头更紧凑，更快速传输，有利于移动网络环境。减少每次通讯的数据量，使网络拥塞状态得以改善。</p>
+<h4 id="工作流程-1"><a href="#工作流程-1" class="headerlink" title="工作流程"></a>工作流程</h4><p>&emsp;&emsp;对于相同的数据，不再重新通过每次请求和响应发送。每个新的首部键值对要么追加到当前表的末尾，要么替换表中之前的值。首部表在HTTP2.0的链接存续期内始终存在，由客户端和服务端共同渐进的更新。</p>
+<h3 id="流量控制"><a href="#流量控制" class="headerlink" title="流量控制"></a>流量控制</h3><p>&emsp;&emsp;HTTP2.0为数据流和连接的流量提供了一个简单的机制：</p>
+<ol>
+<li>流量基于HTTP链接的每一跳进行，而非端到端的控制。</li>
+<li>流量控制基于窗口更新帧进行，即接收方广播自己准备接收某个数据流的多少字节，以及对整个链接要接收多少个字节。</li>
+<li>流量控制有方向性，即接收方可能根据自己的情况为每个流乃至整个链接设置任意窗口大小。</li>
+<li>流量控制可以由接收方禁用，包括针对个别的流和针对整个链接。</li>
+<li>帧的类型决定了流量控制是否适用于帧，目前只有DATA帧服从流量控制，所有其他类型的帧并不会消耗流量控制窗口的空间。这保证了重要的控制帧不会被流量控制阻塞。</li>
+</ol>
+<h3 id="多路复用"><a href="#多路复用" class="headerlink" title="多路复用"></a>多路复用</h3><p>&emsp;&emsp;基于二进制分帧层，HTTP2.0可以在共享TCP链接的基础上同时发送请求和响应。HTTP消息被分解为独立的帧，而不破坏消息本身的语义，交错发出去，在另一端根据流标识符和首部将他们重新组装起来。<br>&emsp;&emsp;即连接共享，即每一个request都是是用作连接共享机制的。一个request对应一个id，这样一个连接上可以有多个request，每个连接的request可以随机的混杂在一起，接收方可以根据request的id将request再归属到各自不同的服务端请求里面。</p>
+<h4 id="优化-1"><a href="#优化-1" class="headerlink" title="优化"></a>优化</h4><ol>
+<li>可以并行交错的发送请求和响应，这些请求和响应之间互不影响。</li>
+<li>只使用一个链接即可并行发送多个请求和响应。</li>
+<li>消除不必要的延迟，从而减少页面加载的时间。</li>
+<li>不必再为绕过HTTP1.x限制而多做很多工作。</li>
+</ol>
+<h3 id="请求优先级"><a href="#请求优先级" class="headerlink" title="请求优先级"></a>请求优先级</h3><p>&emsp;&emsp;HTTP消息分为很多独立帧之后，就可以通过优化这些帧的交错和传输顺序进一步优化性能。</p>
+<h4 id="优化-2"><a href="#优化-2" class="headerlink" title="优化"></a>优化</h4><p>&emsp;&emsp;服务器可以根据流的优先级控制资源分配（CPU、内存、宽带），而在响应数据准备好之后，优先将最高优先级的帧发送给客户端。浏览器可以在发现资源时立即分派请求，指定每个流的优先级，让服务器决定最优的响应次序。这样请求就不用排队了，既节省了时间，又最大限度的利用了每个连接。</p>
+<h3 id="服务端推送"><a href="#服务端推送" class="headerlink" title="服务端推送"></a>服务端推送</h3><p>&emsp;&emsp;服务器可以对一个客户端请求发送多个响应。服务器向客户端推送资源无需客户端明确的请求。<br>&emsp;&emsp;服务端根据客户端的请求，提前返回多个响应，推送额外的资源给客户端。</p>
+<h4 id="优化-3"><a href="#优化-3" class="headerlink" title="优化"></a>优化</h4><ol>
+<li>减轻数据传送的冗余步骤。</li>
+<li>加快页面响应速度。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>网络</category>
+        <category>HTTP</category>
+      </categories>
+      <tags>
+        <tag>网络</tag>
+        <tag>HTTP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>TCP三次握手四次挥手</title>
+    <url>/hexoblog/2021/04/30/md/internet/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;在网络层通过IP协议可以实现两个主机之间的通信，但是无法确定是主机中的那个进程之间进行的通信，而实际及性能通信的则是主机中的进程。  </p>
+<span id="more"></span>
+
+<p>&emsp;&emsp;TCP面向连接的服务，在传送数据之前必须先建立连接，数据传送完成后要释放连接。因此TCP是一种可靠的的运输服务，但是正因为这样，不可避免的增加了许多的开销，比如确认，流量控制等。对应的应用层的协议主要有SMTP,TELNET,HTTP,FTP等。<br>&emsp;&emsp;TCP把连接作为最基本的对象，每一条TCP连接都有两个端点，这种断点我们叫作套接字（socket），它的定义为端口号拼接到IP地址即构成了套接字，例如，若IP地址为127.0.0.1 而端口号为80，那么得到的套接字为127.0.0.1:80。<br>&emsp;&emsp;TCP采用全双工通信，这要求了服务端与客户端必须双方都能进行向对方发送数据，所以建立断开连接必须建立或者断开两次。</p>
+<hr>
+<h1 id="TCP报文"><a href="#TCP报文" class="headerlink" title="TCP报文"></a>TCP报文</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/tcp%E6%8A%A5%E6%96%87%E9%A6%96%E9%83%A8.jpg" alt="TCP报文"></p>
+<ol>
+<li>源端口和目的端口：分别写入源端口和目的接口。</li>
+<li>序号：占4个字节，TCP连接中传送的字节流中的每个字节都按顺序编号。当前为301时，如果传输100个字节后，下一个报文段从401开始。</li>
+<li>确认号：占4个字节，是期望收到对方下一个报文的第一个数据字节的序号。</li>
+<li>数据偏移：占4位（半个字节），它指出TCP报文的数据距离TCP报文段的起始处有多远。</li>
+<li>保留位置：占6位，保留今后使用，但目前应都位0。</li>
+<li>紧急URG：当URG=1，表明紧急指针字段有效。告诉系统此报文段中有紧急数据。</li>
+<li>确认ACK：仅当ACK=1时，确认号字段才有效。TCP规定，在连接建立后所有报文的传输都必须把ACK置1。</li>
+<li>推送PSH：当两个应用进程进行交互式通信时，有时在一端的应用进程希望在键入一个命令后立即就能收到对方的响应，这时候就将PSH=1。</li>
+<li>复位RST：当RST=1，表明TCP连接中出现严重差错，必须释放连接，然后再重新建立连接。</li>
+<li>同步SYN：在连接建立时用来同步序号。当SYN=1，ACK=0，表明是连接请求报文，若同意连接，则响应报文中应该使SYN=1，ACK=1。</li>
+<li>终止FIN：用来释放连接。当FIN=1，表明此报文的发送方的数据已经发送完毕，并且要求释放。</li>
+<li>窗口：占2字节，指的是通知接收方，发送本报文你需要有多大的空间来接受。</li>
+<li>检验和：占2字节，校验首部和数据这两部分。</li>
+<li>紧急指针：占2字节，指出本报文段中的紧急数据的字节数。</li>
+<li>选项：长度可变，定义一些其他的可选的参数。</li>
+</ol>
+<hr>
+<h1 id="TCP连接的建立（三次握手）"><a href="#TCP连接的建立（三次握手）" class="headerlink" title="TCP连接的建立（三次握手）"></a>TCP连接的建立（三次握手）</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/tcp%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B.png" alt="TCP连接建立"></p>
+<ol>
+<li>服务端先创建传输控制块，准备监听客户端进程的连接请求，此时服务器就进入了Listen状态。</li>
+<li>客户端也建立传输控制块，向服务端发送连接请求报文，此时客户端进入SYN-SENT状态（同步已发送）。<blockquote>
+<p>TCP规定，SYN报文段（SYN=1的报文段）<strong>不能携带数据</strong>，但需消耗掉一个序号。<br>此时报文内容SYN=1，seq=x。</p>
+</blockquote>
+</li>
+<li>服务器接收到请求后，如果同意连接，则发出确认报文，此时服务器进入SYN-RCVD状态（同步收到）。<blockquote>
+<p>这个报文同样不能携带数据，需要消耗一个序号。<br>此时报文内容为SYN=1,ACK=1,seq=y,ack=x+1。seq为自己发送的序列号，ack因为上一次的发连接请求报文不带数据，所以确认号直接为x+。</p>
+</blockquote>
+</li>
+<li>客户端进程收到确认后，还要向服务器给出确认。确认后，TCP连接建立，客户端进入ESTABLISHED状态（已建立连接）。<blockquote>
+<p>TCP规定，ACK报文段可以携带数据，但是如果不携带数据则不消耗序号。<br>此时的报文内容为ACK=1,seq=x+1,ack=y+1；这里相对于同步请求是客户端发给服务端的第二个请求，所有seq为x+1。</p>
+</blockquote>
+</li>
+<li>当服务器收到客户端的确认后也进入ESTABLISHED状态，此后双方就可以开始通信了。</li>
+</ol>
+<hr>
+<h1 id="TCP连接的断开（四次回收）"><a href="#TCP连接的断开（四次回收）" class="headerlink" title="TCP连接的断开（四次回收）"></a>TCP连接的断开（四次回收）</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B.png" alt="四次挥手"></p>
+<ol>
+<li>客户端发送连接释放报文，停止发送数据，客户端进入FIN-WAIT-1状态（终止等待1）。<blockquote>
+<p>TCP规定，FIN报文段即使不携带数据，也要消耗一个序号。与SYN报文段相似。<br>此时报文内容为FIN=1,seq=u。这里的序列号跟随前面的数据的序列号，为最后一个字节数据的序列号加一。</p>
+</blockquote>
+</li>
+<li>服务器收到连接释放报文，发送出自己的释放报文，服务端进入CLOSE-WAIT状态（关闭等待）。<blockquote>
+<p>TCP服务器通知高层的应用进程，客户端向服务器的方向就释放了，这时候处于半关闭状态，即客户端已经没有数据要发送了，但是服务器若发送数据，客户端依然要接受。这个过程需要持续一段时间，等待服务器将数据发送完。<br>此时报文内容为ACK=1,seq=v,ack=u+1。</p>
+</blockquote>
+</li>
+<li>客户端收到服务器的释放确认后，进入FIN-WAIT-2状态，等待服务器发送连接释放报文，这个过程中会继续接受服务器发送的数据内容。</li>
+<li>服务器将数据发送完毕后，向客户端发送连接释放报文，服务器进入LAST-ACK状态，等待最后的确认。<blockquote>
+<p>此时报文内容为FIN=1,ACK=1,seq=w,ack=u+1，在上个过程中，客户端不会向服务端发送信息所以ack不变，而服务端会向客户端发送所以seq会变化。</p>
+</blockquote>
+</li>
+<li>客户端收到连接释放后，向服务器发出确认，客户端进入TIME-WAIT状态。<blockquote>
+<p>注意此时TCP连接还没有释放，必须经过2*MSL（最长报文段寿命）的时间后，当客户端撤销相应的TCB后，才进入CLOSED状态。<br>此时报文内容为ACK=1,seq=u+1,ack=w+1。</p>
+</blockquote>
+</li>
+<li>服务器收到确认信息后，会立即进入CLOSED状态，撤销TCB结束连接。</li>
+</ol>
+<hr>
+<h1 id="通俗一点"><a href="#通俗一点" class="headerlink" title="通俗一点"></a>通俗一点</h1><p>&emsp;&emsp;举个例子：</p>
+<ul>
+<li>甲方：你好，我是甲方，你能听到吗？</li>
+<li>乙方：你好，我能听到，我是乙方，你能听到吗？&lt;甲方收到，甲方建立连接&gt;</li>
+<li>甲方：我能听到。&lt;乙方收到，乙方建立连接&gt;</li>
+<li></li>
+<li>连接建立，开始扯皮。</li>
+<li>甲方乙方：。。。（扯皮中）。</li>
+<li></li>
+<li>甲方：我说完了，就这样吧。</li>
+<li>乙方：你说完了好的，我最后在说一下。</li>
+<li>乙方：。。。乙方批斗需求中。</li>
+<li>乙方：我也说完了，挂了吧。</li>
+<li>甲方：好的，挂了。&lt;乙方收到，乙方挂掉了&gt;</li>
+<li></li>
+<li>甲方：{等了一个来回的时间了，他应该收到了}。&lt;甲方挂掉了&gt;</li>
+</ul>
+<hr>
+<h1 id="一点问题"><a href="#一点问题" class="headerlink" title="一点问题"></a>一点问题</h1><h2 id="为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）"><a href="#为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）" class="headerlink" title="为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）"></a>为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）</h2><p>&emsp;&emsp;防止因网络抖动各种原因造成的连接请求，突然又传送到了服务端，从而产生错误。<br>&emsp;&emsp;采用两次握手的情况下，假设第一次的连接请求在网络中阻塞了，服务端没有收到客户端的请求报文就不会处理，客户端一直收不到确认就会认为服务器没有收到，则会重新发送这条请求，此后客户端和服务端完成握手，建立连接。<br>&emsp;&emsp;这时，在网络中阻塞的第一次的请求突然到达服务器就会出现问题。</p>
+<blockquote>
+<p>如果建立连接后传输完成数据且关闭连接了，就会产生重新建立连接的问题，而采用3次握手，即使服务端收到了出错的连接请求而发送了确认信息，但是客户端没有需要传输的数据，不会进行第三次握手操作，就不会产生问题。<br>如果传输数据过程中收到了错误的连接请求，即使进行确认，也不会第三次进行握手。（这里待议）</p>
+</blockquote>
+<h2 id="服务端易受到SYN攻击？"><a href="#服务端易受到SYN攻击？" class="headerlink" title="服务端易受到SYN攻击？"></a>服务端易受到SYN攻击？</h2><p>&emsp;&emsp;服务端的资源是在第二次进行握手的时候分配的，而客户端的资源是在进行第三次握手的时候分配的。所以服务器容易收到SYN洪泛攻击，就是在短时间内伪造大量不存在的ip，不断的向服务器发送SYN包，服务端则回复并等待确认包，但是源地址是虚构的，所有不会收到确认包，服务端将不断重发进行重试知道超时，这些伪造的SYN包将占用大量且长时间的占用未连接队列，导致正常请求将被丢弃，引起网络瘫痪。<br>&emsp;&emsp;可以通过降低主机的等待时间释放未连接占用，或者短时间收到某ip的重复SYN报文将丢弃后续请求。</p>
+<h2 id="为什么客户端最后还要等待2MSL？"><a href="#为什么客户端最后还要等待2MSL？" class="headerlink" title="为什么客户端最后还要等待2MSL？"></a>为什么客户端最后还要等待2MSL？</h2><p>&emsp;&emsp;保证客户端的最后一个ACK报文能够到达服务器，在服务端，没有接受到客户端的ACK就会认为服务器没有收到自己发送的FIN请求，这时就会重发FIN请求。对于客户端而言，收到FIN请求后，发送ACK确认信息，假设服务端没有收到ACK信息，就会重新发送FIN请求，客户端就会重新收到FIN请求，没有收到重新发送的FIN请求，就认为没有问题就可以断开连接了。</p>
+<h2 id="如果已经建立了连接，但是客户端突然出现故障了怎么办？"><a href="#如果已经建立了连接，但是客户端突然出现故障了怎么办？" class="headerlink" title="如果已经建立了连接，但是客户端突然出现故障了怎么办？"></a>如果已经建立了连接，但是客户端突然出现故障了怎么办？</h2><p>&emsp;&emsp;TCP设置有一个保活器，服务器每一次收到数据就会重新复位这个计时器，若计时器走完，没有收到客户端的数据，服务器就会发送探测报文，75秒一个探测报文，连续10个探测报文没有收到恢复，就认为客户端故障，断开连接。</p>
+<h2 id="为什么是四次挥手而不是三次或者五次呢？"><a href="#为什么是四次挥手而不是三次或者五次呢？" class="headerlink" title="为什么是四次挥手而不是三次或者五次呢？"></a>为什么是四次挥手而不是三次或者五次呢？</h2><p>&emsp;&emsp;第二次挥手和第三次挥手都是服务端向客户端发送报文，第二次挥手是服务端收到了客户端的断开请求，通知客户端收到了，此时客户端没有数据向服务端发送了，但不代表服务端也没有数据向客户端发送，因为服务端要把剩余还没有发送的报文发送完毕再断开连接；第三次挥手是服务端数据全部发送完毕，向客户端发送断开请求报文（FIN=1）。<br>&emsp;&emsp;如果将这两次合二为一，就会出现服务端收到请求后立即确认并且断开连接，会造成服务端发送到客户端的数据不完整。五次则没有必要。</p>
+<h2 id="问什么连接是三次断开是四次呢？"><a href="#问什么连接是三次断开是四次呢？" class="headerlink" title="问什么连接是三次断开是四次呢？"></a>问什么连接是三次断开是四次呢？</h2><p>&emsp;&emsp;断开是四次的原因和上面的问题的解答是一样的。<br>&emsp;&emsp;对于建立连接，3次其实是建立可靠连接的最小次数。可参考第一道问题。<br>&emsp;&emsp;因为当服务端收到客户端的SYN连接请求报文后，可以直接发送SYN+ACK报文。其中ACK报文是用来应答的，SYN报文是用来同步的。但是关闭连接时，当Server端收到FIN报文时，很可能并不会立即关闭连接，所以只能先回复一个ACK报文，告诉客户端，”你发的FIN报文我收到了”。只有等到我服务端所有的报文都发送完了，我才能发送FIN报文，因此不能一起发送。故需要四步握手。<br>&emsp;&emsp;四次挥手相比于三次握手，将服务端返回给客户端的ACK+SYN报文，拆成了2次发送。</p>
+]]></content>
+      <categories>
+        <category>网络</category>
+        <category>TCP</category>
+      </categories>
+      <tags>
+        <tag>网络</tag>
+        <tag>TCP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>TCP与UDP</title>
+    <url>/hexoblog/2021/05/07/md/internet/TCP%E4%B8%8EUDP/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;TCP是传输控制协议，UDP是用户数据报协议，均处在传输层。  </p>
+<span id="more"></span>
+
+<hr>
+<h1 id="TCP-amp-UDP"><a href="#TCP-amp-UDP" class="headerlink" title="TCP&amp;UDP"></a>TCP&amp;UDP</h1><h2 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h2><p>&emsp;&emsp;TCP的目的是提供可靠的数据传输，并在相互进行通信的设备或服务之间保持一个虚拟连接。<br>&emsp;&emsp;TCP在数据包接收无序、丢失或在交付期间被破坏时，负责数据恢复。它通过为其发送的每个数据包提供一个序号来完成此恢复。<br>&emsp;&emsp;为确保正确地接收数据，TCP要求在目标计算机成功收到数据时发回一个确认（即 ACK）。如果在某个时限内未收到相应的 ACK，将重新传送数据包。如果网络拥塞，这种重新传送将导致发送的数据包重复。但是，接收计算机可使用数据包的序号来确定它是否为重复数据包，并在必要时丢弃它。</p>
+<h2 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h2><p>&emsp;&emsp;UDP 与 TCP 的主要区别在于 UDP 不一定提供可靠的数据传输。<br>&emsp;&emsp;该协议不能保证数据准确无误地到达目的地。<br>&emsp;&emsp;许多程序将使用单独的TCP连接和单独的UDP连接。重要的状态信息随可靠的TCP连接发送，而主数据流通过UDP发送。</p>
+<h2 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h2><p><a href="https://blog.csdn.net/qq_19525389/article/details/81502805">TCP和UDP、流量控制和拥塞控制</a><br><a href="https://blog.csdn.net/HuoqilinHeiqiji/article/details/89711111?spm=1001.2014.3001.5501">TCP、UDP区别和联系</a><br><a href="https://blog.csdn.net/jackson0714/article/details/110532400">怎么用 UDP 实现 TCP？</a></p>
+<ol>
+<li><strong>TCP面向连接，UDP无连接</strong>。建立TCP连接需要经过3次握手，释放TCP连接需要经过4次挥手。UDP是无连接的，即发送数据前不需要建立连接。</li>
+<li><strong>TCP提供可靠的服务，UDP尽最大努力交付，不提供可靠的服务</strong>。TCP提供可靠的服务，通过TCP连接传输的数据，无差错，不重复，不丢失，且按顺序到达。UDP尽最大努力交付，不保证可靠交付。Tcp通过校验和重传控制，序号标识，滑动窗口、确认应答实现可靠传输。如丢包时的重发控制，还可以对次序乱掉的分包进行顺序控制。</li>
+<li>UDP具有较好的实时性，工作效率比TCP高，适用于对高速传输和实时性有较高的通信或广播通信。</li>
+<li><strong>每一条TCP连接只能是点对点的，UDP可以是一对一，一对多，多对多的交互通信</strong>。</li>
+<li><strong>TCP对系统资源要求比较多，UDP对系统资源要求比较少</strong>（这里主要是首部开销）。</li>
+<li><strong>TCP面向字节流，UDP面向报文</strong>。</li>
+<li>TCP提供全双工通信。</li>
+<li>UDP没有拥塞机制，即网络拥塞不会使源主机的发送效率降低。</li>
+</ol>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><p>&emsp;&emsp;对实时性要求比较高，网络质量要求不高，或者多点通信的时候就需要使用UDP。<br>&emsp;&emsp;当对网络通信质量要求比较高的时候就需要用TCP。</p>
+<table>
+<thead>
+<tr>
+<th>应用</th>
+<th>应用层协议</th>
+<th>传输层协议</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>名字转换</td>
+<td>DNS域名系统</td>
+<td>UDP</td>
+</tr>
+<tr>
+<td>文件传送</td>
+<td>TFTP简单文件传送协议</td>
+<td>UDP</td>
+</tr>
+<tr>
+<td>路由选择协议</td>
+<td>RIP路由信息协议</td>
+<td>UDP</td>
+</tr>
+<tr>
+<td>IP地址管理</td>
+<td>DHCP动态主机配置协议</td>
+<td>UDP</td>
+</tr>
+<tr>
+<td>网络管理</td>
+<td>SNMP简单网络管理协议</td>
+<td>UDP</td>
+</tr>
+<tr>
+<td>远程文件服务器</td>
+<td>NFS网络文件系统</td>
+<td>UDP</td>
+</tr>
+<tr>
+<td>多播</td>
+<td>IGMP网际组管理协议</td>
+<td>UDP</td>
+</tr>
+<tr>
+<td>电子邮件</td>
+<td>SMTP简单邮件传送协议</td>
+<td>TCP</td>
+</tr>
+<tr>
+<td>远程终端接入</td>
+<td>TELNET远程终端协议</td>
+<td>TCP</td>
+</tr>
+<tr>
+<td>万维网</td>
+<td>HTTP超文本传送协议</td>
+<td>TCP</td>
+</tr>
+<tr>
+<td>文件传送</td>
+<td>FTP文件传送协议</td>
+<td>TCP</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><h2 id="如何用UDP实现TCP"><a href="#如何用UDP实现TCP" class="headerlink" title="如何用UDP实现TCP?"></a>如何用UDP实现TCP?</h2><p>&emsp;&emsp;根据TCP于UDP的区别进行补全即可。<br>&emsp;&emsp;采用三次或者四次UDP数据模拟三次握手和四次挥手，然后补全其他的确认机制等。<br>&emsp;&emsp;实现方式：</p>
+<ol>
+<li>将实现放到应用层，然后类似TCP，实现确认机制，重传机制，和窗口确认机制，即在应用层实现确认重传这些。</li>
+<li>给数据包进行编号，按顺序接收并存储，接收端收到数据包后发送确认信息给发送端，发送端接收到确认信息后继续发送，若接收端接收的数据不是期望的顺序编号，则要求重发；（主要解决丢包和包无序的问题）。</li>
+</ol>
+<h2 id="TCP如何保证可靠传输？"><a href="#TCP如何保证可靠传输？" class="headerlink" title="TCP如何保证可靠传输？"></a>TCP如何保证可靠传输？</h2><p>&emsp;&emsp;TCP通过序列号、检验和、确认应答信号、重发控制、连接管理、窗口控制、流量控制、拥塞控制实现可靠性。</p>
+<ol>
+<li>应用数据被分割成TCP认为最适合发送的数据块。</li>
+<li>TCP给发送的每一个包进行编号，接收方对数据包进行排序，把有序数据传送给应用层。用于进行<strong>顺序控制</strong>。</li>
+<li><strong>检验和</strong>：TCP包首部和数据计算得到的检验和，接收方会对这个检验和进行验证，如果有差错，TCP将丢弃这个报文段，并且不对这个报文段进行确认。</li>
+<li>TCP的接收端会丢弃重复接收的数据。但是会<strong>发送确认</strong>，属于停止等待协议。</li>
+<li><strong>流量控制</strong>：针对高效传输，TCP连接的每一方都有固定大小的缓冲空间，TCP的接收端只允许发送端发送接收端缓冲区能接纳的数据。当接收方来不及处理发送方的数据，能提示发送方降低发送的速率，防止包丢失。TCP使用的流量控制协议是可变大小的滑动窗口协议。（TCP利用<strong>滑动窗口</strong>实现流量控制）</li>
+<li><strong>拥塞控制</strong>：当网络拥塞时，减少数据的发送。开始启动时，有慢启动算法，防止启动时发送大量数据造成网络拥塞。</li>
+<li><strong>停止等待协议</strong>：它的基本原理就是每发完一个分组就- 停止发送，等待对方确认。在收到确认后再发下一个分组。</li>
+<li><strong>超时重传</strong>：针对数据包丢失或者定时器超时。当TCP发出一个段后，它启动一个定时器，等待目的端确认收到这个报文段。如果不能及时收到一个确认，将重发这个报文段。</li>
+</ol>
+<h2 id="URL访问网站时全过程？"><a href="#URL访问网站时全过程？" class="headerlink" title="URL访问网站时全过程？"></a>URL访问网站时全过程？</h2><p><a href="https://blog.csdn.net/accepted_accepted/article/details/107997540">浏览器输入URL到响应页面的全过程</a></p>
+<p>&emsp;&emsp;这个过程基本分为：</p>
+<ol>
+<li>输入URL域名[<a href="http://www.baidu.com]">www.baidu.com]</a></li>
+<li>域名解析成IP地址<ol>
+<li>查找浏览器缓存，返回IP地址</li>
+<li>查找系统缓存，返回IP地址（hosts文件）</li>
+<li>路由器查找路由器缓存，返回IP地址</li>
+<li>递归查询，本地域名服务器查询缓存，返回IP</li>
+<li>迭代查询，本地域名服务器向跟域名查询</li>
+<li>根域名服务器不返回直接的IP地址，根域名服务器告诉本地域名服务器，下一次应查询的顶级域名服务器dns.com的IP地址。</li>
+<li>本地域名服务器向顶级域名服务器dns.com进行查询。</li>
+<li>顶级域名服务器dns.com告诉本地域名服务器，下一次应查询的权限域名服务器dns.baidu.com的IP地址。</li>
+<li>本地域名服务器向权限域名服务器dns.baidu.com进行查询。</li>
+<li>权限域名服务器dns.baidu.com告诉本地域名服务器，所查询的主机<a href="http://www.baidu.com的ip地址./">www.baidu.com的IP地址。</a></li>
+<li>本地域名服务器将查询结果返回客户主机，并加入自己的缓存。</li>
+</ol>
+</li>
+<li>与目的主机进行TCP连接（三次握手建立连接）<ol>
+<li>客户主机发出建立连接的请求</li>
+<li>目的主机发出确认及建立连接的信息</li>
+<li>客户主机发出确认信息</li>
+</ol>
+</li>
+<li>发送与收取数据<ol>
+<li>发送Http Request请求</li>
+<li>应用服务器响应处理请求返回页面数据</li>
+</ol>
+</li>
+<li>断开TCP连接（四次挥手释放连接）<ol>
+<li>客户主机发送释放连接的请求</li>
+<li>目的主机发出确认信息</li>
+<li>目的主机发出释放连接的请求</li>
+<li>客户主机发出确认信息，等待一段时间后释放链家</li>
+</ol>
+</li>
+<li>客户端显示解析渲染</li>
+</ol>
+]]></content>
+      <categories>
+        <category>网络</category>
+        <category>TCP</category>
+        <category>UDP</category>
+      </categories>
+      <tags>
+        <tag>网络</tag>
+        <tag>TCP</tag>
+        <tag>UDP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>异常的三次握手四次挥手</title>
+    <url>/hexoblog/2021/05/21/md/internet/%E5%BC%82%E5%B8%B8%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;TCP作为一个靠谱的协议，在传输数据的前后，需要在双端之间建立连接，并在双端各自维护连接的状态。<br>&emsp;&emsp;建立连接前，TCP会通过三次握手来保证双端状态正确，然后就可以正常传输数据了。当数据传输完成，需要断开连接的时候，TCP会通过四次握手来完成双端的断连，并回收各自的资源。<br>&emsp;&emsp;这个过程中也会产生各种问题，有因网络原因造成的也有其他原因造成的。一般来说主要就是丢包的问题，基本就是超时重传等来保证TCP的可靠性。</p>
+<span id="more"></span>
+
+<p><a href="https://network.51cto.com/art/202002/610542.htm">TCP异常</a></p>
+<hr>
+<h1 id="三次握手中的问题"><a href="#三次握手中的问题" class="headerlink" title="三次握手中的问题"></a>三次握手中的问题</h1><h2 id="客户端第一个SYN包丢失"><a href="#客户端第一个SYN包丢失" class="headerlink" title="客户端第一个SYN包丢失"></a>客户端第一个SYN包丢失</h2><p>&emsp;&emsp;如果客户端的第一个ACK包丢失，服务器无法收到这个包，不会做任何事情。<br>&emsp;&emsp;而在TCP协议中，某端的一组「请求-应答」中，在一定时间范围内，只要没有收到应答的「ACK」包，无论是请求包对方没有收到，还是对方的应答包自己没有收到，均认为是丢包了，都会触发超时重传机制。<br>&emsp;&emsp;此时客户端会重传丢失的SYN包。</p>
+<h2 id="服务端收到SYNd返回的SYN-ACK包丢失"><a href="#服务端收到SYNd返回的SYN-ACK包丢失" class="headerlink" title="服务端收到SYNd返回的SYN+ACK包丢失"></a>服务端收到SYNd返回的SYN+ACK包丢失</h2><p>&emsp;&emsp;此时服务端已经收到客户端的数据，并且发出了对于改信息的回复。<br>&emsp;&emsp;这个问题站在客户端而言，无法区分是服务端没有收到第一次的SYN包，还是自己没有收到回复信息，只能等待一段时间后重新发送SYN包，这和上面的情况就一样了。<br>&emsp;&emsp;对于服务端，发送了SYN+ACK包后，无法等到对方的确认ACK信息，也只能对这个SYN+ACK包进行重传。<br>&emsp;&emsp;由于客户端的重传，服务端会收到这个重传的SYN包，此时会针对这个新的SYN包立即发送SYN+ACK信息。</p>
+<h2 id="客户端收到SYN-ACK返回的ACK包丢失"><a href="#客户端收到SYN-ACK返回的ACK包丢失" class="headerlink" title="客户端收到SYN+ACK返回的ACK包丢失"></a>客户端收到SYN+ACK返回的ACK包丢失</h2><p>&emsp;&emsp;如果最后一个ACK包丢了，服务端因为收不到ACK会走重传机制，而客户端此时进入ESTABLISHED状态。<br>&emsp;&emsp;多数情况下，客户端进入ESTABLISHED状态后，则认为连接已建立，会立即发送数据。但是服务端因为没有收到最后一个ACK包，依然处于SYN-RCVD状态。<br>&emsp;&emsp;所以当服务端处于SYN-RCVD状态下时，接收到客户端真实发送来的数据包时，会认为连接已建立，并进入ESTABLISHED状态。<br>&emsp;&emsp;也有地方认为当服务端处于SYN-RCVD状态下，收到客户端的数据包后，会直接回复RST包响应，表示服务端错误，并进入CLOSE状态。<br>&emsp;&emsp;实际情况下，当客户端在ESTABLISHED状态下，开始发送数据包时，会携带上一个ACK的确认序号，所以哪怕客户端响应的ACK包丢了，服务端在收到这个数据包时，能够通过包内ACK的确认序号，正常进入ESTABLISHED状态。</p>
+<h2 id="客户端故意不发最后一次ACK包"><a href="#客户端故意不发最后一次ACK包" class="headerlink" title="客户端故意不发最后一次ACK包"></a>客户端故意不发最后一次ACK包</h2><p>-0<br>&emsp;&emsp;如果客户端是恶意的，在发送SYN包后，并收到SYN+ACK后就不回复了，那么服务端此时处于一种半连接的状态，虽然服务端会通过tcp_synack_retries配置重试的次数，不会无限等待下去，但是这也是有一个时间周期的。<br>&emsp;&emsp;如果短时间内存在大量的这种恶意连接，对服务端来说压力就会很大，这就是所谓的SYN FLOOD攻击。</p>
+<hr>
+<h1 id="四次挥手中的问题"><a href="#四次挥手中的问题" class="headerlink" title="四次挥手中的问题"></a>四次挥手中的问题</h1><h2 id="客户端断开连接的FIN包丢失"><a href="#客户端断开连接的FIN包丢失" class="headerlink" title="客户端断开连接的FIN包丢失"></a>客户端断开连接的FIN包丢失</h2><p>&emsp;&emsp;这种情况下，会触发超时重传机制，不会去考虑是自己发出的包丢失，还是无法收到对方发来的恢复，直到关闭连接。</p>
+<h2 id="服务端第一次返回的ACK包丢失"><a href="#服务端第一次返回的ACK包丢失" class="headerlink" title="服务端第一次返回的ACK包丢失"></a>服务端第一次返回的ACK包丢失</h2><p>&emsp;&emsp;这种情况下，客户端无法收到服务端返回的ACK包，会触发重传机制，重传FIN包。<br>&emsp;&emsp;而服务器收到重传的FIN包后，会立即在重传对FIN包的ACK包。<br>&emsp;&emsp;而此时服务器已经进入CLOSED-WAIT状态，开始做断开连接前的准备工作。当准备好之后，会回复FIN+ACK，这个消息是携带了之前ACK的响应序号的，这就是第三次挥手的包。</p>
+<h2 id="服务器发送的FIN-ACK包丢失"><a href="#服务器发送的FIN-ACK包丢失" class="headerlink" title="服务器发送的FIN+ACK包丢失"></a>服务器发送的FIN+ACK包丢失</h2><p>&emsp;&emsp;这是第三次挥手的包丢失了，此时客户端有两种情况，要么处于FIN-WAIT-2状态(之前的 ACK 也丢了)，会一直等待；要么处于TIME-WAIT状态，会等待 2MSL 时间。<br>&emsp;&emsp;而服务端则收不到对应的ACK确认包，则会进行超时重传。</p>
+<h2 id="客户端最后返回的ACK包丢失"><a href="#客户端最后返回的ACK包丢失" class="headerlink" title="客户端最后返回的ACK包丢失"></a>客户端最后返回的ACK包丢失</h2><p>&emsp;&emsp;客户端在回复ACK后，会进入TIME-WAIT状态，开始长达2MSL的等待，服务端因为没有收到ACK的回复，会重试一段时间，直到服务端重试超时后主动断开。<br>&emsp;&emsp;或者等待新的客户端接入后，收到服务端重试的FIN消息后，回复RST消息，在收到RST消息后，复位服务端的状态。</p>
+<h2 id="客户端收到ACK后服务端跑路"><a href="#客户端收到ACK后服务端跑路" class="headerlink" title="客户端收到ACK后服务端跑路"></a>客户端收到ACK后服务端跑路</h2><p>&emsp;&emsp;客户端在收到ACK后，进入了FIN-WAIT-2状态，等待服务端发来的FIN包，而如果服务端跑路了，这个包永远都等不到。<br>&emsp;&emsp;在TCP协议中，是没有对这个状态的处理机制的。但是协议不管，系统来凑，操作系统会接管这个状态，在一段时间后，直接进行客户端关闭，这中间会用心跳等进行检测。</p>
+<h2 id="客户端收到ACK后客户端跑路"><a href="#客户端收到ACK后客户端跑路" class="headerlink" title="客户端收到ACK后客户端跑路"></a>客户端收到ACK后客户端跑路</h2><p>&emsp;&emsp;客户端收到ACK后直接跑路，服务端后续在发送的FIN+ACK就没有接收端，也就不会得到回复，会不断的走TCP的超时重试的机制，此时服务端处于LAST-ACK状态。<br>&emsp;&emsp;这种情况下，有两种情况：在超过一定时间后，服务器直接进行关闭，这种类似于客户端的关闭；另一种情况则是收到客户端的RST消息，关闭连接。<br>&emsp;&emsp;RST消息是一种重置消息，表示当前错误了，应该回到初始的状态。如果客户端跑路后有新的客户端接入，会在此发送SYN以期望建立连接，此时这个SYN将被忽略，并直接回复FIN+ACK消息，新客户端在收到FIN消息后是不会认的，并且会回复一个RST消息。</p>
+]]></content>
+      <categories>
+        <category>网络</category>
+        <category>TCP</category>
+      </categories>
+      <tags>
+        <tag>网络</tag>
+        <tag>TCP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>网络ISO模型</title>
+    <url>/hexoblog/2021/05/06/md/internet/%E7%BD%91%E7%BB%9CISO%E6%A8%A1%E5%9E%8B/</url>
+    <content><![CDATA[<h1 id="网络模型"><a href="#网络模型" class="headerlink" title="网络模型"></a>网络模型</h1><p>&emsp;&emsp;在计算机网络中有著名的OSI七层协议体系结构，概念清楚，理论完整，但是它既复杂又不实用。TCP/IP体系结构则不同，得到的广泛的应用。最终结合OSI和TCP/IP的优点，采用了一种只有五层协议的体系结构。</p>
+<span id="more"></span>
+
+<p><a href="https://blog.csdn.net/HuoqilinHeiqiji/article/details/89703358">五层结构</a><br><a href="https://www.jianshu.com/p/bb363a41afcf">网络结构</a></p>
+<table border="1">
+    <tr>
+        <th>OSI体系结构</th>
+        <th>TCP/IP体系结构</th>
+        <th>五层体系结构</th>
+    </tr>
+    <tr>
+        <td>应用层</td>
+        <td rowspan="3">应用层</td>
+        <td rowspan="3">应用层</td>
+    </tr>
+    <tr>
+        <td>表示层</td>
+    </tr>
+    <tr>
+        <td>会话层</td>
+    </tr>
+    <tr>
+        <td>传输层</td>
+        <td>传输层</td>
+        <td>传输层</td>
+     </tr>
+     <tr>
+        <td>网络层</td>
+        <td>网络层</td>
+        <td>网络层</td>
+     </tr>
+     <tr>
+        <td>数据链路层</td>
+        <td rowspan="2">数据链路层</td>
+        <td>数据链路层</td>
+     </tr>
+     <tr>
+        <td>物理层</td>
+        <td>物理层</td>
+     </tr>
+</table>
+
+<h2 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h2><p>&emsp;&emsp;有两张图瞅一眼：<br><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84%E4%B8%8E%E4%BD%9C%E7%94%A8.jpg" alt="各层及其作用"></p>
+<h3 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h3><p>&emsp;&emsp;应用层的任务是通过应用进程间的交互来完成特定的网络应用。<br>&emsp;&emsp;应用层协议定义的是应用进程间通信和交互的规则。<br>&emsp;&emsp;应用层是app访问网络、向用户显示接收到的信息的窗口。</p>
+<h3 id="表示层"><a href="#表示层" class="headerlink" title="表示层"></a>表示层</h3><p>&emsp;&emsp;表示层也称为转换层，在表示层提取应用层的数据，并根据需要转换格式，以便通过网络传输。<br>&emsp;&emsp;这一层可以做一些数据格式转换，加密解密，压缩等操作。</p>
+<h3 id="会话层"><a href="#会话层" class="headerlink" title="会话层"></a>会话层</h3><p>&emsp;&emsp;会话层负责建立连接，维护会话、认证，并确保安全。</p>
+<h3 id="传输层"><a href="#传输层" class="headerlink" title="传输层"></a>传输层</h3><p>&emsp;&emsp;为两个主机进程间的通信提供通用的数据传输服务。<br>&emsp;&emsp;传输层从网络层获取服务，向应用层提供服务。<br>&emsp;&emsp;只有主机的协议栈才有传输层，网络传输中的一些设备没有传输层，比如路由器。<br>&emsp;&emsp;传输层提供应用进程间的逻辑通信，通信的真正端点是应用进程。<br>&emsp;&emsp;传输层会将源端口号和目的端口号写入header中。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E4%BC%A0%E8%BE%93%E5%B1%82%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93.jpg" alt="数据传输"></p>
+<p>&emsp;&emsp;上面客户端与服务端之间的每一次的数据传输（这里指信息传递，包括三次握手与四次挥手）都要完整的走一遍下面的流程。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E5%AE%9E%E9%99%85%E4%BC%A0%E8%BE%93%E8%BF%87%E7%A8%8B.png" alt="数据传输"></p>
+<p>&emsp;&emsp;传输层主要使用两种协议：</p>
+<ol>
+<li>TCP：传输控制协议，提供面向连接的，可靠的数据传输服务。</li>
+<li>UDP：用户数据报协议，提供面向无连接的，尽最大努力交付。</li>
+</ol>
+<h3 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a>网络层</h3><p>&emsp;&emsp;网络层为分组交换网上不同主机提供通信服务，网络层将传输层的报文封装成包和分组发送。<br>&emsp;&emsp;将数据从一台主机传输到位于不同网络中的另一台主机。还负责分组路由，即从多条路线中选取路径最短的。<br>&emsp;&emsp;网络层会将发送者，接收者的ip地址放入header中。  </p>
+<h4 id="基本功能"><a href="#基本功能" class="headerlink" title="基本功能"></a>基本功能</h4><ol>
+<li>路由</li>
+<li>逻辑寻址</li>
+</ol>
+<h3 id="数据链路层"><a href="#数据链路层" class="headerlink" title="数据链路层"></a>数据链路层</h3><p>&emsp;&emsp;两台主机间的数据传输，总是一段一段在数据链路上传送的，这就需要使用专门的链路层协议。在两个相邻节点间的链路上传送帧，每一帧包括数据和必要的控制信息（如同步信息，地址信息，差错控制等）。<br>&emsp;&emsp;数据链路层负责的是节点到节点的数据传输，负责确保在物理层上从一个节点到一个节点正确的传输数据。  </p>
+<h4 id="基本功能："><a href="#基本功能：" class="headerlink" title="基本功能："></a>基本功能：</h4><ol>
+<li><p>封装成帧</p>
+</li>
+<li><p>物理寻址</p>
+</li>
+<li><p>错误控制</p>
+</li>
+<li><p>流控制</p>
+</li>
+<li><p>访问控制</p>
+<p>&emsp;&emsp;三个基本问题：封装成帧，透明传输，差错控制。<br>&emsp;&emsp;通过ARP协议，可以获取拥有指定ip地址目标主机的mac地址。</p>
+</li>
+</ol>
+<h3 id="物理层"><a href="#物理层" class="headerlink" title="物理层"></a>物理层</h3><p>&emsp;&emsp;在物理层以比特流传输数据，其实就是二进制流，物理实现可能不同。<br>&emsp;&emsp;OSI 参考模型最底层是物理层，物理层负责在设备和物理传输介质之间传输、接收非结构化数据。  </p>
+<h4 id="基本功能：-1"><a href="#基本功能：-1" class="headerlink" title="基本功能："></a>基本功能：</h4><ol>
+<li>比特同步</li>
+<li>比特率控制</li>
+<li>物理拓补</li>
+<li>传输模式<ol>
+<li>单工</li>
+<li>半双工</li>
+<li>全双工</li>
+</ol>
+</li>
+</ol>
+<hr>
+<h1 id="数据流转"><a href="#数据流转" class="headerlink" title="数据流转"></a>数据流转</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93.jpg" alt="数据流转"></p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E7%BD%91%E8%B7%AF%E5%B1%82%E5%AF%B9%E5%BA%94%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.jpg" alt="各层及其数据结构"></p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%9C%A8%E7%BD%91%E7%BB%9C%E5%B1%82.jpg" alt="数据结构"></p>
+<p>&emsp;&emsp;我们在网络中发送传输数据的时候，数据总是从一台主机的应用层传输到了，另一条台主机的应用层，这其中会包含有很多过程。<br>&emsp;&emsp;再分层结构中，数据总是在应用层产生（也有可能其他地方），在物理介质上传输。<br>&emsp;&emsp;数据在层与层之间传递的时候总是会添加上特有的首部，比如传输层会将端口号写入TCP首部，网络层会将IP地址写入IP首部。</p>
+<hr>
+<h1 id="参考资料-amp-鸣谢"><a href="#参考资料-amp-鸣谢" class="headerlink" title="参考资料 &amp; 鸣谢"></a>参考资料 &amp; 鸣谢</h1><ul>
+<li><a href="https://blog.csdn.net/HuoqilinHeiqiji/article/details/89703358">五层结构</a></li>
+<li><a href="https://www.jianshu.com/p/bb363a41afcf">网络结构</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>网络</category>
+        <category>ISO</category>
+      </categories>
+      <tags>
+        <tag>网络</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JVM内存分配策略</title>
+    <url>/hexoblog/2021/04/27/md/jvm/JVM%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;就是java对象在堆上分配空间的策略。<br>&emsp;&emsp;具体的分配策略取决于使用那种垃圾回收器的组合，还有虚拟机中参数的设置。这里的一般是分代收集算法下的情况。</p>
+<span id="more"></span>
+
+<hr>
+<h1 id="内存结构"><a href="#内存结构" class="headerlink" title="内存结构"></a>内存结构</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E5%A0%86%E5%86%85%E5%AD%98%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6.jpg" alt="堆内存垃圾回收"></p>
+<p>&emsp;&emsp;这里的内存结构说的是虚拟机对jvm规范中堆区域的实现，不同的虚拟机可能稍有不同。<br>&emsp;&emsp;根据分代回收算法，将堆分为新生代、老年代。新生代默认占堆空间的1/3，老年代默认占堆空间的2/3。<br>&emsp;&emsp;新生代使用复制算法，有3个区，Eden、To Survivor、From Survivor，它们的默认占比是8:1:1，它的执行流程如下：</p>
+<blockquote>
+<p>&emsp;&emsp;设置Survivore区可以防止频繁触发FULL GC。如果没有Survivor，Eden区每进行一次Minor GC，存活的对象就会被送到老年代，这样会使老年代很快被填满，导致老年代触发FULL GC，由于老年代的内存空间远大于新生代，所以进行一次Full GC消耗的时间比Minor GC长得多。<br>&emsp;&emsp;两个Survivor防止产生内存空间碎片。如果只有Survivor1，那么每一次当Eden区满时，触发Minor GC并把对象移入Survivor1中，如此循环对导致Survivor1中产生大量的空间碎片；所以需要有Survivor2，当Eden再一次满时，触发Minor GC，虚拟机会把 Eden中和Survivor1中的存活对象通过复制算法移入Survivor2中，这样Survivor2就不会产生内存碎片，同时Eden和Survivor1会清理内存，保证下一次Minor GC触发时的操作。</p>
+</blockquote>
+<ol>
+<li>在GC开始的时候，对象只会存在于Eden区和名为“From”的Survivor区，Survivor区“To”是空的。紧接着进行GC，Eden区中所有存活的对象都会被复制到“To Survivor区”，仍存活的对象会根据他们的年龄值来决定去向。年龄达到一定值(年龄阈值，可以通过-XX:MaxTenuringThreshold来设置)的对象会被移动到年老代中。</li>
+<li>清空Eden和From Survivor分区。</li>
+<li>这时From Survivor和To Survivor分区会互换角色，分区交换，From Survivor变To Survivor，To Survivor变From Survivor。</li>
+<li>每次在From Survivor到To Survivor移动时都存活的对象，年龄就+1，当年龄到达15（默认配置是 15）时，升级为老生代。大对象也会直接进入老生代。</li>
+</ol>
+<p>&emsp;&emsp;老生代当空间占用到达某个值之后就会触发全局垃圾收回，一般使用标记整理的执行算法。以上这些循环往复就构成了整个分代垃圾回收的整体执行流程。</p>
+<hr>
+<h1 id="策略"><a href="#策略" class="headerlink" title="策略"></a>策略</h1><p>&emsp;&emsp;常见的内存分配策略为：</p>
+<ol>
+<li><p>对象优先在Eden分配。</p>
+</li>
+<li><p>大对象直接进入老年代。</p>
+</li>
+<li><p>长期存活的对象进入老年代。</p>
+</li>
+<li><p>动态对象年龄判断。</p>
+</li>
+<li><p>空间分配担保。</p>
+<h2 id="对象优先在Eden区"><a href="#对象优先在Eden区" class="headerlink" title="对象优先在Eden区"></a>对象优先在Eden区</h2></li>
+</ol>
+<p>&emsp;&emsp;多数情况下，新对象都在新生代Eden区分配，当Eden区没有足够空间进行分配时，虚拟机将发起一次Minor GC，即发生在新生代的垃圾收集。<br>&emsp;&emsp;如果分配后还是没有足够的空间，就会启动分配担保机制在老年代分配空间。</p>
+<h2 id="大对象直接进入老年代"><a href="#大对象直接进入老年代" class="headerlink" title="大对象直接进入老年代"></a>大对象直接进入老年代</h2><p>&emsp;&emsp;所谓大对象就是指需要大量连续内存空间的Java对象，最典型的大对象就是那种很长的字符串以及数组。可以通过虚拟机参数<code>-XX:PretenureSizeThreshold</code>控制大对象的最小临界值。<br>&emsp;&emsp;新生代使用的是复制算法来处理垃圾回收的，如果大对象直接在新生代分配就会导致Eden区和两个Survivor区之间发生大量的内存复制。<br>&emsp;&emsp;经常出现大对象，会导致在内存还有不少时就触发垃圾回收。</p>
+<ul>
+<li><strong>Minor GC</strong>：指发生在新生代的GC，一般速度非常快。</li>
+<li><strong>Full GC</strong>：是指发生在老年代的GC，一般出现这种必然会伴随Minor GC，通常会被Minor GC慢10倍。</li>
+</ul>
+<h2 id="长期存活的对象进入老年代"><a href="#长期存活的对象进入老年代" class="headerlink" title="长期存活的对象进入老年代"></a>长期存活的对象进入老年代</h2><p>&emsp;&emsp;在分代收集算法中需要确定那些对象该进入老年代，那些不用进入。<br>&emsp;&emsp;虚拟机给每个对象定义了一个对象年龄计数器，如果对象在Eden区出生，并且能够被Survivor容纳，将被移动到Survivor空间中，这时设置对象年龄为1。对象在Survivor区中每过一次Minor GC年龄就加 1，当年龄达到一定程度（默认 15）就会被晋升到老年代。可以通过参数<code>-XX:MaxTenuringThreshold</code>设置进入老年代的年龄上限。</p>
+<h2 id="动态对象年龄判断"><a href="#动态对象年龄判断" class="headerlink" title="动态对象年龄判断"></a>动态对象年龄判断</h2><p>&emsp;&emsp;虚拟机并不是永远地要求对象的年龄必须达到了MaxTenuringThreshold才能晋升老年代，如果在Survivor空间中相同年龄所有对象大小的总和大于Survivor空间的一半，年龄大于等于该年龄的对象就可以直接进入老年代。</p>
+<h2 id="空间分配担保"><a href="#空间分配担保" class="headerlink" title="空间分配担保"></a>空间分配担保</h2><p>&emsp;&emsp;在发生Minor GC之前，虚拟机会先检查老年代最大可用的连续空间是否大于新生代所有对象总空间，如果这个条件成立，那么Minor GC可以确保是安全的。如果不成立，则虚拟机会查看HandlePromotionFailure设置值是否允许担保失败。如果允许，那么会继续检查老年代最大可用的连续空间是否大于历次晋升到老年代对象的平均大小，如果大于，将尝试进行一次Minor GC，尽管这次Minor GC是有风险的；如果小于，或者HandlePromotionFailure设置不允许冒险，这这时也要改为进行一次Full GC（指发生在老年代的GC，会发生STW）。实际上，在 JDK 6 Update 24之后的规则变为只要老年代的连续空间大于新生代对象总大小或者历次晋升的平均大小就会进行Minor GC，否则就进行Full GC。</p>
+]]></content>
+      <categories>
+        <category>jvm</category>
+      </categories>
+      <tags>
+        <tag>jvm</tag>
+        <tag>memory</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Volatile</title>
     <url>/hexoblog/2021/03/03/md/jvm/Volatile/</url>
     <content><![CDATA[<h1 id="JMM"><a href="#JMM" class="headerlink" title="JMM"></a>JMM</h1><p>&emsp;&emsp;Java内存模型，是虚拟机规范中所定义的一种内存模型，Java内存模型是标准化的，屏蔽掉了底层计算机之间的区别。<br>&emsp;&emsp;Java内存模型描述了Java程序中各种变量（线程共享变量）的访问规则，以及在JVM中将变量，存储到内存和从内存中读取变量这样的底层细节。</p>
@@ -1799,57 +2091,6 @@ SELECT ... FOR UPDATE<span aria-hidden="true" class="line-numbers-rows"><span></
       <tags>
         <tag>java</tag>
         <tag>jvm</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>JVM内存分配策略</title>
-    <url>/hexoblog/2021/04/27/md/jvm/JVM%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;就是java对象在堆上分配空间的策略。<br>&emsp;&emsp;具体的分配策略取决于使用那种垃圾回收器的组合，还有虚拟机中参数的设置。这里的一般是分代收集算法下的情况。</p>
-<span id="more"></span>
-
-<hr>
-<h1 id="内存结构"><a href="#内存结构" class="headerlink" title="内存结构"></a>内存结构</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E5%A0%86%E5%86%85%E5%AD%98%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6.jpg" alt="堆内存垃圾回收"></p>
-<p>&emsp;&emsp;这里的内存结构说的是虚拟机对jvm规范中堆区域的实现，不同的虚拟机可能稍有不同。<br>&emsp;&emsp;根据分代回收算法，将堆分为新生代、老年代。新生代默认占堆空间的1/3，老年代默认占堆空间的2/3。<br>&emsp;&emsp;新生代使用复制算法，有3个区，Eden、To Survivor、From Survivor，它们的默认占比是8:1:1，它的执行流程如下：</p>
-<blockquote>
-<p>&emsp;&emsp;设置Survivore区可以防止频繁触发FULL GC。如果没有Survivor，Eden区每进行一次Minor GC，存活的对象就会被送到老年代，这样会使老年代很快被填满，导致老年代触发FULL GC，由于老年代的内存空间远大于新生代，所以进行一次Full GC消耗的时间比Minor GC长得多。<br>&emsp;&emsp;两个Survivor防止产生内存空间碎片。如果只有Survivor1，那么每一次当Eden区满时，触发Minor GC并把对象移入Survivor1中，如此循环对导致Survivor1中产生大量的空间碎片；所以需要有Survivor2，当Eden再一次满时，触发Minor GC，虚拟机会把 Eden中和Survivor1中的存活对象通过复制算法移入Survivor2中，这样Survivor2就不会产生内存碎片，同时Eden和Survivor1会清理内存，保证下一次Minor GC触发时的操作。</p>
-</blockquote>
-<ol>
-<li>在GC开始的时候，对象只会存在于Eden区和名为“From”的Survivor区，Survivor区“To”是空的。紧接着进行GC，Eden区中所有存活的对象都会被复制到“To Survivor区”，仍存活的对象会根据他们的年龄值来决定去向。年龄达到一定值(年龄阈值，可以通过-XX:MaxTenuringThreshold来设置)的对象会被移动到年老代中。</li>
-<li>清空Eden和From Survivor分区。</li>
-<li>这时From Survivor和To Survivor分区会互换角色，分区交换，From Survivor变To Survivor，To Survivor变From Survivor。</li>
-<li>每次在From Survivor到To Survivor移动时都存活的对象，年龄就+1，当年龄到达15（默认配置是 15）时，升级为老生代。大对象也会直接进入老生代。</li>
-</ol>
-<p>&emsp;&emsp;老生代当空间占用到达某个值之后就会触发全局垃圾收回，一般使用标记整理的执行算法。以上这些循环往复就构成了整个分代垃圾回收的整体执行流程。</p>
-<hr>
-<h1 id="策略"><a href="#策略" class="headerlink" title="策略"></a>策略</h1><p>&emsp;&emsp;常见的内存分配策略为：</p>
-<ol>
-<li><p>对象优先在Eden分配。</p>
-</li>
-<li><p>大对象直接进入老年代。</p>
-</li>
-<li><p>长期存活的对象进入老年代。</p>
-</li>
-<li><p>动态对象年龄判断。</p>
-</li>
-<li><p>空间分配担保。</p>
-<h2 id="对象优先在Eden区"><a href="#对象优先在Eden区" class="headerlink" title="对象优先在Eden区"></a>对象优先在Eden区</h2></li>
-</ol>
-<p>&emsp;&emsp;多数情况下，新对象都在新生代Eden区分配，当Eden区没有足够空间进行分配时，虚拟机将发起一次Minor GC，即发生在新生代的垃圾收集。<br>&emsp;&emsp;如果分配后还是没有足够的空间，就会启动分配担保机制在老年代分配空间。</p>
-<h2 id="大对象直接进入老年代"><a href="#大对象直接进入老年代" class="headerlink" title="大对象直接进入老年代"></a>大对象直接进入老年代</h2><p>&emsp;&emsp;所谓大对象就是指需要大量连续内存空间的Java对象，最典型的大对象就是那种很长的字符串以及数组。可以通过虚拟机参数<code>-XX:PretenureSizeThreshold</code>控制大对象的最小临界值。<br>&emsp;&emsp;新生代使用的是复制算法来处理垃圾回收的，如果大对象直接在新生代分配就会导致Eden区和两个Survivor区之间发生大量的内存复制。<br>&emsp;&emsp;经常出现大对象，会导致在内存还有不少时就触发垃圾回收。</p>
-<ul>
-<li><strong>Minor GC</strong>：指发生在新生代的GC，一般速度非常快。</li>
-<li><strong>Full GC</strong>：是指发生在老年代的GC，一般出现这种必然会伴随Minor GC，通常会被Minor GC慢10倍。</li>
-</ul>
-<h2 id="长期存活的对象进入老年代"><a href="#长期存活的对象进入老年代" class="headerlink" title="长期存活的对象进入老年代"></a>长期存活的对象进入老年代</h2><p>&emsp;&emsp;在分代收集算法中需要确定那些对象该进入老年代，那些不用进入。<br>&emsp;&emsp;虚拟机给每个对象定义了一个对象年龄计数器，如果对象在Eden区出生，并且能够被Survivor容纳，将被移动到Survivor空间中，这时设置对象年龄为1。对象在Survivor区中每过一次Minor GC年龄就加 1，当年龄达到一定程度（默认 15）就会被晋升到老年代。可以通过参数<code>-XX:MaxTenuringThreshold</code>设置进入老年代的年龄上限。</p>
-<h2 id="动态对象年龄判断"><a href="#动态对象年龄判断" class="headerlink" title="动态对象年龄判断"></a>动态对象年龄判断</h2><p>&emsp;&emsp;虚拟机并不是永远地要求对象的年龄必须达到了MaxTenuringThreshold才能晋升老年代，如果在Survivor空间中相同年龄所有对象大小的总和大于Survivor空间的一半，年龄大于等于该年龄的对象就可以直接进入老年代。</p>
-<h2 id="空间分配担保"><a href="#空间分配担保" class="headerlink" title="空间分配担保"></a>空间分配担保</h2><p>&emsp;&emsp;在发生Minor GC之前，虚拟机会先检查老年代最大可用的连续空间是否大于新生代所有对象总空间，如果这个条件成立，那么Minor GC可以确保是安全的。如果不成立，则虚拟机会查看HandlePromotionFailure设置值是否允许担保失败。如果允许，那么会继续检查老年代最大可用的连续空间是否大于历次晋升到老年代对象的平均大小，如果大于，将尝试进行一次Minor GC，尽管这次Minor GC是有风险的；如果小于，或者HandlePromotionFailure设置不允许冒险，这这时也要改为进行一次Full GC（指发生在老年代的GC，会发生STW）。实际上，在 JDK 6 Update 24之后的规则变为只要老年代的连续空间大于新生代对象总大小或者历次晋升的平均大小就会进行Minor GC，否则就进行Full GC。</p>
-]]></content>
-      <categories>
-        <category>jvm</category>
-      </categories>
-      <tags>
-        <tag>jvm</tag>
-        <tag>memory</tag>
       </tags>
   </entry>
   <entry>
@@ -3058,6 +3299,62 @@ redis-server.exe --service-stop<span aria-hidden="true" class="line-numbers-rows
       </tags>
   </entry>
   <entry>
+    <title>rocketmq消息分类</title>
+    <url>/hexoblog/2021/05/26/md/rocketmq/rocketmq%E6%B6%88%E6%81%AF%E5%88%86%E7%B1%BB/</url>
+    <content><![CDATA[<h1 id="消息"><a href="#消息" class="headerlink" title="消息"></a>消息</h1><p>&emsp;&emsp;message就是要传输的信息，一条消息必须有一个主题（Topic）。</p>
+<span id="more"></span>
+
+<h2 id="从特点区分"><a href="#从特点区分" class="headerlink" title="从特点区分"></a>从特点区分</h2><p>&emsp;&emsp;mq中的消息从特点区分可以分为三类：同步消息，异步消息，单向消息。</p>
+<h3 id="同步消息"><a href="#同步消息" class="headerlink" title="同步消息"></a>同步消息</h3><p>&emsp;&emsp;同步发送是指消息发送方发出数据后，会阻塞直到MQ服务方发回响应消息。  </p>
+<h3 id="异步消息"><a href="#异步消息" class="headerlink" title="异步消息"></a>异步消息</h3><p>&emsp;&emsp;异步发送是指发送方发出数据后，不等接收方发回响应，接着发送下个数据包的通讯方式。<br>&emsp;&emsp;MQ 的异步发送，需要用户实现异步发送回调接口（SendCallback），在执行消息的异步发送时，应用不需要等待服务器响应即可直接返回，通过回调接口接收服务器响应，并对服务器的响应结果进行处理。</p>
+<h3 id="单向消息"><a href="#单向消息" class="headerlink" title="单向消息"></a>单向消息</h3><p>&emsp;&emsp;单向（Oneway）发送特点为只负责发送消息，不等待服务器回应且没有回调函数触发，即只发送请求不等待应答。此方式发送消息的过程耗时非常短，一般在微秒级别。这种消息常用于日志收集。</p>
+<h2 id="从共功能分"><a href="#从共功能分" class="headerlink" title="从共功能分"></a>从共功能分</h2><p>&emsp;&emsp;从使用功能也可以分为多种消息，最广为人知的就是事务消息。<br>&emsp;&emsp;消息共有以下分类：</p>
+<ol>
+<li>普通消息</li>
+<li>顺序消息</li>
+<li>广播消息</li>
+<li>延时消息</li>
+<li>批量消息</li>
+<li>事务消息</li>
+</ol>
+<h3 id="顺序消息"><a href="#顺序消息" class="headerlink" title="顺序消息"></a>顺序消息</h3><p>&emsp;&emsp;消息有序指的是一类消息消费时，能按照发送的顺序来消费。</p>
+<h3 id="广播消息"><a href="#广播消息" class="headerlink" title="广播消息"></a>广播消息</h3><p>&emsp;&emsp;广播消息与普通消息不同的是，普通消息只会由消费者组中负载均衡到消息所在MessageQuene的消费者消费，而广播消息由消费者组中的所有消费者消费。</p>
+<h3 id="定时消息"><a href="#定时消息" class="headerlink" title="定时消息"></a>定时消息</h3><p>&emsp;&emsp;<a href="https://www.yuque.com/jiufenshiren/mvgau4/cn_features#19cff416">定时消息</a><br>&emsp;&emsp;定时消息（延迟队列）是指消息发送到broker后，不会立即被消费，等待特定时间投递给真正的topic。<br>&emsp;&emsp;broker有配置项messageDelayLevel，可以配置不同的DelayLevel延迟不同的时间。<br>&emsp;&emsp;定时消息会暂存在名为SCHEDULE_TOPIC_XXXX的topic中，并根据delayTimeLevel存入特定的queue，queueId = delayTimeLevel – 1，即一个queue只存相同延迟的消息，保证具有相同发送延迟的消息能够顺序消费。broker会调度地消费SCHEDULE_TOPIC_XXXX，将消息写入真实的topic。<br>&emsp;&emsp;需要注意的是，定时消息会在第一次写入和调度写入真实topic时都会计数，因此发送数量、tps都会变高。</p>
+<h3 id="事务消息"><a href="#事务消息" class="headerlink" title="事务消息"></a>事务消息</h3><p>&emsp;&emsp;<a href="https://www.yuque.com/jiufenshiren/mvgau4/cn_design#dc145683">官方的事务消息解释</a><br>&emsp;&emsp;RocketMQ事务消息（Transactional Message）是指应用本地事务和发送消息操作可以被定义到全局事务中，要么同时成功，要么同时失败。RocketMQ的事务消息提供类似X/Open XA的分布事务功能，通过事务消息能达到分布式事务的最终一致。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/rocketmq_design_10.png" alt="事务消息大概流程"></p>
+<p>&emsp;&emsp;事务消息的大概流程：</p>
+<ol>
+<li>发送一个事务的半消息。</li>
+<li>服务端将消息持久化成功之后，向发送方ACK确认消息已经发送成功，此时消息为半消息。</li>
+<li>开始执行本地事务，如果发送消息失败，本地事务不执行。</li>
+<li>根据本地事务向mq进行二次提交，Commit或rollback，commit会生成消息索引，mq收到Commit状态则将半消息标记为可投递，订阅方最终将收到该消息；服务端收到Rollback状态则删除半消息，订阅方将不会接受该消息。</li>
+</ol>
+<p>&emsp;&emsp;补偿流程：补偿流程用于mq没有收到发送者二次提交的情况下：</p>
+<ol>
+<li>对没有Commit/Rollback的事务消息（pending状态的消息），从服务端发起一次“回查”。（最大回查15次）</li>
+<li>Producer收到回查消息，检查回查消息对应的本地事务的状态。</li>
+<li>根据本地事务状态，重新Commit或者Rollback。</li>
+</ol>
+<p>&emsp;&emsp;注意：</p>
+<ol>
+<li>需要消息回查接口。</li>
+<li>不能保证消息幂等，需要消费方手动控制，在消费者未ack情况下，可能重复消费。</li>
+</ol>
+<hr>
+<h1 id="消息问题"><a href="#消息问题" class="headerlink" title="消息问题"></a>消息问题</h1><p><a href="https://www.cnblogs.com/duanxz/p/6053598.html">RocketMQ之二：分布式开放消息系统RocketMQ的原理与实践（消息的顺序问题、重复问题、可靠消息/事务消息）</a></p>
+<h2 id="消息顺序问题"><a href="#消息顺序问题" class="headerlink" title="消息顺序问题"></a>消息顺序问题</h2><p>&emsp;&emsp;有着一定顺序的消息，一般需要发送到同一个MessageQuene，因为MessageQuene采用先进先出队列，消费方就可以按照发送的顺序进行消费。<br>&emsp;&emsp;可以自定义MessageQueueSelector实现的算法来选择一个队列。<br>&emsp;&emsp;mq顺序消息中，mq需要收到消费方对上一个消息的确认ACK后才能投递下一个消息，这个会带来上一个消息ack收不到的情况下，会造成重复消费。</p>
+<h2 id="消息重复问题"><a href="#消息重复问题" class="headerlink" title="消息重复问题"></a>消息重复问题</h2><p>&emsp;&emsp;mq中并没有处理消息的重复问题，需要消费方自己实现幂等，解决消息重复消费的问题。</p>
+]]></content>
+      <categories>
+        <category>消息中间件</category>
+        <category>rocketmq</category>
+      </categories>
+      <tags>
+        <tag>消息中间件</tag>
+        <tag>rocketmq</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>rocketmq概念总结</title>
     <url>/hexoblog/2021/05/25/md/rocketmq/rocketmq%E6%A6%82%E5%BF%B5%E6%80%BB%E7%BB%93/</url>
     <content><![CDATA[<h1 id="核心组成"><a href="#核心组成" class="headerlink" title="核心组成"></a>核心组成</h1><p><a href="https://github.com/apache/rocketmq/tree/master/docs/cn">官方文档看看挺好的</a><br>&emsp;&emsp;rocketmq主要有四大核心组成部分：NameServer，Broker，Producer，Consumer四部分。  </p>
@@ -3211,62 +3508,6 @@ redis-server.exe --service-stop<span aria-hidden="true" class="line-numbers-rows
 <p><a href="https://www.yuque.com/jiufenshiren/mvgau4/cn_design#512cc468">消息存储</a></p>
 <h2 id="MessageQuene与ConsumeQuene"><a href="#MessageQuene与ConsumeQuene" class="headerlink" title="MessageQuene与ConsumeQuene"></a>MessageQuene与ConsumeQuene</h2><p>&emsp;&emsp;个人理解，MessageQuene是逻辑上的东西，是将Topic进一步划分之后的字主题，也是消息存储队列。<br>&emsp;&emsp;ConsumeQuene又称为消费逻辑队列，是在文件系统中存在实际的文件的，内存存储者Commitlog中消息的位置（commit offset，消息长度，tag的hashcode值）等相关信息，可以看作是消息的索引文件。<br>&emsp;&emsp;根据ConsumeQuene文件的组织方式，可以看出，相同Topic下相同MessageQuene下的ConsumeQuene文件在相同的位置（相同的文件夹内）。<br>&emsp;&emsp;CommitLog文件存储着所有的消息，名称从0开始，文件名称代表了文件中第一个消息的偏移量，文件名称长度20位，每个大小最大1G。<br>&emsp;&emsp;ConsumeQuene文件，按照topic/queue/file三层组织结构，具体存储路径为：$HOME/store/consumequeue/{topic}/{queueId}/{fileName}。这里的queneId就是MessageQuene的id，同样consumequeue文件采取定长设计，每一个条目共20个字节，分别为8字节的commitlog物理偏移量、4字节的消息长度、8字节tag hashcode，单个文件由30W个条目组成，可以像数组一样随机访问每一个条目，每个ConsumeQueue文件大小约5.72M。可以看作是CommitLog文件按照位置，quene的索引文件。<br>&emsp;&emsp;IndexFile，索引文件，提供了一种按照key或者时间区间查询消息的索引。index文件的存储位置是：$HOME \store\index${fileName}，文件名fileName是以创建时的时间戳命名的，固定的单个IndexFile文件大小约为400M，一个IndexFile可以保存 2000W个索引，IndexFile的底层存储设计为在文件系统中实现HashMap结构，故rocketmq的索引文件其底层实现为hash索引。</p>
 <p>&emsp;&emsp;生产者发送消息的过程，会将消息发送到指定的Topic，然后根据负载均衡选择该Topic下的一个MessageQuene，实际上发送消息时，会将消息保存进CommitLog文件，同时会在对应Quene的ConsumeQuene文件中写入索引，也会在Index文件中写入时间索引。<br>&emsp;&emsp;消费者消费时，会根据负载均衡到的MessageQuene定位到具体的文件夹，在根据消息消费进度，确定具体的ConsumeQuene文件，从而在CommitLog文件中查出具体的消息。</p>
-]]></content>
-      <categories>
-        <category>消息中间件</category>
-        <category>rocketmq</category>
-      </categories>
-      <tags>
-        <tag>消息中间件</tag>
-        <tag>rocketmq</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>rocketmq消息分类</title>
-    <url>/hexoblog/2021/05/26/md/rocketmq/rocketmq%E6%B6%88%E6%81%AF%E5%88%86%E7%B1%BB/</url>
-    <content><![CDATA[<h1 id="消息"><a href="#消息" class="headerlink" title="消息"></a>消息</h1><p>&emsp;&emsp;message就是要传输的信息，一条消息必须有一个主题（Topic）。</p>
-<span id="more"></span>
-
-<h2 id="从特点区分"><a href="#从特点区分" class="headerlink" title="从特点区分"></a>从特点区分</h2><p>&emsp;&emsp;mq中的消息从特点区分可以分为三类：同步消息，异步消息，单向消息。</p>
-<h3 id="同步消息"><a href="#同步消息" class="headerlink" title="同步消息"></a>同步消息</h3><p>&emsp;&emsp;同步发送是指消息发送方发出数据后，会阻塞直到MQ服务方发回响应消息。  </p>
-<h3 id="异步消息"><a href="#异步消息" class="headerlink" title="异步消息"></a>异步消息</h3><p>&emsp;&emsp;异步发送是指发送方发出数据后，不等接收方发回响应，接着发送下个数据包的通讯方式。<br>&emsp;&emsp;MQ 的异步发送，需要用户实现异步发送回调接口（SendCallback），在执行消息的异步发送时，应用不需要等待服务器响应即可直接返回，通过回调接口接收服务器响应，并对服务器的响应结果进行处理。</p>
-<h3 id="单向消息"><a href="#单向消息" class="headerlink" title="单向消息"></a>单向消息</h3><p>&emsp;&emsp;单向（Oneway）发送特点为只负责发送消息，不等待服务器回应且没有回调函数触发，即只发送请求不等待应答。此方式发送消息的过程耗时非常短，一般在微秒级别。这种消息常用于日志收集。</p>
-<h2 id="从共功能分"><a href="#从共功能分" class="headerlink" title="从共功能分"></a>从共功能分</h2><p>&emsp;&emsp;从使用功能也可以分为多种消息，最广为人知的就是事务消息。<br>&emsp;&emsp;消息共有以下分类：</p>
-<ol>
-<li>普通消息</li>
-<li>顺序消息</li>
-<li>广播消息</li>
-<li>延时消息</li>
-<li>批量消息</li>
-<li>事务消息</li>
-</ol>
-<h3 id="顺序消息"><a href="#顺序消息" class="headerlink" title="顺序消息"></a>顺序消息</h3><p>&emsp;&emsp;消息有序指的是一类消息消费时，能按照发送的顺序来消费。</p>
-<h3 id="广播消息"><a href="#广播消息" class="headerlink" title="广播消息"></a>广播消息</h3><p>&emsp;&emsp;广播消息与普通消息不同的是，普通消息只会由消费者组中负载均衡到消息所在MessageQuene的消费者消费，而广播消息由消费者组中的所有消费者消费。</p>
-<h3 id="定时消息"><a href="#定时消息" class="headerlink" title="定时消息"></a>定时消息</h3><p>&emsp;&emsp;<a href="https://www.yuque.com/jiufenshiren/mvgau4/cn_features#19cff416">定时消息</a><br>&emsp;&emsp;定时消息（延迟队列）是指消息发送到broker后，不会立即被消费，等待特定时间投递给真正的topic。<br>&emsp;&emsp;broker有配置项messageDelayLevel，可以配置不同的DelayLevel延迟不同的时间。<br>&emsp;&emsp;定时消息会暂存在名为SCHEDULE_TOPIC_XXXX的topic中，并根据delayTimeLevel存入特定的queue，queueId = delayTimeLevel – 1，即一个queue只存相同延迟的消息，保证具有相同发送延迟的消息能够顺序消费。broker会调度地消费SCHEDULE_TOPIC_XXXX，将消息写入真实的topic。<br>&emsp;&emsp;需要注意的是，定时消息会在第一次写入和调度写入真实topic时都会计数，因此发送数量、tps都会变高。</p>
-<h3 id="事务消息"><a href="#事务消息" class="headerlink" title="事务消息"></a>事务消息</h3><p>&emsp;&emsp;<a href="https://www.yuque.com/jiufenshiren/mvgau4/cn_design#dc145683">官方的事务消息解释</a><br>&emsp;&emsp;RocketMQ事务消息（Transactional Message）是指应用本地事务和发送消息操作可以被定义到全局事务中，要么同时成功，要么同时失败。RocketMQ的事务消息提供类似X/Open XA的分布事务功能，通过事务消息能达到分布式事务的最终一致。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/rocketmq_design_10.png" alt="事务消息大概流程"></p>
-<p>&emsp;&emsp;事务消息的大概流程：</p>
-<ol>
-<li>发送一个事务的半消息。</li>
-<li>服务端将消息持久化成功之后，向发送方ACK确认消息已经发送成功，此时消息为半消息。</li>
-<li>开始执行本地事务，如果发送消息失败，本地事务不执行。</li>
-<li>根据本地事务向mq进行二次提交，Commit或rollback，commit会生成消息索引，mq收到Commit状态则将半消息标记为可投递，订阅方最终将收到该消息；服务端收到Rollback状态则删除半消息，订阅方将不会接受该消息。</li>
-</ol>
-<p>&emsp;&emsp;补偿流程：补偿流程用于mq没有收到发送者二次提交的情况下：</p>
-<ol>
-<li>对没有Commit/Rollback的事务消息（pending状态的消息），从服务端发起一次“回查”。（最大回查15次）</li>
-<li>Producer收到回查消息，检查回查消息对应的本地事务的状态。</li>
-<li>根据本地事务状态，重新Commit或者Rollback。</li>
-</ol>
-<p>&emsp;&emsp;注意：</p>
-<ol>
-<li>需要消息回查接口。</li>
-<li>不能保证消息幂等，需要消费方手动控制，在消费者未ack情况下，可能重复消费。</li>
-</ol>
-<hr>
-<h1 id="消息问题"><a href="#消息问题" class="headerlink" title="消息问题"></a>消息问题</h1><p><a href="https://www.cnblogs.com/duanxz/p/6053598.html">RocketMQ之二：分布式开放消息系统RocketMQ的原理与实践（消息的顺序问题、重复问题、可靠消息/事务消息）</a></p>
-<h2 id="消息顺序问题"><a href="#消息顺序问题" class="headerlink" title="消息顺序问题"></a>消息顺序问题</h2><p>&emsp;&emsp;有着一定顺序的消息，一般需要发送到同一个MessageQuene，因为MessageQuene采用先进先出队列，消费方就可以按照发送的顺序进行消费。<br>&emsp;&emsp;可以自定义MessageQueueSelector实现的算法来选择一个队列。<br>&emsp;&emsp;mq顺序消息中，mq需要收到消费方对上一个消息的确认ACK后才能投递下一个消息，这个会带来上一个消息ack收不到的情况下，会造成重复消费。</p>
-<h2 id="消息重复问题"><a href="#消息重复问题" class="headerlink" title="消息重复问题"></a>消息重复问题</h2><p>&emsp;&emsp;mq中并没有处理消息的重复问题，需要消费方自己实现幂等，解决消息重复消费的问题。</p>
 ]]></content>
       <categories>
         <category>消息中间件</category>
@@ -3604,6 +3845,43 @@ java -jar rocketmq-console-ng-1.0.1.jar<span aria-hidden="true" class="line-numb
       </tags>
   </entry>
   <entry>
+    <title>git</title>
+    <url>/hexoblog/2021/03/03/md/tool/git/</url>
+    <content><![CDATA[<h1 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h1><h2 id="将本地文件推送至远程"><a href="#将本地文件推送至远程" class="headerlink" title="将本地文件推送至远程"></a>将本地文件推送至远程</h2><ol>
+<li>首先在码云上建立一个项目</li>
+<li>本地建立一个文件夹</li>
+<li>进入文件夹，点击 git bash here</li>
+<li>git init  #初始化本地仓库，出现一个.git文件夹</li>
+<li>git remote add origin +远程仓库链接地址（https:/git:）</li>
+<li>git pull origin master  #将码云上的仓库pull到本地文件夹</li>
+<li>将要上传的文件，添加到刚刚创建的文件夹</li>
+<li>git add .  #（.表示所有的）或者 git add + 文件名 将文件保存到缓存区</li>
+<li>git commit -m ‘新添加的文件内容描述’  #添加文件描述</li>
+<li>git push origin master  #将本地仓库推送到远程仓库</li>
+</ol>
+<span id="more"></span>
+
+<h2 id="删除本地仓库"><a href="#删除本地仓库" class="headerlink" title="删除本地仓库"></a>删除本地仓库</h2><ol>
+<li>进入文件夹，点击 git bash here</li>
+<li>git branch  #显示本地所有分支</li>
+<li>ls -a  #显示所有文件</li>
+<li>rm -rf .git  #删除.git文件</li>
+<li>删除文件夹</li>
+</ol>
+<h2 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h2><ol>
+<li>git config  #查看配置</li>
+</ol>
+<hr>
+<h1 id="GIT命令"><a href="#GIT命令" class="headerlink" title="GIT命令"></a>GIT命令</h1>]]></content>
+      <categories>
+        <category>tool</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>hexo使用</title>
     <url>/hexoblog/2021/03/04/md/tool/hexo%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><p>[toc]</p>
@@ -3664,43 +3942,6 @@ hexo d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></sp
       <tags>
         <tag>tool</tag>
         <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>git</title>
-    <url>/hexoblog/2021/03/03/md/tool/git/</url>
-    <content><![CDATA[<h1 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h1><h2 id="将本地文件推送至远程"><a href="#将本地文件推送至远程" class="headerlink" title="将本地文件推送至远程"></a>将本地文件推送至远程</h2><ol>
-<li>首先在码云上建立一个项目</li>
-<li>本地建立一个文件夹</li>
-<li>进入文件夹，点击 git bash here</li>
-<li>git init  #初始化本地仓库，出现一个.git文件夹</li>
-<li>git remote add origin +远程仓库链接地址（https:/git:）</li>
-<li>git pull origin master  #将码云上的仓库pull到本地文件夹</li>
-<li>将要上传的文件，添加到刚刚创建的文件夹</li>
-<li>git add .  #（.表示所有的）或者 git add + 文件名 将文件保存到缓存区</li>
-<li>git commit -m ‘新添加的文件内容描述’  #添加文件描述</li>
-<li>git push origin master  #将本地仓库推送到远程仓库</li>
-</ol>
-<span id="more"></span>
-
-<h2 id="删除本地仓库"><a href="#删除本地仓库" class="headerlink" title="删除本地仓库"></a>删除本地仓库</h2><ol>
-<li>进入文件夹，点击 git bash here</li>
-<li>git branch  #显示本地所有分支</li>
-<li>ls -a  #显示所有文件</li>
-<li>rm -rf .git  #删除.git文件</li>
-<li>删除文件夹</li>
-</ol>
-<h2 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h2><ol>
-<li>git config  #查看配置</li>
-</ol>
-<hr>
-<h1 id="GIT命令"><a href="#GIT命令" class="headerlink" title="GIT命令"></a>GIT命令</h1>]]></content>
-      <categories>
-        <category>tool</category>
-      </categories>
-      <tags>
-        <tag>tool</tag>
-        <tag>git</tag>
       </tags>
   </entry>
   <entry>
@@ -3793,72 +4034,6 @@ hexo d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></sp
       </tags>
   </entry>
   <entry>
-    <title>zookeeper-leader选举</title>
-    <url>/hexoblog/2021/05/10/md/zookeeper/zookeeper-leader%E9%80%89%E4%B8%BE/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;ZAB协议包括了两种基本模式：崩溃恢复，数据广播。<br>&emsp;&emsp;一旦Leader服务器出现崩溃或者由于网络原因导致Leader服务器失去了与过半Follower的联系，那么就会进入崩溃恢复模式。<br>&emsp;&emsp;崩溃恢复主要包括两部分：Leader选举和数据恢复。</p>
-<span id="more"></span>
-
-<h2 id="保证数据一致性"><a href="#保证数据一致性" class="headerlink" title="保证数据一致性"></a>保证数据一致性</h2><p>&emsp;&emsp;假设两种情况：</p>
-<ol>
-<li>一个事务在Leader上提交了，并且过半的Folower都响应Ack了，但是Leader在Commit消息发出之前挂了。</li>
-<li>假设一个事务在Leader提出之后，Leader挂了。</li>
-</ol>
-<p>&emsp;&emsp;要满足上面这两个问题，必须做到：</p>
-<ol>
-<li><strong>确保已经被Leader提交的Proposal必须最终被所有的Follower服务器提交</strong>。</li>
-<li><strong>确保丢弃已经被Leader提出的但是没有被提交的Proposal</strong>。</li>
-</ol>
-<p>&emsp;&emsp;新的Leader的必须满足：</p>
-<ol>
-<li><strong>新选举出来的Leader不能包含未提交的Proposal</strong>。</li>
-<li><strong>新选举的Leader节点中含有最大的Zxid</strong>。</li>
-</ol>
-<h2 id="ZAB如何数据同步"><a href="#ZAB如何数据同步" class="headerlink" title="ZAB如何数据同步"></a>ZAB如何数据同步</h2><p>&emsp;&emsp;完成Leader选举后（新的Leader具有最高的Zxid），在正式开始工作之前（接收事务请求，然后提出新的Proposal），Leader服务器会首先确认事务日志中的所有的Proposal是否已经被集群中过半的服务器Commit。<br>&emsp;&emsp;Leader服务器需要确保所有的Follower服务器能够接收到每一条事务的Proposal，并且能将所有已经提交的事务Proposal应用到内存数据中。等到Follower将所有尚未同步的事务Proposal都从Leader服务器上同步过啦并且应用到内存数据中以后，Leader才会把该Follower加入到真正可用的Follower列表中。</p>
-<h2 id="ZAB数据同步过程中，如何处理需要丢弃的Proposal"><a href="#ZAB数据同步过程中，如何处理需要丢弃的Proposal" class="headerlink" title="ZAB数据同步过程中，如何处理需要丢弃的Proposal"></a>ZAB数据同步过程中，如何处理需要丢弃的Proposal</h2><p>&emsp;&emsp;在ZAB的事务编号Zxid设计中，Zxid是一个64位的数字。<br>&emsp;&emsp;<strong>其中低32位可以看成一个简单的单增计数器，针对客户端每一个事务请求，Leader在产生新的Proposal事务时，都会对该计数器加1。而高32位则代表了Leader周期的epoch编号</strong>。  </p>
-<blockquote>
-<p>&emsp;&emsp;epoch编号可以理解为当前集群所处的年代，或者周期。每次Leader变更之后都会在epoch的基础上加1，这样旧的Leader崩溃恢复之后，其他Follower也不会听它的了，因为Follower只服从epoch最高的Leader命令。</p>
-</blockquote>
-<p>&emsp;&emsp;每当选举产生一个新的Leader，就会从这个Leader服务器上取出本地事务日志充最大编号Proposal的Zxid，并从Zxid中解析得到对应的epoch编号，然后再对其加1，之后该编号就作为新的epoch值，并将低32位数字归零，由0开始重新生成Zxid。<br>&emsp;&emsp;ZAB协议通过epoch编号来区分Leader变化周期，能够有效避免不同的Leader错误的使用了相同的Zxid编号提出了不一样的Proposal的异常情况。<br>&emsp;&emsp;当一个包含了上一个Leader周期尚未提交过的事务Proposal的服务器启动时，当这台机器加入集群中，以Follower角色连上Leader服务器上，Leader服务器会根据自己服务器上最后提交的Proposal来和Follower服务器的Proposal进行比对，比对的结果肯定是Leader要求Follower进行一个回退操作，回退到一个确实已经被集群中过半机器Commit的最新Proposal。</p>
-<hr>
-<h1 id="Leader选举"><a href="#Leader选举" class="headerlink" title="Leader选举"></a>Leader选举</h1><p>&emsp;&emsp;选举分为四个阶段：选举阶段，发现阶段，同步阶段，广播阶段。</p>
-<h2 id="选举阶段"><a href="#选举阶段" class="headerlink" title="选举阶段"></a>选举阶段</h2><p>&emsp;&emsp;节点在一开始都处于选举阶段，只要一个节点得到超过半数节点的票数，他就可以当选准Leader，只有达到同步阶段，这个节点才能真正称为Leader。<br>&emsp;&emsp;Zookeeper规定所有有效的投票都必须在同一个轮次中，每个服务器在开始新一轮投票时，都会对自己维护的logicalClock进行自增操作。<br>&emsp;&emsp;每个服务器在广播自己的选票前，会将自己的投票箱（recvset）清空。该投票箱记录了所受到的选票。(3,2)这种格式，表示3投给了2。<br>&emsp;&emsp;广播选票后，会进行选票PK，选出准Leader。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/zab%E9%80%89%E4%B8%BE.png" alt="ZAB选举"></p>
-<h2 id="发现阶段"><a href="#发现阶段" class="headerlink" title="发现阶段"></a>发现阶段</h2><p>&emsp;&emsp;在这个阶段，Followers和上一轮选举出的准Leader进行通信，同步Followers最近接收的事务Proposal。<br>&emsp;&emsp;<em>一个Follower只会连接一个Leader，如果一个 Follower节点拒绝另一个Follower节点，则会在尝试连接时被拒绝。被拒绝之后，该节点就会进入Leader Election阶段</em>。<br>&emsp;&emsp;这个阶段的主要目标是发现当前大多数节点接收的最新Proposal，并且准Leader生成新的epoch，让Follower接收，更新它们的acceptedEpoch。</p>
-<h2 id="同步阶段"><a href="#同步阶段" class="headerlink" title="同步阶段"></a>同步阶段</h2><p>&emsp;&emsp;同步阶段主要是利用Leader前一阶段获得最新的Proposal历史，同步集群中所有的副本。<br>&emsp;&emsp;只有当超过半数节点都同步完成，准Leader才会称为真正的Leader。Follower只会接受Zxid比自己LastZxid大的Proposal。</p>
-<h2 id="广播阶段"><a href="#广播阶段" class="headerlink" title="广播阶段"></a>广播阶段</h2><p>&emsp;&emsp;到了这个阶段，Zookeeper集群才能正式向外部提供服务，并且Leader进行消息广播。如果有新节点，对新节点进行数据同步。<br>&emsp;&emsp;Zookeeper不需要得到全部的Follower的ACK，超过一般数量的ACK，就饿可以Commit。</p>
-<hr>
-<h1 id="协议实现"><a href="#协议实现" class="headerlink" title="协议实现"></a>协议实现</h1><p>&emsp;&emsp;实际的实现跟上面有所不同，分为三个阶段，将发现和同步阶段合在一起。<br>&emsp;&emsp;实际分为，选举、恢复、广播三个阶段。</p>
-<h2 id="选举阶段-1"><a href="#选举阶段-1" class="headerlink" title="选举阶段"></a>选举阶段</h2><p>&emsp;&emsp;选举阶段采用Fast Leader Election（FLE），会采用LastZxid最大的节点作为Leader，这样就省去了发现最新提议的阶段。<br>&emsp;&emsp;这是基于拥有最新提议的节点也拥有最新的提交记录。<br>&emsp;&emsp;称为Leader的条件：</p>
-<ol>
-<li>选epoch最大的。</li>
-<li>epoch相等，选Zxid最大的。</li>
-<li>若 epoch 和 zxid 相等，选择 server_id 最大的（zoo.cfg中的myid）。</li>
-</ol>
-<p>&emsp;&emsp;节点在选举开始时，都默认投票给自己，当接收其他节点的选票时，会根据上面的Leader条件 判断并且更改自己的选票，然后重新发送选票给其他节点。当有一个节点的得票超过半数，该节点会设置自己的状态为Leading ，其他节点会设置自己的状态为Following。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E9%80%89%E4%B8%BE.png" alt="选举"></p>
-<h2 id="恢复阶段"><a href="#恢复阶段" class="headerlink" title="恢复阶段"></a>恢复阶段</h2><p>&emsp;&emsp;这一阶段Follower发送他们的lastZxid给Leader，Leader根据lastZxid决定如何同步数据。这里的实现跟前面的Phase 2有所不同：Follower收到TRUNC指令会终止L.lastCommitedZxid之后的Proposal，收到DIFF指令会接收新的Proposal。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E6%81%A2%E5%A4%8D.png" alt="恢复"></p>
-<hr>
-<h1 id="两个问题"><a href="#两个问题" class="headerlink" title="两个问题"></a>两个问题</h1><h2 id="已经被处理的请求不能丢"><a href="#已经被处理的请求不能丢" class="headerlink" title="已经被处理的请求不能丢"></a>已经被处理的请求不能丢</h2><p>&emsp;&emsp;就是发送Commit提交消息时，挂掉了。</p>
-<ol>
-<li>选举拥有proposal最大值（即zxid最大）的节点作为新的 leader。<blockquote>
-<p>zxid最大也就是数据最新的节点保存了所有被COMMIT消息的proposal状态。</p>
-</blockquote>
-</li>
-<li>新的leader将自己事务日志中proposal但未COMMIT的消息处理。</li>
-<li>新的leader与follower建立先进先出的队列，先将自身有而 follower没有的proposal发送给follower，再将这些proposal的COMMIT命令发送给follower，以保证所有的follower都保存了所有的proposal、所有的follower都处理了所有的消息。通过以上策略，能保证已经被处理的消息不会丢。</li>
-</ol>
-<h2 id="没被处理的请求需要丢失"><a href="#没被处理的请求需要丢失" class="headerlink" title="没被处理的请求需要丢失"></a>没被处理的请求需要丢失</h2><p>&emsp;&emsp;当leader接收到消息请求生成proposal后就挂了，其他follower并没有收到此proposal，因此经过恢复模式重新选了leader后，这条消息是被跳过的。此时，之前挂了的leader重新启动并注册成了follower，他保留了被跳过消息的proposal状态，与整个系统的状态是不一致的，需要将其删除。<br>&emsp;&emsp;Zxid的设计的好处是旧的leader挂了后重启，它不会被选举为leader，因为此时它的zxid肯定小于当前的新leader。当旧的leader作为follower接入新的leader后，新的leader会让它将所有的拥有旧的epoch号的未被COMMIT的proposal清除。</p>
-]]></content>
-      <categories>
-        <category>zookeeper</category>
-      </categories>
-      <tags>
-        <tag>分布式</tag>
-        <tag>zookeeper</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>ZAB协议</title>
     <url>/hexoblog/2021/05/13/md/zookeeper/ZAB%E5%8D%8F%E8%AE%AE/</url>
     <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;ZAB协议的全称是Zookeeper Atomic Broadcast（Zookeeper）原子广播。<br>&emsp;&emsp;Zookeeper是通过 Zab 协议来保证分布式事务的最终一致性。</p>
@@ -3938,6 +4113,72 @@ hexo d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></sp
         <category>zookeeper</category>
       </categories>
       <tags>
+        <tag>zookeeper</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>zookeeper-leader选举</title>
+    <url>/hexoblog/2021/05/10/md/zookeeper/zookeeper-leader%E9%80%89%E4%B8%BE/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;ZAB协议包括了两种基本模式：崩溃恢复，数据广播。<br>&emsp;&emsp;一旦Leader服务器出现崩溃或者由于网络原因导致Leader服务器失去了与过半Follower的联系，那么就会进入崩溃恢复模式。<br>&emsp;&emsp;崩溃恢复主要包括两部分：Leader选举和数据恢复。</p>
+<span id="more"></span>
+
+<h2 id="保证数据一致性"><a href="#保证数据一致性" class="headerlink" title="保证数据一致性"></a>保证数据一致性</h2><p>&emsp;&emsp;假设两种情况：</p>
+<ol>
+<li>一个事务在Leader上提交了，并且过半的Folower都响应Ack了，但是Leader在Commit消息发出之前挂了。</li>
+<li>假设一个事务在Leader提出之后，Leader挂了。</li>
+</ol>
+<p>&emsp;&emsp;要满足上面这两个问题，必须做到：</p>
+<ol>
+<li><strong>确保已经被Leader提交的Proposal必须最终被所有的Follower服务器提交</strong>。</li>
+<li><strong>确保丢弃已经被Leader提出的但是没有被提交的Proposal</strong>。</li>
+</ol>
+<p>&emsp;&emsp;新的Leader的必须满足：</p>
+<ol>
+<li><strong>新选举出来的Leader不能包含未提交的Proposal</strong>。</li>
+<li><strong>新选举的Leader节点中含有最大的Zxid</strong>。</li>
+</ol>
+<h2 id="ZAB如何数据同步"><a href="#ZAB如何数据同步" class="headerlink" title="ZAB如何数据同步"></a>ZAB如何数据同步</h2><p>&emsp;&emsp;完成Leader选举后（新的Leader具有最高的Zxid），在正式开始工作之前（接收事务请求，然后提出新的Proposal），Leader服务器会首先确认事务日志中的所有的Proposal是否已经被集群中过半的服务器Commit。<br>&emsp;&emsp;Leader服务器需要确保所有的Follower服务器能够接收到每一条事务的Proposal，并且能将所有已经提交的事务Proposal应用到内存数据中。等到Follower将所有尚未同步的事务Proposal都从Leader服务器上同步过啦并且应用到内存数据中以后，Leader才会把该Follower加入到真正可用的Follower列表中。</p>
+<h2 id="ZAB数据同步过程中，如何处理需要丢弃的Proposal"><a href="#ZAB数据同步过程中，如何处理需要丢弃的Proposal" class="headerlink" title="ZAB数据同步过程中，如何处理需要丢弃的Proposal"></a>ZAB数据同步过程中，如何处理需要丢弃的Proposal</h2><p>&emsp;&emsp;在ZAB的事务编号Zxid设计中，Zxid是一个64位的数字。<br>&emsp;&emsp;<strong>其中低32位可以看成一个简单的单增计数器，针对客户端每一个事务请求，Leader在产生新的Proposal事务时，都会对该计数器加1。而高32位则代表了Leader周期的epoch编号</strong>。  </p>
+<blockquote>
+<p>&emsp;&emsp;epoch编号可以理解为当前集群所处的年代，或者周期。每次Leader变更之后都会在epoch的基础上加1，这样旧的Leader崩溃恢复之后，其他Follower也不会听它的了，因为Follower只服从epoch最高的Leader命令。</p>
+</blockquote>
+<p>&emsp;&emsp;每当选举产生一个新的Leader，就会从这个Leader服务器上取出本地事务日志充最大编号Proposal的Zxid，并从Zxid中解析得到对应的epoch编号，然后再对其加1，之后该编号就作为新的epoch值，并将低32位数字归零，由0开始重新生成Zxid。<br>&emsp;&emsp;ZAB协议通过epoch编号来区分Leader变化周期，能够有效避免不同的Leader错误的使用了相同的Zxid编号提出了不一样的Proposal的异常情况。<br>&emsp;&emsp;当一个包含了上一个Leader周期尚未提交过的事务Proposal的服务器启动时，当这台机器加入集群中，以Follower角色连上Leader服务器上，Leader服务器会根据自己服务器上最后提交的Proposal来和Follower服务器的Proposal进行比对，比对的结果肯定是Leader要求Follower进行一个回退操作，回退到一个确实已经被集群中过半机器Commit的最新Proposal。</p>
+<hr>
+<h1 id="Leader选举"><a href="#Leader选举" class="headerlink" title="Leader选举"></a>Leader选举</h1><p>&emsp;&emsp;选举分为四个阶段：选举阶段，发现阶段，同步阶段，广播阶段。</p>
+<h2 id="选举阶段"><a href="#选举阶段" class="headerlink" title="选举阶段"></a>选举阶段</h2><p>&emsp;&emsp;节点在一开始都处于选举阶段，只要一个节点得到超过半数节点的票数，他就可以当选准Leader，只有达到同步阶段，这个节点才能真正称为Leader。<br>&emsp;&emsp;Zookeeper规定所有有效的投票都必须在同一个轮次中，每个服务器在开始新一轮投票时，都会对自己维护的logicalClock进行自增操作。<br>&emsp;&emsp;每个服务器在广播自己的选票前，会将自己的投票箱（recvset）清空。该投票箱记录了所受到的选票。(3,2)这种格式，表示3投给了2。<br>&emsp;&emsp;广播选票后，会进行选票PK，选出准Leader。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/zab%E9%80%89%E4%B8%BE.png" alt="ZAB选举"></p>
+<h2 id="发现阶段"><a href="#发现阶段" class="headerlink" title="发现阶段"></a>发现阶段</h2><p>&emsp;&emsp;在这个阶段，Followers和上一轮选举出的准Leader进行通信，同步Followers最近接收的事务Proposal。<br>&emsp;&emsp;<em>一个Follower只会连接一个Leader，如果一个 Follower节点拒绝另一个Follower节点，则会在尝试连接时被拒绝。被拒绝之后，该节点就会进入Leader Election阶段</em>。<br>&emsp;&emsp;这个阶段的主要目标是发现当前大多数节点接收的最新Proposal，并且准Leader生成新的epoch，让Follower接收，更新它们的acceptedEpoch。</p>
+<h2 id="同步阶段"><a href="#同步阶段" class="headerlink" title="同步阶段"></a>同步阶段</h2><p>&emsp;&emsp;同步阶段主要是利用Leader前一阶段获得最新的Proposal历史，同步集群中所有的副本。<br>&emsp;&emsp;只有当超过半数节点都同步完成，准Leader才会称为真正的Leader。Follower只会接受Zxid比自己LastZxid大的Proposal。</p>
+<h2 id="广播阶段"><a href="#广播阶段" class="headerlink" title="广播阶段"></a>广播阶段</h2><p>&emsp;&emsp;到了这个阶段，Zookeeper集群才能正式向外部提供服务，并且Leader进行消息广播。如果有新节点，对新节点进行数据同步。<br>&emsp;&emsp;Zookeeper不需要得到全部的Follower的ACK，超过一般数量的ACK，就饿可以Commit。</p>
+<hr>
+<h1 id="协议实现"><a href="#协议实现" class="headerlink" title="协议实现"></a>协议实现</h1><p>&emsp;&emsp;实际的实现跟上面有所不同，分为三个阶段，将发现和同步阶段合在一起。<br>&emsp;&emsp;实际分为，选举、恢复、广播三个阶段。</p>
+<h2 id="选举阶段-1"><a href="#选举阶段-1" class="headerlink" title="选举阶段"></a>选举阶段</h2><p>&emsp;&emsp;选举阶段采用Fast Leader Election（FLE），会采用LastZxid最大的节点作为Leader，这样就省去了发现最新提议的阶段。<br>&emsp;&emsp;这是基于拥有最新提议的节点也拥有最新的提交记录。<br>&emsp;&emsp;称为Leader的条件：</p>
+<ol>
+<li>选epoch最大的。</li>
+<li>epoch相等，选Zxid最大的。</li>
+<li>若 epoch 和 zxid 相等，选择 server_id 最大的（zoo.cfg中的myid）。</li>
+</ol>
+<p>&emsp;&emsp;节点在选举开始时，都默认投票给自己，当接收其他节点的选票时，会根据上面的Leader条件 判断并且更改自己的选票，然后重新发送选票给其他节点。当有一个节点的得票超过半数，该节点会设置自己的状态为Leading ，其他节点会设置自己的状态为Following。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E9%80%89%E4%B8%BE.png" alt="选举"></p>
+<h2 id="恢复阶段"><a href="#恢复阶段" class="headerlink" title="恢复阶段"></a>恢复阶段</h2><p>&emsp;&emsp;这一阶段Follower发送他们的lastZxid给Leader，Leader根据lastZxid决定如何同步数据。这里的实现跟前面的Phase 2有所不同：Follower收到TRUNC指令会终止L.lastCommitedZxid之后的Proposal，收到DIFF指令会接收新的Proposal。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E6%81%A2%E5%A4%8D.png" alt="恢复"></p>
+<hr>
+<h1 id="两个问题"><a href="#两个问题" class="headerlink" title="两个问题"></a>两个问题</h1><h2 id="已经被处理的请求不能丢"><a href="#已经被处理的请求不能丢" class="headerlink" title="已经被处理的请求不能丢"></a>已经被处理的请求不能丢</h2><p>&emsp;&emsp;就是发送Commit提交消息时，挂掉了。</p>
+<ol>
+<li>选举拥有proposal最大值（即zxid最大）的节点作为新的 leader。<blockquote>
+<p>zxid最大也就是数据最新的节点保存了所有被COMMIT消息的proposal状态。</p>
+</blockquote>
+</li>
+<li>新的leader将自己事务日志中proposal但未COMMIT的消息处理。</li>
+<li>新的leader与follower建立先进先出的队列，先将自身有而 follower没有的proposal发送给follower，再将这些proposal的COMMIT命令发送给follower，以保证所有的follower都保存了所有的proposal、所有的follower都处理了所有的消息。通过以上策略，能保证已经被处理的消息不会丢。</li>
+</ol>
+<h2 id="没被处理的请求需要丢失"><a href="#没被处理的请求需要丢失" class="headerlink" title="没被处理的请求需要丢失"></a>没被处理的请求需要丢失</h2><p>&emsp;&emsp;当leader接收到消息请求生成proposal后就挂了，其他follower并没有收到此proposal，因此经过恢复模式重新选了leader后，这条消息是被跳过的。此时，之前挂了的leader重新启动并注册成了follower，他保留了被跳过消息的proposal状态，与整个系统的状态是不一致的，需要将其删除。<br>&emsp;&emsp;Zxid的设计的好处是旧的leader挂了后重启，它不会被选举为leader，因为此时它的zxid肯定小于当前的新leader。当旧的leader作为follower接入新的leader后，新的leader会让它将所有的拥有旧的epoch号的未被COMMIT的proposal清除。</p>
+]]></content>
+      <categories>
+        <category>zookeeper</category>
+      </categories>
+      <tags>
+        <tag>分布式</tag>
         <tag>zookeeper</tag>
       </tags>
   </entry>
@@ -4362,48 +4603,6 @@ zkServer<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
       </tags>
   </entry>
   <entry>
-    <title>分布式事务</title>
-    <url>/hexoblog/2021/03/02/md/%E5%88%86%E5%B8%83%E5%BC%8F/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/</url>
-    <content><![CDATA[<h1 id="分布式事务类型："><a href="#分布式事务类型：" class="headerlink" title="分布式事务类型："></a>分布式事务类型：</h1><p>分布式事务处理机制共有四种：</p>
-<ol>
-<li>两阶段提交</li>
-<li>TCC事务（事务补偿）</li>
-<li>本地消息表（异步确保），</li>
-<li>MQ事务消息。</li>
-</ol>
-<span id="more"></span>
-
-<h2 id="两阶段提交："><a href="#两阶段提交：" class="headerlink" title="两阶段提交："></a>两阶段提交：</h2><p>&emsp;&emsp;与数据库XA事务一样，两阶段提交使用XA协议。<br>&emsp;&emsp;两阶段提交这种方案属于牺牲了一部分可用性来换取的一致性。</p>
-<h3 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;尽量保证了数据的强一致，适合对数据强一致要求很高的关键领域。</p>
-<h3 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;实现复杂，牺牲了可用性，对性能影响较大，不适合高并发高性能场景，如分布式系统跨接口调用。</p>
-<h2 id="TCC事务："><a href="#TCC事务：" class="headerlink" title="TCC事务："></a>TCC事务：</h2><p>&emsp;&emsp;TCC其实就是采用的补偿机制，其核心思想是：针对每个操作，都要注册一个与其对应的确认和补偿操作。分为三个阶段：</p>
-<ol>
-<li> Try阶段主要是对业务系统做检测和资源预留。</li>
-<li> Confirm阶段主要是对业务系统做确认提交，Try阶段执行成功并开始执行Confirm阶段时，默认Confirm阶段是不会出错的。即：只要Try成功，Confirm一定成功。</li>
-<li> Cancel阶段主要是在业务执行错误，需要回滚的状态下，执行的业务取消，预留资源释放。</li>
-</ol>
-<h3 id="优点：-1"><a href="#优点：-1" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;跟2阶段提交比起来，实现及流程相对简单了些，但数据的一致性也要比2阶段提交要差一些。</p>
-<h3 id="缺点：-1"><a href="#缺点：-1" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;在2，3步中都可能失败。TCC是一种应用层的补偿方式，需要程序员在实现时写很多补偿的代码，一些场景中，一些业务流程用TCC不太好定义及处理。</p>
-<h2 id="本地消息表："><a href="#本地消息表：" class="headerlink" title="本地消息表："></a>本地消息表：</h2><p>&emsp;&emsp;使用最多的，核心思想是将分布式事务拆分成本地事务进行处理，来源于ebay。</p>
-<p>基本思路就是：</p>
-<p>&emsp;&emsp;消息生产方，需要额外建一个消息表，并记录消息发送状态。消息表和业务数据要在一个事务里提交，也就是说他们要在一个数据库里面。然后会经由MQ发送到消息的消费方。如果消息发送失败，会进行重试发送。<br>&emsp;&emsp;消息消费方，需要处理这个消息，并完成这个的业务逻辑。如果此时本地事务处理成功，表明已经处理成功了，如果处理失败，那么就会重试执行。如果是业务上面的失败，可以给生产方发送一个业务补偿消息，通知生产方进行回滚等操作。<br>&emsp;&emsp;生产方和消费方定时扫描本地消息表，把还没处理完成的消息或者失败的消息在发送一遍。<br>&emsp;&emsp;这种方案遵循最终一致性。</p>
-<h3 id="优点：-2"><a href="#优点：-2" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;一种非常经典的实现， 避免的分布式事务，实现了最终一致性。</p>
-<h3 id="缺点：-2"><a href="#缺点：-2" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;消息表会耦合到业务系统中，如果没有封装好的解决方案，会有很多杂活需要处理。</p>
-<h2 id="MQ事务消息："><a href="#MQ事务消息：" class="headerlink" title="MQ事务消息："></a>MQ事务消息：</h2><p>&emsp;&emsp;有一些第三方的MQ是支持事务消息的，比如RocketMQ，他们支持事务消息的方式也是类似于采用的二阶段提交，但一些主流的MQ都是不支持事务消息的，如RabbitMQ和Kafka都不支持。</p>
-<p>以阿里的RocketMQ为例：</p>
-<p>&emsp;&emsp;第一阶段Prepared消息，会拿到消息的地址。<br>&emsp;&emsp;第二阶段执行本地事务，第三阶段通过第一阶段拿到的地址去访问消息，并修改状态。<br>&emsp;&emsp;也就是说在业务方法内部要想消息队列提交两次请求，一次发送消息和一次确认消息。如果确认消息发送失败了，RocketMQ会定期扫描消息集群中的事务消息，这是发现了Prepared消息，它会像消息发送者确认，所以生产方需要实现一个check接口，RocketMQ会根据发送端设置的策略来决定是回滚还是继续发送确认消息。这样就保证了消息发送与本地事务同时成功或同时失败。</p>
-<h3 id="优点：-3"><a href="#优点：-3" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;实现了最终一致性，不需要依赖本地数据库事务。</p>
-<h3 id="缺点：-3"><a href="#缺点：-3" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;实现难度大，主流MQ不支持，RocketMQ事务消息部分代码未开源。</p>
-]]></content>
-      <categories>
-        <category>分布式</category>
-      </categories>
-      <tags>
-        <tag>分布式</tag>
-        <tag>acid</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>分布式锁</title>
     <url>/hexoblog/2021/03/02/md/%E5%88%86%E5%B8%83%E5%BC%8F/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/</url>
     <content><![CDATA[<h1 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h1><h2 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h2><ol>
@@ -4473,6 +4672,48 @@ zkServer<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
       <tags>
         <tag>lock</tag>
         <tag>分布式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>分布式事务</title>
+    <url>/hexoblog/2021/03/02/md/%E5%88%86%E5%B8%83%E5%BC%8F/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/</url>
+    <content><![CDATA[<h1 id="分布式事务类型："><a href="#分布式事务类型：" class="headerlink" title="分布式事务类型："></a>分布式事务类型：</h1><p>分布式事务处理机制共有四种：</p>
+<ol>
+<li>两阶段提交</li>
+<li>TCC事务（事务补偿）</li>
+<li>本地消息表（异步确保），</li>
+<li>MQ事务消息。</li>
+</ol>
+<span id="more"></span>
+
+<h2 id="两阶段提交："><a href="#两阶段提交：" class="headerlink" title="两阶段提交："></a>两阶段提交：</h2><p>&emsp;&emsp;与数据库XA事务一样，两阶段提交使用XA协议。<br>&emsp;&emsp;两阶段提交这种方案属于牺牲了一部分可用性来换取的一致性。</p>
+<h3 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;尽量保证了数据的强一致，适合对数据强一致要求很高的关键领域。</p>
+<h3 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;实现复杂，牺牲了可用性，对性能影响较大，不适合高并发高性能场景，如分布式系统跨接口调用。</p>
+<h2 id="TCC事务："><a href="#TCC事务：" class="headerlink" title="TCC事务："></a>TCC事务：</h2><p>&emsp;&emsp;TCC其实就是采用的补偿机制，其核心思想是：针对每个操作，都要注册一个与其对应的确认和补偿操作。分为三个阶段：</p>
+<ol>
+<li> Try阶段主要是对业务系统做检测和资源预留。</li>
+<li> Confirm阶段主要是对业务系统做确认提交，Try阶段执行成功并开始执行Confirm阶段时，默认Confirm阶段是不会出错的。即：只要Try成功，Confirm一定成功。</li>
+<li> Cancel阶段主要是在业务执行错误，需要回滚的状态下，执行的业务取消，预留资源释放。</li>
+</ol>
+<h3 id="优点：-1"><a href="#优点：-1" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;跟2阶段提交比起来，实现及流程相对简单了些，但数据的一致性也要比2阶段提交要差一些。</p>
+<h3 id="缺点：-1"><a href="#缺点：-1" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;在2，3步中都可能失败。TCC是一种应用层的补偿方式，需要程序员在实现时写很多补偿的代码，一些场景中，一些业务流程用TCC不太好定义及处理。</p>
+<h2 id="本地消息表："><a href="#本地消息表：" class="headerlink" title="本地消息表："></a>本地消息表：</h2><p>&emsp;&emsp;使用最多的，核心思想是将分布式事务拆分成本地事务进行处理，来源于ebay。</p>
+<p>基本思路就是：</p>
+<p>&emsp;&emsp;消息生产方，需要额外建一个消息表，并记录消息发送状态。消息表和业务数据要在一个事务里提交，也就是说他们要在一个数据库里面。然后会经由MQ发送到消息的消费方。如果消息发送失败，会进行重试发送。<br>&emsp;&emsp;消息消费方，需要处理这个消息，并完成这个的业务逻辑。如果此时本地事务处理成功，表明已经处理成功了，如果处理失败，那么就会重试执行。如果是业务上面的失败，可以给生产方发送一个业务补偿消息，通知生产方进行回滚等操作。<br>&emsp;&emsp;生产方和消费方定时扫描本地消息表，把还没处理完成的消息或者失败的消息在发送一遍。<br>&emsp;&emsp;这种方案遵循最终一致性。</p>
+<h3 id="优点：-2"><a href="#优点：-2" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;一种非常经典的实现， 避免的分布式事务，实现了最终一致性。</p>
+<h3 id="缺点：-2"><a href="#缺点：-2" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;消息表会耦合到业务系统中，如果没有封装好的解决方案，会有很多杂活需要处理。</p>
+<h2 id="MQ事务消息："><a href="#MQ事务消息：" class="headerlink" title="MQ事务消息："></a>MQ事务消息：</h2><p>&emsp;&emsp;有一些第三方的MQ是支持事务消息的，比如RocketMQ，他们支持事务消息的方式也是类似于采用的二阶段提交，但一些主流的MQ都是不支持事务消息的，如RabbitMQ和Kafka都不支持。</p>
+<p>以阿里的RocketMQ为例：</p>
+<p>&emsp;&emsp;第一阶段Prepared消息，会拿到消息的地址。<br>&emsp;&emsp;第二阶段执行本地事务，第三阶段通过第一阶段拿到的地址去访问消息，并修改状态。<br>&emsp;&emsp;也就是说在业务方法内部要想消息队列提交两次请求，一次发送消息和一次确认消息。如果确认消息发送失败了，RocketMQ会定期扫描消息集群中的事务消息，这是发现了Prepared消息，它会像消息发送者确认，所以生产方需要实现一个check接口，RocketMQ会根据发送端设置的策略来决定是回滚还是继续发送确认消息。这样就保证了消息发送与本地事务同时成功或同时失败。</p>
+<h3 id="优点：-3"><a href="#优点：-3" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;实现了最终一致性，不需要依赖本地数据库事务。</p>
+<h3 id="缺点：-3"><a href="#缺点：-3" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;实现难度大，主流MQ不支持，RocketMQ事务消息部分代码未开源。</p>
+]]></content>
+      <categories>
+        <category>分布式</category>
+      </categories>
+      <tags>
+        <tag>分布式</tag>
+        <tag>acid</tag>
       </tags>
   </entry>
   <entry>
