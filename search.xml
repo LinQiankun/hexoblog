@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>jekins安装使用</title>
+    <url>/hexoblog/2021/04/28/md/CI&amp;CD/jekins%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h1 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h1><p>&emsp;&emsp;网上的教程有很多，把自己的过程记一遍。<br>&emsp;&emsp;首先就是下载jekins的包，在官网下载就可以。win平台的可以下载对应的exe文件。<br><a href="https://www.jenkins.io/download">jekins下载</a><br>8089</p>
+<span id="more"></span>
+
+<hr>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;这里讲的是windows平台的安装。<br>&emsp;&emsp;安装也是很简单，一路点击next就可以了。</p>
+<hr>
+<h1 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h1><p>&emsp;&emsp;先看官方的，有空再总结自己的。<br>&emsp;&emsp;<a href="https://blog.csdn.net/wise18146705004/article/details/105455426">jekins在win10的安装和使用</a><br>&emsp;&emsp;<a href="https://www.jenkins.io/zh/doc/book/installing/">安装Jenkins </a><br>&emsp;&emsp;<a href="https://www.jenkins.io/zh/download/">Jenkins 的安装和设置</a></p>
+]]></content>
+      <categories>
+        <category>CI&amp;CD</category>
+        <category>jekins</category>
+      </categories>
+      <tags>
+        <tag>CI&amp;CD</tag>
+        <tag>jekins</tag>
+        <tag>tool</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>TODO</title>
     <url>/hexoblog/2021/05/28/TODO/</url>
     <content><![CDATA[<h1 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h1><span id="more"></span>
@@ -30,27 +51,6 @@
       </categories>
       <tags>
         <tag>todo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>jekins安装使用</title>
-    <url>/hexoblog/2021/04/28/md/CI&amp;CD/jekins%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h1 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h1><p>&emsp;&emsp;网上的教程有很多，把自己的过程记一遍。<br>&emsp;&emsp;首先就是下载jekins的包，在官网下载就可以。win平台的可以下载对应的exe文件。<br><a href="https://www.jenkins.io/download">jekins下载</a><br>8089</p>
-<span id="more"></span>
-
-<hr>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;这里讲的是windows平台的安装。<br>&emsp;&emsp;安装也是很简单，一路点击next就可以了。</p>
-<hr>
-<h1 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h1><p>&emsp;&emsp;先看官方的，有空再总结自己的。<br>&emsp;&emsp;<a href="https://blog.csdn.net/wise18146705004/article/details/105455426">jekins在win10的安装和使用</a><br>&emsp;&emsp;<a href="https://www.jenkins.io/zh/doc/book/installing/">安装Jenkins </a><br>&emsp;&emsp;<a href="https://www.jenkins.io/zh/download/">Jenkins 的安装和设置</a></p>
-]]></content>
-      <categories>
-        <category>CI&amp;CD</category>
-        <category>jekins</category>
-      </categories>
-      <tags>
-        <tag>CI&amp;CD</tag>
-        <tag>jekins</tag>
-        <tag>tool</tag>
       </tags>
   </entry>
   <entry>
@@ -101,6 +101,7 @@
 </ul>
 ]]></content>
       <categories>
+        <category>java</category>
         <category>io</category>
       </categories>
       <tags>
@@ -176,11 +177,14 @@
 </ul>
 ]]></content>
       <categories>
+        <category>java</category>
         <category>io</category>
       </categories>
       <tags>
         <tag>java</tag>
         <tag>io</tag>
+        <tag>网络</tag>
+        <tag>nio</tag>
       </tags>
   </entry>
   <entry>
@@ -279,6 +283,7 @@
 </ul>
 ]]></content>
       <categories>
+        <category>java</category>
         <category>io</category>
       </categories>
       <tags>
@@ -305,43 +310,6 @@
       <tags>
         <tag>docker</tag>
         <tag>wsl</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>docker启动vue</title>
-    <url>/hexoblog/2021/04/12/md/docker/docker%E5%90%AF%E5%8A%A8vue/</url>
-    <content><![CDATA[<h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><p>&emsp;&emsp;需要准备东西有：</p>
-<ol>
-<li>docker环境</li>
-<li>vue项目</li>
-</ol>
-<span id="more"></span>
-
-<hr>
-<h1 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h1><h2 id="项目build"><a href="#项目build" class="headerlink" title="项目build"></a>项目build</h2><p>&emsp;&emsp;将vue项目build得到dist文件夹。这里是页面等资源文件。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">npm</span> run build<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="构建"><a href="#构建" class="headerlink" title="构建"></a>构建</h2><p>&emsp;&emsp;将得到的可执行dist构建成docker镜像。</p>
-<p>&emsp;&emsp;将得到的dist文件放入指定目录下，并且在同目录下建立Dockerfile文件(文件名不能错)。<br>&emsp;&emsp;Dockerfile文件内容：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 设置基础镜像，这里使用最新的nginx镜像，前面已经拉取过了</span>
-FROM nginx
-<span class="token comment"># 定义作者 Edison</span>
-MAINTAINER Edison 
-<span class="token comment"># 将dist文件中的内容复制到 /usr/share/nginx/html/ 这个目录下面</span>
-COPY dist/  /usr/share/nginx/html/<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>&emsp;&emsp;执行docker构建命令，得到docker镜像。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">docker build -t <span class="token operator">&lt;</span>镜像名称<span class="token operator">></span> <span class="token builtin class-name">.</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>&emsp;&emsp;构建完成后，就可以在镜像列表查看是否有新构建的镜像，也可以运行该镜像。</p>
-]]></content>
-      <categories>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>tool</tag>
-        <tag>docker</tag>
-        <tag>vue</tag>
       </tags>
   </entry>
   <entry>
@@ -427,6 +395,43 @@ mvn docker:build<span aria-hidden="true" class="line-numbers-rows"><span></span>
         <tag>tool</tag>
         <tag>docker</tag>
         <tag>springboot</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>docker启动vue</title>
+    <url>/hexoblog/2021/04/12/md/docker/docker%E5%90%AF%E5%8A%A8vue/</url>
+    <content><![CDATA[<h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><p>&emsp;&emsp;需要准备东西有：</p>
+<ol>
+<li>docker环境</li>
+<li>vue项目</li>
+</ol>
+<span id="more"></span>
+
+<hr>
+<h1 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h1><h2 id="项目build"><a href="#项目build" class="headerlink" title="项目build"></a>项目build</h2><p>&emsp;&emsp;将vue项目build得到dist文件夹。这里是页面等资源文件。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">npm</span> run build<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="构建"><a href="#构建" class="headerlink" title="构建"></a>构建</h2><p>&emsp;&emsp;将得到的可执行dist构建成docker镜像。</p>
+<p>&emsp;&emsp;将得到的dist文件放入指定目录下，并且在同目录下建立Dockerfile文件(文件名不能错)。<br>&emsp;&emsp;Dockerfile文件内容：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 设置基础镜像，这里使用最新的nginx镜像，前面已经拉取过了</span>
+FROM nginx
+<span class="token comment"># 定义作者 Edison</span>
+MAINTAINER Edison 
+<span class="token comment"># 将dist文件中的内容复制到 /usr/share/nginx/html/ 这个目录下面</span>
+COPY dist/  /usr/share/nginx/html/<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>&emsp;&emsp;执行docker构建命令，得到docker镜像。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">docker build -t <span class="token operator">&lt;</span>镜像名称<span class="token operator">></span> <span class="token builtin class-name">.</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>&emsp;&emsp;构建完成后，就可以在镜像列表查看是否有新构建的镜像，也可以运行该镜像。</p>
+]]></content>
+      <categories>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>docker</tag>
+        <tag>vue</tag>
       </tags>
   </entry>
   <entry>
@@ -886,6 +891,98 @@ qos&#x3D;org.apache.dubbo.qos.protocol.QosProtocolWrapper<span aria-hidden="true
       </tags>
   </entry>
   <entry>
+    <title>序列化与反序列化</title>
+    <url>/hexoblog/2021/03/08/md/java/%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/</url>
+    <content><![CDATA[<h1 id="序列化与反序列化"><a href="#序列化与反序列化" class="headerlink" title="序列化与反序列化"></a>序列化与反序列化</h1><ol>
+<li>序列化：把对象转换为字节数组的过程称为对象的序列化。</li>
+<li>反序列化：把字节序列转换为对象的过程称为对象的反序列化。</li>
+</ol>
+<span id="more"></span>
+
+<hr>
+<h1 id="什么时候需要序列化与反序列化？"><a href="#什么时候需要序列化与反序列化？" class="headerlink" title="什么时候需要序列化与反序列化？"></a>什么时候需要序列化与反序列化？</h1><p>&emsp;&emsp;当我们只在本地 JVM 里运行下 Java 实例，这个时候是不需要什么序列化和反序列化的，但当我们需要将内存中的对象持久化到磁盘，数据库中时， 当我们需要与浏览器进行交互时，当我们需要实现 RPC 时， 这个时候就需要序列化和反序列化了。<br>&emsp;&emsp;对于与浏览器的交互，采用json格式，json格式本身就是将一个对象转换为字符串，而字符串同样是实现了序列化的。<br>&emsp;&emsp;对于将数据持久化到数据库，我们同样是将属性保存到数据库，而不是将对象保存到数据库。</p>
+<hr>
+<h1 id="为什么要实现-Serializable-接口"><a href="#为什么要实现-Serializable-接口" class="headerlink" title="为什么要实现 Serializable 接口?"></a>为什么要实现 Serializable 接口?</h1><p>&emsp;&emsp;在 Java 中实现了 Serializable 接口后， JVM 会在底层帮我们实现序列化和反序列化。</p>
+<hr>
+<h1 id="为什么还要指定serialVersionUID的值"><a href="#为什么还要指定serialVersionUID的值" class="headerlink" title="为什么还要指定serialVersionUID的值?"></a>为什么还要指定serialVersionUID的值?</h1><p>&emsp;&emsp;如果不显示指定serialVersionUID，JVM在序列化时会根据属性自动生成一个serialVersionUID，然后与属性一起序列化，再进行持久化或网络传输。<br>&emsp;&emsp;在反序列化时，JVM会再根据属性自动生成一个新版 serialVersionUID，然后将这个新版serialVersionUID与序列化时生成的旧版serialVersionUID进行比较，如果相同则反序列化成功，否则报错。<br>&emsp;&emsp;如果显示指定了serialVersionUID，JVM在序列化和反序列化时仍然都会生成一个serialVersionUID，但值为我们显示指定的值，这样在反序列化时新旧版本的 serialVersionUID 就一致了。<br>&emsp;&emsp;默认的serialVersionUID，是根据类的属性生成的，如果类的属性发生变化，serialVersionUID的值对应会发生变化，这时候去反序列化原有的对象就会失败。而显式指定之后则解决了这个问题。</p>
+<hr>
+<h1 id="序列化的其他特性"><a href="#序列化的其他特性" class="headerlink" title="序列化的其他特性"></a>序列化的其他特性</h1><p>&emsp;&emsp;被transient关键字修饰的属性不会被序列化，static属性也不会被序列化。</p>
+<h2 id="static-属性为什么不会被序列化"><a href="#static-属性为什么不会被序列化" class="headerlink" title="static 属性为什么不会被序列化?"></a>static 属性为什么不会被序列化?</h2><p>&emsp;&emsp;因为序列化是针对对象而言的，而static属性优先于对象存在，随着类的加载而加载，所以不会被序列化。<br>&emsp;&emsp;其实serialVersionUID属性并没有被序列化，JVM在序列化对象时会自动生成一个serialVersionUID，然后将我们显示指定的serialVersionUID属性值赋给自动生成的serialVersionUID。</p>
+]]></content>
+      <categories>
+        <category>java</category>
+        <category>序列化</category>
+      </categories>
+      <tags>
+        <tag>序列化</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>threadpool</title>
+    <url>/hexoblog/2021/03/01/md/java/threadpool/</url>
+    <content><![CDATA[<h1 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h1><p><a href="https://my.oschina.net/linqiankun/blog/3192649">线程池</a><br><a href="https://gitee.com/linqiankun/codes/cshv4db0eq7znx6a5g2im43">线程池demo</a></p>
+<h2 id="newCachedThreadPool"><a href="#newCachedThreadPool" class="headerlink" title="newCachedThreadPool:"></a>newCachedThreadPool:</h2><h3 id="底层："><a href="#底层：" class="headerlink" title="底层："></a>底层：</h3><p>&emsp;&emsp;创建一个可缓存的线程池实例，如果线程池长度超过处理需要，可灵活回收空闲线程。<br>&emsp;&emsp;返回ThreadPoolExecutor实例，corePoolSize为0；maximumPoolSize为Integer.MAX_VALUE；keepAliveTime为60L；unit为TimeUnit.SECOhexoNDS；workQueue为SynchronousQueue(同步队列)。</p>
+<span id="more"></span>
+
+<h3 id="通俗："><a href="#通俗：" class="headerlink" title="通俗："></a>通俗：</h3><p>&emsp;&emsp;当有新任务到来，则插入到SynchronousQueue中，由于SynchronousQueue是同步队列，因此会在池中寻找可用线程来执行，若有可以线程则执行，若没有可用线程则创建一个线程来执行该任务；若池中线程空闲时间超过指定大小，则该线程会被销毁。</p>
+<h3 id="适用："><a href="#适用：" class="headerlink" title="适用："></a>适用：</h3><p>&emsp;&emsp;执行很多短期异步的小程序或者负载较轻的服务器。</p>
+<hr>
+<h2 id="newFixedThreadPool"><a href="#newFixedThreadPool" class="headerlink" title="newFixedThreadPool:"></a>newFixedThreadPool:</h2><h3 id="底层：-1"><a href="#底层：-1" class="headerlink" title="底层："></a>底层：</h3><p>&emsp;&emsp;创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待。<br>&emsp;&emsp;返回ThreadPoolExecutor实例，接收参数为所设定线程数量nThread，corePoolSize为nThread，maximumPoolSize为nThread；keepAliveTime为0L(不限时)；unit为：TimeUnit.MILLISECONDS；WorkQueue为：new LinkedBlockingQueue&lt;Runnable&gt;() 无界阻塞队列。</p>
+<h3 id="通俗：-1"><a href="#通俗：-1" class="headerlink" title="通俗："></a>通俗：</h3><p>&emsp;&emsp;创建可容纳固定数量线程的池子，每隔线程的存活时间是无限的，当池子满了就不在添加线程了；如果池中的所有线程均在繁忙状态，对于新任务会进入阻塞队列中(无界的阻塞队列)。</p>
+<h3 id="适用：-1"><a href="#适用：-1" class="headerlink" title="适用："></a>适用：</h3><p>&emsp;&emsp;执行长期任务，性能好很多。</p>
+<hr>
+<h2 id="newSingleThreadExecutor"><a href="#newSingleThreadExecutor" class="headerlink" title="newSingleThreadExecutor:"></a>newSingleThreadExecutor:</h2><h3 id="底层：-2"><a href="#底层：-2" class="headerlink" title="底层："></a>底层：</h3><p>&emsp;&emsp;创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有线程按照指定顺序执行。<br>&emsp;&emsp;FinalizableDelegatedExecutorService包装的ThreadPoolExecutor实例，corePoolSize为1；maximumPoolSize为1；keepAliveTime为0L；unit为：TimeUnit.MILLISECONDS；workQueue为：new LinkedBlockingQueue&lt;Runnable&gt;() 无解阻塞队列。</p>
+<h3 id="通俗：-2"><a href="#通俗：-2" class="headerlink" title="通俗："></a>通俗：</h3><p>&emsp;&emsp;创建只有一个线程的线程池，且线程的存活时间是无限的；当该线程正繁忙时，对于新任务会进入阻塞队列中(无界的阻塞队列)。</p>
+<h3 id="适用：-2"><a href="#适用：-2" class="headerlink" title="适用："></a>适用：</h3><p>&emsp;&emsp;一个任务一个任务执行的场景。</p>
+<hr>
+<h2 id="NewScheduledThreadPool"><a href="#NewScheduledThreadPool" class="headerlink" title="NewScheduledThreadPool:"></a>NewScheduledThreadPool:</h2><h3 id="底层：-3"><a href="#底层：-3" class="headerlink" title="底层："></a>底层：</h3><p>&emsp;&emsp;创建一个定长线程池，支持定时及周期性执行任务。<br>&emsp;&emsp;创建ScheduledThreadPoolExecutor实例，corePoolSize为传递来的参数，maximumPoolSize为Integer.MAX_VALUE；keepAliveTime为0；unit为：TimeUnit.NANOSECONDS；workQueue为：new DelayedWorkQueue() 一个按超时时间升序排序的队列。</p>
+<h3 id="通俗：-3"><a href="#通俗：-3" class="headerlink" title="通俗："></a>通俗：</h3><p>&emsp;&emsp;创建一个固定大小的线程池，线程池内线程存活时间无限制，线程池可以支持定时及周期性任务执行，如果所有线程均处于繁忙状态，对于新任务会进入DelayedWorkQueue队列中，这是一种按照超时时间排序的队列结构。</p>
+<h3 id="适用：-3"><a href="#适用：-3" class="headerlink" title="适用："></a>适用：</h3><p>&emsp;&emsp;周期性执行任务的场景。</p>
+<hr>
+<h1 id="线程池任务执行流程："><a href="#线程池任务执行流程：" class="headerlink" title="线程池任务执行流程："></a>线程池任务执行流程：</h1><ol>
+<li>当线程池小于corePoolSize时，新提交任务将创建一个新线程执行任务，即使此时线程池中存在空闲线程。</li>
+<li>当线程池达到corePoolSize时，新提交任务将被放入workQueue中，等待线程池中任务调度执行</li>
+<li>当workQueue已满，且maximumPoolSize&gt;corePoolSize时，新提交任务会创建新线程执行任务</li>
+<li>当提交任务数超过maximumPoolSize时，新提交任务由RejectedExecutionHandler处理</li>
+<li>当线程池中超过corePoolSize线程，空闲时间达到keepAliveTime时，关闭空闲线程</li>
+<li>当设置allowCoreThreadTimeOut(true)时，线程池中corePoolSize线程空闲时间达到keepAliveTime也将关闭</li>
+</ol>
+<hr>
+<h1 id="参数解释："><a href="#参数解释：" class="headerlink" title="参数解释："></a>参数解释：</h1><h2 id="corePoolSize-amp-maximumPoolSize："><a href="#corePoolSize-amp-maximumPoolSize：" class="headerlink" title="corePoolSize &amp; maximumPoolSize："></a>corePoolSize &amp; maximumPoolSize：</h2><p>&emsp;&emsp;当一个新任务被提交到池中，如果当前运行线程小于核心线程数（corePoolSize），即使当前有空闲线程，也会新建一个线程来处理新提交的任务；如果当前运行线程数大于核心线程数（corePoolSize）并小于最大线程数（maximumPoolSize），只有当等待队列已满的情况下才会新建线程。</p>
+<h2 id="keepAliveTime-amp-unit"><a href="#keepAliveTime-amp-unit" class="headerlink" title="keepAliveTime &amp; unit:"></a>keepAliveTime &amp; unit:</h2><p>&emsp;&emsp;keepAliveTime为超过corePoolSize线程数量的线程最大空闲时间，unit为时间单位。</p>
+<h2 id="等待队列："><a href="#等待队列：" class="headerlink" title="等待队列："></a>等待队列：</h2><p>&emsp;&emsp;任何阻塞队列（BlockingQueue）都可以用来转移或保存提交的任务，线程池大小和阻塞队列相互约束线程池：</p>
+<ol>
+<li>如果运行线程数小于corePoolSize，提交新任务时就会新建一个线程来运行；</li>
+<li>如果运行线程数大于或等于corePoolSize，新提交的任务就会入列等待；如果队列已满，并且运行线程数小于maximumPoolSize，也将会新建一个线程来运行；</li>
+<li>如果线程数大于maximumPoolSize，新提交的任务将会根据拒绝策略来处理。</li>
+</ol>
+<h3 id="入队列策略："><a href="#入队列策略：" class="headerlink" title="入队列策略："></a>入队列策略：</h3><h4 id="直接传递："><a href="#直接传递：" class="headerlink" title="直接传递："></a>直接传递：</h4><p>&emsp;&emsp;通过 SynchronousQueue 直接把任务传递给线程。如果当前没可用线程，尝试入队操作会失败，然后再创建一个新的线程。当处理可能具有内部依赖性的请求时，该策略会避免请求被锁定。直接传递通常需要无界的最大线程数（maximumPoolSize），避免拒绝新提交的任务。当任务持续到达的平均速度超过可处理的速度时，可能导致线程的无限增长。</p>
+<h4 id="无界队列："><a href="#无界队列：" class="headerlink" title="无界队列："></a>无界队列：</h4><p>&emsp;&emsp;使用无界队列（如 LinkedBlockingQueue）作为等待队列，当所有的核心线程都在处理任务时， 新提交的任务都会进入队列等待。因此，不会有大于corePoolSize的线程会被创建（maximumPoolSize 也将失去作用）。这种策略适合每个任务都完全独立于其他任务的情况；例如网站服务器。这种类型的等待队列可以使瞬间爆发的高频请求变得平滑。当任务持续到达的平均速度超过可处理速度时，可能导致等待队列无限增长。</p>
+<h4 id="有界队列："><a href="#有界队列：" class="headerlink" title="有界队列："></a>有界队列：</h4><p>&emsp;&emsp;当使用有限的最大线程数时，有界队列（如 ArrayBlockingQueue）可以防止资源耗尽，但是难以调整和控制。队列大小和线程池大小可以相互作用：使用大的队列和小的线程数可以减少CPU使用率、系统资源和上下文切换的开销，但是会导致吞吐量变低，如果任务频繁地阻塞（例如被I/O限制），系统就能为更多的线程调度执行时间。使用小的队列通常需要更多的线程数，这样可以最大化CPU使用率，但可能会需要更大的调度开销，从而降低吞吐量。</p>
+<h2 id="拒绝策略："><a href="#拒绝策略：" class="headerlink" title="拒绝策略："></a>拒绝策略：</h2><p>&emsp;&emsp;当线程池已经关闭或达到饱和（最大线程和队列都已满）状态时，新提交的任务将会被拒绝。<br>ThreadPoolExecutor定义了四种拒绝策略:</p>
+<h3 id="AbortPolicy"><a href="#AbortPolicy" class="headerlink" title="AbortPolicy:"></a>AbortPolicy:</h3><p>&emsp;&emsp;默认策略，在需要拒绝任务时抛出RejectedExecutionException。</p>
+<h3 id="CallerRunsPolicy"><a href="#CallerRunsPolicy" class="headerlink" title="CallerRunsPolicy:"></a>CallerRunsPolicy:</h3><p>&emsp;&emsp;直接在execute方法的调用线程中运行被拒绝的任务，如果线程池已经关闭，任务将被丢弃。</p>
+<h3 id="DiscardPolicy"><a href="#DiscardPolicy" class="headerlink" title="DiscardPolicy:"></a>DiscardPolicy:</h3><p>&emsp;&emsp;直接丢弃任务。</p>
+<h3 id="DiscardOldestPolicy"><a href="#DiscardOldestPolicy" class="headerlink" title="DiscardOldestPolicy:"></a>DiscardOldestPolicy:</h3><p>&emsp;&emsp;丢弃队列中等待时间最长的任务，并执行当前提交的任务，如果线程池已经关闭，任务将被丢弃。</p>
+<h3 id="自定义策略："><a href="#自定义策略：" class="headerlink" title="自定义策略："></a>自定义策略：</h3><p>&emsp;&emsp;我们也可以自定义拒绝策略，只需要实现 RejectedExecutionHandler；需要注意的是，拒绝策略的运行需要指定线程池和队列的容量。</p>
+<hr>
+<h1 id="存在的问题："><a href="#存在的问题：" class="headerlink" title="存在的问题："></a>存在的问题：</h1><ol>
+<li>newFixedThreadPool和newSingleThreadExecutor：主要问题是堆积的请求处理队列可能会耗费非常大的内存，甚至OOM。</li>
+<li>newCachedThreadPool和newScheduledThreadPool：主要问题是线程数最大数是Integer.MAX_VALUE，可能会创建数量非常多的线程，甚至OOM。</li>
+</ol>
+<hr>
+<h1 id="备注："><a href="#备注：" class="headerlink" title="备注："></a>备注：</h1><p>&emsp;&emsp;一般如果线程池任务队列采用LinkedBlockingQueue队列的话，那么不会拒绝任何任务（因为队列大小没有限制），这种情况下，ThreadPoolExecutor最多仅会按照最小线程数来创建线程，也就是说线程池大小被忽略了。<br>&emsp;&emsp;如果线程池任务队列采用ArrayBlockingQueue队列的话，那么ThreadPoolExecutor将会采取一个非常负责的算法，比如假定线程池的最小线程数为4，最大为8所用的ArrayBlockingQueue最大为10。随着任务到达并被放到队列中，线程池中最多运行4个线程（即最小线程数）。即使队列完全填满，也就是说有10个处于等待状态的任务，ThreadPoolExecutor也只会利用4个线程。如果队列已满，而又有新任务进来，此时才会启动一个新线程，这里不会因为队列已满而拒接该任务，相反会启动一个新线程。新线程会运行队列中的第一个任务，为新来的任务腾出空间。<br>&emsp;&emsp;这个算法背后的理念是：该池大部分时间仅使用核心线程（4个），即使有适量的任务在队列中等待运行。这时线程池就可以用作节流阀。如果挤压的请求变得非常多，这时该池就会尝试运行更多的线程来清理；这时第二个节流阀—最大线程数就起作用了。</p>
+]]></content>
+      <categories>
+        <category>java</category>
+        <category>多线程</category>
+      </categories>
+      <tags>
+        <tag>thread</tag>
+        <tag>threadpool</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>javaSPI扩展</title>
     <url>/hexoblog/2021/04/16/md/java/javaSPI%E6%89%A9%E5%B1%95/</url>
     <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;SPI就是一种服务发现机制。<br>&emsp;&emsp;SPI 是一种将服务接口与服务实现分离以达到解耦、大大提升了程序可扩展性的机制。引入服务提供者就是引入了 spi 接口的实现者，通过本地的注册发现获取到具体的实现类，轻松可插拔。<br>&emsp;&emsp;Java SPI 就是把某个接口的 指定实现类 （通过在指定文件配置的方式）给实例化出来了。</p>
@@ -991,98 +1088,6 @@ com.lin.javaspi.service.impl.HelloServiceImpl2<span aria-hidden="true" class="li
       <tags>
         <tag>java</tag>
         <tag>SPI</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>threadpool</title>
-    <url>/hexoblog/2021/03/01/md/java/threadpool/</url>
-    <content><![CDATA[<h1 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h1><p><a href="https://my.oschina.net/linqiankun/blog/3192649">线程池</a><br><a href="https://gitee.com/linqiankun/codes/cshv4db0eq7znx6a5g2im43">线程池demo</a></p>
-<h2 id="newCachedThreadPool"><a href="#newCachedThreadPool" class="headerlink" title="newCachedThreadPool:"></a>newCachedThreadPool:</h2><h3 id="底层："><a href="#底层：" class="headerlink" title="底层："></a>底层：</h3><p>&emsp;&emsp;创建一个可缓存的线程池实例，如果线程池长度超过处理需要，可灵活回收空闲线程。<br>&emsp;&emsp;返回ThreadPoolExecutor实例，corePoolSize为0；maximumPoolSize为Integer.MAX_VALUE；keepAliveTime为60L；unit为TimeUnit.SECOhexoNDS；workQueue为SynchronousQueue(同步队列)。</p>
-<span id="more"></span>
-
-<h3 id="通俗："><a href="#通俗：" class="headerlink" title="通俗："></a>通俗：</h3><p>&emsp;&emsp;当有新任务到来，则插入到SynchronousQueue中，由于SynchronousQueue是同步队列，因此会在池中寻找可用线程来执行，若有可以线程则执行，若没有可用线程则创建一个线程来执行该任务；若池中线程空闲时间超过指定大小，则该线程会被销毁。</p>
-<h3 id="适用："><a href="#适用：" class="headerlink" title="适用："></a>适用：</h3><p>&emsp;&emsp;执行很多短期异步的小程序或者负载较轻的服务器。</p>
-<hr>
-<h2 id="newFixedThreadPool"><a href="#newFixedThreadPool" class="headerlink" title="newFixedThreadPool:"></a>newFixedThreadPool:</h2><h3 id="底层：-1"><a href="#底层：-1" class="headerlink" title="底层："></a>底层：</h3><p>&emsp;&emsp;创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待。<br>&emsp;&emsp;返回ThreadPoolExecutor实例，接收参数为所设定线程数量nThread，corePoolSize为nThread，maximumPoolSize为nThread；keepAliveTime为0L(不限时)；unit为：TimeUnit.MILLISECONDS；WorkQueue为：new LinkedBlockingQueue&lt;Runnable&gt;() 无界阻塞队列。</p>
-<h3 id="通俗：-1"><a href="#通俗：-1" class="headerlink" title="通俗："></a>通俗：</h3><p>&emsp;&emsp;创建可容纳固定数量线程的池子，每隔线程的存活时间是无限的，当池子满了就不在添加线程了；如果池中的所有线程均在繁忙状态，对于新任务会进入阻塞队列中(无界的阻塞队列)。</p>
-<h3 id="适用：-1"><a href="#适用：-1" class="headerlink" title="适用："></a>适用：</h3><p>&emsp;&emsp;执行长期任务，性能好很多。</p>
-<hr>
-<h2 id="newSingleThreadExecutor"><a href="#newSingleThreadExecutor" class="headerlink" title="newSingleThreadExecutor:"></a>newSingleThreadExecutor:</h2><h3 id="底层：-2"><a href="#底层：-2" class="headerlink" title="底层："></a>底层：</h3><p>&emsp;&emsp;创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有线程按照指定顺序执行。<br>&emsp;&emsp;FinalizableDelegatedExecutorService包装的ThreadPoolExecutor实例，corePoolSize为1；maximumPoolSize为1；keepAliveTime为0L；unit为：TimeUnit.MILLISECONDS；workQueue为：new LinkedBlockingQueue&lt;Runnable&gt;() 无解阻塞队列。</p>
-<h3 id="通俗：-2"><a href="#通俗：-2" class="headerlink" title="通俗："></a>通俗：</h3><p>&emsp;&emsp;创建只有一个线程的线程池，且线程的存活时间是无限的；当该线程正繁忙时，对于新任务会进入阻塞队列中(无界的阻塞队列)。</p>
-<h3 id="适用：-2"><a href="#适用：-2" class="headerlink" title="适用："></a>适用：</h3><p>&emsp;&emsp;一个任务一个任务执行的场景。</p>
-<hr>
-<h2 id="NewScheduledThreadPool"><a href="#NewScheduledThreadPool" class="headerlink" title="NewScheduledThreadPool:"></a>NewScheduledThreadPool:</h2><h3 id="底层：-3"><a href="#底层：-3" class="headerlink" title="底层："></a>底层：</h3><p>&emsp;&emsp;创建一个定长线程池，支持定时及周期性执行任务。<br>&emsp;&emsp;创建ScheduledThreadPoolExecutor实例，corePoolSize为传递来的参数，maximumPoolSize为Integer.MAX_VALUE；keepAliveTime为0；unit为：TimeUnit.NANOSECONDS；workQueue为：new DelayedWorkQueue() 一个按超时时间升序排序的队列。</p>
-<h3 id="通俗：-3"><a href="#通俗：-3" class="headerlink" title="通俗："></a>通俗：</h3><p>&emsp;&emsp;创建一个固定大小的线程池，线程池内线程存活时间无限制，线程池可以支持定时及周期性任务执行，如果所有线程均处于繁忙状态，对于新任务会进入DelayedWorkQueue队列中，这是一种按照超时时间排序的队列结构。</p>
-<h3 id="适用：-3"><a href="#适用：-3" class="headerlink" title="适用："></a>适用：</h3><p>&emsp;&emsp;周期性执行任务的场景。</p>
-<hr>
-<h1 id="线程池任务执行流程："><a href="#线程池任务执行流程：" class="headerlink" title="线程池任务执行流程："></a>线程池任务执行流程：</h1><ol>
-<li>当线程池小于corePoolSize时，新提交任务将创建一个新线程执行任务，即使此时线程池中存在空闲线程。</li>
-<li>当线程池达到corePoolSize时，新提交任务将被放入workQueue中，等待线程池中任务调度执行</li>
-<li>当workQueue已满，且maximumPoolSize&gt;corePoolSize时，新提交任务会创建新线程执行任务</li>
-<li>当提交任务数超过maximumPoolSize时，新提交任务由RejectedExecutionHandler处理</li>
-<li>当线程池中超过corePoolSize线程，空闲时间达到keepAliveTime时，关闭空闲线程</li>
-<li>当设置allowCoreThreadTimeOut(true)时，线程池中corePoolSize线程空闲时间达到keepAliveTime也将关闭</li>
-</ol>
-<hr>
-<h1 id="参数解释："><a href="#参数解释：" class="headerlink" title="参数解释："></a>参数解释：</h1><h2 id="corePoolSize-amp-maximumPoolSize："><a href="#corePoolSize-amp-maximumPoolSize：" class="headerlink" title="corePoolSize &amp; maximumPoolSize："></a>corePoolSize &amp; maximumPoolSize：</h2><p>&emsp;&emsp;当一个新任务被提交到池中，如果当前运行线程小于核心线程数（corePoolSize），即使当前有空闲线程，也会新建一个线程来处理新提交的任务；如果当前运行线程数大于核心线程数（corePoolSize）并小于最大线程数（maximumPoolSize），只有当等待队列已满的情况下才会新建线程。</p>
-<h2 id="keepAliveTime-amp-unit"><a href="#keepAliveTime-amp-unit" class="headerlink" title="keepAliveTime &amp; unit:"></a>keepAliveTime &amp; unit:</h2><p>&emsp;&emsp;keepAliveTime为超过corePoolSize线程数量的线程最大空闲时间，unit为时间单位。</p>
-<h2 id="等待队列："><a href="#等待队列：" class="headerlink" title="等待队列："></a>等待队列：</h2><p>&emsp;&emsp;任何阻塞队列（BlockingQueue）都可以用来转移或保存提交的任务，线程池大小和阻塞队列相互约束线程池：</p>
-<ol>
-<li>如果运行线程数小于corePoolSize，提交新任务时就会新建一个线程来运行；</li>
-<li>如果运行线程数大于或等于corePoolSize，新提交的任务就会入列等待；如果队列已满，并且运行线程数小于maximumPoolSize，也将会新建一个线程来运行；</li>
-<li>如果线程数大于maximumPoolSize，新提交的任务将会根据拒绝策略来处理。</li>
-</ol>
-<h3 id="入队列策略："><a href="#入队列策略：" class="headerlink" title="入队列策略："></a>入队列策略：</h3><h4 id="直接传递："><a href="#直接传递：" class="headerlink" title="直接传递："></a>直接传递：</h4><p>&emsp;&emsp;通过 SynchronousQueue 直接把任务传递给线程。如果当前没可用线程，尝试入队操作会失败，然后再创建一个新的线程。当处理可能具有内部依赖性的请求时，该策略会避免请求被锁定。直接传递通常需要无界的最大线程数（maximumPoolSize），避免拒绝新提交的任务。当任务持续到达的平均速度超过可处理的速度时，可能导致线程的无限增长。</p>
-<h4 id="无界队列："><a href="#无界队列：" class="headerlink" title="无界队列："></a>无界队列：</h4><p>&emsp;&emsp;使用无界队列（如 LinkedBlockingQueue）作为等待队列，当所有的核心线程都在处理任务时， 新提交的任务都会进入队列等待。因此，不会有大于corePoolSize的线程会被创建（maximumPoolSize 也将失去作用）。这种策略适合每个任务都完全独立于其他任务的情况；例如网站服务器。这种类型的等待队列可以使瞬间爆发的高频请求变得平滑。当任务持续到达的平均速度超过可处理速度时，可能导致等待队列无限增长。</p>
-<h4 id="有界队列："><a href="#有界队列：" class="headerlink" title="有界队列："></a>有界队列：</h4><p>&emsp;&emsp;当使用有限的最大线程数时，有界队列（如 ArrayBlockingQueue）可以防止资源耗尽，但是难以调整和控制。队列大小和线程池大小可以相互作用：使用大的队列和小的线程数可以减少CPU使用率、系统资源和上下文切换的开销，但是会导致吞吐量变低，如果任务频繁地阻塞（例如被I/O限制），系统就能为更多的线程调度执行时间。使用小的队列通常需要更多的线程数，这样可以最大化CPU使用率，但可能会需要更大的调度开销，从而降低吞吐量。</p>
-<h2 id="拒绝策略："><a href="#拒绝策略：" class="headerlink" title="拒绝策略："></a>拒绝策略：</h2><p>&emsp;&emsp;当线程池已经关闭或达到饱和（最大线程和队列都已满）状态时，新提交的任务将会被拒绝。<br>ThreadPoolExecutor定义了四种拒绝策略:</p>
-<h3 id="AbortPolicy"><a href="#AbortPolicy" class="headerlink" title="AbortPolicy:"></a>AbortPolicy:</h3><p>&emsp;&emsp;默认策略，在需要拒绝任务时抛出RejectedExecutionException。</p>
-<h3 id="CallerRunsPolicy"><a href="#CallerRunsPolicy" class="headerlink" title="CallerRunsPolicy:"></a>CallerRunsPolicy:</h3><p>&emsp;&emsp;直接在execute方法的调用线程中运行被拒绝的任务，如果线程池已经关闭，任务将被丢弃。</p>
-<h3 id="DiscardPolicy"><a href="#DiscardPolicy" class="headerlink" title="DiscardPolicy:"></a>DiscardPolicy:</h3><p>&emsp;&emsp;直接丢弃任务。</p>
-<h3 id="DiscardOldestPolicy"><a href="#DiscardOldestPolicy" class="headerlink" title="DiscardOldestPolicy:"></a>DiscardOldestPolicy:</h3><p>&emsp;&emsp;丢弃队列中等待时间最长的任务，并执行当前提交的任务，如果线程池已经关闭，任务将被丢弃。</p>
-<h3 id="自定义策略："><a href="#自定义策略：" class="headerlink" title="自定义策略："></a>自定义策略：</h3><p>&emsp;&emsp;我们也可以自定义拒绝策略，只需要实现 RejectedExecutionHandler；需要注意的是，拒绝策略的运行需要指定线程池和队列的容量。</p>
-<hr>
-<h1 id="存在的问题："><a href="#存在的问题：" class="headerlink" title="存在的问题："></a>存在的问题：</h1><ol>
-<li>newFixedThreadPool和newSingleThreadExecutor：主要问题是堆积的请求处理队列可能会耗费非常大的内存，甚至OOM。</li>
-<li>newCachedThreadPool和newScheduledThreadPool：主要问题是线程数最大数是Integer.MAX_VALUE，可能会创建数量非常多的线程，甚至OOM。</li>
-</ol>
-<hr>
-<h1 id="备注："><a href="#备注：" class="headerlink" title="备注："></a>备注：</h1><p>&emsp;&emsp;一般如果线程池任务队列采用LinkedBlockingQueue队列的话，那么不会拒绝任何任务（因为队列大小没有限制），这种情况下，ThreadPoolExecutor最多仅会按照最小线程数来创建线程，也就是说线程池大小被忽略了。<br>&emsp;&emsp;如果线程池任务队列采用ArrayBlockingQueue队列的话，那么ThreadPoolExecutor将会采取一个非常负责的算法，比如假定线程池的最小线程数为4，最大为8所用的ArrayBlockingQueue最大为10。随着任务到达并被放到队列中，线程池中最多运行4个线程（即最小线程数）。即使队列完全填满，也就是说有10个处于等待状态的任务，ThreadPoolExecutor也只会利用4个线程。如果队列已满，而又有新任务进来，此时才会启动一个新线程，这里不会因为队列已满而拒接该任务，相反会启动一个新线程。新线程会运行队列中的第一个任务，为新来的任务腾出空间。<br>&emsp;&emsp;这个算法背后的理念是：该池大部分时间仅使用核心线程（4个），即使有适量的任务在队列中等待运行。这时线程池就可以用作节流阀。如果挤压的请求变得非常多，这时该池就会尝试运行更多的线程来清理；这时第二个节流阀—最大线程数就起作用了。</p>
-]]></content>
-      <categories>
-        <category>java</category>
-        <category>多线程</category>
-      </categories>
-      <tags>
-        <tag>thread</tag>
-        <tag>threadpool</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>序列化与反序列化</title>
-    <url>/hexoblog/2021/03/08/md/java/%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/</url>
-    <content><![CDATA[<h1 id="序列化与反序列化"><a href="#序列化与反序列化" class="headerlink" title="序列化与反序列化"></a>序列化与反序列化</h1><ol>
-<li>序列化：把对象转换为字节数组的过程称为对象的序列化。</li>
-<li>反序列化：把字节序列转换为对象的过程称为对象的反序列化。</li>
-</ol>
-<span id="more"></span>
-
-<hr>
-<h1 id="什么时候需要序列化与反序列化？"><a href="#什么时候需要序列化与反序列化？" class="headerlink" title="什么时候需要序列化与反序列化？"></a>什么时候需要序列化与反序列化？</h1><p>&emsp;&emsp;当我们只在本地 JVM 里运行下 Java 实例，这个时候是不需要什么序列化和反序列化的，但当我们需要将内存中的对象持久化到磁盘，数据库中时， 当我们需要与浏览器进行交互时，当我们需要实现 RPC 时， 这个时候就需要序列化和反序列化了。<br>&emsp;&emsp;对于与浏览器的交互，采用json格式，json格式本身就是将一个对象转换为字符串，而字符串同样是实现了序列化的。<br>&emsp;&emsp;对于将数据持久化到数据库，我们同样是将属性保存到数据库，而不是将对象保存到数据库。</p>
-<hr>
-<h1 id="为什么要实现-Serializable-接口"><a href="#为什么要实现-Serializable-接口" class="headerlink" title="为什么要实现 Serializable 接口?"></a>为什么要实现 Serializable 接口?</h1><p>&emsp;&emsp;在 Java 中实现了 Serializable 接口后， JVM 会在底层帮我们实现序列化和反序列化。</p>
-<hr>
-<h1 id="为什么还要指定serialVersionUID的值"><a href="#为什么还要指定serialVersionUID的值" class="headerlink" title="为什么还要指定serialVersionUID的值?"></a>为什么还要指定serialVersionUID的值?</h1><p>&emsp;&emsp;如果不显示指定serialVersionUID，JVM在序列化时会根据属性自动生成一个serialVersionUID，然后与属性一起序列化，再进行持久化或网络传输。<br>&emsp;&emsp;在反序列化时，JVM会再根据属性自动生成一个新版 serialVersionUID，然后将这个新版serialVersionUID与序列化时生成的旧版serialVersionUID进行比较，如果相同则反序列化成功，否则报错。<br>&emsp;&emsp;如果显示指定了serialVersionUID，JVM在序列化和反序列化时仍然都会生成一个serialVersionUID，但值为我们显示指定的值，这样在反序列化时新旧版本的 serialVersionUID 就一致了。<br>&emsp;&emsp;默认的serialVersionUID，是根据类的属性生成的，如果类的属性发生变化，serialVersionUID的值对应会发生变化，这时候去反序列化原有的对象就会失败。而显式指定之后则解决了这个问题。</p>
-<hr>
-<h1 id="序列化的其他特性"><a href="#序列化的其他特性" class="headerlink" title="序列化的其他特性"></a>序列化的其他特性</h1><p>&emsp;&emsp;被transient关键字修饰的属性不会被序列化，static属性也不会被序列化。</p>
-<h2 id="static-属性为什么不会被序列化"><a href="#static-属性为什么不会被序列化" class="headerlink" title="static 属性为什么不会被序列化?"></a>static 属性为什么不会被序列化?</h2><p>&emsp;&emsp;因为序列化是针对对象而言的，而static属性优先于对象存在，随着类的加载而加载，所以不会被序列化。<br>&emsp;&emsp;其实serialVersionUID属性并没有被序列化，JVM在序列化对象时会自动生成一个serialVersionUID，然后将我们显示指定的serialVersionUID属性值赋给自动生成的serialVersionUID。</p>
-]]></content>
-      <categories>
-        <category>java</category>
-        <category>序列化</category>
-      </categories>
-      <tags>
-        <tag>序列化</tag>
       </tags>
   </entry>
   <entry>
@@ -1300,6 +1305,114 @@ com.lin.javaspi.service.impl.HelloServiceImpl2<span aria-hidden="true" class="li
       </tags>
   </entry>
   <entry>
+    <title>HTTP HTTPS HTTP2</title>
+    <url>/hexoblog/2021/05/08/md/internet/HTTP-HTTPS-HTTP2/</url>
+    <content><![CDATA[<h1 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h1><p>&emsp;&emsp;超文本传输协议，是从web服务器传输超文本标记语言到本地浏览器的传送协议，默认工作在80端口。</p>
+<span id="more"></span>
+
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>&emsp;&emsp;HTTP是一个基于TCP/IP协议来传输数据的应用层协议，传输的数据类型可以为，html文件、图片文件、查询结果等。<br>&emsp;&emsp;HTTP一般用于B/S架构（浏览器、服务器），浏览器作为HTTP客户端通过URL向HTTP服务端即WEB服务器发送所有请求。</p>
+<h2 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h2><ol>
+<li>建立TCP/IP连接，客户端与服务器通过Socket三次握手进行连接。</li>
+<li>客户端向服务端发起HTTP请求。</li>
+<li>客户端发送请求头信息，请求内容，最后会发送一空白行，标示客户端请求完毕。</li>
+<li>服务器做出应答，表示对于客户端请求的应答。</li>
+<li>服务器向客户端发送应答头信息。</li>
+<li>服务器向客户端发送请求头信息后，也会发送一空白行，标示应答头信息发送完毕，接着就以Content-type要求的数据格式发送数据给客户端。</li>
+<li>服务端关闭TCP连接，如果服务器或者客户端增Connection:keep-alive就表示客户端与服务器端继续保存连接，在下次请求时可以继续使用这次的连接。</li>
+</ol>
+<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><ol>
+<li>HTTP协议支持客户端/服务端模式，也是一种请求/响应模式的协议。</li>
+<li>简单快速，客户向服务器请求服务时，只需传送请求方法和路径。请求方法常用的有GET、HEAD、POST。</li>
+<li>灵活：HTTP允许传输任意类型的数据对象。传输的类型由Content-Type加以标记。</li>
+<li>无连接：限制每次连接只处理一个请求。服务器处理完请求，并收到客户的应答后，即断开连接，但是却不利于客户端与服务器保持会话连接，为了弥补这种不足，产生了两项记录http状态的技术，一个叫做Cookie,一个叫做Session。</li>
+<li>无状态：无状态是指协议对于事务处理没有记忆，后续处理需要前面的信息，则必须重传。</li>
+</ol>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><ol>
+<li>数据明文传输，容易被窃听截取</li>
+<li>数据的完整性未校验，容易被篡改</li>
+<li>双方没有验证身份，有冒充对方的风险</li>
+</ol>
+<h2 id="URL与URI"><a href="#URL与URI" class="headerlink" title="URL与URI"></a>URL与URI</h2><ul>
+<li>URL：统一资源定位符。</li>
+<li>URI：统一资源标识符。</li>
+</ul>
+<p>&emsp;&emsp;URL是用来定位具体的资源的，标示了一个具体的资源位置。互联网上的每个文件都有一个唯一的URL。<br>&emsp;&emsp;URI是用来标示 一个具体的资源的，我们可以通过URI知道一个资源是什么。<br>&emsp;&emsp;HTTP使用统一资源标识符（Uniform Resource Identifiers, URI）来传输数据和建立连接。</p>
+<h2 id="GET与POST的区别"><a href="#GET与POST的区别" class="headerlink" title="GET与POST的区别"></a>GET与POST的区别</h2><ol>
+<li>都包含请求头请求行，post多了请求body。</li>
+<li>get多用来查询，请求参数放在url中，不会对服务器上的内容产生作用。post用来提交，如把账号密码放入body中。</li>
+<li>GET是直接添加到URL后面的，直接就可以在URL中看到内容，而POST是放在报文内部的，用户无法直接看到。</li>
+<li>GET提交的数据长度是有限制的，因为URL长度有限制，具体的长度限制视浏览器而定。而POST没有。</li>
+</ol>
+<hr>
+<h1 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h1><p>&emsp;&emsp;HTTPS就是为了解决上面HTTP的问题。默认工作在443端口。<br>&emsp;&emsp;HTTPS协议（HyperText Transfer Protocol over Secure Socket Layer）：一般理解为HTTP+SSL/TLS，通过 SSL证书来验证服务器的身份，并为浏览器和服务器之间的通信进行加密。</p>
+<h2 id="SSL-TLS"><a href="#SSL-TLS" class="headerlink" title="SSL/TLS"></a>SSL/TLS</h2><p>&emsp;&emsp;SSL：安全套接字层，SSL协议位于TCP/IP协议与各种应用层协议之间，为数据通讯提供安全支持。<br>&emsp;&emsp;TLS：传输层安全，其前身是SSL，后来改名，目前使用最广泛的是TLS 1.1、TLS 1.2。</p>
+<h2 id="HTTPS工作流程"><a href="#HTTPS工作流程" class="headerlink" title="HTTPS工作流程"></a>HTTPS工作流程</h2><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/https%E5%AF%86%E9%92%A5%E7%94%9F%E6%88%90.png" alt="密钥生成流程"></p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E6%B5%81%E7%A8%8B.gif" alt="数据传输"></p>
+<ol>
+<li>首先客户端通过URL访问服务器建立SSL连接。</li>
+<li>服务端收到客户端请求后，会将网站支持的证书信息（证书中包含公钥）传送一份给客户端。（这个证书其实就是公钥，只是包含了很多信息）</li>
+<li>客户端的服务器开始协商SSL连接的安全等级，也就是信息加密的等级。</li>
+<li>客户端的浏览器根据双方同意的安全等级，建立会话密钥，然后利用网站的公钥将会话密钥加密，并传送给网站。（会话密钥就是第一张图的随机key）</li>
+<li>服务器利用自己的私钥解密出会话密钥，这里就是连接建立完成。</li>
+<li>服务器利用会话密钥加密与客户端之间的通信。</li>
+</ol>
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><ol>
+<li>HTTPS协议多次握手，导致页面加载时间延长。</li>
+<li>HTTPS连接缓存不如HTTP高效，会增加数据开销和功耗。</li>
+<li>SSL证书需要付费。</li>
+<li>SSL涉及到的安全算法会消耗CPU资源，对服务器资源消耗较大。</li>
+<li>技术难度相比HTTP大。</li>
+<li>SSL证书通常需要绑定IP，不能在同一IP上绑定多个域名，IPv4资源不可能支撑这个消耗。</li>
+<li>HTTPS协议的加密范围也比较有限，在黑客攻击、拒绝服务攻击、服务器劫持等方面几乎起不到什么作用。最关键的，SSL证书的信用链体系并不安全，特别是在某些国家可以控制CA根证书的情况下，中间人攻击一样可行。</li>
+</ol>
+<h2 id="总结HTTPS和HTTP的区别"><a href="#总结HTTPS和HTTP的区别" class="headerlink" title="总结HTTPS和HTTP的区别"></a>总结HTTPS和HTTP的区别</h2><ol>
+<li>HTTP明文传输，数据都是未加密的，安全性较差，HTTPS（SSL+HTTP） 数据传输过程是加密的，安全性较好。</li>
+<li>使用HTTPS协议需要到CA（Certificate Authority，数字证书认证机构） 申请证书，一般免费证书较少，因而需要一定费用。证书颁发机构如：Symantec、Comodo、GoDaddy和GlobalSign等。</li>
+<li>HTTP页面响应速度比HTTPS快，主要是因为HTTP使用TCP三次握手建立连接，客户端和服务器需要交换3个包，而HTTPS除了TCP的三个包，还要加上ssl握手需要的9个包，所以一共是12个包。</li>
+<li>http和https使用的是完全不同的连接方式，用的端口也不一样，前者是80，后者是443。</li>
+<li>HTTPS其实就是建构在SSL/TLS之上的HTTP协议，所以，要比较HTTPS比HTTP要更耗费服务器资源。</li>
+</ol>
+<hr>
+<h1 id="HTTP2"><a href="#HTTP2" class="headerlink" title="HTTP2"></a>HTTP2</h1><p>&emsp;&emsp;HTTP/2.0的目标是改善用户在使用Web时的速度体验。</p>
+<h2 id="新特点"><a href="#新特点" class="headerlink" title="新特点"></a>新特点</h2><p><a href="https://juejin.cn/post/6844903545532071943">HTTP2.0新特性</a><br><a href="https://www.jianshu.com/p/1afebe13c63e">HTTPS和HTTP2.0详解
+</a><br><a href="https://www.jsahz.com/wz/15616.html">HTTP 2.0 详细介绍</a></p>
+<h3 id="二进制分帧"><a href="#二进制分帧" class="headerlink" title="二进制分帧"></a>二进制分帧</h3><p>&emsp;&emsp;相对于HTTP1.0和HTTP1.1，2.0在应用层与传输层中间增加了一个二进制分帧层。<br>&emsp;&emsp;在二进制分帧层上，HTTP2.0会将所有传输信息分割为更小的消息和帧，并对它们采用二进制格式的编码将其封装。其中，HTTP1.X中的首部信息header封装到Headers帧中，而request body将被封装到Data帧中。<br>&emsp;&emsp;HTTP2.0通信都在一个TCP连接上完成，这个连接可以承载任意数量的双向数据流，相应的每个数据流以消息的形式发送。而消息由一或多个帧组成，这些帧可以乱序发送，然后根据每个帧首部的流标识符重新组装。  </p>
+<h3 id="首部压缩"><a href="#首部压缩" class="headerlink" title="首部压缩"></a>首部压缩</h3><p>&emsp;&emsp;HTTP1.x每次通讯（请求或响应）都会携带首部信息用于描述资源属性。而HTTP2.0在客户端和服务端之间使用首部表来跟踪和存储之前发送的键值对。请求与响应首部的定义在HTTP2.0中基本没有变，只是所有首部键必须全部小写，而且要求行要独立为:method:、:scheme:、:host:、:path:这些键值对。<br>&emsp;&emsp;HTTP2.0使用encoder来减少需要传输的header大小，通讯双方各自cache一份header fields（首部表）表，既避免了重复header的传输，又减小了需要传输的大小。</p>
+<h4 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h4><p>&emsp;&emsp;使报头更紧凑，更快速传输，有利于移动网络环境。减少每次通讯的数据量，使网络拥塞状态得以改善。</p>
+<h4 id="工作流程-1"><a href="#工作流程-1" class="headerlink" title="工作流程"></a>工作流程</h4><p>&emsp;&emsp;对于相同的数据，不再重新通过每次请求和响应发送。每个新的首部键值对要么追加到当前表的末尾，要么替换表中之前的值。首部表在HTTP2.0的链接存续期内始终存在，由客户端和服务端共同渐进的更新。</p>
+<h3 id="流量控制"><a href="#流量控制" class="headerlink" title="流量控制"></a>流量控制</h3><p>&emsp;&emsp;HTTP2.0为数据流和连接的流量提供了一个简单的机制：</p>
+<ol>
+<li>流量基于HTTP链接的每一跳进行，而非端到端的控制。</li>
+<li>流量控制基于窗口更新帧进行，即接收方广播自己准备接收某个数据流的多少字节，以及对整个链接要接收多少个字节。</li>
+<li>流量控制有方向性，即接收方可能根据自己的情况为每个流乃至整个链接设置任意窗口大小。</li>
+<li>流量控制可以由接收方禁用，包括针对个别的流和针对整个链接。</li>
+<li>帧的类型决定了流量控制是否适用于帧，目前只有DATA帧服从流量控制，所有其他类型的帧并不会消耗流量控制窗口的空间。这保证了重要的控制帧不会被流量控制阻塞。</li>
+</ol>
+<h3 id="多路复用"><a href="#多路复用" class="headerlink" title="多路复用"></a>多路复用</h3><p>&emsp;&emsp;基于二进制分帧层，HTTP2.0可以在共享TCP链接的基础上同时发送请求和响应。HTTP消息被分解为独立的帧，而不破坏消息本身的语义，交错发出去，在另一端根据流标识符和首部将他们重新组装起来。<br>&emsp;&emsp;即连接共享，即每一个request都是是用作连接共享机制的。一个request对应一个id，这样一个连接上可以有多个request，每个连接的request可以随机的混杂在一起，接收方可以根据request的id将request再归属到各自不同的服务端请求里面。</p>
+<h4 id="优化-1"><a href="#优化-1" class="headerlink" title="优化"></a>优化</h4><ol>
+<li>可以并行交错的发送请求和响应，这些请求和响应之间互不影响。</li>
+<li>只使用一个链接即可并行发送多个请求和响应。</li>
+<li>消除不必要的延迟，从而减少页面加载的时间。</li>
+<li>不必再为绕过HTTP1.x限制而多做很多工作。</li>
+</ol>
+<h3 id="请求优先级"><a href="#请求优先级" class="headerlink" title="请求优先级"></a>请求优先级</h3><p>&emsp;&emsp;HTTP消息分为很多独立帧之后，就可以通过优化这些帧的交错和传输顺序进一步优化性能。</p>
+<h4 id="优化-2"><a href="#优化-2" class="headerlink" title="优化"></a>优化</h4><p>&emsp;&emsp;服务器可以根据流的优先级控制资源分配（CPU、内存、宽带），而在响应数据准备好之后，优先将最高优先级的帧发送给客户端。浏览器可以在发现资源时立即分派请求，指定每个流的优先级，让服务器决定最优的响应次序。这样请求就不用排队了，既节省了时间，又最大限度的利用了每个连接。</p>
+<h3 id="服务端推送"><a href="#服务端推送" class="headerlink" title="服务端推送"></a>服务端推送</h3><p>&emsp;&emsp;服务器可以对一个客户端请求发送多个响应。服务器向客户端推送资源无需客户端明确的请求。<br>&emsp;&emsp;服务端根据客户端的请求，提前返回多个响应，推送额外的资源给客户端。</p>
+<h4 id="优化-3"><a href="#优化-3" class="headerlink" title="优化"></a>优化</h4><ol>
+<li>减轻数据传送的冗余步骤。</li>
+<li>加快页面响应速度。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>网络</category>
+        <category>HTTP</category>
+      </categories>
+      <tags>
+        <tag>网络</tag>
+        <tag>HTTP</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>锁</title>
     <url>/hexoblog/2021/03/02/md/java/%E9%94%81/</url>
     <content><![CDATA[<h1 id="乐观锁："><a href="#乐观锁：" class="headerlink" title="乐观锁："></a>乐观锁：</h1><p>&emsp;&emsp;乐观锁不是数据库自带的，需要我们去实现。总是假设最好的情况，每次去拿数据时都会认为数据没有被修改，所以不会上锁，但是在提交更新的时候会去判断一下在此期间别人有没有更改数据，可以使用版本号机制算法或者CAS算法实现。乐观锁适用于读多于写的情况，可以提高吞吐量。</p>
@@ -1438,114 +1551,6 @@ SELECT ... FOR UPDATE<span aria-hidden="true" class="line-numbers-rows"><span></
       </categories>
       <tags>
         <tag>lock</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>HTTP HTTPS HTTP2</title>
-    <url>/hexoblog/2021/05/08/md/internet/HTTP-HTTPS-HTTP2/</url>
-    <content><![CDATA[<h1 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h1><p>&emsp;&emsp;超文本传输协议，是从web服务器传输超文本标记语言到本地浏览器的传送协议，默认工作在80端口。</p>
-<span id="more"></span>
-
-<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>&emsp;&emsp;HTTP是一个基于TCP/IP协议来传输数据的应用层协议，传输的数据类型可以为，html文件、图片文件、查询结果等。<br>&emsp;&emsp;HTTP一般用于B/S架构（浏览器、服务器），浏览器作为HTTP客户端通过URL向HTTP服务端即WEB服务器发送所有请求。</p>
-<h2 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h2><ol>
-<li>建立TCP/IP连接，客户端与服务器通过Socket三次握手进行连接。</li>
-<li>客户端向服务端发起HTTP请求。</li>
-<li>客户端发送请求头信息，请求内容，最后会发送一空白行，标示客户端请求完毕。</li>
-<li>服务器做出应答，表示对于客户端请求的应答。</li>
-<li>服务器向客户端发送应答头信息。</li>
-<li>服务器向客户端发送请求头信息后，也会发送一空白行，标示应答头信息发送完毕，接着就以Content-type要求的数据格式发送数据给客户端。</li>
-<li>服务端关闭TCP连接，如果服务器或者客户端增Connection:keep-alive就表示客户端与服务器端继续保存连接，在下次请求时可以继续使用这次的连接。</li>
-</ol>
-<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><ol>
-<li>HTTP协议支持客户端/服务端模式，也是一种请求/响应模式的协议。</li>
-<li>简单快速，客户向服务器请求服务时，只需传送请求方法和路径。请求方法常用的有GET、HEAD、POST。</li>
-<li>灵活：HTTP允许传输任意类型的数据对象。传输的类型由Content-Type加以标记。</li>
-<li>无连接：限制每次连接只处理一个请求。服务器处理完请求，并收到客户的应答后，即断开连接，但是却不利于客户端与服务器保持会话连接，为了弥补这种不足，产生了两项记录http状态的技术，一个叫做Cookie,一个叫做Session。</li>
-<li>无状态：无状态是指协议对于事务处理没有记忆，后续处理需要前面的信息，则必须重传。</li>
-</ol>
-<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><ol>
-<li>数据明文传输，容易被窃听截取</li>
-<li>数据的完整性未校验，容易被篡改</li>
-<li>双方没有验证身份，有冒充对方的风险</li>
-</ol>
-<h2 id="URL与URI"><a href="#URL与URI" class="headerlink" title="URL与URI"></a>URL与URI</h2><ul>
-<li>URL：统一资源定位符。</li>
-<li>URI：统一资源标识符。</li>
-</ul>
-<p>&emsp;&emsp;URL是用来定位具体的资源的，标示了一个具体的资源位置。互联网上的每个文件都有一个唯一的URL。<br>&emsp;&emsp;URI是用来标示 一个具体的资源的，我们可以通过URI知道一个资源是什么。<br>&emsp;&emsp;HTTP使用统一资源标识符（Uniform Resource Identifiers, URI）来传输数据和建立连接。</p>
-<h2 id="GET与POST的区别"><a href="#GET与POST的区别" class="headerlink" title="GET与POST的区别"></a>GET与POST的区别</h2><ol>
-<li>都包含请求头请求行，post多了请求body。</li>
-<li>get多用来查询，请求参数放在url中，不会对服务器上的内容产生作用。post用来提交，如把账号密码放入body中。</li>
-<li>GET是直接添加到URL后面的，直接就可以在URL中看到内容，而POST是放在报文内部的，用户无法直接看到。</li>
-<li>GET提交的数据长度是有限制的，因为URL长度有限制，具体的长度限制视浏览器而定。而POST没有。</li>
-</ol>
-<hr>
-<h1 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h1><p>&emsp;&emsp;HTTPS就是为了解决上面HTTP的问题。默认工作在443端口。<br>&emsp;&emsp;HTTPS协议（HyperText Transfer Protocol over Secure Socket Layer）：一般理解为HTTP+SSL/TLS，通过 SSL证书来验证服务器的身份，并为浏览器和服务器之间的通信进行加密。</p>
-<h2 id="SSL-TLS"><a href="#SSL-TLS" class="headerlink" title="SSL/TLS"></a>SSL/TLS</h2><p>&emsp;&emsp;SSL：安全套接字层，SSL协议位于TCP/IP协议与各种应用层协议之间，为数据通讯提供安全支持。<br>&emsp;&emsp;TLS：传输层安全，其前身是SSL，后来改名，目前使用最广泛的是TLS 1.1、TLS 1.2。</p>
-<h2 id="HTTPS工作流程"><a href="#HTTPS工作流程" class="headerlink" title="HTTPS工作流程"></a>HTTPS工作流程</h2><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/https%E5%AF%86%E9%92%A5%E7%94%9F%E6%88%90.png" alt="密钥生成流程"></p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E6%B5%81%E7%A8%8B.gif" alt="数据传输"></p>
-<ol>
-<li>首先客户端通过URL访问服务器建立SSL连接。</li>
-<li>服务端收到客户端请求后，会将网站支持的证书信息（证书中包含公钥）传送一份给客户端。（这个证书其实就是公钥，只是包含了很多信息）</li>
-<li>客户端的服务器开始协商SSL连接的安全等级，也就是信息加密的等级。</li>
-<li>客户端的浏览器根据双方同意的安全等级，建立会话密钥，然后利用网站的公钥将会话密钥加密，并传送给网站。（会话密钥就是第一张图的随机key）</li>
-<li>服务器利用自己的私钥解密出会话密钥，这里就是连接建立完成。</li>
-<li>服务器利用会话密钥加密与客户端之间的通信。</li>
-</ol>
-<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><ol>
-<li>HTTPS协议多次握手，导致页面加载时间延长。</li>
-<li>HTTPS连接缓存不如HTTP高效，会增加数据开销和功耗。</li>
-<li>SSL证书需要付费。</li>
-<li>SSL涉及到的安全算法会消耗CPU资源，对服务器资源消耗较大。</li>
-<li>技术难度相比HTTP大。</li>
-<li>SSL证书通常需要绑定IP，不能在同一IP上绑定多个域名，IPv4资源不可能支撑这个消耗。</li>
-<li>HTTPS协议的加密范围也比较有限，在黑客攻击、拒绝服务攻击、服务器劫持等方面几乎起不到什么作用。最关键的，SSL证书的信用链体系并不安全，特别是在某些国家可以控制CA根证书的情况下，中间人攻击一样可行。</li>
-</ol>
-<h2 id="总结HTTPS和HTTP的区别"><a href="#总结HTTPS和HTTP的区别" class="headerlink" title="总结HTTPS和HTTP的区别"></a>总结HTTPS和HTTP的区别</h2><ol>
-<li>HTTP明文传输，数据都是未加密的，安全性较差，HTTPS（SSL+HTTP） 数据传输过程是加密的，安全性较好。</li>
-<li>使用HTTPS协议需要到CA（Certificate Authority，数字证书认证机构） 申请证书，一般免费证书较少，因而需要一定费用。证书颁发机构如：Symantec、Comodo、GoDaddy和GlobalSign等。</li>
-<li>HTTP页面响应速度比HTTPS快，主要是因为HTTP使用TCP三次握手建立连接，客户端和服务器需要交换3个包，而HTTPS除了TCP的三个包，还要加上ssl握手需要的9个包，所以一共是12个包。</li>
-<li>http和https使用的是完全不同的连接方式，用的端口也不一样，前者是80，后者是443。</li>
-<li>HTTPS其实就是建构在SSL/TLS之上的HTTP协议，所以，要比较HTTPS比HTTP要更耗费服务器资源。</li>
-</ol>
-<hr>
-<h1 id="HTTP2"><a href="#HTTP2" class="headerlink" title="HTTP2"></a>HTTP2</h1><p>&emsp;&emsp;HTTP/2.0的目标是改善用户在使用Web时的速度体验。</p>
-<h2 id="新特点"><a href="#新特点" class="headerlink" title="新特点"></a>新特点</h2><p><a href="https://juejin.cn/post/6844903545532071943">HTTP2.0新特性</a><br><a href="https://www.jianshu.com/p/1afebe13c63e">HTTPS和HTTP2.0详解
-</a><br><a href="https://www.jsahz.com/wz/15616.html">HTTP 2.0 详细介绍</a></p>
-<h3 id="二进制分帧"><a href="#二进制分帧" class="headerlink" title="二进制分帧"></a>二进制分帧</h3><p>&emsp;&emsp;相对于HTTP1.0和HTTP1.1，2.0在应用层与传输层中间增加了一个二进制分帧层。<br>&emsp;&emsp;在二进制分帧层上，HTTP2.0会将所有传输信息分割为更小的消息和帧，并对它们采用二进制格式的编码将其封装。其中，HTTP1.X中的首部信息header封装到Headers帧中，而request body将被封装到Data帧中。<br>&emsp;&emsp;HTTP2.0通信都在一个TCP连接上完成，这个连接可以承载任意数量的双向数据流，相应的每个数据流以消息的形式发送。而消息由一或多个帧组成，这些帧可以乱序发送，然后根据每个帧首部的流标识符重新组装。  </p>
-<h3 id="首部压缩"><a href="#首部压缩" class="headerlink" title="首部压缩"></a>首部压缩</h3><p>&emsp;&emsp;HTTP1.x每次通讯（请求或响应）都会携带首部信息用于描述资源属性。而HTTP2.0在客户端和服务端之间使用首部表来跟踪和存储之前发送的键值对。请求与响应首部的定义在HTTP2.0中基本没有变，只是所有首部键必须全部小写，而且要求行要独立为:method:、:scheme:、:host:、:path:这些键值对。<br>&emsp;&emsp;HTTP2.0使用encoder来减少需要传输的header大小，通讯双方各自cache一份header fields（首部表）表，既避免了重复header的传输，又减小了需要传输的大小。</p>
-<h4 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h4><p>&emsp;&emsp;使报头更紧凑，更快速传输，有利于移动网络环境。减少每次通讯的数据量，使网络拥塞状态得以改善。</p>
-<h4 id="工作流程-1"><a href="#工作流程-1" class="headerlink" title="工作流程"></a>工作流程</h4><p>&emsp;&emsp;对于相同的数据，不再重新通过每次请求和响应发送。每个新的首部键值对要么追加到当前表的末尾，要么替换表中之前的值。首部表在HTTP2.0的链接存续期内始终存在，由客户端和服务端共同渐进的更新。</p>
-<h3 id="流量控制"><a href="#流量控制" class="headerlink" title="流量控制"></a>流量控制</h3><p>&emsp;&emsp;HTTP2.0为数据流和连接的流量提供了一个简单的机制：</p>
-<ol>
-<li>流量基于HTTP链接的每一跳进行，而非端到端的控制。</li>
-<li>流量控制基于窗口更新帧进行，即接收方广播自己准备接收某个数据流的多少字节，以及对整个链接要接收多少个字节。</li>
-<li>流量控制有方向性，即接收方可能根据自己的情况为每个流乃至整个链接设置任意窗口大小。</li>
-<li>流量控制可以由接收方禁用，包括针对个别的流和针对整个链接。</li>
-<li>帧的类型决定了流量控制是否适用于帧，目前只有DATA帧服从流量控制，所有其他类型的帧并不会消耗流量控制窗口的空间。这保证了重要的控制帧不会被流量控制阻塞。</li>
-</ol>
-<h3 id="多路复用"><a href="#多路复用" class="headerlink" title="多路复用"></a>多路复用</h3><p>&emsp;&emsp;基于二进制分帧层，HTTP2.0可以在共享TCP链接的基础上同时发送请求和响应。HTTP消息被分解为独立的帧，而不破坏消息本身的语义，交错发出去，在另一端根据流标识符和首部将他们重新组装起来。<br>&emsp;&emsp;即连接共享，即每一个request都是是用作连接共享机制的。一个request对应一个id，这样一个连接上可以有多个request，每个连接的request可以随机的混杂在一起，接收方可以根据request的id将request再归属到各自不同的服务端请求里面。</p>
-<h4 id="优化-1"><a href="#优化-1" class="headerlink" title="优化"></a>优化</h4><ol>
-<li>可以并行交错的发送请求和响应，这些请求和响应之间互不影响。</li>
-<li>只使用一个链接即可并行发送多个请求和响应。</li>
-<li>消除不必要的延迟，从而减少页面加载的时间。</li>
-<li>不必再为绕过HTTP1.x限制而多做很多工作。</li>
-</ol>
-<h3 id="请求优先级"><a href="#请求优先级" class="headerlink" title="请求优先级"></a>请求优先级</h3><p>&emsp;&emsp;HTTP消息分为很多独立帧之后，就可以通过优化这些帧的交错和传输顺序进一步优化性能。</p>
-<h4 id="优化-2"><a href="#优化-2" class="headerlink" title="优化"></a>优化</h4><p>&emsp;&emsp;服务器可以根据流的优先级控制资源分配（CPU、内存、宽带），而在响应数据准备好之后，优先将最高优先级的帧发送给客户端。浏览器可以在发现资源时立即分派请求，指定每个流的优先级，让服务器决定最优的响应次序。这样请求就不用排队了，既节省了时间，又最大限度的利用了每个连接。</p>
-<h3 id="服务端推送"><a href="#服务端推送" class="headerlink" title="服务端推送"></a>服务端推送</h3><p>&emsp;&emsp;服务器可以对一个客户端请求发送多个响应。服务器向客户端推送资源无需客户端明确的请求。<br>&emsp;&emsp;服务端根据客户端的请求，提前返回多个响应，推送额外的资源给客户端。</p>
-<h4 id="优化-3"><a href="#优化-3" class="headerlink" title="优化"></a>优化</h4><ol>
-<li>减轻数据传送的冗余步骤。</li>
-<li>加快页面响应速度。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>网络</category>
-        <category>HTTP</category>
-      </categories>
-      <tags>
-        <tag>网络</tag>
-        <tag>HTTP</tag>
       </tags>
   </entry>
   <entry>
@@ -3100,6 +3105,47 @@ start nginx
       </tags>
   </entry>
   <entry>
+    <title>redis安装和使用</title>
+    <url>/hexoblog/2021/04/14/md/redis/redis%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;这里是在windows环境下的redis安装过程，两种安装方式，都比较简单。<br>&emsp;&emsp;官方提供的只有linux系统的tar.gz格式的压缩包，windows的需要在github下载。<br><a href="https://redis.io/">https://redis.io/</a><br><a href="http://www.redis.cn/">http://www.redis.cn/</a><br><a href="https://www.redis.com.cn/">https://www.redis.com.cn/</a><br><a href="https://www.redis.com.cn/redis-installation.html">https://www.redis.com.cn/redis-installation.html</a></p>
+<span id="more"></span>
+<h2 id="msi安装"><a href="#msi安装" class="headerlink" title="msi安装"></a>msi安装</h2><ol>
+<li>下载msi安装文件<blockquote>
+<p>官方提供的只有tar.gz格式压缩包下载，msi需要在github下载<br><a href="https://github.com/MicrosoftArchive/redis/releases">https://github.com/MicrosoftArchive/redis/releases</a></p>
+</blockquote>
+</li>
+<li>双击运行</li>
+<li>完成安装</li>
+</ol>
+<h2 id="zip安装"><a href="#zip安装" class="headerlink" title="zip安装"></a>zip安装</h2><ol>
+<li>下载zip压缩包</li>
+<li>将压缩包解压至你准备安装的路径</li>
+<li>解压完成就是安装完成</li>
+</ol>
+<hr>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 先进入安装目录</span>
+<span class="token builtin class-name">cd</span> <span class="token operator">&lt;</span>安装目录<span class="token operator">></span>
+
+<span class="token comment"># 启动</span>
+<span class="token comment"># 作为普通软件启动，命令行关闭则关闭</span>
+redis-server.exe redis.windows.conf
+<span class="token comment"># 作为服务启动，不跟随命令行</span>
+redis-server.exe redis.windows-service.conf
+
+<span class="token comment"># 客户端连接</span>
+redis-cli.exe
+
+<span class="token comment"># 关闭</span>
+redis-server.exe --service-stop<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
+      <categories>
+        <category>redis</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>redis</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>redis分布式锁</title>
     <url>/hexoblog/2021/04/14/md/redis/redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/</url>
     <content><![CDATA[<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>&emsp;&emsp;单机情况下，对于多线程情况下的竞态资源，我们可以在代码中使用synchronized或者ReentrantLock来加锁，防止发生并发问题。但是当我们的服务进行集群部署时，对于这两种加锁方式，就会失效，它们只能在单机加锁，所以就需要与之对应的分布式锁。</p>
@@ -3167,47 +3213,6 @@ end<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span>
         <tag>redis</tag>
         <tag>分布式</tag>
         <tag>锁</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>redis安装和使用</title>
-    <url>/hexoblog/2021/04/14/md/redis/redis%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;这里是在windows环境下的redis安装过程，两种安装方式，都比较简单。<br>&emsp;&emsp;官方提供的只有linux系统的tar.gz格式的压缩包，windows的需要在github下载。<br><a href="https://redis.io/">https://redis.io/</a><br><a href="http://www.redis.cn/">http://www.redis.cn/</a><br><a href="https://www.redis.com.cn/">https://www.redis.com.cn/</a><br><a href="https://www.redis.com.cn/redis-installation.html">https://www.redis.com.cn/redis-installation.html</a></p>
-<span id="more"></span>
-<h2 id="msi安装"><a href="#msi安装" class="headerlink" title="msi安装"></a>msi安装</h2><ol>
-<li>下载msi安装文件<blockquote>
-<p>官方提供的只有tar.gz格式压缩包下载，msi需要在github下载<br><a href="https://github.com/MicrosoftArchive/redis/releases">https://github.com/MicrosoftArchive/redis/releases</a></p>
-</blockquote>
-</li>
-<li>双击运行</li>
-<li>完成安装</li>
-</ol>
-<h2 id="zip安装"><a href="#zip安装" class="headerlink" title="zip安装"></a>zip安装</h2><ol>
-<li>下载zip压缩包</li>
-<li>将压缩包解压至你准备安装的路径</li>
-<li>解压完成就是安装完成</li>
-</ol>
-<hr>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 先进入安装目录</span>
-<span class="token builtin class-name">cd</span> <span class="token operator">&lt;</span>安装目录<span class="token operator">></span>
-
-<span class="token comment"># 启动</span>
-<span class="token comment"># 作为普通软件启动，命令行关闭则关闭</span>
-redis-server.exe redis.windows.conf
-<span class="token comment"># 作为服务启动，不跟随命令行</span>
-redis-server.exe redis.windows-service.conf
-
-<span class="token comment"># 客户端连接</span>
-redis-cli.exe
-
-<span class="token comment"># 关闭</span>
-redis-server.exe --service-stop<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
-      <categories>
-        <category>redis</category>
-      </categories>
-      <tags>
-        <tag>tool</tag>
-        <tag>redis</tag>
       </tags>
   </entry>
   <entry>
@@ -3299,62 +3304,6 @@ redis-server.exe --service-stop<span aria-hidden="true" class="line-numbers-rows
       </tags>
   </entry>
   <entry>
-    <title>rocketmq消息分类</title>
-    <url>/hexoblog/2021/05/26/md/rocketmq/rocketmq%E6%B6%88%E6%81%AF%E5%88%86%E7%B1%BB/</url>
-    <content><![CDATA[<h1 id="消息"><a href="#消息" class="headerlink" title="消息"></a>消息</h1><p>&emsp;&emsp;message就是要传输的信息，一条消息必须有一个主题（Topic）。</p>
-<span id="more"></span>
-
-<h2 id="从特点区分"><a href="#从特点区分" class="headerlink" title="从特点区分"></a>从特点区分</h2><p>&emsp;&emsp;mq中的消息从特点区分可以分为三类：同步消息，异步消息，单向消息。</p>
-<h3 id="同步消息"><a href="#同步消息" class="headerlink" title="同步消息"></a>同步消息</h3><p>&emsp;&emsp;同步发送是指消息发送方发出数据后，会阻塞直到MQ服务方发回响应消息。  </p>
-<h3 id="异步消息"><a href="#异步消息" class="headerlink" title="异步消息"></a>异步消息</h3><p>&emsp;&emsp;异步发送是指发送方发出数据后，不等接收方发回响应，接着发送下个数据包的通讯方式。<br>&emsp;&emsp;MQ 的异步发送，需要用户实现异步发送回调接口（SendCallback），在执行消息的异步发送时，应用不需要等待服务器响应即可直接返回，通过回调接口接收服务器响应，并对服务器的响应结果进行处理。</p>
-<h3 id="单向消息"><a href="#单向消息" class="headerlink" title="单向消息"></a>单向消息</h3><p>&emsp;&emsp;单向（Oneway）发送特点为只负责发送消息，不等待服务器回应且没有回调函数触发，即只发送请求不等待应答。此方式发送消息的过程耗时非常短，一般在微秒级别。这种消息常用于日志收集。</p>
-<h2 id="从共功能分"><a href="#从共功能分" class="headerlink" title="从共功能分"></a>从共功能分</h2><p>&emsp;&emsp;从使用功能也可以分为多种消息，最广为人知的就是事务消息。<br>&emsp;&emsp;消息共有以下分类：</p>
-<ol>
-<li>普通消息</li>
-<li>顺序消息</li>
-<li>广播消息</li>
-<li>延时消息</li>
-<li>批量消息</li>
-<li>事务消息</li>
-</ol>
-<h3 id="顺序消息"><a href="#顺序消息" class="headerlink" title="顺序消息"></a>顺序消息</h3><p>&emsp;&emsp;消息有序指的是一类消息消费时，能按照发送的顺序来消费。</p>
-<h3 id="广播消息"><a href="#广播消息" class="headerlink" title="广播消息"></a>广播消息</h3><p>&emsp;&emsp;广播消息与普通消息不同的是，普通消息只会由消费者组中负载均衡到消息所在MessageQuene的消费者消费，而广播消息由消费者组中的所有消费者消费。</p>
-<h3 id="定时消息"><a href="#定时消息" class="headerlink" title="定时消息"></a>定时消息</h3><p>&emsp;&emsp;<a href="https://www.yuque.com/jiufenshiren/mvgau4/cn_features#19cff416">定时消息</a><br>&emsp;&emsp;定时消息（延迟队列）是指消息发送到broker后，不会立即被消费，等待特定时间投递给真正的topic。<br>&emsp;&emsp;broker有配置项messageDelayLevel，可以配置不同的DelayLevel延迟不同的时间。<br>&emsp;&emsp;定时消息会暂存在名为SCHEDULE_TOPIC_XXXX的topic中，并根据delayTimeLevel存入特定的queue，queueId = delayTimeLevel – 1，即一个queue只存相同延迟的消息，保证具有相同发送延迟的消息能够顺序消费。broker会调度地消费SCHEDULE_TOPIC_XXXX，将消息写入真实的topic。<br>&emsp;&emsp;需要注意的是，定时消息会在第一次写入和调度写入真实topic时都会计数，因此发送数量、tps都会变高。</p>
-<h3 id="事务消息"><a href="#事务消息" class="headerlink" title="事务消息"></a>事务消息</h3><p>&emsp;&emsp;<a href="https://www.yuque.com/jiufenshiren/mvgau4/cn_design#dc145683">官方的事务消息解释</a><br>&emsp;&emsp;RocketMQ事务消息（Transactional Message）是指应用本地事务和发送消息操作可以被定义到全局事务中，要么同时成功，要么同时失败。RocketMQ的事务消息提供类似X/Open XA的分布事务功能，通过事务消息能达到分布式事务的最终一致。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/rocketmq_design_10.png" alt="事务消息大概流程"></p>
-<p>&emsp;&emsp;事务消息的大概流程：</p>
-<ol>
-<li>发送一个事务的半消息。</li>
-<li>服务端将消息持久化成功之后，向发送方ACK确认消息已经发送成功，此时消息为半消息。</li>
-<li>开始执行本地事务，如果发送消息失败，本地事务不执行。</li>
-<li>根据本地事务向mq进行二次提交，Commit或rollback，commit会生成消息索引，mq收到Commit状态则将半消息标记为可投递，订阅方最终将收到该消息；服务端收到Rollback状态则删除半消息，订阅方将不会接受该消息。</li>
-</ol>
-<p>&emsp;&emsp;补偿流程：补偿流程用于mq没有收到发送者二次提交的情况下：</p>
-<ol>
-<li>对没有Commit/Rollback的事务消息（pending状态的消息），从服务端发起一次“回查”。（最大回查15次）</li>
-<li>Producer收到回查消息，检查回查消息对应的本地事务的状态。</li>
-<li>根据本地事务状态，重新Commit或者Rollback。</li>
-</ol>
-<p>&emsp;&emsp;注意：</p>
-<ol>
-<li>需要消息回查接口。</li>
-<li>不能保证消息幂等，需要消费方手动控制，在消费者未ack情况下，可能重复消费。</li>
-</ol>
-<hr>
-<h1 id="消息问题"><a href="#消息问题" class="headerlink" title="消息问题"></a>消息问题</h1><p><a href="https://www.cnblogs.com/duanxz/p/6053598.html">RocketMQ之二：分布式开放消息系统RocketMQ的原理与实践（消息的顺序问题、重复问题、可靠消息/事务消息）</a></p>
-<h2 id="消息顺序问题"><a href="#消息顺序问题" class="headerlink" title="消息顺序问题"></a>消息顺序问题</h2><p>&emsp;&emsp;有着一定顺序的消息，一般需要发送到同一个MessageQuene，因为MessageQuene采用先进先出队列，消费方就可以按照发送的顺序进行消费。<br>&emsp;&emsp;可以自定义MessageQueueSelector实现的算法来选择一个队列。<br>&emsp;&emsp;mq顺序消息中，mq需要收到消费方对上一个消息的确认ACK后才能投递下一个消息，这个会带来上一个消息ack收不到的情况下，会造成重复消费。</p>
-<h2 id="消息重复问题"><a href="#消息重复问题" class="headerlink" title="消息重复问题"></a>消息重复问题</h2><p>&emsp;&emsp;mq中并没有处理消息的重复问题，需要消费方自己实现幂等，解决消息重复消费的问题。</p>
-]]></content>
-      <categories>
-        <category>消息中间件</category>
-        <category>rocketmq</category>
-      </categories>
-      <tags>
-        <tag>消息中间件</tag>
-        <tag>rocketmq</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>rocketmq概念总结</title>
     <url>/hexoblog/2021/05/25/md/rocketmq/rocketmq%E6%A6%82%E5%BF%B5%E6%80%BB%E7%BB%93/</url>
     <content><![CDATA[<h1 id="核心组成"><a href="#核心组成" class="headerlink" title="核心组成"></a>核心组成</h1><p><a href="https://github.com/apache/rocketmq/tree/master/docs/cn">官方文档看看挺好的</a><br>&emsp;&emsp;rocketmq主要有四大核心组成部分：NameServer，Broker，Producer，Consumer四部分。  </p>
@@ -3414,6 +3363,62 @@ redis-server.exe --service-stop<span aria-hidden="true" class="line-numbers-rows
 <h2 id="Message-Order"><a href="#Message-Order" class="headerlink" title="Message Order"></a>Message Order</h2><p>&emsp;&emsp;消息消费顺序，也有两种：顺序消费，并行消费。</p>
 <h3 id="顺序消费"><a href="#顺序消费" class="headerlink" title="顺序消费"></a>顺序消费</h3><p>&emsp;&emsp;顺序消费表示消息消费的顺序同生产者为每个消息队列发送的顺序一致，所以如果正在处理全局顺序是强制性的场景，需要确保使用的主题只有一个消息队列。</p>
 <h3 id="并行消费"><a href="#并行消费" class="headerlink" title="并行消费"></a>并行消费</h3><p>&emsp;&emsp;并行消费不再保证消息顺序，消费的最大并行数量受每个消费者客户端指定的线程池限制。</p>
+]]></content>
+      <categories>
+        <category>消息中间件</category>
+        <category>rocketmq</category>
+      </categories>
+      <tags>
+        <tag>消息中间件</tag>
+        <tag>rocketmq</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>rocketmq消息分类</title>
+    <url>/hexoblog/2021/05/26/md/rocketmq/rocketmq%E6%B6%88%E6%81%AF%E5%88%86%E7%B1%BB/</url>
+    <content><![CDATA[<h1 id="消息"><a href="#消息" class="headerlink" title="消息"></a>消息</h1><p>&emsp;&emsp;message就是要传输的信息，一条消息必须有一个主题（Topic）。</p>
+<span id="more"></span>
+
+<h2 id="从特点区分"><a href="#从特点区分" class="headerlink" title="从特点区分"></a>从特点区分</h2><p>&emsp;&emsp;mq中的消息从特点区分可以分为三类：同步消息，异步消息，单向消息。</p>
+<h3 id="同步消息"><a href="#同步消息" class="headerlink" title="同步消息"></a>同步消息</h3><p>&emsp;&emsp;同步发送是指消息发送方发出数据后，会阻塞直到MQ服务方发回响应消息。  </p>
+<h3 id="异步消息"><a href="#异步消息" class="headerlink" title="异步消息"></a>异步消息</h3><p>&emsp;&emsp;异步发送是指发送方发出数据后，不等接收方发回响应，接着发送下个数据包的通讯方式。<br>&emsp;&emsp;MQ 的异步发送，需要用户实现异步发送回调接口（SendCallback），在执行消息的异步发送时，应用不需要等待服务器响应即可直接返回，通过回调接口接收服务器响应，并对服务器的响应结果进行处理。</p>
+<h3 id="单向消息"><a href="#单向消息" class="headerlink" title="单向消息"></a>单向消息</h3><p>&emsp;&emsp;单向（Oneway）发送特点为只负责发送消息，不等待服务器回应且没有回调函数触发，即只发送请求不等待应答。此方式发送消息的过程耗时非常短，一般在微秒级别。这种消息常用于日志收集。</p>
+<h2 id="从共功能分"><a href="#从共功能分" class="headerlink" title="从共功能分"></a>从共功能分</h2><p>&emsp;&emsp;从使用功能也可以分为多种消息，最广为人知的就是事务消息。<br>&emsp;&emsp;消息共有以下分类：</p>
+<ol>
+<li>普通消息</li>
+<li>顺序消息</li>
+<li>广播消息</li>
+<li>延时消息</li>
+<li>批量消息</li>
+<li>事务消息</li>
+</ol>
+<h3 id="顺序消息"><a href="#顺序消息" class="headerlink" title="顺序消息"></a>顺序消息</h3><p>&emsp;&emsp;消息有序指的是一类消息消费时，能按照发送的顺序来消费。</p>
+<h3 id="广播消息"><a href="#广播消息" class="headerlink" title="广播消息"></a>广播消息</h3><p>&emsp;&emsp;广播消息与普通消息不同的是，普通消息只会由消费者组中负载均衡到消息所在MessageQuene的消费者消费，而广播消息由消费者组中的所有消费者消费。</p>
+<h3 id="定时消息"><a href="#定时消息" class="headerlink" title="定时消息"></a>定时消息</h3><p>&emsp;&emsp;<a href="https://www.yuque.com/jiufenshiren/mvgau4/cn_features#19cff416">定时消息</a><br>&emsp;&emsp;定时消息（延迟队列）是指消息发送到broker后，不会立即被消费，等待特定时间投递给真正的topic。<br>&emsp;&emsp;broker有配置项messageDelayLevel，可以配置不同的DelayLevel延迟不同的时间。<br>&emsp;&emsp;定时消息会暂存在名为SCHEDULE_TOPIC_XXXX的topic中，并根据delayTimeLevel存入特定的queue，queueId = delayTimeLevel – 1，即一个queue只存相同延迟的消息，保证具有相同发送延迟的消息能够顺序消费。broker会调度地消费SCHEDULE_TOPIC_XXXX，将消息写入真实的topic。<br>&emsp;&emsp;需要注意的是，定时消息会在第一次写入和调度写入真实topic时都会计数，因此发送数量、tps都会变高。</p>
+<h3 id="事务消息"><a href="#事务消息" class="headerlink" title="事务消息"></a>事务消息</h3><p>&emsp;&emsp;<a href="https://www.yuque.com/jiufenshiren/mvgau4/cn_design#dc145683">官方的事务消息解释</a><br>&emsp;&emsp;RocketMQ事务消息（Transactional Message）是指应用本地事务和发送消息操作可以被定义到全局事务中，要么同时成功，要么同时失败。RocketMQ的事务消息提供类似X/Open XA的分布事务功能，通过事务消息能达到分布式事务的最终一致。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/rocketmq_design_10.png" alt="事务消息大概流程"></p>
+<p>&emsp;&emsp;事务消息的大概流程：</p>
+<ol>
+<li>发送一个事务的半消息。</li>
+<li>服务端将消息持久化成功之后，向发送方ACK确认消息已经发送成功，此时消息为半消息。</li>
+<li>开始执行本地事务，如果发送消息失败，本地事务不执行。</li>
+<li>根据本地事务向mq进行二次提交，Commit或rollback，commit会生成消息索引，mq收到Commit状态则将半消息标记为可投递，订阅方最终将收到该消息；服务端收到Rollback状态则删除半消息，订阅方将不会接受该消息。</li>
+</ol>
+<p>&emsp;&emsp;补偿流程：补偿流程用于mq没有收到发送者二次提交的情况下：</p>
+<ol>
+<li>对没有Commit/Rollback的事务消息（pending状态的消息），从服务端发起一次“回查”。（最大回查15次）</li>
+<li>Producer收到回查消息，检查回查消息对应的本地事务的状态。</li>
+<li>根据本地事务状态，重新Commit或者Rollback。</li>
+</ol>
+<p>&emsp;&emsp;注意：</p>
+<ol>
+<li>需要消息回查接口。</li>
+<li>不能保证消息幂等，需要消费方手动控制，在消费者未ack情况下，可能重复消费。</li>
+</ol>
+<hr>
+<h1 id="消息问题"><a href="#消息问题" class="headerlink" title="消息问题"></a>消息问题</h1><p><a href="https://www.cnblogs.com/duanxz/p/6053598.html">RocketMQ之二：分布式开放消息系统RocketMQ的原理与实践（消息的顺序问题、重复问题、可靠消息/事务消息）</a></p>
+<h2 id="消息顺序问题"><a href="#消息顺序问题" class="headerlink" title="消息顺序问题"></a>消息顺序问题</h2><p>&emsp;&emsp;有着一定顺序的消息，一般需要发送到同一个MessageQuene，因为MessageQuene采用先进先出队列，消费方就可以按照发送的顺序进行消费。<br>&emsp;&emsp;可以自定义MessageQueueSelector实现的算法来选择一个队列。<br>&emsp;&emsp;mq顺序消息中，mq需要收到消费方对上一个消息的确认ACK后才能投递下一个消息，这个会带来上一个消息ack收不到的情况下，会造成重复消费。</p>
+<h2 id="消息重复问题"><a href="#消息重复问题" class="headerlink" title="消息重复问题"></a>消息重复问题</h2><p>&emsp;&emsp;mq中并没有处理消息的重复问题，需要消费方自己实现幂等，解决消息重复消费的问题。</p>
 ]]></content>
       <categories>
         <category>消息中间件</category>
@@ -4335,6 +4340,29 @@ hexo d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></sp
       </tags>
   </entry>
   <entry>
+    <title>zookeeper实现分布式锁</title>
+    <url>/hexoblog/2021/05/18/md/zookeeper/zookeeper%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;分布式锁的作用：<strong>在整个系统提供一个全局、唯一的锁，在分布式系统中每个系统在进行相关操作的时候需要获取到该锁，才能执行相应操作</strong>。  </p>
+<span id="more"></span>
+
+<p>&emsp;&emsp;大致思想为：<strong>每个客户端对每个方法加锁时，在zookeeper上的与该方法对应的指定节点的目录下，生成一个唯一的瞬时有序节点。判断是否获取锁的方式很简单，只需要判断有序节点中序号最小的一个。当释放锁的时候，只需将这个瞬时节点删除即可。同时，其可以避免服务宕机导致的锁无法释放，而产生死锁的问题</strong>。</p>
+<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><ol>
+<li>利用Zookeeper可以创建临时有序节点的特性创建一个分布式锁。</li>
+<li>多个系统的多个线程都要在此目录下创建临时有序节点，因为Zookeeper会为我们保证节点的有序性，所以可以利用节点的顺序性来对不同线程的先来后到进行判断。此时，在分布式下应该添加锁的线程就是zk指定目录下序号最小的临时序列节点所代表的线程。</li>
+<li>当每个线程请求对应资源时，都需要现在zk指定目录下创建临时有序节点，然后获取当前目录下最小的节点序号（加锁的线程），判断最小节点是不是当前节点（是不是自己），如果是那么获取锁成功，如果不是获取锁失败。</li>
+<li>获取锁失败的线程获取当前节点上一个临时有序节点，并对此节点进行监听。当该节点删除的时候（执行结束或者掉线，释放锁）这个线程会获取到通知，代表获取到了锁。这里的每一个节点都只是监听它的上一个节点，而不是监听最小的节点。因为临时节点都是有序号的，而且序号不会回退，所以只需要监听比其小1的节点。只要比它小1的节点被删除，则它就可以拿到资源去操作。</li>
+</ol>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/zk%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81.jpg" alt="分布式锁流程"></p>
+]]></content>
+      <categories>
+        <category>zookeeper</category>
+      </categories>
+      <tags>
+        <tag>zookeeper</tag>
+        <tag>分布式锁</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>zookeeper单机安装基础使用</title>
     <url>/hexoblog/2021/03/03/md/zookeeper/zookeeper%E5%8D%95%E6%9C%BA%E5%AE%89%E8%A3%85%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>&emsp;&emsp;zookeeper是一个分布式服务框架，主要用来解决分布式应用中经常遇到的一些数据管理问题。<br>&emsp;&emsp;zookeeper=文件系统+监听通知机制。</p>
@@ -4372,29 +4400,6 @@ hexo d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></sp
       <tags>
         <tag>tool</tag>
         <tag>zookeeper</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>zookeeper实现分布式锁</title>
-    <url>/hexoblog/2021/05/18/md/zookeeper/zookeeper%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;分布式锁的作用：<strong>在整个系统提供一个全局、唯一的锁，在分布式系统中每个系统在进行相关操作的时候需要获取到该锁，才能执行相应操作</strong>。  </p>
-<span id="more"></span>
-
-<p>&emsp;&emsp;大致思想为：<strong>每个客户端对每个方法加锁时，在zookeeper上的与该方法对应的指定节点的目录下，生成一个唯一的瞬时有序节点。判断是否获取锁的方式很简单，只需要判断有序节点中序号最小的一个。当释放锁的时候，只需将这个瞬时节点删除即可。同时，其可以避免服务宕机导致的锁无法释放，而产生死锁的问题</strong>。</p>
-<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><ol>
-<li>利用Zookeeper可以创建临时有序节点的特性创建一个分布式锁。</li>
-<li>多个系统的多个线程都要在此目录下创建临时有序节点，因为Zookeeper会为我们保证节点的有序性，所以可以利用节点的顺序性来对不同线程的先来后到进行判断。此时，在分布式下应该添加锁的线程就是zk指定目录下序号最小的临时序列节点所代表的线程。</li>
-<li>当每个线程请求对应资源时，都需要现在zk指定目录下创建临时有序节点，然后获取当前目录下最小的节点序号（加锁的线程），判断最小节点是不是当前节点（是不是自己），如果是那么获取锁成功，如果不是获取锁失败。</li>
-<li>获取锁失败的线程获取当前节点上一个临时有序节点，并对此节点进行监听。当该节点删除的时候（执行结束或者掉线，释放锁）这个线程会获取到通知，代表获取到了锁。这里的每一个节点都只是监听它的上一个节点，而不是监听最小的节点。因为临时节点都是有序号的，而且序号不会回退，所以只需要监听比其小1的节点。只要比它小1的节点被删除，则它就可以拿到资源去操作。</li>
-</ol>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/zk%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81.jpg" alt="分布式锁流程"></p>
-]]></content>
-      <categories>
-        <category>zookeeper</category>
-      </categories>
-      <tags>
-        <tag>zookeeper</tag>
-        <tag>分布式锁</tag>
       </tags>
   </entry>
   <entry>
@@ -4603,6 +4608,48 @@ zkServer<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
       </tags>
   </entry>
   <entry>
+    <title>分布式事务</title>
+    <url>/hexoblog/2021/03/02/md/%E5%88%86%E5%B8%83%E5%BC%8F/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/</url>
+    <content><![CDATA[<h1 id="分布式事务类型："><a href="#分布式事务类型：" class="headerlink" title="分布式事务类型："></a>分布式事务类型：</h1><p>分布式事务处理机制共有四种：</p>
+<ol>
+<li>两阶段提交</li>
+<li>TCC事务（事务补偿）</li>
+<li>本地消息表（异步确保），</li>
+<li>MQ事务消息。</li>
+</ol>
+<span id="more"></span>
+
+<h2 id="两阶段提交："><a href="#两阶段提交：" class="headerlink" title="两阶段提交："></a>两阶段提交：</h2><p>&emsp;&emsp;与数据库XA事务一样，两阶段提交使用XA协议。<br>&emsp;&emsp;两阶段提交这种方案属于牺牲了一部分可用性来换取的一致性。</p>
+<h3 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;尽量保证了数据的强一致，适合对数据强一致要求很高的关键领域。</p>
+<h3 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;实现复杂，牺牲了可用性，对性能影响较大，不适合高并发高性能场景，如分布式系统跨接口调用。</p>
+<h2 id="TCC事务："><a href="#TCC事务：" class="headerlink" title="TCC事务："></a>TCC事务：</h2><p>&emsp;&emsp;TCC其实就是采用的补偿机制，其核心思想是：针对每个操作，都要注册一个与其对应的确认和补偿操作。分为三个阶段：</p>
+<ol>
+<li> Try阶段主要是对业务系统做检测和资源预留。</li>
+<li> Confirm阶段主要是对业务系统做确认提交，Try阶段执行成功并开始执行Confirm阶段时，默认Confirm阶段是不会出错的。即：只要Try成功，Confirm一定成功。</li>
+<li> Cancel阶段主要是在业务执行错误，需要回滚的状态下，执行的业务取消，预留资源释放。</li>
+</ol>
+<h3 id="优点：-1"><a href="#优点：-1" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;跟2阶段提交比起来，实现及流程相对简单了些，但数据的一致性也要比2阶段提交要差一些。</p>
+<h3 id="缺点：-1"><a href="#缺点：-1" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;在2，3步中都可能失败。TCC是一种应用层的补偿方式，需要程序员在实现时写很多补偿的代码，一些场景中，一些业务流程用TCC不太好定义及处理。</p>
+<h2 id="本地消息表："><a href="#本地消息表：" class="headerlink" title="本地消息表："></a>本地消息表：</h2><p>&emsp;&emsp;使用最多的，核心思想是将分布式事务拆分成本地事务进行处理，来源于ebay。</p>
+<p>基本思路就是：</p>
+<p>&emsp;&emsp;消息生产方，需要额外建一个消息表，并记录消息发送状态。消息表和业务数据要在一个事务里提交，也就是说他们要在一个数据库里面。然后会经由MQ发送到消息的消费方。如果消息发送失败，会进行重试发送。<br>&emsp;&emsp;消息消费方，需要处理这个消息，并完成这个的业务逻辑。如果此时本地事务处理成功，表明已经处理成功了，如果处理失败，那么就会重试执行。如果是业务上面的失败，可以给生产方发送一个业务补偿消息，通知生产方进行回滚等操作。<br>&emsp;&emsp;生产方和消费方定时扫描本地消息表，把还没处理完成的消息或者失败的消息在发送一遍。<br>&emsp;&emsp;这种方案遵循最终一致性。</p>
+<h3 id="优点：-2"><a href="#优点：-2" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;一种非常经典的实现， 避免的分布式事务，实现了最终一致性。</p>
+<h3 id="缺点：-2"><a href="#缺点：-2" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;消息表会耦合到业务系统中，如果没有封装好的解决方案，会有很多杂活需要处理。</p>
+<h2 id="MQ事务消息："><a href="#MQ事务消息：" class="headerlink" title="MQ事务消息："></a>MQ事务消息：</h2><p>&emsp;&emsp;有一些第三方的MQ是支持事务消息的，比如RocketMQ，他们支持事务消息的方式也是类似于采用的二阶段提交，但一些主流的MQ都是不支持事务消息的，如RabbitMQ和Kafka都不支持。</p>
+<p>以阿里的RocketMQ为例：</p>
+<p>&emsp;&emsp;第一阶段Prepared消息，会拿到消息的地址。<br>&emsp;&emsp;第二阶段执行本地事务，第三阶段通过第一阶段拿到的地址去访问消息，并修改状态。<br>&emsp;&emsp;也就是说在业务方法内部要想消息队列提交两次请求，一次发送消息和一次确认消息。如果确认消息发送失败了，RocketMQ会定期扫描消息集群中的事务消息，这是发现了Prepared消息，它会像消息发送者确认，所以生产方需要实现一个check接口，RocketMQ会根据发送端设置的策略来决定是回滚还是继续发送确认消息。这样就保证了消息发送与本地事务同时成功或同时失败。</p>
+<h3 id="优点：-3"><a href="#优点：-3" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;实现了最终一致性，不需要依赖本地数据库事务。</p>
+<h3 id="缺点：-3"><a href="#缺点：-3" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;实现难度大，主流MQ不支持，RocketMQ事务消息部分代码未开源。</p>
+]]></content>
+      <categories>
+        <category>分布式</category>
+      </categories>
+      <tags>
+        <tag>分布式</tag>
+        <tag>acid</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>分布式锁</title>
     <url>/hexoblog/2021/03/02/md/%E5%88%86%E5%B8%83%E5%BC%8F/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/</url>
     <content><![CDATA[<h1 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h1><h2 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h2><ol>
@@ -4672,48 +4719,6 @@ zkServer<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
       <tags>
         <tag>lock</tag>
         <tag>分布式</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>分布式事务</title>
-    <url>/hexoblog/2021/03/02/md/%E5%88%86%E5%B8%83%E5%BC%8F/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/</url>
-    <content><![CDATA[<h1 id="分布式事务类型："><a href="#分布式事务类型：" class="headerlink" title="分布式事务类型："></a>分布式事务类型：</h1><p>分布式事务处理机制共有四种：</p>
-<ol>
-<li>两阶段提交</li>
-<li>TCC事务（事务补偿）</li>
-<li>本地消息表（异步确保），</li>
-<li>MQ事务消息。</li>
-</ol>
-<span id="more"></span>
-
-<h2 id="两阶段提交："><a href="#两阶段提交：" class="headerlink" title="两阶段提交："></a>两阶段提交：</h2><p>&emsp;&emsp;与数据库XA事务一样，两阶段提交使用XA协议。<br>&emsp;&emsp;两阶段提交这种方案属于牺牲了一部分可用性来换取的一致性。</p>
-<h3 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;尽量保证了数据的强一致，适合对数据强一致要求很高的关键领域。</p>
-<h3 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;实现复杂，牺牲了可用性，对性能影响较大，不适合高并发高性能场景，如分布式系统跨接口调用。</p>
-<h2 id="TCC事务："><a href="#TCC事务：" class="headerlink" title="TCC事务："></a>TCC事务：</h2><p>&emsp;&emsp;TCC其实就是采用的补偿机制，其核心思想是：针对每个操作，都要注册一个与其对应的确认和补偿操作。分为三个阶段：</p>
-<ol>
-<li> Try阶段主要是对业务系统做检测和资源预留。</li>
-<li> Confirm阶段主要是对业务系统做确认提交，Try阶段执行成功并开始执行Confirm阶段时，默认Confirm阶段是不会出错的。即：只要Try成功，Confirm一定成功。</li>
-<li> Cancel阶段主要是在业务执行错误，需要回滚的状态下，执行的业务取消，预留资源释放。</li>
-</ol>
-<h3 id="优点：-1"><a href="#优点：-1" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;跟2阶段提交比起来，实现及流程相对简单了些，但数据的一致性也要比2阶段提交要差一些。</p>
-<h3 id="缺点：-1"><a href="#缺点：-1" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;在2，3步中都可能失败。TCC是一种应用层的补偿方式，需要程序员在实现时写很多补偿的代码，一些场景中，一些业务流程用TCC不太好定义及处理。</p>
-<h2 id="本地消息表："><a href="#本地消息表：" class="headerlink" title="本地消息表："></a>本地消息表：</h2><p>&emsp;&emsp;使用最多的，核心思想是将分布式事务拆分成本地事务进行处理，来源于ebay。</p>
-<p>基本思路就是：</p>
-<p>&emsp;&emsp;消息生产方，需要额外建一个消息表，并记录消息发送状态。消息表和业务数据要在一个事务里提交，也就是说他们要在一个数据库里面。然后会经由MQ发送到消息的消费方。如果消息发送失败，会进行重试发送。<br>&emsp;&emsp;消息消费方，需要处理这个消息，并完成这个的业务逻辑。如果此时本地事务处理成功，表明已经处理成功了，如果处理失败，那么就会重试执行。如果是业务上面的失败，可以给生产方发送一个业务补偿消息，通知生产方进行回滚等操作。<br>&emsp;&emsp;生产方和消费方定时扫描本地消息表，把还没处理完成的消息或者失败的消息在发送一遍。<br>&emsp;&emsp;这种方案遵循最终一致性。</p>
-<h3 id="优点：-2"><a href="#优点：-2" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;一种非常经典的实现， 避免的分布式事务，实现了最终一致性。</p>
-<h3 id="缺点：-2"><a href="#缺点：-2" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;消息表会耦合到业务系统中，如果没有封装好的解决方案，会有很多杂活需要处理。</p>
-<h2 id="MQ事务消息："><a href="#MQ事务消息：" class="headerlink" title="MQ事务消息："></a>MQ事务消息：</h2><p>&emsp;&emsp;有一些第三方的MQ是支持事务消息的，比如RocketMQ，他们支持事务消息的方式也是类似于采用的二阶段提交，但一些主流的MQ都是不支持事务消息的，如RabbitMQ和Kafka都不支持。</p>
-<p>以阿里的RocketMQ为例：</p>
-<p>&emsp;&emsp;第一阶段Prepared消息，会拿到消息的地址。<br>&emsp;&emsp;第二阶段执行本地事务，第三阶段通过第一阶段拿到的地址去访问消息，并修改状态。<br>&emsp;&emsp;也就是说在业务方法内部要想消息队列提交两次请求，一次发送消息和一次确认消息。如果确认消息发送失败了，RocketMQ会定期扫描消息集群中的事务消息，这是发现了Prepared消息，它会像消息发送者确认，所以生产方需要实现一个check接口，RocketMQ会根据发送端设置的策略来决定是回滚还是继续发送确认消息。这样就保证了消息发送与本地事务同时成功或同时失败。</p>
-<h3 id="优点：-3"><a href="#优点：-3" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;实现了最终一致性，不需要依赖本地数据库事务。</p>
-<h3 id="缺点：-3"><a href="#缺点：-3" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;实现难度大，主流MQ不支持，RocketMQ事务消息部分代码未开源。</p>
-]]></content>
-      <categories>
-        <category>分布式</category>
-      </categories>
-      <tags>
-        <tag>分布式</tag>
-        <tag>acid</tag>
       </tags>
   </entry>
   <entry>
