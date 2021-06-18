@@ -1508,171 +1508,6 @@ SELECT ... FOR UPDATE<span aria-hidden="true" class="line-numbers-rows"><span></
       </tags>
   </entry>
   <entry>
-    <title>deepin安装docker</title>
-    <url>/hexoblog/2021/04/11/md/linux/deepin%E5%AE%89%E8%A3%85docker/</url>
-    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;写个毛啊，官方的直接搞来，<a href="https://wiki.deepin.org/wiki/Docker">https://wiki.deepin.org/wiki/Docke</a>。</p>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1>]]></content>
-      <categories>
-        <category>linux</category>
-        <category>deepin</category>
-      </categories>
-      <tags>
-        <tag>tool</tag>
-        <tag>linux</tag>
-        <tag>deepin</tag>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>deepin搭建java开发环境</title>
-    <url>/hexoblog/2021/04/11/md/linux/deepin%E6%90%AD%E5%BB%BAjava%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</url>
-    <content><![CDATA[<h1 id="安装jdk"><a href="#安装jdk" class="headerlink" title="安装jdk"></a>安装jdk</h1><p>&emsp;&emsp;安装之前最好先获取管理员权限。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 获取后需要输入密码</span>
-<span class="token function">sudo</span> <span class="token function">su</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<span id="more"></span>
-<h2 id="下载jdk"><a href="#下载jdk" class="headerlink" title="下载jdk"></a>下载jdk</h2><p>&emsp;&emsp;进入指定目录，下载jdk文件，我自己通常喜欢下载在<code>/usr/local/src/jdk</code>目录中，<a href="https://www.oracle.com/java/technologies/javase-jdk16-downloads.html">jdk16</a>。<br>&emsp;&emsp;<code>/usr/bin</code>是系统的软件存放的位置。<br>&emsp;&emsp;<code>/usr/local/bin</code>是我们自己的软件存放的位置。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> /usr/local/src/jdk
-
-<span class="token function">wget</span> https://download.oracle.com/otn-pub/java/jdk/16+36/7863447f0ab643c585b9bdebf67c69db/jdk-16_linux-x64_bin.tar.gz?AuthParam<span class="token operator">=</span>1618140718_ccecc5f8b3763f1feed74a49a7f7cbb8<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="将下载的jdk解压缩"><a href="#将下载的jdk解压缩" class="headerlink" title="将下载的jdk解压缩"></a>将下载的jdk解压缩</h2><p>&emsp;&emsp;通过wget下载的压缩包文件名称会奇奇怪怪的。如果通过浏览器下载则没有该问题。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 重命名文件</span>
-<span class="token function">mv</span> <span class="token string">'jdk-16_linux-x64_bin.tar.gz?AuthParam=1618140718_ccecc5f8b3763f1feed74a49a7f7cbb8'</span> jdk-16_linux-x64_bin.tar.gz
-
-<span class="token comment"># 解压缩文件</span>
-<span class="token function">tar</span> xvf jdk-16_linux-x64_bin.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="重命名文件夹（可选）"><a href="#重命名文件夹（可选）" class="headerlink" title="重命名文件夹（可选）"></a>重命名文件夹（可选）</h2><p>&emsp;&emsp;对解压后的文件夹重命名，也可以不做。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">mv</span> jdk-16_linux-x64_bin jdk16<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h2><p>&emsp;&emsp;jdk需要配置PATH和CLASSPATH环境变量。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 系统的环境变量写在/etc/profile文件中</span>
-<span class="token function">vi</span> /etc/profile
-
-<span class="token comment"># 在编辑器末尾添加对应的环境变量</span>
-<span class="token comment"># 这里的路径结合自己的实际安装路径</span>
-<span class="token assign-left variable">JAVA_HOME</span><span class="token operator">=</span>/usr/local/jdk/jdk16
-<span class="token assign-left variable">CLASSPATH</span><span class="token operator">=</span><span class="token variable">$JAVA_HOME</span>/lib
-<span class="token builtin class-name">export</span> CLASSPATH
-<span class="token builtin class-name">export</span> <span class="token assign-left variable"><span class="token environment constant">PATH</span></span><span class="token operator">=</span><span class="token environment constant">$PATH</span><span class="token builtin class-name">:</span><span class="token operator">&amp;</span>JAVA_HOME/bin
-
-<span class="token comment"># 退出vi并保存，这里需要强制保存</span>
-esc
-:wq<span class="token operator">!</span>
-
-<span class="token comment"># 刷新使环境变量生效</span>
-<span class="token builtin class-name">source</span> /etc/profile
-
-<span class="token comment"># 验证，查看版本号</span>
-java -version<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<hr>
-<h1 id="安装maven"><a href="#安装maven" class="headerlink" title="安装maven"></a>安装maven</h1><h2 id="下载maven"><a href="#下载maven" class="headerlink" title="下载maven"></a>下载maven</h2><p>&emsp;&emsp;将maven下载进指定目录，这里依照个人习惯，我放在<code>/usr/local/src/maven</code>。<a href="https://mirrors.bfsu.edu.cn/apache/maven/maven-3/3.8.1/binaries/apache-maven-3.8.1-bin.tar.gz">maven3.8.1</a></p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> /usr/local/src/maven
-
-<span class="token function">wget</span> https://mirrors.bfsu.edu.cn/apache/maven/maven-3/3.8.1/binaries/apache-maven-3.8.1-bin.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="解压缩文件"><a href="#解压缩文件" class="headerlink" title="解压缩文件"></a>解压缩文件</h2><p>&emsp;&emsp;对下载的maven文件解压缩。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">tar</span> xvf apache-maven-3.8.1-bin.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="重命名文件夹"><a href="#重命名文件夹" class="headerlink" title="重命名文件夹"></a>重命名文件夹</h2><p>&emsp;&emsp;这一步可选操作，目的是为了文件目录整洁。也可以不做。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">mv</span> apache-maven-3.8.1-bin maven3<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="配置环境变量-1"><a href="#配置环境变量-1" class="headerlink" title="配置环境变量"></a>配置环境变量</h2><p>&emsp;&emsp;maven也需要配置PATH环境变量。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">vi</span> /etc/profile
-
-<span class="token comment"># 在编辑器末尾添加对应的环境变量</span>
-<span class="token comment"># 这里的路径结合自己的实际安装路径</span>
-<span class="token assign-left variable">MAVEN_HOME</span><span class="token operator">=</span>/usr/local/maven/maven3
-<span class="token builtin class-name">export</span> <span class="token assign-left variable"><span class="token environment constant">PATH</span></span><span class="token operator">=</span><span class="token environment constant">$PATH</span><span class="token builtin class-name">:</span><span class="token operator">&amp;</span>MAVEN_HOME/bin
-
-<span class="token comment"># 退出vi并保存，这里需要强制保存</span>
-esc
-:wq<span class="token operator">!</span>
-
-<span class="token comment"># 刷新使环境变量生效</span>
-<span class="token builtin class-name">source</span> /etc/profile
-
-<span class="token comment"># 验证，查看版本号</span>
-mvn -v<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<hr>
-<h1 id="安装tomcat"><a href="#安装tomcat" class="headerlink" title="安装tomcat"></a>安装tomcat</h1><h2 id="下载tomcat"><a href="#下载tomcat" class="headerlink" title="下载tomcat"></a>下载tomcat</h2><p>&emsp;&emsp;将tomcat下载进指定的位置，我放在<code>/usr/local/src/tomcat</code>。<a href="https://mirrors.tuna.tsinghua.edu.cn/apache/tomcat/tomcat-10/v10.0.5/bin/apache-tomcat-10.0.5.tar.gz">tomcat10</a></p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> /usr/local/src/tomcat
-
-<span class="token function">wget</span> https://mirrors.tuna.tsinghua.edu.cn/apache/tomcat/tomcat-10/v10.0.5/bin/apache-tomcat-10.0.5.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="解压压缩包"><a href="#解压压缩包" class="headerlink" title="解压压缩包"></a>解压压缩包</h2><p>&emsp;&emsp;解压下载的压缩文件。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">tar</span> xvf apache-tomcat-10.0.5.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="重命名文件夹-1"><a href="#重命名文件夹-1" class="headerlink" title="重命名文件夹"></a>重命名文件夹</h2><p>&emsp;&emsp;这一步可选操作，目的是为了文件目录整洁。也可以不做。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">mv</span> apache-tomcat-10.0.5 tomcat10<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><p>&emsp;&emsp;进入tomcat的安装目录就可以启动tomcat了。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 进入tomcat的安装位置</span>
-<span class="token builtin class-name">cd</span> /usr/local/src/tomcat/tomcat10/bin
-
-<span class="token comment"># 启动tomcat</span>
-startup.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>&emsp;&emsp;启动完成后可以在localhost:8080查看是否启动成功。</p>
-]]></content>
-      <categories>
-        <category>linux</category>
-        <category>deepin</category>
-      </categories>
-      <tags>
-        <tag>tool</tag>
-        <tag>linux</tag>
-        <tag>deepin</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>linux基本操作</title>
-    <url>/hexoblog/2021/04/10/md/linux/linux%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
-    <content><![CDATA[<h1 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h1><h2 id="移动文件-重命名文件"><a href="#移动文件-重命名文件" class="headerlink" title="移动文件/重命名文件"></a>移动文件/重命名文件</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 移动文件</span>
-<span class="token function">mv</span> <span class="token punctuation">[</span>源文件目录<span class="token punctuation">]</span> <span class="token punctuation">[</span>目标文件目录<span class="token punctuation">]</span>
-
-<span class="token comment"># 重命名文件</span>
-<span class="token builtin class-name">cd</span> <span class="token punctuation">[</span>目标目录<span class="token punctuation">]</span>
-<span class="token function">mv</span> <span class="token punctuation">[</span>源文件名<span class="token punctuation">]</span> <span class="token punctuation">[</span>目标文件名<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="复制文件"><a href="#复制文件" class="headerlink" title="复制文件"></a>复制文件</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">cp</span> <span class="token punctuation">[</span>源文件目录/源文件名<span class="token punctuation">]</span> <span class="token punctuation">[</span>目标文件目录<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="删除文件"><a href="#删除文件" class="headerlink" title="删除文件"></a>删除文件</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> <span class="token punctuation">[</span>目标文件目录<span class="token punctuation">]</span>
-<span class="token function">rm</span> -rf <span class="token punctuation">[</span>目标文件名<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>]]></content>
-      <categories>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>tool</tag>
-        <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>wsl小问题排查</title>
-    <url>/hexoblog/2021/03/14/md/linux/wsl%E5%B0%8F%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5/</url>
-    <content><![CDATA[<!-- toc -->
-
-<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><h2 id="网络问题"><a href="#网络问题" class="headerlink" title="网络问题"></a>网络问题</h2><h3 id="参考的对象类型不支持尝试的操作"><a href="#参考的对象类型不支持尝试的操作" class="headerlink" title="参考的对象类型不支持尝试的操作"></a>参考的对象类型不支持尝试的操作</h3><p>&emsp;&emsp;这种问题一般是因为有启动过代理软件，造成代理冲突。</p>
-<span id="more"></span>
-
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Ubuntu%2020.04%20LTS%202021_3_14%2016_01_57.png" alt="参考的对象不支持的操作"></p>
-<h4 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h4><p>&emsp;&emsp;临时解决方案，重新网络信息：（管理员运行命令行）</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 重置网络信息</span>
-netsh winsock reset<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-]]></content>
-      <categories>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-        <tag>wsl</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>mybatis连接双数据库</title>
     <url>/hexoblog/2021/03/09/md/mybatis/mybatis%E8%BF%9E%E6%8E%A5%E5%8F%8C%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
     <content><![CDATA[<h1 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h1><p>&emsp;&emsp;项目中需要从两个不同的数据库查询数据，之前实现方法是：springboot配置连接一个数据源，另一个使用jdbc代码连接。<br>&emsp;&emsp;为了改进，现在使用SpringBoot配置连接两个数据源。</p>
@@ -1995,71 +1830,168 @@ netsh winsock reset<span aria-hidden="true" class="line-numbers-rows"><span></sp
       </tags>
   </entry>
   <entry>
-    <title>redis为什么这么快</title>
-    <url>/hexoblog/2021/03/08/md/redis/redis%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%99%E4%B9%88%E5%BF%AB/</url>
-    <content><![CDATA[<h1 id="redis为什么这么快？"><a href="#redis为什么这么快？" class="headerlink" title="redis为什么这么快？"></a>redis为什么这么快？</h1><ol>
-<li>完全基于内存，绝大部分请求时纯内存操作，非常快速。数据在内存中类似于hashmap，hashmap的优势就是查找和操作的时间复杂度都是O(1)。</li>
-<li>数据结构简单，对数据操作也简单，Redis的数据结构是专门进行设计的。SDS。</li>
-<li>采用单线程，避免了不必要的上下文切换和竞争条件，也不存在多进程或多线程切换导致的消耗cpu，不用去考虑各种锁的问题，不存在加锁释放锁的操作，没有因可能出现死锁而导致的消耗。</li>
-<li>使用IO多路复用模型，非阻塞IO。</li>
-<li>使用底层模型不同，他们之间底层实现方式以及客户端之间通信的应用协议不一样，Redis直接自己构建了VM机制，因为一般的系统调用系统函数的话，会浪费一定的时间去移动和请求。</li>
-</ol>
+    <title>deepin搭建java开发环境</title>
+    <url>/hexoblog/2021/04/11/md/linux/deepin%E6%90%AD%E5%BB%BAjava%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</url>
+    <content><![CDATA[<h1 id="安装jdk"><a href="#安装jdk" class="headerlink" title="安装jdk"></a>安装jdk</h1><p>&emsp;&emsp;安装之前最好先获取管理员权限。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 获取后需要输入密码</span>
+<span class="token function">sudo</span> <span class="token function">su</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
 <span id="more"></span>
+<h2 id="下载jdk"><a href="#下载jdk" class="headerlink" title="下载jdk"></a>下载jdk</h2><p>&emsp;&emsp;进入指定目录，下载jdk文件，我自己通常喜欢下载在<code>/usr/local/src/jdk</code>目录中，<a href="https://www.oracle.com/java/technologies/javase-jdk16-downloads.html">jdk16</a>。<br>&emsp;&emsp;<code>/usr/bin</code>是系统的软件存放的位置。<br>&emsp;&emsp;<code>/usr/local/bin</code>是我们自己的软件存放的位置。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> /usr/local/src/jdk
+
+<span class="token function">wget</span> https://download.oracle.com/otn-pub/java/jdk/16+36/7863447f0ab643c585b9bdebf67c69db/jdk-16_linux-x64_bin.tar.gz?AuthParam<span class="token operator">=</span>1618140718_ccecc5f8b3763f1feed74a49a7f7cbb8<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="将下载的jdk解压缩"><a href="#将下载的jdk解压缩" class="headerlink" title="将下载的jdk解压缩"></a>将下载的jdk解压缩</h2><p>&emsp;&emsp;通过wget下载的压缩包文件名称会奇奇怪怪的。如果通过浏览器下载则没有该问题。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 重命名文件</span>
+<span class="token function">mv</span> <span class="token string">'jdk-16_linux-x64_bin.tar.gz?AuthParam=1618140718_ccecc5f8b3763f1feed74a49a7f7cbb8'</span> jdk-16_linux-x64_bin.tar.gz
+
+<span class="token comment"># 解压缩文件</span>
+<span class="token function">tar</span> xvf jdk-16_linux-x64_bin.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="重命名文件夹（可选）"><a href="#重命名文件夹（可选）" class="headerlink" title="重命名文件夹（可选）"></a>重命名文件夹（可选）</h2><p>&emsp;&emsp;对解压后的文件夹重命名，也可以不做。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">mv</span> jdk-16_linux-x64_bin jdk16<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h2><p>&emsp;&emsp;jdk需要配置PATH和CLASSPATH环境变量。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 系统的环境变量写在/etc/profile文件中</span>
+<span class="token function">vi</span> /etc/profile
+
+<span class="token comment"># 在编辑器末尾添加对应的环境变量</span>
+<span class="token comment"># 这里的路径结合自己的实际安装路径</span>
+<span class="token assign-left variable">JAVA_HOME</span><span class="token operator">=</span>/usr/local/jdk/jdk16
+<span class="token assign-left variable">CLASSPATH</span><span class="token operator">=</span><span class="token variable">$JAVA_HOME</span>/lib
+<span class="token builtin class-name">export</span> CLASSPATH
+<span class="token builtin class-name">export</span> <span class="token assign-left variable"><span class="token environment constant">PATH</span></span><span class="token operator">=</span><span class="token environment constant">$PATH</span><span class="token builtin class-name">:</span><span class="token operator">&amp;</span>JAVA_HOME/bin
+
+<span class="token comment"># 退出vi并保存，这里需要强制保存</span>
+esc
+:wq<span class="token operator">!</span>
+
+<span class="token comment"># 刷新使环境变量生效</span>
+<span class="token builtin class-name">source</span> /etc/profile
+
+<span class="token comment"># 验证，查看版本号</span>
+java -version<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <hr>
-<h1 id="多路复用IO模型。"><a href="#多路复用IO模型。" class="headerlink" title="多路复用IO模型。"></a>多路复用IO模型。</h1><ol>
-<li>多路I/O复用模型就是利用select，poll，epoll可以同时监测多个流的I/O事件的能力，在空闲的时候，会把当前线程阻塞掉，当有一个或多个流有I/O事件时，就从阻塞中唤醒，于是程序就会轮询一遍所有流（epoll是只轮询那些真正发出了事件的流），并且只依次顺序的处理就绪的流，这种做法就避免了大量的无用操作。</li>
-<li>这里的多路指的是多个网络连接，复用指的是复用同一个线程。采用多路I/O复用技术，可以让单个线程高效的处理多个连接请求（尽量减少网络IO的时间消耗），且Redis在内存中操作数据的速度非常快，也就是说内存内的操作不会成为影响Redis性能的瓶颈。</li>
-</ol>
+<h1 id="安装maven"><a href="#安装maven" class="headerlink" title="安装maven"></a>安装maven</h1><h2 id="下载maven"><a href="#下载maven" class="headerlink" title="下载maven"></a>下载maven</h2><p>&emsp;&emsp;将maven下载进指定目录，这里依照个人习惯，我放在<code>/usr/local/src/maven</code>。<a href="https://mirrors.bfsu.edu.cn/apache/maven/maven-3/3.8.1/binaries/apache-maven-3.8.1-bin.tar.gz">maven3.8.1</a></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> /usr/local/src/maven
+
+<span class="token function">wget</span> https://mirrors.bfsu.edu.cn/apache/maven/maven-3/3.8.1/binaries/apache-maven-3.8.1-bin.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="解压缩文件"><a href="#解压缩文件" class="headerlink" title="解压缩文件"></a>解压缩文件</h2><p>&emsp;&emsp;对下载的maven文件解压缩。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">tar</span> xvf apache-maven-3.8.1-bin.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="重命名文件夹"><a href="#重命名文件夹" class="headerlink" title="重命名文件夹"></a>重命名文件夹</h2><p>&emsp;&emsp;这一步可选操作，目的是为了文件目录整洁。也可以不做。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">mv</span> apache-maven-3.8.1-bin maven3<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="配置环境变量-1"><a href="#配置环境变量-1" class="headerlink" title="配置环境变量"></a>配置环境变量</h2><p>&emsp;&emsp;maven也需要配置PATH环境变量。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">vi</span> /etc/profile
+
+<span class="token comment"># 在编辑器末尾添加对应的环境变量</span>
+<span class="token comment"># 这里的路径结合自己的实际安装路径</span>
+<span class="token assign-left variable">MAVEN_HOME</span><span class="token operator">=</span>/usr/local/maven/maven3
+<span class="token builtin class-name">export</span> <span class="token assign-left variable"><span class="token environment constant">PATH</span></span><span class="token operator">=</span><span class="token environment constant">$PATH</span><span class="token builtin class-name">:</span><span class="token operator">&amp;</span>MAVEN_HOME/bin
+
+<span class="token comment"># 退出vi并保存，这里需要强制保存</span>
+esc
+:wq<span class="token operator">!</span>
+
+<span class="token comment"># 刷新使环境变量生效</span>
+<span class="token builtin class-name">source</span> /etc/profile
+
+<span class="token comment"># 验证，查看版本号</span>
+mvn -v<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <hr>
-<h1 id="redis为什么是单线程的？"><a href="#redis为什么是单线程的？" class="headerlink" title="redis为什么是单线程的？"></a>redis为什么是单线程的？</h1><p>&emsp;&emsp;CPU并不是redis的瓶颈，瓶颈在于内存的大小或者网络，redis中，网络IO模块采用单线程。<br>&emsp;&emsp;这里的多路指的是多个网络连接，复用指的是复用同一个线程。采用多路I/O复用技术，可以让单个线程高效的处理多个连接请求（尽量减少网络IO的时间消耗），且Redis在内存中操作数据的速度非常快，也就是说内存内的操作不会成为影响Redis性能的瓶颈。</p>
+<h1 id="安装tomcat"><a href="#安装tomcat" class="headerlink" title="安装tomcat"></a>安装tomcat</h1><h2 id="下载tomcat"><a href="#下载tomcat" class="headerlink" title="下载tomcat"></a>下载tomcat</h2><p>&emsp;&emsp;将tomcat下载进指定的位置，我放在<code>/usr/local/src/tomcat</code>。<a href="https://mirrors.tuna.tsinghua.edu.cn/apache/tomcat/tomcat-10/v10.0.5/bin/apache-tomcat-10.0.5.tar.gz">tomcat10</a></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> /usr/local/src/tomcat
+
+<span class="token function">wget</span> https://mirrors.tuna.tsinghua.edu.cn/apache/tomcat/tomcat-10/v10.0.5/bin/apache-tomcat-10.0.5.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="解压压缩包"><a href="#解压压缩包" class="headerlink" title="解压压缩包"></a>解压压缩包</h2><p>&emsp;&emsp;解压下载的压缩文件。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">tar</span> xvf apache-tomcat-10.0.5.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="重命名文件夹-1"><a href="#重命名文件夹-1" class="headerlink" title="重命名文件夹"></a>重命名文件夹</h2><p>&emsp;&emsp;这一步可选操作，目的是为了文件目录整洁。也可以不做。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">mv</span> apache-tomcat-10.0.5 tomcat10<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><p>&emsp;&emsp;进入tomcat的安装目录就可以启动tomcat了。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 进入tomcat的安装位置</span>
+<span class="token builtin class-name">cd</span> /usr/local/src/tomcat/tomcat10/bin
+
+<span class="token comment"># 启动tomcat</span>
+startup.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>&emsp;&emsp;启动完成后可以在localhost:8080查看是否启动成功。</p>
 ]]></content>
       <categories>
-        <category>redis</category>
-      </categories>
-      <tags>
-        <tag>redis</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>redis安装和使用</title>
-    <url>/hexoblog/2021/04/14/md/redis/redis%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;这里是在windows环境下的redis安装过程，两种安装方式，都比较简单。<br>&emsp;&emsp;官方提供的只有linux系统的tar.gz格式的压缩包，windows的需要在github下载。<br><a href="https://redis.io/">https://redis.io/</a><br><a href="http://www.redis.cn/">http://www.redis.cn/</a><br><a href="https://www.redis.com.cn/">https://www.redis.com.cn/</a><br><a href="https://www.redis.com.cn/redis-installation.html">https://www.redis.com.cn/redis-installation.html</a></p>
-<span id="more"></span>
-<h2 id="msi安装"><a href="#msi安装" class="headerlink" title="msi安装"></a>msi安装</h2><ol>
-<li>下载msi安装文件<blockquote>
-<p>官方提供的只有tar.gz格式压缩包下载，msi需要在github下载<br><a href="https://github.com/MicrosoftArchive/redis/releases">https://github.com/MicrosoftArchive/redis/releases</a></p>
-</blockquote>
-</li>
-<li>双击运行</li>
-<li>完成安装</li>
-</ol>
-<h2 id="zip安装"><a href="#zip安装" class="headerlink" title="zip安装"></a>zip安装</h2><ol>
-<li>下载zip压缩包</li>
-<li>将压缩包解压至你准备安装的路径</li>
-<li>解压完成就是安装完成</li>
-</ol>
-<hr>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 先进入安装目录</span>
-<span class="token builtin class-name">cd</span> <span class="token operator">&lt;</span>安装目录<span class="token operator">></span>
-
-<span class="token comment"># 启动</span>
-<span class="token comment"># 作为普通软件启动，命令行关闭则关闭</span>
-redis-server.exe redis.windows.conf
-<span class="token comment"># 作为服务启动，不跟随命令行</span>
-redis-server.exe redis.windows-service.conf
-
-<span class="token comment"># 客户端连接</span>
-redis-cli.exe
-
-<span class="token comment"># 关闭</span>
-redis-server.exe --service-stop<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
-      <categories>
-        <category>redis</category>
+        <category>linux</category>
+        <category>deepin</category>
       </categories>
       <tags>
         <tag>tool</tag>
-        <tag>redis</tag>
+        <tag>linux</tag>
+        <tag>deepin</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>deepin安装docker</title>
+    <url>/hexoblog/2021/04/11/md/linux/deepin%E5%AE%89%E8%A3%85docker/</url>
+    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;写个毛啊，官方的直接搞来，<a href="https://wiki.deepin.org/wiki/Docker">https://wiki.deepin.org/wiki/Docke</a>。</p>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1>]]></content>
+      <categories>
+        <category>linux</category>
+        <category>deepin</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>linux</tag>
+        <tag>deepin</tag>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>linux基本操作</title>
+    <url>/hexoblog/2021/04/10/md/linux/linux%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<h1 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h1><h2 id="移动文件-重命名文件"><a href="#移动文件-重命名文件" class="headerlink" title="移动文件/重命名文件"></a>移动文件/重命名文件</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 移动文件</span>
+<span class="token function">mv</span> <span class="token punctuation">[</span>源文件目录<span class="token punctuation">]</span> <span class="token punctuation">[</span>目标文件目录<span class="token punctuation">]</span>
+
+<span class="token comment"># 重命名文件</span>
+<span class="token builtin class-name">cd</span> <span class="token punctuation">[</span>目标目录<span class="token punctuation">]</span>
+<span class="token function">mv</span> <span class="token punctuation">[</span>源文件名<span class="token punctuation">]</span> <span class="token punctuation">[</span>目标文件名<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="复制文件"><a href="#复制文件" class="headerlink" title="复制文件"></a>复制文件</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">cp</span> <span class="token punctuation">[</span>源文件目录/源文件名<span class="token punctuation">]</span> <span class="token punctuation">[</span>目标文件目录<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="删除文件"><a href="#删除文件" class="headerlink" title="删除文件"></a>删除文件</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> <span class="token punctuation">[</span>目标文件目录<span class="token punctuation">]</span>
+<span class="token function">rm</span> -rf <span class="token punctuation">[</span>目标文件名<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>wsl小问题排查</title>
+    <url>/hexoblog/2021/03/14/md/linux/wsl%E5%B0%8F%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5/</url>
+    <content><![CDATA[<!-- toc -->
+
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><h2 id="网络问题"><a href="#网络问题" class="headerlink" title="网络问题"></a>网络问题</h2><h3 id="参考的对象类型不支持尝试的操作"><a href="#参考的对象类型不支持尝试的操作" class="headerlink" title="参考的对象类型不支持尝试的操作"></a>参考的对象类型不支持尝试的操作</h3><p>&emsp;&emsp;这种问题一般是因为有启动过代理软件，造成代理冲突。</p>
+<span id="more"></span>
+
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Ubuntu%2020.04%20LTS%202021_3_14%2016_01_57.png" alt="参考的对象不支持的操作"></p>
+<h4 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h4><p>&emsp;&emsp;临时解决方案，重新网络信息：（管理员运行命令行）</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 重置网络信息</span>
+netsh winsock reset<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>wsl</tag>
       </tags>
   </entry>
   <entry>
@@ -2133,6 +2065,109 @@ end<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span>
       </tags>
   </entry>
   <entry>
+    <title>redis为什么这么快</title>
+    <url>/hexoblog/2021/03/08/md/redis/redis%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%99%E4%B9%88%E5%BF%AB/</url>
+    <content><![CDATA[<h1 id="redis为什么这么快？"><a href="#redis为什么这么快？" class="headerlink" title="redis为什么这么快？"></a>redis为什么这么快？</h1><ol>
+<li>完全基于内存，绝大部分请求时纯内存操作，非常快速。数据在内存中类似于hashmap，hashmap的优势就是查找和操作的时间复杂度都是O(1)。</li>
+<li>数据结构简单，对数据操作也简单，Redis的数据结构是专门进行设计的。SDS。</li>
+<li>采用单线程，避免了不必要的上下文切换和竞争条件，也不存在多进程或多线程切换导致的消耗cpu，不用去考虑各种锁的问题，不存在加锁释放锁的操作，没有因可能出现死锁而导致的消耗。</li>
+<li>使用IO多路复用模型，非阻塞IO。</li>
+<li>使用底层模型不同，他们之间底层实现方式以及客户端之间通信的应用协议不一样，Redis直接自己构建了VM机制，因为一般的系统调用系统函数的话，会浪费一定的时间去移动和请求。</li>
+</ol>
+<span id="more"></span>
+
+<hr>
+<h1 id="多路复用IO模型。"><a href="#多路复用IO模型。" class="headerlink" title="多路复用IO模型。"></a>多路复用IO模型。</h1><ol>
+<li>多路I/O复用模型就是利用select，poll，epoll可以同时监测多个流的I/O事件的能力，在空闲的时候，会把当前线程阻塞掉，当有一个或多个流有I/O事件时，就从阻塞中唤醒，于是程序就会轮询一遍所有流（epoll是只轮询那些真正发出了事件的流），并且只依次顺序的处理就绪的流，这种做法就避免了大量的无用操作。</li>
+<li>这里的多路指的是多个网络连接，复用指的是复用同一个线程。采用多路I/O复用技术，可以让单个线程高效的处理多个连接请求（尽量减少网络IO的时间消耗），且Redis在内存中操作数据的速度非常快，也就是说内存内的操作不会成为影响Redis性能的瓶颈。</li>
+</ol>
+<hr>
+<h1 id="redis为什么是单线程的？"><a href="#redis为什么是单线程的？" class="headerlink" title="redis为什么是单线程的？"></a>redis为什么是单线程的？</h1><p>&emsp;&emsp;CPU并不是redis的瓶颈，瓶颈在于内存的大小或者网络，redis中，网络IO模块采用单线程。<br>&emsp;&emsp;这里的多路指的是多个网络连接，复用指的是复用同一个线程。采用多路I/O复用技术，可以让单个线程高效的处理多个连接请求（尽量减少网络IO的时间消耗），且Redis在内存中操作数据的速度非常快，也就是说内存内的操作不会成为影响Redis性能的瓶颈。</p>
+]]></content>
+      <categories>
+        <category>redis</category>
+      </categories>
+      <tags>
+        <tag>redis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>redis安装和使用</title>
+    <url>/hexoblog/2021/04/14/md/redis/redis%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;这里是在windows环境下的redis安装过程，两种安装方式，都比较简单。<br>&emsp;&emsp;官方提供的只有linux系统的tar.gz格式的压缩包，windows的需要在github下载。<br><a href="https://redis.io/">https://redis.io/</a><br><a href="http://www.redis.cn/">http://www.redis.cn/</a><br><a href="https://www.redis.com.cn/">https://www.redis.com.cn/</a><br><a href="https://www.redis.com.cn/redis-installation.html">https://www.redis.com.cn/redis-installation.html</a></p>
+<span id="more"></span>
+<h2 id="msi安装"><a href="#msi安装" class="headerlink" title="msi安装"></a>msi安装</h2><ol>
+<li>下载msi安装文件<blockquote>
+<p>官方提供的只有tar.gz格式压缩包下载，msi需要在github下载<br><a href="https://github.com/MicrosoftArchive/redis/releases">https://github.com/MicrosoftArchive/redis/releases</a></p>
+</blockquote>
+</li>
+<li>双击运行</li>
+<li>完成安装</li>
+</ol>
+<h2 id="zip安装"><a href="#zip安装" class="headerlink" title="zip安装"></a>zip安装</h2><ol>
+<li>下载zip压缩包</li>
+<li>将压缩包解压至你准备安装的路径</li>
+<li>解压完成就是安装完成</li>
+</ol>
+<hr>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 先进入安装目录</span>
+<span class="token builtin class-name">cd</span> <span class="token operator">&lt;</span>安装目录<span class="token operator">></span>
+
+<span class="token comment"># 启动</span>
+<span class="token comment"># 作为普通软件启动，命令行关闭则关闭</span>
+redis-server.exe redis.windows.conf
+<span class="token comment"># 作为服务启动，不跟随命令行</span>
+redis-server.exe redis.windows-service.conf
+
+<span class="token comment"># 客户端连接</span>
+redis-cli.exe
+
+<span class="token comment"># 关闭</span>
+redis-server.exe --service-stop<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
+      <categories>
+        <category>redis</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>redis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>缓存击穿、穿透、雪崩</title>
+    <url>/hexoblog/2021/03/08/md/redis/%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF%E3%80%81%E7%A9%BF%E9%80%8F%E3%80%81%E9%9B%AA%E5%B4%A9/</url>
+    <content><![CDATA[<p><a href="https://my.oschina.net/linqiankun/blog/3191886">缓存击穿，穿透，雪崩</a></p>
+<h1 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h1><p>&emsp;&emsp;高并发系统中，大量的请求一般会落在缓存，但在某一时期，某一热点key过期，会导致大量的请求直接落到数据库，导致数据库崩溃。</p>
+<span id="more"></span>
+
+<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><ol>
+<li>设置热点key不过期。</li>
+<li>加上分布式锁，每次只有拿到锁的线程可以去访问数据库。第一个线程查询到后就会缓存起来，后面线程从缓存中拿。</li>
+</ol>
+<hr>
+<h1 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h1><p>&emsp;&emsp;正常情况下，需要查询的数据都存在，当查询一个缓存和数据库都不存在的数据时，每次请求都会落在数据库里，这种情况成称为缓存穿透。就是以一个不存在的数据去请求，每次都会落到数据库。</p>
+<h2 id="解决："><a href="#解决：" class="headerlink" title="解决："></a>解决：</h2><ol>
+<li>接口增加参数校验，不合法的直接返回。</li>
+<li>缓存空值，将对应key的value设置为空值，避免暴力攻击。同时将key失效时间设置短一些，避免影响正常使用。</li>
+<li>在网关阈值，限制同ip访问量。</li>
+<li>高级用户布隆过滤器。bloom filter，可以对key进行判断是否在数据库存在，不存在就直接返回，存在就查询出来，并刷新缓存。</li>
+</ol>
+<hr>
+<h1 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h1><p>&emsp;&emsp;某一时期发生的大规模的缓存不可用问题，过期，宕机。</p>
+<h2 id="解决：-1"><a href="#解决：-1" class="headerlink" title="解决："></a>解决：</h2><ol>
+<li>采用分布式集群，减少宕机风险。</li>
+<li>将失效时间设为随机数，避免大量同时失效。</li>
+<li>采用本地缓存加限流逻辑。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>redis</category>
+      </categories>
+      <tags>
+        <tag>redis</tag>
+        <tag>缓存</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>redlock-redis分布式锁的实现</title>
     <url>/hexoblog/2021/04/14/md/redis/redlock-redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9A%84%E5%AE%9E%E7%8E%B0/</url>
     <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;Redlock全名叫做Redis-Distributed-Lock。用redis实现的分布式锁。<br>&emsp;&emsp;单节点的情况下，可以使用setnx实现分布式锁，在集群的情况下，就需要是要redlock来实现分布式锁。</p>
@@ -2183,41 +2218,6 @@ end<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span>
         <tag>redis</tag>
         <tag>分布式</tag>
         <tag>锁</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>缓存击穿、穿透、雪崩</title>
-    <url>/hexoblog/2021/03/08/md/redis/%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF%E3%80%81%E7%A9%BF%E9%80%8F%E3%80%81%E9%9B%AA%E5%B4%A9/</url>
-    <content><![CDATA[<p><a href="https://my.oschina.net/linqiankun/blog/3191886">缓存击穿，穿透，雪崩</a></p>
-<h1 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h1><p>&emsp;&emsp;高并发系统中，大量的请求一般会落在缓存，但在某一时期，某一热点key过期，会导致大量的请求直接落到数据库，导致数据库崩溃。</p>
-<span id="more"></span>
-
-<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><ol>
-<li>设置热点key不过期。</li>
-<li>加上分布式锁，每次只有拿到锁的线程可以去访问数据库。第一个线程查询到后就会缓存起来，后面线程从缓存中拿。</li>
-</ol>
-<hr>
-<h1 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h1><p>&emsp;&emsp;正常情况下，需要查询的数据都存在，当查询一个缓存和数据库都不存在的数据时，每次请求都会落在数据库里，这种情况成称为缓存穿透。就是以一个不存在的数据去请求，每次都会落到数据库。</p>
-<h2 id="解决："><a href="#解决：" class="headerlink" title="解决："></a>解决：</h2><ol>
-<li>接口增加参数校验，不合法的直接返回。</li>
-<li>缓存空值，将对应key的value设置为空值，避免暴力攻击。同时将key失效时间设置短一些，避免影响正常使用。</li>
-<li>在网关阈值，限制同ip访问量。</li>
-<li>高级用户布隆过滤器。bloom filter，可以对key进行判断是否在数据库存在，不存在就直接返回，存在就查询出来，并刷新缓存。</li>
-</ol>
-<hr>
-<h1 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h1><p>&emsp;&emsp;某一时期发生的大规模的缓存不可用问题，过期，宕机。</p>
-<h2 id="解决：-1"><a href="#解决：-1" class="headerlink" title="解决："></a>解决：</h2><ol>
-<li>采用分布式集群，减少宕机风险。</li>
-<li>将失效时间设为随机数，避免大量同时失效。</li>
-<li>采用本地缓存加限流逻辑。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>redis</category>
-      </categories>
-      <tags>
-        <tag>redis</tag>
-        <tag>缓存</tag>
       </tags>
   </entry>
   <entry>
@@ -2366,60 +2366,6 @@ mysqlbinlog --start-positoin<span class="token operator">=</span><span class="to
       </tags>
   </entry>
   <entry>
-    <title>spring事务失效</title>
-    <url>/hexoblog/2021/03/02/md/spring/spring%E4%BA%8B%E5%8A%A1%E5%A4%B1%E6%95%88/</url>
-    <content><![CDATA[<h1 id="事务失效的几种类型"><a href="#事务失效的几种类型" class="headerlink" title="事务失效的几种类型"></a>事务失效的几种类型</h1><ol>
-<li>数据库引擎不支持事务。</li>
-<li>没有被Spring管理。</li>
-<li>方法不是public的。</li>
-<li>自身调用问题。</li>
-<li>数据源没有配置事务管理器。</li>
-<li>不支持事务。</li>
-<li>异常被吃了。</li>
-<li>异常类型错误。</li>
-</ol>
-<span id="more"></span>
-
-<hr>
-<h1 id="事务失效类型："><a href="#事务失效类型：" class="headerlink" title="事务失效类型："></a>事务失效类型：</h1><h2 id="数据库引擎不支持事务"><a href="#数据库引擎不支持事务" class="headerlink" title="数据库引擎不支持事务"></a>数据库引擎不支持事务</h2><p>&emsp;&emsp;这里以 MySQL 为例，其 MyISAM 引擎是不支持事务操作的，InnoDB 才是支持事务的引擎，一般要支持事务都会使用 InnoDB。<br>&emsp;&emsp;根据 MySQL 的官方文档：<a href="https://dev.mysql.com/doc/refman/8.0/en/storage-engine-setting.html">https://dev.mysql.com/doc/refman/8.0/en/storage-engine-setting.html</a></p>
-<h2 id="没有被Spring管理"><a href="#没有被Spring管理" class="headerlink" title="没有被Spring管理"></a>没有被Spring管理</h2><p>&emsp;&emsp;Spring中的事务基于AOP实现，则事务类必须被Spring管理，进行代理，才能支持事务。</p>
-<h3 id="方法不是public的"><a href="#方法不是public的" class="headerlink" title="方法不是public的"></a>方法不是public的</h3><p>&emsp;&emsp;@Transaction只对方法名为public的才会生效，其他的不生效。private，static，final方法不能添加事务，添加了也不会生效。</p>
-<h3 id="自身调用问题"><a href="#自身调用问题" class="headerlink" title="自身调用问题"></a>自身调用问题</h3><ol>
-<li> service类中调用本类自己的方法，由于没有经过spring代理，事务不会生效。</li>
-<li>一个无事务的方法调用另一个有事务的方法，事务是不会起作用的。这种情况，可以内部维护一个自己注入的bean，使用这个属性来调用。或者利用AOP上下文来获取代理对象，利用代理对象调用。</li>
-<li>有事务的调用有事务的被调用的不能新开启事务。被调用的开启的新事务不会生效。</li>
-<li>有事务的调用无事务的会生效。</li>
-<li>无事务的调用无事务的，这种情况就会没有事务。  </li>
-</ol>
-<p>&emsp;&emsp;事务是否生效主要看是否通过代理，没有通过代理就不会生效。</p>
-<h2 id="数据源没有配置事务管理器"><a href="#数据源没有配置事务管理器" class="headerlink" title="数据源没有配置事务管理器"></a>数据源没有配置事务管理器</h2><p>&emsp;&emsp;数据源必须开启事务管理器：</p>
-<ol>
-<li>@EnableTransactionManagement  // 启注解事务管理，等同于xml配置方式的 &lt;tx:annotation-driven /&gt;</li>
-<li>@EnableTransactionManagement 在springboot1.4以后可以不写。框架在初始化的时候已经默认给我们注入了两个事务管理器的Bean（JDBC的DataSourceTransactionManager和JPA的JpaTransactionManager ），其实这就包含了我们最常用的Mybatis和Hibeanate了。当然如果不是AutoConfig的而是自己自定义的，请使用该注解开启事务</li>
-</ol>
-<h2 id="不支持事务"><a href="#不支持事务" class="headerlink" title="不支持事务"></a>不支持事务</h2><p>&emsp;&emsp;Propagation设置错误，Propagation用于配置事务的传播行为。Propagation.NOT_SUPPORTED： 表示不以事务运行，当前若存在事务则挂起。</p>
-<h2 id="异常被吃了"><a href="#异常被吃了" class="headerlink" title="异常被吃了"></a>异常被吃了</h2><p>&emsp;&emsp;异常被捕获了，然后不进行抛出，那么无法认为有异常，事务就不会回滚。在service中不应该进行事务的捕获，而进行抛出，在controller中进行异常捕获，这样既支持事务也捕获了异常。</p>
-<h2 id="异常类型错误"><a href="#异常类型错误" class="headerlink" title="异常类型错误"></a>异常类型错误</h2><p>&emsp;&emsp;Spring的事务管理默认是针对Error异常和RuntimeException异常以及其子类进行事务回滚。对runtimeException并不需要抛出，error需要抛出异常，并进行捕获。如果想对其他异常进行支持，则需要配置：@Transactional(rollbackFor = Exception.class)</p>
-<h2 id="业务和事务必须要在同一个线程中"><a href="#业务和事务必须要在同一个线程中" class="headerlink" title="业务和事务必须要在同一个线程中"></a>业务和事务必须要在同一个线程中</h2><p>&emsp;&emsp;不在同一个线程，则事务影响不到。</p>
-<hr>
-<h1 id="事务的隔离级别"><a href="#事务的隔离级别" class="headerlink" title="事务的隔离级别"></a>事务的隔离级别</h1><h2 id="事务会引起的问题："><a href="#事务会引起的问题：" class="headerlink" title="事务会引起的问题："></a>事务会引起的问题：</h2><h3 id="脏读："><a href="#脏读：" class="headerlink" title="脏读："></a>脏读：</h3><p>&emsp;&emsp;当A事务对数据进行修改，但是这种修改还没有提交到数据库中，B事务同时在访问这个数据，由于没有隔离，B获取的数据有可能被A事务回滚，这就导致了数据不一致的问题。</p>
-<h3 id="丢失修改："><a href="#丢失修改：" class="headerlink" title="丢失修改："></a>丢失修改：</h3><p>&emsp;&emsp;当A事务访问数据100，并且修改为100-1=99，同时B事务读取数据也是100，修改数据100-1=99，最终两个事务的修改结果为99，但是实际是98。事务A修改的数据被丢失了。</p>
-<h3 id="不可重复读："><a href="#不可重复读：" class="headerlink" title="不可重复读："></a>不可重复读：</h3><p>&emsp;&emsp;指A事务在读取数据X=100的时候，B事务把数据X=100修改为X=200,这个时候A事务第二次读取数据X的时候，发现X=200了，导致了在整个A事务期间，两次读取数据X不一致了，这就是不可重复读。</p>
-<h3 id="幻读："><a href="#幻读：" class="headerlink" title="幻读："></a>幻读：</h3><p>&emsp;&emsp;幻读和不可重复读类似。幻读表现在，当A事务读取表数据时候，只有3条数据，这个时候B事务插入了2条数据，当A事务再次读取的时候，发现有5条记录了，平白无故多了2条记录，就像幻觉一样。</p>
-<p>&emsp;&emsp;不可重复读的重点是修改: 同样的条件 , 你读取过的数据 , 再次读取出来发现值不一样了，重点在更新操作。<br>&emsp;&emsp;幻读的重点在于新增或者删除：同样的条件 , 第 1 次和第 2 次读出来的记录数不一样，重点在增删操作。</p>
-<h2 id="Spring定义的隔离级别："><a href="#Spring定义的隔离级别：" class="headerlink" title="Spring定义的隔离级别："></a>Spring定义的隔离级别：</h2><p><strong>TransactionDefinition.ISOLATION_DEFAULT：</strong> 数据库的默认隔离级别，MySQL默认采用的 REPEATABLE_READ隔离级别。<br><strong>TransactionDefinition.ISOLATION_READ_UNCOMMITTED：</strong> 最低的隔离级别，最低的隔离级别，允许读取未提交的数据变更，可能会导致脏读、幻读或不可重复读。<br><strong>TransactionDefinition.ISOLATION_READ_COMMITTED：</strong> 允许读取并发事务已经提交的数据，未提交的不可读取，可以阻止脏读，但是幻读或不可重复读仍有可能发生。<br><strong>TransactionDefinition.ISOLATION_REPEATABLE_READ：</strong> 对同一字段的多次重复读取结果都是一致的，除非数据是被本身事务自己所修改，可以阻止脏读和不可重复读，但幻读仍有可能发生。MySQL中通过MVCC解决了该隔离级别下出现幻读的可能。<br><strong>TransactionDefinition.ISOLATION_SERIALIZABLE：</strong> 串行化隔离级别，该级别可以防止脏读、不可重复读以及幻读，但是串行化会影响性能。</p>
-<h3 id="Propagation，传播行为："><a href="#Propagation，传播行为：" class="headerlink" title="Propagation，传播行为："></a>Propagation，传播行为：</h3><p>指多个方法调用时，事务对多个方法之间传播的影响。</p>
-<p><strong>PROPAGATION_REQUIRED：</strong> 如果当前没有事务，就新建一个事务，如果已经存在一个事务中，加入到这个事务中。这是最常见的选择。<br><strong>PROPAGATION_SUPPORTS：</strong> 支持当前事务，如果当前没有事务，就以非事务方式执行。<br><strong>PROPAGATION_MANDATORY：</strong> 使用当前的事务，如果当前没有事务，就抛出异常。<br><strong>PROPAGATION_REQUIRES_NEW：</strong> 新建事务，如果当前存在事务，把当前事务挂起。<br><strong>PROPAGATION_NOT_SUPPORTED：</strong> 以非事务方式执行操作，如果当前存在事务，就把当前事务挂起。<br><strong>PROPAGATION_NEVER：</strong> 以非事务方式执行，如果当前存在事务，则抛出异常。<br><strong>PROPAGATION_NESTED：</strong> 如果当前存在事务，则在嵌套事务内执行。如果当前没有事务，则执行与PROPAGATION_REQUIRED类似的操作。</p>
-]]></content>
-      <categories>
-        <category>spring</category>
-      </categories>
-      <tags>
-        <tag>spring</tag>
-        <tag>acid</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>git</title>
     <url>/hexoblog/2021/03/03/md/tool/git/</url>
     <content><![CDATA[<h1 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h1><h2 id="将本地文件推送至远程"><a href="#将本地文件推送至远程" class="headerlink" title="将本地文件推送至远程"></a>将本地文件推送至远程</h2><ol>
@@ -2454,69 +2400,6 @@ mysqlbinlog --start-positoin<span class="token operator">=</span><span class="to
       <tags>
         <tag>tool</tag>
         <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hexo使用</title>
-    <url>/hexoblog/2021/03/04/md/tool/hexo%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><p>[toc]</p>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h2 id="安装node"><a href="#安装node" class="headerlink" title="安装node"></a>安装node</h2><p>&emsp;&emsp;hexo使用npm运行，所以首先需要安装node.js，安装node.js的同时会安装npm模块。</p>
-<ol>
-<li>在官网下载。<a href="http://nodejs.cn/">node.js</a></li>
-<li>点击下载的文件进行安装（一路next）。</li>
-</ol>
-<span id="more"></span>
-
-<p>&emsp;&emsp;安装成功后在命令行工具查看是或否安装成功。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">node -v
-<span class="token function">npm</span> -v<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<p>&emsp;&emsp;出现下图的版本号即为安装成功。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/node_npm_version.png" alt="安装成功"></p>
-<h2 id="安装hexo"><a href="#安装hexo" class="headerlink" title="安装hexo"></a>安装hexo</h2><p>&emsp;&emsp;安装完node后就可以安装hexo了。这里全局安装hexok。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">npm</span> <span class="token function">install</span> hexo-cli -g<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>&emsp;&emsp;安装完成后在命令行查看版本后确认是否安装成功。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/hexo_version.png" alt="安装成功"></p>
-<p>&emsp;&emsp;接下来就可以快乐的使用了。</p>
-<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;在使用前还是先看下介绍吧，这样入手必较方便。</p>
-<h2 id="看看目录结构"><a href="#看看目录结构" class="headerlink" title="看看目录结构"></a>看看目录结构</h2><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/hexo%E6%9E%B6%E6%9E%84.jpg" alt="hexo结构"></p>
-<p>&emsp;&emsp;我们对重要的文佳夹分析下：</p>
-<h3 id="node-modeules："><a href="#node-modeules：" class="headerlink" title="node_modeules："></a>node_modeules：</h3><p>&emsp;&emsp;因为运行在node环境下，这里就是安装的所有npm包。</p>
-<h3 id="public"><a href="#public" class="headerlink" title="public:"></a>public:</h3><p>&emsp;&emsp;这里存放时hexo运行生成的所有hexo静态文件，将来托管在git上，可以使用gitee pages服务托管为静态网站作为博客网站。本地的启动看到的页面也是由这里产生。</p>
-<h3 id="scaffolds"><a href="#scaffolds" class="headerlink" title="scaffolds:"></a>scaffolds:</h3><p>&emsp;&emsp;这里存放我们的模板文件，包括创建草稿，博客，自定义页面的模板文件，当然都是markdown文件，我们也可以对其修改以满足我们的需求。</p>
-<h3 id="sources"><a href="#sources" class="headerlink" title="sources:"></a>sources:</h3><p>&emsp;&emsp;这里都是我们的内容，post存放我们写的博客，文档等等，其他的呢，就是自定义的页面了，包括分类，标签，归档，我们也可以继续扩展，一般只需要关注post就可以了。</p>
-<h3 id="theme"><a href="#theme" class="headerlink" title="theme:"></a>theme:</h3><p>&emsp;&emsp;这里存放生成博客网站的主题文件了，毕竟原有的主题实在不怎么好看。可以下载多个主题，随时切换使用。</p>
-<h3 id="config-yml"><a href="#config-yml" class="headerlink" title="_config.yml"></a>_config.yml</h3><p>&emsp;&emsp;这个可不是目录，是实打实的文件了，我们的配置都在这里面了，这里做一些自定义的配置。</p>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><p>常用命令有：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 创建文章</span>
-hexo new post title
-
-<span class="token comment"># 创建草稿</span>
-hexo new draft title
-
-<span class="token comment"># 将草稿发布为文章</span>
-hexo p title
-
-<span class="token comment"># 清理本地生成的静态资源</span>
-hexo clean
-
-<span class="token comment"># 编译生成本地的静态资源</span>
-hexo g
-
-<span class="token comment"># 本地运行预览（附加草稿）</span>
-hexo s <span class="token punctuation">(</span>--draft<span class="token punctuation">)</span>
-
-<span class="token comment"># 将本地静态资源发送到gitee（需要自己配置）</span>
-hexo d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-]]></content>
-      <categories>
-        <category>tool</category>
-      </categories>
-      <tags>
-        <tag>tool</tag>
-        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -2606,6 +2489,69 @@ hexo d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></sp
         <tag>tool</tag>
         <tag>swagger</tag>
         <tag>springboot</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo使用</title>
+    <url>/hexoblog/2021/03/04/md/tool/hexo%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><p>[toc]</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h2 id="安装node"><a href="#安装node" class="headerlink" title="安装node"></a>安装node</h2><p>&emsp;&emsp;hexo使用npm运行，所以首先需要安装node.js，安装node.js的同时会安装npm模块。</p>
+<ol>
+<li>在官网下载。<a href="http://nodejs.cn/">node.js</a></li>
+<li>点击下载的文件进行安装（一路next）。</li>
+</ol>
+<span id="more"></span>
+
+<p>&emsp;&emsp;安装成功后在命令行工具查看是或否安装成功。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">node -v
+<span class="token function">npm</span> -v<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>&emsp;&emsp;出现下图的版本号即为安装成功。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/node_npm_version.png" alt="安装成功"></p>
+<h2 id="安装hexo"><a href="#安装hexo" class="headerlink" title="安装hexo"></a>安装hexo</h2><p>&emsp;&emsp;安装完node后就可以安装hexo了。这里全局安装hexok。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">npm</span> <span class="token function">install</span> hexo-cli -g<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>&emsp;&emsp;安装完成后在命令行查看版本后确认是否安装成功。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/hexo_version.png" alt="安装成功"></p>
+<p>&emsp;&emsp;接下来就可以快乐的使用了。</p>
+<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;在使用前还是先看下介绍吧，这样入手必较方便。</p>
+<h2 id="看看目录结构"><a href="#看看目录结构" class="headerlink" title="看看目录结构"></a>看看目录结构</h2><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/hexo%E6%9E%B6%E6%9E%84.jpg" alt="hexo结构"></p>
+<p>&emsp;&emsp;我们对重要的文佳夹分析下：</p>
+<h3 id="node-modeules："><a href="#node-modeules：" class="headerlink" title="node_modeules："></a>node_modeules：</h3><p>&emsp;&emsp;因为运行在node环境下，这里就是安装的所有npm包。</p>
+<h3 id="public"><a href="#public" class="headerlink" title="public:"></a>public:</h3><p>&emsp;&emsp;这里存放时hexo运行生成的所有hexo静态文件，将来托管在git上，可以使用gitee pages服务托管为静态网站作为博客网站。本地的启动看到的页面也是由这里产生。</p>
+<h3 id="scaffolds"><a href="#scaffolds" class="headerlink" title="scaffolds:"></a>scaffolds:</h3><p>&emsp;&emsp;这里存放我们的模板文件，包括创建草稿，博客，自定义页面的模板文件，当然都是markdown文件，我们也可以对其修改以满足我们的需求。</p>
+<h3 id="sources"><a href="#sources" class="headerlink" title="sources:"></a>sources:</h3><p>&emsp;&emsp;这里都是我们的内容，post存放我们写的博客，文档等等，其他的呢，就是自定义的页面了，包括分类，标签，归档，我们也可以继续扩展，一般只需要关注post就可以了。</p>
+<h3 id="theme"><a href="#theme" class="headerlink" title="theme:"></a>theme:</h3><p>&emsp;&emsp;这里存放生成博客网站的主题文件了，毕竟原有的主题实在不怎么好看。可以下载多个主题，随时切换使用。</p>
+<h3 id="config-yml"><a href="#config-yml" class="headerlink" title="_config.yml"></a>_config.yml</h3><p>&emsp;&emsp;这个可不是目录，是实打实的文件了，我们的配置都在这里面了，这里做一些自定义的配置。</p>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><p>常用命令有：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 创建文章</span>
+hexo new post title
+
+<span class="token comment"># 创建草稿</span>
+hexo new draft title
+
+<span class="token comment"># 将草稿发布为文章</span>
+hexo p title
+
+<span class="token comment"># 清理本地生成的静态资源</span>
+hexo clean
+
+<span class="token comment"># 编译生成本地的静态资源</span>
+hexo g
+
+<span class="token comment"># 本地运行预览（附加草稿）</span>
+hexo s <span class="token punctuation">(</span>--draft<span class="token punctuation">)</span>
+
+<span class="token comment"># 将本地静态资源发送到gitee（需要自己配置）</span>
+hexo d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+]]></content>
+      <categories>
+        <category>tool</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -3157,6 +3103,60 @@ zkServer<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
         <tag>tool</tag>
         <tag>分布式</tag>
         <tag>zookeeper</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>spring事务失效</title>
+    <url>/hexoblog/2021/03/02/md/spring/spring%E4%BA%8B%E5%8A%A1%E5%A4%B1%E6%95%88/</url>
+    <content><![CDATA[<h1 id="事务失效的几种类型"><a href="#事务失效的几种类型" class="headerlink" title="事务失效的几种类型"></a>事务失效的几种类型</h1><ol>
+<li>数据库引擎不支持事务。</li>
+<li>没有被Spring管理。</li>
+<li>方法不是public的。</li>
+<li>自身调用问题。</li>
+<li>数据源没有配置事务管理器。</li>
+<li>不支持事务。</li>
+<li>异常被吃了。</li>
+<li>异常类型错误。</li>
+</ol>
+<span id="more"></span>
+
+<hr>
+<h1 id="事务失效类型："><a href="#事务失效类型：" class="headerlink" title="事务失效类型："></a>事务失效类型：</h1><h2 id="数据库引擎不支持事务"><a href="#数据库引擎不支持事务" class="headerlink" title="数据库引擎不支持事务"></a>数据库引擎不支持事务</h2><p>&emsp;&emsp;这里以 MySQL 为例，其 MyISAM 引擎是不支持事务操作的，InnoDB 才是支持事务的引擎，一般要支持事务都会使用 InnoDB。<br>&emsp;&emsp;根据 MySQL 的官方文档：<a href="https://dev.mysql.com/doc/refman/8.0/en/storage-engine-setting.html">https://dev.mysql.com/doc/refman/8.0/en/storage-engine-setting.html</a></p>
+<h2 id="没有被Spring管理"><a href="#没有被Spring管理" class="headerlink" title="没有被Spring管理"></a>没有被Spring管理</h2><p>&emsp;&emsp;Spring中的事务基于AOP实现，则事务类必须被Spring管理，进行代理，才能支持事务。</p>
+<h3 id="方法不是public的"><a href="#方法不是public的" class="headerlink" title="方法不是public的"></a>方法不是public的</h3><p>&emsp;&emsp;@Transaction只对方法名为public的才会生效，其他的不生效。private，static，final方法不能添加事务，添加了也不会生效。</p>
+<h3 id="自身调用问题"><a href="#自身调用问题" class="headerlink" title="自身调用问题"></a>自身调用问题</h3><ol>
+<li> service类中调用本类自己的方法，由于没有经过spring代理，事务不会生效。</li>
+<li>一个无事务的方法调用另一个有事务的方法，事务是不会起作用的。这种情况，可以内部维护一个自己注入的bean，使用这个属性来调用。或者利用AOP上下文来获取代理对象，利用代理对象调用。</li>
+<li>有事务的调用有事务的被调用的不能新开启事务。被调用的开启的新事务不会生效。</li>
+<li>有事务的调用无事务的会生效。</li>
+<li>无事务的调用无事务的，这种情况就会没有事务。  </li>
+</ol>
+<p>&emsp;&emsp;事务是否生效主要看是否通过代理，没有通过代理就不会生效。</p>
+<h2 id="数据源没有配置事务管理器"><a href="#数据源没有配置事务管理器" class="headerlink" title="数据源没有配置事务管理器"></a>数据源没有配置事务管理器</h2><p>&emsp;&emsp;数据源必须开启事务管理器：</p>
+<ol>
+<li>@EnableTransactionManagement  // 启注解事务管理，等同于xml配置方式的 &lt;tx:annotation-driven /&gt;</li>
+<li>@EnableTransactionManagement 在springboot1.4以后可以不写。框架在初始化的时候已经默认给我们注入了两个事务管理器的Bean（JDBC的DataSourceTransactionManager和JPA的JpaTransactionManager ），其实这就包含了我们最常用的Mybatis和Hibeanate了。当然如果不是AutoConfig的而是自己自定义的，请使用该注解开启事务</li>
+</ol>
+<h2 id="不支持事务"><a href="#不支持事务" class="headerlink" title="不支持事务"></a>不支持事务</h2><p>&emsp;&emsp;Propagation设置错误，Propagation用于配置事务的传播行为。Propagation.NOT_SUPPORTED： 表示不以事务运行，当前若存在事务则挂起。</p>
+<h2 id="异常被吃了"><a href="#异常被吃了" class="headerlink" title="异常被吃了"></a>异常被吃了</h2><p>&emsp;&emsp;异常被捕获了，然后不进行抛出，那么无法认为有异常，事务就不会回滚。在service中不应该进行事务的捕获，而进行抛出，在controller中进行异常捕获，这样既支持事务也捕获了异常。</p>
+<h2 id="异常类型错误"><a href="#异常类型错误" class="headerlink" title="异常类型错误"></a>异常类型错误</h2><p>&emsp;&emsp;Spring的事务管理默认是针对Error异常和RuntimeException异常以及其子类进行事务回滚。对runtimeException并不需要抛出，error需要抛出异常，并进行捕获。如果想对其他异常进行支持，则需要配置：@Transactional(rollbackFor = Exception.class)</p>
+<h2 id="业务和事务必须要在同一个线程中"><a href="#业务和事务必须要在同一个线程中" class="headerlink" title="业务和事务必须要在同一个线程中"></a>业务和事务必须要在同一个线程中</h2><p>&emsp;&emsp;不在同一个线程，则事务影响不到。</p>
+<hr>
+<h1 id="事务的隔离级别"><a href="#事务的隔离级别" class="headerlink" title="事务的隔离级别"></a>事务的隔离级别</h1><h2 id="事务会引起的问题："><a href="#事务会引起的问题：" class="headerlink" title="事务会引起的问题："></a>事务会引起的问题：</h2><h3 id="脏读："><a href="#脏读：" class="headerlink" title="脏读："></a>脏读：</h3><p>&emsp;&emsp;当A事务对数据进行修改，但是这种修改还没有提交到数据库中，B事务同时在访问这个数据，由于没有隔离，B获取的数据有可能被A事务回滚，这就导致了数据不一致的问题。</p>
+<h3 id="丢失修改："><a href="#丢失修改：" class="headerlink" title="丢失修改："></a>丢失修改：</h3><p>&emsp;&emsp;当A事务访问数据100，并且修改为100-1=99，同时B事务读取数据也是100，修改数据100-1=99，最终两个事务的修改结果为99，但是实际是98。事务A修改的数据被丢失了。</p>
+<h3 id="不可重复读："><a href="#不可重复读：" class="headerlink" title="不可重复读："></a>不可重复读：</h3><p>&emsp;&emsp;指A事务在读取数据X=100的时候，B事务把数据X=100修改为X=200,这个时候A事务第二次读取数据X的时候，发现X=200了，导致了在整个A事务期间，两次读取数据X不一致了，这就是不可重复读。</p>
+<h3 id="幻读："><a href="#幻读：" class="headerlink" title="幻读："></a>幻读：</h3><p>&emsp;&emsp;幻读和不可重复读类似。幻读表现在，当A事务读取表数据时候，只有3条数据，这个时候B事务插入了2条数据，当A事务再次读取的时候，发现有5条记录了，平白无故多了2条记录，就像幻觉一样。</p>
+<p>&emsp;&emsp;不可重复读的重点是修改: 同样的条件 , 你读取过的数据 , 再次读取出来发现值不一样了，重点在更新操作。<br>&emsp;&emsp;幻读的重点在于新增或者删除：同样的条件 , 第 1 次和第 2 次读出来的记录数不一样，重点在增删操作。</p>
+<h2 id="Spring定义的隔离级别："><a href="#Spring定义的隔离级别：" class="headerlink" title="Spring定义的隔离级别："></a>Spring定义的隔离级别：</h2><p><strong>TransactionDefinition.ISOLATION_DEFAULT：</strong> 数据库的默认隔离级别，MySQL默认采用的 REPEATABLE_READ隔离级别。<br><strong>TransactionDefinition.ISOLATION_READ_UNCOMMITTED：</strong> 最低的隔离级别，最低的隔离级别，允许读取未提交的数据变更，可能会导致脏读、幻读或不可重复读。<br><strong>TransactionDefinition.ISOLATION_READ_COMMITTED：</strong> 允许读取并发事务已经提交的数据，未提交的不可读取，可以阻止脏读，但是幻读或不可重复读仍有可能发生。<br><strong>TransactionDefinition.ISOLATION_REPEATABLE_READ：</strong> 对同一字段的多次重复读取结果都是一致的，除非数据是被本身事务自己所修改，可以阻止脏读和不可重复读，但幻读仍有可能发生。MySQL中通过MVCC解决了该隔离级别下出现幻读的可能。<br><strong>TransactionDefinition.ISOLATION_SERIALIZABLE：</strong> 串行化隔离级别，该级别可以防止脏读、不可重复读以及幻读，但是串行化会影响性能。</p>
+<h3 id="Propagation，传播行为："><a href="#Propagation，传播行为：" class="headerlink" title="Propagation，传播行为："></a>Propagation，传播行为：</h3><p>指多个方法调用时，事务对多个方法之间传播的影响。</p>
+<p><strong>PROPAGATION_REQUIRED：</strong> 如果当前没有事务，就新建一个事务，如果已经存在一个事务中，加入到这个事务中。这是最常见的选择。<br><strong>PROPAGATION_SUPPORTS：</strong> 支持当前事务，如果当前没有事务，就以非事务方式执行。<br><strong>PROPAGATION_MANDATORY：</strong> 使用当前的事务，如果当前没有事务，就抛出异常。<br><strong>PROPAGATION_REQUIRES_NEW：</strong> 新建事务，如果当前存在事务，把当前事务挂起。<br><strong>PROPAGATION_NOT_SUPPORTED：</strong> 以非事务方式执行操作，如果当前存在事务，就把当前事务挂起。<br><strong>PROPAGATION_NEVER：</strong> 以非事务方式执行，如果当前存在事务，则抛出异常。<br><strong>PROPAGATION_NESTED：</strong> 如果当前存在事务，则在嵌套事务内执行。如果当前没有事务，则执行与PROPAGATION_REQUIRED类似的操作。</p>
+]]></content>
+      <categories>
+        <category>spring</category>
+      </categories>
+      <tags>
+        <tag>spring</tag>
+        <tag>acid</tag>
       </tags>
   </entry>
   <entry>
@@ -4007,23 +4007,6 @@ start nginx
       </tags>
   </entry>
   <entry>
-    <title>JUC之AQS源码</title>
-    <url>/hexoblog/2021/06/17/md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/JUC%E4%B9%8BAQS%E6%BA%90%E7%A0%81/</url>
-    <content><![CDATA[]]></content>
-      <categories>
-        <category>java</category>
-        <category>juc</category>
-        <category>AQS</category>
-        <category>Java</category>
-        <category>多线程</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>juc</tag>
-        <tag>AQS</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>juc之AQS</title>
     <url>/hexoblog/2021/06/17/md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/juc%E4%B9%8BAQS/</url>
     <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;AbstractQuenedSynchronizer抽象的队列式同步器。是除了java自带的synchronized关键字之外的锁机制。<br>&emsp;&emsp;AQS定义了一套多线程访问共享资源的同步器框架，许多同步类实现都依赖于它，如常用的ReentrantLock/Semaphore/CountDownLatch…。</p>
@@ -4068,6 +4051,350 @@ start nginx
 <h1 id="参考文献-amp-鸣谢"><a href="#参考文献-amp-鸣谢" class="headerlink" title="参考文献 &amp; 鸣谢"></a>参考文献 &amp; 鸣谢</h1><ul>
 <li><a href="https://www.cnblogs.com/waterystone/p/4920797.html">Java并发之AQS详解</a></li>
 <li><a href="https://blog.csdn.net/mulinsen77/article/details/84583716">AQS详解（面试）</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>java</category>
+        <category>juc</category>
+        <category>AQS</category>
+        <category>Java</category>
+        <category>多线程</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>juc</tag>
+        <tag>AQS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>juc之AQS源码</title>
+    <url>/hexoblog/2021/06/17/md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/juc%E4%B9%8BAQS%E6%BA%90%E7%A0%81/</url>
+    <content><![CDATA[<h1 id="两种资源共享方式"><a href="#两种资源共享方式" class="headerlink" title="两种资源共享方式"></a>两种资源共享方式</h1><p>&emsp;&emsp;AQS定义了两种资源共享方式：</p>
+<ol>
+<li>Exclusive：独占方式，只有一个线程能执行，如ReentrantLock。</li>
+<li>Share：共享，多个线程可以同时执行，如Semaphore、CountDownLatch、ReadWriteLock，CyclicBarrier。</li>
+</ol>
+<span id="more"></span>
+
+<p>&emsp;&emsp;对应的，在不同的资源共享模式下，就有了不同的源码。<br>&emsp;&emsp;值得注意的是，acquire()和acquireShared()两种方法下，线程在等待队列中都是忽略中断的。AQS也支持响应中断的，acquireInterruptibly()/acquireSharedInterruptibly()即是。</p>
+<hr>
+<h1 id="独占方式"><a href="#独占方式" class="headerlink" title="独占方式"></a>独占方式</h1><p>&emsp;独占方式下，获取资源与释放资源的一组为<code>acquire()</code>和<code>release()</code>方法。</p>
+<h2 id="Acquire独占模式获取资源"><a href="#Acquire独占模式获取资源" class="headerlink" title="Acquire独占模式获取资源"></a>Acquire独占模式获取资源</h2><h3 id="acquire方法"><a href="#acquire方法" class="headerlink" title="acquire方法"></a>acquire方法</h3><p>&emsp;&emsp;acquire方法时独占模式下线程获取共享资源的顶层入口。如果获取到资源，线程直接返回，否则进入等待队列，直到获取到资源为止，且整个过程忽略中断的影响，获取到资源后线程就可以执行其临界区代码了。  </p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">final</span> <span class="token keyword">void</span> <span class="token function">acquire</span><span class="token punctuation">(</span><span class="token keyword">int</span> arg<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">tryAcquire</span><span class="token punctuation">(</span>arg<span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span>
+        <span class="token function">acquireQueued</span><span class="token punctuation">(</span><span class="token function">addWaiter</span><span class="token punctuation">(</span><span class="token class-name">Node</span><span class="token punctuation">.</span>EXCLUSIVE<span class="token punctuation">)</span><span class="token punctuation">,</span> arg<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token function">selfInterrupt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>&emsp;&emsp;函数流程如下：</p>
+<ol>
+<li>tryAcquire()尝试直接去获取资源，如果成功则直接返回（这里体现了非公平锁，每个线程获取锁时会尝试直接抢占加塞一次，而CLH队列中可能还有别的线程在等待）。</li>
+<li>addWaiter()将该线程加入等待队列的尾部，并标记为独占模式。</li>
+<li>acquireQueued()使线程阻塞在等待队列中获取资源，一直获取到资源后才返回。如果在整个等待过程中被中断过，则返回true，否则返回false。</li>
+<li>如果线程在等待过程中被中断过，它是不响应的。只是获取资源后才再进行自我中断selfInterrupt()，将中断补上。</li>
+</ol>
+<h3 id="tryAcquire方法"><a href="#tryAcquire方法" class="headerlink" title="tryAcquire方法"></a>tryAcquire方法</h3><p>&emsp;&emsp;此方法尝试去获取独占资源。如果获取成功，则直接返回true，否则直接返回false。这个方法在AQS中定义了空方法体，需要各个自定义同步器自己去重写这个方法，如CountDownLatch的Sync。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">protected</span> <span class="token keyword">boolean</span> <span class="token function">tryAcquire</span><span class="token punctuation">(</span><span class="token keyword">int</span> arg<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">UnsupportedOperationException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>&emsp;&emsp;这里就是模板方法模式的典型应用。<br>&emsp;&emsp;这里之所以没有定义成abstract，是因为独占模式下只用实现tryAcquire-tryRelease，而共享模式下只用实现tryAcquireShared-tryReleaseShared。如果都定义成abstract，那么每个模式也要去实现另一模式下的接口。</p>
+<h3 id="addWaiter方法"><a href="#addWaiter方法" class="headerlink" title="addWaiter方法"></a>addWaiter方法</h3><p>&emsp;&emsp;用于将当前线程加入到等待队列的队尾，并返回当前线程所在的结点。这里会将每一个线程封装成一个Node，Node中有一个Tread属性用来保存当前线程。等待队列可以看作是一个双向链表，一个CLH对列，一个虚拟的双向队列。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">private</span> <span class="token class-name">Node</span> <span class="token function">addWaiter</span><span class="token punctuation">(</span><span class="token class-name">Node</span> mode<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token class-name">Node</span> node <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Node</span><span class="token punctuation">(</span><span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> mode<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// Try the fast path of enq; backup to full enq on failure</span>
+    <span class="token class-name">Node</span> pred <span class="token operator">=</span> tail<span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>pred <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        node<span class="token punctuation">.</span>prev <span class="token operator">=</span> pred<span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">compareAndSetTail</span><span class="token punctuation">(</span>pred<span class="token punctuation">,</span> node<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            pred<span class="token punctuation">.</span>next <span class="token operator">=</span> node<span class="token punctuation">;</span>
+            <span class="token keyword">return</span> node<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token function">enq</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> node<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>&emsp;&emsp;enq方法将节点加入队尾。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">private</span> <span class="token class-name">Node</span> <span class="token function">enq</span><span class="token punctuation">(</span><span class="token keyword">final</span> <span class="token class-name">Node</span> node<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token punctuation">;</span><span class="token punctuation">;</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">Node</span> t <span class="token operator">=</span> tail<span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>t <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token comment">// Must initialize</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">compareAndSetHead</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Node</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                tail <span class="token operator">=</span> head<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+            node<span class="token punctuation">.</span>prev <span class="token operator">=</span> t<span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">compareAndSetTail</span><span class="token punctuation">(</span>t<span class="token punctuation">,</span> node<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                t<span class="token punctuation">.</span>next <span class="token operator">=</span> node<span class="token punctuation">;</span>
+                <span class="token keyword">return</span> t<span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="acquireQueued方法"><a href="#acquireQueued方法" class="headerlink" title="acquireQueued方法"></a>acquireQueued方法</h3><p>&emsp;&emsp;通过<code>tryAcquire()</code>和<code>addWaiter()</code>，该线程获取资源失败，已经被放入等待队列尾部了。<br>&emsp;&emsp;<code>acquireQueued()</code>用于<strong>在等待队列中排队拿号（中间没其它事干可以休息），直到拿到号后再返回。</strong><br>&emsp;&emsp;进入等待状态休息，直到其他线程彻底释放资源后唤醒自己，自己再拿到资源，然后就可以去干自己想干的事了。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">final</span> <span class="token keyword">boolean</span> <span class="token function">acquireQueued</span><span class="token punctuation">(</span><span class="token keyword">final</span> <span class="token class-name">Node</span> node<span class="token punctuation">,</span> <span class="token keyword">int</span> arg<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// 标记是否成功拿到资源，没有拿到资源</span>
+    <span class="token keyword">boolean</span> failed <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">// 标记等待过程中是否被中断过</span>
+        <span class="token keyword">boolean</span> interrupted <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token punctuation">;</span><span class="token punctuation">;</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token comment">// 拿到前驱节点</span>
+            <span class="token keyword">final</span> <span class="token class-name">Node</span> p <span class="token operator">=</span> node<span class="token punctuation">.</span><span class="token function">predecessor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">// 如果前驱是head，即该结点已是第二，那么便有资格去尝试获取资源（可能是老大释放完资源唤醒自己的，当然也可能被interrupt了）。</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>p <span class="token operator">==</span> head <span class="token operator">&amp;&amp;</span> <span class="token function">tryAcquire</span><span class="token punctuation">(</span>arg<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token comment">// 拿到资源后，将自己设置为head，所以head指向的节点就是拿到资源的节点</span>
+                <span class="token function">setHead</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token comment">// 将head的前驱断开连接，就是为了放弃以前的有助于GC</span>
+                p<span class="token punctuation">.</span>next <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span> <span class="token comment">// help GC</span>
+                <span class="token comment">// 成功拿到资源</span>
+                failed <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+                <span class="token comment">// 返回等待过程中是否被中断，如果被中断了，就是获取失败了</span>
+                <span class="token keyword">return</span> interrupted<span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+            <span class="token comment">// 如果自己可以休息了，就通过park()进入waiting状态，直到被unpark()。如果不可中断的情况下被中断了，那么会从park()中醒过来，发现拿不到资源，从而继续进入park()等待。</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">shouldParkAfterFailedAcquire</span><span class="token punctuation">(</span>p<span class="token punctuation">,</span> node<span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span>
+                <span class="token function">parkAndCheckInterrupt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token comment">// 表示被中断了</span>
+                interrupted <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span> <span class="token keyword">finally</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">// 如果等待过程中没有成功获取资源（如timeout，或者可中断的情况下被中断了），那么取消结点在队列中的等待。</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>failed<span class="token punctuation">)</span>
+            <span class="token function">cancelAcquire</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="shouldParkAfterFailedAcquire方法"><a href="#shouldParkAfterFailedAcquire方法" class="headerlink" title="shouldParkAfterFailedAcquire方法"></a>shouldParkAfterFailedAcquire方法</h4><p>&emsp;&emsp;这个方法主要用于检查状态，这里主要就是前驱节点的状态。<br>&emsp;&emsp;整个流程中，如果前驱结点的状态不是SIGNAL，那么自己就不能安心去休息，需要去找个安心的休息点，同时可以再尝试下看有没有机会轮到自己拿号。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">boolean</span> <span class="token function">shouldParkAfterFailedAcquire</span><span class="token punctuation">(</span><span class="token class-name">Node</span> pred<span class="token punctuation">,</span> <span class="token class-name">Node</span> node<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// 拿到前驱的状态</span>
+    <span class="token keyword">int</span> ws <span class="token operator">=</span> pred<span class="token punctuation">.</span>waitStatus<span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>ws <span class="token operator">==</span> <span class="token class-name">Node</span><span class="token punctuation">.</span>SIGNAL<span class="token punctuation">)</span>
+        <span class="token comment">// 如果已经告诉前驱拿完号后通知自己一下，那就可以安心休息了</span>
+        <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>ws <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">//  如果前驱放弃了，那就一直往前找，直到找到最近一个正常等待的状态，并排在它的后边。</span>
+        <span class="token comment">//  注意：那些放弃的结点，由于被自己“加塞”到它们前边，它们相当于形成一个无引用链，稍后就会被保安大叔赶走了(GC回收)！</span>
+        <span class="token keyword">do</span> <span class="token punctuation">&#123;</span>
+            node<span class="token punctuation">.</span>prev <span class="token operator">=</span> pred <span class="token operator">=</span> pred<span class="token punctuation">.</span>prev<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span> <span class="token keyword">while</span> <span class="token punctuation">(</span>pred<span class="token punctuation">.</span>waitStatus <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        pred<span class="token punctuation">.</span>next <span class="token operator">=</span> node<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">// 如果前驱正常，那就把前驱的状态设置成SIGNAL，告诉它拿完号后通知自己一下。有可能失败，人家说不定刚刚释放完呢！</span>
+        <span class="token function">compareAndSetWaitStatus</span><span class="token punctuation">(</span>pred<span class="token punctuation">,</span> ws<span class="token punctuation">,</span> <span class="token class-name">Node</span><span class="token punctuation">.</span>SIGNAL<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="parkAndCheckInterrupt方法"><a href="#parkAndCheckInterrupt方法" class="headerlink" title="parkAndCheckInterrupt方法"></a>parkAndCheckInterrupt方法</h4><p>&emsp;&emsp;这个方法用于将前驱节点的状态设置好后，真正进入等待状态。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token keyword">boolean</span> <span class="token function">parkAndCheckInterrupt</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// 使线程进入waiting状态</span>
+    <span class="token class-name">LockSupport</span><span class="token punctuation">.</span><span class="token function">park</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 清除中断状态</span>
+    <span class="token comment">//如果被唤醒，查看自己是不是被中断的。</span>
+    <span class="token keyword">return</span> <span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">interrupted</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h4><p>&emsp;&emsp;acquireQueued方法的流程就是：</p>
+<ol>
+<li>结点进入队尾后，检查状态，找到安全休息点。</li>
+<li>调用park()进入waiting状态，等待unpark()或interrupt()唤醒自己。</li>
+<li>被唤醒后，看自己是不是有资格能拿到号。如果拿到，head指向当前结点，并返回从入队到拿到号的整个过程中是否被中断过。如果没拿到，继续流程1。</li>
+</ol>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>&emsp;&emsp;整个流程就是：</p>
+<ol>
+<li>调用自定义同步器的tryAcquire()尝试直接去获取资源，如果成功则直接返回。</li>
+<li>没成功，则addWaiter()将该线程加入等待队列的尾部，并标记为独占模式。</li>
+<li>acquireQueued()使线程在等待队列中休息，有机会时（轮到自己，会被unpark()）会去尝试获取资源。获取到资源后才返回。如果在整个等待过程中被中断过，则返回true，否则返回false。<ol>
+<li>这里检测自己是否能拿到资源，拿到就会返回</li>
+<li>这里面会判断是否有被中断过</li>
+<li>如果有被中断，这里面会清除中断过程，不响应中断，外面会将中断补上</li>
+<li>如果没有被中断，这里面会返回false，表示没有中断，外面就不会补</li>
+</ol>
+</li>
+<li>如果线程在等待过程中被中断过，它是不响应的。只是获取资源后才再进行自我中断selfInterrupt()，将中断补上。</li>
+</ol>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/AQSACquire.png" alt="acquire流程"></p>
+<h2 id="Release独占模式释放资源"><a href="#Release独占模式释放资源" class="headerlink" title="Release独占模式释放资源"></a>Release独占模式释放资源</h2><h3 id="release方法"><a href="#release方法" class="headerlink" title="release方法"></a>release方法</h3><p>&emsp;&emsp;此方法是独占模式下线程释放共享资源的顶层入口。它会释放指定量的资源，如果彻底释放了（即state=0）,它会唤醒等待队列里的其他线程来获取资源。<br>&emsp;&emsp;它是根据tryRelease()的返回值来判断该线程是否已经完成释放掉资源了！所以自定义同步器在设计tryRelease()的时候要明确这一点！</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">final</span> <span class="token keyword">boolean</span> <span class="token function">release</span><span class="token punctuation">(</span><span class="token keyword">int</span> arg<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">tryRelease</span><span class="token punctuation">(</span>arg<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">Node</span> h <span class="token operator">=</span> head<span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>h <span class="token operator">!=</span> <span class="token keyword">null</span> <span class="token operator">&amp;&amp;</span> h<span class="token punctuation">.</span>waitStatus <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span>
+            <span class="token function">unparkSuccessor</span><span class="token punctuation">(</span>h<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="tryRelease方法"><a href="#tryRelease方法" class="headerlink" title="tryRelease方法"></a>tryRelease方法</h3><p>&emsp;&emsp;跟tryAcquire()一样，这个方法是需要独占模式的自定义同步器去实现的。<br>&emsp;&emsp;正常来说，tryRelease()都会成功的，因为这是独占模式，该线程来释放资源，那么它肯定已经拿到独占资源了，直接减掉相应量的资源即可(state-=arg)，也不需要考虑线程安全的问题。<br>&emsp;&emsp;但要注意它的返回值，上面已经提到了，release()是根据tryRelease()的返回值来判断该线程是否已经完成释放掉资源了！所以自义定同步器在实现时，如果已经彻底释放资源(state=0)，要返回true，否则返回false。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">protected</span> <span class="token keyword">boolean</span> <span class="token function">tryRelease</span><span class="token punctuation">(</span><span class="token keyword">int</span> arg<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">UnsupportedOperationException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="unparkSuccessor方法"><a href="#unparkSuccessor方法" class="headerlink" title="unparkSuccessor方法"></a>unparkSuccessor方法</h3><p>&emsp;&emsp;此方法用于唤醒等待队列中下一个线程。原理就是<strong>用unpark()唤醒等待队列中最前边的那个未放弃线程。</strong></p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">unparkSuccessor</span><span class="token punctuation">(</span><span class="token class-name">Node</span> node<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// 这里，node一边为当前线程所在节点</span>
+    <span class="token keyword">int</span> ws <span class="token operator">=</span> node<span class="token punctuation">.</span>waitStatus<span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>ws <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span>
+        <span class="token comment">//置零当前线程所在的结点状态，允许失败。</span>
+        <span class="token function">compareAndSetWaitStatus</span><span class="token punctuation">(</span>node<span class="token punctuation">,</span> ws<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 找到下一个需要唤醒的节点</span>
+    <span class="token class-name">Node</span> s <span class="token operator">=</span> node<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+    <span class="token comment">// 如果为空或已取消</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>s <span class="token operator">==</span> <span class="token keyword">null</span> <span class="token operator">||</span> s<span class="token punctuation">.</span>waitStatus <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        s <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+        <span class="token comment">// 从后向前找</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">Node</span> t <span class="token operator">=</span> tail<span class="token punctuation">;</span> t <span class="token operator">!=</span> <span class="token keyword">null</span> <span class="token operator">&amp;&amp;</span> t <span class="token operator">!=</span> node<span class="token punctuation">;</span> t <span class="token operator">=</span> t<span class="token punctuation">.</span>prev<span class="token punctuation">)</span>
+            <span class="token comment">// 从这里可以看出，&lt;=0 的结点，都是还有效的结点，这里找到最前面的待唤醒的节点</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>t<span class="token punctuation">.</span>waitStatus <span class="token operator">&lt;=</span> <span class="token number">0</span><span class="token punctuation">)</span>
+                s <span class="token operator">=</span> t<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>s <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span>
+        <span class="token comment">// 唤醒</span>
+        <span class="token class-name">LockSupport</span><span class="token punctuation">.</span><span class="token function">unpark</span><span class="token punctuation">(</span>s<span class="token punctuation">.</span>thread<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>&emsp;&emsp;这里我们也用s来表示吧。此时，再和acquireQueued()联系起来，s被唤醒后，进入if (p == head &amp;&amp; tryAcquire(arg))的判断（即使p!=head也没关系，它会再进入shouldParkAfterFailedAcquire()寻找一个安全点。这里既然s已经是等待队列中最前边的那个未放弃线程了，那么通过shouldParkAfterFailedAcquire()的调整，s也必然会跑到head的next结点，下一次自旋p==head就成立啦），然后s把自己设置成head标杆结点，表示自己已经获取到资源了，acquire()也返回了！！And then, DO what you WANT!</p>
+<h3 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h3><p>&emsp;&emsp;release()是独占模式下线程释放共享资源的顶层入口。它会释放指定量的资源，如果彻底释放了（即state=0）,它会唤醒等待队列里的其他线程来获取资源。<br>&emsp;&emsp;<strong>如果获取锁的线程在release时异常了，没有unpark队列中的其他结点，这时队列中的其他结点会怎么办？这时队列中的其他节点就没法被唤醒了。</strong> 产生异常的可能如下：</p>
+<blockquote>
+<ol>
+<li>线程突然死掉了？可以通过thread.stop来停止线程的执行，但该函数的执行条件要严苛的多，而且函数注明是非线程安全的，已经标明Deprecated；</li>
+<li>线程被interupt了？线程在运行态是不响应中断的，所以也不会抛出异常；</li>
+<li>release代码有bug，抛出异常了？目前来看，Doug Lea的release方法还是比较健壮的，没有看出能引发异常的情形（如果有，恐怕早被用户吐槽了）。除非自己写的tryRelease()有bug，那就没啥说的，自己写的bug只能自己含着泪去承受了。</li>
+</ol>
+</blockquote>
+<hr>
+<h1 id="参考文献-amp-鸣谢"><a href="#参考文献-amp-鸣谢" class="headerlink" title="参考文献 &amp; 鸣谢"></a>参考文献 &amp; 鸣谢</h1><ul>
+<li><a href="https://www.cnblogs.com/waterystone/p/4920797.html">Java并发之AQS详解</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>java</category>
+        <category>juc</category>
+        <category>AQS</category>
+        <category>Java</category>
+        <category>多线程</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>juc</tag>
+        <tag>AQS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>juc之AQS源码二</title>
+    <url>/hexoblog/2021/06/18/md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/juc%E4%B9%8BAQS%E6%BA%90%E7%A0%81%E4%BA%8C/</url>
+    <content><![CDATA[<h1 id="共享方式"><a href="#共享方式" class="headerlink" title="共享方式"></a>共享方式</h1><p>&emsp;&emsp;juc之AQS源码一中讲了独占方式的源码，这里分析共享方式的源码。</p>
+<span id="more"></span>
+
+<h2 id="acquireShared共享方式获取资源"><a href="#acquireShared共享方式获取资源" class="headerlink" title="acquireShared共享方式获取资源"></a>acquireShared共享方式获取资源</h2><h3 id="acquireShared方法"><a href="#acquireShared方法" class="headerlink" title="acquireShared方法"></a>acquireShared方法</h3><p>&emsp;&emsp;acquireShared方法是共享模式下线程获取共享资源的顶层入口。它会获取指定量的资源，获取成功则直接返回，获取失败则进入等待队列，直到获取到资源为止，整个过程忽略中断。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">final</span> <span class="token keyword">void</span> <span class="token function">acquireShared</span><span class="token punctuation">(</span><span class="token keyword">int</span> arg<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">tryAcquireShared</span><span class="token punctuation">(</span>arg<span class="token punctuation">)</span> <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span>
+        <span class="token function">doAcquireShared</span><span class="token punctuation">(</span>arg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>&emsp;&emsp;这里tryAcquireShared()依然需要自定义同步器去实现。但是AQS已经把其返回值的语义定义好了：负值代表获取失败；0代表获取成功，但没有剩余资源；正数表示获取成功，还有剩余资源，其他线程还可以去获取。<br>&emsp;&emsp;所以函数流程如下：</p>
+<ol>
+<li>tryAcquireShared()尝试获取资源，成功则直接返回。</li>
+<li>失败则通过doAcquireShared()进入等待队列，直到获取到资源为止才返回。</li>
+</ol>
+<h3 id="doAcquireShared方法"><a href="#doAcquireShared方法" class="headerlink" title="doAcquireShared方法"></a>doAcquireShared方法</h3><p>&emsp;&emsp;此方法用于将当前线程加入等待队列尾部休息，直到其他线程释放资源唤醒自己，自己成功拿到相应量的资源后才返回。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">doAcquireShared</span><span class="token punctuation">(</span><span class="token keyword">int</span> arg<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// 加入队列尾部</span>
+    <span class="token keyword">final</span> <span class="token class-name">Node</span> node <span class="token operator">=</span> <span class="token function">addWaiter</span><span class="token punctuation">(</span><span class="token class-name">Node</span><span class="token punctuation">.</span>SHARED<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 是否成功的标志</span>
+    <span class="token keyword">boolean</span> failed <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">// 是否有外部中断的标志</span>
+        <span class="token keyword">boolean</span> interrupted <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token punctuation">;</span><span class="token punctuation">;</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token comment">// 拿到前驱节点</span>
+            <span class="token keyword">final</span> <span class="token class-name">Node</span> p <span class="token operator">=</span> node<span class="token punctuation">.</span><span class="token function">predecessor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">// 如果到head的下一个，因为head是拿到资源的线程，此时node被唤醒，很可能是head用完资源来唤醒自己的</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>p <span class="token operator">==</span> head<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token comment">// 尝试获取资源</span>
+                <span class="token keyword">int</span> r <span class="token operator">=</span> <span class="token function">tryAcquireShared</span><span class="token punctuation">(</span>arg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>r <span class="token operator">>=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                    <span class="token comment">// 如果有剩余资源唤醒后面的线程，这里就是和独占式的区别</span>
+                    <span class="token function">setHeadAndPropagate</span><span class="token punctuation">(</span>node<span class="token punctuation">,</span> r<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    p<span class="token punctuation">.</span>next <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span> <span class="token comment">// help GC</span>
+                    <span class="token comment">// 如果有外部中断，补充中断</span>
+                    <span class="token keyword">if</span> <span class="token punctuation">(</span>interrupted<span class="token punctuation">)</span>
+                        <span class="token function">selfInterrupt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    failed <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+                    <span class="token keyword">return</span><span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span>
+            <span class="token punctuation">&#125;</span>
+            <span class="token comment">// 判断状态，寻找安全点，进入waiting状态，等着被unpark()或interrupt()</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">shouldParkAfterFailedAcquire</span><span class="token punctuation">(</span>p<span class="token punctuation">,</span> node<span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span>
+                <span class="token function">parkAndCheckInterrupt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                interrupted <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span> <span class="token keyword">finally</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>failed<span class="token punctuation">)</span>
+            <span class="token function">cancelAcquire</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>&emsp;&emsp;这个方法和acquireQueued方法很相似，只不过这里将补充中断的位置搬进来了。</p>
+<h3 id="setHeadAndPropagate方法"><a href="#setHeadAndPropagate方法" class="headerlink" title="setHeadAndPropagate方法"></a>setHeadAndPropagate方法</h3><p>&emsp;&emsp;这个方法在自己苏醒的同时，如果条件符合（比如还有剩余资源），还会去唤醒后继结点，毕竟是共享模式！</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">setHeadAndPropagate</span><span class="token punctuation">(</span><span class="token class-name">Node</span> node<span class="token punctuation">,</span> <span class="token keyword">int</span> propagate<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token class-name">Node</span> h <span class="token operator">=</span> head<span class="token punctuation">;</span> <span class="token comment">// Record old head for check below</span>
+    <span class="token function">setHead</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>propagate <span class="token operator">></span> <span class="token number">0</span> <span class="token operator">||</span> h <span class="token operator">==</span> <span class="token keyword">null</span> <span class="token operator">||</span> h<span class="token punctuation">.</span>waitStatus <span class="token operator">&lt;</span> <span class="token number">0</span> <span class="token operator">||</span>
+        <span class="token punctuation">(</span>h <span class="token operator">=</span> head<span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token keyword">null</span> <span class="token operator">||</span> h<span class="token punctuation">.</span>waitStatus <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">Node</span> s <span class="token operator">=</span> node<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+        <span class="token comment">// 这里调用了唤醒线程的方法，唤醒后面的线程</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>s <span class="token operator">==</span> <span class="token keyword">null</span> <span class="token operator">||</span> s<span class="token punctuation">.</span><span class="token function">isShared</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token function">doReleaseShared</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>&emsp;&emsp;基本流程：</p>
+<ol>
+<li>tryAcquireShared()尝试获取资源，成功则直接返回。</li>
+<li>失败则通过doAcquireShared()进入等待队列park()，直到被unpark()/interrupt()并成功获取到资源才返回。整个等待过程也是忽略中断的。</li>
+</ol>
+<p>&emsp;&emsp;跟acquire的流程相似，多了个自己拿到资源后，还回去唤醒后面的线程。</p>
+<h2 id="releaseShared共享方式释放资源"><a href="#releaseShared共享方式释放资源" class="headerlink" title="releaseShared共享方式释放资源"></a>releaseShared共享方式释放资源</h2><h3 id="releaseShared方法"><a href="#releaseShared方法" class="headerlink" title="releaseShared方法"></a>releaseShared方法</h3><p>&emsp;&emsp;此方法是共享模式下线程释放共享资源的顶层入口。<br>&emsp;&emsp;它会释放指定量的资源，如果成功释放且允许唤醒等待线程，它会唤醒等待队列里的其他线程来获取资源。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">final</span> <span class="token keyword">boolean</span> <span class="token function">releaseShared</span><span class="token punctuation">(</span><span class="token keyword">int</span> arg<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// 尝试释放资源</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">tryReleaseShared</span><span class="token punctuation">(</span>arg<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">// 唤醒后面的线程</span>
+        <span class="token function">doReleaseShared</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>&emsp;&emsp;释放掉资源后，唤醒后继。<br>&emsp;&emsp;跟独占模式下的release()相似，但有一点稍微需要注意：独占模式下的tryRelease()在完全释放掉资源（state=0）后，才会返回true去唤醒其他线程，这主要是基于独占下可重入的考量；而共享模式下的releaseShared()则没有这种要求（只要有释放，就回去唤醒），共享模式实质就是控制一定量的线程并发执行，那么拥有资源的线程在释放掉部分资源时就可以唤醒后继等待结点。</p>
+<h3 id="doReleaseShared方法"><a href="#doReleaseShared方法" class="headerlink" title="doReleaseShared方法"></a>doReleaseShared方法</h3><p>&emsp;&emsp;这个方法用于唤醒后继节点。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">doReleaseShared</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token punctuation">;</span><span class="token punctuation">;</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">Node</span> h <span class="token operator">=</span> head<span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>h <span class="token operator">!=</span> <span class="token keyword">null</span> <span class="token operator">&amp;&amp;</span> h <span class="token operator">!=</span> tail<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">int</span> ws <span class="token operator">=</span> h<span class="token punctuation">.</span>waitStatus<span class="token punctuation">;</span>
+            <span class="token comment">// 该状态表示后继节点需要唤醒</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>ws <span class="token operator">==</span> <span class="token class-name">Node</span><span class="token punctuation">.</span>SIGNAL<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">compareAndSetWaitStatus</span><span class="token punctuation">(</span>h<span class="token punctuation">,</span> <span class="token class-name">Node</span><span class="token punctuation">.</span>SIGNAL<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                    <span class="token keyword">continue</span><span class="token punctuation">;</span>            <span class="token comment">// loop to recheck cases</span>
+                <span class="token comment">// 唤醒后继节点</span>
+                <span class="token function">unparkSuccessor</span><span class="token punctuation">(</span>h<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+            <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>ws <span class="token operator">==</span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span>
+                     <span class="token operator">!</span><span class="token function">compareAndSetWaitStatus</span><span class="token punctuation">(</span>h<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token class-name">Node</span><span class="token punctuation">.</span>PROPAGATE<span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token keyword">continue</span><span class="token punctuation">;</span>                <span class="token comment">// loop on failed CAS</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>h <span class="token operator">==</span> head<span class="token punctuation">)</span>                   <span class="token comment">// loop if head changed</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h1 id="参考蚊香-amp-鸣谢"><a href="#参考蚊香-amp-鸣谢" class="headerlink" title="参考蚊香 &amp; 鸣谢"></a>参考蚊香 &amp; 鸣谢</h1><ul>
+<li><a href="https://www.cnblogs.com/waterystone/p/4920797.html">Java并发之AQS详解</a></li>
 </ul>
 ]]></content>
       <categories>
@@ -4539,29 +4866,6 @@ com.lin.extendwrapper.extend.ExtendService
       </tags>
   </entry>
   <entry>
-    <title>dubboSPI扩展点自动激活</title>
-    <url>/hexoblog/2021/04/20/md/%E5%88%86%E5%B8%83%E5%BC%8F/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E7%82%B9%E8%87%AA%E5%8A%A8%E6%BF%80%E6%B4%BB/</url>
-    <content><![CDATA[<h1 id="扩展点自动激活"><a href="#扩展点自动激活" class="headerlink" title="扩展点自动激活"></a>扩展点自动激活</h1><p>&emsp;&emsp;对于集合类扩展点，比如：Filter, InvokerListener, ExportListener, TelnetHandler, StatusChecker 等，可以同时加载多个实现，此时，可以用自动激活来简化配置。</p>
-<span id="more"></span>
-
-<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">// 激活过滤器</span>
-<span class="token annotation punctuation">@Activate</span>
-<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">FilterOne</span> <span class="token keyword">implements</span> <span class="token class-name">Filter</span> <span class="token punctuation">&#123;</span>
-    <span class="token annotation punctuation">@Override</span>
-    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">doFilter</span><span class="token punctuation">(</span><span class="token class-name">ServletRequest</span> request<span class="token punctuation">,</span> <span class="token class-name">ServletResponse</span> response<span class="token punctuation">,</span> <span class="token class-name">FilterChain</span> chain<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
-    <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
-      <categories>
-        <category>rpc</category>
-        <category>dubbo</category>
-      </categories>
-      <tags>
-        <tag>SPI</tag>
-        <tag>dubbo</tag>
-        <tag>rpc</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>dubboSPI扩展机制自适应</title>
     <url>/hexoblog/2021/04/19/md/%E5%88%86%E5%B8%83%E5%BC%8F/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E6%9C%BA%E5%88%B6%E8%87%AA%E9%80%82%E5%BA%94/</url>
     <content><![CDATA[<h1 id="扩展点自适应"><a href="#扩展点自适应" class="headerlink" title="扩展点自适应"></a>扩展点自适应</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>&emsp;&emsp;ExtensionLoader注入的依赖扩展点是一个Adaptive实例，直到扩展点方法执行时才决定调用是哪一个扩展点实现。<br>&emsp;&emsp;dubbo使用url对象传递对象信息，包含key和value。<br>&emsp;&emsp;扩展点方法调用会有URL参数（或是参数有URL成员）这样依赖的扩展点也可以从URL拿到配置信息，所有的扩展点自己定好配置的 Key后，配置信息从URL上从最外层传入。URL在配置传递上即是一条总线。</p>
@@ -4651,6 +4955,29 @@ com.lin.extendwrapper.extend.ExtendService
 <hr>
 <h1 id="扩展点自动注入"><a href="#扩展点自动注入" class="headerlink" title="扩展点自动注入"></a>扩展点自动注入</h1><p>有bug稍后。</p>
 ]]></content>
+      <categories>
+        <category>rpc</category>
+        <category>dubbo</category>
+      </categories>
+      <tags>
+        <tag>SPI</tag>
+        <tag>dubbo</tag>
+        <tag>rpc</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>dubboSPI扩展点自动激活</title>
+    <url>/hexoblog/2021/04/20/md/%E5%88%86%E5%B8%83%E5%BC%8F/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E7%82%B9%E8%87%AA%E5%8A%A8%E6%BF%80%E6%B4%BB/</url>
+    <content><![CDATA[<h1 id="扩展点自动激活"><a href="#扩展点自动激活" class="headerlink" title="扩展点自动激活"></a>扩展点自动激活</h1><p>&emsp;&emsp;对于集合类扩展点，比如：Filter, InvokerListener, ExportListener, TelnetHandler, StatusChecker 等，可以同时加载多个实现，此时，可以用自动激活来简化配置。</p>
+<span id="more"></span>
+
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">// 激活过滤器</span>
+<span class="token annotation punctuation">@Activate</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">FilterOne</span> <span class="token keyword">implements</span> <span class="token class-name">Filter</span> <span class="token punctuation">&#123;</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">doFilter</span><span class="token punctuation">(</span><span class="token class-name">ServletRequest</span> request<span class="token punctuation">,</span> <span class="token class-name">ServletResponse</span> response<span class="token punctuation">,</span> <span class="token class-name">FilterChain</span> chain<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
       <categories>
         <category>rpc</category>
         <category>dubbo</category>
