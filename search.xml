@@ -35,114 +35,6 @@
       </tags>
   </entry>
   <entry>
-    <title>HTTP HTTPS HTTP2</title>
-    <url>/hexoblog/2021/05/08/md/internet/HTTP-HTTPS-HTTP2/</url>
-    <content><![CDATA[<h1 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h1><p>&emsp;&emsp;超文本传输协议，是从web服务器传输超文本标记语言到本地浏览器的传送协议，默认工作在80端口。</p>
-<span id="more"></span>
-
-<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>&emsp;&emsp;HTTP是一个基于TCP/IP协议来传输数据的应用层协议，传输的数据类型可以为，html文件、图片文件、查询结果等。<br>&emsp;&emsp;HTTP一般用于B/S架构（浏览器、服务器），浏览器作为HTTP客户端通过URL向HTTP服务端即WEB服务器发送所有请求。</p>
-<h2 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h2><ol>
-<li>建立TCP/IP连接，客户端与服务器通过Socket三次握手进行连接。</li>
-<li>客户端向服务端发起HTTP请求。</li>
-<li>客户端发送请求头信息，请求内容，最后会发送一空白行，标示客户端请求完毕。</li>
-<li>服务器做出应答，表示对于客户端请求的应答。</li>
-<li>服务器向客户端发送应答头信息。</li>
-<li>服务器向客户端发送请求头信息后，也会发送一空白行，标示应答头信息发送完毕，接着就以Content-type要求的数据格式发送数据给客户端。</li>
-<li>服务端关闭TCP连接，如果服务器或者客户端增Connection:keep-alive就表示客户端与服务器端继续保存连接，在下次请求时可以继续使用这次的连接。</li>
-</ol>
-<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><ol>
-<li>HTTP协议支持客户端/服务端模式，也是一种请求/响应模式的协议。</li>
-<li>简单快速，客户向服务器请求服务时，只需传送请求方法和路径。请求方法常用的有GET、HEAD、POST。</li>
-<li>灵活：HTTP允许传输任意类型的数据对象。传输的类型由Content-Type加以标记。</li>
-<li>无连接：限制每次连接只处理一个请求。服务器处理完请求，并收到客户的应答后，即断开连接，但是却不利于客户端与服务器保持会话连接，为了弥补这种不足，产生了两项记录http状态的技术，一个叫做Cookie,一个叫做Session。</li>
-<li>无状态：无状态是指协议对于事务处理没有记忆，后续处理需要前面的信息，则必须重传。</li>
-</ol>
-<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><ol>
-<li>数据明文传输，容易被窃听截取</li>
-<li>数据的完整性未校验，容易被篡改</li>
-<li>双方没有验证身份，有冒充对方的风险</li>
-</ol>
-<h2 id="URL与URI"><a href="#URL与URI" class="headerlink" title="URL与URI"></a>URL与URI</h2><ul>
-<li>URL：统一资源定位符。</li>
-<li>URI：统一资源标识符。</li>
-</ul>
-<p>&emsp;&emsp;URL是用来定位具体的资源的，标示了一个具体的资源位置。互联网上的每个文件都有一个唯一的URL。<br>&emsp;&emsp;URI是用来标示 一个具体的资源的，我们可以通过URI知道一个资源是什么。<br>&emsp;&emsp;HTTP使用统一资源标识符（Uniform Resource Identifiers, URI）来传输数据和建立连接。</p>
-<h2 id="GET与POST的区别"><a href="#GET与POST的区别" class="headerlink" title="GET与POST的区别"></a>GET与POST的区别</h2><ol>
-<li>都包含请求头请求行，post多了请求body。</li>
-<li>get多用来查询，请求参数放在url中，不会对服务器上的内容产生作用。post用来提交，如把账号密码放入body中。</li>
-<li>GET是直接添加到URL后面的，直接就可以在URL中看到内容，而POST是放在报文内部的，用户无法直接看到。</li>
-<li>GET提交的数据长度是有限制的，因为URL长度有限制，具体的长度限制视浏览器而定。而POST没有。</li>
-</ol>
-<hr>
-<h1 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h1><p>&emsp;&emsp;HTTPS就是为了解决上面HTTP的问题。默认工作在443端口。<br>&emsp;&emsp;HTTPS协议（HyperText Transfer Protocol over Secure Socket Layer）：一般理解为HTTP+SSL/TLS，通过 SSL证书来验证服务器的身份，并为浏览器和服务器之间的通信进行加密。</p>
-<h2 id="SSL-TLS"><a href="#SSL-TLS" class="headerlink" title="SSL/TLS"></a>SSL/TLS</h2><p>&emsp;&emsp;SSL：安全套接字层，SSL协议位于TCP/IP协议与各种应用层协议之间，为数据通讯提供安全支持。<br>&emsp;&emsp;TLS：传输层安全，其前身是SSL，后来改名，目前使用最广泛的是TLS 1.1、TLS 1.2。</p>
-<h2 id="HTTPS工作流程"><a href="#HTTPS工作流程" class="headerlink" title="HTTPS工作流程"></a>HTTPS工作流程</h2><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/https%E5%AF%86%E9%92%A5%E7%94%9F%E6%88%90.png" alt="密钥生成流程"></p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E6%B5%81%E7%A8%8B.gif" alt="数据传输"></p>
-<ol>
-<li>首先客户端通过URL访问服务器建立SSL连接。</li>
-<li>服务端收到客户端请求后，会将网站支持的证书信息（证书中包含公钥）传送一份给客户端。（这个证书其实就是公钥，只是包含了很多信息）</li>
-<li>客户端的服务器开始协商SSL连接的安全等级，也就是信息加密的等级。</li>
-<li>客户端的浏览器根据双方同意的安全等级，建立会话密钥，然后利用网站的公钥将会话密钥加密，并传送给网站。（会话密钥就是第一张图的随机key）</li>
-<li>服务器利用自己的私钥解密出会话密钥，这里就是连接建立完成。</li>
-<li>服务器利用会话密钥加密与客户端之间的通信。</li>
-</ol>
-<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><ol>
-<li>HTTPS协议多次握手，导致页面加载时间延长。</li>
-<li>HTTPS连接缓存不如HTTP高效，会增加数据开销和功耗。</li>
-<li>SSL证书需要付费。</li>
-<li>SSL涉及到的安全算法会消耗CPU资源，对服务器资源消耗较大。</li>
-<li>技术难度相比HTTP大。</li>
-<li>SSL证书通常需要绑定IP，不能在同一IP上绑定多个域名，IPv4资源不可能支撑这个消耗。</li>
-<li>HTTPS协议的加密范围也比较有限，在黑客攻击、拒绝服务攻击、服务器劫持等方面几乎起不到什么作用。最关键的，SSL证书的信用链体系并不安全，特别是在某些国家可以控制CA根证书的情况下，中间人攻击一样可行。</li>
-</ol>
-<h2 id="总结HTTPS和HTTP的区别"><a href="#总结HTTPS和HTTP的区别" class="headerlink" title="总结HTTPS和HTTP的区别"></a>总结HTTPS和HTTP的区别</h2><ol>
-<li>HTTP明文传输，数据都是未加密的，安全性较差，HTTPS（SSL+HTTP） 数据传输过程是加密的，安全性较好。</li>
-<li>使用HTTPS协议需要到CA（Certificate Authority，数字证书认证机构） 申请证书，一般免费证书较少，因而需要一定费用。证书颁发机构如：Symantec、Comodo、GoDaddy和GlobalSign等。</li>
-<li>HTTP页面响应速度比HTTPS快，主要是因为HTTP使用TCP三次握手建立连接，客户端和服务器需要交换3个包，而HTTPS除了TCP的三个包，还要加上ssl握手需要的9个包，所以一共是12个包。</li>
-<li>http和https使用的是完全不同的连接方式，用的端口也不一样，前者是80，后者是443。</li>
-<li>HTTPS其实就是建构在SSL/TLS之上的HTTP协议，所以，要比较HTTPS比HTTP要更耗费服务器资源。</li>
-</ol>
-<hr>
-<h1 id="HTTP2"><a href="#HTTP2" class="headerlink" title="HTTP2"></a>HTTP2</h1><p>&emsp;&emsp;HTTP/2.0的目标是改善用户在使用Web时的速度体验。</p>
-<h2 id="新特点"><a href="#新特点" class="headerlink" title="新特点"></a>新特点</h2><p><a href="https://juejin.cn/post/6844903545532071943">HTTP2.0新特性</a><br><a href="https://www.jianshu.com/p/1afebe13c63e">HTTPS和HTTP2.0详解
-</a><br><a href="https://www.jsahz.com/wz/15616.html">HTTP 2.0 详细介绍</a></p>
-<h3 id="二进制分帧"><a href="#二进制分帧" class="headerlink" title="二进制分帧"></a>二进制分帧</h3><p>&emsp;&emsp;相对于HTTP1.0和HTTP1.1，2.0在应用层与传输层中间增加了一个二进制分帧层。<br>&emsp;&emsp;在二进制分帧层上，HTTP2.0会将所有传输信息分割为更小的消息和帧，并对它们采用二进制格式的编码将其封装。其中，HTTP1.X中的首部信息header封装到Headers帧中，而request body将被封装到Data帧中。<br>&emsp;&emsp;HTTP2.0通信都在一个TCP连接上完成，这个连接可以承载任意数量的双向数据流，相应的每个数据流以消息的形式发送。而消息由一或多个帧组成，这些帧可以乱序发送，然后根据每个帧首部的流标识符重新组装。  </p>
-<h3 id="首部压缩"><a href="#首部压缩" class="headerlink" title="首部压缩"></a>首部压缩</h3><p>&emsp;&emsp;HTTP1.x每次通讯（请求或响应）都会携带首部信息用于描述资源属性。而HTTP2.0在客户端和服务端之间使用首部表来跟踪和存储之前发送的键值对。请求与响应首部的定义在HTTP2.0中基本没有变，只是所有首部键必须全部小写，而且要求行要独立为:method:、:scheme:、:host:、:path:这些键值对。<br>&emsp;&emsp;HTTP2.0使用encoder来减少需要传输的header大小，通讯双方各自cache一份header fields（首部表）表，既避免了重复header的传输，又减小了需要传输的大小。</p>
-<h4 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h4><p>&emsp;&emsp;使报头更紧凑，更快速传输，有利于移动网络环境。减少每次通讯的数据量，使网络拥塞状态得以改善。</p>
-<h4 id="工作流程-1"><a href="#工作流程-1" class="headerlink" title="工作流程"></a>工作流程</h4><p>&emsp;&emsp;对于相同的数据，不再重新通过每次请求和响应发送。每个新的首部键值对要么追加到当前表的末尾，要么替换表中之前的值。首部表在HTTP2.0的链接存续期内始终存在，由客户端和服务端共同渐进的更新。</p>
-<h3 id="流量控制"><a href="#流量控制" class="headerlink" title="流量控制"></a>流量控制</h3><p>&emsp;&emsp;HTTP2.0为数据流和连接的流量提供了一个简单的机制：</p>
-<ol>
-<li>流量基于HTTP链接的每一跳进行，而非端到端的控制。</li>
-<li>流量控制基于窗口更新帧进行，即接收方广播自己准备接收某个数据流的多少字节，以及对整个链接要接收多少个字节。</li>
-<li>流量控制有方向性，即接收方可能根据自己的情况为每个流乃至整个链接设置任意窗口大小。</li>
-<li>流量控制可以由接收方禁用，包括针对个别的流和针对整个链接。</li>
-<li>帧的类型决定了流量控制是否适用于帧，目前只有DATA帧服从流量控制，所有其他类型的帧并不会消耗流量控制窗口的空间。这保证了重要的控制帧不会被流量控制阻塞。</li>
-</ol>
-<h3 id="多路复用"><a href="#多路复用" class="headerlink" title="多路复用"></a>多路复用</h3><p>&emsp;&emsp;基于二进制分帧层，HTTP2.0可以在共享TCP链接的基础上同时发送请求和响应。HTTP消息被分解为独立的帧，而不破坏消息本身的语义，交错发出去，在另一端根据流标识符和首部将他们重新组装起来。<br>&emsp;&emsp;即连接共享，即每一个request都是是用作连接共享机制的。一个request对应一个id，这样一个连接上可以有多个request，每个连接的request可以随机的混杂在一起，接收方可以根据request的id将request再归属到各自不同的服务端请求里面。</p>
-<h4 id="优化-1"><a href="#优化-1" class="headerlink" title="优化"></a>优化</h4><ol>
-<li>可以并行交错的发送请求和响应，这些请求和响应之间互不影响。</li>
-<li>只使用一个链接即可并行发送多个请求和响应。</li>
-<li>消除不必要的延迟，从而减少页面加载的时间。</li>
-<li>不必再为绕过HTTP1.x限制而多做很多工作。</li>
-</ol>
-<h3 id="请求优先级"><a href="#请求优先级" class="headerlink" title="请求优先级"></a>请求优先级</h3><p>&emsp;&emsp;HTTP消息分为很多独立帧之后，就可以通过优化这些帧的交错和传输顺序进一步优化性能。</p>
-<h4 id="优化-2"><a href="#优化-2" class="headerlink" title="优化"></a>优化</h4><p>&emsp;&emsp;服务器可以根据流的优先级控制资源分配（CPU、内存、宽带），而在响应数据准备好之后，优先将最高优先级的帧发送给客户端。浏览器可以在发现资源时立即分派请求，指定每个流的优先级，让服务器决定最优的响应次序。这样请求就不用排队了，既节省了时间，又最大限度的利用了每个连接。</p>
-<h3 id="服务端推送"><a href="#服务端推送" class="headerlink" title="服务端推送"></a>服务端推送</h3><p>&emsp;&emsp;服务器可以对一个客户端请求发送多个响应。服务器向客户端推送资源无需客户端明确的请求。<br>&emsp;&emsp;服务端根据客户端的请求，提前返回多个响应，推送额外的资源给客户端。</p>
-<h4 id="优化-3"><a href="#优化-3" class="headerlink" title="优化"></a>优化</h4><ol>
-<li>减轻数据传送的冗余步骤。</li>
-<li>加快页面响应速度。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>网络</category>
-        <category>HTTP</category>
-      </categories>
-      <tags>
-        <tag>HTTP</tag>
-        <tag>网络</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>TCP三次握手四次挥手</title>
     <url>/hexoblog/2021/04/30/md/internet/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/</url>
     <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;在网络层通过IP协议可以实现两个主机之间的通信，但是无法确定是主机中的那个进程之间进行的通信，而实际及性能通信的则是主机中的进程。  </p>
@@ -242,8 +134,8 @@
         <category>TCP</category>
       </categories>
       <tags>
-        <tag>网络</tag>
         <tag>TCP</tag>
+        <tag>网络</tag>
       </tags>
   </entry>
   <entry>
@@ -393,38 +285,117 @@
         <category>UDP</category>
       </categories>
       <tags>
-        <tag>网络</tag>
         <tag>TCP</tag>
+        <tag>网络</tag>
         <tag>UDP</tag>
       </tags>
   </entry>
   <entry>
-    <title>异常的三次握手四次挥手</title>
-    <url>/hexoblog/2021/05/21/md/internet/%E5%BC%82%E5%B8%B8%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;TCP作为一个靠谱的协议，在传输数据的前后，需要在双端之间建立连接，并在双端各自维护连接的状态。<br>&emsp;&emsp;建立连接前，TCP会通过三次握手来保证双端状态正确，然后就可以正常传输数据了。当数据传输完成，需要断开连接的时候，TCP会通过四次握手来完成双端的断连，并回收各自的资源。<br>&emsp;&emsp;这个过程中也会产生各种问题，有因网络原因造成的也有其他原因造成的。一般来说主要就是丢包的问题，基本就是超时重传等来保证TCP的可靠性。</p>
+    <title>HTTP HTTPS HTTP2</title>
+    <url>/hexoblog/2021/05/08/md/internet/HTTP-HTTPS-HTTP2/</url>
+    <content><![CDATA[<h1 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h1><p>&emsp;&emsp;超文本传输协议，是从web服务器传输超文本标记语言到本地浏览器的传送协议，默认工作在80端口。</p>
 <span id="more"></span>
 
-<p><a href="https://network.51cto.com/art/202002/610542.htm">TCP异常</a></p>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>&emsp;&emsp;HTTP是一个基于TCP/IP协议来传输数据的应用层协议，传输的数据类型可以为，html文件、图片文件、查询结果等。<br>&emsp;&emsp;HTTP一般用于B/S架构（浏览器、服务器），浏览器作为HTTP客户端通过URL向HTTP服务端即WEB服务器发送所有请求。</p>
+<h2 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h2><ol>
+<li>建立TCP/IP连接，客户端与服务器通过Socket三次握手进行连接。</li>
+<li>客户端向服务端发起HTTP请求。</li>
+<li>客户端发送请求头信息，请求内容，最后会发送一空白行，标示客户端请求完毕。</li>
+<li>服务器做出应答，表示对于客户端请求的应答。</li>
+<li>服务器向客户端发送应答头信息。</li>
+<li>服务器向客户端发送请求头信息后，也会发送一空白行，标示应答头信息发送完毕，接着就以Content-type要求的数据格式发送数据给客户端。</li>
+<li>服务端关闭TCP连接，如果服务器或者客户端增Connection:keep-alive就表示客户端与服务器端继续保存连接，在下次请求时可以继续使用这次的连接。</li>
+</ol>
+<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><ol>
+<li>HTTP协议支持客户端/服务端模式，也是一种请求/响应模式的协议。</li>
+<li>简单快速，客户向服务器请求服务时，只需传送请求方法和路径。请求方法常用的有GET、HEAD、POST。</li>
+<li>灵活：HTTP允许传输任意类型的数据对象。传输的类型由Content-Type加以标记。</li>
+<li>无连接：限制每次连接只处理一个请求。服务器处理完请求，并收到客户的应答后，即断开连接，但是却不利于客户端与服务器保持会话连接，为了弥补这种不足，产生了两项记录http状态的技术，一个叫做Cookie,一个叫做Session。</li>
+<li>无状态：无状态是指协议对于事务处理没有记忆，后续处理需要前面的信息，则必须重传。</li>
+</ol>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><ol>
+<li>数据明文传输，容易被窃听截取</li>
+<li>数据的完整性未校验，容易被篡改</li>
+<li>双方没有验证身份，有冒充对方的风险</li>
+</ol>
+<h2 id="URL与URI"><a href="#URL与URI" class="headerlink" title="URL与URI"></a>URL与URI</h2><ul>
+<li>URL：统一资源定位符。</li>
+<li>URI：统一资源标识符。</li>
+</ul>
+<p>&emsp;&emsp;URL是用来定位具体的资源的，标示了一个具体的资源位置。互联网上的每个文件都有一个唯一的URL。<br>&emsp;&emsp;URI是用来标示 一个具体的资源的，我们可以通过URI知道一个资源是什么。<br>&emsp;&emsp;HTTP使用统一资源标识符（Uniform Resource Identifiers, URI）来传输数据和建立连接。</p>
+<h2 id="GET与POST的区别"><a href="#GET与POST的区别" class="headerlink" title="GET与POST的区别"></a>GET与POST的区别</h2><ol>
+<li>都包含请求头请求行，post多了请求body。</li>
+<li>get多用来查询，请求参数放在url中，不会对服务器上的内容产生作用。post用来提交，如把账号密码放入body中。</li>
+<li>GET是直接添加到URL后面的，直接就可以在URL中看到内容，而POST是放在报文内部的，用户无法直接看到。</li>
+<li>GET提交的数据长度是有限制的，因为URL长度有限制，具体的长度限制视浏览器而定。而POST没有。</li>
+</ol>
 <hr>
-<h1 id="三次握手中的问题"><a href="#三次握手中的问题" class="headerlink" title="三次握手中的问题"></a>三次握手中的问题</h1><h2 id="客户端第一个SYN包丢失"><a href="#客户端第一个SYN包丢失" class="headerlink" title="客户端第一个SYN包丢失"></a>客户端第一个SYN包丢失</h2><p>&emsp;&emsp;如果客户端的第一个ACK包丢失，服务器无法收到这个包，不会做任何事情。<br>&emsp;&emsp;而在TCP协议中，某端的一组「请求-应答」中，在一定时间范围内，只要没有收到应答的「ACK」包，无论是请求包对方没有收到，还是对方的应答包自己没有收到，均认为是丢包了，都会触发超时重传机制。<br>&emsp;&emsp;此时客户端会重传丢失的SYN包。</p>
-<h2 id="服务端收到SYNd返回的SYN-ACK包丢失"><a href="#服务端收到SYNd返回的SYN-ACK包丢失" class="headerlink" title="服务端收到SYNd返回的SYN+ACK包丢失"></a>服务端收到SYNd返回的SYN+ACK包丢失</h2><p>&emsp;&emsp;此时服务端已经收到客户端的数据，并且发出了对于改信息的回复。<br>&emsp;&emsp;这个问题站在客户端而言，无法区分是服务端没有收到第一次的SYN包，还是自己没有收到回复信息，只能等待一段时间后重新发送SYN包，这和上面的情况就一样了。<br>&emsp;&emsp;对于服务端，发送了SYN+ACK包后，无法等到对方的确认ACK信息，也只能对这个SYN+ACK包进行重传。<br>&emsp;&emsp;由于客户端的重传，服务端会收到这个重传的SYN包，此时会针对这个新的SYN包立即发送SYN+ACK信息。</p>
-<h2 id="客户端收到SYN-ACK返回的ACK包丢失"><a href="#客户端收到SYN-ACK返回的ACK包丢失" class="headerlink" title="客户端收到SYN+ACK返回的ACK包丢失"></a>客户端收到SYN+ACK返回的ACK包丢失</h2><p>&emsp;&emsp;如果最后一个ACK包丢了，服务端因为收不到ACK会走重传机制，而客户端此时进入ESTABLISHED状态。<br>&emsp;&emsp;多数情况下，客户端进入ESTABLISHED状态后，则认为连接已建立，会立即发送数据。但是服务端因为没有收到最后一个ACK包，依然处于SYN-RCVD状态。<br>&emsp;&emsp;所以当服务端处于SYN-RCVD状态下时，接收到客户端真实发送来的数据包时，会认为连接已建立，并进入ESTABLISHED状态。<br>&emsp;&emsp;也有地方认为当服务端处于SYN-RCVD状态下，收到客户端的数据包后，会直接回复RST包响应，表示服务端错误，并进入CLOSE状态。<br>&emsp;&emsp;实际情况下，当客户端在ESTABLISHED状态下，开始发送数据包时，会携带上一个ACK的确认序号，所以哪怕客户端响应的ACK包丢了，服务端在收到这个数据包时，能够通过包内ACK的确认序号，正常进入ESTABLISHED状态。</p>
-<h2 id="客户端故意不发最后一次ACK包"><a href="#客户端故意不发最后一次ACK包" class="headerlink" title="客户端故意不发最后一次ACK包"></a>客户端故意不发最后一次ACK包</h2><p>-0<br>&emsp;&emsp;如果客户端是恶意的，在发送SYN包后，并收到SYN+ACK后就不回复了，那么服务端此时处于一种半连接的状态，虽然服务端会通过tcp_synack_retries配置重试的次数，不会无限等待下去，但是这也是有一个时间周期的。<br>&emsp;&emsp;如果短时间内存在大量的这种恶意连接，对服务端来说压力就会很大，这就是所谓的SYN FLOOD攻击。</p>
+<h1 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h1><p>&emsp;&emsp;HTTPS就是为了解决上面HTTP的问题。默认工作在443端口。<br>&emsp;&emsp;HTTPS协议（HyperText Transfer Protocol over Secure Socket Layer）：一般理解为HTTP+SSL/TLS，通过 SSL证书来验证服务器的身份，并为浏览器和服务器之间的通信进行加密。</p>
+<h2 id="SSL-TLS"><a href="#SSL-TLS" class="headerlink" title="SSL/TLS"></a>SSL/TLS</h2><p>&emsp;&emsp;SSL：安全套接字层，SSL协议位于TCP/IP协议与各种应用层协议之间，为数据通讯提供安全支持。<br>&emsp;&emsp;TLS：传输层安全，其前身是SSL，后来改名，目前使用最广泛的是TLS 1.1、TLS 1.2。</p>
+<h2 id="HTTPS工作流程"><a href="#HTTPS工作流程" class="headerlink" title="HTTPS工作流程"></a>HTTPS工作流程</h2><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/https%E5%AF%86%E9%92%A5%E7%94%9F%E6%88%90.png" alt="密钥生成流程"></p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E6%B5%81%E7%A8%8B.gif" alt="数据传输"></p>
+<ol>
+<li>首先客户端通过URL访问服务器建立SSL连接。</li>
+<li>服务端收到客户端请求后，会将网站支持的证书信息（证书中包含公钥）传送一份给客户端。（这个证书其实就是公钥，只是包含了很多信息）</li>
+<li>客户端的服务器开始协商SSL连接的安全等级，也就是信息加密的等级。</li>
+<li>客户端的浏览器根据双方同意的安全等级，建立会话密钥，然后利用网站的公钥将会话密钥加密，并传送给网站。（会话密钥就是第一张图的随机key）</li>
+<li>服务器利用自己的私钥解密出会话密钥，这里就是连接建立完成。</li>
+<li>服务器利用会话密钥加密与客户端之间的通信。</li>
+</ol>
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><ol>
+<li>HTTPS协议多次握手，导致页面加载时间延长。</li>
+<li>HTTPS连接缓存不如HTTP高效，会增加数据开销和功耗。</li>
+<li>SSL证书需要付费。</li>
+<li>SSL涉及到的安全算法会消耗CPU资源，对服务器资源消耗较大。</li>
+<li>技术难度相比HTTP大。</li>
+<li>SSL证书通常需要绑定IP，不能在同一IP上绑定多个域名，IPv4资源不可能支撑这个消耗。</li>
+<li>HTTPS协议的加密范围也比较有限，在黑客攻击、拒绝服务攻击、服务器劫持等方面几乎起不到什么作用。最关键的，SSL证书的信用链体系并不安全，特别是在某些国家可以控制CA根证书的情况下，中间人攻击一样可行。</li>
+</ol>
+<h2 id="总结HTTPS和HTTP的区别"><a href="#总结HTTPS和HTTP的区别" class="headerlink" title="总结HTTPS和HTTP的区别"></a>总结HTTPS和HTTP的区别</h2><ol>
+<li>HTTP明文传输，数据都是未加密的，安全性较差，HTTPS（SSL+HTTP） 数据传输过程是加密的，安全性较好。</li>
+<li>使用HTTPS协议需要到CA（Certificate Authority，数字证书认证机构） 申请证书，一般免费证书较少，因而需要一定费用。证书颁发机构如：Symantec、Comodo、GoDaddy和GlobalSign等。</li>
+<li>HTTP页面响应速度比HTTPS快，主要是因为HTTP使用TCP三次握手建立连接，客户端和服务器需要交换3个包，而HTTPS除了TCP的三个包，还要加上ssl握手需要的9个包，所以一共是12个包。</li>
+<li>http和https使用的是完全不同的连接方式，用的端口也不一样，前者是80，后者是443。</li>
+<li>HTTPS其实就是建构在SSL/TLS之上的HTTP协议，所以，要比较HTTPS比HTTP要更耗费服务器资源。</li>
+</ol>
 <hr>
-<h1 id="四次挥手中的问题"><a href="#四次挥手中的问题" class="headerlink" title="四次挥手中的问题"></a>四次挥手中的问题</h1><h2 id="客户端断开连接的FIN包丢失"><a href="#客户端断开连接的FIN包丢失" class="headerlink" title="客户端断开连接的FIN包丢失"></a>客户端断开连接的FIN包丢失</h2><p>&emsp;&emsp;这种情况下，会触发超时重传机制，不会去考虑是自己发出的包丢失，还是无法收到对方发来的恢复，直到关闭连接。</p>
-<h2 id="服务端第一次返回的ACK包丢失"><a href="#服务端第一次返回的ACK包丢失" class="headerlink" title="服务端第一次返回的ACK包丢失"></a>服务端第一次返回的ACK包丢失</h2><p>&emsp;&emsp;这种情况下，客户端无法收到服务端返回的ACK包，会触发重传机制，重传FIN包。<br>&emsp;&emsp;而服务器收到重传的FIN包后，会立即在重传对FIN包的ACK包。<br>&emsp;&emsp;而此时服务器已经进入CLOSED-WAIT状态，开始做断开连接前的准备工作。当准备好之后，会回复FIN+ACK，这个消息是携带了之前ACK的响应序号的，这就是第三次挥手的包。</p>
-<h2 id="服务器发送的FIN-ACK包丢失"><a href="#服务器发送的FIN-ACK包丢失" class="headerlink" title="服务器发送的FIN+ACK包丢失"></a>服务器发送的FIN+ACK包丢失</h2><p>&emsp;&emsp;这是第三次挥手的包丢失了，此时客户端有两种情况，要么处于FIN-WAIT-2状态(之前的 ACK 也丢了)，会一直等待；要么处于TIME-WAIT状态，会等待 2MSL 时间。<br>&emsp;&emsp;而服务端则收不到对应的ACK确认包，则会进行超时重传。</p>
-<h2 id="客户端最后返回的ACK包丢失"><a href="#客户端最后返回的ACK包丢失" class="headerlink" title="客户端最后返回的ACK包丢失"></a>客户端最后返回的ACK包丢失</h2><p>&emsp;&emsp;客户端在回复ACK后，会进入TIME-WAIT状态，开始长达2MSL的等待，服务端因为没有收到ACK的回复，会重试一段时间，直到服务端重试超时后主动断开。<br>&emsp;&emsp;或者等待新的客户端接入后，收到服务端重试的FIN消息后，回复RST消息，在收到RST消息后，复位服务端的状态。</p>
-<h2 id="客户端收到ACK后服务端跑路"><a href="#客户端收到ACK后服务端跑路" class="headerlink" title="客户端收到ACK后服务端跑路"></a>客户端收到ACK后服务端跑路</h2><p>&emsp;&emsp;客户端在收到ACK后，进入了FIN-WAIT-2状态，等待服务端发来的FIN包，而如果服务端跑路了，这个包永远都等不到。<br>&emsp;&emsp;在TCP协议中，是没有对这个状态的处理机制的。但是协议不管，系统来凑，操作系统会接管这个状态，在一段时间后，直接进行客户端关闭，这中间会用心跳等进行检测。</p>
-<h2 id="客户端收到ACK后客户端跑路"><a href="#客户端收到ACK后客户端跑路" class="headerlink" title="客户端收到ACK后客户端跑路"></a>客户端收到ACK后客户端跑路</h2><p>&emsp;&emsp;客户端收到ACK后直接跑路，服务端后续在发送的FIN+ACK就没有接收端，也就不会得到回复，会不断的走TCP的超时重试的机制，此时服务端处于LAST-ACK状态。<br>&emsp;&emsp;这种情况下，有两种情况：在超过一定时间后，服务器直接进行关闭，这种类似于客户端的关闭；另一种情况则是收到客户端的RST消息，关闭连接。<br>&emsp;&emsp;RST消息是一种重置消息，表示当前错误了，应该回到初始的状态。如果客户端跑路后有新的客户端接入，会在此发送SYN以期望建立连接，此时这个SYN将被忽略，并直接回复FIN+ACK消息，新客户端在收到FIN消息后是不会认的，并且会回复一个RST消息。</p>
+<h1 id="HTTP2"><a href="#HTTP2" class="headerlink" title="HTTP2"></a>HTTP2</h1><p>&emsp;&emsp;HTTP/2.0的目标是改善用户在使用Web时的速度体验。</p>
+<h2 id="新特点"><a href="#新特点" class="headerlink" title="新特点"></a>新特点</h2><p><a href="https://juejin.cn/post/6844903545532071943">HTTP2.0新特性</a><br><a href="https://www.jianshu.com/p/1afebe13c63e">HTTPS和HTTP2.0详解
+</a><br><a href="https://www.jsahz.com/wz/15616.html">HTTP 2.0 详细介绍</a></p>
+<h3 id="二进制分帧"><a href="#二进制分帧" class="headerlink" title="二进制分帧"></a>二进制分帧</h3><p>&emsp;&emsp;相对于HTTP1.0和HTTP1.1，2.0在应用层与传输层中间增加了一个二进制分帧层。<br>&emsp;&emsp;在二进制分帧层上，HTTP2.0会将所有传输信息分割为更小的消息和帧，并对它们采用二进制格式的编码将其封装。其中，HTTP1.X中的首部信息header封装到Headers帧中，而request body将被封装到Data帧中。<br>&emsp;&emsp;HTTP2.0通信都在一个TCP连接上完成，这个连接可以承载任意数量的双向数据流，相应的每个数据流以消息的形式发送。而消息由一或多个帧组成，这些帧可以乱序发送，然后根据每个帧首部的流标识符重新组装。  </p>
+<h3 id="首部压缩"><a href="#首部压缩" class="headerlink" title="首部压缩"></a>首部压缩</h3><p>&emsp;&emsp;HTTP1.x每次通讯（请求或响应）都会携带首部信息用于描述资源属性。而HTTP2.0在客户端和服务端之间使用首部表来跟踪和存储之前发送的键值对。请求与响应首部的定义在HTTP2.0中基本没有变，只是所有首部键必须全部小写，而且要求行要独立为:method:、:scheme:、:host:、:path:这些键值对。<br>&emsp;&emsp;HTTP2.0使用encoder来减少需要传输的header大小，通讯双方各自cache一份header fields（首部表）表，既避免了重复header的传输，又减小了需要传输的大小。</p>
+<h4 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h4><p>&emsp;&emsp;使报头更紧凑，更快速传输，有利于移动网络环境。减少每次通讯的数据量，使网络拥塞状态得以改善。</p>
+<h4 id="工作流程-1"><a href="#工作流程-1" class="headerlink" title="工作流程"></a>工作流程</h4><p>&emsp;&emsp;对于相同的数据，不再重新通过每次请求和响应发送。每个新的首部键值对要么追加到当前表的末尾，要么替换表中之前的值。首部表在HTTP2.0的链接存续期内始终存在，由客户端和服务端共同渐进的更新。</p>
+<h3 id="流量控制"><a href="#流量控制" class="headerlink" title="流量控制"></a>流量控制</h3><p>&emsp;&emsp;HTTP2.0为数据流和连接的流量提供了一个简单的机制：</p>
+<ol>
+<li>流量基于HTTP链接的每一跳进行，而非端到端的控制。</li>
+<li>流量控制基于窗口更新帧进行，即接收方广播自己准备接收某个数据流的多少字节，以及对整个链接要接收多少个字节。</li>
+<li>流量控制有方向性，即接收方可能根据自己的情况为每个流乃至整个链接设置任意窗口大小。</li>
+<li>流量控制可以由接收方禁用，包括针对个别的流和针对整个链接。</li>
+<li>帧的类型决定了流量控制是否适用于帧，目前只有DATA帧服从流量控制，所有其他类型的帧并不会消耗流量控制窗口的空间。这保证了重要的控制帧不会被流量控制阻塞。</li>
+</ol>
+<h3 id="多路复用"><a href="#多路复用" class="headerlink" title="多路复用"></a>多路复用</h3><p>&emsp;&emsp;基于二进制分帧层，HTTP2.0可以在共享TCP链接的基础上同时发送请求和响应。HTTP消息被分解为独立的帧，而不破坏消息本身的语义，交错发出去，在另一端根据流标识符和首部将他们重新组装起来。<br>&emsp;&emsp;即连接共享，即每一个request都是是用作连接共享机制的。一个request对应一个id，这样一个连接上可以有多个request，每个连接的request可以随机的混杂在一起，接收方可以根据request的id将request再归属到各自不同的服务端请求里面。</p>
+<h4 id="优化-1"><a href="#优化-1" class="headerlink" title="优化"></a>优化</h4><ol>
+<li>可以并行交错的发送请求和响应，这些请求和响应之间互不影响。</li>
+<li>只使用一个链接即可并行发送多个请求和响应。</li>
+<li>消除不必要的延迟，从而减少页面加载的时间。</li>
+<li>不必再为绕过HTTP1.x限制而多做很多工作。</li>
+</ol>
+<h3 id="请求优先级"><a href="#请求优先级" class="headerlink" title="请求优先级"></a>请求优先级</h3><p>&emsp;&emsp;HTTP消息分为很多独立帧之后，就可以通过优化这些帧的交错和传输顺序进一步优化性能。</p>
+<h4 id="优化-2"><a href="#优化-2" class="headerlink" title="优化"></a>优化</h4><p>&emsp;&emsp;服务器可以根据流的优先级控制资源分配（CPU、内存、宽带），而在响应数据准备好之后，优先将最高优先级的帧发送给客户端。浏览器可以在发现资源时立即分派请求，指定每个流的优先级，让服务器决定最优的响应次序。这样请求就不用排队了，既节省了时间，又最大限度的利用了每个连接。</p>
+<h3 id="服务端推送"><a href="#服务端推送" class="headerlink" title="服务端推送"></a>服务端推送</h3><p>&emsp;&emsp;服务器可以对一个客户端请求发送多个响应。服务器向客户端推送资源无需客户端明确的请求。<br>&emsp;&emsp;服务端根据客户端的请求，提前返回多个响应，推送额外的资源给客户端。</p>
+<h4 id="优化-3"><a href="#优化-3" class="headerlink" title="优化"></a>优化</h4><ol>
+<li>减轻数据传送的冗余步骤。</li>
+<li>加快页面响应速度。</li>
+</ol>
 ]]></content>
       <categories>
         <category>网络</category>
-        <category>TCP</category>
+        <category>HTTP</category>
       </categories>
       <tags>
         <tag>网络</tag>
-        <tag>TCP</tag>
+        <tag>HTTP</tag>
       </tags>
   </entry>
   <entry>
@@ -532,6 +503,35 @@
         <category>ISO</category>
       </categories>
       <tags>
+        <tag>网络</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>异常的三次握手四次挥手</title>
+    <url>/hexoblog/2021/05/21/md/internet/%E5%BC%82%E5%B8%B8%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;TCP作为一个靠谱的协议，在传输数据的前后，需要在双端之间建立连接，并在双端各自维护连接的状态。<br>&emsp;&emsp;建立连接前，TCP会通过三次握手来保证双端状态正确，然后就可以正常传输数据了。当数据传输完成，需要断开连接的时候，TCP会通过四次握手来完成双端的断连，并回收各自的资源。<br>&emsp;&emsp;这个过程中也会产生各种问题，有因网络原因造成的也有其他原因造成的。一般来说主要就是丢包的问题，基本就是超时重传等来保证TCP的可靠性。</p>
+<span id="more"></span>
+
+<p><a href="https://network.51cto.com/art/202002/610542.htm">TCP异常</a></p>
+<hr>
+<h1 id="三次握手中的问题"><a href="#三次握手中的问题" class="headerlink" title="三次握手中的问题"></a>三次握手中的问题</h1><h2 id="客户端第一个SYN包丢失"><a href="#客户端第一个SYN包丢失" class="headerlink" title="客户端第一个SYN包丢失"></a>客户端第一个SYN包丢失</h2><p>&emsp;&emsp;如果客户端的第一个ACK包丢失，服务器无法收到这个包，不会做任何事情。<br>&emsp;&emsp;而在TCP协议中，某端的一组「请求-应答」中，在一定时间范围内，只要没有收到应答的「ACK」包，无论是请求包对方没有收到，还是对方的应答包自己没有收到，均认为是丢包了，都会触发超时重传机制。<br>&emsp;&emsp;此时客户端会重传丢失的SYN包。</p>
+<h2 id="服务端收到SYNd返回的SYN-ACK包丢失"><a href="#服务端收到SYNd返回的SYN-ACK包丢失" class="headerlink" title="服务端收到SYNd返回的SYN+ACK包丢失"></a>服务端收到SYNd返回的SYN+ACK包丢失</h2><p>&emsp;&emsp;此时服务端已经收到客户端的数据，并且发出了对于改信息的回复。<br>&emsp;&emsp;这个问题站在客户端而言，无法区分是服务端没有收到第一次的SYN包，还是自己没有收到回复信息，只能等待一段时间后重新发送SYN包，这和上面的情况就一样了。<br>&emsp;&emsp;对于服务端，发送了SYN+ACK包后，无法等到对方的确认ACK信息，也只能对这个SYN+ACK包进行重传。<br>&emsp;&emsp;由于客户端的重传，服务端会收到这个重传的SYN包，此时会针对这个新的SYN包立即发送SYN+ACK信息。</p>
+<h2 id="客户端收到SYN-ACK返回的ACK包丢失"><a href="#客户端收到SYN-ACK返回的ACK包丢失" class="headerlink" title="客户端收到SYN+ACK返回的ACK包丢失"></a>客户端收到SYN+ACK返回的ACK包丢失</h2><p>&emsp;&emsp;如果最后一个ACK包丢了，服务端因为收不到ACK会走重传机制，而客户端此时进入ESTABLISHED状态。<br>&emsp;&emsp;多数情况下，客户端进入ESTABLISHED状态后，则认为连接已建立，会立即发送数据。但是服务端因为没有收到最后一个ACK包，依然处于SYN-RCVD状态。<br>&emsp;&emsp;所以当服务端处于SYN-RCVD状态下时，接收到客户端真实发送来的数据包时，会认为连接已建立，并进入ESTABLISHED状态。<br>&emsp;&emsp;也有地方认为当服务端处于SYN-RCVD状态下，收到客户端的数据包后，会直接回复RST包响应，表示服务端错误，并进入CLOSE状态。<br>&emsp;&emsp;实际情况下，当客户端在ESTABLISHED状态下，开始发送数据包时，会携带上一个ACK的确认序号，所以哪怕客户端响应的ACK包丢了，服务端在收到这个数据包时，能够通过包内ACK的确认序号，正常进入ESTABLISHED状态。</p>
+<h2 id="客户端故意不发最后一次ACK包"><a href="#客户端故意不发最后一次ACK包" class="headerlink" title="客户端故意不发最后一次ACK包"></a>客户端故意不发最后一次ACK包</h2><p>-0<br>&emsp;&emsp;如果客户端是恶意的，在发送SYN包后，并收到SYN+ACK后就不回复了，那么服务端此时处于一种半连接的状态，虽然服务端会通过tcp_synack_retries配置重试的次数，不会无限等待下去，但是这也是有一个时间周期的。<br>&emsp;&emsp;如果短时间内存在大量的这种恶意连接，对服务端来说压力就会很大，这就是所谓的SYN FLOOD攻击。</p>
+<hr>
+<h1 id="四次挥手中的问题"><a href="#四次挥手中的问题" class="headerlink" title="四次挥手中的问题"></a>四次挥手中的问题</h1><h2 id="客户端断开连接的FIN包丢失"><a href="#客户端断开连接的FIN包丢失" class="headerlink" title="客户端断开连接的FIN包丢失"></a>客户端断开连接的FIN包丢失</h2><p>&emsp;&emsp;这种情况下，会触发超时重传机制，不会去考虑是自己发出的包丢失，还是无法收到对方发来的恢复，直到关闭连接。</p>
+<h2 id="服务端第一次返回的ACK包丢失"><a href="#服务端第一次返回的ACK包丢失" class="headerlink" title="服务端第一次返回的ACK包丢失"></a>服务端第一次返回的ACK包丢失</h2><p>&emsp;&emsp;这种情况下，客户端无法收到服务端返回的ACK包，会触发重传机制，重传FIN包。<br>&emsp;&emsp;而服务器收到重传的FIN包后，会立即在重传对FIN包的ACK包。<br>&emsp;&emsp;而此时服务器已经进入CLOSED-WAIT状态，开始做断开连接前的准备工作。当准备好之后，会回复FIN+ACK，这个消息是携带了之前ACK的响应序号的，这就是第三次挥手的包。</p>
+<h2 id="服务器发送的FIN-ACK包丢失"><a href="#服务器发送的FIN-ACK包丢失" class="headerlink" title="服务器发送的FIN+ACK包丢失"></a>服务器发送的FIN+ACK包丢失</h2><p>&emsp;&emsp;这是第三次挥手的包丢失了，此时客户端有两种情况，要么处于FIN-WAIT-2状态(之前的 ACK 也丢了)，会一直等待；要么处于TIME-WAIT状态，会等待 2MSL 时间。<br>&emsp;&emsp;而服务端则收不到对应的ACK确认包，则会进行超时重传。</p>
+<h2 id="客户端最后返回的ACK包丢失"><a href="#客户端最后返回的ACK包丢失" class="headerlink" title="客户端最后返回的ACK包丢失"></a>客户端最后返回的ACK包丢失</h2><p>&emsp;&emsp;客户端在回复ACK后，会进入TIME-WAIT状态，开始长达2MSL的等待，服务端因为没有收到ACK的回复，会重试一段时间，直到服务端重试超时后主动断开。<br>&emsp;&emsp;或者等待新的客户端接入后，收到服务端重试的FIN消息后，回复RST消息，在收到RST消息后，复位服务端的状态。</p>
+<h2 id="客户端收到ACK后服务端跑路"><a href="#客户端收到ACK后服务端跑路" class="headerlink" title="客户端收到ACK后服务端跑路"></a>客户端收到ACK后服务端跑路</h2><p>&emsp;&emsp;客户端在收到ACK后，进入了FIN-WAIT-2状态，等待服务端发来的FIN包，而如果服务端跑路了，这个包永远都等不到。<br>&emsp;&emsp;在TCP协议中，是没有对这个状态的处理机制的。但是协议不管，系统来凑，操作系统会接管这个状态，在一段时间后，直接进行客户端关闭，这中间会用心跳等进行检测。</p>
+<h2 id="客户端收到ACK后客户端跑路"><a href="#客户端收到ACK后客户端跑路" class="headerlink" title="客户端收到ACK后客户端跑路"></a>客户端收到ACK后客户端跑路</h2><p>&emsp;&emsp;客户端收到ACK后直接跑路，服务端后续在发送的FIN+ACK就没有接收端，也就不会得到回复，会不断的走TCP的超时重试的机制，此时服务端处于LAST-ACK状态。<br>&emsp;&emsp;这种情况下，有两种情况：在超过一定时间后，服务器直接进行关闭，这种类似于客户端的关闭；另一种情况则是收到客户端的RST消息，关闭连接。<br>&emsp;&emsp;RST消息是一种重置消息，表示当前错误了，应该回到初始的状态。如果客户端跑路后有新的客户端接入，会在此发送SYN以期望建立连接，此时这个SYN将被忽略，并直接回复FIN+ACK消息，新客户端在收到FIN消息后是不会认的，并且会回复一个RST消息。</p>
+]]></content>
+      <categories>
+        <category>网络</category>
+        <category>TCP</category>
+      </categories>
+      <tags>
+        <tag>TCP</tag>
         <tag>网络</tag>
       </tags>
   </entry>
@@ -1508,6 +1508,171 @@ SELECT ... FOR UPDATE<span aria-hidden="true" class="line-numbers-rows"><span></
       </tags>
   </entry>
   <entry>
+    <title>deepin安装docker</title>
+    <url>/hexoblog/2021/04/11/md/linux/deepin%E5%AE%89%E8%A3%85docker/</url>
+    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;写个毛啊，官方的直接搞来，<a href="https://wiki.deepin.org/wiki/Docker">https://wiki.deepin.org/wiki/Docke</a>。</p>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1>]]></content>
+      <categories>
+        <category>linux</category>
+        <category>deepin</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>linux</tag>
+        <tag>deepin</tag>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>deepin搭建java开发环境</title>
+    <url>/hexoblog/2021/04/11/md/linux/deepin%E6%90%AD%E5%BB%BAjava%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</url>
+    <content><![CDATA[<h1 id="安装jdk"><a href="#安装jdk" class="headerlink" title="安装jdk"></a>安装jdk</h1><p>&emsp;&emsp;安装之前最好先获取管理员权限。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 获取后需要输入密码</span>
+<span class="token function">sudo</span> <span class="token function">su</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<span id="more"></span>
+<h2 id="下载jdk"><a href="#下载jdk" class="headerlink" title="下载jdk"></a>下载jdk</h2><p>&emsp;&emsp;进入指定目录，下载jdk文件，我自己通常喜欢下载在<code>/usr/local/src/jdk</code>目录中，<a href="https://www.oracle.com/java/technologies/javase-jdk16-downloads.html">jdk16</a>。<br>&emsp;&emsp;<code>/usr/bin</code>是系统的软件存放的位置。<br>&emsp;&emsp;<code>/usr/local/bin</code>是我们自己的软件存放的位置。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> /usr/local/src/jdk
+
+<span class="token function">wget</span> https://download.oracle.com/otn-pub/java/jdk/16+36/7863447f0ab643c585b9bdebf67c69db/jdk-16_linux-x64_bin.tar.gz?AuthParam<span class="token operator">=</span>1618140718_ccecc5f8b3763f1feed74a49a7f7cbb8<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="将下载的jdk解压缩"><a href="#将下载的jdk解压缩" class="headerlink" title="将下载的jdk解压缩"></a>将下载的jdk解压缩</h2><p>&emsp;&emsp;通过wget下载的压缩包文件名称会奇奇怪怪的。如果通过浏览器下载则没有该问题。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 重命名文件</span>
+<span class="token function">mv</span> <span class="token string">'jdk-16_linux-x64_bin.tar.gz?AuthParam=1618140718_ccecc5f8b3763f1feed74a49a7f7cbb8'</span> jdk-16_linux-x64_bin.tar.gz
+
+<span class="token comment"># 解压缩文件</span>
+<span class="token function">tar</span> xvf jdk-16_linux-x64_bin.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="重命名文件夹（可选）"><a href="#重命名文件夹（可选）" class="headerlink" title="重命名文件夹（可选）"></a>重命名文件夹（可选）</h2><p>&emsp;&emsp;对解压后的文件夹重命名，也可以不做。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">mv</span> jdk-16_linux-x64_bin jdk16<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h2><p>&emsp;&emsp;jdk需要配置PATH和CLASSPATH环境变量。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 系统的环境变量写在/etc/profile文件中</span>
+<span class="token function">vi</span> /etc/profile
+
+<span class="token comment"># 在编辑器末尾添加对应的环境变量</span>
+<span class="token comment"># 这里的路径结合自己的实际安装路径</span>
+<span class="token assign-left variable">JAVA_HOME</span><span class="token operator">=</span>/usr/local/jdk/jdk16
+<span class="token assign-left variable">CLASSPATH</span><span class="token operator">=</span><span class="token variable">$JAVA_HOME</span>/lib
+<span class="token builtin class-name">export</span> CLASSPATH
+<span class="token builtin class-name">export</span> <span class="token assign-left variable"><span class="token environment constant">PATH</span></span><span class="token operator">=</span><span class="token environment constant">$PATH</span><span class="token builtin class-name">:</span><span class="token operator">&amp;</span>JAVA_HOME/bin
+
+<span class="token comment"># 退出vi并保存，这里需要强制保存</span>
+esc
+:wq<span class="token operator">!</span>
+
+<span class="token comment"># 刷新使环境变量生效</span>
+<span class="token builtin class-name">source</span> /etc/profile
+
+<span class="token comment"># 验证，查看版本号</span>
+java -version<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h1 id="安装maven"><a href="#安装maven" class="headerlink" title="安装maven"></a>安装maven</h1><h2 id="下载maven"><a href="#下载maven" class="headerlink" title="下载maven"></a>下载maven</h2><p>&emsp;&emsp;将maven下载进指定目录，这里依照个人习惯，我放在<code>/usr/local/src/maven</code>。<a href="https://mirrors.bfsu.edu.cn/apache/maven/maven-3/3.8.1/binaries/apache-maven-3.8.1-bin.tar.gz">maven3.8.1</a></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> /usr/local/src/maven
+
+<span class="token function">wget</span> https://mirrors.bfsu.edu.cn/apache/maven/maven-3/3.8.1/binaries/apache-maven-3.8.1-bin.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="解压缩文件"><a href="#解压缩文件" class="headerlink" title="解压缩文件"></a>解压缩文件</h2><p>&emsp;&emsp;对下载的maven文件解压缩。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">tar</span> xvf apache-maven-3.8.1-bin.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="重命名文件夹"><a href="#重命名文件夹" class="headerlink" title="重命名文件夹"></a>重命名文件夹</h2><p>&emsp;&emsp;这一步可选操作，目的是为了文件目录整洁。也可以不做。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">mv</span> apache-maven-3.8.1-bin maven3<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="配置环境变量-1"><a href="#配置环境变量-1" class="headerlink" title="配置环境变量"></a>配置环境变量</h2><p>&emsp;&emsp;maven也需要配置PATH环境变量。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">vi</span> /etc/profile
+
+<span class="token comment"># 在编辑器末尾添加对应的环境变量</span>
+<span class="token comment"># 这里的路径结合自己的实际安装路径</span>
+<span class="token assign-left variable">MAVEN_HOME</span><span class="token operator">=</span>/usr/local/maven/maven3
+<span class="token builtin class-name">export</span> <span class="token assign-left variable"><span class="token environment constant">PATH</span></span><span class="token operator">=</span><span class="token environment constant">$PATH</span><span class="token builtin class-name">:</span><span class="token operator">&amp;</span>MAVEN_HOME/bin
+
+<span class="token comment"># 退出vi并保存，这里需要强制保存</span>
+esc
+:wq<span class="token operator">!</span>
+
+<span class="token comment"># 刷新使环境变量生效</span>
+<span class="token builtin class-name">source</span> /etc/profile
+
+<span class="token comment"># 验证，查看版本号</span>
+mvn -v<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h1 id="安装tomcat"><a href="#安装tomcat" class="headerlink" title="安装tomcat"></a>安装tomcat</h1><h2 id="下载tomcat"><a href="#下载tomcat" class="headerlink" title="下载tomcat"></a>下载tomcat</h2><p>&emsp;&emsp;将tomcat下载进指定的位置，我放在<code>/usr/local/src/tomcat</code>。<a href="https://mirrors.tuna.tsinghua.edu.cn/apache/tomcat/tomcat-10/v10.0.5/bin/apache-tomcat-10.0.5.tar.gz">tomcat10</a></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> /usr/local/src/tomcat
+
+<span class="token function">wget</span> https://mirrors.tuna.tsinghua.edu.cn/apache/tomcat/tomcat-10/v10.0.5/bin/apache-tomcat-10.0.5.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="解压压缩包"><a href="#解压压缩包" class="headerlink" title="解压压缩包"></a>解压压缩包</h2><p>&emsp;&emsp;解压下载的压缩文件。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">tar</span> xvf apache-tomcat-10.0.5.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="重命名文件夹-1"><a href="#重命名文件夹-1" class="headerlink" title="重命名文件夹"></a>重命名文件夹</h2><p>&emsp;&emsp;这一步可选操作，目的是为了文件目录整洁。也可以不做。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">mv</span> apache-tomcat-10.0.5 tomcat10<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><p>&emsp;&emsp;进入tomcat的安装目录就可以启动tomcat了。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 进入tomcat的安装位置</span>
+<span class="token builtin class-name">cd</span> /usr/local/src/tomcat/tomcat10/bin
+
+<span class="token comment"># 启动tomcat</span>
+startup.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>&emsp;&emsp;启动完成后可以在localhost:8080查看是否启动成功。</p>
+]]></content>
+      <categories>
+        <category>linux</category>
+        <category>deepin</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>linux</tag>
+        <tag>deepin</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>linux基本操作</title>
+    <url>/hexoblog/2021/04/10/md/linux/linux%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<h1 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h1><h2 id="移动文件-重命名文件"><a href="#移动文件-重命名文件" class="headerlink" title="移动文件/重命名文件"></a>移动文件/重命名文件</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 移动文件</span>
+<span class="token function">mv</span> <span class="token punctuation">[</span>源文件目录<span class="token punctuation">]</span> <span class="token punctuation">[</span>目标文件目录<span class="token punctuation">]</span>
+
+<span class="token comment"># 重命名文件</span>
+<span class="token builtin class-name">cd</span> <span class="token punctuation">[</span>目标目录<span class="token punctuation">]</span>
+<span class="token function">mv</span> <span class="token punctuation">[</span>源文件名<span class="token punctuation">]</span> <span class="token punctuation">[</span>目标文件名<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="复制文件"><a href="#复制文件" class="headerlink" title="复制文件"></a>复制文件</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">cp</span> <span class="token punctuation">[</span>源文件目录/源文件名<span class="token punctuation">]</span> <span class="token punctuation">[</span>目标文件目录<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="删除文件"><a href="#删除文件" class="headerlink" title="删除文件"></a>删除文件</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> <span class="token punctuation">[</span>目标文件目录<span class="token punctuation">]</span>
+<span class="token function">rm</span> -rf <span class="token punctuation">[</span>目标文件名<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>wsl小问题排查</title>
+    <url>/hexoblog/2021/03/14/md/linux/wsl%E5%B0%8F%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5/</url>
+    <content><![CDATA[<!-- toc -->
+
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><h2 id="网络问题"><a href="#网络问题" class="headerlink" title="网络问题"></a>网络问题</h2><h3 id="参考的对象类型不支持尝试的操作"><a href="#参考的对象类型不支持尝试的操作" class="headerlink" title="参考的对象类型不支持尝试的操作"></a>参考的对象类型不支持尝试的操作</h3><p>&emsp;&emsp;这种问题一般是因为有启动过代理软件，造成代理冲突。</p>
+<span id="more"></span>
+
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Ubuntu%2020.04%20LTS%202021_3_14%2016_01_57.png" alt="参考的对象不支持的操作"></p>
+<h4 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h4><p>&emsp;&emsp;临时解决方案，重新网络信息：（管理员运行命令行）</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 重置网络信息</span>
+netsh winsock reset<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>wsl</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>mybatis连接双数据库</title>
     <url>/hexoblog/2021/03/09/md/mybatis/mybatis%E8%BF%9E%E6%8E%A5%E5%8F%8C%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
     <content><![CDATA[<h1 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h1><p>&emsp;&emsp;项目中需要从两个不同的数据库查询数据，之前实现方法是：springboot配置连接一个数据源，另一个使用jdbc代码连接。<br>&emsp;&emsp;为了改进，现在使用SpringBoot配置连接两个数据源。</p>
@@ -1830,397 +1995,6 @@ SELECT ... FOR UPDATE<span aria-hidden="true" class="line-numbers-rows"><span></
       </tags>
   </entry>
   <entry>
-    <title>deepin搭建java开发环境</title>
-    <url>/hexoblog/2021/04/11/md/linux/deepin%E6%90%AD%E5%BB%BAjava%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</url>
-    <content><![CDATA[<h1 id="安装jdk"><a href="#安装jdk" class="headerlink" title="安装jdk"></a>安装jdk</h1><p>&emsp;&emsp;安装之前最好先获取管理员权限。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 获取后需要输入密码</span>
-<span class="token function">sudo</span> <span class="token function">su</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<span id="more"></span>
-<h2 id="下载jdk"><a href="#下载jdk" class="headerlink" title="下载jdk"></a>下载jdk</h2><p>&emsp;&emsp;进入指定目录，下载jdk文件，我自己通常喜欢下载在<code>/usr/local/src/jdk</code>目录中，<a href="https://www.oracle.com/java/technologies/javase-jdk16-downloads.html">jdk16</a>。<br>&emsp;&emsp;<code>/usr/bin</code>是系统的软件存放的位置。<br>&emsp;&emsp;<code>/usr/local/bin</code>是我们自己的软件存放的位置。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> /usr/local/src/jdk
-
-<span class="token function">wget</span> https://download.oracle.com/otn-pub/java/jdk/16+36/7863447f0ab643c585b9bdebf67c69db/jdk-16_linux-x64_bin.tar.gz?AuthParam<span class="token operator">=</span>1618140718_ccecc5f8b3763f1feed74a49a7f7cbb8<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="将下载的jdk解压缩"><a href="#将下载的jdk解压缩" class="headerlink" title="将下载的jdk解压缩"></a>将下载的jdk解压缩</h2><p>&emsp;&emsp;通过wget下载的压缩包文件名称会奇奇怪怪的。如果通过浏览器下载则没有该问题。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 重命名文件</span>
-<span class="token function">mv</span> <span class="token string">'jdk-16_linux-x64_bin.tar.gz?AuthParam=1618140718_ccecc5f8b3763f1feed74a49a7f7cbb8'</span> jdk-16_linux-x64_bin.tar.gz
-
-<span class="token comment"># 解压缩文件</span>
-<span class="token function">tar</span> xvf jdk-16_linux-x64_bin.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="重命名文件夹（可选）"><a href="#重命名文件夹（可选）" class="headerlink" title="重命名文件夹（可选）"></a>重命名文件夹（可选）</h2><p>&emsp;&emsp;对解压后的文件夹重命名，也可以不做。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">mv</span> jdk-16_linux-x64_bin jdk16<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h2><p>&emsp;&emsp;jdk需要配置PATH和CLASSPATH环境变量。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 系统的环境变量写在/etc/profile文件中</span>
-<span class="token function">vi</span> /etc/profile
-
-<span class="token comment"># 在编辑器末尾添加对应的环境变量</span>
-<span class="token comment"># 这里的路径结合自己的实际安装路径</span>
-<span class="token assign-left variable">JAVA_HOME</span><span class="token operator">=</span>/usr/local/jdk/jdk16
-<span class="token assign-left variable">CLASSPATH</span><span class="token operator">=</span><span class="token variable">$JAVA_HOME</span>/lib
-<span class="token builtin class-name">export</span> CLASSPATH
-<span class="token builtin class-name">export</span> <span class="token assign-left variable"><span class="token environment constant">PATH</span></span><span class="token operator">=</span><span class="token environment constant">$PATH</span><span class="token builtin class-name">:</span><span class="token operator">&amp;</span>JAVA_HOME/bin
-
-<span class="token comment"># 退出vi并保存，这里需要强制保存</span>
-esc
-:wq<span class="token operator">!</span>
-
-<span class="token comment"># 刷新使环境变量生效</span>
-<span class="token builtin class-name">source</span> /etc/profile
-
-<span class="token comment"># 验证，查看版本号</span>
-java -version<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<hr>
-<h1 id="安装maven"><a href="#安装maven" class="headerlink" title="安装maven"></a>安装maven</h1><h2 id="下载maven"><a href="#下载maven" class="headerlink" title="下载maven"></a>下载maven</h2><p>&emsp;&emsp;将maven下载进指定目录，这里依照个人习惯，我放在<code>/usr/local/src/maven</code>。<a href="https://mirrors.bfsu.edu.cn/apache/maven/maven-3/3.8.1/binaries/apache-maven-3.8.1-bin.tar.gz">maven3.8.1</a></p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> /usr/local/src/maven
-
-<span class="token function">wget</span> https://mirrors.bfsu.edu.cn/apache/maven/maven-3/3.8.1/binaries/apache-maven-3.8.1-bin.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="解压缩文件"><a href="#解压缩文件" class="headerlink" title="解压缩文件"></a>解压缩文件</h2><p>&emsp;&emsp;对下载的maven文件解压缩。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">tar</span> xvf apache-maven-3.8.1-bin.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="重命名文件夹"><a href="#重命名文件夹" class="headerlink" title="重命名文件夹"></a>重命名文件夹</h2><p>&emsp;&emsp;这一步可选操作，目的是为了文件目录整洁。也可以不做。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">mv</span> apache-maven-3.8.1-bin maven3<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="配置环境变量-1"><a href="#配置环境变量-1" class="headerlink" title="配置环境变量"></a>配置环境变量</h2><p>&emsp;&emsp;maven也需要配置PATH环境变量。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">vi</span> /etc/profile
-
-<span class="token comment"># 在编辑器末尾添加对应的环境变量</span>
-<span class="token comment"># 这里的路径结合自己的实际安装路径</span>
-<span class="token assign-left variable">MAVEN_HOME</span><span class="token operator">=</span>/usr/local/maven/maven3
-<span class="token builtin class-name">export</span> <span class="token assign-left variable"><span class="token environment constant">PATH</span></span><span class="token operator">=</span><span class="token environment constant">$PATH</span><span class="token builtin class-name">:</span><span class="token operator">&amp;</span>MAVEN_HOME/bin
-
-<span class="token comment"># 退出vi并保存，这里需要强制保存</span>
-esc
-:wq<span class="token operator">!</span>
-
-<span class="token comment"># 刷新使环境变量生效</span>
-<span class="token builtin class-name">source</span> /etc/profile
-
-<span class="token comment"># 验证，查看版本号</span>
-mvn -v<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<hr>
-<h1 id="安装tomcat"><a href="#安装tomcat" class="headerlink" title="安装tomcat"></a>安装tomcat</h1><h2 id="下载tomcat"><a href="#下载tomcat" class="headerlink" title="下载tomcat"></a>下载tomcat</h2><p>&emsp;&emsp;将tomcat下载进指定的位置，我放在<code>/usr/local/src/tomcat</code>。<a href="https://mirrors.tuna.tsinghua.edu.cn/apache/tomcat/tomcat-10/v10.0.5/bin/apache-tomcat-10.0.5.tar.gz">tomcat10</a></p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> /usr/local/src/tomcat
-
-<span class="token function">wget</span> https://mirrors.tuna.tsinghua.edu.cn/apache/tomcat/tomcat-10/v10.0.5/bin/apache-tomcat-10.0.5.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="解压压缩包"><a href="#解压压缩包" class="headerlink" title="解压压缩包"></a>解压压缩包</h2><p>&emsp;&emsp;解压下载的压缩文件。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">tar</span> xvf apache-tomcat-10.0.5.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="重命名文件夹-1"><a href="#重命名文件夹-1" class="headerlink" title="重命名文件夹"></a>重命名文件夹</h2><p>&emsp;&emsp;这一步可选操作，目的是为了文件目录整洁。也可以不做。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">mv</span> apache-tomcat-10.0.5 tomcat10<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><p>&emsp;&emsp;进入tomcat的安装目录就可以启动tomcat了。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 进入tomcat的安装位置</span>
-<span class="token builtin class-name">cd</span> /usr/local/src/tomcat/tomcat10/bin
-
-<span class="token comment"># 启动tomcat</span>
-startup.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>&emsp;&emsp;启动完成后可以在localhost:8080查看是否启动成功。</p>
-]]></content>
-      <categories>
-        <category>linux</category>
-        <category>deepin</category>
-      </categories>
-      <tags>
-        <tag>tool</tag>
-        <tag>linux</tag>
-        <tag>deepin</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>deepin安装docker</title>
-    <url>/hexoblog/2021/04/11/md/linux/deepin%E5%AE%89%E8%A3%85docker/</url>
-    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;写个毛啊，官方的直接搞来，<a href="https://wiki.deepin.org/wiki/Docker">https://wiki.deepin.org/wiki/Docke</a>。</p>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1>]]></content>
-      <categories>
-        <category>linux</category>
-        <category>deepin</category>
-      </categories>
-      <tags>
-        <tag>tool</tag>
-        <tag>linux</tag>
-        <tag>deepin</tag>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>linux基本操作</title>
-    <url>/hexoblog/2021/04/10/md/linux/linux%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
-    <content><![CDATA[<h1 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h1><h2 id="移动文件-重命名文件"><a href="#移动文件-重命名文件" class="headerlink" title="移动文件/重命名文件"></a>移动文件/重命名文件</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 移动文件</span>
-<span class="token function">mv</span> <span class="token punctuation">[</span>源文件目录<span class="token punctuation">]</span> <span class="token punctuation">[</span>目标文件目录<span class="token punctuation">]</span>
-
-<span class="token comment"># 重命名文件</span>
-<span class="token builtin class-name">cd</span> <span class="token punctuation">[</span>目标目录<span class="token punctuation">]</span>
-<span class="token function">mv</span> <span class="token punctuation">[</span>源文件名<span class="token punctuation">]</span> <span class="token punctuation">[</span>目标文件名<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="复制文件"><a href="#复制文件" class="headerlink" title="复制文件"></a>复制文件</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">cp</span> <span class="token punctuation">[</span>源文件目录/源文件名<span class="token punctuation">]</span> <span class="token punctuation">[</span>目标文件目录<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="删除文件"><a href="#删除文件" class="headerlink" title="删除文件"></a>删除文件</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> <span class="token punctuation">[</span>目标文件目录<span class="token punctuation">]</span>
-<span class="token function">rm</span> -rf <span class="token punctuation">[</span>目标文件名<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>]]></content>
-      <categories>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>tool</tag>
-        <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>wsl小问题排查</title>
-    <url>/hexoblog/2021/03/14/md/linux/wsl%E5%B0%8F%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5/</url>
-    <content><![CDATA[<!-- toc -->
-
-<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><h2 id="网络问题"><a href="#网络问题" class="headerlink" title="网络问题"></a>网络问题</h2><h3 id="参考的对象类型不支持尝试的操作"><a href="#参考的对象类型不支持尝试的操作" class="headerlink" title="参考的对象类型不支持尝试的操作"></a>参考的对象类型不支持尝试的操作</h3><p>&emsp;&emsp;这种问题一般是因为有启动过代理软件，造成代理冲突。</p>
-<span id="more"></span>
-
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Ubuntu%2020.04%20LTS%202021_3_14%2016_01_57.png" alt="参考的对象不支持的操作"></p>
-<h4 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h4><p>&emsp;&emsp;临时解决方案，重新网络信息：（管理员运行命令行）</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 重置网络信息</span>
-netsh winsock reset<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-]]></content>
-      <categories>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-        <tag>wsl</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>redis分布式锁</title>
-    <url>/hexoblog/2021/04/14/md/redis/redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/</url>
-    <content><![CDATA[<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>&emsp;&emsp;单机情况下，对于多线程情况下的竞态资源，我们可以在代码中使用synchronized或者ReentrantLock来加锁，防止发生并发问题。但是当我们的服务进行集群部署时，对于这两种加锁方式，就会失效，它们只能在单机加锁，所以就需要与之对应的分布式锁。</p>
-<span id="more"></span>
-
-<hr>
-<h1 id="要求"><a href="#要求" class="headerlink" title="要求"></a>要求</h1><ol>
-<li>互斥：任何时刻只能有一个客户端获取锁。</li>
-<li>释放死锁：不会发生死锁，即获取锁的服务崩溃，也能释放锁。</li>
-<li>容错性：（redlock中用）只要多数redis节点（一半以上）在使用，client就可以获取和释放锁。</li>
-</ol>
-<hr>
-<h1 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h1><p>&emsp;&emsp;一般采用redis的setnx原子操作来实现分布式锁。<br><a href="https://zhuanlan.zhihu.com/p/129886269">学习一下</a><br><a href="https://www.cnblogs.com/niceyoo/p/13711149.html">学习二下</a><br><a href="https://www.cnblogs.com/jojop/p/14008824.html">学习三下</a><br><a href="https://blog.csdn.net/asd051377305/article/details/108384490">学习四下</a></p>
-<h2 id="setnx（获得锁）"><a href="#setnx（获得锁）" class="headerlink" title="setnx（获得锁）"></a>setnx（获得锁）</h2><p>&emsp;&emsp;setnx 是SET if Not eXists(如果不存在，则 SET)的简写。<br>&emsp;&emsp;完整语法：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># set命令模式</span>
-SET key value <span class="token punctuation">[</span>EX seconds<span class="token operator">|</span>PX milliseconds<span class="token punctuation">]</span> <span class="token punctuation">[</span>NX<span class="token operator">|</span>XX<span class="token punctuation">]</span> <span class="token punctuation">[</span>KEEPTTL<span class="token punctuation">]</span>
-
-<span class="token comment"># setnx命令模式</span>
-setnx key value<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<blockquote>
-<ol>
-<li>value的值尽可能使用随机数或者线程独有的，能够识别的，为了安全的释放锁。</li>
-<li>使用不同的redis客户端（jedis，redisTemplate）时写法会有所不同，这里是redis黑窗口命令。</li>
-</ol>
-</blockquote>
-<p>&emsp;&emsp;参数说明：</p>
-<ol>
-<li>EX：设置过期时间，时间精确到秒</li>
-<li>PX：设置过期时间，时间精确到毫秒</li>
-<li>NX：表示key不存在时才设置，否则返回null</li>
-<li>XX：表示key存在时才设置，否则返回null</li>
-</ol>
-<h3 id="使用过程："><a href="#使用过程：" class="headerlink" title="使用过程："></a>使用过程：</h3><ol>
-<li>执行setnx命令进行加锁，返回ok，返回nil则为加锁失败。</li>
-<li>执行expire命令设置超时时间</li>
-<li>执行业务逻辑</li>
-<li>delete命令解锁</li>
-</ol>
-<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><ol>
-<li>加锁与设置超时时间分步执行，若超时时间设置失败则有可能产生死锁。</li>
-<li>delete命令存在误删非当前线程持有锁的可能。</li>
-<li>不支持阻塞等待，不可重入。</li>
-<li>单机redis锁，存在加锁后，主从切换时锁还未同步到问题，锁会丢失。</li>
-</ol>
-<h3 id="lua脚本（释放锁）"><a href="#lua脚本（释放锁）" class="headerlink" title="lua脚本（释放锁）"></a>lua脚本（释放锁）</h3><p>&emsp;&emsp;我们在手动解锁时，极限情况下会有删除其他线程锁的情况，因为我们的随机数比较和删除过程并不是原子操作。存在判断通过后，锁自动失效，其他线程加锁成功的情况，这是解锁会出问题。通过lua脚本原子操作，可以安全的解锁。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">-- lua删除锁：
--- KEYS和ARGV分别是以集合方式传入的参数，对应上文的Test和uuid。
--- 如果对应的value等于传入的uuid。
-<span class="token keyword">if</span> redis.call<span class="token punctuation">(</span><span class="token string">'get'</span>, KEYS<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">==</span> ARGV<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> 
-    <span class="token keyword">then</span> 
- -- 执行删除操作
-        <span class="token builtin class-name">return</span> redis.call<span class="token punctuation">(</span><span class="token string">'del'</span>, KEYS<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span> 
-    <span class="token keyword">else</span> 
- -- 不成功，返回0
-        <span class="token builtin class-name">return</span> <span class="token number">0</span> 
-end<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h3 id="setex-amp-psetex"><a href="#setex-amp-psetex" class="headerlink" title="setex&amp;psetex"></a>setex&amp;psetex</h3><p>&emsp;&emsp;setex等同于set命令在可选参数使用EX的情况，都是在NX模式下，添加了过期时间，避免死锁。psetex相对于setex采用毫秒作为超时单位。</p>
-]]></content>
-      <categories>
-        <category>redis</category>
-      </categories>
-      <tags>
-        <tag>redis</tag>
-        <tag>分布式</tag>
-        <tag>锁</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>redis为什么这么快</title>
-    <url>/hexoblog/2021/03/08/md/redis/redis%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%99%E4%B9%88%E5%BF%AB/</url>
-    <content><![CDATA[<h1 id="redis为什么这么快？"><a href="#redis为什么这么快？" class="headerlink" title="redis为什么这么快？"></a>redis为什么这么快？</h1><ol>
-<li>完全基于内存，绝大部分请求时纯内存操作，非常快速。数据在内存中类似于hashmap，hashmap的优势就是查找和操作的时间复杂度都是O(1)。</li>
-<li>数据结构简单，对数据操作也简单，Redis的数据结构是专门进行设计的。SDS。</li>
-<li>采用单线程，避免了不必要的上下文切换和竞争条件，也不存在多进程或多线程切换导致的消耗cpu，不用去考虑各种锁的问题，不存在加锁释放锁的操作，没有因可能出现死锁而导致的消耗。</li>
-<li>使用IO多路复用模型，非阻塞IO。</li>
-<li>使用底层模型不同，他们之间底层实现方式以及客户端之间通信的应用协议不一样，Redis直接自己构建了VM机制，因为一般的系统调用系统函数的话，会浪费一定的时间去移动和请求。</li>
-</ol>
-<span id="more"></span>
-
-<hr>
-<h1 id="多路复用IO模型。"><a href="#多路复用IO模型。" class="headerlink" title="多路复用IO模型。"></a>多路复用IO模型。</h1><ol>
-<li>多路I/O复用模型就是利用select，poll，epoll可以同时监测多个流的I/O事件的能力，在空闲的时候，会把当前线程阻塞掉，当有一个或多个流有I/O事件时，就从阻塞中唤醒，于是程序就会轮询一遍所有流（epoll是只轮询那些真正发出了事件的流），并且只依次顺序的处理就绪的流，这种做法就避免了大量的无用操作。</li>
-<li>这里的多路指的是多个网络连接，复用指的是复用同一个线程。采用多路I/O复用技术，可以让单个线程高效的处理多个连接请求（尽量减少网络IO的时间消耗），且Redis在内存中操作数据的速度非常快，也就是说内存内的操作不会成为影响Redis性能的瓶颈。</li>
-</ol>
-<hr>
-<h1 id="redis为什么是单线程的？"><a href="#redis为什么是单线程的？" class="headerlink" title="redis为什么是单线程的？"></a>redis为什么是单线程的？</h1><p>&emsp;&emsp;CPU并不是redis的瓶颈，瓶颈在于内存的大小或者网络，redis中，网络IO模块采用单线程。<br>&emsp;&emsp;这里的多路指的是多个网络连接，复用指的是复用同一个线程。采用多路I/O复用技术，可以让单个线程高效的处理多个连接请求（尽量减少网络IO的时间消耗），且Redis在内存中操作数据的速度非常快，也就是说内存内的操作不会成为影响Redis性能的瓶颈。</p>
-]]></content>
-      <categories>
-        <category>redis</category>
-      </categories>
-      <tags>
-        <tag>redis</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>redis安装和使用</title>
-    <url>/hexoblog/2021/04/14/md/redis/redis%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;这里是在windows环境下的redis安装过程，两种安装方式，都比较简单。<br>&emsp;&emsp;官方提供的只有linux系统的tar.gz格式的压缩包，windows的需要在github下载。<br><a href="https://redis.io/">https://redis.io/</a><br><a href="http://www.redis.cn/">http://www.redis.cn/</a><br><a href="https://www.redis.com.cn/">https://www.redis.com.cn/</a><br><a href="https://www.redis.com.cn/redis-installation.html">https://www.redis.com.cn/redis-installation.html</a></p>
-<span id="more"></span>
-<h2 id="msi安装"><a href="#msi安装" class="headerlink" title="msi安装"></a>msi安装</h2><ol>
-<li>下载msi安装文件<blockquote>
-<p>官方提供的只有tar.gz格式压缩包下载，msi需要在github下载<br><a href="https://github.com/MicrosoftArchive/redis/releases">https://github.com/MicrosoftArchive/redis/releases</a></p>
-</blockquote>
-</li>
-<li>双击运行</li>
-<li>完成安装</li>
-</ol>
-<h2 id="zip安装"><a href="#zip安装" class="headerlink" title="zip安装"></a>zip安装</h2><ol>
-<li>下载zip压缩包</li>
-<li>将压缩包解压至你准备安装的路径</li>
-<li>解压完成就是安装完成</li>
-</ol>
-<hr>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 先进入安装目录</span>
-<span class="token builtin class-name">cd</span> <span class="token operator">&lt;</span>安装目录<span class="token operator">></span>
-
-<span class="token comment"># 启动</span>
-<span class="token comment"># 作为普通软件启动，命令行关闭则关闭</span>
-redis-server.exe redis.windows.conf
-<span class="token comment"># 作为服务启动，不跟随命令行</span>
-redis-server.exe redis.windows-service.conf
-
-<span class="token comment"># 客户端连接</span>
-redis-cli.exe
-
-<span class="token comment"># 关闭</span>
-redis-server.exe --service-stop<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
-      <categories>
-        <category>redis</category>
-      </categories>
-      <tags>
-        <tag>tool</tag>
-        <tag>redis</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>缓存击穿、穿透、雪崩</title>
-    <url>/hexoblog/2021/03/08/md/redis/%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF%E3%80%81%E7%A9%BF%E9%80%8F%E3%80%81%E9%9B%AA%E5%B4%A9/</url>
-    <content><![CDATA[<p><a href="https://my.oschina.net/linqiankun/blog/3191886">缓存击穿，穿透，雪崩</a></p>
-<h1 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h1><p>&emsp;&emsp;高并发系统中，大量的请求一般会落在缓存，但在某一时期，某一热点key过期，会导致大量的请求直接落到数据库，导致数据库崩溃。</p>
-<span id="more"></span>
-
-<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><ol>
-<li>设置热点key不过期。</li>
-<li>加上分布式锁，每次只有拿到锁的线程可以去访问数据库。第一个线程查询到后就会缓存起来，后面线程从缓存中拿。</li>
-</ol>
-<hr>
-<h1 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h1><p>&emsp;&emsp;正常情况下，需要查询的数据都存在，当查询一个缓存和数据库都不存在的数据时，每次请求都会落在数据库里，这种情况成称为缓存穿透。就是以一个不存在的数据去请求，每次都会落到数据库。</p>
-<h2 id="解决："><a href="#解决：" class="headerlink" title="解决："></a>解决：</h2><ol>
-<li>接口增加参数校验，不合法的直接返回。</li>
-<li>缓存空值，将对应key的value设置为空值，避免暴力攻击。同时将key失效时间设置短一些，避免影响正常使用。</li>
-<li>在网关阈值，限制同ip访问量。</li>
-<li>高级用户布隆过滤器。bloom filter，可以对key进行判断是否在数据库存在，不存在就直接返回，存在就查询出来，并刷新缓存。</li>
-</ol>
-<hr>
-<h1 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h1><p>&emsp;&emsp;某一时期发生的大规模的缓存不可用问题，过期，宕机。</p>
-<h2 id="解决：-1"><a href="#解决：-1" class="headerlink" title="解决："></a>解决：</h2><ol>
-<li>采用分布式集群，减少宕机风险。</li>
-<li>将失效时间设为随机数，避免大量同时失效。</li>
-<li>采用本地缓存加限流逻辑。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>redis</category>
-      </categories>
-      <tags>
-        <tag>redis</tag>
-        <tag>缓存</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>redlock-redis分布式锁的实现</title>
-    <url>/hexoblog/2021/04/14/md/redis/redlock-redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9A%84%E5%AE%9E%E7%8E%B0/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;Redlock全名叫做Redis-Distributed-Lock。用redis实现的分布式锁。<br>&emsp;&emsp;单节点的情况下，可以使用setnx实现分布式锁，在集群的情况下，就需要是要redlock来实现分布式锁。</p>
-<span id="more"></span>
-
-<hr>
-<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><p>&emsp;&emsp;假设一个集群中有5台机器，现在进行加锁，大概流程如下：</p>
-<ol>
-<li>获取当前系统的时间戳，毫秒为单位。</li>
-<li>依次尝试从5个实例，使用相同的key和具有唯一性的value获取锁。当向redis请求获取锁时，客户端需要设置一个网络连接和响应超时时间，这个超时时间应该小于锁的失效时间。这样可以避免在某台实例挂掉的情况下，客户端仍在等待结果。</li>
-<li>客户端使用当前时间减去开始获取锁的时间，就得到了获取锁使用的时间。<strong>当从大多数节点获取锁成功，并且获取锁使用的时间小于锁失效时间，才算获取锁成功</strong>。</li>
-<li>如果成功获取到了锁，锁的真正有效时间等于有效时间减去获取锁使用的时间。</li>
-<li>如果获取锁失败，客户端应该在所有实例上解锁。（没有成功也要解锁，防止实际加锁成功，但因为客户端没有得到响应造成的误判）</li>
-</ol>
-<hr>
-<h1 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h1><h2 id="关键"><a href="#关键" class="headerlink" title="关键"></a>关键</h2><ol>
-<li>先假设client获取所有实例，所有实例包含相同的key和过期时间(TTL) ,但每个实例set命令时间不同导致不能同时过期，第一个set命令之前是T1,最后一个set命令后为T2,则此client有效获取锁的最小时间为TTL-(T2-T1)-时钟漂移。</li>
-<li>对于以N/2+1(也就是一半以上)的方式判断获取锁成功，是因为如果小于一半判断为成功的话，有可能出现多个client都成功获取锁的情况，从而使锁失效。</li>
-<li>一个client锁定大多数事例耗费的时间大于或接近锁的过期时间，就认为锁无效，并且解锁这个redis实例(不执行业务) ;只要在TTL时间内成功获取一半以上的锁便是有效锁;否则无效。</li>
-</ol>
-<h2 id="系统保活"><a href="#系统保活" class="headerlink" title="系统保活"></a>系统保活</h2><ol>
-<li>获取锁失败（或者业务完成），能够自动释放锁，不能等到锁过期。</li>
-<li>在client重试获取锁前（第一次失败到第二次重试时间间隔）大于第一次获取锁消耗的时间。</li>
-<li>重试获取有次数限制。</li>
-</ol>
-<h2 id="崩溃恢复"><a href="#崩溃恢复" class="headerlink" title="崩溃恢复"></a>崩溃恢复</h2><ol>
-<li>如果redis没有持久化功能，在clientA获取锁成功后，所有redis重启，clientB能够再次获取到锁，这样违法了锁的排他互斥性。</li>
-<li>如果启动AOF永久化存储，事情会好些。举例:当我们重启redis后，由于redis过期机制是按照unix时间戳走的，所以在重启后，然后会按照规定的时间过期，不影响业务；但是由于AOF同步到磁盘的方式默认是每秒1次，如果在一秒内断电（这一秒的数据没有写到磁盘，锁没有写入磁盘），会导致数据丢失，立即重启会造成锁互斥性失效；但如果同步磁盘方式使用Always(每一个写命令都同步到硬盘)造成性能急剧下降；所以在锁完全有效性和性能方面要有所取舍。</li>
-<li>有效解决既保证锁完全有效性及性能高效及即使断电情况的方法是redis同步到磁盘方式保持默认的每秒，在redis无论因为什么原因停掉后要等待TTL（一个锁有效期）时间后再重启(学名:延迟重启) ；缺点是 在TTL时间内服务相当于暂停状态。</li>
-</ol>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
-<li>TTL时长要大于正常业务执行的时间+获取所有redis服务消耗时间+时钟漂移。</li>
-<li>获取redis所有服务消耗时间要远小于TTL时间，并且获取成功的锁个数要在总数的一般以上：N/2+1。</li>
-<li>锁重试次数要有限制。</li>
-<li>在redis崩溃后（无论一个还是所有），要延迟TTL时间重启redis。</li>
-</ol>
-<hr>
-<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><h2 id="故障转移导致无法实现真正的redlock"><a href="#故障转移导致无法实现真正的redlock" class="headerlink" title="故障转移导致无法实现真正的redlock?"></a>故障转移导致无法实现真正的redlock?</h2><p>&emsp;&emsp;因为redis在进行主从复制的时候是异步完成的，比如在clientA获取锁后，主redis复制数据到从redis过程中崩溃了，导致没有复制到从redis中，然后从redis选举出一个升级为主redis,造成新的主redis没有clientA 设置的锁，这是clientB尝试获取锁，并且能够成功获取锁，导致互斥失效。<br>&emsp;&emsp;这个失败的原因是因为从redis立刻升级为主redis，如果能够过TTL时间再升级为主redis（延迟升级）后，或者立刻升级为主redis但是过TTL的时间后再执行获取锁的任务，就能成功产生互斥效果；是不是这样就能实现基于redis主从的Redlock。这样会产生某一个集群某一时刻没有主服务器。</p>
-<h2 id="redlock重试"><a href="#redlock重试" class="headerlink" title="redlock重试"></a>redlock重试</h2><p>&emsp;&emsp;<em>当client不能获取锁时，应该在随机时间后重试获取锁；并且最好在同一时刻并发的把set命令发送给所有redis实例；而且对于已经获取锁的client在完成任务后要及时释放锁，这是为了节省时间。</em></p>
-<h2 id="redlock释放锁"><a href="#redlock释放锁" class="headerlink" title="redlock释放锁"></a>redlock释放锁</h2><p>&emsp;&emsp;由于释放锁时会判断这个锁的value是不是自己设置的，如果是才删除；所以在释放锁时非常简单，只要向所有实例都发出释放锁的命令，不用考虑能否成功释放锁。</p>
-<h2 id="Redisson"><a href="#Redisson" class="headerlink" title="Redisson"></a>Redisson</h2><p>&emsp;&emsp;redlock的实际使用模板。</p>
-<p><a href="https://www.cnblogs.com/niceyoo/p/13736140.html">https://www.cnblogs.com/niceyoo/p/13736140.html</a></p>
-]]></content>
-      <categories>
-        <category>redis</category>
-      </categories>
-      <tags>
-        <tag>redis</tag>
-        <tag>分布式</tag>
-        <tag>锁</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>mysql中datetime和timestamp</title>
     <url>/hexoblog/2021/04/14/md/mysql/mysql%E4%B8%ADdatetime%E5%92%8Ctimestamp/</url>
     <content><![CDATA[<h1 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h1><h2 id="date和datetime，timestamp的区别"><a href="#date和datetime，timestamp的区别" class="headerlink" title="date和datetime，timestamp的区别"></a>date和datetime，timestamp的区别</h2><ol>
@@ -2366,6 +2140,349 @@ mysqlbinlog --start-positoin<span class="token operator">=</span><span class="to
       </tags>
   </entry>
   <entry>
+    <title>redis分布式锁</title>
+    <url>/hexoblog/2021/04/14/md/redis/redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/</url>
+    <content><![CDATA[<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>&emsp;&emsp;单机情况下，对于多线程情况下的竞态资源，我们可以在代码中使用synchronized或者ReentrantLock来加锁，防止发生并发问题。但是当我们的服务进行集群部署时，对于这两种加锁方式，就会失效，它们只能在单机加锁，所以就需要与之对应的分布式锁。</p>
+<span id="more"></span>
+
+<hr>
+<h1 id="要求"><a href="#要求" class="headerlink" title="要求"></a>要求</h1><ol>
+<li>互斥：任何时刻只能有一个客户端获取锁。</li>
+<li>释放死锁：不会发生死锁，即获取锁的服务崩溃，也能释放锁。</li>
+<li>容错性：（redlock中用）只要多数redis节点（一半以上）在使用，client就可以获取和释放锁。</li>
+</ol>
+<hr>
+<h1 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h1><p>&emsp;&emsp;一般采用redis的setnx原子操作来实现分布式锁。<br><a href="https://zhuanlan.zhihu.com/p/129886269">学习一下</a><br><a href="https://www.cnblogs.com/niceyoo/p/13711149.html">学习二下</a><br><a href="https://www.cnblogs.com/jojop/p/14008824.html">学习三下</a><br><a href="https://blog.csdn.net/asd051377305/article/details/108384490">学习四下</a></p>
+<h2 id="setnx（获得锁）"><a href="#setnx（获得锁）" class="headerlink" title="setnx（获得锁）"></a>setnx（获得锁）</h2><p>&emsp;&emsp;setnx 是SET if Not eXists(如果不存在，则 SET)的简写。<br>&emsp;&emsp;完整语法：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># set命令模式</span>
+SET key value <span class="token punctuation">[</span>EX seconds<span class="token operator">|</span>PX milliseconds<span class="token punctuation">]</span> <span class="token punctuation">[</span>NX<span class="token operator">|</span>XX<span class="token punctuation">]</span> <span class="token punctuation">[</span>KEEPTTL<span class="token punctuation">]</span>
+
+<span class="token comment"># setnx命令模式</span>
+setnx key value<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<ol>
+<li>value的值尽可能使用随机数或者线程独有的，能够识别的，为了安全的释放锁。</li>
+<li>使用不同的redis客户端（jedis，redisTemplate）时写法会有所不同，这里是redis黑窗口命令。</li>
+</ol>
+</blockquote>
+<p>&emsp;&emsp;参数说明：</p>
+<ol>
+<li>EX：设置过期时间，时间精确到秒</li>
+<li>PX：设置过期时间，时间精确到毫秒</li>
+<li>NX：表示key不存在时才设置，否则返回null</li>
+<li>XX：表示key存在时才设置，否则返回null</li>
+</ol>
+<h3 id="使用过程："><a href="#使用过程：" class="headerlink" title="使用过程："></a>使用过程：</h3><ol>
+<li>执行setnx命令进行加锁，返回ok，返回nil则为加锁失败。</li>
+<li>执行expire命令设置超时时间</li>
+<li>执行业务逻辑</li>
+<li>delete命令解锁</li>
+</ol>
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><ol>
+<li>加锁与设置超时时间分步执行，若超时时间设置失败则有可能产生死锁。</li>
+<li>delete命令存在误删非当前线程持有锁的可能。</li>
+<li>不支持阻塞等待，不可重入。</li>
+<li>单机redis锁，存在加锁后，主从切换时锁还未同步到问题，锁会丢失。</li>
+</ol>
+<h3 id="lua脚本（释放锁）"><a href="#lua脚本（释放锁）" class="headerlink" title="lua脚本（释放锁）"></a>lua脚本（释放锁）</h3><p>&emsp;&emsp;我们在手动解锁时，极限情况下会有删除其他线程锁的情况，因为我们的随机数比较和删除过程并不是原子操作。存在判断通过后，锁自动失效，其他线程加锁成功的情况，这是解锁会出问题。通过lua脚本原子操作，可以安全的解锁。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">-- lua删除锁：
+-- KEYS和ARGV分别是以集合方式传入的参数，对应上文的Test和uuid。
+-- 如果对应的value等于传入的uuid。
+<span class="token keyword">if</span> redis.call<span class="token punctuation">(</span><span class="token string">'get'</span>, KEYS<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">==</span> ARGV<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> 
+    <span class="token keyword">then</span> 
+ -- 执行删除操作
+        <span class="token builtin class-name">return</span> redis.call<span class="token punctuation">(</span><span class="token string">'del'</span>, KEYS<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span> 
+    <span class="token keyword">else</span> 
+ -- 不成功，返回0
+        <span class="token builtin class-name">return</span> <span class="token number">0</span> 
+end<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="setex-amp-psetex"><a href="#setex-amp-psetex" class="headerlink" title="setex&amp;psetex"></a>setex&amp;psetex</h3><p>&emsp;&emsp;setex等同于set命令在可选参数使用EX的情况，都是在NX模式下，添加了过期时间，避免死锁。psetex相对于setex采用毫秒作为超时单位。</p>
+]]></content>
+      <categories>
+        <category>redis</category>
+      </categories>
+      <tags>
+        <tag>redis</tag>
+        <tag>分布式</tag>
+        <tag>锁</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>redis为什么这么快</title>
+    <url>/hexoblog/2021/03/08/md/redis/redis%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%99%E4%B9%88%E5%BF%AB/</url>
+    <content><![CDATA[<h1 id="redis为什么这么快？"><a href="#redis为什么这么快？" class="headerlink" title="redis为什么这么快？"></a>redis为什么这么快？</h1><ol>
+<li>完全基于内存，绝大部分请求时纯内存操作，非常快速。数据在内存中类似于hashmap，hashmap的优势就是查找和操作的时间复杂度都是O(1)。</li>
+<li>数据结构简单，对数据操作也简单，Redis的数据结构是专门进行设计的。SDS。</li>
+<li>采用单线程，避免了不必要的上下文切换和竞争条件，也不存在多进程或多线程切换导致的消耗cpu，不用去考虑各种锁的问题，不存在加锁释放锁的操作，没有因可能出现死锁而导致的消耗。</li>
+<li>使用IO多路复用模型，非阻塞IO。</li>
+<li>使用底层模型不同，他们之间底层实现方式以及客户端之间通信的应用协议不一样，Redis直接自己构建了VM机制，因为一般的系统调用系统函数的话，会浪费一定的时间去移动和请求。</li>
+</ol>
+<span id="more"></span>
+
+<hr>
+<h1 id="多路复用IO模型。"><a href="#多路复用IO模型。" class="headerlink" title="多路复用IO模型。"></a>多路复用IO模型。</h1><ol>
+<li>多路I/O复用模型就是利用select，poll，epoll可以同时监测多个流的I/O事件的能力，在空闲的时候，会把当前线程阻塞掉，当有一个或多个流有I/O事件时，就从阻塞中唤醒，于是程序就会轮询一遍所有流（epoll是只轮询那些真正发出了事件的流），并且只依次顺序的处理就绪的流，这种做法就避免了大量的无用操作。</li>
+<li>这里的多路指的是多个网络连接，复用指的是复用同一个线程。采用多路I/O复用技术，可以让单个线程高效的处理多个连接请求（尽量减少网络IO的时间消耗），且Redis在内存中操作数据的速度非常快，也就是说内存内的操作不会成为影响Redis性能的瓶颈。</li>
+</ol>
+<hr>
+<h1 id="redis为什么是单线程的？"><a href="#redis为什么是单线程的？" class="headerlink" title="redis为什么是单线程的？"></a>redis为什么是单线程的？</h1><p>&emsp;&emsp;CPU并不是redis的瓶颈，瓶颈在于内存的大小或者网络，redis中，网络IO模块采用单线程。<br>&emsp;&emsp;这里的多路指的是多个网络连接，复用指的是复用同一个线程。采用多路I/O复用技术，可以让单个线程高效的处理多个连接请求（尽量减少网络IO的时间消耗），且Redis在内存中操作数据的速度非常快，也就是说内存内的操作不会成为影响Redis性能的瓶颈。</p>
+]]></content>
+      <categories>
+        <category>redis</category>
+      </categories>
+      <tags>
+        <tag>redis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>redis安装和使用</title>
+    <url>/hexoblog/2021/04/14/md/redis/redis%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;这里是在windows环境下的redis安装过程，两种安装方式，都比较简单。<br>&emsp;&emsp;官方提供的只有linux系统的tar.gz格式的压缩包，windows的需要在github下载。<br><a href="https://redis.io/">https://redis.io/</a><br><a href="http://www.redis.cn/">http://www.redis.cn/</a><br><a href="https://www.redis.com.cn/">https://www.redis.com.cn/</a><br><a href="https://www.redis.com.cn/redis-installation.html">https://www.redis.com.cn/redis-installation.html</a></p>
+<span id="more"></span>
+<h2 id="msi安装"><a href="#msi安装" class="headerlink" title="msi安装"></a>msi安装</h2><ol>
+<li>下载msi安装文件<blockquote>
+<p>官方提供的只有tar.gz格式压缩包下载，msi需要在github下载<br><a href="https://github.com/MicrosoftArchive/redis/releases">https://github.com/MicrosoftArchive/redis/releases</a></p>
+</blockquote>
+</li>
+<li>双击运行</li>
+<li>完成安装</li>
+</ol>
+<h2 id="zip安装"><a href="#zip安装" class="headerlink" title="zip安装"></a>zip安装</h2><ol>
+<li>下载zip压缩包</li>
+<li>将压缩包解压至你准备安装的路径</li>
+<li>解压完成就是安装完成</li>
+</ol>
+<hr>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 先进入安装目录</span>
+<span class="token builtin class-name">cd</span> <span class="token operator">&lt;</span>安装目录<span class="token operator">></span>
+
+<span class="token comment"># 启动</span>
+<span class="token comment"># 作为普通软件启动，命令行关闭则关闭</span>
+redis-server.exe redis.windows.conf
+<span class="token comment"># 作为服务启动，不跟随命令行</span>
+redis-server.exe redis.windows-service.conf
+
+<span class="token comment"># 客户端连接</span>
+redis-cli.exe
+
+<span class="token comment"># 关闭</span>
+redis-server.exe --service-stop<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
+      <categories>
+        <category>redis</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>redis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>redlock-redis分布式锁的实现</title>
+    <url>/hexoblog/2021/04/14/md/redis/redlock-redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9A%84%E5%AE%9E%E7%8E%B0/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;Redlock全名叫做Redis-Distributed-Lock。用redis实现的分布式锁。<br>&emsp;&emsp;单节点的情况下，可以使用setnx实现分布式锁，在集群的情况下，就需要是要redlock来实现分布式锁。</p>
+<span id="more"></span>
+
+<hr>
+<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><p>&emsp;&emsp;假设一个集群中有5台机器，现在进行加锁，大概流程如下：</p>
+<ol>
+<li>获取当前系统的时间戳，毫秒为单位。</li>
+<li>依次尝试从5个实例，使用相同的key和具有唯一性的value获取锁。当向redis请求获取锁时，客户端需要设置一个网络连接和响应超时时间，这个超时时间应该小于锁的失效时间。这样可以避免在某台实例挂掉的情况下，客户端仍在等待结果。</li>
+<li>客户端使用当前时间减去开始获取锁的时间，就得到了获取锁使用的时间。<strong>当从大多数节点获取锁成功，并且获取锁使用的时间小于锁失效时间，才算获取锁成功</strong>。</li>
+<li>如果成功获取到了锁，锁的真正有效时间等于有效时间减去获取锁使用的时间。</li>
+<li>如果获取锁失败，客户端应该在所有实例上解锁。（没有成功也要解锁，防止实际加锁成功，但因为客户端没有得到响应造成的误判）</li>
+</ol>
+<hr>
+<h1 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h1><h2 id="关键"><a href="#关键" class="headerlink" title="关键"></a>关键</h2><ol>
+<li>先假设client获取所有实例，所有实例包含相同的key和过期时间(TTL) ,但每个实例set命令时间不同导致不能同时过期，第一个set命令之前是T1,最后一个set命令后为T2,则此client有效获取锁的最小时间为TTL-(T2-T1)-时钟漂移。</li>
+<li>对于以N/2+1(也就是一半以上)的方式判断获取锁成功，是因为如果小于一半判断为成功的话，有可能出现多个client都成功获取锁的情况，从而使锁失效。</li>
+<li>一个client锁定大多数事例耗费的时间大于或接近锁的过期时间，就认为锁无效，并且解锁这个redis实例(不执行业务) ;只要在TTL时间内成功获取一半以上的锁便是有效锁;否则无效。</li>
+</ol>
+<h2 id="系统保活"><a href="#系统保活" class="headerlink" title="系统保活"></a>系统保活</h2><ol>
+<li>获取锁失败（或者业务完成），能够自动释放锁，不能等到锁过期。</li>
+<li>在client重试获取锁前（第一次失败到第二次重试时间间隔）大于第一次获取锁消耗的时间。</li>
+<li>重试获取有次数限制。</li>
+</ol>
+<h2 id="崩溃恢复"><a href="#崩溃恢复" class="headerlink" title="崩溃恢复"></a>崩溃恢复</h2><ol>
+<li>如果redis没有持久化功能，在clientA获取锁成功后，所有redis重启，clientB能够再次获取到锁，这样违法了锁的排他互斥性。</li>
+<li>如果启动AOF永久化存储，事情会好些。举例:当我们重启redis后，由于redis过期机制是按照unix时间戳走的，所以在重启后，然后会按照规定的时间过期，不影响业务；但是由于AOF同步到磁盘的方式默认是每秒1次，如果在一秒内断电（这一秒的数据没有写到磁盘，锁没有写入磁盘），会导致数据丢失，立即重启会造成锁互斥性失效；但如果同步磁盘方式使用Always(每一个写命令都同步到硬盘)造成性能急剧下降；所以在锁完全有效性和性能方面要有所取舍。</li>
+<li>有效解决既保证锁完全有效性及性能高效及即使断电情况的方法是redis同步到磁盘方式保持默认的每秒，在redis无论因为什么原因停掉后要等待TTL（一个锁有效期）时间后再重启(学名:延迟重启) ；缺点是 在TTL时间内服务相当于暂停状态。</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
+<li>TTL时长要大于正常业务执行的时间+获取所有redis服务消耗时间+时钟漂移。</li>
+<li>获取redis所有服务消耗时间要远小于TTL时间，并且获取成功的锁个数要在总数的一般以上：N/2+1。</li>
+<li>锁重试次数要有限制。</li>
+<li>在redis崩溃后（无论一个还是所有），要延迟TTL时间重启redis。</li>
+</ol>
+<hr>
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><h2 id="故障转移导致无法实现真正的redlock"><a href="#故障转移导致无法实现真正的redlock" class="headerlink" title="故障转移导致无法实现真正的redlock?"></a>故障转移导致无法实现真正的redlock?</h2><p>&emsp;&emsp;因为redis在进行主从复制的时候是异步完成的，比如在clientA获取锁后，主redis复制数据到从redis过程中崩溃了，导致没有复制到从redis中，然后从redis选举出一个升级为主redis,造成新的主redis没有clientA 设置的锁，这是clientB尝试获取锁，并且能够成功获取锁，导致互斥失效。<br>&emsp;&emsp;这个失败的原因是因为从redis立刻升级为主redis，如果能够过TTL时间再升级为主redis（延迟升级）后，或者立刻升级为主redis但是过TTL的时间后再执行获取锁的任务，就能成功产生互斥效果；是不是这样就能实现基于redis主从的Redlock。这样会产生某一个集群某一时刻没有主服务器。</p>
+<h2 id="redlock重试"><a href="#redlock重试" class="headerlink" title="redlock重试"></a>redlock重试</h2><p>&emsp;&emsp;<em>当client不能获取锁时，应该在随机时间后重试获取锁；并且最好在同一时刻并发的把set命令发送给所有redis实例；而且对于已经获取锁的client在完成任务后要及时释放锁，这是为了节省时间。</em></p>
+<h2 id="redlock释放锁"><a href="#redlock释放锁" class="headerlink" title="redlock释放锁"></a>redlock释放锁</h2><p>&emsp;&emsp;由于释放锁时会判断这个锁的value是不是自己设置的，如果是才删除；所以在释放锁时非常简单，只要向所有实例都发出释放锁的命令，不用考虑能否成功释放锁。</p>
+<h2 id="Redisson"><a href="#Redisson" class="headerlink" title="Redisson"></a>Redisson</h2><p>&emsp;&emsp;redlock的实际使用模板。</p>
+<p><a href="https://www.cnblogs.com/niceyoo/p/13736140.html">https://www.cnblogs.com/niceyoo/p/13736140.html</a></p>
+]]></content>
+      <categories>
+        <category>redis</category>
+      </categories>
+      <tags>
+        <tag>redis</tag>
+        <tag>分布式</tag>
+        <tag>锁</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>缓存击穿、穿透、雪崩</title>
+    <url>/hexoblog/2021/03/08/md/redis/%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF%E3%80%81%E7%A9%BF%E9%80%8F%E3%80%81%E9%9B%AA%E5%B4%A9/</url>
+    <content><![CDATA[<p><a href="https://my.oschina.net/linqiankun/blog/3191886">缓存击穿，穿透，雪崩</a></p>
+<h1 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h1><p>&emsp;&emsp;高并发系统中，大量的请求一般会落在缓存，但在某一时期，某一热点key过期，会导致大量的请求直接落到数据库，导致数据库崩溃。</p>
+<span id="more"></span>
+
+<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><ol>
+<li>设置热点key不过期。</li>
+<li>加上分布式锁，每次只有拿到锁的线程可以去访问数据库。第一个线程查询到后就会缓存起来，后面线程从缓存中拿。</li>
+</ol>
+<hr>
+<h1 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h1><p>&emsp;&emsp;正常情况下，需要查询的数据都存在，当查询一个缓存和数据库都不存在的数据时，每次请求都会落在数据库里，这种情况成称为缓存穿透。就是以一个不存在的数据去请求，每次都会落到数据库。</p>
+<h2 id="解决："><a href="#解决：" class="headerlink" title="解决："></a>解决：</h2><ol>
+<li>接口增加参数校验，不合法的直接返回。</li>
+<li>缓存空值，将对应key的value设置为空值，避免暴力攻击。同时将key失效时间设置短一些，避免影响正常使用。</li>
+<li>在网关阈值，限制同ip访问量。</li>
+<li>高级用户布隆过滤器。bloom filter，可以对key进行判断是否在数据库存在，不存在就直接返回，存在就查询出来，并刷新缓存。</li>
+</ol>
+<hr>
+<h1 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h1><p>&emsp;&emsp;某一时期发生的大规模的缓存不可用问题，过期，宕机。</p>
+<h2 id="解决：-1"><a href="#解决：-1" class="headerlink" title="解决："></a>解决：</h2><ol>
+<li>采用分布式集群，减少宕机风险。</li>
+<li>将失效时间设为随机数，避免大量同时失效。</li>
+<li>采用本地缓存加限流逻辑。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>redis</category>
+      </categories>
+      <tags>
+        <tag>redis</tag>
+        <tag>缓存</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>spring事务失效</title>
+    <url>/hexoblog/2021/03/02/md/spring/spring%E4%BA%8B%E5%8A%A1%E5%A4%B1%E6%95%88/</url>
+    <content><![CDATA[<h1 id="事务失效的几种类型"><a href="#事务失效的几种类型" class="headerlink" title="事务失效的几种类型"></a>事务失效的几种类型</h1><ol>
+<li>数据库引擎不支持事务。</li>
+<li>没有被Spring管理。</li>
+<li>方法不是public的。</li>
+<li>自身调用问题。</li>
+<li>数据源没有配置事务管理器。</li>
+<li>不支持事务。</li>
+<li>异常被吃了。</li>
+<li>异常类型错误。</li>
+</ol>
+<span id="more"></span>
+
+<hr>
+<h1 id="事务失效类型："><a href="#事务失效类型：" class="headerlink" title="事务失效类型："></a>事务失效类型：</h1><h2 id="数据库引擎不支持事务"><a href="#数据库引擎不支持事务" class="headerlink" title="数据库引擎不支持事务"></a>数据库引擎不支持事务</h2><p>&emsp;&emsp;这里以 MySQL 为例，其 MyISAM 引擎是不支持事务操作的，InnoDB 才是支持事务的引擎，一般要支持事务都会使用 InnoDB。<br>&emsp;&emsp;根据 MySQL 的官方文档：<a href="https://dev.mysql.com/doc/refman/8.0/en/storage-engine-setting.html">https://dev.mysql.com/doc/refman/8.0/en/storage-engine-setting.html</a></p>
+<h2 id="没有被Spring管理"><a href="#没有被Spring管理" class="headerlink" title="没有被Spring管理"></a>没有被Spring管理</h2><p>&emsp;&emsp;Spring中的事务基于AOP实现，则事务类必须被Spring管理，进行代理，才能支持事务。</p>
+<h3 id="方法不是public的"><a href="#方法不是public的" class="headerlink" title="方法不是public的"></a>方法不是public的</h3><p>&emsp;&emsp;@Transaction只对方法名为public的才会生效，其他的不生效。private，static，final方法不能添加事务，添加了也不会生效。</p>
+<h3 id="自身调用问题"><a href="#自身调用问题" class="headerlink" title="自身调用问题"></a>自身调用问题</h3><ol>
+<li> service类中调用本类自己的方法，由于没有经过spring代理，事务不会生效。</li>
+<li>一个无事务的方法调用另一个有事务的方法，事务是不会起作用的。这种情况，可以内部维护一个自己注入的bean，使用这个属性来调用。或者利用AOP上下文来获取代理对象，利用代理对象调用。</li>
+<li>有事务的调用有事务的被调用的不能新开启事务。被调用的开启的新事务不会生效。</li>
+<li>有事务的调用无事务的会生效。</li>
+<li>无事务的调用无事务的，这种情况就会没有事务。  </li>
+</ol>
+<p>&emsp;&emsp;事务是否生效主要看是否通过代理，没有通过代理就不会生效。</p>
+<h2 id="数据源没有配置事务管理器"><a href="#数据源没有配置事务管理器" class="headerlink" title="数据源没有配置事务管理器"></a>数据源没有配置事务管理器</h2><p>&emsp;&emsp;数据源必须开启事务管理器：</p>
+<ol>
+<li>@EnableTransactionManagement  // 启注解事务管理，等同于xml配置方式的 &lt;tx:annotation-driven /&gt;</li>
+<li>@EnableTransactionManagement 在springboot1.4以后可以不写。框架在初始化的时候已经默认给我们注入了两个事务管理器的Bean（JDBC的DataSourceTransactionManager和JPA的JpaTransactionManager ），其实这就包含了我们最常用的Mybatis和Hibeanate了。当然如果不是AutoConfig的而是自己自定义的，请使用该注解开启事务</li>
+</ol>
+<h2 id="不支持事务"><a href="#不支持事务" class="headerlink" title="不支持事务"></a>不支持事务</h2><p>&emsp;&emsp;Propagation设置错误，Propagation用于配置事务的传播行为。Propagation.NOT_SUPPORTED： 表示不以事务运行，当前若存在事务则挂起。</p>
+<h2 id="异常被吃了"><a href="#异常被吃了" class="headerlink" title="异常被吃了"></a>异常被吃了</h2><p>&emsp;&emsp;异常被捕获了，然后不进行抛出，那么无法认为有异常，事务就不会回滚。在service中不应该进行事务的捕获，而进行抛出，在controller中进行异常捕获，这样既支持事务也捕获了异常。</p>
+<h2 id="异常类型错误"><a href="#异常类型错误" class="headerlink" title="异常类型错误"></a>异常类型错误</h2><p>&emsp;&emsp;Spring的事务管理默认是针对Error异常和RuntimeException异常以及其子类进行事务回滚。对runtimeException并不需要抛出，error需要抛出异常，并进行捕获。如果想对其他异常进行支持，则需要配置：@Transactional(rollbackFor = Exception.class)</p>
+<h2 id="业务和事务必须要在同一个线程中"><a href="#业务和事务必须要在同一个线程中" class="headerlink" title="业务和事务必须要在同一个线程中"></a>业务和事务必须要在同一个线程中</h2><p>&emsp;&emsp;不在同一个线程，则事务影响不到。</p>
+<hr>
+<h1 id="事务的隔离级别"><a href="#事务的隔离级别" class="headerlink" title="事务的隔离级别"></a>事务的隔离级别</h1><h2 id="事务会引起的问题："><a href="#事务会引起的问题：" class="headerlink" title="事务会引起的问题："></a>事务会引起的问题：</h2><h3 id="脏读："><a href="#脏读：" class="headerlink" title="脏读："></a>脏读：</h3><p>&emsp;&emsp;当A事务对数据进行修改，但是这种修改还没有提交到数据库中，B事务同时在访问这个数据，由于没有隔离，B获取的数据有可能被A事务回滚，这就导致了数据不一致的问题。</p>
+<h3 id="丢失修改："><a href="#丢失修改：" class="headerlink" title="丢失修改："></a>丢失修改：</h3><p>&emsp;&emsp;当A事务访问数据100，并且修改为100-1=99，同时B事务读取数据也是100，修改数据100-1=99，最终两个事务的修改结果为99，但是实际是98。事务A修改的数据被丢失了。</p>
+<h3 id="不可重复读："><a href="#不可重复读：" class="headerlink" title="不可重复读："></a>不可重复读：</h3><p>&emsp;&emsp;指A事务在读取数据X=100的时候，B事务把数据X=100修改为X=200,这个时候A事务第二次读取数据X的时候，发现X=200了，导致了在整个A事务期间，两次读取数据X不一致了，这就是不可重复读。</p>
+<h3 id="幻读："><a href="#幻读：" class="headerlink" title="幻读："></a>幻读：</h3><p>&emsp;&emsp;幻读和不可重复读类似。幻读表现在，当A事务读取表数据时候，只有3条数据，这个时候B事务插入了2条数据，当A事务再次读取的时候，发现有5条记录了，平白无故多了2条记录，就像幻觉一样。</p>
+<p>&emsp;&emsp;不可重复读的重点是修改: 同样的条件 , 你读取过的数据 , 再次读取出来发现值不一样了，重点在更新操作。<br>&emsp;&emsp;幻读的重点在于新增或者删除：同样的条件 , 第 1 次和第 2 次读出来的记录数不一样，重点在增删操作。</p>
+<h2 id="Spring定义的隔离级别："><a href="#Spring定义的隔离级别：" class="headerlink" title="Spring定义的隔离级别："></a>Spring定义的隔离级别：</h2><p><strong>TransactionDefinition.ISOLATION_DEFAULT：</strong> 数据库的默认隔离级别，MySQL默认采用的 REPEATABLE_READ隔离级别。<br><strong>TransactionDefinition.ISOLATION_READ_UNCOMMITTED：</strong> 最低的隔离级别，最低的隔离级别，允许读取未提交的数据变更，可能会导致脏读、幻读或不可重复读。<br><strong>TransactionDefinition.ISOLATION_READ_COMMITTED：</strong> 允许读取并发事务已经提交的数据，未提交的不可读取，可以阻止脏读，但是幻读或不可重复读仍有可能发生。<br><strong>TransactionDefinition.ISOLATION_REPEATABLE_READ：</strong> 对同一字段的多次重复读取结果都是一致的，除非数据是被本身事务自己所修改，可以阻止脏读和不可重复读，但幻读仍有可能发生。MySQL中通过MVCC解决了该隔离级别下出现幻读的可能。<br><strong>TransactionDefinition.ISOLATION_SERIALIZABLE：</strong> 串行化隔离级别，该级别可以防止脏读、不可重复读以及幻读，但是串行化会影响性能。</p>
+<h3 id="Propagation，传播行为："><a href="#Propagation，传播行为：" class="headerlink" title="Propagation，传播行为："></a>Propagation，传播行为：</h3><p>指多个方法调用时，事务对多个方法之间传播的影响。</p>
+<p><strong>PROPAGATION_REQUIRED：</strong> 如果当前没有事务，就新建一个事务，如果已经存在一个事务中，加入到这个事务中。这是最常见的选择。<br><strong>PROPAGATION_SUPPORTS：</strong> 支持当前事务，如果当前没有事务，就以非事务方式执行。<br><strong>PROPAGATION_MANDATORY：</strong> 使用当前的事务，如果当前没有事务，就抛出异常。<br><strong>PROPAGATION_REQUIRES_NEW：</strong> 新建事务，如果当前存在事务，把当前事务挂起。<br><strong>PROPAGATION_NOT_SUPPORTED：</strong> 以非事务方式执行操作，如果当前存在事务，就把当前事务挂起。<br><strong>PROPAGATION_NEVER：</strong> 以非事务方式执行，如果当前存在事务，则抛出异常。<br><strong>PROPAGATION_NESTED：</strong> 如果当前存在事务，则在嵌套事务内执行。如果当前没有事务，则执行与PROPAGATION_REQUIRED类似的操作。</p>
+]]></content>
+      <categories>
+        <category>spring</category>
+      </categories>
+      <tags>
+        <tag>spring</tag>
+        <tag>acid</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo使用</title>
+    <url>/hexoblog/2021/03/04/md/tool/hexo%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><p>[toc]</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h2 id="安装node"><a href="#安装node" class="headerlink" title="安装node"></a>安装node</h2><p>&emsp;&emsp;hexo使用npm运行，所以首先需要安装node.js，安装node.js的同时会安装npm模块。</p>
+<ol>
+<li>在官网下载。<a href="http://nodejs.cn/">node.js</a></li>
+<li>点击下载的文件进行安装（一路next）。</li>
+</ol>
+<span id="more"></span>
+
+<p>&emsp;&emsp;安装成功后在命令行工具查看是或否安装成功。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">node -v
+<span class="token function">npm</span> -v<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>&emsp;&emsp;出现下图的版本号即为安装成功。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/node_npm_version.png" alt="安装成功"></p>
+<h2 id="安装hexo"><a href="#安装hexo" class="headerlink" title="安装hexo"></a>安装hexo</h2><p>&emsp;&emsp;安装完node后就可以安装hexo了。这里全局安装hexok。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">npm</span> <span class="token function">install</span> hexo-cli -g<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>&emsp;&emsp;安装完成后在命令行查看版本后确认是否安装成功。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/hexo_version.png" alt="安装成功"></p>
+<p>&emsp;&emsp;接下来就可以快乐的使用了。</p>
+<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;在使用前还是先看下介绍吧，这样入手必较方便。</p>
+<h2 id="看看目录结构"><a href="#看看目录结构" class="headerlink" title="看看目录结构"></a>看看目录结构</h2><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/hexo%E6%9E%B6%E6%9E%84.jpg" alt="hexo结构"></p>
+<p>&emsp;&emsp;我们对重要的文佳夹分析下：</p>
+<h3 id="node-modeules："><a href="#node-modeules：" class="headerlink" title="node_modeules："></a>node_modeules：</h3><p>&emsp;&emsp;因为运行在node环境下，这里就是安装的所有npm包。</p>
+<h3 id="public"><a href="#public" class="headerlink" title="public:"></a>public:</h3><p>&emsp;&emsp;这里存放时hexo运行生成的所有hexo静态文件，将来托管在git上，可以使用gitee pages服务托管为静态网站作为博客网站。本地的启动看到的页面也是由这里产生。</p>
+<h3 id="scaffolds"><a href="#scaffolds" class="headerlink" title="scaffolds:"></a>scaffolds:</h3><p>&emsp;&emsp;这里存放我们的模板文件，包括创建草稿，博客，自定义页面的模板文件，当然都是markdown文件，我们也可以对其修改以满足我们的需求。</p>
+<h3 id="sources"><a href="#sources" class="headerlink" title="sources:"></a>sources:</h3><p>&emsp;&emsp;这里都是我们的内容，post存放我们写的博客，文档等等，其他的呢，就是自定义的页面了，包括分类，标签，归档，我们也可以继续扩展，一般只需要关注post就可以了。</p>
+<h3 id="theme"><a href="#theme" class="headerlink" title="theme:"></a>theme:</h3><p>&emsp;&emsp;这里存放生成博客网站的主题文件了，毕竟原有的主题实在不怎么好看。可以下载多个主题，随时切换使用。</p>
+<h3 id="config-yml"><a href="#config-yml" class="headerlink" title="_config.yml"></a>_config.yml</h3><p>&emsp;&emsp;这个可不是目录，是实打实的文件了，我们的配置都在这里面了，这里做一些自定义的配置。</p>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><p>常用命令有：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 创建文章</span>
+hexo new post title
+
+<span class="token comment"># 创建草稿</span>
+hexo new draft title
+
+<span class="token comment"># 将草稿发布为文章</span>
+hexo p title
+
+<span class="token comment"># 清理本地生成的静态资源</span>
+hexo clean
+
+<span class="token comment"># 编译生成本地的静态资源</span>
+hexo g
+
+<span class="token comment"># 本地运行预览（附加草稿）</span>
+hexo s <span class="token punctuation">(</span>--draft<span class="token punctuation">)</span>
+
+<span class="token comment"># 将本地静态资源发送到gitee（需要自己配置）</span>
+hexo d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+]]></content>
+      <categories>
+        <category>tool</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>git</title>
     <url>/hexoblog/2021/03/03/md/tool/git/</url>
     <content><![CDATA[<h1 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h1><h2 id="将本地文件推送至远程"><a href="#将本地文件推送至远程" class="headerlink" title="将本地文件推送至远程"></a>将本地文件推送至远程</h2><ol>
@@ -2492,66 +2609,69 @@ mysqlbinlog --start-positoin<span class="token operator">=</span><span class="to
       </tags>
   </entry>
   <entry>
-    <title>hexo使用</title>
-    <url>/hexoblog/2021/03/04/md/tool/hexo%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><p>[toc]</p>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h2 id="安装node"><a href="#安装node" class="headerlink" title="安装node"></a>安装node</h2><p>&emsp;&emsp;hexo使用npm运行，所以首先需要安装node.js，安装node.js的同时会安装npm模块。</p>
-<ol>
-<li>在官网下载。<a href="http://nodejs.cn/">node.js</a></li>
-<li>点击下载的文件进行安装（一路next）。</li>
-</ol>
+    <title>zookeeper-leader选举</title>
+    <url>/hexoblog/2021/05/10/md/zookeeper/zookeeper-leader%E9%80%89%E4%B8%BE/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;ZAB协议包括了两种基本模式：崩溃恢复，数据广播。<br>&emsp;&emsp;一旦Leader服务器出现崩溃或者由于网络原因导致Leader服务器失去了与过半Follower的联系，那么就会进入崩溃恢复模式。<br>&emsp;&emsp;崩溃恢复主要包括两部分：Leader选举和数据恢复。</p>
 <span id="more"></span>
 
-<p>&emsp;&emsp;安装成功后在命令行工具查看是或否安装成功。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">node -v
-<span class="token function">npm</span> -v<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<p>&emsp;&emsp;出现下图的版本号即为安装成功。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/node_npm_version.png" alt="安装成功"></p>
-<h2 id="安装hexo"><a href="#安装hexo" class="headerlink" title="安装hexo"></a>安装hexo</h2><p>&emsp;&emsp;安装完node后就可以安装hexo了。这里全局安装hexok。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">npm</span> <span class="token function">install</span> hexo-cli -g<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>&emsp;&emsp;安装完成后在命令行查看版本后确认是否安装成功。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/hexo_version.png" alt="安装成功"></p>
-<p>&emsp;&emsp;接下来就可以快乐的使用了。</p>
-<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;在使用前还是先看下介绍吧，这样入手必较方便。</p>
-<h2 id="看看目录结构"><a href="#看看目录结构" class="headerlink" title="看看目录结构"></a>看看目录结构</h2><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/hexo%E6%9E%B6%E6%9E%84.jpg" alt="hexo结构"></p>
-<p>&emsp;&emsp;我们对重要的文佳夹分析下：</p>
-<h3 id="node-modeules："><a href="#node-modeules：" class="headerlink" title="node_modeules："></a>node_modeules：</h3><p>&emsp;&emsp;因为运行在node环境下，这里就是安装的所有npm包。</p>
-<h3 id="public"><a href="#public" class="headerlink" title="public:"></a>public:</h3><p>&emsp;&emsp;这里存放时hexo运行生成的所有hexo静态文件，将来托管在git上，可以使用gitee pages服务托管为静态网站作为博客网站。本地的启动看到的页面也是由这里产生。</p>
-<h3 id="scaffolds"><a href="#scaffolds" class="headerlink" title="scaffolds:"></a>scaffolds:</h3><p>&emsp;&emsp;这里存放我们的模板文件，包括创建草稿，博客，自定义页面的模板文件，当然都是markdown文件，我们也可以对其修改以满足我们的需求。</p>
-<h3 id="sources"><a href="#sources" class="headerlink" title="sources:"></a>sources:</h3><p>&emsp;&emsp;这里都是我们的内容，post存放我们写的博客，文档等等，其他的呢，就是自定义的页面了，包括分类，标签，归档，我们也可以继续扩展，一般只需要关注post就可以了。</p>
-<h3 id="theme"><a href="#theme" class="headerlink" title="theme:"></a>theme:</h3><p>&emsp;&emsp;这里存放生成博客网站的主题文件了，毕竟原有的主题实在不怎么好看。可以下载多个主题，随时切换使用。</p>
-<h3 id="config-yml"><a href="#config-yml" class="headerlink" title="_config.yml"></a>_config.yml</h3><p>&emsp;&emsp;这个可不是目录，是实打实的文件了，我们的配置都在这里面了，这里做一些自定义的配置。</p>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><p>常用命令有：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 创建文章</span>
-hexo new post title
-
-<span class="token comment"># 创建草稿</span>
-hexo new draft title
-
-<span class="token comment"># 将草稿发布为文章</span>
-hexo p title
-
-<span class="token comment"># 清理本地生成的静态资源</span>
-hexo clean
-
-<span class="token comment"># 编译生成本地的静态资源</span>
-hexo g
-
-<span class="token comment"># 本地运行预览（附加草稿）</span>
-hexo s <span class="token punctuation">(</span>--draft<span class="token punctuation">)</span>
-
-<span class="token comment"># 将本地静态资源发送到gitee（需要自己配置）</span>
-hexo d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
+<h2 id="保证数据一致性"><a href="#保证数据一致性" class="headerlink" title="保证数据一致性"></a>保证数据一致性</h2><p>&emsp;&emsp;假设两种情况：</p>
+<ol>
+<li>一个事务在Leader上提交了，并且过半的Folower都响应Ack了，但是Leader在Commit消息发出之前挂了。</li>
+<li>假设一个事务在Leader提出之后，Leader挂了。</li>
+</ol>
+<p>&emsp;&emsp;要满足上面这两个问题，必须做到：</p>
+<ol>
+<li><strong>确保已经被Leader提交的Proposal必须最终被所有的Follower服务器提交</strong>。</li>
+<li><strong>确保丢弃已经被Leader提出的但是没有被提交的Proposal</strong>。</li>
+</ol>
+<p>&emsp;&emsp;新的Leader的必须满足：</p>
+<ol>
+<li><strong>新选举出来的Leader不能包含未提交的Proposal</strong>。</li>
+<li><strong>新选举的Leader节点中含有最大的Zxid</strong>。</li>
+</ol>
+<h2 id="ZAB如何数据同步"><a href="#ZAB如何数据同步" class="headerlink" title="ZAB如何数据同步"></a>ZAB如何数据同步</h2><p>&emsp;&emsp;完成Leader选举后（新的Leader具有最高的Zxid），在正式开始工作之前（接收事务请求，然后提出新的Proposal），Leader服务器会首先确认事务日志中的所有的Proposal是否已经被集群中过半的服务器Commit。<br>&emsp;&emsp;Leader服务器需要确保所有的Follower服务器能够接收到每一条事务的Proposal，并且能将所有已经提交的事务Proposal应用到内存数据中。等到Follower将所有尚未同步的事务Proposal都从Leader服务器上同步过啦并且应用到内存数据中以后，Leader才会把该Follower加入到真正可用的Follower列表中。</p>
+<h2 id="ZAB数据同步过程中，如何处理需要丢弃的Proposal"><a href="#ZAB数据同步过程中，如何处理需要丢弃的Proposal" class="headerlink" title="ZAB数据同步过程中，如何处理需要丢弃的Proposal"></a>ZAB数据同步过程中，如何处理需要丢弃的Proposal</h2><p>&emsp;&emsp;在ZAB的事务编号Zxid设计中，Zxid是一个64位的数字。<br>&emsp;&emsp;<strong>其中低32位可以看成一个简单的单增计数器，针对客户端每一个事务请求，Leader在产生新的Proposal事务时，都会对该计数器加1。而高32位则代表了Leader周期的epoch编号</strong>。  </p>
+<blockquote>
+<p>&emsp;&emsp;epoch编号可以理解为当前集群所处的年代，或者周期。每次Leader变更之后都会在epoch的基础上加1，这样旧的Leader崩溃恢复之后，其他Follower也不会听它的了，因为Follower只服从epoch最高的Leader命令。</p>
+</blockquote>
+<p>&emsp;&emsp;每当选举产生一个新的Leader，就会从这个Leader服务器上取出本地事务日志充最大编号Proposal的Zxid，并从Zxid中解析得到对应的epoch编号，然后再对其加1，之后该编号就作为新的epoch值，并将低32位数字归零，由0开始重新生成Zxid。<br>&emsp;&emsp;ZAB协议通过epoch编号来区分Leader变化周期，能够有效避免不同的Leader错误的使用了相同的Zxid编号提出了不一样的Proposal的异常情况。<br>&emsp;&emsp;当一个包含了上一个Leader周期尚未提交过的事务Proposal的服务器启动时，当这台机器加入集群中，以Follower角色连上Leader服务器上，Leader服务器会根据自己服务器上最后提交的Proposal来和Follower服务器的Proposal进行比对，比对的结果肯定是Leader要求Follower进行一个回退操作，回退到一个确实已经被集群中过半机器Commit的最新Proposal。</p>
+<hr>
+<h1 id="Leader选举"><a href="#Leader选举" class="headerlink" title="Leader选举"></a>Leader选举</h1><p>&emsp;&emsp;选举分为四个阶段：选举阶段，发现阶段，同步阶段，广播阶段。</p>
+<h2 id="选举阶段"><a href="#选举阶段" class="headerlink" title="选举阶段"></a>选举阶段</h2><p>&emsp;&emsp;节点在一开始都处于选举阶段，只要一个节点得到超过半数节点的票数，他就可以当选准Leader，只有达到同步阶段，这个节点才能真正称为Leader。<br>&emsp;&emsp;Zookeeper规定所有有效的投票都必须在同一个轮次中，每个服务器在开始新一轮投票时，都会对自己维护的logicalClock进行自增操作。<br>&emsp;&emsp;每个服务器在广播自己的选票前，会将自己的投票箱（recvset）清空。该投票箱记录了所受到的选票。(3,2)这种格式，表示3投给了2。<br>&emsp;&emsp;广播选票后，会进行选票PK，选出准Leader。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/zab%E9%80%89%E4%B8%BE.png" alt="ZAB选举"></p>
+<h2 id="发现阶段"><a href="#发现阶段" class="headerlink" title="发现阶段"></a>发现阶段</h2><p>&emsp;&emsp;在这个阶段，Followers和上一轮选举出的准Leader进行通信，同步Followers最近接收的事务Proposal。<br>&emsp;&emsp;<em>一个Follower只会连接一个Leader，如果一个 Follower节点拒绝另一个Follower节点，则会在尝试连接时被拒绝。被拒绝之后，该节点就会进入Leader Election阶段</em>。<br>&emsp;&emsp;这个阶段的主要目标是发现当前大多数节点接收的最新Proposal，并且准Leader生成新的epoch，让Follower接收，更新它们的acceptedEpoch。</p>
+<h2 id="同步阶段"><a href="#同步阶段" class="headerlink" title="同步阶段"></a>同步阶段</h2><p>&emsp;&emsp;同步阶段主要是利用Leader前一阶段获得最新的Proposal历史，同步集群中所有的副本。<br>&emsp;&emsp;只有当超过半数节点都同步完成，准Leader才会称为真正的Leader。Follower只会接受Zxid比自己LastZxid大的Proposal。</p>
+<h2 id="广播阶段"><a href="#广播阶段" class="headerlink" title="广播阶段"></a>广播阶段</h2><p>&emsp;&emsp;到了这个阶段，Zookeeper集群才能正式向外部提供服务，并且Leader进行消息广播。如果有新节点，对新节点进行数据同步。<br>&emsp;&emsp;Zookeeper不需要得到全部的Follower的ACK，超过一般数量的ACK，就饿可以Commit。</p>
+<hr>
+<h1 id="协议实现"><a href="#协议实现" class="headerlink" title="协议实现"></a>协议实现</h1><p>&emsp;&emsp;实际的实现跟上面有所不同，分为三个阶段，将发现和同步阶段合在一起。<br>&emsp;&emsp;实际分为，选举、恢复、广播三个阶段。</p>
+<h2 id="选举阶段-1"><a href="#选举阶段-1" class="headerlink" title="选举阶段"></a>选举阶段</h2><p>&emsp;&emsp;选举阶段采用Fast Leader Election（FLE），会采用LastZxid最大的节点作为Leader，这样就省去了发现最新提议的阶段。<br>&emsp;&emsp;这是基于拥有最新提议的节点也拥有最新的提交记录。<br>&emsp;&emsp;称为Leader的条件：</p>
+<ol>
+<li>选epoch最大的。</li>
+<li>epoch相等，选Zxid最大的。</li>
+<li>若 epoch 和 zxid 相等，选择 server_id 最大的（zoo.cfg中的myid）。</li>
+</ol>
+<p>&emsp;&emsp;节点在选举开始时，都默认投票给自己，当接收其他节点的选票时，会根据上面的Leader条件 判断并且更改自己的选票，然后重新发送选票给其他节点。当有一个节点的得票超过半数，该节点会设置自己的状态为Leading ，其他节点会设置自己的状态为Following。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E9%80%89%E4%B8%BE.png" alt="选举"></p>
+<h2 id="恢复阶段"><a href="#恢复阶段" class="headerlink" title="恢复阶段"></a>恢复阶段</h2><p>&emsp;&emsp;这一阶段Follower发送他们的lastZxid给Leader，Leader根据lastZxid决定如何同步数据。这里的实现跟前面的Phase 2有所不同：Follower收到TRUNC指令会终止L.lastCommitedZxid之后的Proposal，收到DIFF指令会接收新的Proposal。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E6%81%A2%E5%A4%8D.png" alt="恢复"></p>
+<hr>
+<h1 id="两个问题"><a href="#两个问题" class="headerlink" title="两个问题"></a>两个问题</h1><h2 id="已经被处理的请求不能丢"><a href="#已经被处理的请求不能丢" class="headerlink" title="已经被处理的请求不能丢"></a>已经被处理的请求不能丢</h2><p>&emsp;&emsp;就是发送Commit提交消息时，挂掉了。</p>
+<ol>
+<li>选举拥有proposal最大值（即zxid最大）的节点作为新的 leader。<blockquote>
+<p>zxid最大也就是数据最新的节点保存了所有被COMMIT消息的proposal状态。</p>
+</blockquote>
+</li>
+<li>新的leader将自己事务日志中proposal但未COMMIT的消息处理。</li>
+<li>新的leader与follower建立先进先出的队列，先将自身有而 follower没有的proposal发送给follower，再将这些proposal的COMMIT命令发送给follower，以保证所有的follower都保存了所有的proposal、所有的follower都处理了所有的消息。通过以上策略，能保证已经被处理的消息不会丢。</li>
+</ol>
+<h2 id="没被处理的请求需要丢失"><a href="#没被处理的请求需要丢失" class="headerlink" title="没被处理的请求需要丢失"></a>没被处理的请求需要丢失</h2><p>&emsp;&emsp;当leader接收到消息请求生成proposal后就挂了，其他follower并没有收到此proposal，因此经过恢复模式重新选了leader后，这条消息是被跳过的。此时，之前挂了的leader重新启动并注册成了follower，他保留了被跳过消息的proposal状态，与整个系统的状态是不一致的，需要将其删除。<br>&emsp;&emsp;Zxid的设计的好处是旧的leader挂了后重启，它不会被选举为leader，因为此时它的zxid肯定小于当前的新leader。当旧的leader作为follower接入新的leader后，新的leader会让它将所有的拥有旧的epoch号的未被COMMIT的proposal清除。</p>
 ]]></content>
       <categories>
-        <category>tool</category>
+        <category>zookeeper</category>
       </categories>
       <tags>
-        <tag>tool</tag>
-        <tag>hexo</tag>
+        <tag>分布式</tag>
+        <tag>zookeeper</tag>
       </tags>
   </entry>
   <entry>
@@ -2638,68 +2758,42 @@ hexo d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></sp
       </tags>
   </entry>
   <entry>
-    <title>zookeeper-leader选举</title>
-    <url>/hexoblog/2021/05/10/md/zookeeper/zookeeper-leader%E9%80%89%E4%B8%BE/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;ZAB协议包括了两种基本模式：崩溃恢复，数据广播。<br>&emsp;&emsp;一旦Leader服务器出现崩溃或者由于网络原因导致Leader服务器失去了与过半Follower的联系，那么就会进入崩溃恢复模式。<br>&emsp;&emsp;崩溃恢复主要包括两部分：Leader选举和数据恢复。</p>
+    <title>zookeeper单机安装基础使用</title>
+    <url>/hexoblog/2021/03/03/md/zookeeper/zookeeper%E5%8D%95%E6%9C%BA%E5%AE%89%E8%A3%85%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>&emsp;&emsp;zookeeper是一个分布式服务框架，主要用来解决分布式应用中经常遇到的一些数据管理问题。<br>&emsp;&emsp;zookeeper=文件系统+监听通知机制。</p>
 <span id="more"></span>
 
-<h2 id="保证数据一致性"><a href="#保证数据一致性" class="headerlink" title="保证数据一致性"></a>保证数据一致性</h2><p>&emsp;&emsp;假设两种情况：</p>
-<ol>
-<li>一个事务在Leader上提交了，并且过半的Folower都响应Ack了，但是Leader在Commit消息发出之前挂了。</li>
-<li>假设一个事务在Leader提出之后，Leader挂了。</li>
-</ol>
-<p>&emsp;&emsp;要满足上面这两个问题，必须做到：</p>
-<ol>
-<li><strong>确保已经被Leader提交的Proposal必须最终被所有的Follower服务器提交</strong>。</li>
-<li><strong>确保丢弃已经被Leader提出的但是没有被提交的Proposal</strong>。</li>
-</ol>
-<p>&emsp;&emsp;新的Leader的必须满足：</p>
-<ol>
-<li><strong>新选举出来的Leader不能包含未提交的Proposal</strong>。</li>
-<li><strong>新选举的Leader节点中含有最大的Zxid</strong>。</li>
-</ol>
-<h2 id="ZAB如何数据同步"><a href="#ZAB如何数据同步" class="headerlink" title="ZAB如何数据同步"></a>ZAB如何数据同步</h2><p>&emsp;&emsp;完成Leader选举后（新的Leader具有最高的Zxid），在正式开始工作之前（接收事务请求，然后提出新的Proposal），Leader服务器会首先确认事务日志中的所有的Proposal是否已经被集群中过半的服务器Commit。<br>&emsp;&emsp;Leader服务器需要确保所有的Follower服务器能够接收到每一条事务的Proposal，并且能将所有已经提交的事务Proposal应用到内存数据中。等到Follower将所有尚未同步的事务Proposal都从Leader服务器上同步过啦并且应用到内存数据中以后，Leader才会把该Follower加入到真正可用的Follower列表中。</p>
-<h2 id="ZAB数据同步过程中，如何处理需要丢弃的Proposal"><a href="#ZAB数据同步过程中，如何处理需要丢弃的Proposal" class="headerlink" title="ZAB数据同步过程中，如何处理需要丢弃的Proposal"></a>ZAB数据同步过程中，如何处理需要丢弃的Proposal</h2><p>&emsp;&emsp;在ZAB的事务编号Zxid设计中，Zxid是一个64位的数字。<br>&emsp;&emsp;<strong>其中低32位可以看成一个简单的单增计数器，针对客户端每一个事务请求，Leader在产生新的Proposal事务时，都会对该计数器加1。而高32位则代表了Leader周期的epoch编号</strong>。  </p>
-<blockquote>
-<p>&emsp;&emsp;epoch编号可以理解为当前集群所处的年代，或者周期。每次Leader变更之后都会在epoch的基础上加1，这样旧的Leader崩溃恢复之后，其他Follower也不会听它的了，因为Follower只服从epoch最高的Leader命令。</p>
-</blockquote>
-<p>&emsp;&emsp;每当选举产生一个新的Leader，就会从这个Leader服务器上取出本地事务日志充最大编号Proposal的Zxid，并从Zxid中解析得到对应的epoch编号，然后再对其加1，之后该编号就作为新的epoch值，并将低32位数字归零，由0开始重新生成Zxid。<br>&emsp;&emsp;ZAB协议通过epoch编号来区分Leader变化周期，能够有效避免不同的Leader错误的使用了相同的Zxid编号提出了不一样的Proposal的异常情况。<br>&emsp;&emsp;当一个包含了上一个Leader周期尚未提交过的事务Proposal的服务器启动时，当这台机器加入集群中，以Follower角色连上Leader服务器上，Leader服务器会根据自己服务器上最后提交的Proposal来和Follower服务器的Proposal进行比对，比对的结果肯定是Leader要求Follower进行一个回退操作，回退到一个确实已经被集群中过半机器Commit的最新Proposal。</p>
+<h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>&emsp;&emsp;在官网下载zookeeper指定版本，<a href="https://zookeeper.apache.org/">https://zookeeper.apache.org/</a>。<br>&emsp;&emsp;下载指定的压缩包apache-zookeeper-3.7.0-bin.tar.gz。</p>
+<h2 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h2><p>&emsp;&emsp;将下载的压缩包解压到指定的目录，这里是单机模式安装。<br>&emsp;&emsp;将解压后的目录中的zoo_sample.cfg配置文件重命名为zoo.cfg。</p>
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><p>&emsp;&emsp;进入解压后目录的bin文件夹，执行zkerver.cmd命令，liunx下执行zkserver.sh程序。<br>&emsp;&emsp;如果不成功需要指定刚才配置的zoo.cfg文件的路径。  </p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 启动服务端程序</span>
+<span class="token operator">></span> zkserver
+
+<span class="token comment"># 启动客户端程序（本机上）</span>
+<span class="token operator">></span> zkcli
+
+<span class="token comment"># 可以连接远程的机器</span>
+<span class="token operator">></span> zkCli.sh -server host:port<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Windows%20PowerShell%202021_5_10%2010_52_23.png" alt="启动成功"></p>
 <hr>
-<h1 id="Leader选举"><a href="#Leader选举" class="headerlink" title="Leader选举"></a>Leader选举</h1><p>&emsp;&emsp;选举分为四个阶段：选举阶段，发现阶段，同步阶段，广播阶段。</p>
-<h2 id="选举阶段"><a href="#选举阶段" class="headerlink" title="选举阶段"></a>选举阶段</h2><p>&emsp;&emsp;节点在一开始都处于选举阶段，只要一个节点得到超过半数节点的票数，他就可以当选准Leader，只有达到同步阶段，这个节点才能真正称为Leader。<br>&emsp;&emsp;Zookeeper规定所有有效的投票都必须在同一个轮次中，每个服务器在开始新一轮投票时，都会对自己维护的logicalClock进行自增操作。<br>&emsp;&emsp;每个服务器在广播自己的选票前，会将自己的投票箱（recvset）清空。该投票箱记录了所受到的选票。(3,2)这种格式，表示3投给了2。<br>&emsp;&emsp;广播选票后，会进行选票PK，选出准Leader。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/zab%E9%80%89%E4%B8%BE.png" alt="ZAB选举"></p>
-<h2 id="发现阶段"><a href="#发现阶段" class="headerlink" title="发现阶段"></a>发现阶段</h2><p>&emsp;&emsp;在这个阶段，Followers和上一轮选举出的准Leader进行通信，同步Followers最近接收的事务Proposal。<br>&emsp;&emsp;<em>一个Follower只会连接一个Leader，如果一个 Follower节点拒绝另一个Follower节点，则会在尝试连接时被拒绝。被拒绝之后，该节点就会进入Leader Election阶段</em>。<br>&emsp;&emsp;这个阶段的主要目标是发现当前大多数节点接收的最新Proposal，并且准Leader生成新的epoch，让Follower接收，更新它们的acceptedEpoch。</p>
-<h2 id="同步阶段"><a href="#同步阶段" class="headerlink" title="同步阶段"></a>同步阶段</h2><p>&emsp;&emsp;同步阶段主要是利用Leader前一阶段获得最新的Proposal历史，同步集群中所有的副本。<br>&emsp;&emsp;只有当超过半数节点都同步完成，准Leader才会称为真正的Leader。Follower只会接受Zxid比自己LastZxid大的Proposal。</p>
-<h2 id="广播阶段"><a href="#广播阶段" class="headerlink" title="广播阶段"></a>广播阶段</h2><p>&emsp;&emsp;到了这个阶段，Zookeeper集群才能正式向外部提供服务，并且Leader进行消息广播。如果有新节点，对新节点进行数据同步。<br>&emsp;&emsp;Zookeeper不需要得到全部的Follower的ACK，超过一般数量的ACK，就饿可以Commit。</p>
-<hr>
-<h1 id="协议实现"><a href="#协议实现" class="headerlink" title="协议实现"></a>协议实现</h1><p>&emsp;&emsp;实际的实现跟上面有所不同，分为三个阶段，将发现和同步阶段合在一起。<br>&emsp;&emsp;实际分为，选举、恢复、广播三个阶段。</p>
-<h2 id="选举阶段-1"><a href="#选举阶段-1" class="headerlink" title="选举阶段"></a>选举阶段</h2><p>&emsp;&emsp;选举阶段采用Fast Leader Election（FLE），会采用LastZxid最大的节点作为Leader，这样就省去了发现最新提议的阶段。<br>&emsp;&emsp;这是基于拥有最新提议的节点也拥有最新的提交记录。<br>&emsp;&emsp;称为Leader的条件：</p>
-<ol>
-<li>选epoch最大的。</li>
-<li>epoch相等，选Zxid最大的。</li>
-<li>若 epoch 和 zxid 相等，选择 server_id 最大的（zoo.cfg中的myid）。</li>
-</ol>
-<p>&emsp;&emsp;节点在选举开始时，都默认投票给自己，当接收其他节点的选票时，会根据上面的Leader条件 判断并且更改自己的选票，然后重新发送选票给其他节点。当有一个节点的得票超过半数，该节点会设置自己的状态为Leading ，其他节点会设置自己的状态为Following。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E9%80%89%E4%B8%BE.png" alt="选举"></p>
-<h2 id="恢复阶段"><a href="#恢复阶段" class="headerlink" title="恢复阶段"></a>恢复阶段</h2><p>&emsp;&emsp;这一阶段Follower发送他们的lastZxid给Leader，Leader根据lastZxid决定如何同步数据。这里的实现跟前面的Phase 2有所不同：Follower收到TRUNC指令会终止L.lastCommitedZxid之后的Proposal，收到DIFF指令会接收新的Proposal。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E6%81%A2%E5%A4%8D.png" alt="恢复"></p>
-<hr>
-<h1 id="两个问题"><a href="#两个问题" class="headerlink" title="两个问题"></a>两个问题</h1><h2 id="已经被处理的请求不能丢"><a href="#已经被处理的请求不能丢" class="headerlink" title="已经被处理的请求不能丢"></a>已经被处理的请求不能丢</h2><p>&emsp;&emsp;就是发送Commit提交消息时，挂掉了。</p>
-<ol>
-<li>选举拥有proposal最大值（即zxid最大）的节点作为新的 leader。<blockquote>
-<p>zxid最大也就是数据最新的节点保存了所有被COMMIT消息的proposal状态。</p>
-</blockquote>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><h2 id="查看dubbo服务"><a href="#查看dubbo服务" class="headerlink" title="查看dubbo服务"></a>查看dubbo服务</h2><ol>
+<li><p>使用zk客户端连接</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">./zkcli.sh
+./zkcli.bat<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 </li>
-<li>新的leader将自己事务日志中proposal但未COMMIT的消息处理。</li>
-<li>新的leader与follower建立先进先出的队列，先将自身有而 follower没有的proposal发送给follower，再将这些proposal的COMMIT命令发送给follower，以保证所有的follower都保存了所有的proposal、所有的follower都处理了所有的消息。通过以上策略，能保证已经被处理的消息不会丢。</li>
+<li><p>查看服务的提供者</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"><span class="token function">ls</span> /dubbo/****.***.Service/Providers<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li><p>查看服务的消费者</p>
+ <pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"><span class="token function">ls</span> /dubbo/****.****.Service/Consumers<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
 </ol>
-<h2 id="没被处理的请求需要丢失"><a href="#没被处理的请求需要丢失" class="headerlink" title="没被处理的请求需要丢失"></a>没被处理的请求需要丢失</h2><p>&emsp;&emsp;当leader接收到消息请求生成proposal后就挂了，其他follower并没有收到此proposal，因此经过恢复模式重新选了leader后，这条消息是被跳过的。此时，之前挂了的leader重新启动并注册成了follower，他保留了被跳过消息的proposal状态，与整个系统的状态是不一致的，需要将其删除。<br>&emsp;&emsp;Zxid的设计的好处是旧的leader挂了后重启，它不会被选举为leader，因为此时它的zxid肯定小于当前的新leader。当旧的leader作为follower接入新的leader后，新的leader会让它将所有的拥有旧的epoch号的未被COMMIT的proposal清除。</p>
 ]]></content>
       <categories>
         <category>zookeeper</category>
       </categories>
       <tags>
-        <tag>分布式</tag>
+        <tag>tool</tag>
         <tag>zookeeper</tag>
       </tags>
   </entry>
@@ -2852,46 +2946,6 @@ hexo d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></sp
       </categories>
       <tags>
         <tag>分布式</tag>
-        <tag>zookeeper</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>zookeeper单机安装基础使用</title>
-    <url>/hexoblog/2021/03/03/md/zookeeper/zookeeper%E5%8D%95%E6%9C%BA%E5%AE%89%E8%A3%85%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>&emsp;&emsp;zookeeper是一个分布式服务框架，主要用来解决分布式应用中经常遇到的一些数据管理问题。<br>&emsp;&emsp;zookeeper=文件系统+监听通知机制。</p>
-<span id="more"></span>
-
-<h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>&emsp;&emsp;在官网下载zookeeper指定版本，<a href="https://zookeeper.apache.org/">https://zookeeper.apache.org/</a>。<br>&emsp;&emsp;下载指定的压缩包apache-zookeeper-3.7.0-bin.tar.gz。</p>
-<h2 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h2><p>&emsp;&emsp;将下载的压缩包解压到指定的目录，这里是单机模式安装。<br>&emsp;&emsp;将解压后的目录中的zoo_sample.cfg配置文件重命名为zoo.cfg。</p>
-<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><p>&emsp;&emsp;进入解压后目录的bin文件夹，执行zkerver.cmd命令，liunx下执行zkserver.sh程序。<br>&emsp;&emsp;如果不成功需要指定刚才配置的zoo.cfg文件的路径。  </p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 启动服务端程序</span>
-<span class="token operator">></span> zkserver
-
-<span class="token comment"># 启动客户端程序（本机上）</span>
-<span class="token operator">></span> zkcli
-
-<span class="token comment"># 可以连接远程的机器</span>
-<span class="token operator">></span> zkCli.sh -server host:port<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Windows%20PowerShell%202021_5_10%2010_52_23.png" alt="启动成功"></p>
-<hr>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><h2 id="查看dubbo服务"><a href="#查看dubbo服务" class="headerlink" title="查看dubbo服务"></a>查看dubbo服务</h2><ol>
-<li><p>使用zk客户端连接</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">./zkcli.sh
-./zkcli.bat<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-</li>
-<li><p>查看服务的提供者</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"><span class="token function">ls</span> /dubbo/****.***.Service/Providers<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-</li>
-<li><p>查看服务的消费者</p>
- <pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"><span class="token function">ls</span> /dubbo/****.****.Service/Consumers<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
-</ol>
-]]></content>
-      <categories>
-        <category>zookeeper</category>
-      </categories>
-      <tags>
-        <tag>tool</tag>
         <tag>zookeeper</tag>
       </tags>
   </entry>
@@ -3103,60 +3157,6 @@ zkServer<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
         <tag>tool</tag>
         <tag>分布式</tag>
         <tag>zookeeper</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>spring事务失效</title>
-    <url>/hexoblog/2021/03/02/md/spring/spring%E4%BA%8B%E5%8A%A1%E5%A4%B1%E6%95%88/</url>
-    <content><![CDATA[<h1 id="事务失效的几种类型"><a href="#事务失效的几种类型" class="headerlink" title="事务失效的几种类型"></a>事务失效的几种类型</h1><ol>
-<li>数据库引擎不支持事务。</li>
-<li>没有被Spring管理。</li>
-<li>方法不是public的。</li>
-<li>自身调用问题。</li>
-<li>数据源没有配置事务管理器。</li>
-<li>不支持事务。</li>
-<li>异常被吃了。</li>
-<li>异常类型错误。</li>
-</ol>
-<span id="more"></span>
-
-<hr>
-<h1 id="事务失效类型："><a href="#事务失效类型：" class="headerlink" title="事务失效类型："></a>事务失效类型：</h1><h2 id="数据库引擎不支持事务"><a href="#数据库引擎不支持事务" class="headerlink" title="数据库引擎不支持事务"></a>数据库引擎不支持事务</h2><p>&emsp;&emsp;这里以 MySQL 为例，其 MyISAM 引擎是不支持事务操作的，InnoDB 才是支持事务的引擎，一般要支持事务都会使用 InnoDB。<br>&emsp;&emsp;根据 MySQL 的官方文档：<a href="https://dev.mysql.com/doc/refman/8.0/en/storage-engine-setting.html">https://dev.mysql.com/doc/refman/8.0/en/storage-engine-setting.html</a></p>
-<h2 id="没有被Spring管理"><a href="#没有被Spring管理" class="headerlink" title="没有被Spring管理"></a>没有被Spring管理</h2><p>&emsp;&emsp;Spring中的事务基于AOP实现，则事务类必须被Spring管理，进行代理，才能支持事务。</p>
-<h3 id="方法不是public的"><a href="#方法不是public的" class="headerlink" title="方法不是public的"></a>方法不是public的</h3><p>&emsp;&emsp;@Transaction只对方法名为public的才会生效，其他的不生效。private，static，final方法不能添加事务，添加了也不会生效。</p>
-<h3 id="自身调用问题"><a href="#自身调用问题" class="headerlink" title="自身调用问题"></a>自身调用问题</h3><ol>
-<li> service类中调用本类自己的方法，由于没有经过spring代理，事务不会生效。</li>
-<li>一个无事务的方法调用另一个有事务的方法，事务是不会起作用的。这种情况，可以内部维护一个自己注入的bean，使用这个属性来调用。或者利用AOP上下文来获取代理对象，利用代理对象调用。</li>
-<li>有事务的调用有事务的被调用的不能新开启事务。被调用的开启的新事务不会生效。</li>
-<li>有事务的调用无事务的会生效。</li>
-<li>无事务的调用无事务的，这种情况就会没有事务。  </li>
-</ol>
-<p>&emsp;&emsp;事务是否生效主要看是否通过代理，没有通过代理就不会生效。</p>
-<h2 id="数据源没有配置事务管理器"><a href="#数据源没有配置事务管理器" class="headerlink" title="数据源没有配置事务管理器"></a>数据源没有配置事务管理器</h2><p>&emsp;&emsp;数据源必须开启事务管理器：</p>
-<ol>
-<li>@EnableTransactionManagement  // 启注解事务管理，等同于xml配置方式的 &lt;tx:annotation-driven /&gt;</li>
-<li>@EnableTransactionManagement 在springboot1.4以后可以不写。框架在初始化的时候已经默认给我们注入了两个事务管理器的Bean（JDBC的DataSourceTransactionManager和JPA的JpaTransactionManager ），其实这就包含了我们最常用的Mybatis和Hibeanate了。当然如果不是AutoConfig的而是自己自定义的，请使用该注解开启事务</li>
-</ol>
-<h2 id="不支持事务"><a href="#不支持事务" class="headerlink" title="不支持事务"></a>不支持事务</h2><p>&emsp;&emsp;Propagation设置错误，Propagation用于配置事务的传播行为。Propagation.NOT_SUPPORTED： 表示不以事务运行，当前若存在事务则挂起。</p>
-<h2 id="异常被吃了"><a href="#异常被吃了" class="headerlink" title="异常被吃了"></a>异常被吃了</h2><p>&emsp;&emsp;异常被捕获了，然后不进行抛出，那么无法认为有异常，事务就不会回滚。在service中不应该进行事务的捕获，而进行抛出，在controller中进行异常捕获，这样既支持事务也捕获了异常。</p>
-<h2 id="异常类型错误"><a href="#异常类型错误" class="headerlink" title="异常类型错误"></a>异常类型错误</h2><p>&emsp;&emsp;Spring的事务管理默认是针对Error异常和RuntimeException异常以及其子类进行事务回滚。对runtimeException并不需要抛出，error需要抛出异常，并进行捕获。如果想对其他异常进行支持，则需要配置：@Transactional(rollbackFor = Exception.class)</p>
-<h2 id="业务和事务必须要在同一个线程中"><a href="#业务和事务必须要在同一个线程中" class="headerlink" title="业务和事务必须要在同一个线程中"></a>业务和事务必须要在同一个线程中</h2><p>&emsp;&emsp;不在同一个线程，则事务影响不到。</p>
-<hr>
-<h1 id="事务的隔离级别"><a href="#事务的隔离级别" class="headerlink" title="事务的隔离级别"></a>事务的隔离级别</h1><h2 id="事务会引起的问题："><a href="#事务会引起的问题：" class="headerlink" title="事务会引起的问题："></a>事务会引起的问题：</h2><h3 id="脏读："><a href="#脏读：" class="headerlink" title="脏读："></a>脏读：</h3><p>&emsp;&emsp;当A事务对数据进行修改，但是这种修改还没有提交到数据库中，B事务同时在访问这个数据，由于没有隔离，B获取的数据有可能被A事务回滚，这就导致了数据不一致的问题。</p>
-<h3 id="丢失修改："><a href="#丢失修改：" class="headerlink" title="丢失修改："></a>丢失修改：</h3><p>&emsp;&emsp;当A事务访问数据100，并且修改为100-1=99，同时B事务读取数据也是100，修改数据100-1=99，最终两个事务的修改结果为99，但是实际是98。事务A修改的数据被丢失了。</p>
-<h3 id="不可重复读："><a href="#不可重复读：" class="headerlink" title="不可重复读："></a>不可重复读：</h3><p>&emsp;&emsp;指A事务在读取数据X=100的时候，B事务把数据X=100修改为X=200,这个时候A事务第二次读取数据X的时候，发现X=200了，导致了在整个A事务期间，两次读取数据X不一致了，这就是不可重复读。</p>
-<h3 id="幻读："><a href="#幻读：" class="headerlink" title="幻读："></a>幻读：</h3><p>&emsp;&emsp;幻读和不可重复读类似。幻读表现在，当A事务读取表数据时候，只有3条数据，这个时候B事务插入了2条数据，当A事务再次读取的时候，发现有5条记录了，平白无故多了2条记录，就像幻觉一样。</p>
-<p>&emsp;&emsp;不可重复读的重点是修改: 同样的条件 , 你读取过的数据 , 再次读取出来发现值不一样了，重点在更新操作。<br>&emsp;&emsp;幻读的重点在于新增或者删除：同样的条件 , 第 1 次和第 2 次读出来的记录数不一样，重点在增删操作。</p>
-<h2 id="Spring定义的隔离级别："><a href="#Spring定义的隔离级别：" class="headerlink" title="Spring定义的隔离级别："></a>Spring定义的隔离级别：</h2><p><strong>TransactionDefinition.ISOLATION_DEFAULT：</strong> 数据库的默认隔离级别，MySQL默认采用的 REPEATABLE_READ隔离级别。<br><strong>TransactionDefinition.ISOLATION_READ_UNCOMMITTED：</strong> 最低的隔离级别，最低的隔离级别，允许读取未提交的数据变更，可能会导致脏读、幻读或不可重复读。<br><strong>TransactionDefinition.ISOLATION_READ_COMMITTED：</strong> 允许读取并发事务已经提交的数据，未提交的不可读取，可以阻止脏读，但是幻读或不可重复读仍有可能发生。<br><strong>TransactionDefinition.ISOLATION_REPEATABLE_READ：</strong> 对同一字段的多次重复读取结果都是一致的，除非数据是被本身事务自己所修改，可以阻止脏读和不可重复读，但幻读仍有可能发生。MySQL中通过MVCC解决了该隔离级别下出现幻读的可能。<br><strong>TransactionDefinition.ISOLATION_SERIALIZABLE：</strong> 串行化隔离级别，该级别可以防止脏读、不可重复读以及幻读，但是串行化会影响性能。</p>
-<h3 id="Propagation，传播行为："><a href="#Propagation，传播行为：" class="headerlink" title="Propagation，传播行为："></a>Propagation，传播行为：</h3><p>指多个方法调用时，事务对多个方法之间传播的影响。</p>
-<p><strong>PROPAGATION_REQUIRED：</strong> 如果当前没有事务，就新建一个事务，如果已经存在一个事务中，加入到这个事务中。这是最常见的选择。<br><strong>PROPAGATION_SUPPORTS：</strong> 支持当前事务，如果当前没有事务，就以非事务方式执行。<br><strong>PROPAGATION_MANDATORY：</strong> 使用当前的事务，如果当前没有事务，就抛出异常。<br><strong>PROPAGATION_REQUIRES_NEW：</strong> 新建事务，如果当前存在事务，把当前事务挂起。<br><strong>PROPAGATION_NOT_SUPPORTED：</strong> 以非事务方式执行操作，如果当前存在事务，就把当前事务挂起。<br><strong>PROPAGATION_NEVER：</strong> 以非事务方式执行，如果当前存在事务，则抛出异常。<br><strong>PROPAGATION_NESTED：</strong> 如果当前存在事务，则在嵌套事务内执行。如果当前没有事务，则执行与PROPAGATION_REQUIRED类似的操作。</p>
-]]></content>
-      <categories>
-        <category>spring</category>
-      </categories>
-      <tags>
-        <tag>spring</tag>
-        <tag>acid</tag>
       </tags>
   </entry>
   <entry>
@@ -4393,7 +4393,7 @@ start nginx
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <hr>
-<h1 id="参考蚊香-amp-鸣谢"><a href="#参考蚊香-amp-鸣谢" class="headerlink" title="参考蚊香 &amp; 鸣谢"></a>参考蚊香 &amp; 鸣谢</h1><ul>
+<h1 id="参考文献-amp-鸣谢"><a href="#参考文献-amp-鸣谢" class="headerlink" title="参考文献 &amp; 鸣谢"></a>参考文献 &amp; 鸣谢</h1><ul>
 <li><a href="https://www.cnblogs.com/waterystone/p/4920797.html">Java并发之AQS详解</a></li>
 </ul>
 ]]></content>
@@ -4408,6 +4408,72 @@ start nginx
         <tag>java</tag>
         <tag>juc</tag>
         <tag>AQS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>threadpool</title>
+    <url>/hexoblog/2021/03/01/md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/threadpool/</url>
+    <content><![CDATA[<h1 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h1><p><a href="https://my.oschina.net/linqiankun/blog/3192649">线程池</a><br><a href="https://gitee.com/linqiankun/codes/cshv4db0eq7znx6a5g2im43">线程池demo</a></p>
+<h2 id="newCachedThreadPool"><a href="#newCachedThreadPool" class="headerlink" title="newCachedThreadPool:"></a>newCachedThreadPool:</h2><h3 id="底层："><a href="#底层：" class="headerlink" title="底层："></a>底层：</h3><p>&emsp;&emsp;创建一个可缓存的线程池实例，如果线程池长度超过处理需要，可灵活回收空闲线程。<br>&emsp;&emsp;返回ThreadPoolExecutor实例，corePoolSize为0；maximumPoolSize为Integer.MAX_VALUE；keepAliveTime为60L；unit为TimeUnit.SECOhexoNDS；workQueue为SynchronousQueue(同步队列)。</p>
+<span id="more"></span>
+
+<h3 id="通俗："><a href="#通俗：" class="headerlink" title="通俗："></a>通俗：</h3><p>&emsp;&emsp;当有新任务到来，则插入到SynchronousQueue中，由于SynchronousQueue是同步队列，因此会在池中寻找可用线程来执行，若有可以线程则执行，若没有可用线程则创建一个线程来执行该任务；若池中线程空闲时间超过指定大小，则该线程会被销毁。</p>
+<h3 id="适用："><a href="#适用：" class="headerlink" title="适用："></a>适用：</h3><p>&emsp;&emsp;执行很多短期异步的小程序或者负载较轻的服务器。</p>
+<hr>
+<h2 id="newFixedThreadPool"><a href="#newFixedThreadPool" class="headerlink" title="newFixedThreadPool:"></a>newFixedThreadPool:</h2><h3 id="底层：-1"><a href="#底层：-1" class="headerlink" title="底层："></a>底层：</h3><p>&emsp;&emsp;创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待。<br>&emsp;&emsp;返回ThreadPoolExecutor实例，接收参数为所设定线程数量nThread，corePoolSize为nThread，maximumPoolSize为nThread；keepAliveTime为0L(不限时)；unit为：TimeUnit.MILLISECONDS；WorkQueue为：new LinkedBlockingQueue&lt;Runnable&gt;() 无界阻塞队列。</p>
+<h3 id="通俗：-1"><a href="#通俗：-1" class="headerlink" title="通俗："></a>通俗：</h3><p>&emsp;&emsp;创建可容纳固定数量线程的池子，每隔线程的存活时间是无限的，当池子满了就不在添加线程了；如果池中的所有线程均在繁忙状态，对于新任务会进入阻塞队列中(无界的阻塞队列)。</p>
+<h3 id="适用：-1"><a href="#适用：-1" class="headerlink" title="适用："></a>适用：</h3><p>&emsp;&emsp;执行长期任务，性能好很多。</p>
+<hr>
+<h2 id="newSingleThreadExecutor"><a href="#newSingleThreadExecutor" class="headerlink" title="newSingleThreadExecutor:"></a>newSingleThreadExecutor:</h2><h3 id="底层：-2"><a href="#底层：-2" class="headerlink" title="底层："></a>底层：</h3><p>&emsp;&emsp;创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有线程按照指定顺序执行。<br>&emsp;&emsp;FinalizableDelegatedExecutorService包装的ThreadPoolExecutor实例，corePoolSize为1；maximumPoolSize为1；keepAliveTime为0L；unit为：TimeUnit.MILLISECONDS；workQueue为：new LinkedBlockingQueue&lt;Runnable&gt;() 无解阻塞队列。</p>
+<h3 id="通俗：-2"><a href="#通俗：-2" class="headerlink" title="通俗："></a>通俗：</h3><p>&emsp;&emsp;创建只有一个线程的线程池，且线程的存活时间是无限的；当该线程正繁忙时，对于新任务会进入阻塞队列中(无界的阻塞队列)。</p>
+<h3 id="适用：-2"><a href="#适用：-2" class="headerlink" title="适用："></a>适用：</h3><p>&emsp;&emsp;一个任务一个任务执行的场景。</p>
+<hr>
+<h2 id="NewScheduledThreadPool"><a href="#NewScheduledThreadPool" class="headerlink" title="NewScheduledThreadPool:"></a>NewScheduledThreadPool:</h2><h3 id="底层：-3"><a href="#底层：-3" class="headerlink" title="底层："></a>底层：</h3><p>&emsp;&emsp;创建一个定长线程池，支持定时及周期性执行任务。<br>&emsp;&emsp;创建ScheduledThreadPoolExecutor实例，corePoolSize为传递来的参数，maximumPoolSize为Integer.MAX_VALUE；keepAliveTime为0；unit为：TimeUnit.NANOSECONDS；workQueue为：new DelayedWorkQueue() 一个按超时时间升序排序的队列。</p>
+<h3 id="通俗：-3"><a href="#通俗：-3" class="headerlink" title="通俗："></a>通俗：</h3><p>&emsp;&emsp;创建一个固定大小的线程池，线程池内线程存活时间无限制，线程池可以支持定时及周期性任务执行，如果所有线程均处于繁忙状态，对于新任务会进入DelayedWorkQueue队列中，这是一种按照超时时间排序的队列结构。</p>
+<h3 id="适用：-3"><a href="#适用：-3" class="headerlink" title="适用："></a>适用：</h3><p>&emsp;&emsp;周期性执行任务的场景。</p>
+<hr>
+<h1 id="线程池任务执行流程："><a href="#线程池任务执行流程：" class="headerlink" title="线程池任务执行流程："></a>线程池任务执行流程：</h1><ol>
+<li>当线程池小于corePoolSize时，新提交任务将创建一个新线程执行任务，即使此时线程池中存在空闲线程。</li>
+<li>当线程池达到corePoolSize时，新提交任务将被放入workQueue中，等待线程池中任务调度执行</li>
+<li>当workQueue已满，且maximumPoolSize&gt;corePoolSize时，新提交任务会创建新线程执行任务</li>
+<li>当提交任务数超过maximumPoolSize时，新提交任务由RejectedExecutionHandler处理</li>
+<li>当线程池中超过corePoolSize线程，空闲时间达到keepAliveTime时，关闭空闲线程</li>
+<li>当设置allowCoreThreadTimeOut(true)时，线程池中corePoolSize线程空闲时间达到keepAliveTime也将关闭</li>
+</ol>
+<hr>
+<h1 id="参数解释："><a href="#参数解释：" class="headerlink" title="参数解释："></a>参数解释：</h1><h2 id="corePoolSize-amp-maximumPoolSize："><a href="#corePoolSize-amp-maximumPoolSize：" class="headerlink" title="corePoolSize &amp; maximumPoolSize："></a>corePoolSize &amp; maximumPoolSize：</h2><p>&emsp;&emsp;当一个新任务被提交到池中，如果当前运行线程小于核心线程数（corePoolSize），即使当前有空闲线程，也会新建一个线程来处理新提交的任务；如果当前运行线程数大于核心线程数（corePoolSize）并小于最大线程数（maximumPoolSize），只有当等待队列已满的情况下才会新建线程。</p>
+<h2 id="keepAliveTime-amp-unit"><a href="#keepAliveTime-amp-unit" class="headerlink" title="keepAliveTime &amp; unit:"></a>keepAliveTime &amp; unit:</h2><p>&emsp;&emsp;keepAliveTime为超过corePoolSize线程数量的线程最大空闲时间，unit为时间单位。</p>
+<h2 id="等待队列："><a href="#等待队列：" class="headerlink" title="等待队列："></a>等待队列：</h2><p>&emsp;&emsp;任何阻塞队列（BlockingQueue）都可以用来转移或保存提交的任务，线程池大小和阻塞队列相互约束线程池：</p>
+<ol>
+<li>如果运行线程数小于corePoolSize，提交新任务时就会新建一个线程来运行；</li>
+<li>如果运行线程数大于或等于corePoolSize，新提交的任务就会入列等待；如果队列已满，并且运行线程数小于maximumPoolSize，也将会新建一个线程来运行；</li>
+<li>如果线程数大于maximumPoolSize，新提交的任务将会根据拒绝策略来处理。</li>
+</ol>
+<h3 id="入队列策略："><a href="#入队列策略：" class="headerlink" title="入队列策略："></a>入队列策略：</h3><h4 id="直接传递："><a href="#直接传递：" class="headerlink" title="直接传递："></a>直接传递：</h4><p>&emsp;&emsp;通过 SynchronousQueue 直接把任务传递给线程。如果当前没可用线程，尝试入队操作会失败，然后再创建一个新的线程。当处理可能具有内部依赖性的请求时，该策略会避免请求被锁定。直接传递通常需要无界的最大线程数（maximumPoolSize），避免拒绝新提交的任务。当任务持续到达的平均速度超过可处理的速度时，可能导致线程的无限增长。</p>
+<h4 id="无界队列："><a href="#无界队列：" class="headerlink" title="无界队列："></a>无界队列：</h4><p>&emsp;&emsp;使用无界队列（如 LinkedBlockingQueue）作为等待队列，当所有的核心线程都在处理任务时， 新提交的任务都会进入队列等待。因此，不会有大于corePoolSize的线程会被创建（maximumPoolSize 也将失去作用）。这种策略适合每个任务都完全独立于其他任务的情况；例如网站服务器。这种类型的等待队列可以使瞬间爆发的高频请求变得平滑。当任务持续到达的平均速度超过可处理速度时，可能导致等待队列无限增长。</p>
+<h4 id="有界队列："><a href="#有界队列：" class="headerlink" title="有界队列："></a>有界队列：</h4><p>&emsp;&emsp;当使用有限的最大线程数时，有界队列（如 ArrayBlockingQueue）可以防止资源耗尽，但是难以调整和控制。队列大小和线程池大小可以相互作用：使用大的队列和小的线程数可以减少CPU使用率、系统资源和上下文切换的开销，但是会导致吞吐量变低，如果任务频繁地阻塞（例如被I/O限制），系统就能为更多的线程调度执行时间。使用小的队列通常需要更多的线程数，这样可以最大化CPU使用率，但可能会需要更大的调度开销，从而降低吞吐量。</p>
+<h2 id="拒绝策略："><a href="#拒绝策略：" class="headerlink" title="拒绝策略："></a>拒绝策略：</h2><p>&emsp;&emsp;当线程池已经关闭或达到饱和（最大线程和队列都已满）状态时，新提交的任务将会被拒绝。<br>ThreadPoolExecutor定义了四种拒绝策略:</p>
+<h3 id="AbortPolicy"><a href="#AbortPolicy" class="headerlink" title="AbortPolicy:"></a>AbortPolicy:</h3><p>&emsp;&emsp;默认策略，在需要拒绝任务时抛出RejectedExecutionException。</p>
+<h3 id="CallerRunsPolicy"><a href="#CallerRunsPolicy" class="headerlink" title="CallerRunsPolicy:"></a>CallerRunsPolicy:</h3><p>&emsp;&emsp;直接在execute方法的调用线程中运行被拒绝的任务，如果线程池已经关闭，任务将被丢弃。</p>
+<h3 id="DiscardPolicy"><a href="#DiscardPolicy" class="headerlink" title="DiscardPolicy:"></a>DiscardPolicy:</h3><p>&emsp;&emsp;直接丢弃任务。</p>
+<h3 id="DiscardOldestPolicy"><a href="#DiscardOldestPolicy" class="headerlink" title="DiscardOldestPolicy:"></a>DiscardOldestPolicy:</h3><p>&emsp;&emsp;丢弃队列中等待时间最长的任务，并执行当前提交的任务，如果线程池已经关闭，任务将被丢弃。</p>
+<h3 id="自定义策略："><a href="#自定义策略：" class="headerlink" title="自定义策略："></a>自定义策略：</h3><p>&emsp;&emsp;我们也可以自定义拒绝策略，只需要实现 RejectedExecutionHandler；需要注意的是，拒绝策略的运行需要指定线程池和队列的容量。</p>
+<hr>
+<h1 id="存在的问题："><a href="#存在的问题：" class="headerlink" title="存在的问题："></a>存在的问题：</h1><ol>
+<li>newFixedThreadPool和newSingleThreadExecutor：主要问题是堆积的请求处理队列可能会耗费非常大的内存，甚至OOM。</li>
+<li>newCachedThreadPool和newScheduledThreadPool：主要问题是线程数最大数是Integer.MAX_VALUE，可能会创建数量非常多的线程，甚至OOM。</li>
+</ol>
+<hr>
+<h1 id="备注："><a href="#备注：" class="headerlink" title="备注："></a>备注：</h1><p>&emsp;&emsp;一般如果线程池任务队列采用LinkedBlockingQueue队列的话，那么不会拒绝任何任务（因为队列大小没有限制），这种情况下，ThreadPoolExecutor最多仅会按照最小线程数来创建线程，也就是说线程池大小被忽略了。<br>&emsp;&emsp;如果线程池任务队列采用ArrayBlockingQueue队列的话，那么ThreadPoolExecutor将会采取一个非常负责的算法，比如假定线程池的最小线程数为4，最大为8所用的ArrayBlockingQueue最大为10。随着任务到达并被放到队列中，线程池中最多运行4个线程（即最小线程数）。即使队列完全填满，也就是说有10个处于等待状态的任务，ThreadPoolExecutor也只会利用4个线程。如果队列已满，而又有新任务进来，此时才会启动一个新线程，这里不会因为队列已满而拒接该任务，相反会启动一个新线程。新线程会运行队列中的第一个任务，为新来的任务腾出空间。<br>&emsp;&emsp;这个算法背后的理念是：该池大部分时间仅使用核心线程（4个），即使有适量的任务在队列中等待运行。这时线程池就可以用作节流阀。如果挤压的请求变得非常多，这时该池就会尝试运行更多的线程来清理；这时第二个节流阀—最大线程数就起作用了。</p>
+]]></content>
+      <categories>
+        <category>java</category>
+        <category>多线程</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>多线程</tag>
+        <tag>线程池</tag>
       </tags>
   </entry>
   <entry>
@@ -4634,72 +4700,6 @@ finish，1，Thread-1
       <tags>
         <tag>java</tag>
         <tag>juc</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>threadpool</title>
-    <url>/hexoblog/2021/03/01/md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/threadpool/</url>
-    <content><![CDATA[<h1 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h1><p><a href="https://my.oschina.net/linqiankun/blog/3192649">线程池</a><br><a href="https://gitee.com/linqiankun/codes/cshv4db0eq7znx6a5g2im43">线程池demo</a></p>
-<h2 id="newCachedThreadPool"><a href="#newCachedThreadPool" class="headerlink" title="newCachedThreadPool:"></a>newCachedThreadPool:</h2><h3 id="底层："><a href="#底层：" class="headerlink" title="底层："></a>底层：</h3><p>&emsp;&emsp;创建一个可缓存的线程池实例，如果线程池长度超过处理需要，可灵活回收空闲线程。<br>&emsp;&emsp;返回ThreadPoolExecutor实例，corePoolSize为0；maximumPoolSize为Integer.MAX_VALUE；keepAliveTime为60L；unit为TimeUnit.SECOhexoNDS；workQueue为SynchronousQueue(同步队列)。</p>
-<span id="more"></span>
-
-<h3 id="通俗："><a href="#通俗：" class="headerlink" title="通俗："></a>通俗：</h3><p>&emsp;&emsp;当有新任务到来，则插入到SynchronousQueue中，由于SynchronousQueue是同步队列，因此会在池中寻找可用线程来执行，若有可以线程则执行，若没有可用线程则创建一个线程来执行该任务；若池中线程空闲时间超过指定大小，则该线程会被销毁。</p>
-<h3 id="适用："><a href="#适用：" class="headerlink" title="适用："></a>适用：</h3><p>&emsp;&emsp;执行很多短期异步的小程序或者负载较轻的服务器。</p>
-<hr>
-<h2 id="newFixedThreadPool"><a href="#newFixedThreadPool" class="headerlink" title="newFixedThreadPool:"></a>newFixedThreadPool:</h2><h3 id="底层：-1"><a href="#底层：-1" class="headerlink" title="底层："></a>底层：</h3><p>&emsp;&emsp;创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待。<br>&emsp;&emsp;返回ThreadPoolExecutor实例，接收参数为所设定线程数量nThread，corePoolSize为nThread，maximumPoolSize为nThread；keepAliveTime为0L(不限时)；unit为：TimeUnit.MILLISECONDS；WorkQueue为：new LinkedBlockingQueue&lt;Runnable&gt;() 无界阻塞队列。</p>
-<h3 id="通俗：-1"><a href="#通俗：-1" class="headerlink" title="通俗："></a>通俗：</h3><p>&emsp;&emsp;创建可容纳固定数量线程的池子，每隔线程的存活时间是无限的，当池子满了就不在添加线程了；如果池中的所有线程均在繁忙状态，对于新任务会进入阻塞队列中(无界的阻塞队列)。</p>
-<h3 id="适用：-1"><a href="#适用：-1" class="headerlink" title="适用："></a>适用：</h3><p>&emsp;&emsp;执行长期任务，性能好很多。</p>
-<hr>
-<h2 id="newSingleThreadExecutor"><a href="#newSingleThreadExecutor" class="headerlink" title="newSingleThreadExecutor:"></a>newSingleThreadExecutor:</h2><h3 id="底层：-2"><a href="#底层：-2" class="headerlink" title="底层："></a>底层：</h3><p>&emsp;&emsp;创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有线程按照指定顺序执行。<br>&emsp;&emsp;FinalizableDelegatedExecutorService包装的ThreadPoolExecutor实例，corePoolSize为1；maximumPoolSize为1；keepAliveTime为0L；unit为：TimeUnit.MILLISECONDS；workQueue为：new LinkedBlockingQueue&lt;Runnable&gt;() 无解阻塞队列。</p>
-<h3 id="通俗：-2"><a href="#通俗：-2" class="headerlink" title="通俗："></a>通俗：</h3><p>&emsp;&emsp;创建只有一个线程的线程池，且线程的存活时间是无限的；当该线程正繁忙时，对于新任务会进入阻塞队列中(无界的阻塞队列)。</p>
-<h3 id="适用：-2"><a href="#适用：-2" class="headerlink" title="适用："></a>适用：</h3><p>&emsp;&emsp;一个任务一个任务执行的场景。</p>
-<hr>
-<h2 id="NewScheduledThreadPool"><a href="#NewScheduledThreadPool" class="headerlink" title="NewScheduledThreadPool:"></a>NewScheduledThreadPool:</h2><h3 id="底层：-3"><a href="#底层：-3" class="headerlink" title="底层："></a>底层：</h3><p>&emsp;&emsp;创建一个定长线程池，支持定时及周期性执行任务。<br>&emsp;&emsp;创建ScheduledThreadPoolExecutor实例，corePoolSize为传递来的参数，maximumPoolSize为Integer.MAX_VALUE；keepAliveTime为0；unit为：TimeUnit.NANOSECONDS；workQueue为：new DelayedWorkQueue() 一个按超时时间升序排序的队列。</p>
-<h3 id="通俗：-3"><a href="#通俗：-3" class="headerlink" title="通俗："></a>通俗：</h3><p>&emsp;&emsp;创建一个固定大小的线程池，线程池内线程存活时间无限制，线程池可以支持定时及周期性任务执行，如果所有线程均处于繁忙状态，对于新任务会进入DelayedWorkQueue队列中，这是一种按照超时时间排序的队列结构。</p>
-<h3 id="适用：-3"><a href="#适用：-3" class="headerlink" title="适用："></a>适用：</h3><p>&emsp;&emsp;周期性执行任务的场景。</p>
-<hr>
-<h1 id="线程池任务执行流程："><a href="#线程池任务执行流程：" class="headerlink" title="线程池任务执行流程："></a>线程池任务执行流程：</h1><ol>
-<li>当线程池小于corePoolSize时，新提交任务将创建一个新线程执行任务，即使此时线程池中存在空闲线程。</li>
-<li>当线程池达到corePoolSize时，新提交任务将被放入workQueue中，等待线程池中任务调度执行</li>
-<li>当workQueue已满，且maximumPoolSize&gt;corePoolSize时，新提交任务会创建新线程执行任务</li>
-<li>当提交任务数超过maximumPoolSize时，新提交任务由RejectedExecutionHandler处理</li>
-<li>当线程池中超过corePoolSize线程，空闲时间达到keepAliveTime时，关闭空闲线程</li>
-<li>当设置allowCoreThreadTimeOut(true)时，线程池中corePoolSize线程空闲时间达到keepAliveTime也将关闭</li>
-</ol>
-<hr>
-<h1 id="参数解释："><a href="#参数解释：" class="headerlink" title="参数解释："></a>参数解释：</h1><h2 id="corePoolSize-amp-maximumPoolSize："><a href="#corePoolSize-amp-maximumPoolSize：" class="headerlink" title="corePoolSize &amp; maximumPoolSize："></a>corePoolSize &amp; maximumPoolSize：</h2><p>&emsp;&emsp;当一个新任务被提交到池中，如果当前运行线程小于核心线程数（corePoolSize），即使当前有空闲线程，也会新建一个线程来处理新提交的任务；如果当前运行线程数大于核心线程数（corePoolSize）并小于最大线程数（maximumPoolSize），只有当等待队列已满的情况下才会新建线程。</p>
-<h2 id="keepAliveTime-amp-unit"><a href="#keepAliveTime-amp-unit" class="headerlink" title="keepAliveTime &amp; unit:"></a>keepAliveTime &amp; unit:</h2><p>&emsp;&emsp;keepAliveTime为超过corePoolSize线程数量的线程最大空闲时间，unit为时间单位。</p>
-<h2 id="等待队列："><a href="#等待队列：" class="headerlink" title="等待队列："></a>等待队列：</h2><p>&emsp;&emsp;任何阻塞队列（BlockingQueue）都可以用来转移或保存提交的任务，线程池大小和阻塞队列相互约束线程池：</p>
-<ol>
-<li>如果运行线程数小于corePoolSize，提交新任务时就会新建一个线程来运行；</li>
-<li>如果运行线程数大于或等于corePoolSize，新提交的任务就会入列等待；如果队列已满，并且运行线程数小于maximumPoolSize，也将会新建一个线程来运行；</li>
-<li>如果线程数大于maximumPoolSize，新提交的任务将会根据拒绝策略来处理。</li>
-</ol>
-<h3 id="入队列策略："><a href="#入队列策略：" class="headerlink" title="入队列策略："></a>入队列策略：</h3><h4 id="直接传递："><a href="#直接传递：" class="headerlink" title="直接传递："></a>直接传递：</h4><p>&emsp;&emsp;通过 SynchronousQueue 直接把任务传递给线程。如果当前没可用线程，尝试入队操作会失败，然后再创建一个新的线程。当处理可能具有内部依赖性的请求时，该策略会避免请求被锁定。直接传递通常需要无界的最大线程数（maximumPoolSize），避免拒绝新提交的任务。当任务持续到达的平均速度超过可处理的速度时，可能导致线程的无限增长。</p>
-<h4 id="无界队列："><a href="#无界队列：" class="headerlink" title="无界队列："></a>无界队列：</h4><p>&emsp;&emsp;使用无界队列（如 LinkedBlockingQueue）作为等待队列，当所有的核心线程都在处理任务时， 新提交的任务都会进入队列等待。因此，不会有大于corePoolSize的线程会被创建（maximumPoolSize 也将失去作用）。这种策略适合每个任务都完全独立于其他任务的情况；例如网站服务器。这种类型的等待队列可以使瞬间爆发的高频请求变得平滑。当任务持续到达的平均速度超过可处理速度时，可能导致等待队列无限增长。</p>
-<h4 id="有界队列："><a href="#有界队列：" class="headerlink" title="有界队列："></a>有界队列：</h4><p>&emsp;&emsp;当使用有限的最大线程数时，有界队列（如 ArrayBlockingQueue）可以防止资源耗尽，但是难以调整和控制。队列大小和线程池大小可以相互作用：使用大的队列和小的线程数可以减少CPU使用率、系统资源和上下文切换的开销，但是会导致吞吐量变低，如果任务频繁地阻塞（例如被I/O限制），系统就能为更多的线程调度执行时间。使用小的队列通常需要更多的线程数，这样可以最大化CPU使用率，但可能会需要更大的调度开销，从而降低吞吐量。</p>
-<h2 id="拒绝策略："><a href="#拒绝策略：" class="headerlink" title="拒绝策略："></a>拒绝策略：</h2><p>&emsp;&emsp;当线程池已经关闭或达到饱和（最大线程和队列都已满）状态时，新提交的任务将会被拒绝。<br>ThreadPoolExecutor定义了四种拒绝策略:</p>
-<h3 id="AbortPolicy"><a href="#AbortPolicy" class="headerlink" title="AbortPolicy:"></a>AbortPolicy:</h3><p>&emsp;&emsp;默认策略，在需要拒绝任务时抛出RejectedExecutionException。</p>
-<h3 id="CallerRunsPolicy"><a href="#CallerRunsPolicy" class="headerlink" title="CallerRunsPolicy:"></a>CallerRunsPolicy:</h3><p>&emsp;&emsp;直接在execute方法的调用线程中运行被拒绝的任务，如果线程池已经关闭，任务将被丢弃。</p>
-<h3 id="DiscardPolicy"><a href="#DiscardPolicy" class="headerlink" title="DiscardPolicy:"></a>DiscardPolicy:</h3><p>&emsp;&emsp;直接丢弃任务。</p>
-<h3 id="DiscardOldestPolicy"><a href="#DiscardOldestPolicy" class="headerlink" title="DiscardOldestPolicy:"></a>DiscardOldestPolicy:</h3><p>&emsp;&emsp;丢弃队列中等待时间最长的任务，并执行当前提交的任务，如果线程池已经关闭，任务将被丢弃。</p>
-<h3 id="自定义策略："><a href="#自定义策略：" class="headerlink" title="自定义策略："></a>自定义策略：</h3><p>&emsp;&emsp;我们也可以自定义拒绝策略，只需要实现 RejectedExecutionHandler；需要注意的是，拒绝策略的运行需要指定线程池和队列的容量。</p>
-<hr>
-<h1 id="存在的问题："><a href="#存在的问题：" class="headerlink" title="存在的问题："></a>存在的问题：</h1><ol>
-<li>newFixedThreadPool和newSingleThreadExecutor：主要问题是堆积的请求处理队列可能会耗费非常大的内存，甚至OOM。</li>
-<li>newCachedThreadPool和newScheduledThreadPool：主要问题是线程数最大数是Integer.MAX_VALUE，可能会创建数量非常多的线程，甚至OOM。</li>
-</ol>
-<hr>
-<h1 id="备注："><a href="#备注：" class="headerlink" title="备注："></a>备注：</h1><p>&emsp;&emsp;一般如果线程池任务队列采用LinkedBlockingQueue队列的话，那么不会拒绝任何任务（因为队列大小没有限制），这种情况下，ThreadPoolExecutor最多仅会按照最小线程数来创建线程，也就是说线程池大小被忽略了。<br>&emsp;&emsp;如果线程池任务队列采用ArrayBlockingQueue队列的话，那么ThreadPoolExecutor将会采取一个非常负责的算法，比如假定线程池的最小线程数为4，最大为8所用的ArrayBlockingQueue最大为10。随着任务到达并被放到队列中，线程池中最多运行4个线程（即最小线程数）。即使队列完全填满，也就是说有10个处于等待状态的任务，ThreadPoolExecutor也只会利用4个线程。如果队列已满，而又有新任务进来，此时才会启动一个新线程，这里不会因为队列已满而拒接该任务，相反会启动一个新线程。新线程会运行队列中的第一个任务，为新来的任务腾出空间。<br>&emsp;&emsp;这个算法背后的理念是：该池大部分时间仅使用核心线程（4个），即使有适量的任务在队列中等待运行。这时线程池就可以用作节流阀。如果挤压的请求变得非常多，这时该池就会尝试运行更多的线程来清理；这时第二个节流阀—最大线程数就起作用了。</p>
-]]></content>
-      <categories>
-        <category>java</category>
-        <category>多线程</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>多线程</tag>
-        <tag>线程池</tag>
       </tags>
   </entry>
   <entry>
