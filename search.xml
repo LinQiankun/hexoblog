@@ -218,6 +218,110 @@
       </tags>
   </entry>
   <entry>
+    <title>TCP三次握手四次挥手</title>
+    <url>/hexoblog/2021/04/30/md/internet/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;在网络层通过IP协议可以实现两个主机之间的通信，但是无法确定是主机中的那个进程之间进行的通信，而实际及性能通信的则是主机中的进程。  </p>
+<span id="more"></span>
+
+<p>&emsp;&emsp;TCP面向连接的服务，在传送数据之前必须先建立连接，数据传送完成后要释放连接。因此TCP是一种可靠的的运输服务，但是正因为这样，不可避免的增加了许多的开销，比如确认，流量控制等。对应的应用层的协议主要有SMTP,TELNET,HTTP,FTP等。<br>&emsp;&emsp;TCP把连接作为最基本的对象，每一条TCP连接都有两个端点，这种断点我们叫作套接字（socket），它的定义为端口号拼接到IP地址即构成了套接字，例如，若IP地址为127.0.0.1 而端口号为80，那么得到的套接字为127.0.0.1:80。<br>&emsp;&emsp;TCP采用全双工通信，这要求了服务端与客户端必须双方都能进行向对方发送数据，所以建立断开连接必须建立或者断开两次。</p>
+<hr>
+<h1 id="TCP报文"><a href="#TCP报文" class="headerlink" title="TCP报文"></a>TCP报文</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/tcp%E6%8A%A5%E6%96%87%E9%A6%96%E9%83%A8.jpg" alt="TCP报文"></p>
+<ol>
+<li>源端口和目的端口：分别写入源端口和目的接口。</li>
+<li>序号：占4个字节，TCP连接中传送的字节流中的每个字节都按顺序编号。当前为301时，如果传输100个字节后，下一个报文段从401开始。</li>
+<li>确认号：占4个字节，是期望收到对方下一个报文的第一个数据字节的序号。</li>
+<li>数据偏移：占4位（半个字节），它指出TCP报文的数据距离TCP报文段的起始处有多远。</li>
+<li>保留位置：占6位，保留今后使用，但目前应都位0。</li>
+<li>紧急URG：当URG=1，表明紧急指针字段有效。告诉系统此报文段中有紧急数据。</li>
+<li>确认ACK：仅当ACK=1时，确认号字段才有效。TCP规定，在连接建立后所有报文的传输都必须把ACK置1。</li>
+<li>推送PSH：当两个应用进程进行交互式通信时，有时在一端的应用进程希望在键入一个命令后立即就能收到对方的响应，这时候就将PSH=1。</li>
+<li>复位RST：当RST=1，表明TCP连接中出现严重差错，必须释放连接，然后再重新建立连接。</li>
+<li>同步SYN：在连接建立时用来同步序号。当SYN=1，ACK=0，表明是连接请求报文，若同意连接，则响应报文中应该使SYN=1，ACK=1。</li>
+<li>终止FIN：用来释放连接。当FIN=1，表明此报文的发送方的数据已经发送完毕，并且要求释放。</li>
+<li>窗口：占2字节，指的是通知接收方，发送本报文你需要有多大的空间来接受。</li>
+<li>检验和：占2字节，校验首部和数据这两部分。</li>
+<li>紧急指针：占2字节，指出本报文段中的紧急数据的字节数。</li>
+<li>选项：长度可变，定义一些其他的可选的参数。</li>
+</ol>
+<hr>
+<h1 id="TCP连接的建立（三次握手）"><a href="#TCP连接的建立（三次握手）" class="headerlink" title="TCP连接的建立（三次握手）"></a>TCP连接的建立（三次握手）</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/tcp%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B.png" alt="TCP连接建立"></p>
+<ol>
+<li>服务端先创建传输控制块，准备监听客户端进程的连接请求，此时服务器就进入了Listen状态。</li>
+<li>客户端也建立传输控制块，向服务端发送连接请求报文，此时客户端进入SYN-SENT状态（同步已发送）。<blockquote>
+<p>TCP规定，SYN报文段（SYN=1的报文段）<strong>不能携带数据</strong>，但需消耗掉一个序号。<br>此时报文内容SYN=1，seq=x。</p>
+</blockquote>
+</li>
+<li>服务器接收到请求后，如果同意连接，则发出确认报文，此时服务器进入SYN-RCVD状态（同步收到）。<blockquote>
+<p>这个报文同样不能携带数据，需要消耗一个序号。<br>此时报文内容为SYN=1,ACK=1,seq=y,ack=x+1。seq为自己发送的序列号，ack因为上一次的发连接请求报文不带数据，所以确认号直接为x+。</p>
+</blockquote>
+</li>
+<li>客户端进程收到确认后，还要向服务器给出确认。确认后，TCP连接建立，客户端进入ESTABLISHED状态（已建立连接）。<blockquote>
+<p>TCP规定，ACK报文段可以携带数据，但是如果不携带数据则不消耗序号。<br>此时的报文内容为ACK=1,seq=x+1,ack=y+1；这里相对于同步请求是客户端发给服务端的第二个请求，所有seq为x+1。</p>
+</blockquote>
+</li>
+<li>当服务器收到客户端的确认后也进入ESTABLISHED状态，此后双方就可以开始通信了。</li>
+</ol>
+<hr>
+<h1 id="TCP连接的断开（四次回收）"><a href="#TCP连接的断开（四次回收）" class="headerlink" title="TCP连接的断开（四次回收）"></a>TCP连接的断开（四次回收）</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B.png" alt="四次挥手"></p>
+<ol>
+<li>客户端发送连接释放报文，停止发送数据，客户端进入FIN-WAIT-1状态（终止等待1）。<blockquote>
+<p>TCP规定，FIN报文段即使不携带数据，也要消耗一个序号。与SYN报文段相似。<br>此时报文内容为FIN=1,seq=u。这里的序列号跟随前面的数据的序列号，为最后一个字节数据的序列号加一。</p>
+</blockquote>
+</li>
+<li>服务器收到连接释放报文，发送出自己的释放报文，服务端进入CLOSE-WAIT状态（关闭等待）。<blockquote>
+<p>TCP服务器通知高层的应用进程，客户端向服务器的方向就释放了，这时候处于半关闭状态，即客户端已经没有数据要发送了，但是服务器若发送数据，客户端依然要接受。这个过程需要持续一段时间，等待服务器将数据发送完。<br>此时报文内容为ACK=1,seq=v,ack=u+1。</p>
+</blockquote>
+</li>
+<li>客户端收到服务器的释放确认后，进入FIN-WAIT-2状态，等待服务器发送连接释放报文，这个过程中会继续接受服务器发送的数据内容。</li>
+<li>服务器将数据发送完毕后，向客户端发送连接释放报文，服务器进入LAST-ACK状态，等待最后的确认。<blockquote>
+<p>此时报文内容为FIN=1,ACK=1,seq=w,ack=u+1，在上个过程中，客户端不会向服务端发送信息所以ack不变，而服务端会向客户端发送所以seq会变化。</p>
+</blockquote>
+</li>
+<li>客户端收到连接释放后，向服务器发出确认，客户端进入TIME-WAIT状态。<blockquote>
+<p>注意此时TCP连接还没有释放，必须经过2*MSL（最长报文段寿命）的时间后，当客户端撤销相应的TCB后，才进入CLOSED状态。<br>此时报文内容为ACK=1,seq=u+1,ack=w+1。</p>
+</blockquote>
+</li>
+<li>服务器收到确认信息后，会立即进入CLOSED状态，撤销TCB结束连接。</li>
+</ol>
+<hr>
+<h1 id="通俗一点"><a href="#通俗一点" class="headerlink" title="通俗一点"></a>通俗一点</h1><p>&emsp;&emsp;举个例子：</p>
+<ul>
+<li>甲方：你好，我是甲方，你能听到吗？</li>
+<li>乙方：你好，我能听到，我是乙方，你能听到吗？&lt;甲方收到，甲方建立连接&gt;</li>
+<li>甲方：我能听到。&lt;乙方收到，乙方建立连接&gt;</li>
+<li></li>
+<li>连接建立，开始扯皮。</li>
+<li>甲方乙方：。。。（扯皮中）。</li>
+<li></li>
+<li>甲方：我说完了，就这样吧。</li>
+<li>乙方：你说完了好的，我最后在说一下。</li>
+<li>乙方：。。。乙方批斗需求中。</li>
+<li>乙方：我也说完了，挂了吧。</li>
+<li>甲方：好的，挂了。&lt;乙方收到，乙方挂掉了&gt;</li>
+<li></li>
+<li>甲方：{等了一个来回的时间了，他应该收到了}。&lt;甲方挂掉了&gt;</li>
+</ul>
+<hr>
+<h1 id="一点问题"><a href="#一点问题" class="headerlink" title="一点问题"></a>一点问题</h1><h2 id="为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）"><a href="#为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）" class="headerlink" title="为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）"></a>为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）</h2><p>&emsp;&emsp;防止因网络抖动各种原因造成的连接请求，突然又传送到了服务端，从而产生错误。<br>&emsp;&emsp;采用两次握手的情况下，假设第一次的连接请求在网络中阻塞了，服务端没有收到客户端的请求报文就不会处理，客户端一直收不到确认就会认为服务器没有收到，则会重新发送这条请求，此后客户端和服务端完成握手，建立连接。<br>&emsp;&emsp;这时，在网络中阻塞的第一次的请求突然到达服务器就会出现问题。</p>
+<blockquote>
+<p>如果建立连接后传输完成数据且关闭连接了，就会产生重新建立连接的问题，而采用3次握手，即使服务端收到了出错的连接请求而发送了确认信息，但是客户端没有需要传输的数据，不会进行第三次握手操作，就不会产生问题。<br>如果传输数据过程中收到了错误的连接请求，即使进行确认，也不会第三次进行握手。（这里待议）</p>
+</blockquote>
+<h2 id="服务端易受到SYN攻击？"><a href="#服务端易受到SYN攻击？" class="headerlink" title="服务端易受到SYN攻击？"></a>服务端易受到SYN攻击？</h2><p>&emsp;&emsp;服务端的资源是在第二次进行握手的时候分配的，而客户端的资源是在进行第三次握手的时候分配的。所以服务器容易收到SYN洪泛攻击，就是在短时间内伪造大量不存在的ip，不断的向服务器发送SYN包，服务端则回复并等待确认包，但是源地址是虚构的，所有不会收到确认包，服务端将不断重发进行重试知道超时，这些伪造的SYN包将占用大量且长时间的占用未连接队列，导致正常请求将被丢弃，引起网络瘫痪。<br>&emsp;&emsp;可以通过降低主机的等待时间释放未连接占用，或者短时间收到某ip的重复SYN报文将丢弃后续请求。</p>
+<h2 id="为什么客户端最后还要等待2MSL？"><a href="#为什么客户端最后还要等待2MSL？" class="headerlink" title="为什么客户端最后还要等待2MSL？"></a>为什么客户端最后还要等待2MSL？</h2><p>&emsp;&emsp;保证客户端的最后一个ACK报文能够到达服务器，在服务端，没有接受到客户端的ACK就会认为服务器没有收到自己发送的FIN请求，这时就会重发FIN请求。对于客户端而言，收到FIN请求后，发送ACK确认信息，假设服务端没有收到ACK信息，就会重新发送FIN请求，客户端就会重新收到FIN请求，没有收到重新发送的FIN请求，就认为没有问题就可以断开连接了。</p>
+<h2 id="如果已经建立了连接，但是客户端突然出现故障了怎么办？"><a href="#如果已经建立了连接，但是客户端突然出现故障了怎么办？" class="headerlink" title="如果已经建立了连接，但是客户端突然出现故障了怎么办？"></a>如果已经建立了连接，但是客户端突然出现故障了怎么办？</h2><p>&emsp;&emsp;TCP设置有一个保活器，服务器每一次收到数据就会重新复位这个计时器，若计时器走完，没有收到客户端的数据，服务器就会发送探测报文，75秒一个探测报文，连续10个探测报文没有收到恢复，就认为客户端故障，断开连接。</p>
+<h2 id="为什么是四次挥手而不是三次或者五次呢？"><a href="#为什么是四次挥手而不是三次或者五次呢？" class="headerlink" title="为什么是四次挥手而不是三次或者五次呢？"></a>为什么是四次挥手而不是三次或者五次呢？</h2><p>&emsp;&emsp;第二次挥手和第三次挥手都是服务端向客户端发送报文，第二次挥手是服务端收到了客户端的断开请求，通知客户端收到了，此时客户端没有数据向服务端发送了，但不代表服务端也没有数据向客户端发送，因为服务端要把剩余还没有发送的报文发送完毕再断开连接；第三次挥手是服务端数据全部发送完毕，向客户端发送断开请求报文（FIN=1）。<br>&emsp;&emsp;如果将这两次合二为一，就会出现服务端收到请求后立即确认并且断开连接，会造成服务端发送到客户端的数据不完整。五次则没有必要。</p>
+<h2 id="问什么连接是三次断开是四次呢？"><a href="#问什么连接是三次断开是四次呢？" class="headerlink" title="问什么连接是三次断开是四次呢？"></a>问什么连接是三次断开是四次呢？</h2><p>&emsp;&emsp;断开是四次的原因和上面的问题的解答是一样的。<br>&emsp;&emsp;对于建立连接，3次其实是建立可靠连接的最小次数。可参考第一道问题。<br>&emsp;&emsp;因为当服务端收到客户端的SYN连接请求报文后，可以直接发送SYN+ACK报文。其中ACK报文是用来应答的，SYN报文是用来同步的。但是关闭连接时，当Server端收到FIN报文时，很可能并不会立即关闭连接，所以只能先回复一个ACK报文，告诉客户端，”你发的FIN报文我收到了”。只有等到我服务端所有的报文都发送完了，我才能发送FIN报文，因此不能一起发送。故需要四步握手。<br>&emsp;&emsp;四次挥手相比于三次握手，将服务端返回给客户端的ACK+SYN报文，拆成了2次发送。</p>
+]]></content>
+      <categories>
+        <category>网络</category>
+        <category>TCP</category>
+      </categories>
+      <tags>
+        <tag>网络</tag>
+        <tag>TCP</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>TCP与UDP</title>
     <url>/hexoblog/2021/05/07/md/internet/TCP%E4%B8%8EUDP/</url>
     <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;TCP是传输控制协议，UDP是用户数据报协议，均处在传输层。  </p>
@@ -370,139 +474,6 @@
       </tags>
   </entry>
   <entry>
-    <title>TCP三次握手四次挥手</title>
-    <url>/hexoblog/2021/04/30/md/internet/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;在网络层通过IP协议可以实现两个主机之间的通信，但是无法确定是主机中的那个进程之间进行的通信，而实际及性能通信的则是主机中的进程。  </p>
-<span id="more"></span>
-
-<p>&emsp;&emsp;TCP面向连接的服务，在传送数据之前必须先建立连接，数据传送完成后要释放连接。因此TCP是一种可靠的的运输服务，但是正因为这样，不可避免的增加了许多的开销，比如确认，流量控制等。对应的应用层的协议主要有SMTP,TELNET,HTTP,FTP等。<br>&emsp;&emsp;TCP把连接作为最基本的对象，每一条TCP连接都有两个端点，这种断点我们叫作套接字（socket），它的定义为端口号拼接到IP地址即构成了套接字，例如，若IP地址为127.0.0.1 而端口号为80，那么得到的套接字为127.0.0.1:80。<br>&emsp;&emsp;TCP采用全双工通信，这要求了服务端与客户端必须双方都能进行向对方发送数据，所以建立断开连接必须建立或者断开两次。</p>
-<hr>
-<h1 id="TCP报文"><a href="#TCP报文" class="headerlink" title="TCP报文"></a>TCP报文</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/tcp%E6%8A%A5%E6%96%87%E9%A6%96%E9%83%A8.jpg" alt="TCP报文"></p>
-<ol>
-<li>源端口和目的端口：分别写入源端口和目的接口。</li>
-<li>序号：占4个字节，TCP连接中传送的字节流中的每个字节都按顺序编号。当前为301时，如果传输100个字节后，下一个报文段从401开始。</li>
-<li>确认号：占4个字节，是期望收到对方下一个报文的第一个数据字节的序号。</li>
-<li>数据偏移：占4位（半个字节），它指出TCP报文的数据距离TCP报文段的起始处有多远。</li>
-<li>保留位置：占6位，保留今后使用，但目前应都位0。</li>
-<li>紧急URG：当URG=1，表明紧急指针字段有效。告诉系统此报文段中有紧急数据。</li>
-<li>确认ACK：仅当ACK=1时，确认号字段才有效。TCP规定，在连接建立后所有报文的传输都必须把ACK置1。</li>
-<li>推送PSH：当两个应用进程进行交互式通信时，有时在一端的应用进程希望在键入一个命令后立即就能收到对方的响应，这时候就将PSH=1。</li>
-<li>复位RST：当RST=1，表明TCP连接中出现严重差错，必须释放连接，然后再重新建立连接。</li>
-<li>同步SYN：在连接建立时用来同步序号。当SYN=1，ACK=0，表明是连接请求报文，若同意连接，则响应报文中应该使SYN=1，ACK=1。</li>
-<li>终止FIN：用来释放连接。当FIN=1，表明此报文的发送方的数据已经发送完毕，并且要求释放。</li>
-<li>窗口：占2字节，指的是通知接收方，发送本报文你需要有多大的空间来接受。</li>
-<li>检验和：占2字节，校验首部和数据这两部分。</li>
-<li>紧急指针：占2字节，指出本报文段中的紧急数据的字节数。</li>
-<li>选项：长度可变，定义一些其他的可选的参数。</li>
-</ol>
-<hr>
-<h1 id="TCP连接的建立（三次握手）"><a href="#TCP连接的建立（三次握手）" class="headerlink" title="TCP连接的建立（三次握手）"></a>TCP连接的建立（三次握手）</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/tcp%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B.png" alt="TCP连接建立"></p>
-<ol>
-<li>服务端先创建传输控制块，准备监听客户端进程的连接请求，此时服务器就进入了Listen状态。</li>
-<li>客户端也建立传输控制块，向服务端发送连接请求报文，此时客户端进入SYN-SENT状态（同步已发送）。<blockquote>
-<p>TCP规定，SYN报文段（SYN=1的报文段）<strong>不能携带数据</strong>，但需消耗掉一个序号。<br>此时报文内容SYN=1，seq=x。</p>
-</blockquote>
-</li>
-<li>服务器接收到请求后，如果同意连接，则发出确认报文，此时服务器进入SYN-RCVD状态（同步收到）。<blockquote>
-<p>这个报文同样不能携带数据，需要消耗一个序号。<br>此时报文内容为SYN=1,ACK=1,seq=y,ack=x+1。seq为自己发送的序列号，ack因为上一次的发连接请求报文不带数据，所以确认号直接为x+。</p>
-</blockquote>
-</li>
-<li>客户端进程收到确认后，还要向服务器给出确认。确认后，TCP连接建立，客户端进入ESTABLISHED状态（已建立连接）。<blockquote>
-<p>TCP规定，ACK报文段可以携带数据，但是如果不携带数据则不消耗序号。<br>此时的报文内容为ACK=1,seq=x+1,ack=y+1；这里相对于同步请求是客户端发给服务端的第二个请求，所有seq为x+1。</p>
-</blockquote>
-</li>
-<li>当服务器收到客户端的确认后也进入ESTABLISHED状态，此后双方就可以开始通信了。</li>
-</ol>
-<hr>
-<h1 id="TCP连接的断开（四次回收）"><a href="#TCP连接的断开（四次回收）" class="headerlink" title="TCP连接的断开（四次回收）"></a>TCP连接的断开（四次回收）</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B.png" alt="四次挥手"></p>
-<ol>
-<li>客户端发送连接释放报文，停止发送数据，客户端进入FIN-WAIT-1状态（终止等待1）。<blockquote>
-<p>TCP规定，FIN报文段即使不携带数据，也要消耗一个序号。与SYN报文段相似。<br>此时报文内容为FIN=1,seq=u。这里的序列号跟随前面的数据的序列号，为最后一个字节数据的序列号加一。</p>
-</blockquote>
-</li>
-<li>服务器收到连接释放报文，发送出自己的释放报文，服务端进入CLOSE-WAIT状态（关闭等待）。<blockquote>
-<p>TCP服务器通知高层的应用进程，客户端向服务器的方向就释放了，这时候处于半关闭状态，即客户端已经没有数据要发送了，但是服务器若发送数据，客户端依然要接受。这个过程需要持续一段时间，等待服务器将数据发送完。<br>此时报文内容为ACK=1,seq=v,ack=u+1。</p>
-</blockquote>
-</li>
-<li>客户端收到服务器的释放确认后，进入FIN-WAIT-2状态，等待服务器发送连接释放报文，这个过程中会继续接受服务器发送的数据内容。</li>
-<li>服务器将数据发送完毕后，向客户端发送连接释放报文，服务器进入LAST-ACK状态，等待最后的确认。<blockquote>
-<p>此时报文内容为FIN=1,ACK=1,seq=w,ack=u+1，在上个过程中，客户端不会向服务端发送信息所以ack不变，而服务端会向客户端发送所以seq会变化。</p>
-</blockquote>
-</li>
-<li>客户端收到连接释放后，向服务器发出确认，客户端进入TIME-WAIT状态。<blockquote>
-<p>注意此时TCP连接还没有释放，必须经过2*MSL（最长报文段寿命）的时间后，当客户端撤销相应的TCB后，才进入CLOSED状态。<br>此时报文内容为ACK=1,seq=u+1,ack=w+1。</p>
-</blockquote>
-</li>
-<li>服务器收到确认信息后，会立即进入CLOSED状态，撤销TCB结束连接。</li>
-</ol>
-<hr>
-<h1 id="通俗一点"><a href="#通俗一点" class="headerlink" title="通俗一点"></a>通俗一点</h1><p>&emsp;&emsp;举个例子：</p>
-<ul>
-<li>甲方：你好，我是甲方，你能听到吗？</li>
-<li>乙方：你好，我能听到，我是乙方，你能听到吗？&lt;甲方收到，甲方建立连接&gt;</li>
-<li>甲方：我能听到。&lt;乙方收到，乙方建立连接&gt;</li>
-<li></li>
-<li>连接建立，开始扯皮。</li>
-<li>甲方乙方：。。。（扯皮中）。</li>
-<li></li>
-<li>甲方：我说完了，就这样吧。</li>
-<li>乙方：你说完了好的，我最后在说一下。</li>
-<li>乙方：。。。乙方批斗需求中。</li>
-<li>乙方：我也说完了，挂了吧。</li>
-<li>甲方：好的，挂了。&lt;乙方收到，乙方挂掉了&gt;</li>
-<li></li>
-<li>甲方：{等了一个来回的时间了，他应该收到了}。&lt;甲方挂掉了&gt;</li>
-</ul>
-<hr>
-<h1 id="一点问题"><a href="#一点问题" class="headerlink" title="一点问题"></a>一点问题</h1><h2 id="为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）"><a href="#为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）" class="headerlink" title="为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）"></a>为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）</h2><p>&emsp;&emsp;防止因网络抖动各种原因造成的连接请求，突然又传送到了服务端，从而产生错误。<br>&emsp;&emsp;采用两次握手的情况下，假设第一次的连接请求在网络中阻塞了，服务端没有收到客户端的请求报文就不会处理，客户端一直收不到确认就会认为服务器没有收到，则会重新发送这条请求，此后客户端和服务端完成握手，建立连接。<br>&emsp;&emsp;这时，在网络中阻塞的第一次的请求突然到达服务器就会出现问题。</p>
-<blockquote>
-<p>如果建立连接后传输完成数据且关闭连接了，就会产生重新建立连接的问题，而采用3次握手，即使服务端收到了出错的连接请求而发送了确认信息，但是客户端没有需要传输的数据，不会进行第三次握手操作，就不会产生问题。<br>如果传输数据过程中收到了错误的连接请求，即使进行确认，也不会第三次进行握手。（这里待议）</p>
-</blockquote>
-<h2 id="服务端易受到SYN攻击？"><a href="#服务端易受到SYN攻击？" class="headerlink" title="服务端易受到SYN攻击？"></a>服务端易受到SYN攻击？</h2><p>&emsp;&emsp;服务端的资源是在第二次进行握手的时候分配的，而客户端的资源是在进行第三次握手的时候分配的。所以服务器容易收到SYN洪泛攻击，就是在短时间内伪造大量不存在的ip，不断的向服务器发送SYN包，服务端则回复并等待确认包，但是源地址是虚构的，所有不会收到确认包，服务端将不断重发进行重试知道超时，这些伪造的SYN包将占用大量且长时间的占用未连接队列，导致正常请求将被丢弃，引起网络瘫痪。<br>&emsp;&emsp;可以通过降低主机的等待时间释放未连接占用，或者短时间收到某ip的重复SYN报文将丢弃后续请求。</p>
-<h2 id="为什么客户端最后还要等待2MSL？"><a href="#为什么客户端最后还要等待2MSL？" class="headerlink" title="为什么客户端最后还要等待2MSL？"></a>为什么客户端最后还要等待2MSL？</h2><p>&emsp;&emsp;保证客户端的最后一个ACK报文能够到达服务器，在服务端，没有接受到客户端的ACK就会认为服务器没有收到自己发送的FIN请求，这时就会重发FIN请求。对于客户端而言，收到FIN请求后，发送ACK确认信息，假设服务端没有收到ACK信息，就会重新发送FIN请求，客户端就会重新收到FIN请求，没有收到重新发送的FIN请求，就认为没有问题就可以断开连接了。</p>
-<h2 id="如果已经建立了连接，但是客户端突然出现故障了怎么办？"><a href="#如果已经建立了连接，但是客户端突然出现故障了怎么办？" class="headerlink" title="如果已经建立了连接，但是客户端突然出现故障了怎么办？"></a>如果已经建立了连接，但是客户端突然出现故障了怎么办？</h2><p>&emsp;&emsp;TCP设置有一个保活器，服务器每一次收到数据就会重新复位这个计时器，若计时器走完，没有收到客户端的数据，服务器就会发送探测报文，75秒一个探测报文，连续10个探测报文没有收到恢复，就认为客户端故障，断开连接。</p>
-<h2 id="为什么是四次挥手而不是三次或者五次呢？"><a href="#为什么是四次挥手而不是三次或者五次呢？" class="headerlink" title="为什么是四次挥手而不是三次或者五次呢？"></a>为什么是四次挥手而不是三次或者五次呢？</h2><p>&emsp;&emsp;第二次挥手和第三次挥手都是服务端向客户端发送报文，第二次挥手是服务端收到了客户端的断开请求，通知客户端收到了，此时客户端没有数据向服务端发送了，但不代表服务端也没有数据向客户端发送，因为服务端要把剩余还没有发送的报文发送完毕再断开连接；第三次挥手是服务端数据全部发送完毕，向客户端发送断开请求报文（FIN=1）。<br>&emsp;&emsp;如果将这两次合二为一，就会出现服务端收到请求后立即确认并且断开连接，会造成服务端发送到客户端的数据不完整。五次则没有必要。</p>
-<h2 id="问什么连接是三次断开是四次呢？"><a href="#问什么连接是三次断开是四次呢？" class="headerlink" title="问什么连接是三次断开是四次呢？"></a>问什么连接是三次断开是四次呢？</h2><p>&emsp;&emsp;断开是四次的原因和上面的问题的解答是一样的。<br>&emsp;&emsp;对于建立连接，3次其实是建立可靠连接的最小次数。可参考第一道问题。<br>&emsp;&emsp;因为当服务端收到客户端的SYN连接请求报文后，可以直接发送SYN+ACK报文。其中ACK报文是用来应答的，SYN报文是用来同步的。但是关闭连接时，当Server端收到FIN报文时，很可能并不会立即关闭连接，所以只能先回复一个ACK报文，告诉客户端，”你发的FIN报文我收到了”。只有等到我服务端所有的报文都发送完了，我才能发送FIN报文，因此不能一起发送。故需要四步握手。<br>&emsp;&emsp;四次挥手相比于三次握手，将服务端返回给客户端的ACK+SYN报文，拆成了2次发送。</p>
-]]></content>
-      <categories>
-        <category>网络</category>
-        <category>TCP</category>
-      </categories>
-      <tags>
-        <tag>网络</tag>
-        <tag>TCP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>异常的三次握手四次挥手</title>
-    <url>/hexoblog/2021/05/21/md/internet/%E5%BC%82%E5%B8%B8%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;TCP作为一个靠谱的协议，在传输数据的前后，需要在双端之间建立连接，并在双端各自维护连接的状态。<br>&emsp;&emsp;建立连接前，TCP会通过三次握手来保证双端状态正确，然后就可以正常传输数据了。当数据传输完成，需要断开连接的时候，TCP会通过四次握手来完成双端的断连，并回收各自的资源。<br>&emsp;&emsp;这个过程中也会产生各种问题，有因网络原因造成的也有其他原因造成的。一般来说主要就是丢包的问题，基本就是超时重传等来保证TCP的可靠性。</p>
-<span id="more"></span>
-
-<p><a href="https://network.51cto.com/art/202002/610542.htm">TCP异常</a></p>
-<hr>
-<h1 id="三次握手中的问题"><a href="#三次握手中的问题" class="headerlink" title="三次握手中的问题"></a>三次握手中的问题</h1><h2 id="客户端第一个SYN包丢失"><a href="#客户端第一个SYN包丢失" class="headerlink" title="客户端第一个SYN包丢失"></a>客户端第一个SYN包丢失</h2><p>&emsp;&emsp;如果客户端的第一个ACK包丢失，服务器无法收到这个包，不会做任何事情。<br>&emsp;&emsp;而在TCP协议中，某端的一组「请求-应答」中，在一定时间范围内，只要没有收到应答的「ACK」包，无论是请求包对方没有收到，还是对方的应答包自己没有收到，均认为是丢包了，都会触发超时重传机制。<br>&emsp;&emsp;此时客户端会重传丢失的SYN包。</p>
-<h2 id="服务端收到SYNd返回的SYN-ACK包丢失"><a href="#服务端收到SYNd返回的SYN-ACK包丢失" class="headerlink" title="服务端收到SYNd返回的SYN+ACK包丢失"></a>服务端收到SYNd返回的SYN+ACK包丢失</h2><p>&emsp;&emsp;此时服务端已经收到客户端的数据，并且发出了对于改信息的回复。<br>&emsp;&emsp;这个问题站在客户端而言，无法区分是服务端没有收到第一次的SYN包，还是自己没有收到回复信息，只能等待一段时间后重新发送SYN包，这和上面的情况就一样了。<br>&emsp;&emsp;对于服务端，发送了SYN+ACK包后，无法等到对方的确认ACK信息，也只能对这个SYN+ACK包进行重传。<br>&emsp;&emsp;由于客户端的重传，服务端会收到这个重传的SYN包，此时会针对这个新的SYN包立即发送SYN+ACK信息。</p>
-<h2 id="客户端收到SYN-ACK返回的ACK包丢失"><a href="#客户端收到SYN-ACK返回的ACK包丢失" class="headerlink" title="客户端收到SYN+ACK返回的ACK包丢失"></a>客户端收到SYN+ACK返回的ACK包丢失</h2><p>&emsp;&emsp;如果最后一个ACK包丢了，服务端因为收不到ACK会走重传机制，而客户端此时进入ESTABLISHED状态。<br>&emsp;&emsp;多数情况下，客户端进入ESTABLISHED状态后，则认为连接已建立，会立即发送数据。但是服务端因为没有收到最后一个ACK包，依然处于SYN-RCVD状态。<br>&emsp;&emsp;所以当服务端处于SYN-RCVD状态下时，接收到客户端真实发送来的数据包时，会认为连接已建立，并进入ESTABLISHED状态。<br>&emsp;&emsp;也有地方认为当服务端处于SYN-RCVD状态下，收到客户端的数据包后，会直接回复RST包响应，表示服务端错误，并进入CLOSE状态。<br>&emsp;&emsp;实际情况下，当客户端在ESTABLISHED状态下，开始发送数据包时，会携带上一个ACK的确认序号，所以哪怕客户端响应的ACK包丢了，服务端在收到这个数据包时，能够通过包内ACK的确认序号，正常进入ESTABLISHED状态。</p>
-<h2 id="客户端故意不发最后一次ACK包"><a href="#客户端故意不发最后一次ACK包" class="headerlink" title="客户端故意不发最后一次ACK包"></a>客户端故意不发最后一次ACK包</h2><p>-0<br>&emsp;&emsp;如果客户端是恶意的，在发送SYN包后，并收到SYN+ACK后就不回复了，那么服务端此时处于一种半连接的状态，虽然服务端会通过tcp_synack_retries配置重试的次数，不会无限等待下去，但是这也是有一个时间周期的。<br>&emsp;&emsp;如果短时间内存在大量的这种恶意连接，对服务端来说压力就会很大，这就是所谓的SYN FLOOD攻击。</p>
-<hr>
-<h1 id="四次挥手中的问题"><a href="#四次挥手中的问题" class="headerlink" title="四次挥手中的问题"></a>四次挥手中的问题</h1><h2 id="客户端断开连接的FIN包丢失"><a href="#客户端断开连接的FIN包丢失" class="headerlink" title="客户端断开连接的FIN包丢失"></a>客户端断开连接的FIN包丢失</h2><p>&emsp;&emsp;这种情况下，会触发超时重传机制，不会去考虑是自己发出的包丢失，还是无法收到对方发来的恢复，直到关闭连接。</p>
-<h2 id="服务端第一次返回的ACK包丢失"><a href="#服务端第一次返回的ACK包丢失" class="headerlink" title="服务端第一次返回的ACK包丢失"></a>服务端第一次返回的ACK包丢失</h2><p>&emsp;&emsp;这种情况下，客户端无法收到服务端返回的ACK包，会触发重传机制，重传FIN包。<br>&emsp;&emsp;而服务器收到重传的FIN包后，会立即在重传对FIN包的ACK包。<br>&emsp;&emsp;而此时服务器已经进入CLOSED-WAIT状态，开始做断开连接前的准备工作。当准备好之后，会回复FIN+ACK，这个消息是携带了之前ACK的响应序号的，这就是第三次挥手的包。</p>
-<h2 id="服务器发送的FIN-ACK包丢失"><a href="#服务器发送的FIN-ACK包丢失" class="headerlink" title="服务器发送的FIN+ACK包丢失"></a>服务器发送的FIN+ACK包丢失</h2><p>&emsp;&emsp;这是第三次挥手的包丢失了，此时客户端有两种情况，要么处于FIN-WAIT-2状态(之前的 ACK 也丢了)，会一直等待；要么处于TIME-WAIT状态，会等待 2MSL 时间。<br>&emsp;&emsp;而服务端则收不到对应的ACK确认包，则会进行超时重传。</p>
-<h2 id="客户端最后返回的ACK包丢失"><a href="#客户端最后返回的ACK包丢失" class="headerlink" title="客户端最后返回的ACK包丢失"></a>客户端最后返回的ACK包丢失</h2><p>&emsp;&emsp;客户端在回复ACK后，会进入TIME-WAIT状态，开始长达2MSL的等待，服务端因为没有收到ACK的回复，会重试一段时间，直到服务端重试超时后主动断开。<br>&emsp;&emsp;或者等待新的客户端接入后，收到服务端重试的FIN消息后，回复RST消息，在收到RST消息后，复位服务端的状态。</p>
-<h2 id="客户端收到ACK后服务端跑路"><a href="#客户端收到ACK后服务端跑路" class="headerlink" title="客户端收到ACK后服务端跑路"></a>客户端收到ACK后服务端跑路</h2><p>&emsp;&emsp;客户端在收到ACK后，进入了FIN-WAIT-2状态，等待服务端发来的FIN包，而如果服务端跑路了，这个包永远都等不到。<br>&emsp;&emsp;在TCP协议中，是没有对这个状态的处理机制的。但是协议不管，系统来凑，操作系统会接管这个状态，在一段时间后，直接进行客户端关闭，这中间会用心跳等进行检测。</p>
-<h2 id="客户端收到ACK后客户端跑路"><a href="#客户端收到ACK后客户端跑路" class="headerlink" title="客户端收到ACK后客户端跑路"></a>客户端收到ACK后客户端跑路</h2><p>&emsp;&emsp;客户端收到ACK后直接跑路，服务端后续在发送的FIN+ACK就没有接收端，也就不会得到回复，会不断的走TCP的超时重试的机制，此时服务端处于LAST-ACK状态。<br>&emsp;&emsp;这种情况下，有两种情况：在超过一定时间后，服务器直接进行关闭，这种类似于客户端的关闭；另一种情况则是收到客户端的RST消息，关闭连接。<br>&emsp;&emsp;RST消息是一种重置消息，表示当前错误了，应该回到初始的状态。如果客户端跑路后有新的客户端接入，会在此发送SYN以期望建立连接，此时这个SYN将被忽略，并直接回复FIN+ACK消息，新客户端在收到FIN消息后是不会认的，并且会回复一个RST消息。</p>
-]]></content>
-      <categories>
-        <category>网络</category>
-        <category>TCP</category>
-      </categories>
-      <tags>
-        <tag>网络</tag>
-        <tag>TCP</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>网络ISO模型</title>
     <url>/hexoblog/2021/05/06/md/internet/%E7%BD%91%E7%BB%9CISO%E6%A8%A1%E5%9E%8B/</url>
     <content><![CDATA[<h1 id="网络模型"><a href="#网络模型" class="headerlink" title="网络模型"></a>网络模型</h1><p>&emsp;&emsp;在计算机网络中有著名的OSI七层协议体系结构，概念清楚，理论完整，但是它既复杂又不实用。TCP/IP体系结构则不同，得到的广泛的应用。最终结合OSI和TCP/IP的优点，采用了一种只有五层协议的体系结构。</p>
@@ -608,6 +579,35 @@
       </categories>
       <tags>
         <tag>网络</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>异常的三次握手四次挥手</title>
+    <url>/hexoblog/2021/05/21/md/internet/%E5%BC%82%E5%B8%B8%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;TCP作为一个靠谱的协议，在传输数据的前后，需要在双端之间建立连接，并在双端各自维护连接的状态。<br>&emsp;&emsp;建立连接前，TCP会通过三次握手来保证双端状态正确，然后就可以正常传输数据了。当数据传输完成，需要断开连接的时候，TCP会通过四次握手来完成双端的断连，并回收各自的资源。<br>&emsp;&emsp;这个过程中也会产生各种问题，有因网络原因造成的也有其他原因造成的。一般来说主要就是丢包的问题，基本就是超时重传等来保证TCP的可靠性。</p>
+<span id="more"></span>
+
+<p><a href="https://network.51cto.com/art/202002/610542.htm">TCP异常</a></p>
+<hr>
+<h1 id="三次握手中的问题"><a href="#三次握手中的问题" class="headerlink" title="三次握手中的问题"></a>三次握手中的问题</h1><h2 id="客户端第一个SYN包丢失"><a href="#客户端第一个SYN包丢失" class="headerlink" title="客户端第一个SYN包丢失"></a>客户端第一个SYN包丢失</h2><p>&emsp;&emsp;如果客户端的第一个ACK包丢失，服务器无法收到这个包，不会做任何事情。<br>&emsp;&emsp;而在TCP协议中，某端的一组「请求-应答」中，在一定时间范围内，只要没有收到应答的「ACK」包，无论是请求包对方没有收到，还是对方的应答包自己没有收到，均认为是丢包了，都会触发超时重传机制。<br>&emsp;&emsp;此时客户端会重传丢失的SYN包。</p>
+<h2 id="服务端收到SYNd返回的SYN-ACK包丢失"><a href="#服务端收到SYNd返回的SYN-ACK包丢失" class="headerlink" title="服务端收到SYNd返回的SYN+ACK包丢失"></a>服务端收到SYNd返回的SYN+ACK包丢失</h2><p>&emsp;&emsp;此时服务端已经收到客户端的数据，并且发出了对于改信息的回复。<br>&emsp;&emsp;这个问题站在客户端而言，无法区分是服务端没有收到第一次的SYN包，还是自己没有收到回复信息，只能等待一段时间后重新发送SYN包，这和上面的情况就一样了。<br>&emsp;&emsp;对于服务端，发送了SYN+ACK包后，无法等到对方的确认ACK信息，也只能对这个SYN+ACK包进行重传。<br>&emsp;&emsp;由于客户端的重传，服务端会收到这个重传的SYN包，此时会针对这个新的SYN包立即发送SYN+ACK信息。</p>
+<h2 id="客户端收到SYN-ACK返回的ACK包丢失"><a href="#客户端收到SYN-ACK返回的ACK包丢失" class="headerlink" title="客户端收到SYN+ACK返回的ACK包丢失"></a>客户端收到SYN+ACK返回的ACK包丢失</h2><p>&emsp;&emsp;如果最后一个ACK包丢了，服务端因为收不到ACK会走重传机制，而客户端此时进入ESTABLISHED状态。<br>&emsp;&emsp;多数情况下，客户端进入ESTABLISHED状态后，则认为连接已建立，会立即发送数据。但是服务端因为没有收到最后一个ACK包，依然处于SYN-RCVD状态。<br>&emsp;&emsp;所以当服务端处于SYN-RCVD状态下时，接收到客户端真实发送来的数据包时，会认为连接已建立，并进入ESTABLISHED状态。<br>&emsp;&emsp;也有地方认为当服务端处于SYN-RCVD状态下，收到客户端的数据包后，会直接回复RST包响应，表示服务端错误，并进入CLOSE状态。<br>&emsp;&emsp;实际情况下，当客户端在ESTABLISHED状态下，开始发送数据包时，会携带上一个ACK的确认序号，所以哪怕客户端响应的ACK包丢了，服务端在收到这个数据包时，能够通过包内ACK的确认序号，正常进入ESTABLISHED状态。</p>
+<h2 id="客户端故意不发最后一次ACK包"><a href="#客户端故意不发最后一次ACK包" class="headerlink" title="客户端故意不发最后一次ACK包"></a>客户端故意不发最后一次ACK包</h2><p>-0<br>&emsp;&emsp;如果客户端是恶意的，在发送SYN包后，并收到SYN+ACK后就不回复了，那么服务端此时处于一种半连接的状态，虽然服务端会通过tcp_synack_retries配置重试的次数，不会无限等待下去，但是这也是有一个时间周期的。<br>&emsp;&emsp;如果短时间内存在大量的这种恶意连接，对服务端来说压力就会很大，这就是所谓的SYN FLOOD攻击。</p>
+<hr>
+<h1 id="四次挥手中的问题"><a href="#四次挥手中的问题" class="headerlink" title="四次挥手中的问题"></a>四次挥手中的问题</h1><h2 id="客户端断开连接的FIN包丢失"><a href="#客户端断开连接的FIN包丢失" class="headerlink" title="客户端断开连接的FIN包丢失"></a>客户端断开连接的FIN包丢失</h2><p>&emsp;&emsp;这种情况下，会触发超时重传机制，不会去考虑是自己发出的包丢失，还是无法收到对方发来的恢复，直到关闭连接。</p>
+<h2 id="服务端第一次返回的ACK包丢失"><a href="#服务端第一次返回的ACK包丢失" class="headerlink" title="服务端第一次返回的ACK包丢失"></a>服务端第一次返回的ACK包丢失</h2><p>&emsp;&emsp;这种情况下，客户端无法收到服务端返回的ACK包，会触发重传机制，重传FIN包。<br>&emsp;&emsp;而服务器收到重传的FIN包后，会立即在重传对FIN包的ACK包。<br>&emsp;&emsp;而此时服务器已经进入CLOSED-WAIT状态，开始做断开连接前的准备工作。当准备好之后，会回复FIN+ACK，这个消息是携带了之前ACK的响应序号的，这就是第三次挥手的包。</p>
+<h2 id="服务器发送的FIN-ACK包丢失"><a href="#服务器发送的FIN-ACK包丢失" class="headerlink" title="服务器发送的FIN+ACK包丢失"></a>服务器发送的FIN+ACK包丢失</h2><p>&emsp;&emsp;这是第三次挥手的包丢失了，此时客户端有两种情况，要么处于FIN-WAIT-2状态(之前的 ACK 也丢了)，会一直等待；要么处于TIME-WAIT状态，会等待 2MSL 时间。<br>&emsp;&emsp;而服务端则收不到对应的ACK确认包，则会进行超时重传。</p>
+<h2 id="客户端最后返回的ACK包丢失"><a href="#客户端最后返回的ACK包丢失" class="headerlink" title="客户端最后返回的ACK包丢失"></a>客户端最后返回的ACK包丢失</h2><p>&emsp;&emsp;客户端在回复ACK后，会进入TIME-WAIT状态，开始长达2MSL的等待，服务端因为没有收到ACK的回复，会重试一段时间，直到服务端重试超时后主动断开。<br>&emsp;&emsp;或者等待新的客户端接入后，收到服务端重试的FIN消息后，回复RST消息，在收到RST消息后，复位服务端的状态。</p>
+<h2 id="客户端收到ACK后服务端跑路"><a href="#客户端收到ACK后服务端跑路" class="headerlink" title="客户端收到ACK后服务端跑路"></a>客户端收到ACK后服务端跑路</h2><p>&emsp;&emsp;客户端在收到ACK后，进入了FIN-WAIT-2状态，等待服务端发来的FIN包，而如果服务端跑路了，这个包永远都等不到。<br>&emsp;&emsp;在TCP协议中，是没有对这个状态的处理机制的。但是协议不管，系统来凑，操作系统会接管这个状态，在一段时间后，直接进行客户端关闭，这中间会用心跳等进行检测。</p>
+<h2 id="客户端收到ACK后客户端跑路"><a href="#客户端收到ACK后客户端跑路" class="headerlink" title="客户端收到ACK后客户端跑路"></a>客户端收到ACK后客户端跑路</h2><p>&emsp;&emsp;客户端收到ACK后直接跑路，服务端后续在发送的FIN+ACK就没有接收端，也就不会得到回复，会不断的走TCP的超时重试的机制，此时服务端处于LAST-ACK状态。<br>&emsp;&emsp;这种情况下，有两种情况：在超过一定时间后，服务器直接进行关闭，这种类似于客户端的关闭；另一种情况则是收到客户端的RST消息，关闭连接。<br>&emsp;&emsp;RST消息是一种重置消息，表示当前错误了，应该回到初始的状态。如果客户端跑路后有新的客户端接入，会在此发送SYN以期望建立连接，此时这个SYN将被忽略，并直接回复FIN+ACK消息，新客户端在收到FIN消息后是不会认的，并且会回复一个RST消息。</p>
+]]></content>
+      <categories>
+        <category>网络</category>
+        <category>TCP</category>
+      </categories>
+      <tags>
+        <tag>网络</tag>
+        <tag>TCP</tag>
       </tags>
   </entry>
   <entry>
@@ -1325,6 +1325,84 @@ SELECT ... FOR UPDATE<span aria-hidden="true" class="line-numbers-rows"><span></
       </tags>
   </entry>
   <entry>
+    <title>jvm中方法区_永久代_元空间</title>
+    <url>/hexoblog/2021/04/25/md/jvm/jvm%E4%B8%AD%E6%96%B9%E6%B3%95%E5%8C%BA-%E6%B0%B8%E4%B9%85%E4%BB%A3-%E5%85%83%E7%A9%BA%E9%97%B4/</url>
+    <content><![CDATA[<h1 id="方法区："><a href="#方法区：" class="headerlink" title="方法区："></a>方法区：</h1><p>&emsp;&emsp;来看点jvm规范中的原文，7和8一样的。  </p>
+<span id="more"></span>
+
+<blockquote>
+<p>&emsp;The Java Virtual Machine has a method area that is shared among all Java Virtual Machine threads. The method area is analogous to the storage area for compiled code of a conventional language or analogous to the “text” segment in an operating system process. <strong>It stores per-class structures such as the run-time constant pool, field and method data, and the code for methods and constructors, including the special methods (§2.9) used in class and instance initialization and interface initialization.</strong>  </p>
+<p>&emsp;The method area is created on virtual machine start-up. <strong>Although the method area is logically part of the heap,</strong> simple implementations may choose not to either garbage collect or compact it. This specification does not mandate the location of the method area or the policies used to manage compiled code. The method area may be of a fixed size or may be expanded as required by the computation and may be contracted if a larger method area becomes unnecessary. The memory for the method area does not need to be contiguous.</p>
+<blockquote>
+<p>&emsp;A Java Virtual Machine implementation may provide the programmer or the user control over the initial size of the method area, as well as, in the case of a varying-size method area, control over the maximum and minimum method area size.</p>
+</blockquote>
+<p>The following exceptional condition is associated with the method area:</p>
+<ul>
+<li>If memory in the method area cannot be made available to satisfy an allocation request, the Java Virtual Machine throws an <strong>OutOfMemoryError.</strong></li>
+</ul>
+</blockquote>
+<p>&emsp;&emsp;方法区是逻辑上的东西，是JVM规范的东西，所有虚拟机必须遵守的。<br>&emsp;&emsp;根据JVM规范中，<strong>它存储每个类的结构，如运行时常量池、字段和方法数据，以及方法和构造函数的代码，包括在类和实例初始化和接口初始化中使用的特殊方法（2.9）。</strong><br>&emsp;&emsp;jvm规范中也说了，方法区域是在虚拟机启动时创建的。虽然方法区域是<strong>在堆的逻辑部分</strong>，简单实现可以选择不垃圾收集或压缩。此版本的Java虚拟机规范<strong>不强制指定方法区域的位置</strong>或用于管理的策略编译的代码。<br>&emsp;&emsp;因此不同的虚拟机，或者不同的版本对方法区有了不同的实现，比如1.7中的永久代，1.8中的元空间。而方法区也被称为非堆。</p>
+<hr>
+<h1 id="永久代（PermGen）"><a href="#永久代（PermGen）" class="headerlink" title="永久代（PermGen）"></a>永久代（PermGen）</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E5%86%85%E5%AD%98.jpg" alt="堆与永久代是连续的"></p>
+<p>&emsp;&emsp;在HotSpot虚拟中永久代是jdk1.7的实现，在HotSpot上把<strong>GC分代收集扩展至方法区</strong>，或者说使用永久代来实现方法区，而在其他虚拟机中并没有永久代的说法。<br>&emsp;&emsp;HotSpot使用GC分代来实现方法区内存回收。这里的垃圾回收是和老年代是绑定在一起的。<br>&emsp;&emsp;永久代的大小是启动时限制死的没有办法调整的，在动态生成类较多的情况下，容易出现内存溢出的问题，比如大量jsp页面的情况下，每个jsp都会生成servlet。<br>&emsp;&emsp;在1.7中，永久代和java堆是隔离的，但是他们使用的内存空间是连续的，也可以说永久代使用的是jvm的内存。<br>&emsp;&emsp;在HotSpot虚拟中这个实现在jdk1.8中被移除了。  </p>
+<hr>
+<h1 id="元空间（matespace）"><a href="#元空间（matespace）" class="headerlink" title="元空间（matespace）"></a>元空间（matespace）</h1><p>&emsp;&emsp;元空间是HotSpot虚拟机在jdk1.8对jvm规范的实现。<br>&emsp;&emsp;在1.8中，将1.7中永久代保存的数据一部分转移到了java堆中，一部分转移到了元空间中。<br>&emsp;&emsp;1.8中，元空间不在与堆连续，也就是不在jvm中了，而是使用本地内存。<br>&emsp;&emsp;本地内存又称为C-heap，是jvm自身进程使用的。元空间在的这部分内存因为不在jvm中，而不会发生GC。<br>&emsp;&emsp;理论上元空间不在会发生向永久代的内存溢出的问题，因为主机内存可以无限使用，这样可以加载的类的数量就不再受限制，但是一般可以通过参数设置最大空间。<br>&emsp;&emsp;元空间的大小如果不进行设置，JVM会自动根据类的元数据大小动态增加元空间的容量。<br>&emsp;&emsp;对于元空间的内存管理，jvm采用元空间虚拟机管理。在元空间中，类和其元数据的生命周期和其对应的类加载器是相同的。话句话说，只要类加载器存活，其加载的类的元数据也是存活的，因而不会被回收掉。<br>&emsp;&emsp;每一个类加载的存储区域都称为一个元空间，也就是元空间再主存中是零散的，所有的元空间合起来就是说的元空间。当一个类加载器被垃圾回收器标记为不再存活，其对应的元空间会被回收。在元空间的回收过程中没有重定位和压缩等操作。但是元空间内的元数据会进行扫描来确定Java引用。</p>
+<hr>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>&emsp;&emsp;永久代是jdk1.7的实现，元空间是1.8的实现。</p>
+<h2 id="移除永久代原因"><a href="#移除永久代原因" class="headerlink" title="移除永久代原因"></a>移除永久代原因</h2><ol>
+<li><p>字符串存在永久代中，现实使用中易出问题, 由于永久代内存经常不够用或发生内存泄露，爆出异常。这一步再1.6更新到1.7时已经完成，也就是说移除永久代是持续的，分布的。</p>
+<blockquote>
+<p>JDK1.7及之后版本的JVM已经将字符串常量池从方法区中移了出来，在Java 堆（Heap）中开辟了一块区域存放字符串常量池。</p>
+</blockquote>
+</li>
+<li><p>类及方法的信息等比较难确定其大小，因此对于永久代的大小指定比较困难，太小容易出现永久代溢出，太大则容易导致老年代溢出。</p>
+</li>
+<li><p>永久代会为GC带来不必要的复杂度，并且回收效率偏低。</p>
+</li>
+<li><p>为了HotSpot和JRockit合并产生一个超级JVM。</p>
+<p>&emsp;&emsp;移除工作从jdk1.7就开始了，只是没有完全移除。譬如符号引用(Symbols)转移到了native heap：字面量(interned strings)转移到了java heap；类的静态变量(class statics)转移到了java heap。</p>
+<blockquote>
+<p>字面量就是<code>String hello = &quot;helle&quot;</code>，中引号中的部分，声明为final的（基本数据类型）常量值。<br>符号引用就是编译阶段，引用代替其他类的地址的东西。</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h2><ol>
+<li>1.7与1.8的版本区别。</li>
+<li>永久代在jvm中，元空间不在。 </li>
+<li>永久代大小是固定的，元空间不固定。</li>
+<li>永久代内存是连续的且与堆相连，元空间内存是分散的。</li>
+<li>永久代由JVM管理，元空间由元空间虚拟机管理。</li>
+<li>永久代的GC与老年代绑定在一起，元空间是所持有其的类加载器被标记不在存活则会释放，还给操作系统。</li>
+</ol>
+<h2 id="存储内容"><a href="#存储内容" class="headerlink" title="存储内容"></a>存储内容</h2><p><a href="https://blog.csdn.net/WatsonYee/article/details/82839688?utm_medium=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromMachineLearnPai2~default-3.control&dist_request_id=&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromMachineLearnPai2~default-3.control">java永久代，元空间，常量池，方法区详解</a><br><a href="https://blog.csdn.net/leunging/article/details/80599282#comments_15970151">Java中局部变量、实例变量和静态变量在方法区、栈内存、堆内存中的分配</a></p>
+<p>&emsp;&emsp;根据JVM规范，方法区存储类的结构、运行时常量池、字段和方法数据，以及方法和构造函数的代码，包括在类和实例初始化和接口初始化中使用的特殊方法。<br>&emsp;&emsp;所以：—&gt;线程共享的，主要存储类信息、常量池、静态变量、JIT编译后的代码等数据。方法区理论上来说是堆的逻辑组成部分；<br>&emsp;对于常量池：</p>
+<ol>
+<li>class文件常量池</li>
+<li>运行时常量池</li>
+<li>字符串常量池</li>
+</ol>
+<h3 id="class文件常量池"><a href="#class文件常量池" class="headerlink" title="class文件常量池"></a>class文件常量池</h3><p>&emsp;&emsp;Class文件常量池指的是编译生成的class字节码文件，其结构中有一项是常量池（Constant Pool Table），用于存放编译期生成的各种<strong>字面量和符号引用</strong>（这里会被拆分、搬迁，看上面），这部分内容将在类加载后进入方法区的运行时常量池中存放。这里的数据貌似在jdk1.7被拆分了。</p>
+<h3 id="运行时常量池"><a href="#运行时常量池" class="headerlink" title="运行时常量池"></a>运行时常量池</h3><p>&emsp;&emsp;根据规范-&gt;运行时常量池是类文件中constant_pool表的每个类或每个接口的运行时表示形式（4.4）。<br>&emsp;&emsp;Class文件常量池将在类加载后进入方法区的运行时常量池中存放（移除永久代的搬迁中会没了吧）。</p>
+<h3 id="字符串常量池"><a href="#字符串常量池" class="headerlink" title="字符串常量池"></a>字符串<em>常量池</em></h3><p><a href="https://tech.meituan.com/2014/03/06/in-depth-understanding-string-intern.html">深入解析String#intern</a></p>
+<blockquote>
+<p>感觉有问题<br>String s = new String(“1”); 不考虑引用的情况下，不仅仅在堆上会分配一块内存，还会再字符串常量池生成一个对象。引号里面的再常量池，new出来的再堆上上，s在栈里，指向了堆里new的玩意。</p>
+</blockquote>
+<ol>
+<li>在jdk1.6（含）之前也是方法区的一部分，并且其中存放的是字符串的实例。</li>
+<li>在jdk1.7（含）之后是在堆内存之中，存储的是字符串对象的引用，也存储实例，字符串实例是在堆中。</li>
+<li>jdk1.8已移除永久代，字符串常量池是在本地内存当中，存储的也只是引用，也存储实例，实例在堆中。</li>
+</ol>
+<p>&emsp;&emsp;JVM 中除了字符串常量池，8种基本数据类型中除了两种浮点类型剩余的6种基本数据类型的包装类，都使用了缓冲池技术，但是 Byte、Short、Integer、Long、Character 这5种整型的包装类也只是在对应值在 [-128,127] 时才会使用缓冲池，超出此范围仍然会去创建新的对象。</p>
+]]></content>
+      <categories>
+        <category>jvm</category>
+      </categories>
+      <tags>
+        <tag>jvm</tag>
+        <tag>memory</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>jvm内存结构</title>
     <url>/hexoblog/2021/04/25/md/jvm/jvm%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/</url>
     <content><![CDATA[<h1 id="JVM内存结构"><a href="#JVM内存结构" class="headerlink" title="JVM内存结构"></a>JVM内存结构</h1><p>&emsp;&emsp;我们称的内存结构，在虚拟机规范中称为<strong>运行时数据区</strong>。</p>
@@ -1436,6 +1514,22 @@ SELECT ... FOR UPDATE<span aria-hidden="true" class="line-numbers-rows"><span></
       </tags>
   </entry>
   <entry>
+    <title>deepin安装docker</title>
+    <url>/hexoblog/2021/04/11/md/linux/deepin%E5%AE%89%E8%A3%85docker/</url>
+    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;写个毛啊，官方的直接搞来，<a href="https://wiki.deepin.org/wiki/Docker">https://wiki.deepin.org/wiki/Docke</a>。</p>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1>]]></content>
+      <categories>
+        <category>linux</category>
+        <category>deepin</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>linux</tag>
+        <tag>deepin</tag>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>jvm命令</title>
     <url>/hexoblog/2021/03/29/md/jvm/jvm%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<h1 id="JVM命令的使用"><a href="#JVM命令的使用" class="headerlink" title="JVM命令的使用"></a>JVM命令的使用</h1><p><a href="https://blog.csdn.net/wangxiaotongfan/article/details/82560739">https://blog.csdn.net/wangxiaotongfan/article/details/82560739</a></p>
@@ -1471,84 +1565,6 @@ SELECT ... FOR UPDATE<span aria-hidden="true" class="line-numbers-rows"><span></
       </tags>
   </entry>
   <entry>
-    <title>jvm中方法区_永久代_元空间</title>
-    <url>/hexoblog/2021/04/25/md/jvm/jvm%E4%B8%AD%E6%96%B9%E6%B3%95%E5%8C%BA-%E6%B0%B8%E4%B9%85%E4%BB%A3-%E5%85%83%E7%A9%BA%E9%97%B4/</url>
-    <content><![CDATA[<h1 id="方法区："><a href="#方法区：" class="headerlink" title="方法区："></a>方法区：</h1><p>&emsp;&emsp;来看点jvm规范中的原文，7和8一样的。  </p>
-<span id="more"></span>
-
-<blockquote>
-<p>&emsp;The Java Virtual Machine has a method area that is shared among all Java Virtual Machine threads. The method area is analogous to the storage area for compiled code of a conventional language or analogous to the “text” segment in an operating system process. <strong>It stores per-class structures such as the run-time constant pool, field and method data, and the code for methods and constructors, including the special methods (§2.9) used in class and instance initialization and interface initialization.</strong>  </p>
-<p>&emsp;The method area is created on virtual machine start-up. <strong>Although the method area is logically part of the heap,</strong> simple implementations may choose not to either garbage collect or compact it. This specification does not mandate the location of the method area or the policies used to manage compiled code. The method area may be of a fixed size or may be expanded as required by the computation and may be contracted if a larger method area becomes unnecessary. The memory for the method area does not need to be contiguous.</p>
-<blockquote>
-<p>&emsp;A Java Virtual Machine implementation may provide the programmer or the user control over the initial size of the method area, as well as, in the case of a varying-size method area, control over the maximum and minimum method area size.</p>
-</blockquote>
-<p>The following exceptional condition is associated with the method area:</p>
-<ul>
-<li>If memory in the method area cannot be made available to satisfy an allocation request, the Java Virtual Machine throws an <strong>OutOfMemoryError.</strong></li>
-</ul>
-</blockquote>
-<p>&emsp;&emsp;方法区是逻辑上的东西，是JVM规范的东西，所有虚拟机必须遵守的。<br>&emsp;&emsp;根据JVM规范中，<strong>它存储每个类的结构，如运行时常量池、字段和方法数据，以及方法和构造函数的代码，包括在类和实例初始化和接口初始化中使用的特殊方法（2.9）。</strong><br>&emsp;&emsp;jvm规范中也说了，方法区域是在虚拟机启动时创建的。虽然方法区域是<strong>在堆的逻辑部分</strong>，简单实现可以选择不垃圾收集或压缩。此版本的Java虚拟机规范<strong>不强制指定方法区域的位置</strong>或用于管理的策略编译的代码。<br>&emsp;&emsp;因此不同的虚拟机，或者不同的版本对方法区有了不同的实现，比如1.7中的永久代，1.8中的元空间。而方法区也被称为非堆。</p>
-<hr>
-<h1 id="永久代（PermGen）"><a href="#永久代（PermGen）" class="headerlink" title="永久代（PermGen）"></a>永久代（PermGen）</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E5%86%85%E5%AD%98.jpg" alt="堆与永久代是连续的"></p>
-<p>&emsp;&emsp;在HotSpot虚拟中永久代是jdk1.7的实现，在HotSpot上把<strong>GC分代收集扩展至方法区</strong>，或者说使用永久代来实现方法区，而在其他虚拟机中并没有永久代的说法。<br>&emsp;&emsp;HotSpot使用GC分代来实现方法区内存回收。这里的垃圾回收是和老年代是绑定在一起的。<br>&emsp;&emsp;永久代的大小是启动时限制死的没有办法调整的，在动态生成类较多的情况下，容易出现内存溢出的问题，比如大量jsp页面的情况下，每个jsp都会生成servlet。<br>&emsp;&emsp;在1.7中，永久代和java堆是隔离的，但是他们使用的内存空间是连续的，也可以说永久代使用的是jvm的内存。<br>&emsp;&emsp;在HotSpot虚拟中这个实现在jdk1.8中被移除了。  </p>
-<hr>
-<h1 id="元空间（matespace）"><a href="#元空间（matespace）" class="headerlink" title="元空间（matespace）"></a>元空间（matespace）</h1><p>&emsp;&emsp;元空间是HotSpot虚拟机在jdk1.8对jvm规范的实现。<br>&emsp;&emsp;在1.8中，将1.7中永久代保存的数据一部分转移到了java堆中，一部分转移到了元空间中。<br>&emsp;&emsp;1.8中，元空间不在与堆连续，也就是不在jvm中了，而是使用本地内存。<br>&emsp;&emsp;本地内存又称为C-heap，是jvm自身进程使用的。元空间在的这部分内存因为不在jvm中，而不会发生GC。<br>&emsp;&emsp;理论上元空间不在会发生向永久代的内存溢出的问题，因为主机内存可以无限使用，这样可以加载的类的数量就不再受限制，但是一般可以通过参数设置最大空间。<br>&emsp;&emsp;元空间的大小如果不进行设置，JVM会自动根据类的元数据大小动态增加元空间的容量。<br>&emsp;&emsp;对于元空间的内存管理，jvm采用元空间虚拟机管理。在元空间中，类和其元数据的生命周期和其对应的类加载器是相同的。话句话说，只要类加载器存活，其加载的类的元数据也是存活的，因而不会被回收掉。<br>&emsp;&emsp;每一个类加载的存储区域都称为一个元空间，也就是元空间再主存中是零散的，所有的元空间合起来就是说的元空间。当一个类加载器被垃圾回收器标记为不再存活，其对应的元空间会被回收。在元空间的回收过程中没有重定位和压缩等操作。但是元空间内的元数据会进行扫描来确定Java引用。</p>
-<hr>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>&emsp;&emsp;永久代是jdk1.7的实现，元空间是1.8的实现。</p>
-<h2 id="移除永久代原因"><a href="#移除永久代原因" class="headerlink" title="移除永久代原因"></a>移除永久代原因</h2><ol>
-<li><p>字符串存在永久代中，现实使用中易出问题, 由于永久代内存经常不够用或发生内存泄露，爆出异常。这一步再1.6更新到1.7时已经完成，也就是说移除永久代是持续的，分布的。</p>
-<blockquote>
-<p>JDK1.7及之后版本的JVM已经将字符串常量池从方法区中移了出来，在Java 堆（Heap）中开辟了一块区域存放字符串常量池。</p>
-</blockquote>
-</li>
-<li><p>类及方法的信息等比较难确定其大小，因此对于永久代的大小指定比较困难，太小容易出现永久代溢出，太大则容易导致老年代溢出。</p>
-</li>
-<li><p>永久代会为GC带来不必要的复杂度，并且回收效率偏低。</p>
-</li>
-<li><p>为了HotSpot和JRockit合并产生一个超级JVM。</p>
-<p>&emsp;&emsp;移除工作从jdk1.7就开始了，只是没有完全移除。譬如符号引用(Symbols)转移到了native heap：字面量(interned strings)转移到了java heap；类的静态变量(class statics)转移到了java heap。</p>
-<blockquote>
-<p>字面量就是<code>String hello = &quot;helle&quot;</code>，中引号中的部分，声明为final的（基本数据类型）常量值。<br>符号引用就是编译阶段，引用代替其他类的地址的东西。</p>
-</blockquote>
-</li>
-</ol>
-<h2 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h2><ol>
-<li>1.7与1.8的版本区别。</li>
-<li>永久代在jvm中，元空间不在。 </li>
-<li>永久代大小是固定的，元空间不固定。</li>
-<li>永久代内存是连续的且与堆相连，元空间内存是分散的。</li>
-<li>永久代由JVM管理，元空间由元空间虚拟机管理。</li>
-<li>永久代的GC与老年代绑定在一起，元空间是所持有其的类加载器被标记不在存活则会释放，还给操作系统。</li>
-</ol>
-<h2 id="存储内容"><a href="#存储内容" class="headerlink" title="存储内容"></a>存储内容</h2><p><a href="https://blog.csdn.net/WatsonYee/article/details/82839688?utm_medium=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromMachineLearnPai2~default-3.control&dist_request_id=&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromMachineLearnPai2~default-3.control">java永久代，元空间，常量池，方法区详解</a><br><a href="https://blog.csdn.net/leunging/article/details/80599282#comments_15970151">Java中局部变量、实例变量和静态变量在方法区、栈内存、堆内存中的分配</a></p>
-<p>&emsp;&emsp;根据JVM规范，方法区存储类的结构、运行时常量池、字段和方法数据，以及方法和构造函数的代码，包括在类和实例初始化和接口初始化中使用的特殊方法。<br>&emsp;&emsp;所以：—&gt;线程共享的，主要存储类信息、常量池、静态变量、JIT编译后的代码等数据。方法区理论上来说是堆的逻辑组成部分；<br>&emsp;对于常量池：</p>
-<ol>
-<li>class文件常量池</li>
-<li>运行时常量池</li>
-<li>字符串常量池</li>
-</ol>
-<h3 id="class文件常量池"><a href="#class文件常量池" class="headerlink" title="class文件常量池"></a>class文件常量池</h3><p>&emsp;&emsp;Class文件常量池指的是编译生成的class字节码文件，其结构中有一项是常量池（Constant Pool Table），用于存放编译期生成的各种<strong>字面量和符号引用</strong>（这里会被拆分、搬迁，看上面），这部分内容将在类加载后进入方法区的运行时常量池中存放。这里的数据貌似在jdk1.7被拆分了。</p>
-<h3 id="运行时常量池"><a href="#运行时常量池" class="headerlink" title="运行时常量池"></a>运行时常量池</h3><p>&emsp;&emsp;根据规范-&gt;运行时常量池是类文件中constant_pool表的每个类或每个接口的运行时表示形式（4.4）。<br>&emsp;&emsp;Class文件常量池将在类加载后进入方法区的运行时常量池中存放（移除永久代的搬迁中会没了吧）。</p>
-<h3 id="字符串常量池"><a href="#字符串常量池" class="headerlink" title="字符串常量池"></a>字符串<em>常量池</em></h3><p><a href="https://tech.meituan.com/2014/03/06/in-depth-understanding-string-intern.html">深入解析String#intern</a></p>
-<blockquote>
-<p>感觉有问题<br>String s = new String(“1”); 不考虑引用的情况下，不仅仅在堆上会分配一块内存，还会再字符串常量池生成一个对象。引号里面的再常量池，new出来的再堆上上，s在栈里，指向了堆里new的玩意。</p>
-</blockquote>
-<ol>
-<li>在jdk1.6（含）之前也是方法区的一部分，并且其中存放的是字符串的实例。</li>
-<li>在jdk1.7（含）之后是在堆内存之中，存储的是字符串对象的引用，也存储实例，字符串实例是在堆中。</li>
-<li>jdk1.8已移除永久代，字符串常量池是在本地内存当中，存储的也只是引用，也存储实例，实例在堆中。</li>
-</ol>
-<p>&emsp;&emsp;JVM 中除了字符串常量池，8种基本数据类型中除了两种浮点类型剩余的6种基本数据类型的包装类，都使用了缓冲池技术，但是 Byte、Short、Integer、Long、Character 这5种整型的包装类也只是在对应值在 [-128,127] 时才会使用缓冲池，超出此范围仍然会去创建新的对象。</p>
-]]></content>
-      <categories>
-        <category>jvm</category>
-      </categories>
-      <tags>
-        <tag>jvm</tag>
-        <tag>memory</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>jvm调优</title>
     <url>/hexoblog/2021/03/04/md/jvm/jvm%E8%B0%83%E4%BC%98/</url>
     <content><![CDATA[<p><a href="https://baijiahao.baidu.com/s?id=1617167971312758600&wfr=spider&for=pc">jvm性能调优的6大步骤</a></p>
@@ -1580,22 +1596,6 @@ SELECT ... FOR UPDATE<span aria-hidden="true" class="line-numbers-rows"><span></
       <tags>
         <tag>jvm</tag>
         <tag>tool</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>deepin安装docker</title>
-    <url>/hexoblog/2021/04/11/md/linux/deepin%E5%AE%89%E8%A3%85docker/</url>
-    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;写个毛啊，官方的直接搞来，<a href="https://wiki.deepin.org/wiki/Docker">https://wiki.deepin.org/wiki/Docke</a>。</p>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1>]]></content>
-      <categories>
-        <category>linux</category>
-        <category>deepin</category>
-      </categories>
-      <tags>
-        <tag>tool</tag>
-        <tag>linux</tag>
-        <tag>deepin</tag>
-        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -2505,7 +2505,7 @@ redis-server.exe --service-stop<span aria-hidden="true" class="line-numbers-rows
 <li>如果输入键已经过期，那么将输入键从数据库中删除。</li>
 <li>如果输入键未过期，那么不做任何处理。</li>
 </ul>
-<h2 id="定期删除的实现"><a href="#定期删除的实现" class="headerlink" title="定期删除的实现"></a>定期删除的实现</h2><p>&emsp;&emsp;过期键的定期删除策略由<code>activeExpireCycle</code>函数实现，每当Redis服务器周期性执行<code>serverCron</code>函数时，<code>activeExpireCycle</code>函数就会被调用，他在规定的时间内，分多次遍历服务器中的各个数据库（Redis共16个数据库），从数据库的expires字典中随机检查一部分键的过期时间，并删除其中的过期键。（随机抽取的办法）<br>&emsp;&emsp;函数每次运行，会全局的遍历所有的数据库，本次检查0号数据库，下次检查1号数据库，直到15号库，又从0号库开始检查，这样保证每个库都被检查到。每次检查都会从检查的库中抽取一定数量的键来进行检查。<br>&emsp;&emsp;随机检查的键，一般由算法决定，比如LRU（最近最少使用），LFU。</p>
+<h2 id="定期删除的实现"><a href="#定期删除的实现" class="headerlink" title="定期删除的实现"></a>定期删除的实现</h2><p>&emsp;&emsp;过期键的定期删除策略由<code>activeExpireCycle</code>函数实现，每当Redis服务器周期性执行<code>serverCron</code>函数时，<code>activeExpireCycle</code>函数就会被调用，他在规定的时间内，分多次遍历服务器中的各个数据库（Redis共16个数据库），从数据库的expires字典中随机检查一部分键的过期时间，并删除其中的过期键。（随机抽取的办法）<br>&emsp;&emsp;函数每次运行，会全局的遍历所有的数据库，本次检查0号数据库，下次检查1号数据库，直到15号库，又从0号库开始检查，这样保证每个库都被检查到。每次检查都会从检查的库中抽取一定数量的键来进行检查。<br>&emsp;&emsp;随机检查的键，一般由算法决定，比如LRU（最近最少使用），LFU（使用频率最低）。</p>
 <hr>
 <h1 id="过期键对备份文件的影响"><a href="#过期键对备份文件的影响" class="headerlink" title="过期键对备份文件的影响"></a>过期键对备份文件的影响</h1><h2 id="对RDB文件的影响"><a href="#对RDB文件的影响" class="headerlink" title="对RDB文件的影响"></a>对RDB文件的影响</h2><h3 id="生成RDB文件时"><a href="#生成RDB文件时" class="headerlink" title="生成RDB文件时"></a>生成RDB文件时</h3><p>&emsp;&emsp;在执行<code>save</code>命令或者<code>bgsave</code>命令进行持久化时，程序会对数据库中的键进行检查，<strong>已经过期的键不会保存在RDB文件中</strong>。  </p>
 <h3 id="载入RDB文件时"><a href="#载入RDB文件时" class="headerlink" title="载入RDB文件时"></a>载入RDB文件时</h3><p>&emsp;&emsp;在启动Redis服务器时，如果服务器只开启了RDB持久化，那么服务器将会载入RDB文件：</p>
@@ -3631,7 +3631,7 @@ zkServer<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
   </entry>
   <entry>
     <title>jekins安装使用</title>
-    <url>/hexoblog/2021/04/28/md/DEVOPS/CI&amp;CD/jekins%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/</url>
+    <url>/hexoblog/2021/04/28/md/DEVOPS/CICD/jekins%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<h1 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h1><p>&emsp;&emsp;网上的教程有很多，把自己的过程记一遍。<br>&emsp;&emsp;首先就是下载jekins的包，在官网下载就可以。win平台的可以下载对应的exe文件。<br><a href="https://www.jenkins.io/download">jekins下载</a><br>8089</p>
 <span id="more"></span>
 
@@ -3641,12 +3641,12 @@ zkServer<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
 <h1 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h1><p>&emsp;&emsp;先看官方的，有空再总结自己的。<br>&emsp;&emsp;<a href="https://blog.csdn.net/wise18146705004/article/details/105455426">jekins在win10的安装和使用</a><br>&emsp;&emsp;<a href="https://www.jenkins.io/zh/doc/book/installing/">安装Jenkins </a><br>&emsp;&emsp;<a href="https://www.jenkins.io/zh/download/">Jenkins 的安装和设置</a></p>
 ]]></content>
       <categories>
-        <category>CI&amp;CD</category>
+        <category>CICD</category>
         <category>jekins</category>
       </categories>
       <tags>
         <tag>tool</tag>
-        <tag>CI&amp;CD</tag>
+        <tag>CICD</tag>
         <tag>jekins</tag>
       </tags>
   </entry>
