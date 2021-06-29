@@ -218,6 +218,35 @@
       </tags>
   </entry>
   <entry>
+    <title>异常的三次握手四次挥手</title>
+    <url>/hexoblog/2021/05/21/md/internet/%E5%BC%82%E5%B8%B8%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;TCP作为一个靠谱的协议，在传输数据的前后，需要在双端之间建立连接，并在双端各自维护连接的状态。<br>&emsp;&emsp;建立连接前，TCP会通过三次握手来保证双端状态正确，然后就可以正常传输数据了。当数据传输完成，需要断开连接的时候，TCP会通过四次握手来完成双端的断连，并回收各自的资源。<br>&emsp;&emsp;这个过程中也会产生各种问题，有因网络原因造成的也有其他原因造成的。一般来说主要就是丢包的问题，基本就是超时重传等来保证TCP的可靠性。</p>
+<span id="more"></span>
+
+<p><a href="https://network.51cto.com/art/202002/610542.htm">TCP异常</a></p>
+<hr>
+<h1 id="三次握手中的问题"><a href="#三次握手中的问题" class="headerlink" title="三次握手中的问题"></a>三次握手中的问题</h1><h2 id="客户端第一个SYN包丢失"><a href="#客户端第一个SYN包丢失" class="headerlink" title="客户端第一个SYN包丢失"></a>客户端第一个SYN包丢失</h2><p>&emsp;&emsp;如果客户端的第一个ACK包丢失，服务器无法收到这个包，不会做任何事情。<br>&emsp;&emsp;而在TCP协议中，某端的一组「请求-应答」中，在一定时间范围内，只要没有收到应答的「ACK」包，无论是请求包对方没有收到，还是对方的应答包自己没有收到，均认为是丢包了，都会触发超时重传机制。<br>&emsp;&emsp;此时客户端会重传丢失的SYN包。</p>
+<h2 id="服务端收到SYNd返回的SYN-ACK包丢失"><a href="#服务端收到SYNd返回的SYN-ACK包丢失" class="headerlink" title="服务端收到SYNd返回的SYN+ACK包丢失"></a>服务端收到SYNd返回的SYN+ACK包丢失</h2><p>&emsp;&emsp;此时服务端已经收到客户端的数据，并且发出了对于改信息的回复。<br>&emsp;&emsp;这个问题站在客户端而言，无法区分是服务端没有收到第一次的SYN包，还是自己没有收到回复信息，只能等待一段时间后重新发送SYN包，这和上面的情况就一样了。<br>&emsp;&emsp;对于服务端，发送了SYN+ACK包后，无法等到对方的确认ACK信息，也只能对这个SYN+ACK包进行重传。<br>&emsp;&emsp;由于客户端的重传，服务端会收到这个重传的SYN包，此时会针对这个新的SYN包立即发送SYN+ACK信息。</p>
+<h2 id="客户端收到SYN-ACK返回的ACK包丢失"><a href="#客户端收到SYN-ACK返回的ACK包丢失" class="headerlink" title="客户端收到SYN+ACK返回的ACK包丢失"></a>客户端收到SYN+ACK返回的ACK包丢失</h2><p>&emsp;&emsp;如果最后一个ACK包丢了，服务端因为收不到ACK会走重传机制，而客户端此时进入ESTABLISHED状态。<br>&emsp;&emsp;多数情况下，客户端进入ESTABLISHED状态后，则认为连接已建立，会立即发送数据。但是服务端因为没有收到最后一个ACK包，依然处于SYN-RCVD状态。<br>&emsp;&emsp;所以当服务端处于SYN-RCVD状态下时，接收到客户端真实发送来的数据包时，会认为连接已建立，并进入ESTABLISHED状态。<br>&emsp;&emsp;也有地方认为当服务端处于SYN-RCVD状态下，收到客户端的数据包后，会直接回复RST包响应，表示服务端错误，并进入CLOSE状态。<br>&emsp;&emsp;实际情况下，当客户端在ESTABLISHED状态下，开始发送数据包时，会携带上一个ACK的确认序号，所以哪怕客户端响应的ACK包丢了，服务端在收到这个数据包时，能够通过包内ACK的确认序号，正常进入ESTABLISHED状态。</p>
+<h2 id="客户端故意不发最后一次ACK包"><a href="#客户端故意不发最后一次ACK包" class="headerlink" title="客户端故意不发最后一次ACK包"></a>客户端故意不发最后一次ACK包</h2><p>-0<br>&emsp;&emsp;如果客户端是恶意的，在发送SYN包后，并收到SYN+ACK后就不回复了，那么服务端此时处于一种半连接的状态，虽然服务端会通过tcp_synack_retries配置重试的次数，不会无限等待下去，但是这也是有一个时间周期的。<br>&emsp;&emsp;如果短时间内存在大量的这种恶意连接，对服务端来说压力就会很大，这就是所谓的SYN FLOOD攻击。</p>
+<hr>
+<h1 id="四次挥手中的问题"><a href="#四次挥手中的问题" class="headerlink" title="四次挥手中的问题"></a>四次挥手中的问题</h1><h2 id="客户端断开连接的FIN包丢失"><a href="#客户端断开连接的FIN包丢失" class="headerlink" title="客户端断开连接的FIN包丢失"></a>客户端断开连接的FIN包丢失</h2><p>&emsp;&emsp;这种情况下，会触发超时重传机制，不会去考虑是自己发出的包丢失，还是无法收到对方发来的恢复，直到关闭连接。</p>
+<h2 id="服务端第一次返回的ACK包丢失"><a href="#服务端第一次返回的ACK包丢失" class="headerlink" title="服务端第一次返回的ACK包丢失"></a>服务端第一次返回的ACK包丢失</h2><p>&emsp;&emsp;这种情况下，客户端无法收到服务端返回的ACK包，会触发重传机制，重传FIN包。<br>&emsp;&emsp;而服务器收到重传的FIN包后，会立即在重传对FIN包的ACK包。<br>&emsp;&emsp;而此时服务器已经进入CLOSED-WAIT状态，开始做断开连接前的准备工作。当准备好之后，会回复FIN+ACK，这个消息是携带了之前ACK的响应序号的，这就是第三次挥手的包。</p>
+<h2 id="服务器发送的FIN-ACK包丢失"><a href="#服务器发送的FIN-ACK包丢失" class="headerlink" title="服务器发送的FIN+ACK包丢失"></a>服务器发送的FIN+ACK包丢失</h2><p>&emsp;&emsp;这是第三次挥手的包丢失了，此时客户端有两种情况，要么处于FIN-WAIT-2状态(之前的 ACK 也丢了)，会一直等待；要么处于TIME-WAIT状态，会等待 2MSL 时间。<br>&emsp;&emsp;而服务端则收不到对应的ACK确认包，则会进行超时重传。</p>
+<h2 id="客户端最后返回的ACK包丢失"><a href="#客户端最后返回的ACK包丢失" class="headerlink" title="客户端最后返回的ACK包丢失"></a>客户端最后返回的ACK包丢失</h2><p>&emsp;&emsp;客户端在回复ACK后，会进入TIME-WAIT状态，开始长达2MSL的等待，服务端因为没有收到ACK的回复，会重试一段时间，直到服务端重试超时后主动断开。<br>&emsp;&emsp;或者等待新的客户端接入后，收到服务端重试的FIN消息后，回复RST消息，在收到RST消息后，复位服务端的状态。</p>
+<h2 id="客户端收到ACK后服务端跑路"><a href="#客户端收到ACK后服务端跑路" class="headerlink" title="客户端收到ACK后服务端跑路"></a>客户端收到ACK后服务端跑路</h2><p>&emsp;&emsp;客户端在收到ACK后，进入了FIN-WAIT-2状态，等待服务端发来的FIN包，而如果服务端跑路了，这个包永远都等不到。<br>&emsp;&emsp;在TCP协议中，是没有对这个状态的处理机制的。但是协议不管，系统来凑，操作系统会接管这个状态，在一段时间后，直接进行客户端关闭，这中间会用心跳等进行检测。</p>
+<h2 id="客户端收到ACK后客户端跑路"><a href="#客户端收到ACK后客户端跑路" class="headerlink" title="客户端收到ACK后客户端跑路"></a>客户端收到ACK后客户端跑路</h2><p>&emsp;&emsp;客户端收到ACK后直接跑路，服务端后续在发送的FIN+ACK就没有接收端，也就不会得到回复，会不断的走TCP的超时重试的机制，此时服务端处于LAST-ACK状态。<br>&emsp;&emsp;这种情况下，有两种情况：在超过一定时间后，服务器直接进行关闭，这种类似于客户端的关闭；另一种情况则是收到客户端的RST消息，关闭连接。<br>&emsp;&emsp;RST消息是一种重置消息，表示当前错误了，应该回到初始的状态。如果客户端跑路后有新的客户端接入，会在此发送SYN以期望建立连接，此时这个SYN将被忽略，并直接回复FIN+ACK消息，新客户端在收到FIN消息后是不会认的，并且会回复一个RST消息。</p>
+]]></content>
+      <categories>
+        <category>网络</category>
+        <category>TCP</category>
+      </categories>
+      <tags>
+        <tag>网络</tag>
+        <tag>TCP</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>TCP三次握手四次挥手</title>
     <url>/hexoblog/2021/04/30/md/internet/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/</url>
     <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;在网络层通过IP协议可以实现两个主机之间的通信，但是无法确定是主机中的那个进程之间进行的通信，而实际及性能通信的则是主机中的进程。  </p>
@@ -579,35 +608,6 @@
       </categories>
       <tags>
         <tag>网络</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>异常的三次握手四次挥手</title>
-    <url>/hexoblog/2021/05/21/md/internet/%E5%BC%82%E5%B8%B8%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;TCP作为一个靠谱的协议，在传输数据的前后，需要在双端之间建立连接，并在双端各自维护连接的状态。<br>&emsp;&emsp;建立连接前，TCP会通过三次握手来保证双端状态正确，然后就可以正常传输数据了。当数据传输完成，需要断开连接的时候，TCP会通过四次握手来完成双端的断连，并回收各自的资源。<br>&emsp;&emsp;这个过程中也会产生各种问题，有因网络原因造成的也有其他原因造成的。一般来说主要就是丢包的问题，基本就是超时重传等来保证TCP的可靠性。</p>
-<span id="more"></span>
-
-<p><a href="https://network.51cto.com/art/202002/610542.htm">TCP异常</a></p>
-<hr>
-<h1 id="三次握手中的问题"><a href="#三次握手中的问题" class="headerlink" title="三次握手中的问题"></a>三次握手中的问题</h1><h2 id="客户端第一个SYN包丢失"><a href="#客户端第一个SYN包丢失" class="headerlink" title="客户端第一个SYN包丢失"></a>客户端第一个SYN包丢失</h2><p>&emsp;&emsp;如果客户端的第一个ACK包丢失，服务器无法收到这个包，不会做任何事情。<br>&emsp;&emsp;而在TCP协议中，某端的一组「请求-应答」中，在一定时间范围内，只要没有收到应答的「ACK」包，无论是请求包对方没有收到，还是对方的应答包自己没有收到，均认为是丢包了，都会触发超时重传机制。<br>&emsp;&emsp;此时客户端会重传丢失的SYN包。</p>
-<h2 id="服务端收到SYNd返回的SYN-ACK包丢失"><a href="#服务端收到SYNd返回的SYN-ACK包丢失" class="headerlink" title="服务端收到SYNd返回的SYN+ACK包丢失"></a>服务端收到SYNd返回的SYN+ACK包丢失</h2><p>&emsp;&emsp;此时服务端已经收到客户端的数据，并且发出了对于改信息的回复。<br>&emsp;&emsp;这个问题站在客户端而言，无法区分是服务端没有收到第一次的SYN包，还是自己没有收到回复信息，只能等待一段时间后重新发送SYN包，这和上面的情况就一样了。<br>&emsp;&emsp;对于服务端，发送了SYN+ACK包后，无法等到对方的确认ACK信息，也只能对这个SYN+ACK包进行重传。<br>&emsp;&emsp;由于客户端的重传，服务端会收到这个重传的SYN包，此时会针对这个新的SYN包立即发送SYN+ACK信息。</p>
-<h2 id="客户端收到SYN-ACK返回的ACK包丢失"><a href="#客户端收到SYN-ACK返回的ACK包丢失" class="headerlink" title="客户端收到SYN+ACK返回的ACK包丢失"></a>客户端收到SYN+ACK返回的ACK包丢失</h2><p>&emsp;&emsp;如果最后一个ACK包丢了，服务端因为收不到ACK会走重传机制，而客户端此时进入ESTABLISHED状态。<br>&emsp;&emsp;多数情况下，客户端进入ESTABLISHED状态后，则认为连接已建立，会立即发送数据。但是服务端因为没有收到最后一个ACK包，依然处于SYN-RCVD状态。<br>&emsp;&emsp;所以当服务端处于SYN-RCVD状态下时，接收到客户端真实发送来的数据包时，会认为连接已建立，并进入ESTABLISHED状态。<br>&emsp;&emsp;也有地方认为当服务端处于SYN-RCVD状态下，收到客户端的数据包后，会直接回复RST包响应，表示服务端错误，并进入CLOSE状态。<br>&emsp;&emsp;实际情况下，当客户端在ESTABLISHED状态下，开始发送数据包时，会携带上一个ACK的确认序号，所以哪怕客户端响应的ACK包丢了，服务端在收到这个数据包时，能够通过包内ACK的确认序号，正常进入ESTABLISHED状态。</p>
-<h2 id="客户端故意不发最后一次ACK包"><a href="#客户端故意不发最后一次ACK包" class="headerlink" title="客户端故意不发最后一次ACK包"></a>客户端故意不发最后一次ACK包</h2><p>-0<br>&emsp;&emsp;如果客户端是恶意的，在发送SYN包后，并收到SYN+ACK后就不回复了，那么服务端此时处于一种半连接的状态，虽然服务端会通过tcp_synack_retries配置重试的次数，不会无限等待下去，但是这也是有一个时间周期的。<br>&emsp;&emsp;如果短时间内存在大量的这种恶意连接，对服务端来说压力就会很大，这就是所谓的SYN FLOOD攻击。</p>
-<hr>
-<h1 id="四次挥手中的问题"><a href="#四次挥手中的问题" class="headerlink" title="四次挥手中的问题"></a>四次挥手中的问题</h1><h2 id="客户端断开连接的FIN包丢失"><a href="#客户端断开连接的FIN包丢失" class="headerlink" title="客户端断开连接的FIN包丢失"></a>客户端断开连接的FIN包丢失</h2><p>&emsp;&emsp;这种情况下，会触发超时重传机制，不会去考虑是自己发出的包丢失，还是无法收到对方发来的恢复，直到关闭连接。</p>
-<h2 id="服务端第一次返回的ACK包丢失"><a href="#服务端第一次返回的ACK包丢失" class="headerlink" title="服务端第一次返回的ACK包丢失"></a>服务端第一次返回的ACK包丢失</h2><p>&emsp;&emsp;这种情况下，客户端无法收到服务端返回的ACK包，会触发重传机制，重传FIN包。<br>&emsp;&emsp;而服务器收到重传的FIN包后，会立即在重传对FIN包的ACK包。<br>&emsp;&emsp;而此时服务器已经进入CLOSED-WAIT状态，开始做断开连接前的准备工作。当准备好之后，会回复FIN+ACK，这个消息是携带了之前ACK的响应序号的，这就是第三次挥手的包。</p>
-<h2 id="服务器发送的FIN-ACK包丢失"><a href="#服务器发送的FIN-ACK包丢失" class="headerlink" title="服务器发送的FIN+ACK包丢失"></a>服务器发送的FIN+ACK包丢失</h2><p>&emsp;&emsp;这是第三次挥手的包丢失了，此时客户端有两种情况，要么处于FIN-WAIT-2状态(之前的 ACK 也丢了)，会一直等待；要么处于TIME-WAIT状态，会等待 2MSL 时间。<br>&emsp;&emsp;而服务端则收不到对应的ACK确认包，则会进行超时重传。</p>
-<h2 id="客户端最后返回的ACK包丢失"><a href="#客户端最后返回的ACK包丢失" class="headerlink" title="客户端最后返回的ACK包丢失"></a>客户端最后返回的ACK包丢失</h2><p>&emsp;&emsp;客户端在回复ACK后，会进入TIME-WAIT状态，开始长达2MSL的等待，服务端因为没有收到ACK的回复，会重试一段时间，直到服务端重试超时后主动断开。<br>&emsp;&emsp;或者等待新的客户端接入后，收到服务端重试的FIN消息后，回复RST消息，在收到RST消息后，复位服务端的状态。</p>
-<h2 id="客户端收到ACK后服务端跑路"><a href="#客户端收到ACK后服务端跑路" class="headerlink" title="客户端收到ACK后服务端跑路"></a>客户端收到ACK后服务端跑路</h2><p>&emsp;&emsp;客户端在收到ACK后，进入了FIN-WAIT-2状态，等待服务端发来的FIN包，而如果服务端跑路了，这个包永远都等不到。<br>&emsp;&emsp;在TCP协议中，是没有对这个状态的处理机制的。但是协议不管，系统来凑，操作系统会接管这个状态，在一段时间后，直接进行客户端关闭，这中间会用心跳等进行检测。</p>
-<h2 id="客户端收到ACK后客户端跑路"><a href="#客户端收到ACK后客户端跑路" class="headerlink" title="客户端收到ACK后客户端跑路"></a>客户端收到ACK后客户端跑路</h2><p>&emsp;&emsp;客户端收到ACK后直接跑路，服务端后续在发送的FIN+ACK就没有接收端，也就不会得到回复，会不断的走TCP的超时重试的机制，此时服务端处于LAST-ACK状态。<br>&emsp;&emsp;这种情况下，有两种情况：在超过一定时间后，服务器直接进行关闭，这种类似于客户端的关闭；另一种情况则是收到客户端的RST消息，关闭连接。<br>&emsp;&emsp;RST消息是一种重置消息，表示当前错误了，应该回到初始的状态。如果客户端跑路后有新的客户端接入，会在此发送SYN以期望建立连接，此时这个SYN将被忽略，并直接回复FIN+ACK消息，新客户端在收到FIN消息后是不会认的，并且会回复一个RST消息。</p>
-]]></content>
-      <categories>
-        <category>网络</category>
-        <category>TCP</category>
-      </categories>
-      <tags>
-        <tag>网络</tag>
-        <tag>TCP</tag>
       </tags>
   </entry>
   <entry>
@@ -1514,22 +1514,6 @@ SELECT ... FOR UPDATE<span aria-hidden="true" class="line-numbers-rows"><span></
       </tags>
   </entry>
   <entry>
-    <title>deepin安装docker</title>
-    <url>/hexoblog/2021/04/11/md/linux/deepin%E5%AE%89%E8%A3%85docker/</url>
-    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;写个毛啊，官方的直接搞来，<a href="https://wiki.deepin.org/wiki/Docker">https://wiki.deepin.org/wiki/Docke</a>。</p>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1>]]></content>
-      <categories>
-        <category>linux</category>
-        <category>deepin</category>
-      </categories>
-      <tags>
-        <tag>tool</tag>
-        <tag>linux</tag>
-        <tag>deepin</tag>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>jvm命令</title>
     <url>/hexoblog/2021/03/29/md/jvm/jvm%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<h1 id="JVM命令的使用"><a href="#JVM命令的使用" class="headerlink" title="JVM命令的使用"></a>JVM命令的使用</h1><p><a href="https://blog.csdn.net/wangxiaotongfan/article/details/82560739">https://blog.csdn.net/wangxiaotongfan/article/details/82560739</a></p>
@@ -1596,6 +1580,22 @@ SELECT ... FOR UPDATE<span aria-hidden="true" class="line-numbers-rows"><span></
       <tags>
         <tag>jvm</tag>
         <tag>tool</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>deepin安装docker</title>
+    <url>/hexoblog/2021/04/11/md/linux/deepin%E5%AE%89%E8%A3%85docker/</url>
+    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;写个毛啊，官方的直接搞来，<a href="https://wiki.deepin.org/wiki/Docker">https://wiki.deepin.org/wiki/Docke</a>。</p>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1>]]></content>
+      <categories>
+        <category>linux</category>
+        <category>deepin</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>linux</tag>
+        <tag>deepin</tag>
+        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -1704,28 +1704,6 @@ startup.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><span>
       </tags>
   </entry>
   <entry>
-    <title>linux基本操作</title>
-    <url>/hexoblog/2021/04/10/md/linux/linux%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
-    <content><![CDATA[<h1 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h1><h2 id="移动文件-重命名文件"><a href="#移动文件-重命名文件" class="headerlink" title="移动文件/重命名文件"></a>移动文件/重命名文件</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 移动文件</span>
-<span class="token function">mv</span> <span class="token punctuation">[</span>源文件目录<span class="token punctuation">]</span> <span class="token punctuation">[</span>目标文件目录<span class="token punctuation">]</span>
-
-<span class="token comment"># 重命名文件</span>
-<span class="token builtin class-name">cd</span> <span class="token punctuation">[</span>目标目录<span class="token punctuation">]</span>
-<span class="token function">mv</span> <span class="token punctuation">[</span>源文件名<span class="token punctuation">]</span> <span class="token punctuation">[</span>目标文件名<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="复制文件"><a href="#复制文件" class="headerlink" title="复制文件"></a>复制文件</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">cp</span> <span class="token punctuation">[</span>源文件目录/源文件名<span class="token punctuation">]</span> <span class="token punctuation">[</span>目标文件目录<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="删除文件"><a href="#删除文件" class="headerlink" title="删除文件"></a>删除文件</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> <span class="token punctuation">[</span>目标文件目录<span class="token punctuation">]</span>
-<span class="token function">rm</span> -rf <span class="token punctuation">[</span>目标文件名<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>]]></content>
-      <categories>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>tool</tag>
-        <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>wsl小问题排查</title>
     <url>/hexoblog/2021/03/14/md/linux/wsl%E5%B0%8F%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5/</url>
     <content><![CDATA[<!-- toc -->
@@ -1745,6 +1723,28 @@ netsh winsock reset<span aria-hidden="true" class="line-numbers-rows"><span></sp
       <tags>
         <tag>linux</tag>
         <tag>wsl</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>linux基本操作</title>
+    <url>/hexoblog/2021/04/10/md/linux/linux%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<h1 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h1><h2 id="移动文件-重命名文件"><a href="#移动文件-重命名文件" class="headerlink" title="移动文件/重命名文件"></a>移动文件/重命名文件</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 移动文件</span>
+<span class="token function">mv</span> <span class="token punctuation">[</span>源文件目录<span class="token punctuation">]</span> <span class="token punctuation">[</span>目标文件目录<span class="token punctuation">]</span>
+
+<span class="token comment"># 重命名文件</span>
+<span class="token builtin class-name">cd</span> <span class="token punctuation">[</span>目标目录<span class="token punctuation">]</span>
+<span class="token function">mv</span> <span class="token punctuation">[</span>源文件名<span class="token punctuation">]</span> <span class="token punctuation">[</span>目标文件名<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="复制文件"><a href="#复制文件" class="headerlink" title="复制文件"></a>复制文件</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">cp</span> <span class="token punctuation">[</span>源文件目录/源文件名<span class="token punctuation">]</span> <span class="token punctuation">[</span>目标文件目录<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="删除文件"><a href="#删除文件" class="headerlink" title="删除文件"></a>删除文件</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> <span class="token punctuation">[</span>目标文件目录<span class="token punctuation">]</span>
+<span class="token function">rm</span> -rf <span class="token punctuation">[</span>目标文件名<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -2070,58 +2070,6 @@ netsh winsock reset<span aria-hidden="true" class="line-numbers-rows"><span></sp
       </tags>
   </entry>
   <entry>
-    <title>mysql中datetime和timestamp</title>
-    <url>/hexoblog/2021/04/14/md/mysql/mysql%E4%B8%ADdatetime%E5%92%8Ctimestamp/</url>
-    <content><![CDATA[<h1 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h1><h2 id="date和datetime，timestamp的区别"><a href="#date和datetime，timestamp的区别" class="headerlink" title="date和datetime，timestamp的区别"></a>date和datetime，timestamp的区别</h2><ol>
-<li>date保存的是天，精确到天</li>
-<li>datetime，timestamp精确到秒</li>
-</ol>
-<span id="more"></span>
-<h2 id="datetime和timastamp"><a href="#datetime和timastamp" class="headerlink" title="datetime和timastamp"></a>datetime和timastamp</h2><p>&emsp;&emsp;datetime 和timestamp两者都是时间类型字段，格式都一致。</p>
-<ol>
-<li><p>受时区影响不同</p>
-<blockquote>
-<p>timestamp会跟随设置的时区变化而变化，而datetime保存的是绝对值不会变化。</p>
-</blockquote>
-</li>
-<li><p>占用存储空间不同</p>
-<blockquote>
-<p>timestamp储存占用4个字节，datetime储存占用8个字节。</p>
-</blockquote>
-</li>
-<li><p>可以表示的时间范围不同</p>
-<blockquote>
-<p>timestamp可表示范围:1970-01-01 00:00:00~2038-01-09 03:14:07，datetime支持的范围更宽1000-01-01 00:00:00 ~ 9999-12-31 23:59:59。</p>
-</blockquote>
-</li>
-<li><p>索引速度不同</p>
-<blockquote>
-<p>timestamp更轻量，索引相对datetime更快。</p>
-</blockquote>
-</li>
-<li><p>默认值不同</p>
-<blockquote>
-<p>datetime的默认值为null，timestamp的字段默认不为空（not null），默认值为当前时间（CURRENT_TIMESTAMP），如果不做特殊处理，并且update语句中没有指定该列的更新值，则默认更新为当前时间。</p>
-</blockquote>
-</li>
-<li><p>存储方式不同</p>
-<blockquote>
-<p>两者的存储方式不一样，对于timestamp，它把客户端插入的时间从当前时区转化为UTC（世界标准时间）进行存储。查询时，将其又转化为客户端当前时区进行返回。而对于datetime，不做任何改变，基本上是原样输入和输出。</p>
-</blockquote>
-</li>
-</ol>
-<p>&emsp;&emsp;在mysql5.6之前的版本，CURRENT_TIMESTAMP只能用于timestamp类型，5.6版本之后，CURRENT_TIMESTAMP也能用于datetime类型了。</p>
-]]></content>
-      <categories>
-        <category>数据库</category>
-        <category>mysql</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
-        <tag>数据类型</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>mysql中的MVCC</title>
     <url>/hexoblog/2021/06/21/md/mysql/mysql%E4%B8%AD%E7%9A%84MVCC/</url>
     <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;MVCC全称Multi-Version Concurrency Control，即多版本并发控制。MVCC是一种并发控制的方法，一般在数据库管理系统中，实现对数据库的并发访问，在编程语言中实现事务内存。</p>
@@ -2173,8 +2121,60 @@ netsh winsock reset<span aria-hidden="true" class="line-numbers-rows"><span></sp
         <category>mysql</category>
       </categories>
       <tags>
-        <tag>mysql</tag>
         <tag>数据类型</tag>
+        <tag>mysql</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mysql中datetime和timestamp</title>
+    <url>/hexoblog/2021/04/14/md/mysql/mysql%E4%B8%ADdatetime%E5%92%8Ctimestamp/</url>
+    <content><![CDATA[<h1 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h1><h2 id="date和datetime，timestamp的区别"><a href="#date和datetime，timestamp的区别" class="headerlink" title="date和datetime，timestamp的区别"></a>date和datetime，timestamp的区别</h2><ol>
+<li>date保存的是天，精确到天</li>
+<li>datetime，timestamp精确到秒</li>
+</ol>
+<span id="more"></span>
+<h2 id="datetime和timastamp"><a href="#datetime和timastamp" class="headerlink" title="datetime和timastamp"></a>datetime和timastamp</h2><p>&emsp;&emsp;datetime 和timestamp两者都是时间类型字段，格式都一致。</p>
+<ol>
+<li><p>受时区影响不同</p>
+<blockquote>
+<p>timestamp会跟随设置的时区变化而变化，而datetime保存的是绝对值不会变化。</p>
+</blockquote>
+</li>
+<li><p>占用存储空间不同</p>
+<blockquote>
+<p>timestamp储存占用4个字节，datetime储存占用8个字节。</p>
+</blockquote>
+</li>
+<li><p>可以表示的时间范围不同</p>
+<blockquote>
+<p>timestamp可表示范围:1970-01-01 00:00:00~2038-01-09 03:14:07，datetime支持的范围更宽1000-01-01 00:00:00 ~ 9999-12-31 23:59:59。</p>
+</blockquote>
+</li>
+<li><p>索引速度不同</p>
+<blockquote>
+<p>timestamp更轻量，索引相对datetime更快。</p>
+</blockquote>
+</li>
+<li><p>默认值不同</p>
+<blockquote>
+<p>datetime的默认值为null，timestamp的字段默认不为空（not null），默认值为当前时间（CURRENT_TIMESTAMP），如果不做特殊处理，并且update语句中没有指定该列的更新值，则默认更新为当前时间。</p>
+</blockquote>
+</li>
+<li><p>存储方式不同</p>
+<blockquote>
+<p>两者的存储方式不一样，对于timestamp，它把客户端插入的时间从当前时区转化为UTC（世界标准时间）进行存储。查询时，将其又转化为客户端当前时区进行返回。而对于datetime，不做任何改变，基本上是原样输入和输出。</p>
+</blockquote>
+</li>
+</ol>
+<p>&emsp;&emsp;在mysql5.6之前的版本，CURRENT_TIMESTAMP只能用于timestamp类型，5.6版本之后，CURRENT_TIMESTAMP也能用于datetime类型了。</p>
+]]></content>
+      <categories>
+        <category>数据库</category>
+        <category>mysql</category>
+      </categories>
+      <tags>
+        <tag>数据类型</tag>
+        <tag>mysql</tag>
       </tags>
   </entry>
   <entry>
@@ -2266,8 +2266,8 @@ mysqlbinlog --start-positoin<span class="token operator">=</span><span class="to
         <category>mysql</category>
       </categories>
       <tags>
-        <tag>mysql</tag>
         <tag>数据类型</tag>
+        <tag>mysql</tag>
       </tags>
   </entry>
   <entry>
@@ -2313,7 +2313,7 @@ mysqlbinlog --start-positoin<span class="token operator">=</span><span class="to
 <h1 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h1><p>&emsp;&emsp;一般采用redis的setnx原子操作来实现分布式锁。<br><a href="https://zhuanlan.zhihu.com/p/129886269">学习一下</a><br><a href="https://www.cnblogs.com/niceyoo/p/13711149.html">学习二下</a><br><a href="https://www.cnblogs.com/jojop/p/14008824.html">学习三下</a><br><a href="https://blog.csdn.net/asd051377305/article/details/108384490">学习四下</a></p>
 <h2 id="setnx（获得锁）"><a href="#setnx（获得锁）" class="headerlink" title="setnx（获得锁）"></a>setnx（获得锁）</h2><p>&emsp;&emsp;setnx 是SET if Not eXists(如果不存在，则 SET)的简写。<br>&emsp;&emsp;完整语法：</p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># set命令模式</span>
-SET key value <span class="token punctuation">[</span>EX seconds<span class="token operator">|</span>PX milliseconds<span class="token punctuation">]</span> <span class="token punctuation">[</span>NX<span class="token operator">|</span>XX<span class="token punctuation">]</span> <span class="token punctuation">[</span>KEEPTTL<span class="token punctuation">]</span>
+<span class="token builtin class-name">set</span> key value <span class="token punctuation">[</span>EX seconds<span class="token operator">|</span>PX milliseconds<span class="token punctuation">]</span> <span class="token punctuation">[</span>NX<span class="token operator">|</span>XX<span class="token punctuation">]</span> <span class="token punctuation">[</span>KEEPTTL<span class="token punctuation">]</span>
 
 <span class="token comment"># setnx命令模式</span>
 setnx key value<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
@@ -2552,7 +2552,7 @@ redis-server.exe --service-stop<span aria-hidden="true" class="line-numbers-rows
 </ol>
 <hr>
 <h1 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h1><h2 id="关键"><a href="#关键" class="headerlink" title="关键"></a>关键</h2><ol>
-<li>先假设client获取所有实例，所有实例包含相同的key和过期时间(TTL) ,但每个实例set命令时间不同导致不能同时过期，第一个set命令之前是T1,最后一个set命令后为T2,则此client有效获取锁的最小时间为TTL-(T2-T1)-时钟漂移。</li>
+<li>先假设client获取所有实例，所有实例包含相同的key和过期时间(TTL) ,但每个实例set命令时间不同导致不能同时过期，第一个set命令之前是T1,最后一个set命令后为T2,则此client有效获取锁的最小时间为TTL-(T2-T1)-时钟漂移（这里算出来的是实际可用时间）。</li>
 <li>对于以N/2+1(也就是一半以上)的方式判断获取锁成功，是因为如果小于一半判断为成功的话，有可能出现多个client都成功获取锁的情况，从而使锁失效。</li>
 <li>一个client锁定大多数事例耗费的时间大于或接近锁的过期时间，就认为锁无效，并且解锁这个redis实例(不执行业务) ;只要在TTL时间内成功获取一半以上的锁便是有效锁;否则无效。</li>
 </ol>
@@ -3651,6 +3651,44 @@ zkServer<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
       </tags>
   </entry>
   <entry>
+    <title>nginx基础安装及使用</title>
+    <url>/hexoblog/2021/05/20/md/DEVOPS/nginx/nginx%E5%9F%BA%E7%A1%80%E5%AE%89%E8%A3%85%E5%8F%8A%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>&emsp;&emsp;Nginx是一款轻量级的Web服务器、反向代理服务器，由于它的内存占用少，启动极快，高并发能力强，在互联网项目中广泛应用。</p>
+<span id="more"></span>
+
+<p>&emsp;&emsp;nginx可以用来做：反向代理服务器，静态Http服务器，负载均衡，虚拟主机。</p>
+<hr>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;这里的安装目前是在windows环境下，傻瓜式安装即可。  </p>
+<h2 id="下载解压"><a href="#下载解压" class="headerlink" title="下载解压"></a>下载解压</h2><p>&emsp;&emsp;nginx在windows安装很简单，下载后解压就好，纯绿色安装。<br>&emsp;&emsp;在官方地址下载nginx，解压后放在想要放的文件夹。<br>&emsp;&emsp;下载地址：<a href="http://nginx.org/en/download.html">下载地址</a>。</p>
+<hr>
+<h1 id="基础使用"><a href="#基础使用" class="headerlink" title="基础使用"></a>基础使用</h1><p>&emsp;&emsp;启动，关机，重新加载等基础操作。<br>&emsp;&emsp;如果没有配置环境变量，启动前请进入nginx安装目录，如果有配置可以不进入。  </p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 进入解压后的nginx</span>
+<span class="token builtin class-name">cd</span> nginx-1.18.0
+
+<span class="token comment"># 启动nginx（windows下）</span>
+start nginx
+./nginx
+
+<span class="token comment"># 停止nginx</span>
+<span class="token comment"># stop是快速停止nginx，quit是有序停止nginx。</span>
+./nginx -s stop
+./nginx -s quit
+<span class="token comment"># 重新加载配置</span>
+./nginx -s reload
+
+<span class="token comment"># 校验配置</span>
+./nginx -t
+<span class="token comment"># 查看版本</span>
+./nginx -v<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
+      <categories>
+        <category>nginx</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>nginx</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>dcokerdesktop小问题排查</title>
     <url>/hexoblog/2021/03/14/md/DEVOPS/docker/dcokerdesktop%E5%B0%8F%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5/</url>
     <content><![CDATA[<!-- toc -->
@@ -3757,43 +3795,6 @@ mvn docker:build<span aria-hidden="true" class="line-numbers-rows"><span></span>
       </tags>
   </entry>
   <entry>
-    <title>docker启动vue</title>
-    <url>/hexoblog/2021/04/12/md/DEVOPS/docker/docker%E5%90%AF%E5%8A%A8vue/</url>
-    <content><![CDATA[<h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><p>&emsp;&emsp;需要准备东西有：</p>
-<ol>
-<li>docker环境</li>
-<li>vue项目</li>
-</ol>
-<span id="more"></span>
-
-<hr>
-<h1 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h1><h2 id="项目build"><a href="#项目build" class="headerlink" title="项目build"></a>项目build</h2><p>&emsp;&emsp;将vue项目build得到dist文件夹。这里是页面等资源文件。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">npm</span> run build<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="构建"><a href="#构建" class="headerlink" title="构建"></a>构建</h2><p>&emsp;&emsp;将得到的可执行dist构建成docker镜像。</p>
-<p>&emsp;&emsp;将得到的dist文件放入指定目录下，并且在同目录下建立Dockerfile文件(文件名不能错)。<br>&emsp;&emsp;Dockerfile文件内容：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 设置基础镜像，这里使用最新的nginx镜像，前面已经拉取过了</span>
-FROM nginx
-<span class="token comment"># 定义作者 Edison</span>
-MAINTAINER Edison 
-<span class="token comment"># 将dist文件中的内容复制到 /usr/share/nginx/html/ 这个目录下面</span>
-COPY dist/  /usr/share/nginx/html/<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>&emsp;&emsp;执行docker构建命令，得到docker镜像。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">docker build -t <span class="token operator">&lt;</span>镜像名称<span class="token operator">></span> <span class="token builtin class-name">.</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>&emsp;&emsp;构建完成后，就可以在镜像列表查看是否有新构建的镜像，也可以运行该镜像。</p>
-]]></content>
-      <categories>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>tool</tag>
-        <tag>docker</tag>
-        <tag>vue</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>docker安装与使用</title>
     <url>/hexoblog/2021/03/05/md/DEVOPS/docker/docker%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<h1 id="docker介绍："><a href="#docker介绍：" class="headerlink" title="docker介绍："></a>docker介绍：</h1><p>&emsp;&emsp;docker是个鲸鱼，拉了很多集装箱的鲸鱼。<br>&emsp;&emsp;docker是个开源的容器引擎。可以让开发者快速将他们的应用及依赖打包到一个可移植的容器中，然后发布到不同的平台。</p>
@@ -3875,41 +3876,40 @@ docker <span class="token builtin class-name">exec</span> -it <span class="token
       </tags>
   </entry>
   <entry>
-    <title>nginx基础安装及使用</title>
-    <url>/hexoblog/2021/05/20/md/DEVOPS/nginx/nginx%E5%9F%BA%E7%A1%80%E5%AE%89%E8%A3%85%E5%8F%8A%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>&emsp;&emsp;Nginx是一款轻量级的Web服务器、反向代理服务器，由于它的内存占用少，启动极快，高并发能力强，在互联网项目中广泛应用。</p>
+    <title>docker启动vue</title>
+    <url>/hexoblog/2021/04/12/md/DEVOPS/docker/docker%E5%90%AF%E5%8A%A8vue/</url>
+    <content><![CDATA[<h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><p>&emsp;&emsp;需要准备东西有：</p>
+<ol>
+<li>docker环境</li>
+<li>vue项目</li>
+</ol>
 <span id="more"></span>
 
-<p>&emsp;&emsp;nginx可以用来做：反向代理服务器，静态Http服务器，负载均衡，虚拟主机。</p>
 <hr>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;这里的安装目前是在windows环境下，傻瓜式安装即可。  </p>
-<h2 id="下载解压"><a href="#下载解压" class="headerlink" title="下载解压"></a>下载解压</h2><p>&emsp;&emsp;nginx在windows安装很简单，下载后解压就好，纯绿色安装。<br>&emsp;&emsp;在官方地址下载nginx，解压后放在想要放的文件夹。<br>&emsp;&emsp;下载地址：<a href="http://nginx.org/en/download.html">下载地址</a>。</p>
-<hr>
-<h1 id="基础使用"><a href="#基础使用" class="headerlink" title="基础使用"></a>基础使用</h1><p>&emsp;&emsp;启动，关机，重新加载等基础操作。<br>&emsp;&emsp;如果没有配置环境变量，启动前请进入nginx安装目录，如果有配置可以不进入。  </p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 进入解压后的nginx</span>
-<span class="token builtin class-name">cd</span> nginx-1.18.0
+<h1 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h1><h2 id="项目build"><a href="#项目build" class="headerlink" title="项目build"></a>项目build</h2><p>&emsp;&emsp;将vue项目build得到dist文件夹。这里是页面等资源文件。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">npm</span> run build<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
-<span class="token comment"># 启动nginx（windows下）</span>
-start nginx
-./nginx
+<h2 id="构建"><a href="#构建" class="headerlink" title="构建"></a>构建</h2><p>&emsp;&emsp;将得到的可执行dist构建成docker镜像。</p>
+<p>&emsp;&emsp;将得到的dist文件放入指定目录下，并且在同目录下建立Dockerfile文件(文件名不能错)。<br>&emsp;&emsp;Dockerfile文件内容：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 设置基础镜像，这里使用最新的nginx镜像，前面已经拉取过了</span>
+FROM nginx
+<span class="token comment"># 定义作者 Edison</span>
+MAINTAINER Edison 
+<span class="token comment"># 将dist文件中的内容复制到 /usr/share/nginx/html/ 这个目录下面</span>
+COPY dist/  /usr/share/nginx/html/<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<span class="token comment"># 停止nginx</span>
-<span class="token comment"># stop是快速停止nginx，quit是有序停止nginx。</span>
-./nginx -s stop
-./nginx -s quit
-<span class="token comment"># 重新加载配置</span>
-./nginx -s reload
+<p>&emsp;&emsp;执行docker构建命令，得到docker镜像。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">docker build -t <span class="token operator">&lt;</span>镜像名称<span class="token operator">></span> <span class="token builtin class-name">.</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
-<span class="token comment"># 校验配置</span>
-./nginx -t
-<span class="token comment"># 查看版本</span>
-./nginx -v<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
+<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>&emsp;&emsp;构建完成后，就可以在镜像列表查看是否有新构建的镜像，也可以运行该镜像。</p>
+]]></content>
       <categories>
-        <category>nginx</category>
+        <category>docker</category>
       </categories>
       <tags>
-        <tag>linux</tag>
-        <tag>nginx</tag>
+        <tag>tool</tag>
+        <tag>docker</tag>
+        <tag>vue</tag>
       </tags>
   </entry>
   <entry>
@@ -4351,7 +4351,7 @@ start nginx
 <span id="more"></span>
 
 <hr>
-<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><p>&emsp;&emsp;AQS的核心思想，如果被请求的共享资源空闲，则将当前请求资源的线程设置为有效的工作线程，并将共享资源设置为锁定状态，弱国请求的资源被占用，那么就需要一套线程阻塞等待以及被唤醒时锁分配的机制，这个机制AQS是用CLH队列锁实现的，即将暂时获取不到锁的线程加入到队列中。<br>&emsp;&emsp;CLH（Craig，Landin，and Hagersten）队列是一个虚拟的双向队列，虚拟的双向队列即不存在队列实例，仅存在节点之间的关联关系。<br><strong>AQS是将每一条请求共享资源的线程封装成一个CLH锁队列的一个结点（Node）</strong>，来实现锁的分配。<br>&emsp;&emsp;Node结点是对每一个等待获取资源的线程的封装，其包含了需要同步的线程本身及其等待状态，如是否被阻塞、是否等待唤醒、是否已经被取消等。变量waitStatus则表示当前Node结点的等待状态，共有5种取值CANCELLED、SIGNAL、CONDITION、PROPAGATE、0。  </p>
+<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><p>&emsp;&emsp;AQS的核心思想，如果被请求的共享资源空闲，则将当前请求资源的线程设置为有效的工作线程，并将共享资源设置为锁定状态，如果请求的资源被占用，那么就需要一套线程阻塞等待以及被唤醒时锁分配的机制，这个机制AQS是用CLH队列锁实现的，即将暂时获取不到锁的线程加入到队列中。<br>&emsp;&emsp;CLH（Craig，Landin，and Hagersten）队列是一个虚拟的双向队列，虚拟的双向队列即不存在队列实例，仅存在节点之间的关联关系。<br><strong>AQS是将每一条请求共享资源的线程封装成一个CLH锁队列的一个结点（Node）</strong>，来实现锁的分配。<br>&emsp;&emsp;Node结点是对每一个等待获取资源的线程的封装，其包含了需要同步的线程本身及其等待状态，如是否被阻塞、是否等待唤醒、是否已经被取消等。变量waitStatus则表示当前Node结点的等待状态，共有5种取值CANCELLED、SIGNAL、CONDITION、PROPAGATE、0。  </p>
 <p>&emsp;&emsp;<em>用大白话来说，AQS就是基于CLH队列，用volatile修饰共享变量state，线程通过CAS去改变状态符，成功则获取锁成功，失败则进入等待队列，等待被唤醒。</em></p>
 <p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/AQS-CLH.png" alt="AQS原理"></p>
 <p>&emsp;&emsp;实现了AQS的锁有：自旋锁、互斥锁、读锁写锁、条件产量、信号量、栅栏（Latch）都是AQS的衍生物。</p>
@@ -4402,6 +4402,232 @@ start nginx
         <tag>java</tag>
         <tag>juc</tag>
         <tag>AQS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>juc之CountDownLatch</title>
+    <url>/hexoblog/2021/06/16/md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/juc%E4%B9%8BCountDownLatch/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;根据文档：<strong>允许一个或多个线程等待直到在其他线程中执行的一组操作完成的同步辅助。</strong><br>&emsp;&emsp;一般被称为计数器，可以用做流程控制之类的作用。通常用来让一个线程等待其他的完成过后再继续执行。<br>&emsp;&emsp;通过一个计数器实现，计数器的初始值可以是线程的数量，每当一个线程执行完，计数器的值减一，当计数器的值为0时，表示所有线程都执行完毕，等待的线程就可以继续执行了。</p>
+<span id="more"></span>
+
+<hr>
+<h1 id="使用模式"><a href="#使用模式" class="headerlink" title="使用模式"></a>使用模式</h1><p>&emsp;&emsp;一般来说有两种使用模式：</p>
+<ol>
+<li>作为启动信号，让多个线程等待</li>
+<li>作为结束信号，让单个线程等待</li>
+</ol>
+<h2 id="作为启动信号，让多个线程等待"><a href="#作为启动信号，让多个线程等待" class="headerlink" title="作为启动信号，让多个线程等待"></a>作为启动信号，让多个线程等待</h2><p>&emsp;&emsp;实现多个线程开始执行任务的最大并行性，强调的是多个线程在某一时刻同时开始执行。<br>&emsp;&emsp;做法是初始化一个共享的CountDownLatch(1)，将其计算器初始化为1，多个线程在开始执行任务前首先countdownlatch.await()，当主线程调用countDown()时，计数器变为0，多个线程同时被唤醒。<br>&emsp;&emsp;将CountDownLatch的计数器初始化为new CountDownLatch(n)，每当一个任务线程执行完毕，就将计数器减1 countdownLatch.countDown()，当计数器的值变为0时，在CountDownLatch上await()的线程就会被唤醒。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Test</span>
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">testone</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">InterruptedException</span> <span class="token punctuation">&#123;</span>
+    <span class="token class-name">CountDownLatch</span> countDownLatch <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">CountDownLatch</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">5</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
+                <span class="token comment">//准备完毕……运动员都阻塞在这，等待号令</span>
+                countDownLatch<span class="token punctuation">.</span><span class="token function">await</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token class-name">String</span> parter <span class="token operator">=</span> <span class="token string">"【"</span> <span class="token operator">+</span> <span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"，时间："</span><span class="token operator">+</span> <span class="token class-name">System</span><span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"】"</span><span class="token punctuation">;</span>
+                <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>parter <span class="token operator">+</span> <span class="token string">"开始执行……"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> e<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">2000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"发令开始....."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    countDownLatch<span class="token punctuation">.</span><span class="token function">countDown</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>&emsp;&emsp;运行结果：</p>
+<pre class="line-numbers language-txt" data-language="txt"><code class="language-txt">发令开始.....
+【Thread-0，时间：1623897582895】开始执行……
+【Thread-4，时间：1623897582895】开始执行……
+【Thread-3，时间：1623897582895】开始执行……
+【Thread-2，时间：1623897582895】开始执行……
+【Thread-1，时间：1623897582895】开始执行……<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="作为结束信号，让一个线程等待"><a href="#作为结束信号，让一个线程等待" class="headerlink" title="作为结束信号，让一个线程等待"></a>作为结束信号，让一个线程等待</h2><p>&emsp;&emsp;某个线程在开始运行前等待n个线程执行完毕。例如，启动一个服务时，主线程需要等待多个组件加载完毕，之后继续执行。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Test</span>
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">testtwo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">InterruptedException</span> <span class="token punctuation">&#123;</span>
+    <span class="token class-name">CountDownLatch</span> countDownLatch <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">CountDownLatch</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">5</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">final</span> <span class="token keyword">int</span> index <span class="token operator">=</span> i<span class="token punctuation">;</span>
+        <span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
+                <span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">1000</span> <span class="token operator">+</span> <span class="token class-name">ThreadLocalRandom</span><span class="token punctuation">.</span><span class="token function">current</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">nextInt</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"finish，"</span> <span class="token operator">+</span> index <span class="token operator">+</span> <span class="token string">"，"</span> <span class="token operator">+</span> <span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                countDownLatch<span class="token punctuation">.</span><span class="token function">countDown</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> e<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token comment">// 主线程在阻塞，当计数器==0，就唤醒主线程往下执行</span>
+    countDownLatch<span class="token punctuation">.</span><span class="token function">await</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"主线程:在所有任务运行完成后，进行结果汇总"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>&emsp;&emsp;运行结果：</p>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">finish，4，Thread-4
+finish，2，Thread-2
+finish，3，Thread-3
+finish，0，Thread-0
+finish，1，Thread-1
+主线程:在所有任务运行完成后，进行结果汇总<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="官方demo，可以参考"><a href="#官方demo，可以参考" class="headerlink" title="官方demo，可以参考"></a>官方demo，可以参考</h2><p>&emsp;&emsp;demo1，这是一个将启动信号和结束信号结合起来。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">class</span> <span class="token class-name">Driver</span> <span class="token punctuation">&#123;</span> <span class="token comment">// ...</span>
+    <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">InterruptedException</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">CountDownLatch</span> startSignal <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">CountDownLatch</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">CountDownLatch</span> doneSignal <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">CountDownLatch</span><span class="token punctuation">(</span><span class="token class-name">N</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token class-name">N</span><span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token comment">// create and start threads</span>
+            <span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Worker</span><span class="token punctuation">(</span>startSignal<span class="token punctuation">,</span> doneSignal<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token function">doSomethingElse</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>            <span class="token comment">// don't let run yet</span>
+        startSignal<span class="token punctuation">.</span><span class="token function">countDown</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>      <span class="token comment">// let all threads proceed</span>
+        <span class="token function">doSomethingElse</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        doneSignal<span class="token punctuation">.</span><span class="token function">await</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>           <span class="token comment">// wait for all to finish</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Worker</span> <span class="token keyword">implements</span> <span class="token class-name">Runnable</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">CountDownLatch</span> startSignal<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">CountDownLatch</span> doneSignal<span class="token punctuation">;</span>
+    <span class="token class-name">Worker</span><span class="token punctuation">(</span><span class="token class-name">CountDownLatch</span> startSignal<span class="token punctuation">,</span> <span class="token class-name">CountDownLatch</span> doneSignal<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>startSignal <span class="token operator">=</span> startSignal<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>doneSignal <span class="token operator">=</span> doneSignal<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
+            startSignal<span class="token punctuation">.</span><span class="token function">await</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token function">doWork</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            doneSignal<span class="token punctuation">.</span><span class="token function">countDown</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> ex<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span> <span class="token comment">// return;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">void</span> <span class="token function">doWork</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>&emsp;&emsp;典型的主线程等待子线程完成的例子。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">class</span> <span class="token class-name">Driver2</span> <span class="token punctuation">&#123;</span> <span class="token comment">// ...</span>
+    <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">InterruptedException</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">CountDownLatch</span> doneSignal <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">CountDownLatch</span><span class="token punctuation">(</span><span class="token class-name">N</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">Executor</span> e <span class="token operator">=</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token class-name">N</span><span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token comment">// create and start threads</span>
+            e<span class="token punctuation">.</span><span class="token function">execute</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">WorkerRunnable</span><span class="token punctuation">(</span>doneSignal<span class="token punctuation">,</span> i<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        doneSignal<span class="token punctuation">.</span><span class="token function">await</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>           <span class="token comment">// wait for all to finish</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">WorkerRunnable</span> <span class="token keyword">implements</span> <span class="token class-name">Runnable</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">CountDownLatch</span> doneSignal<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token keyword">int</span> i<span class="token punctuation">;</span>
+    <span class="token class-name">WorkerRunnable</span><span class="token punctuation">(</span><span class="token class-name">CountDownLatch</span> doneSignal<span class="token punctuation">,</span> <span class="token keyword">int</span> i<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>doneSignal <span class="token operator">=</span> doneSignal<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>i <span class="token operator">=</span> i<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
+            <span class="token function">doWork</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            doneSignal<span class="token punctuation">.</span><span class="token function">countDown</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> ex<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span> <span class="token comment">// return;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">void</span> <span class="token function">doWork</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><p>&emsp;&emsp;简单来说，是通过一个计数器来实现的，计数器的初始值为线程的数量或者指定的值，调用<code>await()</code>方法的线程会被阻塞，直到计数器减到0时才能继续往下执行。<br>&emsp;&emsp;CountDownLatch底层基于AQS实现，构造函数中指定的count直接赋阻值给AQS的state，每次countDown都是release(1)减一，最后减到0时unpark阻塞线程。而调用await()方法时，当前线程就会判断state属性是否为0，如果为0，则继续往下执行，如果不为0，则使当前线程进入等待状态，直到某个线程将state属性置为0，其就会唤醒在await()方法中等待的线程。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">class</span> <span class="token class-name">Sync</span> <span class="token keyword">extends</span> <span class="token class-name">AbstractQueuedSynchronizer</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">long</span> serialVersionUID <span class="token operator">=</span> <span class="token number">4982264981922014374L</span><span class="token punctuation">;</span>
+
+    <span class="token class-name">Sync</span><span class="token punctuation">(</span><span class="token keyword">int</span> count<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">setState</span><span class="token punctuation">(</span>count<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">int</span> <span class="token function">getCount</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> <span class="token function">getState</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">protected</span> <span class="token keyword">int</span> <span class="token function">tryAcquireShared</span><span class="token punctuation">(</span><span class="token keyword">int</span> acquires<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token function">getState</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token number">1</span> <span class="token operator">:</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">protected</span> <span class="token keyword">boolean</span> <span class="token function">tryReleaseShared</span><span class="token punctuation">(</span><span class="token keyword">int</span> releases<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">// Decrement count; signal when transition to zero</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token punctuation">;</span><span class="token punctuation">;</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">int</span> c <span class="token operator">=</span> <span class="token function">getState</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">// 这里表示如果资源已经释放，就不能在释放一次</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>c <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span>
+                <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+            <span class="token comment">// 本次计数剩余量</span>
+            <span class="token keyword">int</span> nextc <span class="token operator">=</span> c<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+            <span class="token comment">// 设置剩余量</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">compareAndSetState</span><span class="token punctuation">(</span>c<span class="token punctuation">,</span> nextc<span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token comment">// 等于0表示，本次计数完成后，释放资源了，await方法就不再阻塞</span>
+                <span class="token keyword">return</span> nextc <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token class-name">CountDownLatch</span><span class="token punctuation">(</span><span class="token keyword">int</span> count<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>count <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">IllegalArgumentException</span><span class="token punctuation">(</span><span class="token string">"count &lt; 0"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>sync <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Sync</span><span class="token punctuation">(</span>count<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">await</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">InterruptedException</span> <span class="token punctuation">&#123;</span>
+    sync<span class="token punctuation">.</span><span class="token function">acquireSharedInterruptibly</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">// AQS</span>
+<span class="token keyword">public</span> <span class="token keyword">final</span> <span class="token keyword">void</span> <span class="token function">acquireSharedInterruptibly</span><span class="token punctuation">(</span><span class="token keyword">int</span> arg<span class="token punctuation">)</span>
+        <span class="token keyword">throws</span> <span class="token class-name">InterruptedException</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">interrupted</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">InterruptedException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">tryAcquireShared</span><span class="token punctuation">(</span>arg<span class="token punctuation">)</span> <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span>
+        <span class="token function">doAcquireSharedInterruptibly</span><span class="token punctuation">(</span>arg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>&emsp;&emsp;这里调用tryAcquireShared方法尝试获取资源，返回负数表示失败，返回整数则表示成功，失败了就加入同步队列。<br>&emsp;&emsp;tryAcquireShared方法中则根据计数来判断是否成功，如果计数为0，则计数完毕，返回成功。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">countDown</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    sync<span class="token punctuation">.</span><span class="token function">releaseShared</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">// AQS</span>
+<span class="token keyword">public</span> <span class="token keyword">final</span> <span class="token keyword">boolean</span> <span class="token function">releaseShared</span><span class="token punctuation">(</span><span class="token keyword">int</span> arg<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// 如果资源释放了，唤醒同步队列中的线程</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">tryReleaseShared</span><span class="token punctuation">(</span>arg<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">// unpark</span>
+        <span class="token function">doReleaseShared</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>&emsp;&emsp;这里面会尝试进行资源释放，如果资源释放了就唤醒同步队列中的线程。</p>
+<h2 id="大概流程"><a href="#大概流程" class="headerlink" title="大概流程"></a>大概流程</h2><ol>
+<li>创建一个CountDownLatch，并赋予一个数值，这个值表示需要计数的次数，每次countdown算一次。</li>
+<li>在主线程调用await方法，表示计数器完成前都不能动，await方法的内部实现依赖于内部的AQS，调用await方法的时候会尝试去获取资源，成功条件是state=0，也就是说除非countdown了count次之后，才能成功，失败的话当前线程进行休眠。</li>
+<li>在子线程调用countDown方法，每次调用都会使内部的state-1，state为0时资源释放，await方法不在阻塞。</li>
+</ol>
+<hr>
+<h1 id="参考资料-amp-鸣谢"><a href="#参考资料-amp-鸣谢" class="headerlink" title="参考资料 &amp; 鸣谢"></a>参考资料 &amp; 鸣谢</h1><ul>
+<li><a href="https://zhuanlan.zhihu.com/p/148231820">CountDownLatch的两种常用场景</a></li>
+<li><a href="https://www.cnblogs.com/Lee_xy_z/p/10470181.html">CountDownLatch的理解和使用</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>java</category>
+        <category>juc</category>
+        <category>Java</category>
+        <category>多线程</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>juc</tag>
       </tags>
   </entry>
   <entry>
@@ -4749,229 +4975,52 @@ start nginx
       </tags>
   </entry>
   <entry>
-    <title>juc之CountDownLatch</title>
-    <url>/hexoblog/2021/06/16/md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/juc%E4%B9%8BCountDownLatch/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;根据文档：<strong>允许一个或多个线程等待直到在其他线程中执行的一组操作完成的同步辅助。</strong><br>&emsp;&emsp;一般被称为计数器，可以用做流程控制之类的作用。通常用来让一个线程等待其他的完成过后再继续执行。<br>&emsp;&emsp;通过一个计数器实现，计数器的初始值可以是线程的数量，每当一个线程执行完，计数器的值减一，当计数器的值为0时，表示所有线程都执行完毕，等待的线程就可以继续执行了。</p>
+    <title>多线程基础概念</title>
+    <url>/hexoblog/2021/06/16/md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/</url>
+    <content><![CDATA[<h1 id="概念："><a href="#概念：" class="headerlink" title="概念："></a>概念：</h1><p><strong>进程：</strong> 进程（Process）是计算机中的程序关于某数据集合上的一次运行活动，是<strong>系统进行资源分配和调度的基本单位</strong>，是操作系统结构的基础。在早期面向进程设计的计算机结构中，进程是程序的基本执行实体；在当代面向线程设计的计算机结构中，进程是线程的容器。程序是指令、数据及其组织形式的描述，进程是程序的实体。</p>
+<p><strong>线程：</strong> 线程（thread）是操作系统能够<strong>进行运算<a href="https://baike.baidu.com/item/%E8%B0%83%E5%BA%A6">调度</a>的最小单位</strong>。它被包含在进程之中，是进程中的实际运作单位。一条线程指的是进程中一个单一顺序的控制流，一个进程中可以并发多个线程，每条线程并行执行不同的任务。线程是独立调度和分派的基本单位。线程分为用户线程和内核线程。</p>
 <span id="more"></span>
 
-<hr>
-<h1 id="使用模式"><a href="#使用模式" class="headerlink" title="使用模式"></a>使用模式</h1><p>&emsp;&emsp;一般来说有两种使用模式：</p>
-<ol>
-<li>作为启动信号，让多个线程等待</li>
-<li>作为结束信号，让单个线程等待</li>
+<p><strong>多线程：</strong> 多线程是多任务的一种特别的形式，但多线程使用了更小的资源开销。多线程能满足程序员编写高效率的程序来达到充分利用 CPU 的目的。</p>
+<p><strong>并行：</strong> 多个cpu实例或者多台机器同时执行一段处理逻辑，是真正的同时运行。</p>
+<p><strong>并发：</strong> 使用CPU调度算法，使用户看起来在同时运行，其实并不是在同时运行。并发一般发生在对系统中的公用资源操作时。</p>
+<p><strong>线程安全：</strong> 指的是希望多线程的执行顺序对执行结果没有影响，用户只需要关心CPU及其他资源是否够用即可。反之，如果不同的执行顺序导致不同的执行结果，那么就说是线程不安全的。</p>
+<p><strong>同步：</strong> 指通过人为干预的情况下达到线程安全的程度。</p>
+<h2 id="进程VS线程："><a href="#进程VS线程：" class="headerlink" title="进程VS线程："></a>进程VS线程：</h2><ol>
+<li> 地址空间和其它资源：进程间相互独立，同一进程的各线程间共享。某进程内的线程在其它进程不可见。</li>
+<li> 通信：通信方式不同，线程间可以直接读写进程数据段（如全局变量）来进行通信——需要进程同步和互斥手段的辅助，以保证数据的一致性。</li>
+<li> 调度和切换：线程上下文切换比进程上下文切换要快得多。</li>
+<li> 在多线程OS中，进程不是一个可执行的实体。</li>
 </ol>
-<h2 id="作为启动信号，让多个线程等待"><a href="#作为启动信号，让多个线程等待" class="headerlink" title="作为启动信号，让多个线程等待"></a>作为启动信号，让多个线程等待</h2><p>&emsp;&emsp;实现多个线程开始执行任务的最大并行性，强调的是多个线程在某一时刻同时开始执行。<br>&emsp;&emsp;做法是初始化一个共享的CountDownLatch(1)，将其计算器初始化为1，多个线程在开始执行任务前首先countdownlatch.await()，当主线程调用countDown()时，计数器变为0，多个线程同时被唤醒。<br>&emsp;&emsp;将CountDownLatch的计数器初始化为new CountDownLatch(n)，每当一个任务线程执行完毕，就将计数器减1 countdownLatch.countDown()，当计数器的值变为0时，在CountDownLatch上await()的线程就会被唤醒。</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Test</span>
-<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">testone</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">InterruptedException</span> <span class="token punctuation">&#123;</span>
-    <span class="token class-name">CountDownLatch</span> countDownLatch <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">CountDownLatch</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">5</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token punctuation">&#123;</span>
-            <span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
-                <span class="token comment">//准备完毕……运动员都阻塞在这，等待号令</span>
-                countDownLatch<span class="token punctuation">.</span><span class="token function">await</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-                <span class="token class-name">String</span> parter <span class="token operator">=</span> <span class="token string">"【"</span> <span class="token operator">+</span> <span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"，时间："</span><span class="token operator">+</span> <span class="token class-name">System</span><span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"】"</span><span class="token punctuation">;</span>
-                <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>parter <span class="token operator">+</span> <span class="token string">"开始执行……"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> e<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-                e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token punctuation">&#125;</span>
-        <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-
-    <span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">2000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"发令开始....."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    countDownLatch<span class="token punctuation">.</span><span class="token function">countDown</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>&emsp;&emsp;运行结果：</p>
-<pre class="line-numbers language-txt" data-language="txt"><code class="language-txt">发令开始.....
-【Thread-0，时间：1623897582895】开始执行……
-【Thread-4，时间：1623897582895】开始执行……
-【Thread-3，时间：1623897582895】开始执行……
-【Thread-2，时间：1623897582895】开始执行……
-【Thread-1，时间：1623897582895】开始执行……<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="作为结束信号，让一个线程等待"><a href="#作为结束信号，让一个线程等待" class="headerlink" title="作为结束信号，让一个线程等待"></a>作为结束信号，让一个线程等待</h2><p>&emsp;&emsp;某个线程在开始运行前等待n个线程执行完毕。例如，启动一个服务时，主线程需要等待多个组件加载完毕，之后继续执行。</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Test</span>
-<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">testtwo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">InterruptedException</span> <span class="token punctuation">&#123;</span>
-    <span class="token class-name">CountDownLatch</span> countDownLatch <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">CountDownLatch</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">5</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token keyword">final</span> <span class="token keyword">int</span> index <span class="token operator">=</span> i<span class="token punctuation">;</span>
-        <span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token punctuation">&#123;</span>
-            <span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
-                <span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">1000</span> <span class="token operator">+</span> <span class="token class-name">ThreadLocalRandom</span><span class="token punctuation">.</span><span class="token function">current</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">nextInt</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-                <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"finish，"</span> <span class="token operator">+</span> index <span class="token operator">+</span> <span class="token string">"，"</span> <span class="token operator">+</span> <span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-                countDownLatch<span class="token punctuation">.</span><span class="token function">countDown</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> e<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-                e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token punctuation">&#125;</span>
-        <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token comment">// 主线程在阻塞，当计数器==0，就唤醒主线程往下执行</span>
-    countDownLatch<span class="token punctuation">.</span><span class="token function">await</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"主线程:在所有任务运行完成后，进行结果汇总"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>&emsp;&emsp;运行结果：</p>
-<pre class="line-numbers language-text" data-language="text"><code class="language-text">finish，4，Thread-4
-finish，2，Thread-2
-finish，3，Thread-3
-finish，0，Thread-0
-finish，1，Thread-1
-主线程:在所有任务运行完成后，进行结果汇总<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="官方demo，可以参考"><a href="#官方demo，可以参考" class="headerlink" title="官方demo，可以参考"></a>官方demo，可以参考</h2><p>&emsp;&emsp;demo1，这是一个将启动信号和结束信号结合起来。</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">class</span> <span class="token class-name">Driver</span> <span class="token punctuation">&#123;</span> <span class="token comment">// ...</span>
-    <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">InterruptedException</span> <span class="token punctuation">&#123;</span>
-        <span class="token class-name">CountDownLatch</span> startSignal <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">CountDownLatch</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token class-name">CountDownLatch</span> doneSignal <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">CountDownLatch</span><span class="token punctuation">(</span><span class="token class-name">N</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token class-name">N</span><span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token comment">// create and start threads</span>
-            <span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Worker</span><span class="token punctuation">(</span>startSignal<span class="token punctuation">,</span> doneSignal<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-        <span class="token function">doSomethingElse</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>            <span class="token comment">// don't let run yet</span>
-        startSignal<span class="token punctuation">.</span><span class="token function">countDown</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>      <span class="token comment">// let all threads proceed</span>
-        <span class="token function">doSomethingElse</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        doneSignal<span class="token punctuation">.</span><span class="token function">await</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>           <span class="token comment">// wait for all to finish</span>
-    <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span>
-
-<span class="token keyword">class</span> <span class="token class-name">Worker</span> <span class="token keyword">implements</span> <span class="token class-name">Runnable</span> <span class="token punctuation">&#123;</span>
-    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">CountDownLatch</span> startSignal<span class="token punctuation">;</span>
-    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">CountDownLatch</span> doneSignal<span class="token punctuation">;</span>
-    <span class="token class-name">Worker</span><span class="token punctuation">(</span><span class="token class-name">CountDownLatch</span> startSignal<span class="token punctuation">,</span> <span class="token class-name">CountDownLatch</span> doneSignal<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token keyword">this</span><span class="token punctuation">.</span>startSignal <span class="token operator">=</span> startSignal<span class="token punctuation">;</span>
-        <span class="token keyword">this</span><span class="token punctuation">.</span>doneSignal <span class="token operator">=</span> doneSignal<span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
-            startSignal<span class="token punctuation">.</span><span class="token function">await</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token function">doWork</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            doneSignal<span class="token punctuation">.</span><span class="token function">countDown</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> ex<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span> <span class="token comment">// return;</span>
-    <span class="token punctuation">&#125;</span>
-
-    <span class="token keyword">void</span> <span class="token function">doWork</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>&emsp;&emsp;典型的主线程等待子线程完成的例子。</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">class</span> <span class="token class-name">Driver2</span> <span class="token punctuation">&#123;</span> <span class="token comment">// ...</span>
-    <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">InterruptedException</span> <span class="token punctuation">&#123;</span>
-        <span class="token class-name">CountDownLatch</span> doneSignal <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">CountDownLatch</span><span class="token punctuation">(</span><span class="token class-name">N</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token class-name">Executor</span> e <span class="token operator">=</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
-
-        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token class-name">N</span><span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token comment">// create and start threads</span>
-            e<span class="token punctuation">.</span><span class="token function">execute</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">WorkerRunnable</span><span class="token punctuation">(</span>doneSignal<span class="token punctuation">,</span> i<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-        doneSignal<span class="token punctuation">.</span><span class="token function">await</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>           <span class="token comment">// wait for all to finish</span>
-    <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span>
-
-<span class="token keyword">class</span> <span class="token class-name">WorkerRunnable</span> <span class="token keyword">implements</span> <span class="token class-name">Runnable</span> <span class="token punctuation">&#123;</span>
-    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">CountDownLatch</span> doneSignal<span class="token punctuation">;</span>
-    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token keyword">int</span> i<span class="token punctuation">;</span>
-    <span class="token class-name">WorkerRunnable</span><span class="token punctuation">(</span><span class="token class-name">CountDownLatch</span> doneSignal<span class="token punctuation">,</span> <span class="token keyword">int</span> i<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token keyword">this</span><span class="token punctuation">.</span>doneSignal <span class="token operator">=</span> doneSignal<span class="token punctuation">;</span>
-        <span class="token keyword">this</span><span class="token punctuation">.</span>i <span class="token operator">=</span> i<span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
-            <span class="token function">doWork</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
-            doneSignal<span class="token punctuation">.</span><span class="token function">countDown</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> ex<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span> <span class="token comment">// return;</span>
-    <span class="token punctuation">&#125;</span>
-
-    <span class="token keyword">void</span> <span class="token function">doWork</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
 <hr>
-<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><p>&emsp;&emsp;简单来说，是通过一个计数器来实现的，计数器的初始值为线程的数量或者指定的值，调用<code>await()</code>方法的线程会被阻塞，直到计数器减到0时才能继续往下执行。<br>&emsp;&emsp;CountDownLatch底层基于AQS实现，构造函数中指定的count直接赋阻值给AQS的state，每次countDown都是release(1)减一，最后减到0时unpark阻塞线程。而调用await()方法时，当前线程就会判断state属性是否为0，如果为0，则继续往下执行，如果不为0，则使当前线程进入等待状态，直到某个线程将state属性置为0，其就会唤醒在await()方法中等待的线程。</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">class</span> <span class="token class-name">Sync</span> <span class="token keyword">extends</span> <span class="token class-name">AbstractQueuedSynchronizer</span> <span class="token punctuation">&#123;</span>
-    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">long</span> serialVersionUID <span class="token operator">=</span> <span class="token number">4982264981922014374L</span><span class="token punctuation">;</span>
-
-    <span class="token class-name">Sync</span><span class="token punctuation">(</span><span class="token keyword">int</span> count<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token function">setState</span><span class="token punctuation">(</span>count<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-
-    <span class="token keyword">int</span> <span class="token function">getCount</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token keyword">return</span> <span class="token function">getState</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-
-    <span class="token keyword">protected</span> <span class="token keyword">int</span> <span class="token function">tryAcquireShared</span><span class="token punctuation">(</span><span class="token keyword">int</span> acquires<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token function">getState</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token number">1</span> <span class="token operator">:</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-
-    <span class="token keyword">protected</span> <span class="token keyword">boolean</span> <span class="token function">tryReleaseShared</span><span class="token punctuation">(</span><span class="token keyword">int</span> releases<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token comment">// Decrement count; signal when transition to zero</span>
-        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token punctuation">;</span><span class="token punctuation">;</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-            <span class="token keyword">int</span> c <span class="token operator">=</span> <span class="token function">getState</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token comment">// 这里表示如果资源已经释放，就不能在释放一次</span>
-            <span class="token keyword">if</span> <span class="token punctuation">(</span>c <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span>
-                <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
-            <span class="token comment">// 本次计数剩余量</span>
-            <span class="token keyword">int</span> nextc <span class="token operator">=</span> c<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
-            <span class="token comment">// 设置剩余量</span>
-            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">compareAndSetState</span><span class="token punctuation">(</span>c<span class="token punctuation">,</span> nextc<span class="token punctuation">)</span><span class="token punctuation">)</span>
-                <span class="token comment">// 等于0表示，本次计数完成后，释放资源了，await方法就不再阻塞</span>
-                <span class="token keyword">return</span> nextc <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span>
-    <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token class-name">CountDownLatch</span><span class="token punctuation">(</span><span class="token keyword">int</span> count<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    <span class="token keyword">if</span> <span class="token punctuation">(</span>count <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">IllegalArgumentException</span><span class="token punctuation">(</span><span class="token string">"count &lt; 0"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">this</span><span class="token punctuation">.</span>sync <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Sync</span><span class="token punctuation">(</span>count<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">await</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">InterruptedException</span> <span class="token punctuation">&#123;</span>
-    sync<span class="token punctuation">.</span><span class="token function">acquireSharedInterruptibly</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span>
-
-<span class="token comment">// AQS</span>
-<span class="token keyword">public</span> <span class="token keyword">final</span> <span class="token keyword">void</span> <span class="token function">acquireSharedInterruptibly</span><span class="token punctuation">(</span><span class="token keyword">int</span> arg<span class="token punctuation">)</span>
-        <span class="token keyword">throws</span> <span class="token class-name">InterruptedException</span> <span class="token punctuation">&#123;</span>
-    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">interrupted</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-        <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">InterruptedException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">tryAcquireShared</span><span class="token punctuation">(</span>arg<span class="token punctuation">)</span> <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span>
-        <span class="token function">doAcquireSharedInterruptibly</span><span class="token punctuation">(</span>arg<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>&emsp;&emsp;这里调用tryAcquireShared方法尝试获取资源，返回负数表示失败，返回整数则表示成功，失败了就加入同步队列。<br>&emsp;&emsp;tryAcquireShared方法中则根据计数来判断是否成功，如果计数为0，则计数完毕，返回成功。</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">countDown</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    sync<span class="token punctuation">.</span><span class="token function">releaseShared</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span>
-
-<span class="token comment">// AQS</span>
-<span class="token keyword">public</span> <span class="token keyword">final</span> <span class="token keyword">boolean</span> <span class="token function">releaseShared</span><span class="token punctuation">(</span><span class="token keyword">int</span> arg<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    <span class="token comment">// 如果资源释放了，唤醒同步队列中的线程</span>
-    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">tryReleaseShared</span><span class="token punctuation">(</span>arg<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token comment">// unpark</span>
-        <span class="token function">doReleaseShared</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>&emsp;&emsp;这里面会尝试进行资源释放，如果资源释放了就唤醒同步队列中的线程。</p>
-<h2 id="大概流程"><a href="#大概流程" class="headerlink" title="大概流程"></a>大概流程</h2><ol>
-<li>创建一个CountDownLatch，并赋予一个数值，这个值表示需要计数的次数，每次countdown算一次。</li>
-<li>在主线程调用await方法，表示计数器完成前都不能动，await方法的内部实现依赖于内部的AQS，调用await方法的时候会尝试去获取资源，成功条件是state=0，也就是说除非countdown了count次之后，才能成功，失败的话当前线程进行休眠。</li>
-<li>在子线程调用countDown方法，每次调用都会使内部的state-1，state为0时资源释放，await方法不在阻塞。</li>
-</ol>
+<h1 id="线程的状态："><a href="#线程的状态：" class="headerlink" title="线程的状态："></a>线程的状态：</h1><p>Java 给多线程编程提供了内置的支持。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E7%BA%BF%E7%A8%8B%E7%8A%B6%E6%80%81.jpg" alt="线程状态切换"></p>
+<p><strong>新建状态</strong>：一个新产生的线程从新状态开始了它的生命周期。它保持这个状态直到程序start这个线程。此过程线程并未执行。</p>
+<p><strong>就绪状态</strong>：表明线程可以运行，但不是真的在运行，此状态下需要获取cpu才能运行。调用线程的star方法、获取到对象的锁，阻塞状态解除、cpu时间片用完，调用yield()方法、jvm中断此线程。</p>
+<p><strong>运行状态</strong>：线程在阻塞状态获取到cpu使用权，开始实际执行。此状态线程进入run()方法执行方法体。</p>
+<p><strong>阻塞状态</strong>：线程放弃了cpu，调用wait()，sleep()，或同步锁，同步代码块时，失去了所占用的资源，由运行态进入阻塞态，线程将会进入阻塞队列。执行了wait()方法后使线程进入到等待阻塞状态、在进入synchronized代码块，获取同步锁失败时进入同步阻塞、当调用sleep()，join()，或io时进入其它阻塞队列，等待sleep()结束，join()等待其它线程结束，io结束时继续进入就绪状态。</p>
+<p><strong>死亡状态</strong>：线程结束运行后就进入死亡状态。死亡后不会再进入新生态，调用start()方法会报错。通常run()方法运行结束时死亡，或一个未捕获的异常导致猝死。</p>
+<p><strong>超时等待</strong>：处于这种状态的线程不会被分配CPU执行时间，不过无须无限期等待被其他线程显示地唤醒，在达到一定时间后它们会自动唤醒。</p>
+<hr>
+<h1 id="队列："><a href="#队列：" class="headerlink" title="队列："></a>队列：</h1><p>等待队列：线程wait()后进入等待队列，等待被其它线程使用notify()或notifyAll()唤醒。</p>
+<p>同步队列：线程被唤醒后，进入同步同步队列，在此队列中，互相竞争对象的锁，当获取到对象的锁之后就进入了就绪状态等待获取cpu时间片运行。</p>
+<hr>
+<h1 id="线程优先级："><a href="#线程优先级：" class="headerlink" title="线程优先级："></a>线程优先级：</h1><p>每一个 Java 线程都有一个优先级，这样有助于操作系统确定线程的调度顺序。</p>
+<p>Java 线程的优先级是一个整数，其取值范围是 1 （Thread.MIN_PRIORITY ） - 10 （Thread.MAX_PRIORITY ）。</p>
+<p>默认情况下，每一个线程都会分配一个优先级 NORM_PRIORITY（5）。</p>
+<p>具有较高优先级的线程对程序更重要，并且应该在低优先级的线程之前分配处理器资源。但是，线程优先级不能保证线程执行的顺序，而且非常依赖于平台。</p>
 <hr>
 <h1 id="参考资料-amp-鸣谢"><a href="#参考资料-amp-鸣谢" class="headerlink" title="参考资料 &amp; 鸣谢"></a>参考资料 &amp; 鸣谢</h1><ul>
-<li><a href="https://zhuanlan.zhihu.com/p/148231820">CountDownLatch的两种常用场景</a></li>
-<li><a href="https://www.cnblogs.com/Lee_xy_z/p/10470181.html">CountDownLatch的理解和使用</a></li>
+<li><a href="https://my.oschina.net/linqiankun/blog/3193359">多线程之基础概念</a></li>
 </ul>
 ]]></content>
       <categories>
         <category>java</category>
-        <category>juc</category>
-        <category>Java</category>
         <category>多线程</category>
       </categories>
       <tags>
         <tag>java</tag>
-        <tag>juc</tag>
+        <tag>多线程</tag>
       </tags>
   </entry>
   <entry>
@@ -5038,55 +5087,6 @@ finish，1，Thread-1
         <tag>java</tag>
         <tag>多线程</tag>
         <tag>线程池</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>多线程基础概念</title>
-    <url>/hexoblog/2021/06/16/md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/</url>
-    <content><![CDATA[<h1 id="概念："><a href="#概念：" class="headerlink" title="概念："></a>概念：</h1><p><strong>进程：</strong> 进程（Process）是计算机中的程序关于某数据集合上的一次运行活动，是<strong>系统进行资源分配和调度的基本单位</strong>，是操作系统结构的基础。在早期面向进程设计的计算机结构中，进程是程序的基本执行实体；在当代面向线程设计的计算机结构中，进程是线程的容器。程序是指令、数据及其组织形式的描述，进程是程序的实体。</p>
-<p><strong>线程：</strong> 线程（thread）是操作系统能够<strong>进行运算<a href="https://baike.baidu.com/item/%E8%B0%83%E5%BA%A6">调度</a>的最小单位</strong>。它被包含在进程之中，是进程中的实际运作单位。一条线程指的是进程中一个单一顺序的控制流，一个进程中可以并发多个线程，每条线程并行执行不同的任务。线程是独立调度和分派的基本单位。线程分为用户线程和内核线程。</p>
-<span id="more"></span>
-
-<p><strong>多线程：</strong> 多线程是多任务的一种特别的形式，但多线程使用了更小的资源开销。多线程能满足程序员编写高效率的程序来达到充分利用 CPU 的目的。</p>
-<p><strong>并行：</strong> 多个cpu实例或者多台机器同时执行一段处理逻辑，是真正的同时运行。</p>
-<p><strong>并发：</strong> 使用CPU调度算法，使用户看起来在同时运行，其实并不是在同时运行。并发一般发生在对系统中的公用资源操作时。</p>
-<p><strong>线程安全：</strong> 指的是希望多线程的执行顺序对执行结果没有影响，用户只需要关心CPU及其他资源是否够用即可。反之，如果不同的执行顺序导致不同的执行结果，那么就说是线程不安全的。</p>
-<p><strong>同步：</strong> 指通过人为干预的情况下达到线程安全的程度。</p>
-<h2 id="进程VS线程："><a href="#进程VS线程：" class="headerlink" title="进程VS线程："></a>进程VS线程：</h2><ol>
-<li> 地址空间和其它资源：进程间相互独立，同一进程的各线程间共享。某进程内的线程在其它进程不可见。</li>
-<li> 通信：通信方式不同，线程间可以直接读写进程数据段（如全局变量）来进行通信——需要进程同步和互斥手段的辅助，以保证数据的一致性。</li>
-<li> 调度和切换：线程上下文切换比进程上下文切换要快得多。</li>
-<li> 在多线程OS中，进程不是一个可执行的实体。</li>
-</ol>
-<hr>
-<h1 id="线程的状态："><a href="#线程的状态：" class="headerlink" title="线程的状态："></a>线程的状态：</h1><p>Java 给多线程编程提供了内置的支持。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E7%BA%BF%E7%A8%8B%E7%8A%B6%E6%80%81.jpg" alt="线程状态切换"></p>
-<p><strong>新建状态</strong>：一个新产生的线程从新状态开始了它的生命周期。它保持这个状态直到程序start这个线程。此过程线程并未执行。</p>
-<p><strong>就绪状态</strong>：表明线程可以运行，但不是真的在运行，此状态下需要获取cpu才能运行。调用线程的star方法、获取到对象的锁，阻塞状态解除、cpu时间片用完，调用yield()方法、jvm中断此线程。</p>
-<p><strong>运行状态</strong>：线程在阻塞状态获取到cpu使用权，开始实际执行。此状态线程进入run()方法执行方法体。</p>
-<p><strong>阻塞状态</strong>：线程放弃了cpu，调用wait()，sleep()，或同步锁，同步代码块时，失去了所占用的资源，由运行态进入阻塞态，线程将会进入阻塞队列。执行了wait()方法后使线程进入到等待阻塞状态、在进入synchronized代码块，获取同步锁失败时进入同步阻塞、当调用sleep()，join()，或io时进入其它阻塞队列，等待sleep()结束，join()等待其它线程结束，io结束时继续进入就绪状态。</p>
-<p><strong>死亡状态</strong>：线程结束运行后就进入死亡状态。死亡后不会再进入新生态，调用start()方法会报错。通常run()方法运行结束时死亡，或一个未捕获的异常导致猝死。</p>
-<p><strong>超时等待</strong>：处于这种状态的线程不会被分配CPU执行时间，不过无须无限期等待被其他线程显示地唤醒，在达到一定时间后它们会自动唤醒。</p>
-<hr>
-<h1 id="队列："><a href="#队列：" class="headerlink" title="队列："></a>队列：</h1><p>等待队列：线程wait()后进入等待队列，等待被其它线程使用notify()或notifyAll()唤醒。</p>
-<p>同步队列：线程被唤醒后，进入同步同步队列，在此队列中，互相竞争对象的锁，当获取到对象的锁之后就进入了就绪状态等待获取cpu时间片运行。</p>
-<hr>
-<h1 id="线程优先级："><a href="#线程优先级：" class="headerlink" title="线程优先级："></a>线程优先级：</h1><p>每一个 Java 线程都有一个优先级，这样有助于操作系统确定线程的调度顺序。</p>
-<p>Java 线程的优先级是一个整数，其取值范围是 1 （Thread.MIN_PRIORITY ） - 10 （Thread.MAX_PRIORITY ）。</p>
-<p>默认情况下，每一个线程都会分配一个优先级 NORM_PRIORITY（5）。</p>
-<p>具有较高优先级的线程对程序更重要，并且应该在低优先级的线程之前分配处理器资源。但是，线程优先级不能保证线程执行的顺序，而且非常依赖于平台。</p>
-<hr>
-<h1 id="参考资料-amp-鸣谢"><a href="#参考资料-amp-鸣谢" class="headerlink" title="参考资料 &amp; 鸣谢"></a>参考资料 &amp; 鸣谢</h1><ul>
-<li><a href="https://my.oschina.net/linqiankun/blog/3193359">多线程之基础概念</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>java</category>
-        <category>多线程</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>多线程</tag>
       </tags>
   </entry>
   <entry>
@@ -5444,132 +5444,6 @@ qos&#x3D;org.apache.dubbo.qos.protocol.QosProtocolWrapper<span aria-hidden="true
       </tags>
   </entry>
   <entry>
-    <title>rocketmq概念总结</title>
-    <url>/hexoblog/2021/05/25/md/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/rocketmq/rocketmq%E6%A6%82%E5%BF%B5%E6%80%BB%E7%BB%93/</url>
-    <content><![CDATA[<h1 id="核心组成"><a href="#核心组成" class="headerlink" title="核心组成"></a>核心组成</h1><p><a href="https://github.com/apache/rocketmq/tree/master/docs/cn">官方文档看看挺好的</a><br>&emsp;&emsp;rocketmq主要有四大核心组成部分：NameServer，Broker，Producer，Consumer四部分。  </p>
-<span id="more"></span>
-
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/rocketmq_architecture_1.jpg" alt="架构设计"></p>
-<h2 id="NameServer"><a href="#NameServer" class="headerlink" title="NameServer"></a>NameServer</h2><p>&emsp;&emsp;主要负责对源数据的管理，包括了对于Topic和路由信息的管理。  </p>
-<blockquote>
-<p>&emsp;&emsp;NameServer是一个非常简单的Topic路由注册中心，其角色类似Dubbo中的zookeeper，支持Broker的动态注册与发现。主要包括两个功能：Broker管理，NameServer接受Broker集群的注册信息并且保存下来作为路由信息的基本数据。然后提供心跳检测机制，检查Broker是否还存活；路由信息管理，每个NameServer将保存关于Broker集群的整个路由信息和用于客户端查询的队列信息。然后Producer和Conumser通过NameServer就可以知道整个Broker集群的路由信息，从而进行消息的投递和消费。<br>&emsp;&emsp;NameServer通常也是集群的方式部署，各实例间相互不进行信息通讯。Broker是向每一台NameServer注册自己的路由信息，所以每一个NameServer实例上面都保存一份完整的路由信息。当某个NameServer因某种原因下线了，Broker仍然可以向其它NameServer同步其路由信息，Producer，Consumer仍然可以动态感知Broker的路由的信息。 </p>
-</blockquote>
-<p>&emsp;&emsp;NameServer是一个功能齐全的服务器，其角色类似Dubbo中的Zookeeper，但NameServer与Zookeeper相比更轻量。主要是因为每个NameServer节点互相之间是独立的，没有任何信息交互。<br>&emsp;&emsp;NameServer压力不会太大，平时主要开销是在维持心跳和提供Topic-Broker的关系数据。<br>&emsp;&emsp;Broker向NameServer发心跳时，会带上当前自己所负责的所有Topic信息，如果Topic个数太多（万级别），会导致一次心跳中，就Topic的数据就几十M，网络情况差的话， 网络传输失败，心跳失败，导致NameServer误认为Broker心跳失败。<br>&emsp;&emsp;NameServer被设计成几乎无状态的，可以横向扩展，节点之间相互之间无通信，通过部署多台机器来标记自己是一个伪集群。<br>&emsp;&emsp;每个 Broker 在启动的时候会到 NameServer 注册，Producer 在发送消息前会根据 Topic 到 NameServer 获取到 Broker 的路由信息，Consumer 也会定时获取 Topic 的路由信息。</p>
-<h2 id="Broker"><a href="#Broker" class="headerlink" title="Broker"></a>Broker</h2><p>&emsp;&emsp;消息中转角色，负责存储消息，转发消息。  </p>
-<blockquote>
-<p>Broker主要负责消息的存储、投递和查询以及服务高可用保证，为了实现这些功能，Broker包含了以下几个重要子模块。</p>
-<ol>
-<li>Remoting Module：整个Broker的实体，负责处理clients端的请求。</li>
-<li>Client Manager：负责管理客户端(Producer/Consumer)和维护Consumer的Topic订阅信息。</li>
-<li>Store Service：提供方便简单的API接口处理消息存储到物理硬盘和查询功能。</li>
-<li>HA service：高可用服务，提供Master Broker和Slave Broker之间的数据同步功能。</li>
-<li>Index Service：根据特定的Message key对投递到Broker的消息进行索引服务，以提供消息的快速查询。</li>
-</ol>
-</blockquote>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/broker.png" alt="Broker结构"></p>
-<p>&emsp;&emsp;Broker是具体提供业务的服务器，单个Broker节点与所有的NameServer节点保持长连接和心跳，并会定时将topic的信息注册到NameServer，底层的通信和连接都是通过Netty实现的。<br>&emsp;&emsp;Broker负责消息存储，以Topic为纬度支持轻量级的队列，单机可以支撑上万队列规模，支持消息推拉模型。<br>&emsp;&emsp;支持上亿的消息堆积能力，同时可以严格保证消息的有序性。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/topic%E4%B8%8Ebroker.png" alt="Topic与Broker关系"></p>
-<h2 id="Producer"><a href="#Producer" class="headerlink" title="Producer"></a>Producer</h2><p>&emsp;&emsp;消息生产者，负责产生消息。</p>
-<blockquote>
-<p>消息发布的角色，支持分布式集群方式部署。Producer通过MQ的负载均衡模块选择相应的Broker集群队列进行消息投递，投递的过程支持快速失败并且低延迟。</p>
-</blockquote>
-<p>&emsp;&emsp;Producer由用户进行分布式部署，消息由Producer通过多种负载均衡模式发送到Broker集群，发送低延时，支持快速失败。  </p>
-<p>&emsp;&emsp;rocketmq提供了三种消息发送方式：<strong>同步，异步，单向</strong>。</p>
-<ol>
-<li>同步发送：同步发送指消息发送方发出数据后会在收到接收方发回响应之后才发下一个数据包。一般用于重要通知消息，例如重要通知邮件、营销短信。</li>
-<li>异步发送：异步发送指发送方发出数据后，不等接收方发回响应，接着发送下个数据包，一般用于可能链路耗时较长而对响应时间敏感的业务场景，例如用户视频上传后通知启动转码服务。</li>
-<li>单向发送：单向发送是指只负责发送消息而不等待服务器回应且没有回调函数触发，适用于某些耗时非常短但对可靠性要求并不高的场景，例如日志收集。</li>
-</ol>
-<h2 id="Consumer"><a href="#Consumer" class="headerlink" title="Consumer"></a>Consumer</h2><p>&emsp;消息消费者，负责消费消息，一般时下游业务系统。  </p>
-<blockquote>
-<p>消息消费的角色，支持分布式集群方式部署。支持以push推，pull拉两种模式对消息进行消费。同时也支持集群方式和广播方式的消费，它提供实时消息订阅机制，可以满足大多数用户的需求。</p>
-</blockquote>
-<p>&emsp;&emsp;Consumer也由用户部署，支持PUSH和PULL两种消费模式，支持集群消费和广播消息，提供实时的消息订阅机制。</p>
-<ol>
-<li>PUSH：推送型消费者（Push Consumer）封装了消息的拉取、消费进度和其他的内部维护工作，将消息到达时执行的回调接口留给用户应用程序来实现。所以 Push 称为被动消费类型，但从实现上看还是从消息服务器中拉取消息，不同于 Pull 的是 Push 首先要注册消费监听器，当监听器处触发后才开始消费消息。</li>
-<li>PULL：拉取型消费者（Pull Consumer）主动从消息服务器拉取信息，只要批量拉取到消息，用户应用就会启动消费过程，所以 Pull 称为主动消费型。</li>
-</ol>
-<hr>
-<h1 id="消息相关概念"><a href="#消息相关概念" class="headerlink" title="消息相关概念"></a>消息相关概念</h1><h2 id="Message（消息）"><a href="#Message（消息）" class="headerlink" title="Message（消息）"></a>Message（消息）</h2><p>&emsp;&emsp;message就是要传输的信息，一条消息必须有一个主题（Topic）。<br>&emsp;&emsp;一条消息也可以拥有一个可选的标签（Tag）和额处的键值对，它们可以用于设置一个业务Key并在Broker上查找此消息以便在开发期间查找问题。<br>&emsp;&emsp;一个Topic可以分散在多个Broker上，也可以在一个Broker上。<br>&emsp;&emsp;消息分为三种：同步消息，异步消息，单向消息。</p>
-<h2 id="Topic（主题）"><a href="#Topic（主题）" class="headerlink" title="Topic（主题）"></a>Topic（主题）</h2><p>&emsp;&emsp;可以看做消息的分类，它是消息的第一级类型。<br>&emsp;&emsp;Topic与生产者和消费者的关系非常松散，一个Topic可以有0个、1个、多个生产者向其发送消息，一个生产者也可以同时向不同的Topic发送消息。一个Topic也可以被多个或者1个消费者订阅。</p>
-<h2 id="Tag（标签）"><a href="#Tag（标签）" class="headerlink" title="Tag（标签）"></a>Tag（标签）</h2><p>&emsp;&emsp;以看作子主题，它是消息的第二级类型，用于为用户提供额外的灵活性。<br>&emsp;&emsp;使用标签，同一业务模块不同目的的消息就可以用相同Topic而不同的Tag来标识，一条消息可以没有Tag。</p>
-<h2 id="Group（分组）"><a href="#Group（分组）" class="headerlink" title="Group（分组）"></a>Group（分组）</h2><p>&emsp;&emsp;一个分组可以订阅多个Topic。<br>&emsp;&emsp;分组分为生产者分组和消费者分组，一般同一个服务作为一个组，一个组生产或消费的消息都是一致的。</p>
-<h2 id="Quene（队列）"><a href="#Quene（队列）" class="headerlink" title="Quene（队列）"></a>Quene（队列）</h2><p>&emsp;&emsp;每个Queue内部是有序的，在RocketMQ中分为读和写两种队列，一般来说读写队列数量一致，如果不一致就会出现很多问题。</p>
-<h2 id="MessageQuene（消息队列）"><a href="#MessageQuene（消息队列）" class="headerlink" title="MessageQuene（消息队列）"></a>MessageQuene（消息队列）</h2><p>&emsp;&emsp;一个主题被划分为多个子主题，就是消息队列。<br>&emsp;&emsp;一个Topic下可以设置多个消息队列，发送消息时执行该消息的Topic，RocketMQ会轮询该Topic下的所有队列将消息发出去，只会发送到一个MessageQuene中。<br>&emsp;&emsp;消息的物理管理单位。一个Topic下可以有多个Queue，Queue的引入使得消息的存储可以分布式集群化，具有了水平扩展能力。</p>
-<h2 id="Offset"><a href="#Offset" class="headerlink" title="Offset"></a>Offset</h2><p>&emsp;&emsp;在RocketMQ中，所有消息队列都是持久化，长度无限的数据结构，所谓长度无限是指队列中的每个存储单元都是定长，访问其中的存储单元使用Offset来访问，Offset为long类型，64位，理论上在100年内不会溢出，所以认为是长度无限。<br>&emsp;&emsp;也可以认为Message Queue是一个长度无限的数组，Offset就是下标。</p>
-<h2 id="消息消费模式"><a href="#消息消费模式" class="headerlink" title="消息消费模式"></a>消息消费模式</h2><p>&emsp;&emsp;分为两种，集群消费模式，广播消费模式。  </p>
-<h3 id="集群消费模式"><a href="#集群消费模式" class="headerlink" title="集群消费模式"></a>集群消费模式</h3><p>&emsp;&emsp;默认情况下就是集群消费，该模式下一个消费者集群共同消费一个主题的多个队列，一个队列只会被一个消费者消费，如果某个消费者挂掉，分组内其它消费者会接替挂掉的消费者继续消费。</p>
-<h3 id="广播消费模式"><a href="#广播消费模式" class="headerlink" title="广播消费模式"></a>广播消费模式</h3><p>&emsp;&emsp;而广播消费消息会发给消费者组中的每一个消费者进行消费，一个消息会被多次消费。</p>
-<h2 id="Message-Order"><a href="#Message-Order" class="headerlink" title="Message Order"></a>Message Order</h2><p>&emsp;&emsp;消息消费顺序，也有两种：顺序消费，并行消费。</p>
-<h3 id="顺序消费"><a href="#顺序消费" class="headerlink" title="顺序消费"></a>顺序消费</h3><p>&emsp;&emsp;顺序消费表示消息消费的顺序同生产者为每个消息队列发送的顺序一致，所以如果正在处理全局顺序是强制性的场景，需要确保使用的主题只有一个消息队列。</p>
-<h3 id="并行消费"><a href="#并行消费" class="headerlink" title="并行消费"></a>并行消费</h3><p>&emsp;&emsp;并行消费不再保证消息顺序，消费的最大并行数量受每个消费者客户端指定的线程池限制。</p>
-]]></content>
-      <categories>
-        <category>消息中间件</category>
-        <category>rocketmq</category>
-      </categories>
-      <tags>
-        <tag>消息中间件</tag>
-        <tag>rocketmq</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>rocketmq消息分类</title>
-    <url>/hexoblog/2021/05/26/md/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/rocketmq/rocketmq%E6%B6%88%E6%81%AF%E5%88%86%E7%B1%BB/</url>
-    <content><![CDATA[<h1 id="消息"><a href="#消息" class="headerlink" title="消息"></a>消息</h1><p>&emsp;&emsp;message就是要传输的信息，一条消息必须有一个主题（Topic）。</p>
-<span id="more"></span>
-
-<h2 id="从特点区分"><a href="#从特点区分" class="headerlink" title="从特点区分"></a>从特点区分</h2><p>&emsp;&emsp;mq中的消息从特点区分可以分为三类：同步消息，异步消息，单向消息。</p>
-<h3 id="同步消息"><a href="#同步消息" class="headerlink" title="同步消息"></a>同步消息</h3><p>&emsp;&emsp;同步发送是指消息发送方发出数据后，会阻塞直到MQ服务方发回响应消息。  </p>
-<h3 id="异步消息"><a href="#异步消息" class="headerlink" title="异步消息"></a>异步消息</h3><p>&emsp;&emsp;异步发送是指发送方发出数据后，不等接收方发回响应，接着发送下个数据包的通讯方式。<br>&emsp;&emsp;MQ 的异步发送，需要用户实现异步发送回调接口（SendCallback），在执行消息的异步发送时，应用不需要等待服务器响应即可直接返回，通过回调接口接收服务器响应，并对服务器的响应结果进行处理。</p>
-<h3 id="单向消息"><a href="#单向消息" class="headerlink" title="单向消息"></a>单向消息</h3><p>&emsp;&emsp;单向（Oneway）发送特点为只负责发送消息，不等待服务器回应且没有回调函数触发，即只发送请求不等待应答。此方式发送消息的过程耗时非常短，一般在微秒级别。这种消息常用于日志收集。</p>
-<h2 id="从共功能分"><a href="#从共功能分" class="headerlink" title="从共功能分"></a>从共功能分</h2><p>&emsp;&emsp;从使用功能也可以分为多种消息，最广为人知的就是事务消息。<br>&emsp;&emsp;消息共有以下分类：</p>
-<ol>
-<li>普通消息</li>
-<li>顺序消息</li>
-<li>广播消息</li>
-<li>延时消息</li>
-<li>批量消息</li>
-<li>事务消息</li>
-</ol>
-<h3 id="顺序消息"><a href="#顺序消息" class="headerlink" title="顺序消息"></a>顺序消息</h3><p>&emsp;&emsp;消息有序指的是一类消息消费时，能按照发送的顺序来消费。</p>
-<h3 id="广播消息"><a href="#广播消息" class="headerlink" title="广播消息"></a>广播消息</h3><p>&emsp;&emsp;广播消息与普通消息不同的是，普通消息只会由消费者组中负载均衡到消息所在MessageQuene的消费者消费，而广播消息由消费者组中的所有消费者消费。</p>
-<h3 id="定时消息"><a href="#定时消息" class="headerlink" title="定时消息"></a>定时消息</h3><p>&emsp;&emsp;<a href="https://www.yuque.com/jiufenshiren/mvgau4/cn_features#19cff416">定时消息</a><br>&emsp;&emsp;定时消息（延迟队列）是指消息发送到broker后，不会立即被消费，等待特定时间投递给真正的topic。<br>&emsp;&emsp;broker有配置项messageDelayLevel，可以配置不同的DelayLevel延迟不同的时间。<br>&emsp;&emsp;定时消息会暂存在名为SCHEDULE_TOPIC_XXXX的topic中，并根据delayTimeLevel存入特定的queue，queueId = delayTimeLevel – 1，即一个queue只存相同延迟的消息，保证具有相同发送延迟的消息能够顺序消费。broker会调度地消费SCHEDULE_TOPIC_XXXX，将消息写入真实的topic。<br>&emsp;&emsp;需要注意的是，定时消息会在第一次写入和调度写入真实topic时都会计数，因此发送数量、tps都会变高。</p>
-<h3 id="事务消息"><a href="#事务消息" class="headerlink" title="事务消息"></a>事务消息</h3><p>&emsp;&emsp;<a href="https://www.yuque.com/jiufenshiren/mvgau4/cn_design#dc145683">官方的事务消息解释</a><br>&emsp;&emsp;RocketMQ事务消息（Transactional Message）是指应用本地事务和发送消息操作可以被定义到全局事务中，要么同时成功，要么同时失败。RocketMQ的事务消息提供类似X/Open XA的分布事务功能，通过事务消息能达到分布式事务的最终一致。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/rocketmq_design_10.png" alt="事务消息大概流程"></p>
-<p>&emsp;&emsp;事务消息的大概流程：</p>
-<ol>
-<li>发送一个事务的半消息。</li>
-<li>服务端将消息持久化成功之后，向发送方ACK确认消息已经发送成功，此时消息为半消息。</li>
-<li>开始执行本地事务，如果发送消息失败，本地事务不执行。</li>
-<li>根据本地事务向mq进行二次提交，Commit或rollback，commit会生成消息索引，mq收到Commit状态则将半消息标记为可投递，订阅方最终将收到该消息；服务端收到Rollback状态则删除半消息，订阅方将不会接受该消息。</li>
-</ol>
-<p>&emsp;&emsp;补偿流程：补偿流程用于mq没有收到发送者二次提交的情况下：</p>
-<ol>
-<li>对没有Commit/Rollback的事务消息（pending状态的消息），从服务端发起一次“回查”。（最大回查15次）</li>
-<li>Producer收到回查消息，检查回查消息对应的本地事务的状态。</li>
-<li>根据本地事务状态，重新Commit或者Rollback。</li>
-</ol>
-<p>&emsp;&emsp;注意：</p>
-<ol>
-<li>需要消息回查接口。</li>
-<li>不能保证消息幂等，需要消费方手动控制，在消费者未ack情况下，可能重复消费。</li>
-</ol>
-<hr>
-<h1 id="消息问题"><a href="#消息问题" class="headerlink" title="消息问题"></a>消息问题</h1><p><a href="https://www.cnblogs.com/duanxz/p/6053598.html">RocketMQ之二：分布式开放消息系统RocketMQ的原理与实践（消息的顺序问题、重复问题、可靠消息/事务消息）</a></p>
-<h2 id="消息顺序问题"><a href="#消息顺序问题" class="headerlink" title="消息顺序问题"></a>消息顺序问题</h2><p>&emsp;&emsp;有着一定顺序的消息，一般需要发送到同一个MessageQuene，因为MessageQuene采用先进先出队列，消费方就可以按照发送的顺序进行消费。<br>&emsp;&emsp;可以自定义MessageQueueSelector实现的算法来选择一个队列。<br>&emsp;&emsp;mq顺序消息中，mq需要收到消费方对上一个消息的确认ACK后才能投递下一个消息，这个会带来上一个消息ack收不到的情况下，会造成重复消费。</p>
-<h2 id="消息重复问题"><a href="#消息重复问题" class="headerlink" title="消息重复问题"></a>消息重复问题</h2><p>&emsp;&emsp;mq中并没有处理消息的重复问题，需要消费方自己实现幂等，解决消息重复消费的问题。</p>
-]]></content>
-      <categories>
-        <category>消息中间件</category>
-        <category>rocketmq</category>
-      </categories>
-      <tags>
-        <tag>消息中间件</tag>
-        <tag>rocketmq</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>rocketmq消息可靠性</title>
     <url>/hexoblog/2021/05/28/md/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/rocketmq/rocketmq%E6%B6%88%E6%81%AF%E5%8F%AF%E9%9D%A0%E6%80%A7/</url>
     <content><![CDATA[<h1 id="消息重试"><a href="#消息重试" class="headerlink" title="消息重试"></a>消息重试</h1><p>&emsp;&emsp;指的是消费者消费消息失败后，mq需要让消费者重新消费一次。</p>
@@ -5695,6 +5569,132 @@ qos&#x3D;org.apache.dubbo.qos.protocol.QosProtocolWrapper<span aria-hidden="true
 </ol>
 <h3 id="使用集群模式模拟广播模式"><a href="#使用集群模式模拟广播模式" class="headerlink" title="使用集群模式模拟广播模式"></a>使用集群模式模拟广播模式</h3><p>&emsp;&emsp;将原来同一个消费者组的下消费者，拆分成每个消费者一个消费者组，这样就有很多个消费者组。<br>&emsp;&emsp;每个消费者组都订阅需要发送的消息，这样消息会发给每个消费者组，发给了每台机器，都可以消费。</p>
 <p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E9%9B%86%E7%BE%A4%E6%A8%A1%E5%BC%8F%E5%B9%BF%E6%92%AD.png" alt="集群模式模拟广播模式"></p>
+]]></content>
+      <categories>
+        <category>消息中间件</category>
+        <category>rocketmq</category>
+      </categories>
+      <tags>
+        <tag>消息中间件</tag>
+        <tag>rocketmq</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>rocketmq消息分类</title>
+    <url>/hexoblog/2021/05/26/md/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/rocketmq/rocketmq%E6%B6%88%E6%81%AF%E5%88%86%E7%B1%BB/</url>
+    <content><![CDATA[<h1 id="消息"><a href="#消息" class="headerlink" title="消息"></a>消息</h1><p>&emsp;&emsp;message就是要传输的信息，一条消息必须有一个主题（Topic）。</p>
+<span id="more"></span>
+
+<h2 id="从特点区分"><a href="#从特点区分" class="headerlink" title="从特点区分"></a>从特点区分</h2><p>&emsp;&emsp;mq中的消息从特点区分可以分为三类：同步消息，异步消息，单向消息。</p>
+<h3 id="同步消息"><a href="#同步消息" class="headerlink" title="同步消息"></a>同步消息</h3><p>&emsp;&emsp;同步发送是指消息发送方发出数据后，会阻塞直到MQ服务方发回响应消息。  </p>
+<h3 id="异步消息"><a href="#异步消息" class="headerlink" title="异步消息"></a>异步消息</h3><p>&emsp;&emsp;异步发送是指发送方发出数据后，不等接收方发回响应，接着发送下个数据包的通讯方式。<br>&emsp;&emsp;MQ 的异步发送，需要用户实现异步发送回调接口（SendCallback），在执行消息的异步发送时，应用不需要等待服务器响应即可直接返回，通过回调接口接收服务器响应，并对服务器的响应结果进行处理。</p>
+<h3 id="单向消息"><a href="#单向消息" class="headerlink" title="单向消息"></a>单向消息</h3><p>&emsp;&emsp;单向（Oneway）发送特点为只负责发送消息，不等待服务器回应且没有回调函数触发，即只发送请求不等待应答。此方式发送消息的过程耗时非常短，一般在微秒级别。这种消息常用于日志收集。</p>
+<h2 id="从共功能分"><a href="#从共功能分" class="headerlink" title="从共功能分"></a>从共功能分</h2><p>&emsp;&emsp;从使用功能也可以分为多种消息，最广为人知的就是事务消息。<br>&emsp;&emsp;消息共有以下分类：</p>
+<ol>
+<li>普通消息</li>
+<li>顺序消息</li>
+<li>广播消息</li>
+<li>延时消息</li>
+<li>批量消息</li>
+<li>事务消息</li>
+</ol>
+<h3 id="顺序消息"><a href="#顺序消息" class="headerlink" title="顺序消息"></a>顺序消息</h3><p>&emsp;&emsp;消息有序指的是一类消息消费时，能按照发送的顺序来消费。</p>
+<h3 id="广播消息"><a href="#广播消息" class="headerlink" title="广播消息"></a>广播消息</h3><p>&emsp;&emsp;广播消息与普通消息不同的是，普通消息只会由消费者组中负载均衡到消息所在MessageQuene的消费者消费，而广播消息由消费者组中的所有消费者消费。</p>
+<h3 id="定时消息"><a href="#定时消息" class="headerlink" title="定时消息"></a>定时消息</h3><p>&emsp;&emsp;<a href="https://www.yuque.com/jiufenshiren/mvgau4/cn_features#19cff416">定时消息</a><br>&emsp;&emsp;定时消息（延迟队列）是指消息发送到broker后，不会立即被消费，等待特定时间投递给真正的topic。<br>&emsp;&emsp;broker有配置项messageDelayLevel，可以配置不同的DelayLevel延迟不同的时间。<br>&emsp;&emsp;定时消息会暂存在名为SCHEDULE_TOPIC_XXXX的topic中，并根据delayTimeLevel存入特定的queue，queueId = delayTimeLevel – 1，即一个queue只存相同延迟的消息，保证具有相同发送延迟的消息能够顺序消费。broker会调度地消费SCHEDULE_TOPIC_XXXX，将消息写入真实的topic。<br>&emsp;&emsp;需要注意的是，定时消息会在第一次写入和调度写入真实topic时都会计数，因此发送数量、tps都会变高。</p>
+<h3 id="事务消息"><a href="#事务消息" class="headerlink" title="事务消息"></a>事务消息</h3><p>&emsp;&emsp;<a href="https://www.yuque.com/jiufenshiren/mvgau4/cn_design#dc145683">官方的事务消息解释</a><br>&emsp;&emsp;RocketMQ事务消息（Transactional Message）是指应用本地事务和发送消息操作可以被定义到全局事务中，要么同时成功，要么同时失败。RocketMQ的事务消息提供类似X/Open XA的分布事务功能，通过事务消息能达到分布式事务的最终一致。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/rocketmq_design_10.png" alt="事务消息大概流程"></p>
+<p>&emsp;&emsp;事务消息的大概流程：</p>
+<ol>
+<li>发送一个事务的半消息。</li>
+<li>服务端将消息持久化成功之后，向发送方ACK确认消息已经发送成功，此时消息为半消息。</li>
+<li>开始执行本地事务，如果发送消息失败，本地事务不执行。</li>
+<li>根据本地事务向mq进行二次提交，Commit或rollback，commit会生成消息索引，mq收到Commit状态则将半消息标记为可投递，订阅方最终将收到该消息；服务端收到Rollback状态则删除半消息，订阅方将不会接受该消息。</li>
+</ol>
+<p>&emsp;&emsp;补偿流程：补偿流程用于mq没有收到发送者二次提交的情况下：</p>
+<ol>
+<li>对没有Commit/Rollback的事务消息（pending状态的消息），从服务端发起一次“回查”。（最大回查15次）</li>
+<li>Producer收到回查消息，检查回查消息对应的本地事务的状态。</li>
+<li>根据本地事务状态，重新Commit或者Rollback。</li>
+</ol>
+<p>&emsp;&emsp;注意：</p>
+<ol>
+<li>需要消息回查接口。</li>
+<li>不能保证消息幂等，需要消费方手动控制，在消费者未ack情况下，可能重复消费。</li>
+</ol>
+<hr>
+<h1 id="消息问题"><a href="#消息问题" class="headerlink" title="消息问题"></a>消息问题</h1><p><a href="https://www.cnblogs.com/duanxz/p/6053598.html">RocketMQ之二：分布式开放消息系统RocketMQ的原理与实践（消息的顺序问题、重复问题、可靠消息/事务消息）</a></p>
+<h2 id="消息顺序问题"><a href="#消息顺序问题" class="headerlink" title="消息顺序问题"></a>消息顺序问题</h2><p>&emsp;&emsp;有着一定顺序的消息，一般需要发送到同一个MessageQuene，因为MessageQuene采用先进先出队列，消费方就可以按照发送的顺序进行消费。<br>&emsp;&emsp;可以自定义MessageQueueSelector实现的算法来选择一个队列。<br>&emsp;&emsp;mq顺序消息中，mq需要收到消费方对上一个消息的确认ACK后才能投递下一个消息，这个会带来上一个消息ack收不到的情况下，会造成重复消费。</p>
+<h2 id="消息重复问题"><a href="#消息重复问题" class="headerlink" title="消息重复问题"></a>消息重复问题</h2><p>&emsp;&emsp;mq中并没有处理消息的重复问题，需要消费方自己实现幂等，解决消息重复消费的问题。</p>
+]]></content>
+      <categories>
+        <category>消息中间件</category>
+        <category>rocketmq</category>
+      </categories>
+      <tags>
+        <tag>消息中间件</tag>
+        <tag>rocketmq</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>rocketmq概念总结</title>
+    <url>/hexoblog/2021/05/25/md/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/rocketmq/rocketmq%E6%A6%82%E5%BF%B5%E6%80%BB%E7%BB%93/</url>
+    <content><![CDATA[<h1 id="核心组成"><a href="#核心组成" class="headerlink" title="核心组成"></a>核心组成</h1><p><a href="https://github.com/apache/rocketmq/tree/master/docs/cn">官方文档看看挺好的</a><br>&emsp;&emsp;rocketmq主要有四大核心组成部分：NameServer，Broker，Producer，Consumer四部分。  </p>
+<span id="more"></span>
+
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/rocketmq_architecture_1.jpg" alt="架构设计"></p>
+<h2 id="NameServer"><a href="#NameServer" class="headerlink" title="NameServer"></a>NameServer</h2><p>&emsp;&emsp;主要负责对源数据的管理，包括了对于Topic和路由信息的管理。  </p>
+<blockquote>
+<p>&emsp;&emsp;NameServer是一个非常简单的Topic路由注册中心，其角色类似Dubbo中的zookeeper，支持Broker的动态注册与发现。主要包括两个功能：Broker管理，NameServer接受Broker集群的注册信息并且保存下来作为路由信息的基本数据。然后提供心跳检测机制，检查Broker是否还存活；路由信息管理，每个NameServer将保存关于Broker集群的整个路由信息和用于客户端查询的队列信息。然后Producer和Conumser通过NameServer就可以知道整个Broker集群的路由信息，从而进行消息的投递和消费。<br>&emsp;&emsp;NameServer通常也是集群的方式部署，各实例间相互不进行信息通讯。Broker是向每一台NameServer注册自己的路由信息，所以每一个NameServer实例上面都保存一份完整的路由信息。当某个NameServer因某种原因下线了，Broker仍然可以向其它NameServer同步其路由信息，Producer，Consumer仍然可以动态感知Broker的路由的信息。 </p>
+</blockquote>
+<p>&emsp;&emsp;NameServer是一个功能齐全的服务器，其角色类似Dubbo中的Zookeeper，但NameServer与Zookeeper相比更轻量。主要是因为每个NameServer节点互相之间是独立的，没有任何信息交互。<br>&emsp;&emsp;NameServer压力不会太大，平时主要开销是在维持心跳和提供Topic-Broker的关系数据。<br>&emsp;&emsp;Broker向NameServer发心跳时，会带上当前自己所负责的所有Topic信息，如果Topic个数太多（万级别），会导致一次心跳中，就Topic的数据就几十M，网络情况差的话， 网络传输失败，心跳失败，导致NameServer误认为Broker心跳失败。<br>&emsp;&emsp;NameServer被设计成几乎无状态的，可以横向扩展，节点之间相互之间无通信，通过部署多台机器来标记自己是一个伪集群。<br>&emsp;&emsp;每个 Broker 在启动的时候会到 NameServer 注册，Producer 在发送消息前会根据 Topic 到 NameServer 获取到 Broker 的路由信息，Consumer 也会定时获取 Topic 的路由信息。</p>
+<h2 id="Broker"><a href="#Broker" class="headerlink" title="Broker"></a>Broker</h2><p>&emsp;&emsp;消息中转角色，负责存储消息，转发消息。  </p>
+<blockquote>
+<p>Broker主要负责消息的存储、投递和查询以及服务高可用保证，为了实现这些功能，Broker包含了以下几个重要子模块。</p>
+<ol>
+<li>Remoting Module：整个Broker的实体，负责处理clients端的请求。</li>
+<li>Client Manager：负责管理客户端(Producer/Consumer)和维护Consumer的Topic订阅信息。</li>
+<li>Store Service：提供方便简单的API接口处理消息存储到物理硬盘和查询功能。</li>
+<li>HA service：高可用服务，提供Master Broker和Slave Broker之间的数据同步功能。</li>
+<li>Index Service：根据特定的Message key对投递到Broker的消息进行索引服务，以提供消息的快速查询。</li>
+</ol>
+</blockquote>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/broker.png" alt="Broker结构"></p>
+<p>&emsp;&emsp;Broker是具体提供业务的服务器，单个Broker节点与所有的NameServer节点保持长连接和心跳，并会定时将topic的信息注册到NameServer，底层的通信和连接都是通过Netty实现的。<br>&emsp;&emsp;Broker负责消息存储，以Topic为纬度支持轻量级的队列，单机可以支撑上万队列规模，支持消息推拉模型。<br>&emsp;&emsp;支持上亿的消息堆积能力，同时可以严格保证消息的有序性。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/topic%E4%B8%8Ebroker.png" alt="Topic与Broker关系"></p>
+<h2 id="Producer"><a href="#Producer" class="headerlink" title="Producer"></a>Producer</h2><p>&emsp;&emsp;消息生产者，负责产生消息。</p>
+<blockquote>
+<p>消息发布的角色，支持分布式集群方式部署。Producer通过MQ的负载均衡模块选择相应的Broker集群队列进行消息投递，投递的过程支持快速失败并且低延迟。</p>
+</blockquote>
+<p>&emsp;&emsp;Producer由用户进行分布式部署，消息由Producer通过多种负载均衡模式发送到Broker集群，发送低延时，支持快速失败。  </p>
+<p>&emsp;&emsp;rocketmq提供了三种消息发送方式：<strong>同步，异步，单向</strong>。</p>
+<ol>
+<li>同步发送：同步发送指消息发送方发出数据后会在收到接收方发回响应之后才发下一个数据包。一般用于重要通知消息，例如重要通知邮件、营销短信。</li>
+<li>异步发送：异步发送指发送方发出数据后，不等接收方发回响应，接着发送下个数据包，一般用于可能链路耗时较长而对响应时间敏感的业务场景，例如用户视频上传后通知启动转码服务。</li>
+<li>单向发送：单向发送是指只负责发送消息而不等待服务器回应且没有回调函数触发，适用于某些耗时非常短但对可靠性要求并不高的场景，例如日志收集。</li>
+</ol>
+<h2 id="Consumer"><a href="#Consumer" class="headerlink" title="Consumer"></a>Consumer</h2><p>&emsp;消息消费者，负责消费消息，一般时下游业务系统。  </p>
+<blockquote>
+<p>消息消费的角色，支持分布式集群方式部署。支持以push推，pull拉两种模式对消息进行消费。同时也支持集群方式和广播方式的消费，它提供实时消息订阅机制，可以满足大多数用户的需求。</p>
+</blockquote>
+<p>&emsp;&emsp;Consumer也由用户部署，支持PUSH和PULL两种消费模式，支持集群消费和广播消息，提供实时的消息订阅机制。</p>
+<ol>
+<li>PUSH：推送型消费者（Push Consumer）封装了消息的拉取、消费进度和其他的内部维护工作，将消息到达时执行的回调接口留给用户应用程序来实现。所以 Push 称为被动消费类型，但从实现上看还是从消息服务器中拉取消息，不同于 Pull 的是 Push 首先要注册消费监听器，当监听器处触发后才开始消费消息。</li>
+<li>PULL：拉取型消费者（Pull Consumer）主动从消息服务器拉取信息，只要批量拉取到消息，用户应用就会启动消费过程，所以 Pull 称为主动消费型。</li>
+</ol>
+<hr>
+<h1 id="消息相关概念"><a href="#消息相关概念" class="headerlink" title="消息相关概念"></a>消息相关概念</h1><h2 id="Message（消息）"><a href="#Message（消息）" class="headerlink" title="Message（消息）"></a>Message（消息）</h2><p>&emsp;&emsp;message就是要传输的信息，一条消息必须有一个主题（Topic）。<br>&emsp;&emsp;一条消息也可以拥有一个可选的标签（Tag）和额处的键值对，它们可以用于设置一个业务Key并在Broker上查找此消息以便在开发期间查找问题。<br>&emsp;&emsp;一个Topic可以分散在多个Broker上，也可以在一个Broker上。<br>&emsp;&emsp;消息分为三种：同步消息，异步消息，单向消息。</p>
+<h2 id="Topic（主题）"><a href="#Topic（主题）" class="headerlink" title="Topic（主题）"></a>Topic（主题）</h2><p>&emsp;&emsp;可以看做消息的分类，它是消息的第一级类型。<br>&emsp;&emsp;Topic与生产者和消费者的关系非常松散，一个Topic可以有0个、1个、多个生产者向其发送消息，一个生产者也可以同时向不同的Topic发送消息。一个Topic也可以被多个或者1个消费者订阅。</p>
+<h2 id="Tag（标签）"><a href="#Tag（标签）" class="headerlink" title="Tag（标签）"></a>Tag（标签）</h2><p>&emsp;&emsp;以看作子主题，它是消息的第二级类型，用于为用户提供额外的灵活性。<br>&emsp;&emsp;使用标签，同一业务模块不同目的的消息就可以用相同Topic而不同的Tag来标识，一条消息可以没有Tag。</p>
+<h2 id="Group（分组）"><a href="#Group（分组）" class="headerlink" title="Group（分组）"></a>Group（分组）</h2><p>&emsp;&emsp;一个分组可以订阅多个Topic。<br>&emsp;&emsp;分组分为生产者分组和消费者分组，一般同一个服务作为一个组，一个组生产或消费的消息都是一致的。</p>
+<h2 id="Quene（队列）"><a href="#Quene（队列）" class="headerlink" title="Quene（队列）"></a>Quene（队列）</h2><p>&emsp;&emsp;每个Queue内部是有序的，在RocketMQ中分为读和写两种队列，一般来说读写队列数量一致，如果不一致就会出现很多问题。</p>
+<h2 id="MessageQuene（消息队列）"><a href="#MessageQuene（消息队列）" class="headerlink" title="MessageQuene（消息队列）"></a>MessageQuene（消息队列）</h2><p>&emsp;&emsp;一个主题被划分为多个子主题，就是消息队列。<br>&emsp;&emsp;一个Topic下可以设置多个消息队列，发送消息时执行该消息的Topic，RocketMQ会轮询该Topic下的所有队列将消息发出去，只会发送到一个MessageQuene中。<br>&emsp;&emsp;消息的物理管理单位。一个Topic下可以有多个Queue，Queue的引入使得消息的存储可以分布式集群化，具有了水平扩展能力。</p>
+<h2 id="Offset"><a href="#Offset" class="headerlink" title="Offset"></a>Offset</h2><p>&emsp;&emsp;在RocketMQ中，所有消息队列都是持久化，长度无限的数据结构，所谓长度无限是指队列中的每个存储单元都是定长，访问其中的存储单元使用Offset来访问，Offset为long类型，64位，理论上在100年内不会溢出，所以认为是长度无限。<br>&emsp;&emsp;也可以认为Message Queue是一个长度无限的数组，Offset就是下标。</p>
+<h2 id="消息消费模式"><a href="#消息消费模式" class="headerlink" title="消息消费模式"></a>消息消费模式</h2><p>&emsp;&emsp;分为两种，集群消费模式，广播消费模式。  </p>
+<h3 id="集群消费模式"><a href="#集群消费模式" class="headerlink" title="集群消费模式"></a>集群消费模式</h3><p>&emsp;&emsp;默认情况下就是集群消费，该模式下一个消费者集群共同消费一个主题的多个队列，一个队列只会被一个消费者消费，如果某个消费者挂掉，分组内其它消费者会接替挂掉的消费者继续消费。</p>
+<h3 id="广播消费模式"><a href="#广播消费模式" class="headerlink" title="广播消费模式"></a>广播消费模式</h3><p>&emsp;&emsp;而广播消费消息会发给消费者组中的每一个消费者进行消费，一个消息会被多次消费。</p>
+<h2 id="Message-Order"><a href="#Message-Order" class="headerlink" title="Message Order"></a>Message Order</h2><p>&emsp;&emsp;消息消费顺序，也有两种：顺序消费，并行消费。</p>
+<h3 id="顺序消费"><a href="#顺序消费" class="headerlink" title="顺序消费"></a>顺序消费</h3><p>&emsp;&emsp;顺序消费表示消息消费的顺序同生产者为每个消息队列发送的顺序一致，所以如果正在处理全局顺序是强制性的场景，需要确保使用的主题只有一个消息队列。</p>
+<h3 id="并行消费"><a href="#并行消费" class="headerlink" title="并行消费"></a>并行消费</h3><p>&emsp;&emsp;并行消费不再保证消息顺序，消费的最大并行数量受每个消费者客户端指定的线程池限制。</p>
 ]]></content>
       <categories>
         <category>消息中间件</category>
