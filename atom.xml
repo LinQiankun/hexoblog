@@ -18,8 +18,8 @@
   
   <entry>
     <title>TODO</title>
-    <link href="https://linqiankun.github.io/hexoblog/2022/12/31/TODO/"/>
-    <id>https://linqiankun.github.io/hexoblog/2022/12/31/TODO/</id>
+    <link href="https://linqiankun.github.io/hexoblog/TODO/"/>
+    <id>https://linqiankun.github.io/hexoblog/TODO/</id>
     <published>2022-12-31T15:59:59.000Z</published>
     <updated>2021-06-24T03:20:31.724Z</updated>
     
@@ -38,13 +38,44 @@
   </entry>
   
   <entry>
-    <title>涂鸦智能一面面经</title>
-    <link href="https://linqiankun.github.io/hexoblog/2021/06/30/%E9%9D%A2%E7%BB%8F/%E6%B6%82%E9%B8%A6%E6%99%BA%E8%83%BD%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/"/>
-    <id>https://linqiankun.github.io/hexoblog/2021/06/30/%E9%9D%A2%E7%BB%8F/%E6%B6%82%E9%B8%A6%E6%99%BA%E8%83%BD%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/</id>
-    <published>2021-06-30T12:44:16.000Z</published>
-    <updated>2021-06-30T12:55:51.360Z</updated>
+    <title>MQ消息幂等</title>
+    <link href="https://linqiankun.github.io/hexoblog/md/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/rocketmq/MQ%E6%B6%88%E6%81%AF%E5%B9%82%E7%AD%89/"/>
+    <id>https://linqiankun.github.io/hexoblog/md/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/rocketmq/MQ%E6%B6%88%E6%81%AF%E5%B9%82%E7%AD%89/</id>
+    <published>2021-07-01T06:47:42.000Z</published>
+    <updated>2021-07-01T08:08:12.957Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span><ol><li>自我介绍</li><li>项目介绍</li><li>线程创建的几个方式</li><li>callable的使用场景（*）</li><li>多线程情况下的资源安全（锁，*）</li><li>线程池的工作原理</li><li>服务调用的方式</li><li>dubbo的协议（*）</li><li> dubbo的序列化方式（*）</li><li>分布式事务<ol><li> 二阶段提交</li><li> mq事务消息</li></ol></li><li>jvm内存模型</li><li>redis分布式锁的问题（碰到过没有）</li><li>学习的方法</li><li>反问<ol><li> lot为什么需要客户管理系统</li><li> 技术栈</li></ol></li></ol><p><img src="https://raw.githubusercontent.com/LinQiankun/picurl/main/java%E5%86%99%E9%9D%A2%E7%BB%8F%EF%BC%8C%E6%94%92%E4%BA%BA%E5%93%81_00.jpg" alt="写面经，攒人品"></p><hr><h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1>]]></content>
+    <content type="html"><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;MQ中的消息可靠性主要靠两个方面实现：</p><ol><li>消息落地</li><li>消息超时，重传，确认</li></ol><span id="more"></span><p>&emsp;&emsp;整个消息体系由<strong>发送端、服务端、存储设施、接收端</strong>四块结构构成。<br>&emsp;&emsp;为保证消息的可达性，超时、重传、确认机制可能导致消息总线、或者业务方 收到重复的消息，从而对业务产生影响。</p><p>&emsp;&emsp;<a href="../../../%E5%88%86%E5%B8%83%E5%BC%8F/%E6%8E%A5%E5%8F%A3%E5%B9%82%E7%AD%89%E7%9A%84%E5%AE%9E%E7%8E%B0">幂等介绍</a></p><hr><h1 id="上半场幂等设计"><a href="#上半场幂等设计" class="headerlink" title="上半场幂等设计"></a>上半场幂等设计</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/mq%E4%B8%8A%E5%8D%8A%E5%9C%BA.png" alt="mq结构"></p><p>&emsp;&emsp;消息发送的上半场就是图中的1、2、3过程，表示了消息的发送，保存过程。<br>&emsp;&emsp;如果3丢失，发送端MQ-client超时后会重发消息，可能导致服务端MQ-server收到重复消息。</p><blockquote><p>这里的重新发送方是Client，而不是实际的业务发送方。</p></blockquote><p>&emsp;&emsp;此时重发是MQ-client发起的，消息的处理是MQ-server，为了避免步骤2落地重复的消息，对每条消息， MQ系统内部必须生成一个msgId，作为去重和幂等的依据。<br>&emsp;&emsp;这个msgId的规则必须是：</p><ol><li><p>全局唯一</p></li><li><p>MQ生成，具备业务无关性，对消息发送方和消息接收方屏蔽</p><p>&emsp;&emsp;有了这个msgId，就能保证上半场重发，也只有1条消息落到MQ-server的DB中，实现上半场幂等。<br>&emsp;&emsp;而业务方收到发送失败而重新发送的消息，对mq而言，会被认为是不同的消息（一条新的消息），只是这条重新发送的消息和上一条内容一样而已，这条重新发送的消息，会生成新的msgId。</p></li></ol><hr><h1 id="下半场幂等设计"><a href="#下半场幂等设计" class="headerlink" title="下半场幂等设计"></a>下半场幂等设计</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/mq%E4%B8%8A%E5%8D%8A%E5%9C%BA.png" alt="mq结构"></p><p>&emsp;&emsp;消息消费的下半场就是图中的4、5、6过程，表示消息的投递，消费过程。<br>&emsp;&emsp;接收端MQ-client回ACK给服务端MQ-server，是消息消费业务方的主动调用行为，不能由MQ-client自动发起，因为MQ系统不知道消费方什么时候真正消费成功。<br>&emsp;&emsp;如果5丢失，服务端MQ-server超时后会重发消息，可能导致MQ-client收到重复的消息，这样有可能造成重复消费。<br>&emsp;&emsp;此时重发是MQ-server发起的，消息的处理是消息消费业务方，消息重发势必导致业务方重复消费，为了保证业务幂等性 ，业务消息体中，必须有一个biz-id，作为去重和幂等的依据。<br>&emsp;&emsp;这个biz-id的规则是：</p><ol><li>对于同一个业务场景，全局唯一</li><li>由业务消息发送方生成，业务相关，对MQ透明</li><li>由业务消息消费方负责判重，以保证幂等</li></ol><p>&emsp;&emsp;有了这个业务ID，才能够保证下半场消息消费业务方即使收到重复消息，也只有1条消息被消费，保证了幂等。</p><hr><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><h2 id="上半场"><a href="#上半场" class="headerlink" title="上半场"></a>上半场</h2><p>&emsp;&emsp;MQ-client生成inner-msg-id，保证上半场幂等。<br>&emsp;&emsp;这个ID全局唯一，业务无关，由MQ保证。</p><h2 id="下半场"><a href="#下半场" class="headerlink" title="下半场"></a>下半场</h2><p>&emsp;&emsp;业务 发送方带入biz-id，业务 接收方去重保证幂等。<br>&emsp;&emsp;这个ID对单业务唯一，业务相关，对MQ透明。</p><h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>&emsp;&emsp;幂等性，不仅对MQ有要求，对业务上下游也有要求。<br>&emsp;&emsp;实际上，MQ只实现了自己内部的幂等性，对于业务的幂等性，消息重投之类的，MQ并没有做处理，业务的幂等性，需要自己手动实现。</p><hr><h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><ul><li><a href="https://www.cnblogs.com/chx9832/p/12325871.html">RocketMQ解决幂等性问题</a></li><li><a href="https://blog.csdn.net/gwd1154978352/article/details/80655338">RocketMQ——消息幂等问题</a></li></ul>]]></content>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h1&gt;&lt;p&gt;&amp;emsp;&amp;emsp;MQ中的消息可靠性主要靠两个方面实现：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;消息落地&lt;/li&gt;
+&lt;li&gt;消息超时，重传，确认&lt;/li&gt;
+&lt;/ol&gt;</summary>
+    
+    
+    
+    <category term="消息中间件" scheme="https://linqiankun.github.io/hexoblog/categories/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/"/>
+    
+    <category term="rocketmq" scheme="https://linqiankun.github.io/hexoblog/categories/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/rocketmq/"/>
+    
+    
+    <category term="消息中间件" scheme="https://linqiankun.github.io/hexoblog/tags/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/"/>
+    
+    <category term="rocketmq" scheme="https://linqiankun.github.io/hexoblog/tags/rocketmq/"/>
+    
+    <category term="幂等" scheme="https://linqiankun.github.io/hexoblog/tags/%E5%B9%82%E7%AD%89/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>涂鸦智能一面面经</title>
+    <link href="https://linqiankun.github.io/hexoblog/%E9%9D%A2%E7%BB%8F/%E6%B6%82%E9%B8%A6%E6%99%BA%E8%83%BD%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/"/>
+    <id>https://linqiankun.github.io/hexoblog/%E9%9D%A2%E7%BB%8F/%E6%B6%82%E9%B8%A6%E6%99%BA%E8%83%BD%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/</id>
+    <published>2021-06-30T12:44:16.000Z</published>
+    <updated>2021-07-01T05:51:45.803Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span><p>写面经，攒人品</p><ol><li>自我介绍</li><li>项目介绍</li><li>线程创建的几个方式</li><li>callable的使用场景（*）</li><li>多线程情况下的资源安全（锁，*）</li><li>线程池的工作原理</li><li>服务调用的方式</li><li>dubbo的协议（*）</li><li>dubbo的序列化方式（*）</li><li>分布式事务<ol><li> 二阶段提交</li><li> mq事务消息</li></ol></li><li>jvm内存模型</li><li>redis分布式锁的问题（碰到过没有）</li><li>学习的方法</li><li>反问<ol><li> lot为什么需要客户管理系统</li><li> 技术栈</li></ol></li></ol><p><img src="https://raw.githubusercontent.com/LinQiankun/picurl/main/java%E5%86%99%E9%9D%A2%E7%BB%8F%EF%BC%8C%E6%94%92%E4%BA%BA%E5%93%81_00.jpg" alt="写面经，攒人品"></p><hr><h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1>]]></content>
     
     
     <summary type="html">&lt;h1 id=&quot;面经&quot;&gt;&lt;a href=&quot;#面经&quot; class=&quot;headerlink&quot; title=&quot;面经&quot;&gt;&lt;/a&gt;面经&lt;/h1&gt;</summary>
@@ -60,12 +91,12 @@
   
   <entry>
     <title>接口幂等的实现</title>
-    <link href="https://linqiankun.github.io/hexoblog/2021/06/30/md/%E5%88%86%E5%B8%83%E5%BC%8F/%E6%8E%A5%E5%8F%A3%E5%B9%82%E7%AD%89%E7%9A%84%E5%AE%9E%E7%8E%B0/"/>
-    <id>https://linqiankun.github.io/hexoblog/2021/06/30/md/%E5%88%86%E5%B8%83%E5%BC%8F/%E6%8E%A5%E5%8F%A3%E5%B9%82%E7%AD%89%E7%9A%84%E5%AE%9E%E7%8E%B0/</id>
+    <link href="https://linqiankun.github.io/hexoblog/md/%E5%88%86%E5%B8%83%E5%BC%8F/%E6%8E%A5%E5%8F%A3%E5%B9%82%E7%AD%89%E7%9A%84%E5%AE%9E%E7%8E%B0/"/>
+    <id>https://linqiankun.github.io/hexoblog/md/%E5%88%86%E5%B8%83%E5%BC%8F/%E6%8E%A5%E5%8F%A3%E5%B9%82%E7%AD%89%E7%9A%84%E5%AE%9E%E7%8E%B0/</id>
     <published>2021-06-30T08:42:13.000Z</published>
-    <updated>2021-06-30T09:32:14.423Z</updated>
+    <updated>2021-07-01T08:00:18.655Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="什么是幂等"><a href="#什么是幂等" class="headerlink" title="什么是幂等"></a>什么是幂等</h1><p>&emsp;&emsp;接口幂等性的实质就是：<strong>接口可重复调用，在调用方多次调用的情况下，接口最终得到的结果是一致的。</strong><br>&emsp;&emsp;有些接口天然支持幂等性，比如查询接口；而增加、更新、删除都要人工保持幂等性。</p><span id="more"></span><hr><h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><h2 id="全局唯一ID"><a href="#全局唯一ID" class="headerlink" title="全局唯一ID"></a>全局唯一ID</h2><h2 id="去重表"><a href="#去重表" class="headerlink" title="去重表"></a>去重表</h2><h2 id="插入唯一主键"><a href="#插入唯一主键" class="headerlink" title="插入唯一主键"></a>插入唯一主键</h2><h2 id="状态机控制"><a href="#状态机控制" class="headerlink" title="状态机控制"></a>状态机控制</h2><hr><h1 id="MQ消息幂等"><a href="#MQ消息幂等" class="headerlink" title="MQ消息幂等"></a>MQ消息幂等</h1>]]></content>
+    <content type="html"><![CDATA[<h1 id="什么是幂等"><a href="#什么是幂等" class="headerlink" title="什么是幂等"></a>什么是幂等</h1><p>&emsp;&emsp;接口幂等性的实质就是：<strong>接口可重复调用，在调用方多次调用的情况下，接口最终得到的结果是一致的。</strong><br>&emsp;&emsp;有些接口天然支持幂等性，比如查询接口；而增加、更新、删除都要人工保持幂等性。</p><span id="more"></span><hr><h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><h2 id="全局唯一ID"><a href="#全局唯一ID" class="headerlink" title="全局唯一ID"></a>全局唯一ID</h2><p>&emsp;&emsp;全局的唯一ID，就是根据业务操作和内容生成一个全局ID，在执行操作之前，先根据这个全局唯一ID是否存在，来判断这个操作是否已经执行。<br>&emsp;&emsp;如果不存在则把全局ID，存储到存储系统中，比如Redis、Mysql等。如果存在表示该操作已经执行。  </p><p>&emsp;&emsp;全局唯一IP是一个通用方案，可以支持插入、更新、删除业务操作。</p><h2 id="去重表"><a href="#去重表" class="headerlink" title="去重表"></a>去重表</h2><p>&emsp;&emsp;适用于在业务中有唯一标识的插入场景中，比如一个订单只会支付一次，可以将订单ID作为唯一标识。<br>&emsp;&emsp;这时，我们就可以建一张去重表，并且把唯一标识作为唯一索引，在我们实现时，把创建支付单据和写入去去重表，放在一个事务中，如果重复创建，数据库会抛出唯一约束异常，操作就会回滚。</p><h2 id="插入唯一主键"><a href="#插入唯一主键" class="headerlink" title="插入唯一主键"></a>插入唯一主键</h2><p>&emsp;&emsp;这种适用于插入并且有唯一索引的情况，比如我们要关联商品品类，其中商品的ID和品类的ID可以构成唯一索引，并且在数据表中也增加了唯一索引。这时就可以使用InsertOrUpdate操作。</p><h2 id="多版本控制（MVCC）"><a href="#多版本控制（MVCC）" class="headerlink" title="多版本控制（MVCC）"></a>多版本控制（MVCC）</h2><p>&emsp;&emsp;这种适用于更新场景，通过在更新的接口中添加版本号来实现幂等。</p><h2 id="状态机控制"><a href="#状态机控制" class="headerlink" title="状态机控制"></a>状态机控制</h2><p>&emsp;&emsp;这种方法适合在有状态机流转的情况下，通过状态字段的值的大小来做幂等，状态只能顺着一个方向流转。</p><hr><h1 id="参考文献-amp-鸣谢"><a href="#参考文献-amp-鸣谢" class="headerlink" title="参考文献 &amp; 鸣谢"></a>参考文献 &amp; 鸣谢</h1><ul><li><a href="https://blog.csdn.net/yuhaiyang_1/article/details/81040967">什么是幂等，什么情况下需要幂等，如何实现幂等</a></li><li><a href="https://www.jianshu.com/p/22c788a04a95">幂等设计</a></li><li><a href="https://cloud.tencent.com/developer/article/1526642">如何做到接口的幂等性</a></li></ul>]]></content>
     
     
     <summary type="html">&lt;h1 id=&quot;什么是幂等&quot;&gt;&lt;a href=&quot;#什么是幂等&quot; class=&quot;headerlink&quot; title=&quot;什么是幂等&quot;&gt;&lt;/a&gt;什么是幂等&lt;/h1&gt;&lt;p&gt;&amp;emsp;&amp;emsp;接口幂等性的实质就是：&lt;strong&gt;接口可重复调用，在调用方多次调用的情况下，接口最终得到的结果是一致的。&lt;/strong&gt;&lt;br&gt;&amp;emsp;&amp;emsp;有些接口天然支持幂等性，比如查询接口；而增加、更新、删除都要人工保持幂等性。&lt;/p&gt;</summary>
@@ -77,16 +108,18 @@
     
     <category term="分布式" scheme="https://linqiankun.github.io/hexoblog/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
     
+    <category term="幂等" scheme="https://linqiankun.github.io/hexoblog/tags/%E5%B9%82%E7%AD%89/"/>
+    
   </entry>
   
   <entry>
     <title>深圳雪球科技（NFC）一面面经</title>
-    <link href="https://linqiankun.github.io/hexoblog/2021/06/25/%E9%9D%A2%E7%BB%8F/%E6%B7%B1%E5%9C%B3%E9%9B%AA%E7%90%83%E7%A7%91%E6%8A%80%EF%BC%88NFC%EF%BC%89%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/"/>
-    <id>https://linqiankun.github.io/hexoblog/2021/06/25/%E9%9D%A2%E7%BB%8F/%E6%B7%B1%E5%9C%B3%E9%9B%AA%E7%90%83%E7%A7%91%E6%8A%80%EF%BC%88NFC%EF%BC%89%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/</id>
+    <link href="https://linqiankun.github.io/hexoblog/%E9%9D%A2%E7%BB%8F/%E6%B7%B1%E5%9C%B3%E9%9B%AA%E7%90%83%E7%A7%91%E6%8A%80%EF%BC%88NFC%EF%BC%89%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/"/>
+    <id>https://linqiankun.github.io/hexoblog/%E9%9D%A2%E7%BB%8F/%E6%B7%B1%E5%9C%B3%E9%9B%AA%E7%90%83%E7%A7%91%E6%8A%80%EF%BC%88NFC%EF%BC%89%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/</id>
     <published>2021-06-25T10:20:43.000Z</published>
-    <updated>2021-06-30T12:55:23.620Z</updated>
+    <updated>2021-07-01T03:44:06.406Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span><ol><li>自我介绍</li><li>项目介绍</li><li>dubbo中如何找到调用的节点（服务调用过程）</li><li>zookeeper的选举机制</li><li>redis分布式锁原理</li><li>12306设计（自己关注点问题，感觉防止超卖）<ol><li>很多人抢票中的问题</li></ol></li><li>事务的隔离级别</li><li>用过oracle吗</li><li> 你们用的隔离级别</li><li>一个事务读了数据，另一个修改了，再去读会，会不一样，这是那个级别会发生的问题</li><li>反问（公司规模，具体业务）</li></ol><p><img src="https://raw.githubusercontent.com/LinQiankun/picurl/main/java%E5%86%99%E9%9D%A2%E7%BB%8F%EF%BC%8C%E6%94%92%E4%BA%BA%E5%93%81_00.jpg" alt="写面经，攒人品"></p><hr><h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1>]]></content>
+    <content type="html"><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span><p>写面经，攒人品</p><ol><li>自我介绍</li><li>项目介绍</li><li>dubbo中如何找到调用的节点（服务调用过程）</li><li>zookeeper的选举机制</li><li>redis分布式锁原理</li><li>12306设计（自己关注点问题，感觉防止超卖）<ol><li>很多人抢票中的问题</li></ol></li><li>事务的隔离级别</li><li>用过oracle吗</li><li>你们用的隔离级别</li><li>一个事务读了数据，另一个修改了，再去读会，会不一样，这是那个级别会发生的问题</li><li>反问（公司规模，具体业务）</li></ol><p><img src="https://raw.githubusercontent.com/LinQiankun/picurl/main/java%E5%86%99%E9%9D%A2%E7%BB%8F%EF%BC%8C%E6%94%92%E4%BA%BA%E5%93%81_00.jpg" alt="写面经，攒人品"></p><hr><h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1>]]></content>
     
     
     <summary type="html">&lt;h1 id=&quot;面经&quot;&gt;&lt;a href=&quot;#面经&quot; class=&quot;headerlink&quot; title=&quot;面经&quot;&gt;&lt;/a&gt;面经&lt;/h1&gt;</summary>
@@ -102,8 +135,8 @@
   
   <entry>
     <title>B+树</title>
-    <link href="https://linqiankun.github.io/hexoblog/2021/06/24/md/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/B+%E6%A0%91/"/>
-    <id>https://linqiankun.github.io/hexoblog/2021/06/24/md/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/B+%E6%A0%91/</id>
+    <link href="https://linqiankun.github.io/hexoblog/md/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/B+%E6%A0%91/"/>
+    <id>https://linqiankun.github.io/hexoblog/md/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/B+%E6%A0%91/</id>
     <published>2021-06-24T02:09:57.000Z</published>
     <updated>2021-06-24T08:17:38.550Z</updated>
     
@@ -127,12 +160,12 @@
   
   <entry>
     <title>端点科技一面面经</title>
-    <link href="https://linqiankun.github.io/hexoblog/2021/06/23/%E9%9D%A2%E7%BB%8F/%E7%AB%AF%E7%82%B9%E7%A7%91%E6%8A%80%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/"/>
-    <id>https://linqiankun.github.io/hexoblog/2021/06/23/%E9%9D%A2%E7%BB%8F/%E7%AB%AF%E7%82%B9%E7%A7%91%E6%8A%80%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/</id>
+    <link href="https://linqiankun.github.io/hexoblog/%E9%9D%A2%E7%BB%8F/%E7%AB%AF%E7%82%B9%E7%A7%91%E6%8A%80%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/"/>
+    <id>https://linqiankun.github.io/hexoblog/%E9%9D%A2%E7%BB%8F/%E7%AB%AF%E7%82%B9%E7%A7%91%E6%8A%80%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/</id>
     <published>2021-06-23T09:11:24.000Z</published>
-    <updated>2021-06-30T12:56:37.758Z</updated>
+    <updated>2021-07-01T03:39:32.646Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span><ol><li>自我介绍</li><li>项目介绍</li><li>项目中使用到的技术（亮点）</li><li>分布式锁<ol><li>redis实现与zk实现的区别</li><li>redis单机挂的情况</li><li>多应用服务器抢占redis锁，造成redis服务器CPU飙红</li></ol></li><li>Rocketmq - 使用场景</li><li>索引</li><li>B+树<ol><li>结构</li><li>如何优化查询</li><li>原理等</li></ol></li><li>CountDownLatch原理</li><li>线程池<ol><li> 线程池的参数</li></ol></li><li>非阻塞IO与阻塞IO</li></ol><p><img src="https://raw.githubusercontent.com/LinQiankun/picurl/main/java%E5%86%99%E9%9D%A2%E7%BB%8F%EF%BC%8C%E6%94%92%E4%BA%BA%E5%93%81_00.jpg" alt="写面经，攒人品"></p><hr><h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h2><h3 id="redis实现与zk实现的区别"><a href="#redis实现与zk实现的区别" class="headerlink" title="redis实现与zk实现的区别"></a>redis实现与zk实现的区别</h3><h3 id="redis单机挂的情况"><a href="#redis单机挂的情况" class="headerlink" title="redis单机挂的情况"></a>redis单机挂的情况</h3><p>&emsp;&emsp;redis单机挂的情况下，考虑使用集群作为分布式锁的载体，使用redlock作为分布式锁的实现，这里的集群采用redis cluster而不采用主从复制模式，主从复制模式下，故障转移可能导致锁丢失，cluster的几率小很多。</p><h3 id="多应用服务器抢占redis锁，造成redis服务器CPU飙红"><a href="#多应用服务器抢占redis锁，造成redis服务器CPU飙红" class="headerlink" title="多应用服务器抢占redis锁，造成redis服务器CPU飙红"></a>多应用服务器抢占redis锁，造成redis服务器CPU飙红</h3><p>&emsp;&emsp;redlock模式下，加分布式锁是给每一台redis服务器一台一台加锁的，加锁成功一半以后，就认为是分布式加锁成功。<br>&emsp;&emsp;检查当前锁状态只是一次读而已，写入锁也只是一次写入。本质上就是读写，另外单次锁状态的读取和写入数据量都很小。理论上来说你的业务量没有大到一定程度，锁的操作不会带来redis服务器的太多压力，如果有，那么你的其他业务的读写可能更要值得关注了。另外真有问题，就锁这一块的读写也不会引起CPU飙升。</p><h2 id="mysql种索引结构"><a href="#mysql种索引结构" class="headerlink" title="mysql种索引结构"></a>mysql种索引结构</h2><p>&emsp;&emsp;索引结构分为两种，Hash索引和B+树索引。</p><h2 id="B-树"><a href="#B-树" class="headerlink" title="B+树"></a>B+树</h2><h3 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h3><h3 id="如何优化查询"><a href="#如何优化查询" class="headerlink" title="如何优化查询"></a>如何优化查询</h3><p>&emsp;&emsp;减少IO次数。</p>]]></content>
+    <content type="html"><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span><p>写面经，攒人品</p><ol><li>自我介绍</li><li>项目介绍</li><li>项目中使用到的技术（亮点）</li><li>分布式锁<ol><li>redis实现与zk实现的区别</li><li>redis单机挂的情况</li><li>多应用服务器抢占redis锁，造成redis服务器CPU飙红</li></ol></li><li>Rocketmq - 使用场景</li><li>索引</li><li>B+树<ol><li>结构</li><li>如何优化查询</li><li>原理等</li></ol></li><li>CountDownLatch原理</li><li>线程池<ol><li> 线程池的参数</li></ol></li><li>非阻塞IO与阻塞IO</li></ol><p><img src="https://raw.githubusercontent.com/LinQiankun/picurl/main/java%E5%86%99%E9%9D%A2%E7%BB%8F%EF%BC%8C%E6%94%92%E4%BA%BA%E5%93%81_00.jpg" alt="写面经，攒人品"></p><hr><h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h2><h3 id="redis实现与zk实现的区别"><a href="#redis实现与zk实现的区别" class="headerlink" title="redis实现与zk实现的区别"></a>redis实现与zk实现的区别</h3><h3 id="redis单机挂的情况"><a href="#redis单机挂的情况" class="headerlink" title="redis单机挂的情况"></a>redis单机挂的情况</h3><p>&emsp;&emsp;redis单机挂的情况下，考虑使用集群作为分布式锁的载体，使用redlock作为分布式锁的实现，这里的集群采用redis cluster而不采用主从复制模式，主从复制模式下，故障转移可能导致锁丢失，cluster的几率小很多。</p><h3 id="多应用服务器抢占redis锁，造成redis服务器CPU飙红"><a href="#多应用服务器抢占redis锁，造成redis服务器CPU飙红" class="headerlink" title="多应用服务器抢占redis锁，造成redis服务器CPU飙红"></a>多应用服务器抢占redis锁，造成redis服务器CPU飙红</h3><p>&emsp;&emsp;redlock模式下，加分布式锁是给每一台redis服务器一台一台加锁的，加锁成功一半以后，就认为是分布式加锁成功。<br>&emsp;&emsp;检查当前锁状态只是一次读而已，写入锁也只是一次写入。本质上就是读写，另外单次锁状态的读取和写入数据量都很小。理论上来说你的业务量没有大到一定程度，锁的操作不会带来redis服务器的太多压力，如果有，那么你的其他业务的读写可能更要值得关注了。另外真有问题，就锁这一块的读写也不会引起CPU飙升。</p><h2 id="mysql种索引结构"><a href="#mysql种索引结构" class="headerlink" title="mysql种索引结构"></a>mysql种索引结构</h2><p>&emsp;&emsp;索引结构分为两种，Hash索引和B+树索引。</p><h2 id="B-树"><a href="#B-树" class="headerlink" title="B+树"></a>B+树</h2><h3 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h3><h3 id="如何优化查询"><a href="#如何优化查询" class="headerlink" title="如何优化查询"></a>如何优化查询</h3><p>&emsp;&emsp;减少IO次数。</p>]]></content>
     
     
     <summary type="html">&lt;h1 id=&quot;面经&quot;&gt;&lt;a href=&quot;#面经&quot; class=&quot;headerlink&quot; title=&quot;面经&quot;&gt;&lt;/a&gt;面经&lt;/h1&gt;</summary>
@@ -148,8 +181,8 @@
   
   <entry>
     <title>redis缓存淘汰策略</title>
-    <link href="https://linqiankun.github.io/hexoblog/2021/06/22/md/redis/redis%E7%BC%93%E5%AD%98%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5/"/>
-    <id>https://linqiankun.github.io/hexoblog/2021/06/22/md/redis/redis%E7%BC%93%E5%AD%98%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5/</id>
+    <link href="https://linqiankun.github.io/hexoblog/md/redis/redis%E7%BC%93%E5%AD%98%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5/"/>
+    <id>https://linqiankun.github.io/hexoblog/md/redis/redis%E7%BC%93%E5%AD%98%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5/</id>
     <published>2021-06-22T07:28:26.000Z</published>
     <updated>2021-06-22T09:53:44.820Z</updated>
     
@@ -169,8 +202,8 @@
   
   <entry>
     <title>mysql中的MVCC</title>
-    <link href="https://linqiankun.github.io/hexoblog/2021/06/21/md/mysql/mysql%E4%B8%AD%E7%9A%84MVCC/"/>
-    <id>https://linqiankun.github.io/hexoblog/2021/06/21/md/mysql/mysql%E4%B8%AD%E7%9A%84MVCC/</id>
+    <link href="https://linqiankun.github.io/hexoblog/md/mysql/mysql%E4%B8%AD%E7%9A%84MVCC/"/>
+    <id>https://linqiankun.github.io/hexoblog/md/mysql/mysql%E4%B8%AD%E7%9A%84MVCC/</id>
     <published>2021-06-21T09:55:39.000Z</published>
     <updated>2021-06-24T08:07:42.352Z</updated>
     
@@ -186,16 +219,16 @@
     <category term="mysql" scheme="https://linqiankun.github.io/hexoblog/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql/"/>
     
     
-    <category term="数据类型" scheme="https://linqiankun.github.io/hexoblog/tags/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/"/>
-    
     <category term="mysql" scheme="https://linqiankun.github.io/hexoblog/tags/mysql/"/>
+    
+    <category term="数据类型" scheme="https://linqiankun.github.io/hexoblog/tags/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/"/>
     
   </entry>
   
   <entry>
     <title>redis过期键删除</title>
-    <link href="https://linqiankun.github.io/hexoblog/2021/06/21/md/redis/redis%E8%BF%87%E6%9C%9F%E9%94%AE%E5%88%A0%E9%99%A4/"/>
-    <id>https://linqiankun.github.io/hexoblog/2021/06/21/md/redis/redis%E8%BF%87%E6%9C%9F%E9%94%AE%E5%88%A0%E9%99%A4/</id>
+    <link href="https://linqiankun.github.io/hexoblog/md/redis/redis%E8%BF%87%E6%9C%9F%E9%94%AE%E5%88%A0%E9%99%A4/"/>
+    <id>https://linqiankun.github.io/hexoblog/md/redis/redis%E8%BF%87%E6%9C%9F%E9%94%AE%E5%88%A0%E9%99%A4/</id>
     <published>2021-06-21T07:38:16.000Z</published>
     <updated>2021-06-29T07:25:22.181Z</updated>
     
@@ -215,8 +248,8 @@
   
   <entry>
     <title>缓存与数据库双写一致性</title>
-    <link href="https://linqiankun.github.io/hexoblog/2021/06/21/md/redis/%E7%BC%93%E5%AD%98%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8F%8C%E5%86%99%E4%B8%80%E8%87%B4%E6%80%A7/"/>
-    <id>https://linqiankun.github.io/hexoblog/2021/06/21/md/redis/%E7%BC%93%E5%AD%98%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8F%8C%E5%86%99%E4%B8%80%E8%87%B4%E6%80%A7/</id>
+    <link href="https://linqiankun.github.io/hexoblog/md/redis/%E7%BC%93%E5%AD%98%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8F%8C%E5%86%99%E4%B8%80%E8%87%B4%E6%80%A7/"/>
+    <id>https://linqiankun.github.io/hexoblog/md/redis/%E7%BC%93%E5%AD%98%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8F%8C%E5%86%99%E4%B8%80%E8%87%B4%E6%80%A7/</id>
     <published>2021-06-21T07:37:42.000Z</published>
     <updated>2021-06-22T07:54:34.673Z</updated>
     
@@ -238,8 +271,8 @@
   
   <entry>
     <title>juc之AQS源码二</title>
-    <link href="https://linqiankun.github.io/hexoblog/2021/06/18/md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/juc%E4%B9%8BAQS%E6%BA%90%E7%A0%81%E4%BA%8C/"/>
-    <id>https://linqiankun.github.io/hexoblog/2021/06/18/md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/juc%E4%B9%8BAQS%E6%BA%90%E7%A0%81%E4%BA%8C/</id>
+    <link href="https://linqiankun.github.io/hexoblog/md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/juc%E4%B9%8BAQS%E6%BA%90%E7%A0%81%E4%BA%8C/"/>
+    <id>https://linqiankun.github.io/hexoblog/md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/juc%E4%B9%8BAQS%E6%BA%90%E7%A0%81%E4%BA%8C/</id>
     <published>2021-06-18T06:13:27.000Z</published>
     <updated>2021-06-29T09:58:50.682Z</updated>
     
@@ -271,8 +304,8 @@
   
   <entry>
     <title>juc之AQS源码一</title>
-    <link href="https://linqiankun.github.io/hexoblog/2021/06/17/md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/juc%E4%B9%8BAQS%E6%BA%90%E7%A0%81%E4%B8%80/"/>
-    <id>https://linqiankun.github.io/hexoblog/2021/06/17/md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/juc%E4%B9%8BAQS%E6%BA%90%E7%A0%81%E4%B8%80/</id>
+    <link href="https://linqiankun.github.io/hexoblog/md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/juc%E4%B9%8BAQS%E6%BA%90%E7%A0%81%E4%B8%80/"/>
+    <id>https://linqiankun.github.io/hexoblog/md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/juc%E4%B9%8BAQS%E6%BA%90%E7%A0%81%E4%B8%80/</id>
     <published>2021-06-17T09:31:48.000Z</published>
     <updated>2021-06-29T09:50:33.458Z</updated>
     
@@ -308,8 +341,8 @@
   
   <entry>
     <title>juc之AQS</title>
-    <link href="https://linqiankun.github.io/hexoblog/2021/06/17/md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/juc%E4%B9%8BAQS/"/>
-    <id>https://linqiankun.github.io/hexoblog/2021/06/17/md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/juc%E4%B9%8BAQS/</id>
+    <link href="https://linqiankun.github.io/hexoblog/md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/juc%E4%B9%8BAQS/"/>
+    <id>https://linqiankun.github.io/hexoblog/md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/juc%E4%B9%8BAQS/</id>
     <published>2021-06-17T07:08:59.000Z</published>
     <updated>2021-06-29T08:58:19.521Z</updated>
     
@@ -341,8 +374,8 @@
   
   <entry>
     <title>多线程基础概念</title>
-    <link href="https://linqiankun.github.io/hexoblog/2021/06/16/md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/"/>
-    <id>https://linqiankun.github.io/hexoblog/2021/06/16/md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/</id>
+    <link href="https://linqiankun.github.io/hexoblog/md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/"/>
+    <id>https://linqiankun.github.io/hexoblog/md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/</id>
     <published>2021-06-16T08:59:16.000Z</published>
     <updated>2021-06-17T09:24:47.508Z</updated>
     
@@ -367,8 +400,8 @@
   
   <entry>
     <title>juc之CountDownLatch</title>
-    <link href="https://linqiankun.github.io/hexoblog/2021/06/16/md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/juc%E4%B9%8BCountDownLatch/"/>
-    <id>https://linqiankun.github.io/hexoblog/2021/06/16/md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/juc%E4%B9%8BCountDownLatch/</id>
+    <link href="https://linqiankun.github.io/hexoblog/md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/juc%E4%B9%8BCountDownLatch/"/>
+    <id>https://linqiankun.github.io/hexoblog/md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/juc%E4%B9%8BCountDownLatch/</id>
     <published>2021-06-16T08:51:34.000Z</published>
     <updated>2021-06-17T06:45:11.760Z</updated>
     
@@ -396,8 +429,8 @@
   
   <entry>
     <title>IO多路复用</title>
-    <link href="https://linqiankun.github.io/hexoblog/2021/06/08/md/java/IO/IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8/"/>
-    <id>https://linqiankun.github.io/hexoblog/2021/06/08/md/java/IO/IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8/</id>
+    <link href="https://linqiankun.github.io/hexoblog/md/java/IO/IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8/"/>
+    <id>https://linqiankun.github.io/hexoblog/md/java/IO/IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8/</id>
     <published>2021-06-08T09:55:46.000Z</published>
     <updated>2021-06-09T06:13:38.886Z</updated>
     
@@ -423,8 +456,8 @@
   
   <entry>
     <title>NIO</title>
-    <link href="https://linqiankun.github.io/hexoblog/2021/06/08/md/java/IO/NIO/"/>
-    <id>https://linqiankun.github.io/hexoblog/2021/06/08/md/java/IO/NIO/</id>
+    <link href="https://linqiankun.github.io/hexoblog/md/java/IO/NIO/"/>
+    <id>https://linqiankun.github.io/hexoblog/md/java/IO/NIO/</id>
     <published>2021-06-08T02:25:34.000Z</published>
     <updated>2021-06-29T07:23:21.098Z</updated>
     
@@ -452,8 +485,8 @@
   
   <entry>
     <title>java传统IO流-BIO</title>
-    <link href="https://linqiankun.github.io/hexoblog/2021/06/08/md/java/IO/java%E4%BC%A0%E7%BB%9FIO%E6%B5%81-BIO/"/>
-    <id>https://linqiankun.github.io/hexoblog/2021/06/08/md/java/IO/java%E4%BC%A0%E7%BB%9FIO%E6%B5%81-BIO/</id>
+    <link href="https://linqiankun.github.io/hexoblog/md/java/IO/java%E4%BC%A0%E7%BB%9FIO%E6%B5%81-BIO/"/>
+    <id>https://linqiankun.github.io/hexoblog/md/java/IO/java%E4%BC%A0%E7%BB%9FIO%E6%B5%81-BIO/</id>
     <published>2021-06-08T02:25:22.000Z</published>
     <updated>2021-06-10T06:35:40.086Z</updated>
     
@@ -477,8 +510,8 @@
   
   <entry>
     <title>rocketmq集群简介</title>
-    <link href="https://linqiankun.github.io/hexoblog/2021/05/31/md/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/rocketmq/rocketmq%E9%9B%86%E7%BE%A4%E7%AE%80%E4%BB%8B/"/>
-    <id>https://linqiankun.github.io/hexoblog/2021/05/31/md/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/rocketmq/rocketmq%E9%9B%86%E7%BE%A4%E7%AE%80%E4%BB%8B/</id>
+    <link href="https://linqiankun.github.io/hexoblog/md/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/rocketmq/rocketmq%E9%9B%86%E7%BE%A4%E7%AE%80%E4%BB%8B/"/>
+    <id>https://linqiankun.github.io/hexoblog/md/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/rocketmq/rocketmq%E9%9B%86%E7%BE%A4%E7%AE%80%E4%BB%8B/</id>
     <published>2021-05-31T06:20:57.000Z</published>
     <updated>2021-05-31T06:44:29.944Z</updated>
     
@@ -499,31 +532,6 @@
     <category term="rocketmq" scheme="https://linqiankun.github.io/hexoblog/tags/rocketmq/"/>
     
     <category term="分布式" scheme="https://linqiankun.github.io/hexoblog/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>rocketmq消息可靠性</title>
-    <link href="https://linqiankun.github.io/hexoblog/2021/05/28/md/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/rocketmq/rocketmq%E6%B6%88%E6%81%AF%E5%8F%AF%E9%9D%A0%E6%80%A7/"/>
-    <id>https://linqiankun.github.io/hexoblog/2021/05/28/md/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/rocketmq/rocketmq%E6%B6%88%E6%81%AF%E5%8F%AF%E9%9D%A0%E6%80%A7/</id>
-    <published>2021-05-28T02:48:52.000Z</published>
-    <updated>2021-05-31T08:32:28.852Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="消息重试"><a href="#消息重试" class="headerlink" title="消息重试"></a>消息重试</h1><p>&emsp;&emsp;指的是消费者消费消息失败后，mq需要让消费者重新消费一次。</p><span id="more"></span><p>&emsp;&emsp;只有消费模式处于集群模式下时，才会有重试机制，广播模式下是没有重试机制的。<br>&emsp;&emsp;消费者消费消息失败通常有以下两种情况：</p><ol><li>消息的原因，反序列化失败，消息本身数据无法处理等。这种错误通常需要跳过这条消息，再消费其它消息，而这条失败的消息即使立刻重试消费，99%也不成功，所以最好提供一种定时重试机制，即过10秒后再重试。</li><li>消费者依赖的下游服务不可用，遇到这种错误，即使跳过当前失败的消息，消费其他消息同样也会报错。这种情况建议应用sleep 30s，再消费下一条消息，这样可以减轻Broker重试消息的压力。</li></ol><p>&emsp;&emsp;RocketMQ会为每个消费组都设置一个Topic名称为“%RETRY%+consumerGroup”的重试队列（这里需要注意的是，这个Topic的重试队列是针对消费组，而不是针对每个Topic设置的），用于暂时保存因为各种异常而导致Consumer端无法消费的消息。<br>&emsp;&emsp;考虑到异常恢复起来需要一些时间，会为重试队列设置多个重试级别，每个重试级别都有与之对应的重新投递延时，重试次数越多投递延时就越大。<br>&emsp;&emsp;RocketMQ对于重试消息的处理是先保存至Topic名称为“SCHEDULE_TOPIC_XXXX”的延迟队列中，后台定时任务按照对应的时间进行Delay后重新保存至“%RETRY%+consumerGroup”的重试队列中。</p><p>&emsp;&emsp;实际上，以下情况会触发消息重试：</p><ol><li>业务消费方返回ConsumeConcurrentlyStatus.RECONSUME_LATER。</li><li>业务消费方返回null。</li><li>业务消费方抛出异常。</li></ol><p>&emsp;&emsp;对于抛出异常的情况，只要我们在业务逻辑中显式抛出异常或者非显式抛出异常，broker也会重新投递消息，如果业务对异常做了捕获，那么该消息将不会发起重试。因此对于需要重试的业务，消费方在捕获异常时要注意返回ConsumeConcurrentlyStatus.RECONSUME_LATER或null，输出日志并打印当前重试次数。推荐返回ConsumeConcurrentlyStatus.RECONSUME_LATER。</p><p>&emsp;&emsp;RocketMQ可在broker.conf文件中配置Consumer端的重试次数和重试时间间隔，也可以在代码里控制重试次数。</p><h2 id="重试逻辑"><a href="#重试逻辑" class="headerlink" title="重试逻辑"></a>重试逻辑</h2><p>&emsp;&emsp;rocketmq使用时间衰减策略，进行重试。<br>&emsp;&emsp;时间间隔可以为：</p><pre class="line-numbers language-properties" data-language="properties"><code class="language-properties"><span class="token attr-name">messageDelayLevel</span><span class="token punctuation">=</span><span class="token attr-value">1s 5s 10s 30s 1m 2m 3m 4m 5m 6m 7m 8m 9m 10m 20m 30m 1h 2h</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>&emsp;&emsp;重试逻辑：</p><ol><li>首先判断消费端有没有显式设置最大重试次数，如果没有就默认16次。</li><li>当消息发送失败，mq会发起消费重试。</li><li>判断消息当前重试次数是否等于大于最大重试次数，如果达到，或者配置的次数小于0，获取死信队列，将超时的消息投递至死信队列中。</li><li>正常需要重试的消息，将采用延时消息的模式进行重试。将新的延时消息（就是原来的需要重试的消息）重新刷盘。采用定时任务进行投递。</li></ol><p>&emsp;&emsp;对于重试的消息，mq并不会从原队列获取消息，而是创建了一个新的topic进行保存。<br>&emsp;&emsp;对于所有消费者消费失败的消息，rocketMQ都会把重试的消息 重新new出来（即上文提到的MessageExtBrokerInner对象），然后投递到主题SCHEDULE_TOPIC_XXXX下的队列中，然后由定时任务进行调度重试，而重试的周期符合我们在上文中提到的delayLevel周期。</p><pre class="line-numbers language-java" data-language="java"><code class="language-java">重试代码还没有搞上来<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><hr><h1 id="消息重投（生产者发送失败，未收到mq的ACK）"><a href="#消息重投（生产者发送失败，未收到mq的ACK）" class="headerlink" title="消息重投（生产者发送失败，未收到mq的ACK）"></a>消息重投（生产者发送失败，未收到mq的ACK）</h1><p>&emsp;&emsp;生产者在发送消息时，同步消息失败则会重投，异步消息失败有重试，oneway没有任何保证。消息重投保证消息尽可能发送成功、不丢失，但可能会造成消息重复，消息重复在RocketMQ中是无法避免的问题。<br>&emsp;&emsp;消息重复在一般情况下不会发生，当出现消息量大、网络抖动，消息重复就会是大概率事件。另外，生产者主动重发、consumer负载变化也会导致重复消息。<br>&emsp;&emsp;如下方法可以设置消息重试策略：</p><ol><li>retryTimesWhenSendFailed：同步发送失败重投次数，默认为2，因此生产者会最多尝试发送retryTimesWhenSendFailed + 1次。不会选择上次失败的broker，尝试向其他broker发送，最大程度保证消息不丢。超过重投次数，抛出异常，由客户端保证消息不丢。当出现RemotingException、MQClientException和部分MQBrokerException时会重投。</li><li>retryTimesWhenSendAsyncFailed：异步发送失败重试次数，异步重试不会选择其他broker，仅在同一个broker上做重试，不保证消息不丢。</li><li>retryAnotherBrokerWhenNotStoreOK：消息刷盘（主或备）超时或slave不可用（返回状态非SEND_OK），是否尝试发送到其他broker，默认false。十分重要消息可以开启。</li></ol><hr><h1 id="死信队列"><a href="#死信队列" class="headerlink" title="死信队列"></a>死信队列</h1><p>&emsp;&emsp;消息重试超过一定次数的消息，将会进入死信队列。<br>&emsp;&emsp;死信队列逻辑：</p><ol><li>首先判断消息当前重试次数是否大于等于16（默认是16），或者消息延迟级别是否小于0。</li><li>只要满足上述的任意一个条件，设置新的topic（死信topic）为：%DLQ%+consumerGroup。</li><li>进行前置属性的添加。<blockquote><p>备份原先topic和队列id等。</p></blockquote></li><li>将死信消息投递到上述步骤2建立的死信topic对应的死信队列中并落盘，使消息持久化。</li></ol><p>&emsp;&emsp;死信队列中的消息需要人工介入处理，在RocketMQ中，可以通过使用console控制台对死信队列中的消息进行重发来使得消费者实例再次进行消费。</p><hr><h1 id="流量控制"><a href="#流量控制" class="headerlink" title="流量控制"></a>流量控制</h1><p>&emsp;&emsp;生产者流控，因为broker处理能力达到瓶颈；消费者流控，因为消费能力达到瓶颈。  </p><h2 id="生产者流控"><a href="#生产者流控" class="headerlink" title="生产者流控"></a>生产者流控</h2><p>&emsp;&emsp;生产者流控模式下，不会进行消息重投。  </p><ol><li>commitLog文件被锁时间超过osPageCacheBusyTimeOutMills时，参数默认为1000ms，返回流控。操作系统页缓存繁忙。</li><li>如果开启transientStorePoolEnable == true，且broker为异步刷盘的主机，且transientStorePool中资源不足，拒绝当前send请求，返回流控。</li><li>broker每隔10ms检查send请求队列头部请求的等待时间，如果超过waitTimeMillsInSendQueue，默认200ms，拒绝当前send请求，返回流控。</li><li>broker通过拒绝send 请求方式实现流量控制。</li></ol><h2 id="消费者流控"><a href="#消费者流控" class="headerlink" title="消费者流控"></a>消费者流控</h2><p>&emsp;&emsp;消费者流控的结果是降低拉取频率。</p><ol><li>消费者本地缓存消息数量pullThresholdForQueue时，默认1000。</li><li>消费者本地缓存消息大小超过pullThresholdSizeForQueue时，默认100MB。</li><li>消费者本地缓存消息跨度超过consumeConcurrentlyMaxSpan时，默认2000。</li></ol><hr><h1 id="消息堆积"><a href="#消息堆积" class="headerlink" title="消息堆积"></a>消息堆积</h1><p>&emsp;&emsp;个人理解，产生流控时，必定伴随着消息堆积。mq中将消息刷盘，记录消费进度，天然支持消息堆积。</p><hr><h1 id="消息持久化"><a href="#消息持久化" class="headerlink" title="消息持久化"></a>消息持久化</h1><p>&emsp;&emsp;mq支持消息的高可靠，影响可靠性的几种情况：</p><ol><li>Broker非正常关闭</li><li>Broker异常Crash</li><li>OS Crash</li><li>机器掉电，但是能立即恢复供电情况</li><li>机器无法开机（可能是cpu、主板、内存等关键设备损坏）</li><li>磁盘设备损坏</li></ol><p>&emsp;&emsp;1)、2)、3)、4) 四种情况都属于硬件资源可立即恢复情况，RocketMQ在这四种情况下能保证消息不丢，或者丢失少量数据（依赖刷盘方式是同步还是异步）。<br>&emsp;&emsp;5)、6)属于单点故障，且无法恢复，一旦发生，在此单点上的消息全部丢失。RocketMQ在这两种情况下，通过异步复制，可保证99%的消息不丢，但是仍然会有极少量的消息可能丢失。通过同步双写技术可以完全避免单点，同步双写势必会影响性能，适合对消息可靠性要求极高的场合，例如与Money相关的应用。注：RocketMQ从3.0版本开始支持同步双写。</p><h2 id="消息刷盘"><a href="#消息刷盘" class="headerlink" title="消息刷盘"></a>消息刷盘</h2><p>&emsp;&emsp;消息存储是RocketMQ中最为复杂和最为重要的一部分。</p><p><a href="https://www.yuque.com/jiufenshiren/mvgau4/cn_design#512cc468">消息存储</a></p><h2 id="MessageQuene与ConsumeQuene"><a href="#MessageQuene与ConsumeQuene" class="headerlink" title="MessageQuene与ConsumeQuene"></a>MessageQuene与ConsumeQuene</h2><p>&emsp;&emsp;个人理解，MessageQuene是逻辑上的东西，是将Topic进一步划分之后的字主题，也是消息存储队列。<br>&emsp;&emsp;ConsumeQuene又称为消费逻辑队列，是在文件系统中存在实际的文件的，内存存储者Commitlog中消息的位置（commit offset，消息长度，tag的hashcode值）等相关信息，可以看作是消息的索引文件。<br>&emsp;&emsp;根据ConsumeQuene文件的组织方式，可以看出，相同Topic下相同MessageQuene下的ConsumeQuene文件在相同的位置（相同的文件夹内）。<br>&emsp;&emsp;CommitLog文件存储着所有的消息，名称从0开始，文件名称代表了文件中第一个消息的偏移量，文件名称长度20位，每个大小最大1G。<br>&emsp;&emsp;ConsumeQuene文件，按照topic/queue/file三层组织结构，具体存储路径为：$HOME/store/consumequeue/{topic}/{queueId}/{fileName}。这里的queneId就是MessageQuene的id，同样consumequeue文件采取定长设计，每一个条目共20个字节，分别为8字节的commitlog物理偏移量、4字节的消息长度、8字节tag hashcode，单个文件由30W个条目组成，可以像数组一样随机访问每一个条目，每个ConsumeQueue文件大小约5.72M。可以看作是CommitLog文件按照位置，quene的索引文件。<br>&emsp;&emsp;IndexFile，索引文件，提供了一种按照key或者时间区间查询消息的索引。index文件的存储位置是：$HOME \store\index${fileName}，文件名fileName是以创建时的时间戳命名的，固定的单个IndexFile文件大小约为400M，一个IndexFile可以保存 2000W个索引，IndexFile的底层存储设计为在文件系统中实现HashMap结构，故rocketmq的索引文件其底层实现为hash索引。</p><p>&emsp;&emsp;生产者发送消息的过程，会将消息发送到指定的Topic，然后根据负载均衡选择该Topic下的一个MessageQuene，实际上发送消息时，会将消息保存进CommitLog文件，同时会在对应Quene的ConsumeQuene文件中写入索引，也会在Index文件中写入时间索引。<br>&emsp;&emsp;消费者消费时，会根据负载均衡到的MessageQuene定位到具体的文件夹，在根据消息消费进度，确定具体的ConsumeQuene文件，从而在CommitLog文件中查出具体的消息。</p>]]></content>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;消息重试&quot;&gt;&lt;a href=&quot;#消息重试&quot; class=&quot;headerlink&quot; title=&quot;消息重试&quot;&gt;&lt;/a&gt;消息重试&lt;/h1&gt;&lt;p&gt;&amp;emsp;&amp;emsp;指的是消费者消费消息失败后，mq需要让消费者重新消费一次。&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="消息中间件" scheme="https://linqiankun.github.io/hexoblog/categories/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/"/>
-    
-    <category term="rocketmq" scheme="https://linqiankun.github.io/hexoblog/categories/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/rocketmq/"/>
-    
-    
-    <category term="消息中间件" scheme="https://linqiankun.github.io/hexoblog/tags/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/"/>
-    
-    <category term="rocketmq" scheme="https://linqiankun.github.io/hexoblog/tags/rocketmq/"/>
     
   </entry>
   
