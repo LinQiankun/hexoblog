@@ -6,7 +6,7 @@
   <link href="https://linqiankun.github.io/hexoblog/atom.xml" rel="self"/>
   
   <link href="https://linqiankun.github.io/hexoblog/"/>
-  <updated>2021-06-24T03:20:31.724Z</updated>
+  <updated>2021-07-01T08:26:22.287Z</updated>
   <id>https://linqiankun.github.io/hexoblog/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="https://linqiankun.github.io/hexoblog/TODO/"/>
     <id>https://linqiankun.github.io/hexoblog/TODO/</id>
     <published>2022-12-31T15:59:59.000Z</published>
-    <updated>2021-06-24T03:20:31.724Z</updated>
+    <updated>2021-07-01T08:26:22.287Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h1><span id="more"></span><h2 id="QUEST-TODO"><a href="#QUEST-TODO" class="headerlink" title="QUEST_TODO"></a>QUEST_TODO</h2><ul><li><input disabled="" type="checkbox"> zk同时接收到创建节点请求</li><li><input disabled="" type="checkbox"> mysql分库分表</li><li><input disabled="" type="checkbox"> countdownlanch</li></ul><h2 id="POSTS-TODO"><a href="#POSTS-TODO" class="headerlink" title="POSTS_TODO"></a>POSTS_TODO</h2><ul><li><input disabled="" type="checkbox"> rocketmq负载均衡代码</li><li><input disabled="" type="checkbox"> rocketmq消息可靠性消费重试代码</li><li><input disabled="" type="checkbox"> jekins安装和使用<ul><li><input disabled="" type="checkbox"> jekins安装过程</li><li><input disabled="" type="checkbox"> jekins基本使用</li></ul></li><li><input disabled="" type="checkbox"> mysql中的MVCC</li><li><input disabled="" type="checkbox"> B+树</li></ul><hr><h2 id="DRAFTS-TODO"><a href="#DRAFTS-TODO" class="headerlink" title="DRAFTS_TODO"></a>DRAFTS_TODO</h2><ul><li><input checked="" disabled="" type="checkbox"> IO</li><li><input disabled="" type="checkbox"> kafka简介</li><li><input disabled="" type="checkbox"> rocketmq-Broker启动流程</li><li><input checked="" disabled="" type="checkbox"> rocketmq-NameServer启动流程</li></ul>]]></content>
+    <content type="html"><![CDATA[<h1 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h1><span id="more"></span><h2 id="QUEST-TODO"><a href="#QUEST-TODO" class="headerlink" title="QUEST_TODO"></a>QUEST_TODO</h2><ul><li><input disabled="" type="checkbox"> zk同时接收到创建节点请求</li><li><input disabled="" type="checkbox"> mysql分库分表</li></ul><h2 id="POSTS-TODO"><a href="#POSTS-TODO" class="headerlink" title="POSTS_TODO"></a>POSTS_TODO</h2><ul><li><input disabled="" type="checkbox"> rocketmq负载均衡代码</li><li><input disabled="" type="checkbox"> rocketmq消息可靠性消费重试代码</li><li><input disabled="" type="checkbox"> jekins安装和使用<ul><li><input disabled="" type="checkbox"> jekins安装过程</li><li><input disabled="" type="checkbox"> jekins基本使用</li></ul></li><li><input disabled="" type="checkbox"> B+树</li><li><input disabled="" type="checkbox"> deepin安装docker</li><li><input disabled="" type="checkbox"> jvm命令</li><li><input disabled="" type="checkbox"> jvm调优</li></ul><hr><h2 id="DRAFTS-TODO"><a href="#DRAFTS-TODO" class="headerlink" title="DRAFTS_TODO"></a>DRAFTS_TODO</h2><ul><li><input disabled="" type="checkbox"> AIO</li><li><input disabled="" type="checkbox"> kafka简介</li><li><input disabled="" type="checkbox"> rocketmq-Broker启动流程</li></ul>]]></content>
     
     
     <summary type="html">&lt;h1 id=&quot;TODO&quot;&gt;&lt;a href=&quot;#TODO&quot; class=&quot;headerlink&quot; title=&quot;TODO&quot;&gt;&lt;/a&gt;TODO&lt;/h1&gt;</summary>
@@ -34,6 +34,27 @@
     
     
     <category term="todo" scheme="https://linqiankun.github.io/hexoblog/tags/todo/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>深圳雪球科技（NFC）二面面经</title>
+    <link href="https://linqiankun.github.io/hexoblog/%E9%9D%A2%E7%BB%8F/%E6%B7%B1%E5%9C%B3%E9%9B%AA%E7%90%83%E7%A7%91%E6%8A%80%EF%BC%88NFC%EF%BC%89%E4%BA%8C%E9%9D%A2%E9%9D%A2%E7%BB%8F/"/>
+    <id>https://linqiankun.github.io/hexoblog/%E9%9D%A2%E7%BB%8F/%E6%B7%B1%E5%9C%B3%E9%9B%AA%E7%90%83%E7%A7%91%E6%8A%80%EF%BC%88NFC%EF%BC%89%E4%BA%8C%E9%9D%A2%E9%9D%A2%E7%BB%8F/</id>
+    <published>2021-07-02T03:16:49.000Z</published>
+    <updated>2021-07-02T03:32:27.116Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span><p>写面经，攒人品</p><ol><li>目前情况<ol><li>姓名等个人信息</li><li>在职状态</li><li>薪资</li></ol></li><li>项目介绍<ol><li>业务</li><li>技术栈</li><li>遇到问题</li><li>如何解决</li></ol></li><li>redis分布式锁实现</li><li>redis模板（jedis、redisTemplate）</li><li>多线程<ol><li> 多线程死锁怎么解决</li><li>多线程线程数量设计<ol><li> 慢IO</li><li> CPU密集</li></ol></li></ol></li><li>项目中的多线程代码是你写的吗</li><li>线程池原理</li><li>后面的规划（技术，管理）</li><li> 基建怎么建设（自建机房，阿里云）</li><li>发布流程（有发布系统，用jekins）</li><li>容器化<ol><li> 有没有容器化</li><li> k8s</li><li> docker使用</li><li> 目前是本地虚拟机没有容器化</li></ol></li><li>抗压能力，加班情况</li><li>为什么换工作</li><li>换工作选择什么行业</li></ol><p><img src="https://raw.githubusercontent.com/LinQiankun/picurl/main/java%E5%86%99%E9%9D%A2%E7%BB%8F%EF%BC%8C%E6%94%92%E4%BA%BA%E5%93%81_00.jpg" alt="写面经，攒人品"></p><hr><h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1>]]></content>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;面经&quot;&gt;&lt;a href=&quot;#面经&quot; class=&quot;headerlink&quot; title=&quot;面经&quot;&gt;&lt;/a&gt;面经&lt;/h1&gt;</summary>
+    
+    
+    
+    <category term="面经" scheme="https://linqiankun.github.io/hexoblog/categories/%E9%9D%A2%E7%BB%8F/"/>
+    
+    
+    <category term="面经" scheme="https://linqiankun.github.io/hexoblog/tags/%E9%9D%A2%E7%BB%8F/"/>
     
   </entry>
   
@@ -505,33 +526,6 @@
     <category term="io" scheme="https://linqiankun.github.io/hexoblog/tags/io/"/>
     
     <category term="java" scheme="https://linqiankun.github.io/hexoblog/tags/java/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>rocketmq集群简介</title>
-    <link href="https://linqiankun.github.io/hexoblog/md/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/rocketmq/rocketmq%E9%9B%86%E7%BE%A4%E7%AE%80%E4%BB%8B/"/>
-    <id>https://linqiankun.github.io/hexoblog/md/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/rocketmq/rocketmq%E9%9B%86%E7%BE%A4%E7%AE%80%E4%BB%8B/</id>
-    <published>2021-05-31T06:20:57.000Z</published>
-    <updated>2021-05-31T06:44:29.944Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;Rocketmq的四部分每一部分都可以进行集群部署。<a href="https://www.yuque.com/jiufenshiren/mvgau4/cn_operation#b5212acf">集群搭建</a></p><span id="more"></span><h2 id="NameServer"><a href="#NameServer" class="headerlink" title="NameServer"></a>NameServer</h2><p>&emsp;&emsp;NameServer通常是集群的方式部署，各实例间相互不进行信息通讯。Broker是向每一台NameServer注册自己的路由信息，所以每一个NameServer实例上面都保存一份完整的路由信息。当某个NameServer因某种原因下线了，Broker仍然可以向其它NameServer同步其路由信息，Producer,Consumer仍然可以动态感知Broker的路由的信息。</p><h2 id="Broker"><a href="#Broker" class="headerlink" title="Broker"></a>Broker</h2><p>&emsp;&emsp;与NameServer相比，Broker的集群比较复杂些。<br>&emsp;&emsp;Broker部署相对复杂，Broker分为Master与Slave，一个Master可以对应多个Slave，但是一个Slave只能对应一个Master，Master与Slave 的对应关系通过指定相同的BrokerName，不同的BrokerId 来定义，BrokerId为0表示Master，非0表示Slave。Master也可以部署多个。每个Broker与NameServer集群中的所有节点建立长连接，定时注册Topic信息到所有NameServer。 注意：当前RocketMQ版本在部署架构上支持一Master多Slave，但只有BrokerId=1的从服务器才会参与消息的读负载。<br>&emsp;&emsp;broker集群可以分为：单Master模式，多Master模式，多Master多Slave模式。</p><h3 id="单Master模式"><a href="#单Master模式" class="headerlink" title="单Master模式"></a>单Master模式</h3><p>&emsp;&emsp;这种模式一般用于本地学习，或者测试，不适合线上使用，一旦单个Broker挂掉了，会造成所有通信失败。</p><h3 id="多Master模式"><a href="#多Master模式" class="headerlink" title="多Master模式"></a>多Master模式</h3><p>&emsp;&emsp;全是Master，没有Slave。当然，一个broker宕机了，应用是无影响的，缺点在于宕机的Master上未被消费的消息在Master没有恢复之前不可以订阅。<br>&emsp;&emsp;配置简单，单个Master宕机或重启维护对应用无影响，在磁盘配置为RAID10时，即使机器宕机不可恢复情况下，由于RAID10磁盘非常可靠，消息也不会丢（异步刷盘丢失少量消息，同步刷盘一条不丢），性能最高。<br>&emsp;&emsp;缺点是：单台机器宕机期间，这台机器上未被消费的消息在机器恢复之前不可订阅，消息实时性会受到影响。</p><h3 id="多Master多Slave模式"><a href="#多Master多Slave模式" class="headerlink" title="多Master多Slave模式"></a>多Master多Slave模式</h3><p>&emsp;&emsp;这种又可以分为两种，根据数据同步的时间分为，异步复制，同步双写。</p><h4 id="异步复制"><a href="#异步复制" class="headerlink" title="异步复制"></a>异步复制</h4><p>&emsp;&emsp;多对Master-Slave，高可用！采用异步复制的方式，主备之间短暂延迟，MS级别。Master宕机，消费者可以从Slave上进行消费，不受影响，但是Master的宕机，会导致丢失掉极少量的消息。<br>&emsp;&emsp;即使磁盘损坏，消息丢失的非常少，且消息实时性不会受影响，同时Master宕机后，消费者仍然可以从Slave消费，而且此过程对应用透明，不需要人工干预，性能同多Master模式几乎一样。<br>&emsp;&emsp;缺点在于：Master宕机，磁盘损坏情况下会丢失少量消息。</p><h4 id="同步双写"><a href="#同步双写" class="headerlink" title="同步双写"></a>同步双写</h4><p>&emsp;&emsp;和上面的区别点在于采用的是同步方式，也就是在Master/Slave都写成功的前提下，向应用返回成功，可见不论是数据，还是服务都没有单点，都非常可靠！缺点在于同步的性能比异步稍低。<br>&emsp;&emsp;据与服务都无单点故障，Master宕机情况下，消息无延迟，服务可用性与数据可用性都非常高。<br>&emsp;&emsp;缺点是：性能比异步复制模式略低（大约低10%左右），发送单个消息的RT会略高，且目前版本在主节点宕机后，备机不能自动切换为主机。</p><h3 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h3><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E5%90%8C%E6%AD%A5%E5%8F%8C%E5%86%99%E5%92%8C%E5%BC%82%E6%AD%A5%E5%8F%8C%E5%86%99.png" alt="同步双写和异步双写"></p><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/mq%E9%9B%86%E7%BE%A4%E6%96%B9%E5%BC%8F%E5%AF%B9%E6%AF%94.png" alt="集群方式对比"></p><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E9%AB%98%E5%8F%AF%E7%94%A8%E6%B5%8B%E8%AF%95.png" alt="高可用测试"></p>]]></content>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h1&gt;&lt;p&gt;&amp;emsp;&amp;emsp;Rocketmq的四部分每一部分都可以进行集群部署。&lt;a href=&quot;https://www.yuque.com/jiufenshiren/mvgau4/cn_operation#b5212acf&quot;&gt;集群搭建&lt;/a&gt;&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="消息中间件" scheme="https://linqiankun.github.io/hexoblog/categories/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/"/>
-    
-    <category term="rocketmq" scheme="https://linqiankun.github.io/hexoblog/categories/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/rocketmq/"/>
-    
-    
-    <category term="消息中间件" scheme="https://linqiankun.github.io/hexoblog/tags/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/"/>
-    
-    <category term="rocketmq" scheme="https://linqiankun.github.io/hexoblog/tags/rocketmq/"/>
-    
-    <category term="分布式" scheme="https://linqiankun.github.io/hexoblog/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
     
   </entry>
   
