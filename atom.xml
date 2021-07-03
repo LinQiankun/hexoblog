@@ -38,13 +38,59 @@
   </entry>
   
   <entry>
+    <title>网易一面（数据中台—java）</title>
+    <link href="https://linqiankun.github.io/hexoblog/%E9%9D%A2%E7%BB%8F/%E7%BD%91%E6%98%93%E4%B8%80%E9%9D%A2%EF%BC%88%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%8F%B0%E2%80%94java%EF%BC%89/"/>
+    <id>https://linqiankun.github.io/hexoblog/%E9%9D%A2%E7%BB%8F/%E7%BD%91%E6%98%93%E4%B8%80%E9%9D%A2%EF%BC%88%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%8F%B0%E2%80%94java%EF%BC%89/</id>
+    <published>2021-07-03T11:55:15.000Z</published>
+    <updated>2021-07-03T12:45:04.371Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span><p>写面经，攒人品</p><ol><li>项目介绍</li><li>redis分布式锁怎么实现？</li><li>还有其他的实现思路？具体怎么实现？（数据库，zk）</li><li>redis分布式控制抢单，可不可以用数据库乐观锁？</li><li>数据库乐观锁怎么实现？</li><li>redis哨兵模式讲一下？</li><li>哨兵和机器间如何通信（ping，pong）?</li><li>哨兵如何选举leader?</li><li>mvcc讲一下？</li><li>mvcc的目的？原理？场景？</li><li>数据库隔离级别的作用？场景</li><li>redo log，undo log，bin log分别说一下？</li><li>这些是在什么阶段产生的？</li><li>mysql模块说一下？那些产生什么日志？</li><li>mysql索引讲一下？从你自己知道的角度讲？</li><li>聚簇索引和非聚簇索引的区别？</li><li>shiro讲一下？</li><li>shiro怎么存储session？</li><li>你们用shiro怎么存的（token）？</li><li>rocketmq和kafka的区别？</li><li>rocketmq怎么保证消息只会被一台机器消费？</li><li>jvm调优过没？</li><li>系统优化过没？</li><li>jvm垃圾回收器有哪些？</li><li>jvm垃圾回收算法有哪些？</li><li>项目中有什么印象深刻的？（异步获取结果）</li><li>用过大数据方面的东西没？（没有）</li><li>最近有在看什么书？</li><li>有什么想了解的？</li></ol>]]></content>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;面经&quot;&gt;&lt;a href=&quot;#面经&quot; class=&quot;headerlink&quot; title=&quot;面经&quot;&gt;&lt;/a&gt;面经&lt;/h1&gt;</summary>
+    
+    
+    
+    <category term="面经" scheme="https://linqiankun.github.io/hexoblog/categories/%E9%9D%A2%E7%BB%8F/"/>
+    
+    
+    <category term="面经" scheme="https://linqiankun.github.io/hexoblog/tags/%E9%9D%A2%E7%BB%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>多线程之死锁</title>
+    <link href="https://linqiankun.github.io/hexoblog/md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8B%E6%AD%BB%E9%94%81/"/>
+    <id>https://linqiankun.github.io/hexoblog/md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8B%E6%AD%BB%E9%94%81/</id>
+    <published>2021-07-02T07:46:24.000Z</published>
+    <updated>2021-07-02T09:43:52.704Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;死锁是指两个或两个以上进程（在运行的过程中因争夺资源而造成的一种僵局），若无外力作用，这些线程，进程都将无法向前推进。</p><span id="more"></span><ul><li>参与死锁的进程（线程）至少为2个</li><li>参与死锁的进程（线程）均等待资源</li><li>参与死锁的进程（线程）至少有2个已经占有资源</li><li>死锁进程是系统中当前进程集合的一个子集</li><li>死锁会浪费大量系统资源，甚至导致系统崩溃</li></ul><hr><h1 id="资源"><a href="#资源" class="headerlink" title="资源"></a>资源</h1><p>&emsp;&emsp;所有的死锁都是对资源的争夺造成的，资源是一切的罪魁祸首。</p><h2 id="永久资源与临时资源"><a href="#永久资源与临时资源" class="headerlink" title="永久资源与临时资源"></a>永久资源与临时资源</h2><h3 id="永久资源"><a href="#永久资源" class="headerlink" title="永久资源"></a>永久资源</h3><p>&emsp;&emsp;永久资源可以被多次使用，如所有硬件。</p><ul><li>只能分配给一个进程使用，不允许多个进程共享</li><li>进程使用时，需按照请求资源、使用资源、释放资源的顺序</li><li>这种资源的数量是固定的，运行期间，不能创建，也不能销毁</li></ul><h3 id="临时资源"><a href="#临时资源" class="headerlink" title="临时资源"></a>临时资源</h3><p>&emsp;&emsp;是在运行期间动态创建和销毁的资源。</p><ul><li>数量在运行期间是不断变化的，有可能为0</li><li>在运行过程中，可以不断的创建这种资源，将它们放入缓冲区，增加资源数量</li><li>也可以在运行过程中，请求几个临时资源，用于运行中的消耗</li></ul><p>&emsp;&emsp;一般由生产者进程产生，消费者进程消耗，如何用于通信的消息。</p><h2 id="可抢占资源和不可抢占资源"><a href="#可抢占资源和不可抢占资源" class="headerlink" title="可抢占资源和不可抢占资源"></a>可抢占资源和不可抢占资源</h2><h3 id="可抢占资源"><a href="#可抢占资源" class="headerlink" title="可抢占资源"></a>可抢占资源</h3><p>&emsp;&emsp;可抢占资源指某进程在获得这类资源后，该类资源可以被其他进程或系统抢占，也就是大家共享，这类资源不会引起死锁。比如CPU和内存。</p><h3 id="不可抢占资源"><a href="#不可抢占资源" class="headerlink" title="不可抢占资源"></a>不可抢占资源</h3><p>&emsp;&emsp;一旦系统将某资源分配给该进程后，就不能将其强行收回，只能在进程使用完后自己释放。比如打印机。</p><hr><h1 id="死锁原因"><a href="#死锁原因" class="headerlink" title="死锁原因"></a>死锁原因</h1><ul><li>竞争不可抢占资源引起死锁<blockquote><p>通常系统中的不可抢占资源，其数量不足以满足同时运行，使得在运行过程中，会因资源抢占而进入僵局，造成死锁。</p></blockquote></li><li>竞争可消耗资源引起死锁</li><li>进程推进顺序不当引起死锁<blockquote><p>运行过程中，请求和释放资源的顺序不科学，也会造成死锁，我等你，你等我的情况。<br>信号量使用不当也会死锁，进程间彼此相互等待对方发来的消息，结果也会使得这 些进程间无法继续向前推进。</p></blockquote></li></ul><h2 id="不可抢占资源造成死锁"><a href="#不可抢占资源造成死锁" class="headerlink" title="不可抢占资源造成死锁"></a>不可抢占资源造成死锁</h2><h2 id="可消耗资源造成死锁"><a href="#可消耗资源造成死锁" class="headerlink" title="可消耗资源造成死锁"></a>可消耗资源造成死锁</h2><h2 id="推进不当造成死锁"><a href="#推进不当造成死锁" class="headerlink" title="推进不当造成死锁"></a>推进不当造成死锁</h2><hr><h1 id="死锁条件"><a href="#死锁条件" class="headerlink" title="死锁条件"></a>死锁条件</h1><h2 id="互斥条件"><a href="#互斥条件" class="headerlink" title="互斥条件"></a>互斥条件</h2><h2 id="不可剥夺条件"><a href="#不可剥夺条件" class="headerlink" title="不可剥夺条件"></a>不可剥夺条件</h2><h2 id="请求与保持"><a href="#请求与保持" class="headerlink" title="请求与保持"></a>请求与保持</h2><h2 id="循环等待"><a href="#循环等待" class="headerlink" title="循环等待"></a>循环等待</h2>]]></content>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h1&gt;&lt;p&gt;&amp;emsp;&amp;emsp;死锁是指两个或两个以上进程（在运行的过程中因争夺资源而造成的一种僵局），若无外力作用，这些线程，进程都将无法向前推进。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="java" scheme="https://linqiankun.github.io/hexoblog/categories/java/"/>
+    
+    <category term="多线程" scheme="https://linqiankun.github.io/hexoblog/categories/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
+    
+    
+    <category term="java" scheme="https://linqiankun.github.io/hexoblog/tags/java/"/>
+    
+    <category term="多线程" scheme="https://linqiankun.github.io/hexoblog/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
+    
+  </entry>
+  
+  <entry>
     <title>深圳雪球科技（NFC）二面面经</title>
     <link href="https://linqiankun.github.io/hexoblog/%E9%9D%A2%E7%BB%8F/%E6%B7%B1%E5%9C%B3%E9%9B%AA%E7%90%83%E7%A7%91%E6%8A%80%EF%BC%88NFC%EF%BC%89%E4%BA%8C%E9%9D%A2%E9%9D%A2%E7%BB%8F/"/>
     <id>https://linqiankun.github.io/hexoblog/%E9%9D%A2%E7%BB%8F/%E6%B7%B1%E5%9C%B3%E9%9B%AA%E7%90%83%E7%A7%91%E6%8A%80%EF%BC%88NFC%EF%BC%89%E4%BA%8C%E9%9D%A2%E9%9D%A2%E7%BB%8F/</id>
     <published>2021-07-02T03:16:49.000Z</published>
-    <updated>2021-07-02T03:32:27.116Z</updated>
+    <updated>2021-07-02T07:19:47.963Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span><p>写面经，攒人品</p><ol><li>目前情况<ol><li>姓名等个人信息</li><li>在职状态</li><li>薪资</li></ol></li><li>项目介绍<ol><li>业务</li><li>技术栈</li><li>遇到问题</li><li>如何解决</li></ol></li><li>redis分布式锁实现</li><li>redis模板（jedis、redisTemplate）</li><li>多线程<ol><li> 多线程死锁怎么解决</li><li>多线程线程数量设计<ol><li> 慢IO</li><li> CPU密集</li></ol></li></ol></li><li>项目中的多线程代码是你写的吗</li><li>线程池原理</li><li>后面的规划（技术，管理）</li><li> 基建怎么建设（自建机房，阿里云）</li><li>发布流程（有发布系统，用jekins）</li><li>容器化<ol><li> 有没有容器化</li><li> k8s</li><li> docker使用</li><li> 目前是本地虚拟机没有容器化</li></ol></li><li>抗压能力，加班情况</li><li>为什么换工作</li><li>换工作选择什么行业</li></ol><p><img src="https://raw.githubusercontent.com/LinQiankun/picurl/main/java%E5%86%99%E9%9D%A2%E7%BB%8F%EF%BC%8C%E6%94%92%E4%BA%BA%E5%93%81_00.jpg" alt="写面经，攒人品"></p><hr><h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1>]]></content>
+    <content type="html"><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span><p>写面经，攒人品</p><ol><li>目前情况<ol><li>姓名等个人信息</li><li>在职状态</li><li>薪资</li></ol></li><li>项目介绍<ol><li>业务</li><li>技术栈</li><li>遇到问题</li><li>如何解决</li></ol></li><li>redis分布式锁实现</li><li>redis模板（jedis、redisTemplate）</li><li>多线程<ol><li> 多线程死锁怎么解决</li><li> DeadLock</li><li>多线程线程数量设计<ol><li> 慢IO</li><li> CPU密集</li></ol></li></ol></li><li>项目中的多线程代码是你写的吗</li><li>线程池原理</li><li>后面的规划（技术，管理）</li><li>基建怎么建设（自建机房，阿里云）</li><li>发布流程（有发布系统，用jekins）</li><li>容器化<ol><li> 有没有容器化</li><li> k8s</li><li> docker使用</li><li> 目前是本地虚拟机没有容器化</li></ol></li><li>抗压能力，加班情况</li><li>为什么换工作</li><li>换工作选择什么行业</li></ol><p><img src="https://raw.githubusercontent.com/LinQiankun/picurl/main/java%E5%86%99%E9%9D%A2%E7%BB%8F%EF%BC%8C%E6%94%92%E4%BA%BA%E5%93%81_00.jpg" alt="写面经，攒人品"></p><hr><h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1>]]></content>
     
     
     <summary type="html">&lt;h1 id=&quot;面经&quot;&gt;&lt;a href=&quot;#面经&quot; class=&quot;headerlink&quot; title=&quot;面经&quot;&gt;&lt;/a&gt;面经&lt;/h1&gt;</summary>
@@ -240,9 +286,9 @@
     <category term="mysql" scheme="https://linqiankun.github.io/hexoblog/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql/"/>
     
     
-    <category term="mysql" scheme="https://linqiankun.github.io/hexoblog/tags/mysql/"/>
-    
     <category term="数据类型" scheme="https://linqiankun.github.io/hexoblog/tags/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/"/>
+    
+    <category term="mysql" scheme="https://linqiankun.github.io/hexoblog/tags/mysql/"/>
     
   </entry>
   
@@ -472,60 +518,6 @@
     <category term="java" scheme="https://linqiankun.github.io/hexoblog/tags/java/"/>
     
     <category term="NIO" scheme="https://linqiankun.github.io/hexoblog/tags/NIO/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>NIO</title>
-    <link href="https://linqiankun.github.io/hexoblog/md/java/IO/NIO/"/>
-    <id>https://linqiankun.github.io/hexoblog/md/java/IO/NIO/</id>
-    <published>2021-06-08T02:25:34.000Z</published>
-    <updated>2021-06-29T07:23:21.098Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;NIO是当下非常火热的一种IO工作方式，它能够解决传统BIO的痛点：阻塞。<br>&emsp;&emsp;NIO是一种同步非阻塞的I/O模型，在Java 1.4 中引入了NIO框架，对应 java.nio 包，提供了 Channel , Selector，Buffer等抽象。<br>&emsp;&emsp;同步非阻塞式IO以块的方式处理数据，面向缓存区的，采用多路复，Reactor模式，基于事件驱动。Netty是实现了NIO的一个流行框架，JBoss的。</p><span id="more"></span><ul><li>BIO如果遇到IO阻塞时，线程将会被挂起，直到IO完成后才唤醒线程，线程切换带来了额外的开销。</li><li>BIO中每个IO都需要有对应的一个线程去专门处理该次IO请求，会让服务器的压力迅速提高。</li></ul><hr><h1 id="NIO与BIO的区别"><a href="#NIO与BIO的区别" class="headerlink" title="NIO与BIO的区别"></a>NIO与BIO的区别</h1><p>&emsp;&emsp;BIO是面向流的IO，它建立的通道都是单向的，所以输入和输出流的通道不相同，必须建立2个通道，通道内的都是传输==0101001···==的字节数据。<br>&emsp;&emsp;NIO是面向缓冲区的，它会建立一个通道（Channel），该通道我们可以理解为铁路，该铁路上可以运输各种货物，而通道上会有一个缓冲区（Buffer）用于存储真正的数据，缓冲区我们可以理解为一辆火车。通道（铁路）只是作为运输数据的一个连接资源，而真正存储数据的是缓冲区（火车）。即通道负责传输，缓冲区负责存储。</p><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/BIO%E7%BB%93%E6%9E%84.jpg" alt="BIO结构"><br><img src="https://gitee.com/linqiankun/picurl/raw/master/java/NIO%E7%BB%93%E6%9E%84.jpg" alt="NIO结构"></p><p>&emsp;&emsp;区别基本可以用下表表示：</p><table><thead><tr><th>BIO</th><th>NIO</th></tr></thead><tbody><tr><td>面向流</td><td>面向缓冲区</td></tr><tr><td>单向通道</td><td>双向通道</td></tr><tr><td>阻塞IO</td><td>非阻塞IO</td></tr><tr><td>—</td><td>选择器Selectors</td></tr></tbody></table><hr><h1 id="概念介绍"><a href="#概念介绍" class="headerlink" title="概念介绍"></a>概念介绍</h1><h2 id="缓冲区（Buffer）"><a href="#缓冲区（Buffer）" class="headerlink" title="缓冲区（Buffer）"></a>缓冲区（Buffer）</h2><p>&emsp;缓冲区是存储数据的区域，在 Java 中，缓冲区就是数组，为了可以操作不同数据类型的数据，Java 提供了许多不同类型的缓冲区，除了布尔类型以外，其它基本数据类型都有对应的缓冲区数组对象。<br>&emsp;&emsp;因为NIO是基于缓冲的，所以buffer是最底层的必要类，这也是IO和NIO的根本不同，虽然stream等有buffer开头的扩展类，但只是流的包装类，还是从流读到缓冲区，而NIO却是直接读到buffer中进行操作。</p><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/NIOBuffer.jpg" alt="Buffer"></p><h2 id="通道（Channel）"><a href="#通道（Channel）" class="headerlink" title="通道（Channel）"></a>通道（Channel）</h2><p>&emsp;&emsp;类似于IO的stream，但是不同的是除了FileChannel，其他的channel都能以非阻塞状态运行。FileChannel执行的是文件的操作，可以直接DMA操作内存而不依赖于CPU。其他比如socketchannel就可以在数据准备好时才进行调用。IO分为磁盘IO和网络IO，所以通常意义上的NIO是指网络IO，即除FileChnnel之外的channel都可以非阻塞。<br>&emsp;&emsp;通道是可以双向读写的，传统的 BIO 需要使用输入/输出流表示数据的流向，在 NIO 中可以减少通道资源的消耗。</p><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/NIOChannel.jpg" alt="Channel"></p><p>可以通过 getChannel() 方法获取一个通道，支持获取通道的类如下：</p><ul><li>文件IO：FileInputStream、FileOutputStream、RandomAccessFile</li><li>TCP网络IO：Socket、ServerSocket</li><li>UDP网络IO：DatagramSocket</li></ul><h2 id="选择器（Selectors）"><a href="#选择器（Selectors）" class="headerlink" title="选择器（Selectors）"></a>选择器（Selectors）</h2><p>&emsp;&emsp;选择器是提升IO性能的灵魂之一，它底层利用了多路复用IO机制，让选择器可以监听多个IO连接，根据IO的状态响应到服务器端进行处理。通俗地说：选择器可以监听多个IO连接，而传统的BIO每个IO连接都需要有一个线程去监听和处理。</p><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/NIOSelectors.jpg" alt="Selectors"></p><p>&emsp;&emsp;在BIO中，每个Socket都需要有一个专门的线程去处理每个请求，而在NIO中，只需要一个Selector即可监听各个Socket请求，而且Selector并不是阻塞的，所以不会因为多个线程之间切换导致上下文切换带来的开销。<br>&emsp;&emsp;在Java NIO中，选择器是使用Selector类表示，Selector可以接收各种IO连接，在IO状态准备就绪时，会通知该通道注册的 Selector，Selector在下一次轮询时会发现该IO连接就绪，进而处理该连接，Selector选择器主要用于网络IO当中。<br>&emsp;&emsp;选择器的作用就是：<strong>监听多个IO通道，当有通道就绪时选择器会轮询发现该通道，并做相应的处理。那么IO状态分为很多种，我们如何去识别就绪的通道是处于哪种状态呢？在Java中提供了选择键（SelectionKey）。</strong></p><h3 id="选择键（SelectionKey）"><a href="#选择键（SelectionKey）" class="headerlink" title="选择键（SelectionKey）"></a>选择键（SelectionKey）</h3><p>&emsp;&emsp;在选择器轮询到有就绪通道时，会返回这些通道的就绪选择键（SelectionKey），通过选择键可以获取到通道进行操作。<br>&emsp;&emsp;java中提供了四种选择键：</p><ul><li>SelectionKey.OP_READ：套接字通道准备好进行读操作</li><li>SelectionKey.OP_WRITE：套接字通道准备好进行写操作</li><li>SelectionKey.OP_ACCEPT：服务器套接字通道接受其它通道</li><li>SelectionKey.OP_CONNECT：套接字通道准备完成连接</li></ul><hr><h1 id="参考文献-amp-鸣谢"><a href="#参考文献-amp-鸣谢" class="headerlink" title="参考文献 &amp; 鸣谢"></a>参考文献 &amp; 鸣谢</h1><ul><li><a href="https://juejin.cn/post/6869537077122301965#heading-6">为什么一个还没毕业的大学生能够把 IO 讲的这么好？</a></li><li><a href="https://segmentfault.com/a/1190000021493582">BIO、NIO、AIO疑点解析</a></li><li><a href="https://segmentfault.com/a/1190000037714804">理解什么是BIO/NIO/AIO</a></li></ul>]]></content>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h1&gt;&lt;p&gt;&amp;emsp;&amp;emsp;NIO是当下非常火热的一种IO工作方式，它能够解决传统BIO的痛点：阻塞。&lt;br&gt;&amp;emsp;&amp;emsp;NIO是一种同步非阻塞的I/O模型，在Java 1.4 中引入了NIO框架，对应 java.nio 包，提供了 Channel , Selector，Buffer等抽象。&lt;br&gt;&amp;emsp;&amp;emsp;同步非阻塞式IO以块的方式处理数据，面向缓存区的，采用多路复，Reactor模式，基于事件驱动。Netty是实现了NIO的一个流行框架，JBoss的。&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="java" scheme="https://linqiankun.github.io/hexoblog/categories/java/"/>
-    
-    <category term="io" scheme="https://linqiankun.github.io/hexoblog/categories/java/io/"/>
-    
-    
-    <category term="io" scheme="https://linqiankun.github.io/hexoblog/tags/io/"/>
-    
-    <category term="java" scheme="https://linqiankun.github.io/hexoblog/tags/java/"/>
-    
-    <category term="网络" scheme="https://linqiankun.github.io/hexoblog/tags/%E7%BD%91%E7%BB%9C/"/>
-    
-    <category term="nio" scheme="https://linqiankun.github.io/hexoblog/tags/nio/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>java传统IO流-BIO</title>
-    <link href="https://linqiankun.github.io/hexoblog/md/java/IO/java%E4%BC%A0%E7%BB%9FIO%E6%B5%81-BIO/"/>
-    <id>https://linqiankun.github.io/hexoblog/md/java/IO/java%E4%BC%A0%E7%BB%9FIO%E6%B5%81-BIO/</id>
-    <published>2021-06-08T02:25:22.000Z</published>
-    <updated>2021-06-10T06:35:40.086Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;数据都以二进制存储在设备中，流就是将这些数据以二进制在各种设备间进行传输。  </p><span id="more"></span><p>&emsp;&emsp;IO流的核心特点：</p><ol><li>顺序读写：读写数据时，大部分情况下都是按照顺序读写，读取时从文件开头的第一个字节到最后一个字节，写出时也是也如此（RandomAccessFile 可以实现随机读写）。</li><li>读写数据时本质上都是对字节数组做读取和写出操作，即使是字符流，也是在字节流基础上转化为一个个字符，所以字节数组是 IO 流读写数据的本质。</li></ol><hr><h1 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h1><p>&emsp;&emsp;流根据数据的流向不同分为：输入流和输出流。</p><ul><li>输入流：从磁盘或者其它外设中将数据输入到进程中。</li><li>输出流：从进程中将数据输出到磁盘或者其他外设中保存。</li></ul><h2 id="字符流-amp-字节流"><a href="#字符流-amp-字节流" class="headerlink" title="字符流&amp;字节流"></a>字符流&amp;字节流</h2><p>&emsp;&emsp;根据处理数据的基本单位不同分为：字节流和字符流。</p><ul><li>字节流：以<strong>字节（1Byte=8bit）</strong> 为单位做数据的传输。</li><li>字符流：以字符为单位做数据的传输。<blockquote><p>字符流的本质也是通过字节流读取，Java 中的字符采用 Unicode 标准，在读取和输出的过程中，通过以字符为单位，查找对应的码表将字节转换为对应的字符。</p></blockquote></li></ul><p>&emsp;&emsp;根据这两种分类，在java.io包中定义了四个顶层的抽象：</p><table><thead><tr><th>数据类型/数据流向</th><th>字节流</th><th>字符流</th></tr></thead><tbody><tr><td>输入流</td><td>InputStream</td><td>Reader</td></tr><tr><td>输出流</td><td>OutputStream</td><td>Writer</td></tr></tbody></table><p>&emsp;&emsp;在这四个顶层抽象下面还有很多的成员，分别有不同的作用。</p><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/io.jpg" alt="io"><br><img src="https://gitee.com/linqiankun/picurl/raw/master/java/IO.jpeg" alt="IO"></p><p>&emsp;&emsp;java中处理传输用的外，还提供了一堆扩展的流，比如压缩，序列化用的。</p><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/JAVAIO.png" alt="IO"></p><p>&emsp;&emsp;这其中还提供了用于字节流与字符流中间的转换流。</p><table><thead><tr><th>转换流/数据类型</th><th>转换</th></tr></thead><tbody><tr><td>输入（字节-&gt;字符）</td><td>InputStreamReader</td></tr><tr><td>输出（字符-&gt;字节）</td><td>OutputStreamWriter</td></tr></tbody></table><blockquote><p>在存储设备上，所有数据都是以字节为单位存储的，所以输入到内存时必定是以字节为单位输入，输出到存储设备时必须是以字节为单位输出，字节流才是计算机最根本的存储方式，而字符流是在字节流的基础上对数据进行转换，输出字符，但每个字符依旧是以字节为单位存储的。</p></blockquote><h2 id="节点流和处理流"><a href="#节点流和处理流" class="headerlink" title="节点流和处理流"></a>节点流和处理流</h2><p>&emsp;&emsp;这是对流的根据功能的再一次分类。</p><ul><li>节点流：节点流是真正传输数据的流对象，用于向特定的一个地方（节点）读写数据，称为节点流。</li><li>处理流：处理流是对节点流的封装，使用外层的处理流读写数据，本质上是利用节点流的功能，外层的处理流可以提供额外的功能。处理流的基类都是以Filter开头。</li></ul><p>&emsp;&emsp;还有将两个流合并的SequenceInputOutStream。</p><hr><h1 id="字节流和字符流的转换"><a href="#字节流和字符流的转换" class="headerlink" title="字节流和字符流的转换"></a>字节流和字符流的转换</h1><p>&emsp;&emsp;从任何地方把数据读入到内存都是先以字节流形式读取，即使是使用字符流去读取数据，依然成立，因为数据永远是以字节的形式存在于互联网和硬件设备中，字符流是通过字符集的映射，才能够将字节转换为字符。  </p><p>&emsp;&emsp;java中提供了两种转换流：</p><ul><li>InputStreamReader：从字节流转换为字符流，将字节数据转换为字符数据读入到内存。</li><li>OutputStreamWriter：从字符流转换为字节流，将字符数据转换为字节数据写出到指定位置。</li></ul><blockquote><ol><li>传统的 BIO 是以流为基本单位处理数据的，想象成水流，一点点地传输字节数据，IO 流传输的过程永远是以字节形式传输。</li><li>字节流和字符流的区别在于操作的数据单位不相同，字符流是通过将字节数据通过字符集映射成对应的字符，字符流本质上也是字节流。</li></ol></blockquote><hr><h1 id="整理"><a href="#整理" class="headerlink" title="整理"></a>整理</h1><p>&emsp;&emsp;所有的流基本如下：</p><table><thead><tr><th>数据类型</th><th>基于字节的Input</th><th>基于字节的Output</th><th>基于字符的Input</th><th>基于字符的Output</th></tr></thead><tbody><tr><td>基础</td><td>InputStream</td><td>OutputStream</td><td>Reader</td><td>Writer</td></tr><tr><td>转换</td><td></td><td></td><td>InputStreamReader</td><td>OutputStreamWriter</td></tr><tr><td>数组</td><td>ByteArrayInputStream</td><td>ByteArrayOutputStream</td><td>CharArrayReader</td><td>CharArrayWriter</td></tr><tr><td>文件</td><td>FileInputStream、RandomAccessFile</td><td>FileOutputStream、RandomAccessFile</td><td>FileReader</td><td>FileWriter</td></tr><tr><td>管道</td><td>PipedInputStream</td><td>PipedOutputStream</td><td>PipedReader</td><td>PipedWriter</td></tr><tr><td>缓冲</td><td>BufferedInputStream</td><td>BufferedOutputStream</td><td>BufferedReader</td><td>BufferedWriter</td></tr><tr><td>过滤</td><td>FilterInputStream</td><td>FilterOutputStream</td><td>FilterReader</td><td>FilterWriter</td></tr><tr><td>解析</td><td>PushbackInputStream、StreamTokenizer</td><td></td><td>PushbackReader、LineNumberReader</td><td></td></tr><tr><td>字符串</td><td></td><td></td><td>StringReader</td><td>StringWriter</td></tr><tr><td>数据</td><td>DataInputStream</td><td>DataOutputStream</td><td></td><td></td></tr><tr><td>数据格式化</td><td></td><td>PrintStream</td><td></td><td>PrintWriter</td></tr><tr><td>对象</td><td>ObjectInputStream</td><td>ObjectOutputStream</td><td></td><td></td></tr><tr><td>合并流</td><td>SequenceInputStream</td><td></td><td></td><td></td></tr></tbody></table><hr><h1 id="传统BIO的问题"><a href="#传统BIO的问题" class="headerlink" title="传统BIO的问题"></a>传统BIO的问题</h1><ol><li>每个请求都需要创建独立的线程，与对应的客户端进行数据处理。</li><li>当并发数大时，需要创建大量线程来处理连接，系统资源占用较大。</li><li>连接建立后，如果当前线程暂时没有数据可读，则当前线程会一直阻塞在Read操作上，造成线程资源浪费。</li></ol><hr><h1 id="参考文献-amp-鸣谢"><a href="#参考文献-amp-鸣谢" class="headerlink" title="参考文献 &amp; 鸣谢"></a>参考文献 &amp; 鸣谢</h1><p><a href="https://segmentfault.com/a/1190000037714804">JAVA IO BIO NIO AIO</a></p><ul><li><a href="https://juejin.cn/post/6844903664256024584">BIO，NIO，AIO概览</a></li><li><a href="https://juejin.cn/post/6869537077122301965#heading-6">为什么一个还没毕业的大学生能够把 IO 讲的这么好？</a></li><li><a href="https://segmentfault.com/a/1190000037714804">理解什么是BIO/NIO/AIO</a></li></ul>]]></content>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h1&gt;&lt;p&gt;&amp;emsp;&amp;emsp;数据都以二进制存储在设备中，流就是将这些数据以二进制在各种设备间进行传输。  &lt;/p&gt;</summary>
-    
-    
-    
-    <category term="java" scheme="https://linqiankun.github.io/hexoblog/categories/java/"/>
-    
-    <category term="io" scheme="https://linqiankun.github.io/hexoblog/categories/java/io/"/>
-    
-    
-    <category term="io" scheme="https://linqiankun.github.io/hexoblog/tags/io/"/>
-    
-    <category term="java" scheme="https://linqiankun.github.io/hexoblog/tags/java/"/>
     
   </entry>
   
