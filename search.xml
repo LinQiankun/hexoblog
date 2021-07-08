@@ -62,6 +62,7 @@
 <li>神州信息（银行）</li>
 <li>宇信科技（银行）</li>
 <li>宁波易简电子科技（银行）</li>
+<li>安硕信息技术</li>
 </ol>
 ]]></content>
       <categories>
@@ -69,6 +70,71 @@
       </categories>
       <tags>
         <tag>todo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>光云科技一面面经</title>
+    <url>/hexoblog/%E9%9D%A2%E7%BB%8F/%E5%85%89%E4%BA%91%E7%A7%91%E6%8A%80%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/</url>
+    <content><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span>
+<p>写面经，攒人品</p>
+<ol>
+<li>自我介绍</li>
+<li>集合Hashmap<ol>
+<li>底层结构，版本</li>
+<li>1.7与1.8的结构区别，其他区别</li>
+</ol>
+</li>
+<li>ConcurrentHashmap与HashMap<ol>
+<li>结构，区别</li>
+<li>不同版本的区别</li>
+</ol>
+</li>
+<li>CAS是什么？</li>
+<li>常用的jvm虚拟机</li>
+<li>jvm垃圾回收器<ol>
+<li>有那些常用的垃圾回收器</li>
+<li>CMS的垃圾回收过程</li>
+</ol>
+</li>
+<li>单例模式<ol>
+<li>有哪些写法</li>
+<li>区别是什么</li>
+<li>双检锁的优点？是完美的吗？</li>
+</ol>
+</li>
+<li>数据库索引？（聚簇索引、非聚簇索引；hash索引、B+树索引）</li>
+<li> B+树结构？</li>
+<li>事务的隔离级别？作用？</li>
+<li>MVCC<ol>
+<li> MVCC原理</li>
+<li> MVCC在不同的隔离级别的区别</li>
+</ol>
+</li>
+<li>Spring<ol>
+<li> 有什么特点，功能，ioc，aop，DI</li>
+<li> xml配置如何转成Bean</li>
+<li> Bean的实例化过程</li>
+<li> 循环依赖</li>
+</ol>
+</li>
+<li>redis<ol>
+<li> 分布式锁怎么实现的</li>
+<li> 有哪些数据结构</li>
+</ol>
+</li>
+<li>rocketmq<ol>
+<li> 消息消费失败怎么处理的（没处理，使用mq的原生的重发机制）（分为投递失败，业务处理失败）</li>
+</ol>
+</li>
+<li>反问</li>
+</ol>
+<hr>
+<h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1>]]></content>
+      <categories>
+        <category>面经</category>
+      </categories>
+      <tags>
+        <tag>面经</tag>
       </tags>
   </entry>
   <entry>
@@ -308,6 +374,10 @@
 <li>线程之间是如何通信的？</li>
 <li>jvm垃圾回收器有哪些？</li>
 <li>jvm垃圾回收算法有哪些？</li>
+<li>多线程怎么通信的？</li>
+<li>如何3个线程按照指定abc的顺序打印10000万次？</li>
+<li>notify和notifyAll的区别？</li>
+<li>可以指定某个线程唤醒吗？</li>
 <li>项目中有什么印象深刻的？（异步获取结果）</li>
 <li>用过大数据方面的东西没？（没有）</li>
 <li>最近有在看什么书？</li>
@@ -825,6 +895,27 @@
       </tags>
   </entry>
   <entry>
+    <title>filter_interceptor</title>
+    <url>/hexoblog/md/java/filter-interceptor/</url>
+    <content><![CDATA[<h2 id="过滤器"><a href="#过滤器" class="headerlink" title="过滤器"></a>过滤器</h2><p>&emsp;&emsp;过滤器是用来过滤的，java的过滤器能够为我们提供系统级别的过滤，也就是说能够过滤所有的web请求，这一点是拦截器做不到的。<br>&emsp;&emsp;在java web中，你传入的request，response提前过滤掉一些信息，或者提前设置一些参数，然后在传入Servlet进行业务逻辑，比如过滤掉非法url和非法字符串。<br>&emsp;&emsp;filter流程是线性的，url传来之后，检查之后，可保持原来的流程继续向下执行，被下一个filter，servlet接收。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="拦截器"><a href="#拦截器" class="headerlink" title="拦截器"></a>拦截器</h2><p>&emsp;&emsp;java里面的拦截器提供的是非系统级别的拦截，也就是说，就覆盖面来说，拦截器不如过滤器强大但是更有针对性。<br>&emsp;&emsp;java中的拦截器是基于java反射机制实现的，更准确的划分，应该是基于jdk实现的动态代理。它依赖于具体的接口，在运行期间动态生成字节码。<br>&emsp;&emsp;拦截器是动态拦截Action调用的对象，他提供了一种机制可以使开发者在一个ation执行的前后执行一段代码，也可以在一个action执行前阻止其执行，同时也提供了一种可以提取action中可重用代码的方式。在AOP中，拦截器用于在某个方法或字段被访问之前，进行拦截然后再之前或之后加入某些操作。java的拦截器主要用于插件上，扩展件上，有点类似于面向切面的技术，在用之前要先在配置文件里声明。</p>
+<hr>
+<h2 id="监听器"><a href="#监听器" class="headerlink" title="监听器"></a>监听器</h2><p>&emsp;&emsp;java的监听器也是系统级别的监听。监听器随web应用的启动而启动。<br>&emsp;&emsp;java的监听器在c/s模式里面经常用到，它会对特定的事件产生一个处理。监听器在很多模式下用到，比如说观察者模式，就是使用监听器来实现的，又比如统计网站的在线人数。servlet监听器用于监听一些重要事件的发生，监听器对象可以在事件发生前，发生后做一些必要的处理。</p>
+<hr>
+<h1 id="对照"><a href="#对照" class="headerlink" title="对照"></a>对照</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/interceptor_filter_1.jpg" alt="对照"></p>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>filter</tag>
+        <tag>interceptor</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>javaSPI扩展</title>
     <url>/hexoblog/md/java/javaSPI%E6%89%A9%E5%B1%95/</url>
     <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;SPI就是一种服务发现机制。<br>&emsp;&emsp;SPI 是一种将服务接口与服务实现分离以达到解耦、大大提升了程序可扩展性的机制。引入服务提供者就是引入了 spi 接口的实现者，通过本地的注册发现获取到具体的实现类，轻松可插拔。<br>&emsp;&emsp;Java SPI 就是把某个接口的 指定实现类 （通过在指定文件配置的方式）给实例化出来了。</p>
@@ -930,27 +1021,6 @@ com.lin.javaspi.service.impl.HelloServiceImpl2<span aria-hidden="true" class="li
       <tags>
         <tag>java</tag>
         <tag>SPI</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>filter_interceptor</title>
-    <url>/hexoblog/md/java/filter-interceptor/</url>
-    <content><![CDATA[<h2 id="过滤器"><a href="#过滤器" class="headerlink" title="过滤器"></a>过滤器</h2><p>&emsp;&emsp;过滤器是用来过滤的，java的过滤器能够为我们提供系统级别的过滤，也就是说能够过滤所有的web请求，这一点是拦截器做不到的。<br>&emsp;&emsp;在java web中，你传入的request，response提前过滤掉一些信息，或者提前设置一些参数，然后在传入Servlet进行业务逻辑，比如过滤掉非法url和非法字符串。<br>&emsp;&emsp;filter流程是线性的，url传来之后，检查之后，可保持原来的流程继续向下执行，被下一个filter，servlet接收。</p>
-<span id="more"></span>
-
-<hr>
-<h2 id="拦截器"><a href="#拦截器" class="headerlink" title="拦截器"></a>拦截器</h2><p>&emsp;&emsp;java里面的拦截器提供的是非系统级别的拦截，也就是说，就覆盖面来说，拦截器不如过滤器强大但是更有针对性。<br>&emsp;&emsp;java中的拦截器是基于java反射机制实现的，更准确的划分，应该是基于jdk实现的动态代理。它依赖于具体的接口，在运行期间动态生成字节码。<br>&emsp;&emsp;拦截器是动态拦截Action调用的对象，他提供了一种机制可以使开发者在一个ation执行的前后执行一段代码，也可以在一个action执行前阻止其执行，同时也提供了一种可以提取action中可重用代码的方式。在AOP中，拦截器用于在某个方法或字段被访问之前，进行拦截然后再之前或之后加入某些操作。java的拦截器主要用于插件上，扩展件上，有点类似于面向切面的技术，在用之前要先在配置文件里声明。</p>
-<hr>
-<h2 id="监听器"><a href="#监听器" class="headerlink" title="监听器"></a>监听器</h2><p>&emsp;&emsp;java的监听器也是系统级别的监听。监听器随web应用的启动而启动。<br>&emsp;&emsp;java的监听器在c/s模式里面经常用到，它会对特定的事件产生一个处理。监听器在很多模式下用到，比如说观察者模式，就是使用监听器来实现的，又比如统计网站的在线人数。servlet监听器用于监听一些重要事件的发生，监听器对象可以在事件发生前，发生后做一些必要的处理。</p>
-<hr>
-<h1 id="对照"><a href="#对照" class="headerlink" title="对照"></a>对照</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/interceptor_filter_1.jpg" alt="对照"></p>
-]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>filter</tag>
-        <tag>interceptor</tag>
       </tags>
   </entry>
   <entry>
@@ -1387,57 +1457,6 @@ SELECT ... FOR UPDATE<span aria-hidden="true" class="line-numbers-rows"><span></
       </tags>
   </entry>
   <entry>
-    <title>happens-before</title>
-    <url>/hexoblog/md/jvm/happens-before/</url>
-    <content><![CDATA[<h1 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h1><p>&emsp;&emsp;在JMM中，由于存在线程本地内存和主内存的原因，再加上重排序，会导致多线程环境下存在可见性的问题。<br>&emsp;&emsp;JDK5开始，JMM使用happens-before概念来阐述多线程之间的内存可见性问题。</p>
-<blockquote>
-<p>&emsp;&emsp;在JMM中，如果一个操作的执行结果需要对另一个操作可见，那么这两个操作之间必须存在happens-before关系。  </p>
-</blockquote>
-<p>&emsp;&emsp;happens-before原则非常重要，它是判断数据是否存在竞争、线程是否安全的主要依据，依靠这个规则，我们解决在并发环境下两操作之间是否可能存在冲突的所有问题。</p>
-<span id="more"></span>
-
-<hr>
-<h1 id="内容："><a href="#内容：" class="headerlink" title="内容："></a>内容：</h1><h2 id="happens-before原则定义："><a href="#happens-before原则定义：" class="headerlink" title="happens-before原则定义："></a>happens-before原则定义：</h2><ol>
-<li>如果一个操作happens-before另一个操作，那么第一个操作的执行结果将对第二个操作可见，而且第一个操作的执行顺序在第二个操作之前。</li>
-<li>两个操作之间存在happens-before原则，并不意味着一定要按照happens-before原则制定的顺序来执行。如果重排序之后的执行结果与按照happens-before关系来执行的结果一致，那么这种重排序并不非法。</li>
-</ol>
-<h2 id="happens-before原则规则："><a href="#happens-before原则规则：" class="headerlink" title="happens-before原则规则："></a>happens-before原则规则：</h2><ol>
-<li>程序次序规则：一个线程内，按照代码顺序，书写在前面的操作先行发生于书写在后面的操作；</li>
-<li>锁定规则：一个unLock操作先行发生于后面对同一个锁额lock操作；</li>
-<li>volatile变量规则：对一个变量的写操作先行发生于后面对这个变量的读操作；</li>
-<li>传递规则：如果操作A先行发生于操作B，而操作B又先行发生于操作C，则可以得出操作A先行发生于操作C；</li>
-<li>线程启动规则：Thread对象的start()方法先行发生于此线程的每个一个动作；</li>
-<li>线程中断规则：对线程interrupt()方法的调用先行发生于被中断线程的代码检测到中断事件的发生；</li>
-<li>线程终结规则：线程中所有的操作都先行发生于线程的终止检测，我们可以通过Thread.join()方法结束、Thread.isAlive()的返回值手段检测到线程已经终止执行；</li>
-<li>对象终结规则：一个对象的初始化完成先行发生于他的finalize()方法的开始；</li>
-</ol>
-<h3 id="程序次序规则："><a href="#程序次序规则：" class="headerlink" title="程序次序规则："></a>程序次序规则：</h3><p>&emsp;&emsp;一段代码在单线程中的执行结果是有序的，注意是执行结果，因为虚拟机、处理器会对指令进行重排序（重排序后面会详细介绍）。虽然重排序了，但是并不会影响程序的执行结果，所以程序最终执行的结果与顺序执行的结果是一致的。故而这个规则只对单线程有效，在多线程环境下无法保证正确性。</p>
-<h3 id="锁定规则："><a href="#锁定规则：" class="headerlink" title="锁定规则："></a>锁定规则：</h3><p>&emsp;&emsp;这个规则比较好理解，无论是在单线程环境还是多线程环境，一个锁处于被锁定状态，那么必须先执行unlock操作后面才能进行lock操作。</p>
-<h3 id="volatile变量规则："><a href="#volatile变量规则：" class="headerlink" title="volatile变量规则："></a>volatile变量规则：</h3><p>&emsp;&emsp; 这是一条比较重要的规则，它标志着volatile保证了线程可见性。通俗点讲就是如果一个线程先去写一个volatile变量，然后一个线程去读这个变量，那么这个写操作一定是happens-before读操作的。</p>
-<h3 id="传递规则："><a href="#传递规则：" class="headerlink" title="传递规则："></a>传递规则：</h3><p>&emsp;&emsp;提现了happens-before原则具有传递性，即A happens-before B , B happens-before C，那么A happens-before C。</p>
-<h3 id="线程启动规则："><a href="#线程启动规则：" class="headerlink" title="线程启动规则："></a>线程启动规则：</h3><p>&emsp;&emsp;假定线程A在执行过程中，通过执行ThreadB.start()来启动线程B，那么线程A对共享变量的修改在接下来线程B开始执行后确保对线程B可见。</p>
-<h3 id="线程终结规则："><a href="#线程终结规则：" class="headerlink" title="线程终结规则："></a>线程终结规则：</h3><p>&emsp;&emsp;假定线程A在执行的过程中，通过制定ThreadB.join()等待线程B终止，那么线程B在终止之前对共享变量的修改在线程A等待返回后可见。</p>
-<hr>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>&emsp;&emsp;上面八条是原生Java满足Happens-before关系的规则，但是我们可以对他们进行推导出其他满足happens-before的规则：</p>
-<ol>
-<li>将一个元素放入一个线程安全的队列的操作Happens-Before从队列中取出这个元素的操作。</li>
-<li>将一个元素放入一个线程安全容器的操作Happens-Before从容器中取出这个元素的操作。</li>
-<li>在CountDownLatch上的倒数操作Happens-Before CountDownLatch#await()操作。</li>
-<li>释放Semaphore许可的操作Happens-Before获得许可操作。</li>
-<li>Future表示的任务的所有操作Happens-Before Future#get()操作。</li>
-<li>向Executor提交一个Runnable或Callable的操作Happens-Before任务开始执行操作。</li>
-<li>如果两个操作不满足上述任意一个happens-before规则，那么这两个操作就没有顺序的保障，JVM就可以对这两个操作进行重排序。如果操作Ahappens-before操作B，那么操作A在内存上所做的操作对操作B都是可见的。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>jvm</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>jvm</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Volatile</title>
     <url>/hexoblog/md/jvm/Volatile/</url>
     <content><![CDATA[<h1 id="JMM"><a href="#JMM" class="headerlink" title="JMM"></a>JMM</h1><p>&emsp;&emsp;Java内存模型，是虚拟机规范中所定义的一种内存模型，Java内存模型是标准化的，屏蔽掉了底层计算机之间的区别。<br>&emsp;&emsp;Java内存模型描述了Java程序中各种变量（线程共享变量）的访问规则，以及在JVM中将变量，存储到内存和从内存中读取变量这样的底层细节。</p>
@@ -1528,6 +1547,57 @@ SELECT ... FOR UPDATE<span aria-hidden="true" class="line-numbers-rows"><span></
 <li>volatile提供了happens-before保证，对volatile变量v的写入happens-before所有其他线程后续对v的读操作。</li>
 <li>volatile可以使得long和double的赋值是原子的。</li>
 <li>volatile可以在单例双重检查中实现可见性和禁止指令重排序，从而保证安全性。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>jvm</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>jvm</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>happens-before</title>
+    <url>/hexoblog/md/jvm/happens-before/</url>
+    <content><![CDATA[<h1 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h1><p>&emsp;&emsp;在JMM中，由于存在线程本地内存和主内存的原因，再加上重排序，会导致多线程环境下存在可见性的问题。<br>&emsp;&emsp;JDK5开始，JMM使用happens-before概念来阐述多线程之间的内存可见性问题。</p>
+<blockquote>
+<p>&emsp;&emsp;在JMM中，如果一个操作的执行结果需要对另一个操作可见，那么这两个操作之间必须存在happens-before关系。  </p>
+</blockquote>
+<p>&emsp;&emsp;happens-before原则非常重要，它是判断数据是否存在竞争、线程是否安全的主要依据，依靠这个规则，我们解决在并发环境下两操作之间是否可能存在冲突的所有问题。</p>
+<span id="more"></span>
+
+<hr>
+<h1 id="内容："><a href="#内容：" class="headerlink" title="内容："></a>内容：</h1><h2 id="happens-before原则定义："><a href="#happens-before原则定义：" class="headerlink" title="happens-before原则定义："></a>happens-before原则定义：</h2><ol>
+<li>如果一个操作happens-before另一个操作，那么第一个操作的执行结果将对第二个操作可见，而且第一个操作的执行顺序在第二个操作之前。</li>
+<li>两个操作之间存在happens-before原则，并不意味着一定要按照happens-before原则制定的顺序来执行。如果重排序之后的执行结果与按照happens-before关系来执行的结果一致，那么这种重排序并不非法。</li>
+</ol>
+<h2 id="happens-before原则规则："><a href="#happens-before原则规则：" class="headerlink" title="happens-before原则规则："></a>happens-before原则规则：</h2><ol>
+<li>程序次序规则：一个线程内，按照代码顺序，书写在前面的操作先行发生于书写在后面的操作；</li>
+<li>锁定规则：一个unLock操作先行发生于后面对同一个锁额lock操作；</li>
+<li>volatile变量规则：对一个变量的写操作先行发生于后面对这个变量的读操作；</li>
+<li>传递规则：如果操作A先行发生于操作B，而操作B又先行发生于操作C，则可以得出操作A先行发生于操作C；</li>
+<li>线程启动规则：Thread对象的start()方法先行发生于此线程的每个一个动作；</li>
+<li>线程中断规则：对线程interrupt()方法的调用先行发生于被中断线程的代码检测到中断事件的发生；</li>
+<li>线程终结规则：线程中所有的操作都先行发生于线程的终止检测，我们可以通过Thread.join()方法结束、Thread.isAlive()的返回值手段检测到线程已经终止执行；</li>
+<li>对象终结规则：一个对象的初始化完成先行发生于他的finalize()方法的开始；</li>
+</ol>
+<h3 id="程序次序规则："><a href="#程序次序规则：" class="headerlink" title="程序次序规则："></a>程序次序规则：</h3><p>&emsp;&emsp;一段代码在单线程中的执行结果是有序的，注意是执行结果，因为虚拟机、处理器会对指令进行重排序（重排序后面会详细介绍）。虽然重排序了，但是并不会影响程序的执行结果，所以程序最终执行的结果与顺序执行的结果是一致的。故而这个规则只对单线程有效，在多线程环境下无法保证正确性。</p>
+<h3 id="锁定规则："><a href="#锁定规则：" class="headerlink" title="锁定规则："></a>锁定规则：</h3><p>&emsp;&emsp;这个规则比较好理解，无论是在单线程环境还是多线程环境，一个锁处于被锁定状态，那么必须先执行unlock操作后面才能进行lock操作。</p>
+<h3 id="volatile变量规则："><a href="#volatile变量规则：" class="headerlink" title="volatile变量规则："></a>volatile变量规则：</h3><p>&emsp;&emsp; 这是一条比较重要的规则，它标志着volatile保证了线程可见性。通俗点讲就是如果一个线程先去写一个volatile变量，然后一个线程去读这个变量，那么这个写操作一定是happens-before读操作的。</p>
+<h3 id="传递规则："><a href="#传递规则：" class="headerlink" title="传递规则："></a>传递规则：</h3><p>&emsp;&emsp;提现了happens-before原则具有传递性，即A happens-before B , B happens-before C，那么A happens-before C。</p>
+<h3 id="线程启动规则："><a href="#线程启动规则：" class="headerlink" title="线程启动规则："></a>线程启动规则：</h3><p>&emsp;&emsp;假定线程A在执行过程中，通过执行ThreadB.start()来启动线程B，那么线程A对共享变量的修改在接下来线程B开始执行后确保对线程B可见。</p>
+<h3 id="线程终结规则："><a href="#线程终结规则：" class="headerlink" title="线程终结规则："></a>线程终结规则：</h3><p>&emsp;&emsp;假定线程A在执行的过程中，通过制定ThreadB.join()等待线程B终止，那么线程B在终止之前对共享变量的修改在线程A等待返回后可见。</p>
+<hr>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>&emsp;&emsp;上面八条是原生Java满足Happens-before关系的规则，但是我们可以对他们进行推导出其他满足happens-before的规则：</p>
+<ol>
+<li>将一个元素放入一个线程安全的队列的操作Happens-Before从队列中取出这个元素的操作。</li>
+<li>将一个元素放入一个线程安全容器的操作Happens-Before从容器中取出这个元素的操作。</li>
+<li>在CountDownLatch上的倒数操作Happens-Before CountDownLatch#await()操作。</li>
+<li>释放Semaphore许可的操作Happens-Before获得许可操作。</li>
+<li>Future表示的任务的所有操作Happens-Before Future#get()操作。</li>
+<li>向Executor提交一个Runnable或Callable的操作Happens-Before任务开始执行操作。</li>
+<li>如果两个操作不满足上述任意一个happens-before规则，那么这两个操作就没有顺序的保障，JVM就可以对这两个操作进行重排序。如果操作Ahappens-before操作B，那么操作A在内存上所做的操作对操作B都是可见的。</li>
 </ol>
 ]]></content>
       <categories>
@@ -2512,6 +2582,76 @@ mysqlbinlog --start-positoin<span class="token operator">=</span><span class="to
       </tags>
   </entry>
   <entry>
+    <title>redis分布式锁</title>
+    <url>/hexoblog/md/redis/redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/</url>
+    <content><![CDATA[<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>&emsp;&emsp;单机情况下，对于多线程情况下的竞态资源，我们可以在代码中使用synchronized或者ReentrantLock来加锁，防止发生并发问题。但是当我们的服务进行集群部署时，对于这两种加锁方式，就会失效，它们只能在单机加锁，所以就需要与之对应的分布式锁。</p>
+<span id="more"></span>
+
+<hr>
+<h1 id="要求"><a href="#要求" class="headerlink" title="要求"></a>要求</h1><ol>
+<li>互斥：任何时刻只能有一个客户端获取锁。</li>
+<li>释放死锁：不会发生死锁，即获取锁的服务崩溃，也能释放锁。</li>
+<li>容错性：（redlock中用）只要多数redis节点（一半以上）在使用，client就可以获取和释放锁。</li>
+</ol>
+<hr>
+<h1 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h1><p>&emsp;&emsp;一般采用redis的setnx原子操作来实现分布式锁。<br><a href="https://zhuanlan.zhihu.com/p/129886269">学习一下</a><br><a href="https://www.cnblogs.com/niceyoo/p/13711149.html">学习二下</a><br><a href="https://www.cnblogs.com/jojop/p/14008824.html">学习三下</a><br><a href="https://blog.csdn.net/asd051377305/article/details/108384490">学习四下</a></p>
+<h2 id="setnx（获得锁）"><a href="#setnx（获得锁）" class="headerlink" title="setnx（获得锁）"></a>setnx（获得锁）</h2><p>&emsp;&emsp;setnx 是SET if Not eXists(如果不存在，则 SET)的简写。<br>&emsp;&emsp;完整语法：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># set命令模式</span>
+<span class="token builtin class-name">set</span> key value <span class="token punctuation">[</span>EX seconds<span class="token operator">|</span>PX milliseconds<span class="token punctuation">]</span> <span class="token punctuation">[</span>NX<span class="token operator">|</span>XX<span class="token punctuation">]</span> <span class="token punctuation">[</span>KEEPTTL<span class="token punctuation">]</span>
+
+<span class="token comment"># setnx命令模式</span>
+setnx key value<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<ol>
+<li>value的值尽可能使用随机数或者线程独有的，能够识别的，为了安全的释放锁。</li>
+<li>使用不同的redis客户端（jedis，redisTemplate）时写法会有所不同，这里是redis黑窗口命令。</li>
+</ol>
+</blockquote>
+<p>&emsp;&emsp;参数说明：</p>
+<ol>
+<li>EX：设置过期时间，时间精确到秒</li>
+<li>PX：设置过期时间，时间精确到毫秒</li>
+<li>NX：表示key不存在时才设置，否则返回null</li>
+<li>XX：表示key存在时才设置，否则返回null</li>
+</ol>
+<h3 id="使用过程："><a href="#使用过程：" class="headerlink" title="使用过程："></a>使用过程：</h3><ol>
+<li>执行setnx命令进行加锁，返回ok，返回nil则为加锁失败。</li>
+<li>执行expire命令设置超时时间</li>
+<li>执行业务逻辑</li>
+<li>delete命令解锁</li>
+</ol>
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><ol>
+<li>加锁与设置超时时间分步执行，若超时时间设置失败则有可能产生死锁。</li>
+<li>delete命令存在误删非当前线程持有锁的可能。</li>
+<li>不支持阻塞等待，不可重入。</li>
+<li>单机redis锁，存在加锁后，主从切换时锁还未同步到问题，锁会丢失。</li>
+</ol>
+<h3 id="lua脚本（释放锁）"><a href="#lua脚本（释放锁）" class="headerlink" title="lua脚本（释放锁）"></a>lua脚本（释放锁）</h3><p>&emsp;&emsp;我们在手动解锁时，极限情况下会有删除其他线程锁的情况，因为我们的随机数比较和删除过程并不是原子操作。存在判断通过后，锁自动失效，其他线程加锁成功的情况，这是解锁会出问题。通过lua脚本原子操作，可以安全的解锁。</p>
+<pre class="line-numbers language-lua" data-language="lua"><code class="language-lua"><span class="token comment">-- lua删除锁：</span>
+<span class="token comment">-- KEYS和ARGV分别是以集合方式传入的参数，对应上文的Test和uuid。</span>
+<span class="token comment">-- 如果对应的value等于传入的uuid。</span>
+<span class="token keyword">if</span> redis<span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span><span class="token string">'get'</span><span class="token punctuation">,</span> KEYS<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">==</span> ARGV<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> 
+    <span class="token keyword">then</span> 
+ <span class="token comment">-- 执行删除操作</span>
+        <span class="token keyword">return</span> redis<span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span><span class="token string">'del'</span><span class="token punctuation">,</span> KEYS<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span> 
+    <span class="token keyword">else</span> 
+ <span class="token comment">-- 不成功，返回0</span>
+        <span class="token keyword">return</span> <span class="token number">0</span> 
+<span class="token keyword">end</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="setex-amp-psetex"><a href="#setex-amp-psetex" class="headerlink" title="setex&amp;psetex"></a>setex&amp;psetex</h3><p>&emsp;&emsp;setex等同于set命令在可选参数使用EX的情况，都是在NX模式下，添加了过期时间，避免死锁。psetex相对于setex采用毫秒作为超时单位。</p>
+]]></content>
+      <categories>
+        <category>redis</category>
+      </categories>
+      <tags>
+        <tag>redis</tag>
+        <tag>分布式</tag>
+        <tag>锁</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>redis安装和使用</title>
     <url>/hexoblog/md/redis/redis%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;这里是在windows环境下的redis安装过程，两种安装方式，都比较简单。<br>&emsp;&emsp;官方提供的只有linux系统的tar.gz格式的压缩包，windows的需要在github下载。<br><a href="https://redis.io/">https://redis.io/</a><br><a href="http://www.redis.cn/">http://www.redis.cn/</a><br><a href="https://www.redis.com.cn/">https://www.redis.com.cn/</a><br><a href="https://www.redis.com.cn/redis-installation.html">https://www.redis.com.cn/redis-installation.html</a></p>
@@ -2609,76 +2749,6 @@ redis-server.exe --service-stop<span aria-hidden="true" class="line-numbers-rows
       </categories>
       <tags>
         <tag>redis</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>redis分布式锁</title>
-    <url>/hexoblog/md/redis/redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/</url>
-    <content><![CDATA[<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>&emsp;&emsp;单机情况下，对于多线程情况下的竞态资源，我们可以在代码中使用synchronized或者ReentrantLock来加锁，防止发生并发问题。但是当我们的服务进行集群部署时，对于这两种加锁方式，就会失效，它们只能在单机加锁，所以就需要与之对应的分布式锁。</p>
-<span id="more"></span>
-
-<hr>
-<h1 id="要求"><a href="#要求" class="headerlink" title="要求"></a>要求</h1><ol>
-<li>互斥：任何时刻只能有一个客户端获取锁。</li>
-<li>释放死锁：不会发生死锁，即获取锁的服务崩溃，也能释放锁。</li>
-<li>容错性：（redlock中用）只要多数redis节点（一半以上）在使用，client就可以获取和释放锁。</li>
-</ol>
-<hr>
-<h1 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h1><p>&emsp;&emsp;一般采用redis的setnx原子操作来实现分布式锁。<br><a href="https://zhuanlan.zhihu.com/p/129886269">学习一下</a><br><a href="https://www.cnblogs.com/niceyoo/p/13711149.html">学习二下</a><br><a href="https://www.cnblogs.com/jojop/p/14008824.html">学习三下</a><br><a href="https://blog.csdn.net/asd051377305/article/details/108384490">学习四下</a></p>
-<h2 id="setnx（获得锁）"><a href="#setnx（获得锁）" class="headerlink" title="setnx（获得锁）"></a>setnx（获得锁）</h2><p>&emsp;&emsp;setnx 是SET if Not eXists(如果不存在，则 SET)的简写。<br>&emsp;&emsp;完整语法：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># set命令模式</span>
-<span class="token builtin class-name">set</span> key value <span class="token punctuation">[</span>EX seconds<span class="token operator">|</span>PX milliseconds<span class="token punctuation">]</span> <span class="token punctuation">[</span>NX<span class="token operator">|</span>XX<span class="token punctuation">]</span> <span class="token punctuation">[</span>KEEPTTL<span class="token punctuation">]</span>
-
-<span class="token comment"># setnx命令模式</span>
-setnx key value<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<blockquote>
-<ol>
-<li>value的值尽可能使用随机数或者线程独有的，能够识别的，为了安全的释放锁。</li>
-<li>使用不同的redis客户端（jedis，redisTemplate）时写法会有所不同，这里是redis黑窗口命令。</li>
-</ol>
-</blockquote>
-<p>&emsp;&emsp;参数说明：</p>
-<ol>
-<li>EX：设置过期时间，时间精确到秒</li>
-<li>PX：设置过期时间，时间精确到毫秒</li>
-<li>NX：表示key不存在时才设置，否则返回null</li>
-<li>XX：表示key存在时才设置，否则返回null</li>
-</ol>
-<h3 id="使用过程："><a href="#使用过程：" class="headerlink" title="使用过程："></a>使用过程：</h3><ol>
-<li>执行setnx命令进行加锁，返回ok，返回nil则为加锁失败。</li>
-<li>执行expire命令设置超时时间</li>
-<li>执行业务逻辑</li>
-<li>delete命令解锁</li>
-</ol>
-<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><ol>
-<li>加锁与设置超时时间分步执行，若超时时间设置失败则有可能产生死锁。</li>
-<li>delete命令存在误删非当前线程持有锁的可能。</li>
-<li>不支持阻塞等待，不可重入。</li>
-<li>单机redis锁，存在加锁后，主从切换时锁还未同步到问题，锁会丢失。</li>
-</ol>
-<h3 id="lua脚本（释放锁）"><a href="#lua脚本（释放锁）" class="headerlink" title="lua脚本（释放锁）"></a>lua脚本（释放锁）</h3><p>&emsp;&emsp;我们在手动解锁时，极限情况下会有删除其他线程锁的情况，因为我们的随机数比较和删除过程并不是原子操作。存在判断通过后，锁自动失效，其他线程加锁成功的情况，这是解锁会出问题。通过lua脚本原子操作，可以安全的解锁。</p>
-<pre class="line-numbers language-lua" data-language="lua"><code class="language-lua"><span class="token comment">-- lua删除锁：</span>
-<span class="token comment">-- KEYS和ARGV分别是以集合方式传入的参数，对应上文的Test和uuid。</span>
-<span class="token comment">-- 如果对应的value等于传入的uuid。</span>
-<span class="token keyword">if</span> redis<span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span><span class="token string">'get'</span><span class="token punctuation">,</span> KEYS<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">==</span> ARGV<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> 
-    <span class="token keyword">then</span> 
- <span class="token comment">-- 执行删除操作</span>
-        <span class="token keyword">return</span> redis<span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span><span class="token string">'del'</span><span class="token punctuation">,</span> KEYS<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span> 
-    <span class="token keyword">else</span> 
- <span class="token comment">-- 不成功，返回0</span>
-        <span class="token keyword">return</span> <span class="token number">0</span> 
-<span class="token keyword">end</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h3 id="setex-amp-psetex"><a href="#setex-amp-psetex" class="headerlink" title="setex&amp;psetex"></a>setex&amp;psetex</h3><p>&emsp;&emsp;setex等同于set命令在可选参数使用EX的情况，都是在NX模式下，添加了过期时间，避免死锁。psetex相对于setex采用毫秒作为超时单位。</p>
-]]></content>
-      <categories>
-        <category>redis</category>
-      </categories>
-      <tags>
-        <tag>redis</tag>
-        <tag>分布式</tag>
-        <tag>锁</tag>
       </tags>
   </entry>
   <entry>
@@ -2960,6 +3030,43 @@ setnx key value<span aria-hidden="true" class="line-numbers-rows"><span></span><
       </tags>
   </entry>
   <entry>
+    <title>git</title>
+    <url>/hexoblog/md/tool/git/</url>
+    <content><![CDATA[<h1 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h1><h2 id="将本地文件推送至远程"><a href="#将本地文件推送至远程" class="headerlink" title="将本地文件推送至远程"></a>将本地文件推送至远程</h2><ol>
+<li>首先在码云上建立一个项目</li>
+<li>本地建立一个文件夹</li>
+<li>进入文件夹，点击 git bash here</li>
+<li>git init  #初始化本地仓库，出现一个.git文件夹</li>
+<li>git remote add origin +远程仓库链接地址（https:/git:）</li>
+<li>git pull origin master  #将码云上的仓库pull到本地文件夹</li>
+<li>将要上传的文件，添加到刚刚创建的文件夹</li>
+<li>git add .  #（.表示所有的）或者 git add + 文件名 将文件保存到缓存区</li>
+<li>git commit -m ‘新添加的文件内容描述’  #添加文件描述</li>
+<li>git push origin master  #将本地仓库推送到远程仓库</li>
+</ol>
+<span id="more"></span>
+
+<h2 id="删除本地仓库"><a href="#删除本地仓库" class="headerlink" title="删除本地仓库"></a>删除本地仓库</h2><ol>
+<li>进入文件夹，点击 git bash here</li>
+<li>git branch  #显示本地所有分支</li>
+<li>ls -a  #显示所有文件</li>
+<li>rm -rf .git  #删除.git文件</li>
+<li>删除文件夹</li>
+</ol>
+<h2 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h2><ol>
+<li>git config  #查看配置</li>
+</ol>
+<hr>
+<h1 id="GIT命令"><a href="#GIT命令" class="headerlink" title="GIT命令"></a>GIT命令</h1>]]></content>
+      <categories>
+        <category>tool</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>hexo使用</title>
     <url>/hexoblog/md/tool/hexo%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><p>[toc]</p>
@@ -3020,43 +3127,6 @@ hexo d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></sp
       <tags>
         <tag>tool</tag>
         <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>git</title>
-    <url>/hexoblog/md/tool/git/</url>
-    <content><![CDATA[<h1 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h1><h2 id="将本地文件推送至远程"><a href="#将本地文件推送至远程" class="headerlink" title="将本地文件推送至远程"></a>将本地文件推送至远程</h2><ol>
-<li>首先在码云上建立一个项目</li>
-<li>本地建立一个文件夹</li>
-<li>进入文件夹，点击 git bash here</li>
-<li>git init  #初始化本地仓库，出现一个.git文件夹</li>
-<li>git remote add origin +远程仓库链接地址（https:/git:）</li>
-<li>git pull origin master  #将码云上的仓库pull到本地文件夹</li>
-<li>将要上传的文件，添加到刚刚创建的文件夹</li>
-<li>git add .  #（.表示所有的）或者 git add + 文件名 将文件保存到缓存区</li>
-<li>git commit -m ‘新添加的文件内容描述’  #添加文件描述</li>
-<li>git push origin master  #将本地仓库推送到远程仓库</li>
-</ol>
-<span id="more"></span>
-
-<h2 id="删除本地仓库"><a href="#删除本地仓库" class="headerlink" title="删除本地仓库"></a>删除本地仓库</h2><ol>
-<li>进入文件夹，点击 git bash here</li>
-<li>git branch  #显示本地所有分支</li>
-<li>ls -a  #显示所有文件</li>
-<li>rm -rf .git  #删除.git文件</li>
-<li>删除文件夹</li>
-</ol>
-<h2 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h2><ol>
-<li>git config  #查看配置</li>
-</ol>
-<hr>
-<h1 id="GIT命令"><a href="#GIT命令" class="headerlink" title="GIT命令"></a>GIT命令</h1>]]></content>
-      <categories>
-        <category>tool</category>
-      </categories>
-      <tags>
-        <tag>tool</tag>
-        <tag>git</tag>
       </tags>
   </entry>
   <entry>
@@ -3490,6 +3560,29 @@ hexo d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></sp
       </tags>
   </entry>
   <entry>
+    <title>zookeeper实现分布式锁</title>
+    <url>/hexoblog/md/zookeeper/zookeeper%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;分布式锁的作用：<strong>在整个系统提供一个全局、唯一的锁，在分布式系统中每个系统在进行相关操作的时候需要获取到该锁，才能执行相应操作</strong>。  </p>
+<span id="more"></span>
+
+<p>&emsp;&emsp;大致思想为：<strong>每个客户端对每个方法加锁时，在zookeeper上的与该方法对应的指定节点的目录下，生成一个唯一的瞬时有序节点。判断是否获取锁的方式很简单，只需要判断有序节点中序号最小的一个。当释放锁的时候，只需将这个瞬时节点删除即可。同时，其可以避免服务宕机导致的锁无法释放，而产生死锁的问题</strong>。</p>
+<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><ol>
+<li>利用Zookeeper可以创建临时有序节点的特性创建一个分布式锁。</li>
+<li>多个系统的多个线程都要在此目录下创建临时有序节点，因为Zookeeper会为我们保证节点的有序性，所以可以利用节点的顺序性来对不同线程的先来后到进行判断。此时，在分布式下应该添加锁的线程就是zk指定目录下序号最小的临时序列节点所代表的线程。</li>
+<li>当每个线程请求对应资源时，都需要现在zk指定目录下创建临时有序节点，然后获取当前目录下最小的节点序号（加锁的线程），判断最小节点是不是当前节点（是不是自己），如果是那么获取锁成功，如果不是获取锁失败。</li>
+<li>获取锁失败的线程获取当前节点上一个临时有序节点，并对此节点进行监听。当该节点删除的时候（执行结束或者掉线，释放锁）这个线程会获取到通知，代表获取到了锁。这里的每一个节点都只是监听它的上一个节点，而不是监听最小的节点。因为临时节点都是有序号的，而且序号不会回退，所以只需要监听比其小1的节点。只要比它小1的节点被删除，则它就可以拿到资源去操作。</li>
+</ol>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/zk%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81.jpg" alt="分布式锁流程"></p>
+]]></content>
+      <categories>
+        <category>zookeeper</category>
+      </categories>
+      <tags>
+        <tag>zookeeper</tag>
+        <tag>分布式锁</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>zookeeper简述</title>
     <url>/hexoblog/md/zookeeper/zookeeper%E7%AE%80%E8%BF%B0/</url>
     <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;从本质上来说，Zookeeper就是一种分布式协调服务，在分布式环境中协调和管理服务是一个复杂的过程。  </p>
@@ -3576,26 +3669,24 @@ hexo d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></sp
       </tags>
   </entry>
   <entry>
-    <title>zookeeper实现分布式锁</title>
-    <url>/hexoblog/md/zookeeper/zookeeper%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;分布式锁的作用：<strong>在整个系统提供一个全局、唯一的锁，在分布式系统中每个系统在进行相关操作的时候需要获取到该锁，才能执行相应操作</strong>。  </p>
+    <title>zookeeper集群及ZAB简介</title>
+    <url>/hexoblog/md/zookeeper/zookeeper%E9%9B%86%E7%BE%A4%E5%8F%8AZAB/</url>
+    <content><![CDATA[<h1 id="集群"><a href="#集群" class="headerlink" title="集群"></a>集群</h1><p>&emsp;&emsp;普通的集群模式一般是主备模式（Master/Slave模式），Master作为主服务器提供写服务，Slave作为从服务器，一般采用异步复制的方式获取Master的数据提供读服务。  </p>
 <span id="more"></span>
 
-<p>&emsp;&emsp;大致思想为：<strong>每个客户端对每个方法加锁时，在zookeeper上的与该方法对应的指定节点的目录下，生成一个唯一的瞬时有序节点。判断是否获取锁的方式很简单，只需要判断有序节点中序号最小的一个。当释放锁的时候，只需将这个瞬时节点删除即可。同时，其可以避免服务宕机导致的锁无法释放，而产生死锁的问题</strong>。</p>
-<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><ol>
-<li>利用Zookeeper可以创建临时有序节点的特性创建一个分布式锁。</li>
-<li>多个系统的多个线程都要在此目录下创建临时有序节点，因为Zookeeper会为我们保证节点的有序性，所以可以利用节点的顺序性来对不同线程的先来后到进行判断。此时，在分布式下应该添加锁的线程就是zk指定目录下序号最小的临时序列节点所代表的线程。</li>
-<li>当每个线程请求对应资源时，都需要现在zk指定目录下创建临时有序节点，然后获取当前目录下最小的节点序号（加锁的线程），判断最小节点是不是当前节点（是不是自己），如果是那么获取锁成功，如果不是获取锁失败。</li>
-<li>获取锁失败的线程获取当前节点上一个临时有序节点，并对此节点进行监听。当该节点删除的时候（执行结束或者掉线，释放锁）这个线程会获取到通知，代表获取到了锁。这里的每一个节点都只是监听它的上一个节点，而不是监听最小的节点。因为临时节点都是有序号的，而且序号不会回退，所以只需要监听比其小1的节点。只要比它小1的节点被删除，则它就可以拿到资源去操作。</li>
-</ol>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/zk%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81.jpg" alt="分布式锁流程"></p>
+<p>&emsp;&emsp;在Zookeeper中，没有使用传统模式，而是引入了Leader，Follower，Observer三种角色。<br>&emsp;&emsp;ZooKeeper集群中的所有机器通过一个Leader选举算法来选定一台称为 “Leader” 的机器，Leader既可以为客户端提供写服务又能提供读服务。除了Leader外，Follower和Observer都只能提供读服务。<br>&emsp;&emsp;Follower和Observer唯一的区别在于Observer机器不参与Leader的选举过程，也不参与写操作的“过半写成功”策略，因此Observer机器可以在不影响写性能的情况下提升集群的读性能。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/zookeeper.jpg" alt="zookeeper角色"></p>
+<hr>
+<h1 id="ZAB简介"><a href="#ZAB简介" class="headerlink" title="ZAB简介"></a>ZAB简介</h1><p>&emsp;&emsp;ZAB（ZooKeeper Atomic Broadcast 原子广播）协议是为分布式协调服务ZooKeeper专门设计的一种支持崩溃恢复的原子广播协议。在ZooKeeper中，主要依赖ZAB协议来实现分布式数据一致性，基于该协议，ZooKeeper实现了一种主备模式的系统架构来保持集群中各个副本之间的数据一致性。<br>&emsp;&emsp;ZAB协议包括两种基本模式：崩溃恢复和消息广播。</p>
+<h2 id="崩溃恢复"><a href="#崩溃恢复" class="headerlink" title="崩溃恢复"></a>崩溃恢复</h2><p>&emsp;&emsp;当整个服务框架在启动过程中，或是当Leader服务器出现网络中断、崩溃退出与重启等异常情况时，ZAB 协议就会进人恢复模式并选举产生新的Leader服务器。<br>&emsp;&emsp;当选举产生了新的Leader服务器，同时集群中已经有过半的机器与该Leader服务器完成了状态同步之后，ZAB协议就会退出恢复模式。其中，所谓的状态同步是指数据同步，用来保证集群中存在过半的机器能够和Leader服务器的数据状态保持一致。</p>
+<h2 id="消息广播"><a href="#消息广播" class="headerlink" title="消息广播"></a>消息广播</h2><p>&emsp;&emsp;当集群中已经有过半的Follower服务器完成了和Leader服务器的状态同步，那么整个服务框架就可以进人消息广播模式了。<br>&emsp;&emsp;当一台同样遵守ZAB协议的服务器启动后加人到集群中时，如果此时集群中已经存在一个Leader服务器在负责进行消息广播，那么新加人的服务器就会自觉地进人数据恢复模式：找到Leader所在的服务器，并与其进行数据同步，然后一起参与到消息广播流程中去。<br>&emsp;&emsp;正如上文介绍中所说的，ZooKeeper设计成只允许唯一的一个Leader服务器来进行事务请求的处理。Leader服务器在接收到客户端的事务请求后，会生成对应的事务提案并发起一轮广播协议；而如果集群中的其他机器接收到客户端的事务请求，那么这些非Leader服务器会首先将这个事务请求转发给Leader服务器。</p>
 ]]></content>
       <categories>
         <category>zookeeper</category>
       </categories>
       <tags>
+        <tag>分布式</tag>
         <tag>zookeeper</tag>
-        <tag>分布式锁</tag>
       </tags>
   </entry>
   <entry>
@@ -3679,27 +3770,6 @@ zkServer<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
       </tags>
   </entry>
   <entry>
-    <title>zookeeper集群及ZAB简介</title>
-    <url>/hexoblog/md/zookeeper/zookeeper%E9%9B%86%E7%BE%A4%E5%8F%8AZAB/</url>
-    <content><![CDATA[<h1 id="集群"><a href="#集群" class="headerlink" title="集群"></a>集群</h1><p>&emsp;&emsp;普通的集群模式一般是主备模式（Master/Slave模式），Master作为主服务器提供写服务，Slave作为从服务器，一般采用异步复制的方式获取Master的数据提供读服务。  </p>
-<span id="more"></span>
-
-<p>&emsp;&emsp;在Zookeeper中，没有使用传统模式，而是引入了Leader，Follower，Observer三种角色。<br>&emsp;&emsp;ZooKeeper集群中的所有机器通过一个Leader选举算法来选定一台称为 “Leader” 的机器，Leader既可以为客户端提供写服务又能提供读服务。除了Leader外，Follower和Observer都只能提供读服务。<br>&emsp;&emsp;Follower和Observer唯一的区别在于Observer机器不参与Leader的选举过程，也不参与写操作的“过半写成功”策略，因此Observer机器可以在不影响写性能的情况下提升集群的读性能。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/zookeeper.jpg" alt="zookeeper角色"></p>
-<hr>
-<h1 id="ZAB简介"><a href="#ZAB简介" class="headerlink" title="ZAB简介"></a>ZAB简介</h1><p>&emsp;&emsp;ZAB（ZooKeeper Atomic Broadcast 原子广播）协议是为分布式协调服务ZooKeeper专门设计的一种支持崩溃恢复的原子广播协议。在ZooKeeper中，主要依赖ZAB协议来实现分布式数据一致性，基于该协议，ZooKeeper实现了一种主备模式的系统架构来保持集群中各个副本之间的数据一致性。<br>&emsp;&emsp;ZAB协议包括两种基本模式：崩溃恢复和消息广播。</p>
-<h2 id="崩溃恢复"><a href="#崩溃恢复" class="headerlink" title="崩溃恢复"></a>崩溃恢复</h2><p>&emsp;&emsp;当整个服务框架在启动过程中，或是当Leader服务器出现网络中断、崩溃退出与重启等异常情况时，ZAB 协议就会进人恢复模式并选举产生新的Leader服务器。<br>&emsp;&emsp;当选举产生了新的Leader服务器，同时集群中已经有过半的机器与该Leader服务器完成了状态同步之后，ZAB协议就会退出恢复模式。其中，所谓的状态同步是指数据同步，用来保证集群中存在过半的机器能够和Leader服务器的数据状态保持一致。</p>
-<h2 id="消息广播"><a href="#消息广播" class="headerlink" title="消息广播"></a>消息广播</h2><p>&emsp;&emsp;当集群中已经有过半的Follower服务器完成了和Leader服务器的状态同步，那么整个服务框架就可以进人消息广播模式了。<br>&emsp;&emsp;当一台同样遵守ZAB协议的服务器启动后加人到集群中时，如果此时集群中已经存在一个Leader服务器在负责进行消息广播，那么新加人的服务器就会自觉地进人数据恢复模式：找到Leader所在的服务器，并与其进行数据同步，然后一起参与到消息广播流程中去。<br>&emsp;&emsp;正如上文介绍中所说的，ZooKeeper设计成只允许唯一的一个Leader服务器来进行事务请求的处理。Leader服务器在接收到客户端的事务请求后，会生成对应的事务提案并发起一轮广播协议；而如果集群中的其他机器接收到客户端的事务请求，那么这些非Leader服务器会首先将这个事务请求转发给Leader服务器。</p>
-]]></content>
-      <categories>
-        <category>zookeeper</category>
-      </categories>
-      <tags>
-        <tag>分布式</tag>
-        <tag>zookeeper</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>一致性hash</title>
     <url>/hexoblog/md/%E5%88%86%E5%B8%83%E5%BC%8F/%E4%B8%80%E8%87%B4%E6%80%A7hash/</url>
     <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;在分布式系统中，通常不同的机器存储着不同的数据，例如redis集群中存储的数据。<br>&emsp;&emsp;这些数据通常采用hash算法来计算出应该存储在那台机器上。但是，当集群中的节点增加或者减少时，通过原有的hash算法计算出来的位置将会完全错误。<br>&emsp;&emsp;一致性hash就是为了解决这种问题诞生的。</p>
@@ -3715,6 +3785,48 @@ zkServer<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
       <tags>
         <tag>分布式</tag>
         <tag>hash</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>分布式事务</title>
+    <url>/hexoblog/md/%E5%88%86%E5%B8%83%E5%BC%8F/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/</url>
+    <content><![CDATA[<h1 id="分布式事务类型："><a href="#分布式事务类型：" class="headerlink" title="分布式事务类型："></a>分布式事务类型：</h1><p>分布式事务处理机制共有四种：</p>
+<ol>
+<li>两阶段提交</li>
+<li>TCC事务（事务补偿）</li>
+<li>本地消息表（异步确保），</li>
+<li>MQ事务消息。</li>
+</ol>
+<span id="more"></span>
+
+<h2 id="两阶段提交："><a href="#两阶段提交：" class="headerlink" title="两阶段提交："></a>两阶段提交：</h2><p>&emsp;&emsp;与数据库XA事务一样，两阶段提交使用XA协议。<br>&emsp;&emsp;两阶段提交这种方案属于牺牲了一部分可用性来换取的一致性。</p>
+<h3 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;尽量保证了数据的强一致，适合对数据强一致要求很高的关键领域。</p>
+<h3 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;实现复杂，牺牲了可用性，对性能影响较大，不适合高并发高性能场景，如分布式系统跨接口调用。</p>
+<h2 id="TCC事务："><a href="#TCC事务：" class="headerlink" title="TCC事务："></a>TCC事务：</h2><p>&emsp;&emsp;TCC其实就是采用的补偿机制，其核心思想是：针对每个操作，都要注册一个与其对应的确认和补偿操作。分为三个阶段：</p>
+<ol>
+<li> Try阶段主要是对业务系统做检测和资源预留。</li>
+<li> Confirm阶段主要是对业务系统做确认提交，Try阶段执行成功并开始执行Confirm阶段时，默认Confirm阶段是不会出错的。即：只要Try成功，Confirm一定成功。</li>
+<li> Cancel阶段主要是在业务执行错误，需要回滚的状态下，执行的业务取消，预留资源释放。</li>
+</ol>
+<h3 id="优点：-1"><a href="#优点：-1" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;跟2阶段提交比起来，实现及流程相对简单了些，但数据的一致性也要比2阶段提交要差一些。</p>
+<h3 id="缺点：-1"><a href="#缺点：-1" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;在2，3步中都可能失败。TCC是一种应用层的补偿方式，需要程序员在实现时写很多补偿的代码，一些场景中，一些业务流程用TCC不太好定义及处理。</p>
+<h2 id="本地消息表："><a href="#本地消息表：" class="headerlink" title="本地消息表："></a>本地消息表：</h2><p>&emsp;&emsp;使用最多的，核心思想是将分布式事务拆分成本地事务进行处理，来源于ebay。</p>
+<p>基本思路就是：</p>
+<p>&emsp;&emsp;消息生产方，需要额外建一个消息表，并记录消息发送状态。消息表和业务数据要在一个事务里提交，也就是说他们要在一个数据库里面。然后会经由MQ发送到消息的消费方。如果消息发送失败，会进行重试发送。<br>&emsp;&emsp;消息消费方，需要处理这个消息，并完成这个的业务逻辑。如果此时本地事务处理成功，表明已经处理成功了，如果处理失败，那么就会重试执行。如果是业务上面的失败，可以给生产方发送一个业务补偿消息，通知生产方进行回滚等操作。<br>&emsp;&emsp;生产方和消费方定时扫描本地消息表，把还没处理完成的消息或者失败的消息在发送一遍。<br>&emsp;&emsp;这种方案遵循最终一致性。</p>
+<h3 id="优点：-2"><a href="#优点：-2" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;一种非常经典的实现， 避免的分布式事务，实现了最终一致性。</p>
+<h3 id="缺点：-2"><a href="#缺点：-2" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;消息表会耦合到业务系统中，如果没有封装好的解决方案，会有很多杂活需要处理。</p>
+<h2 id="MQ事务消息："><a href="#MQ事务消息：" class="headerlink" title="MQ事务消息："></a>MQ事务消息：</h2><p>&emsp;&emsp;有一些第三方的MQ是支持事务消息的，比如RocketMQ，他们支持事务消息的方式也是类似于采用的二阶段提交，但一些主流的MQ都是不支持事务消息的，如RabbitMQ和Kafka都不支持。</p>
+<p>以阿里的RocketMQ为例：</p>
+<p>&emsp;&emsp;第一阶段Prepared消息，会拿到消息的地址。<br>&emsp;&emsp;第二阶段执行本地事务，第三阶段通过第一阶段拿到的地址去访问消息，并修改状态。<br>&emsp;&emsp;也就是说在业务方法内部要想消息队列提交两次请求，一次发送消息和一次确认消息。如果确认消息发送失败了，RocketMQ会定期扫描消息集群中的事务消息，这是发现了Prepared消息，它会像消息发送者确认，所以生产方需要实现一个check接口，RocketMQ会根据发送端设置的策略来决定是回滚还是继续发送确认消息。这样就保证了消息发送与本地事务同时成功或同时失败。</p>
+<h3 id="优点：-3"><a href="#优点：-3" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;实现了最终一致性，不需要依赖本地数据库事务。</p>
+<h3 id="缺点：-3"><a href="#缺点：-3" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;实现难度大，主流MQ不支持，RocketMQ事务消息部分代码未开源。</p>
+]]></content>
+      <categories>
+        <category>分布式</category>
+      </categories>
+      <tags>
+        <tag>分布式</tag>
+        <tag>acid</tag>
       </tags>
   </entry>
   <entry>
@@ -3787,48 +3899,6 @@ zkServer<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
       <tags>
         <tag>lock</tag>
         <tag>分布式</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>分布式事务</title>
-    <url>/hexoblog/md/%E5%88%86%E5%B8%83%E5%BC%8F/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/</url>
-    <content><![CDATA[<h1 id="分布式事务类型："><a href="#分布式事务类型：" class="headerlink" title="分布式事务类型："></a>分布式事务类型：</h1><p>分布式事务处理机制共有四种：</p>
-<ol>
-<li>两阶段提交</li>
-<li>TCC事务（事务补偿）</li>
-<li>本地消息表（异步确保），</li>
-<li>MQ事务消息。</li>
-</ol>
-<span id="more"></span>
-
-<h2 id="两阶段提交："><a href="#两阶段提交：" class="headerlink" title="两阶段提交："></a>两阶段提交：</h2><p>&emsp;&emsp;与数据库XA事务一样，两阶段提交使用XA协议。<br>&emsp;&emsp;两阶段提交这种方案属于牺牲了一部分可用性来换取的一致性。</p>
-<h3 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;尽量保证了数据的强一致，适合对数据强一致要求很高的关键领域。</p>
-<h3 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;实现复杂，牺牲了可用性，对性能影响较大，不适合高并发高性能场景，如分布式系统跨接口调用。</p>
-<h2 id="TCC事务："><a href="#TCC事务：" class="headerlink" title="TCC事务："></a>TCC事务：</h2><p>&emsp;&emsp;TCC其实就是采用的补偿机制，其核心思想是：针对每个操作，都要注册一个与其对应的确认和补偿操作。分为三个阶段：</p>
-<ol>
-<li> Try阶段主要是对业务系统做检测和资源预留。</li>
-<li> Confirm阶段主要是对业务系统做确认提交，Try阶段执行成功并开始执行Confirm阶段时，默认Confirm阶段是不会出错的。即：只要Try成功，Confirm一定成功。</li>
-<li> Cancel阶段主要是在业务执行错误，需要回滚的状态下，执行的业务取消，预留资源释放。</li>
-</ol>
-<h3 id="优点：-1"><a href="#优点：-1" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;跟2阶段提交比起来，实现及流程相对简单了些，但数据的一致性也要比2阶段提交要差一些。</p>
-<h3 id="缺点：-1"><a href="#缺点：-1" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;在2，3步中都可能失败。TCC是一种应用层的补偿方式，需要程序员在实现时写很多补偿的代码，一些场景中，一些业务流程用TCC不太好定义及处理。</p>
-<h2 id="本地消息表："><a href="#本地消息表：" class="headerlink" title="本地消息表："></a>本地消息表：</h2><p>&emsp;&emsp;使用最多的，核心思想是将分布式事务拆分成本地事务进行处理，来源于ebay。</p>
-<p>基本思路就是：</p>
-<p>&emsp;&emsp;消息生产方，需要额外建一个消息表，并记录消息发送状态。消息表和业务数据要在一个事务里提交，也就是说他们要在一个数据库里面。然后会经由MQ发送到消息的消费方。如果消息发送失败，会进行重试发送。<br>&emsp;&emsp;消息消费方，需要处理这个消息，并完成这个的业务逻辑。如果此时本地事务处理成功，表明已经处理成功了，如果处理失败，那么就会重试执行。如果是业务上面的失败，可以给生产方发送一个业务补偿消息，通知生产方进行回滚等操作。<br>&emsp;&emsp;生产方和消费方定时扫描本地消息表，把还没处理完成的消息或者失败的消息在发送一遍。<br>&emsp;&emsp;这种方案遵循最终一致性。</p>
-<h3 id="优点：-2"><a href="#优点：-2" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;一种非常经典的实现， 避免的分布式事务，实现了最终一致性。</p>
-<h3 id="缺点：-2"><a href="#缺点：-2" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;消息表会耦合到业务系统中，如果没有封装好的解决方案，会有很多杂活需要处理。</p>
-<h2 id="MQ事务消息："><a href="#MQ事务消息：" class="headerlink" title="MQ事务消息："></a>MQ事务消息：</h2><p>&emsp;&emsp;有一些第三方的MQ是支持事务消息的，比如RocketMQ，他们支持事务消息的方式也是类似于采用的二阶段提交，但一些主流的MQ都是不支持事务消息的，如RabbitMQ和Kafka都不支持。</p>
-<p>以阿里的RocketMQ为例：</p>
-<p>&emsp;&emsp;第一阶段Prepared消息，会拿到消息的地址。<br>&emsp;&emsp;第二阶段执行本地事务，第三阶段通过第一阶段拿到的地址去访问消息，并修改状态。<br>&emsp;&emsp;也就是说在业务方法内部要想消息队列提交两次请求，一次发送消息和一次确认消息。如果确认消息发送失败了，RocketMQ会定期扫描消息集群中的事务消息，这是发现了Prepared消息，它会像消息发送者确认，所以生产方需要实现一个check接口，RocketMQ会根据发送端设置的策略来决定是回滚还是继续发送确认消息。这样就保证了消息发送与本地事务同时成功或同时失败。</p>
-<h3 id="优点：-3"><a href="#优点：-3" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;实现了最终一致性，不需要依赖本地数据库事务。</p>
-<h3 id="缺点：-3"><a href="#缺点：-3" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;实现难度大，主流MQ不支持，RocketMQ事务消息部分代码未开源。</p>
-]]></content>
-      <categories>
-        <category>分布式</category>
-      </categories>
-      <tags>
-        <tag>分布式</tag>
-        <tag>acid</tag>
       </tags>
   </entry>
   <entry>
@@ -5095,72 +5165,6 @@ start nginx
       </tags>
   </entry>
   <entry>
-    <title>threadpool</title>
-    <url>/hexoblog/md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/threadpool/</url>
-    <content><![CDATA[<h1 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h1><p><a href="https://my.oschina.net/linqiankun/blog/3192649">线程池</a><br><a href="https://gitee.com/linqiankun/codes/cshv4db0eq7znx6a5g2im43">线程池demo</a></p>
-<h2 id="newCachedThreadPool"><a href="#newCachedThreadPool" class="headerlink" title="newCachedThreadPool:"></a>newCachedThreadPool:</h2><h3 id="底层："><a href="#底层：" class="headerlink" title="底层："></a>底层：</h3><p>&emsp;&emsp;创建一个可缓存的线程池实例，如果线程池长度超过处理需要，可灵活回收空闲线程。<br>&emsp;&emsp;返回ThreadPoolExecutor实例，corePoolSize为0；maximumPoolSize为Integer.MAX_VALUE；keepAliveTime为60L；unit为TimeUnit.SECOhexoNDS；workQueue为SynchronousQueue(同步队列)。</p>
-<span id="more"></span>
-
-<h3 id="通俗："><a href="#通俗：" class="headerlink" title="通俗："></a>通俗：</h3><p>&emsp;&emsp;当有新任务到来，则插入到SynchronousQueue中，由于SynchronousQueue是同步队列，因此会在池中寻找可用线程来执行，若有可以线程则执行，若没有可用线程则创建一个线程来执行该任务；若池中线程空闲时间超过指定大小，则该线程会被销毁。</p>
-<h3 id="适用："><a href="#适用：" class="headerlink" title="适用："></a>适用：</h3><p>&emsp;&emsp;执行很多短期异步的小程序或者负载较轻的服务器。</p>
-<hr>
-<h2 id="newFixedThreadPool"><a href="#newFixedThreadPool" class="headerlink" title="newFixedThreadPool:"></a>newFixedThreadPool:</h2><h3 id="底层：-1"><a href="#底层：-1" class="headerlink" title="底层："></a>底层：</h3><p>&emsp;&emsp;创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待。<br>&emsp;&emsp;返回ThreadPoolExecutor实例，接收参数为所设定线程数量nThread，corePoolSize为nThread，maximumPoolSize为nThread；keepAliveTime为0L(不限时)；unit为：TimeUnit.MILLISECONDS；WorkQueue为：new LinkedBlockingQueue&lt;Runnable&gt;() 无界阻塞队列。</p>
-<h3 id="通俗：-1"><a href="#通俗：-1" class="headerlink" title="通俗："></a>通俗：</h3><p>&emsp;&emsp;创建可容纳固定数量线程的池子，每隔线程的存活时间是无限的，当池子满了就不在添加线程了；如果池中的所有线程均在繁忙状态，对于新任务会进入阻塞队列中(无界的阻塞队列)。</p>
-<h3 id="适用：-1"><a href="#适用：-1" class="headerlink" title="适用："></a>适用：</h3><p>&emsp;&emsp;执行长期任务，性能好很多。</p>
-<hr>
-<h2 id="newSingleThreadExecutor"><a href="#newSingleThreadExecutor" class="headerlink" title="newSingleThreadExecutor:"></a>newSingleThreadExecutor:</h2><h3 id="底层：-2"><a href="#底层：-2" class="headerlink" title="底层："></a>底层：</h3><p>&emsp;&emsp;创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有线程按照指定顺序执行。<br>&emsp;&emsp;FinalizableDelegatedExecutorService包装的ThreadPoolExecutor实例，corePoolSize为1；maximumPoolSize为1；keepAliveTime为0L；unit为：TimeUnit.MILLISECONDS；workQueue为：new LinkedBlockingQueue&lt;Runnable&gt;() 无解阻塞队列。</p>
-<h3 id="通俗：-2"><a href="#通俗：-2" class="headerlink" title="通俗："></a>通俗：</h3><p>&emsp;&emsp;创建只有一个线程的线程池，且线程的存活时间是无限的；当该线程正繁忙时，对于新任务会进入阻塞队列中(无界的阻塞队列)。</p>
-<h3 id="适用：-2"><a href="#适用：-2" class="headerlink" title="适用："></a>适用：</h3><p>&emsp;&emsp;一个任务一个任务执行的场景。</p>
-<hr>
-<h2 id="NewScheduledThreadPool"><a href="#NewScheduledThreadPool" class="headerlink" title="NewScheduledThreadPool:"></a>NewScheduledThreadPool:</h2><h3 id="底层：-3"><a href="#底层：-3" class="headerlink" title="底层："></a>底层：</h3><p>&emsp;&emsp;创建一个定长线程池，支持定时及周期性执行任务。<br>&emsp;&emsp;创建ScheduledThreadPoolExecutor实例，corePoolSize为传递来的参数，maximumPoolSize为Integer.MAX_VALUE；keepAliveTime为0；unit为：TimeUnit.NANOSECONDS；workQueue为：new DelayedWorkQueue() 一个按超时时间升序排序的队列。</p>
-<h3 id="通俗：-3"><a href="#通俗：-3" class="headerlink" title="通俗："></a>通俗：</h3><p>&emsp;&emsp;创建一个固定大小的线程池，线程池内线程存活时间无限制，线程池可以支持定时及周期性任务执行，如果所有线程均处于繁忙状态，对于新任务会进入DelayedWorkQueue队列中，这是一种按照超时时间排序的队列结构。</p>
-<h3 id="适用：-3"><a href="#适用：-3" class="headerlink" title="适用："></a>适用：</h3><p>&emsp;&emsp;周期性执行任务的场景。</p>
-<hr>
-<h1 id="线程池任务执行流程："><a href="#线程池任务执行流程：" class="headerlink" title="线程池任务执行流程："></a>线程池任务执行流程：</h1><ol>
-<li>当线程池小于corePoolSize时，新提交任务将创建一个新线程执行任务，即使此时线程池中存在空闲线程。</li>
-<li>当线程池达到corePoolSize时，新提交任务将被放入workQueue中，等待线程池中任务调度执行</li>
-<li>当workQueue已满，且maximumPoolSize&gt;corePoolSize时，新提交任务会创建新线程执行任务</li>
-<li>当提交任务数超过maximumPoolSize时，新提交任务由RejectedExecutionHandler处理</li>
-<li>当线程池中超过corePoolSize线程，空闲时间达到keepAliveTime时，关闭空闲线程</li>
-<li>当设置allowCoreThreadTimeOut(true)时，线程池中corePoolSize线程空闲时间达到keepAliveTime也将关闭</li>
-</ol>
-<hr>
-<h1 id="参数解释："><a href="#参数解释：" class="headerlink" title="参数解释："></a>参数解释：</h1><h2 id="corePoolSize-amp-maximumPoolSize："><a href="#corePoolSize-amp-maximumPoolSize：" class="headerlink" title="corePoolSize &amp; maximumPoolSize："></a>corePoolSize &amp; maximumPoolSize：</h2><p>&emsp;&emsp;当一个新任务被提交到池中，如果当前运行线程小于核心线程数（corePoolSize），即使当前有空闲线程，也会新建一个线程来处理新提交的任务；如果当前运行线程数大于核心线程数（corePoolSize）并小于最大线程数（maximumPoolSize），只有当等待队列已满的情况下才会新建线程。</p>
-<h2 id="keepAliveTime-amp-unit"><a href="#keepAliveTime-amp-unit" class="headerlink" title="keepAliveTime &amp; unit:"></a>keepAliveTime &amp; unit:</h2><p>&emsp;&emsp;keepAliveTime为超过corePoolSize线程数量的线程最大空闲时间，unit为时间单位。</p>
-<h2 id="等待队列："><a href="#等待队列：" class="headerlink" title="等待队列："></a>等待队列：</h2><p>&emsp;&emsp;任何阻塞队列（BlockingQueue）都可以用来转移或保存提交的任务，线程池大小和阻塞队列相互约束线程池：</p>
-<ol>
-<li>如果运行线程数小于corePoolSize，提交新任务时就会新建一个线程来运行；</li>
-<li>如果运行线程数大于或等于corePoolSize，新提交的任务就会入列等待；如果队列已满，并且运行线程数小于maximumPoolSize，也将会新建一个线程来运行；</li>
-<li>如果线程数大于maximumPoolSize，新提交的任务将会根据拒绝策略来处理。</li>
-</ol>
-<h3 id="入队列策略："><a href="#入队列策略：" class="headerlink" title="入队列策略："></a>入队列策略：</h3><h4 id="直接传递："><a href="#直接传递：" class="headerlink" title="直接传递："></a>直接传递：</h4><p>&emsp;&emsp;通过 SynchronousQueue 直接把任务传递给线程。如果当前没可用线程，尝试入队操作会失败，然后再创建一个新的线程。当处理可能具有内部依赖性的请求时，该策略会避免请求被锁定。直接传递通常需要无界的最大线程数（maximumPoolSize），避免拒绝新提交的任务。当任务持续到达的平均速度超过可处理的速度时，可能导致线程的无限增长。</p>
-<h4 id="无界队列："><a href="#无界队列：" class="headerlink" title="无界队列："></a>无界队列：</h4><p>&emsp;&emsp;使用无界队列（如 LinkedBlockingQueue）作为等待队列，当所有的核心线程都在处理任务时， 新提交的任务都会进入队列等待。因此，不会有大于corePoolSize的线程会被创建（maximumPoolSize 也将失去作用）。这种策略适合每个任务都完全独立于其他任务的情况；例如网站服务器。这种类型的等待队列可以使瞬间爆发的高频请求变得平滑。当任务持续到达的平均速度超过可处理速度时，可能导致等待队列无限增长。</p>
-<h4 id="有界队列："><a href="#有界队列：" class="headerlink" title="有界队列："></a>有界队列：</h4><p>&emsp;&emsp;当使用有限的最大线程数时，有界队列（如 ArrayBlockingQueue）可以防止资源耗尽，但是难以调整和控制。队列大小和线程池大小可以相互作用：使用大的队列和小的线程数可以减少CPU使用率、系统资源和上下文切换的开销，但是会导致吞吐量变低，如果任务频繁地阻塞（例如被I/O限制），系统就能为更多的线程调度执行时间。使用小的队列通常需要更多的线程数，这样可以最大化CPU使用率，但可能会需要更大的调度开销，从而降低吞吐量。</p>
-<h2 id="拒绝策略："><a href="#拒绝策略：" class="headerlink" title="拒绝策略："></a>拒绝策略：</h2><p>&emsp;&emsp;当线程池已经关闭或达到饱和（最大线程和队列都已满）状态时，新提交的任务将会被拒绝。<br>ThreadPoolExecutor定义了四种拒绝策略:</p>
-<h3 id="AbortPolicy"><a href="#AbortPolicy" class="headerlink" title="AbortPolicy:"></a>AbortPolicy:</h3><p>&emsp;&emsp;默认策略，在需要拒绝任务时抛出RejectedExecutionException。</p>
-<h3 id="CallerRunsPolicy"><a href="#CallerRunsPolicy" class="headerlink" title="CallerRunsPolicy:"></a>CallerRunsPolicy:</h3><p>&emsp;&emsp;直接在execute方法的调用线程中运行被拒绝的任务，如果线程池已经关闭，任务将被丢弃。</p>
-<h3 id="DiscardPolicy"><a href="#DiscardPolicy" class="headerlink" title="DiscardPolicy:"></a>DiscardPolicy:</h3><p>&emsp;&emsp;直接丢弃任务。</p>
-<h3 id="DiscardOldestPolicy"><a href="#DiscardOldestPolicy" class="headerlink" title="DiscardOldestPolicy:"></a>DiscardOldestPolicy:</h3><p>&emsp;&emsp;丢弃队列中等待时间最长的任务，并执行当前提交的任务，如果线程池已经关闭，任务将被丢弃。</p>
-<h3 id="自定义策略："><a href="#自定义策略：" class="headerlink" title="自定义策略："></a>自定义策略：</h3><p>&emsp;&emsp;我们也可以自定义拒绝策略，只需要实现 RejectedExecutionHandler；需要注意的是，拒绝策略的运行需要指定线程池和队列的容量。</p>
-<hr>
-<h1 id="存在的问题："><a href="#存在的问题：" class="headerlink" title="存在的问题："></a>存在的问题：</h1><ol>
-<li>newFixedThreadPool和newSingleThreadExecutor：主要问题是堆积的请求处理队列可能会耗费非常大的内存，甚至OOM。</li>
-<li>newCachedThreadPool和newScheduledThreadPool：主要问题是线程数最大数是Integer.MAX_VALUE，可能会创建数量非常多的线程，甚至OOM。</li>
-</ol>
-<hr>
-<h1 id="备注："><a href="#备注：" class="headerlink" title="备注："></a>备注：</h1><p>&emsp;&emsp;一般如果线程池任务队列采用LinkedBlockingQueue队列的话，那么不会拒绝任何任务（因为队列大小没有限制），这种情况下，ThreadPoolExecutor最多仅会按照最小线程数来创建线程，也就是说线程池大小被忽略了。<br>&emsp;&emsp;如果线程池任务队列采用ArrayBlockingQueue队列的话，那么ThreadPoolExecutor将会采取一个非常负责的算法，比如假定线程池的最小线程数为4，最大为8所用的ArrayBlockingQueue最大为10。随着任务到达并被放到队列中，线程池中最多运行4个线程（即最小线程数）。即使队列完全填满，也就是说有10个处于等待状态的任务，ThreadPoolExecutor也只会利用4个线程。如果队列已满，而又有新任务进来，此时才会启动一个新线程，这里不会因为队列已满而拒接该任务，相反会启动一个新线程。新线程会运行队列中的第一个任务，为新来的任务腾出空间。<br>&emsp;&emsp;这个算法背后的理念是：该池大部分时间仅使用核心线程（4个），即使有适量的任务在队列中等待运行。这时线程池就可以用作节流阀。如果挤压的请求变得非常多，这时该池就会尝试运行更多的线程来清理；这时第二个节流阀—最大线程数就起作用了。</p>
-]]></content>
-      <categories>
-        <category>java</category>
-        <category>多线程</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>多线程</tag>
-        <tag>线程池</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>juc之CountDownLatch</title>
     <url>/hexoblog/md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/juc%E4%B9%8BCountDownLatch/</url>
     <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;根据文档：<strong>允许一个或多个线程等待直到在其他线程中执行的一组操作完成的同步辅助。</strong><br>&emsp;&emsp;一般被称为计数器，可以用做流程控制之类的作用。通常用来让一个线程等待其他的完成过后再继续执行。<br>&emsp;&emsp;通过一个计数器实现，计数器的初始值可以是线程的数量，每当一个线程执行完，计数器的值减一，当计数器的值为0时，表示所有线程都执行完毕，等待的线程就可以继续执行了。</p>
@@ -5384,6 +5388,72 @@ finish，1，Thread-1
       <tags>
         <tag>java</tag>
         <tag>juc</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>threadpool</title>
+    <url>/hexoblog/md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/threadpool/</url>
+    <content><![CDATA[<h1 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h1><p><a href="https://my.oschina.net/linqiankun/blog/3192649">线程池</a><br><a href="https://gitee.com/linqiankun/codes/cshv4db0eq7znx6a5g2im43">线程池demo</a></p>
+<h2 id="newCachedThreadPool"><a href="#newCachedThreadPool" class="headerlink" title="newCachedThreadPool:"></a>newCachedThreadPool:</h2><h3 id="底层："><a href="#底层：" class="headerlink" title="底层："></a>底层：</h3><p>&emsp;&emsp;创建一个可缓存的线程池实例，如果线程池长度超过处理需要，可灵活回收空闲线程。<br>&emsp;&emsp;返回ThreadPoolExecutor实例，corePoolSize为0；maximumPoolSize为Integer.MAX_VALUE；keepAliveTime为60L；unit为TimeUnit.SECOhexoNDS；workQueue为SynchronousQueue(同步队列)。</p>
+<span id="more"></span>
+
+<h3 id="通俗："><a href="#通俗：" class="headerlink" title="通俗："></a>通俗：</h3><p>&emsp;&emsp;当有新任务到来，则插入到SynchronousQueue中，由于SynchronousQueue是同步队列，因此会在池中寻找可用线程来执行，若有可以线程则执行，若没有可用线程则创建一个线程来执行该任务；若池中线程空闲时间超过指定大小，则该线程会被销毁。</p>
+<h3 id="适用："><a href="#适用：" class="headerlink" title="适用："></a>适用：</h3><p>&emsp;&emsp;执行很多短期异步的小程序或者负载较轻的服务器。</p>
+<hr>
+<h2 id="newFixedThreadPool"><a href="#newFixedThreadPool" class="headerlink" title="newFixedThreadPool:"></a>newFixedThreadPool:</h2><h3 id="底层：-1"><a href="#底层：-1" class="headerlink" title="底层："></a>底层：</h3><p>&emsp;&emsp;创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待。<br>&emsp;&emsp;返回ThreadPoolExecutor实例，接收参数为所设定线程数量nThread，corePoolSize为nThread，maximumPoolSize为nThread；keepAliveTime为0L(不限时)；unit为：TimeUnit.MILLISECONDS；WorkQueue为：new LinkedBlockingQueue&lt;Runnable&gt;() 无界阻塞队列。</p>
+<h3 id="通俗：-1"><a href="#通俗：-1" class="headerlink" title="通俗："></a>通俗：</h3><p>&emsp;&emsp;创建可容纳固定数量线程的池子，每隔线程的存活时间是无限的，当池子满了就不在添加线程了；如果池中的所有线程均在繁忙状态，对于新任务会进入阻塞队列中(无界的阻塞队列)。</p>
+<h3 id="适用：-1"><a href="#适用：-1" class="headerlink" title="适用："></a>适用：</h3><p>&emsp;&emsp;执行长期任务，性能好很多。</p>
+<hr>
+<h2 id="newSingleThreadExecutor"><a href="#newSingleThreadExecutor" class="headerlink" title="newSingleThreadExecutor:"></a>newSingleThreadExecutor:</h2><h3 id="底层：-2"><a href="#底层：-2" class="headerlink" title="底层："></a>底层：</h3><p>&emsp;&emsp;创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有线程按照指定顺序执行。<br>&emsp;&emsp;FinalizableDelegatedExecutorService包装的ThreadPoolExecutor实例，corePoolSize为1；maximumPoolSize为1；keepAliveTime为0L；unit为：TimeUnit.MILLISECONDS；workQueue为：new LinkedBlockingQueue&lt;Runnable&gt;() 无解阻塞队列。</p>
+<h3 id="通俗：-2"><a href="#通俗：-2" class="headerlink" title="通俗："></a>通俗：</h3><p>&emsp;&emsp;创建只有一个线程的线程池，且线程的存活时间是无限的；当该线程正繁忙时，对于新任务会进入阻塞队列中(无界的阻塞队列)。</p>
+<h3 id="适用：-2"><a href="#适用：-2" class="headerlink" title="适用："></a>适用：</h3><p>&emsp;&emsp;一个任务一个任务执行的场景。</p>
+<hr>
+<h2 id="NewScheduledThreadPool"><a href="#NewScheduledThreadPool" class="headerlink" title="NewScheduledThreadPool:"></a>NewScheduledThreadPool:</h2><h3 id="底层：-3"><a href="#底层：-3" class="headerlink" title="底层："></a>底层：</h3><p>&emsp;&emsp;创建一个定长线程池，支持定时及周期性执行任务。<br>&emsp;&emsp;创建ScheduledThreadPoolExecutor实例，corePoolSize为传递来的参数，maximumPoolSize为Integer.MAX_VALUE；keepAliveTime为0；unit为：TimeUnit.NANOSECONDS；workQueue为：new DelayedWorkQueue() 一个按超时时间升序排序的队列。</p>
+<h3 id="通俗：-3"><a href="#通俗：-3" class="headerlink" title="通俗："></a>通俗：</h3><p>&emsp;&emsp;创建一个固定大小的线程池，线程池内线程存活时间无限制，线程池可以支持定时及周期性任务执行，如果所有线程均处于繁忙状态，对于新任务会进入DelayedWorkQueue队列中，这是一种按照超时时间排序的队列结构。</p>
+<h3 id="适用：-3"><a href="#适用：-3" class="headerlink" title="适用："></a>适用：</h3><p>&emsp;&emsp;周期性执行任务的场景。</p>
+<hr>
+<h1 id="线程池任务执行流程："><a href="#线程池任务执行流程：" class="headerlink" title="线程池任务执行流程："></a>线程池任务执行流程：</h1><ol>
+<li>当线程池小于corePoolSize时，新提交任务将创建一个新线程执行任务，即使此时线程池中存在空闲线程。</li>
+<li>当线程池达到corePoolSize时，新提交任务将被放入workQueue中，等待线程池中任务调度执行</li>
+<li>当workQueue已满，且maximumPoolSize&gt;corePoolSize时，新提交任务会创建新线程执行任务</li>
+<li>当提交任务数超过maximumPoolSize时，新提交任务由RejectedExecutionHandler处理</li>
+<li>当线程池中超过corePoolSize线程，空闲时间达到keepAliveTime时，关闭空闲线程</li>
+<li>当设置allowCoreThreadTimeOut(true)时，线程池中corePoolSize线程空闲时间达到keepAliveTime也将关闭</li>
+</ol>
+<hr>
+<h1 id="参数解释："><a href="#参数解释：" class="headerlink" title="参数解释："></a>参数解释：</h1><h2 id="corePoolSize-amp-maximumPoolSize："><a href="#corePoolSize-amp-maximumPoolSize：" class="headerlink" title="corePoolSize &amp; maximumPoolSize："></a>corePoolSize &amp; maximumPoolSize：</h2><p>&emsp;&emsp;当一个新任务被提交到池中，如果当前运行线程小于核心线程数（corePoolSize），即使当前有空闲线程，也会新建一个线程来处理新提交的任务；如果当前运行线程数大于核心线程数（corePoolSize）并小于最大线程数（maximumPoolSize），只有当等待队列已满的情况下才会新建线程。</p>
+<h2 id="keepAliveTime-amp-unit"><a href="#keepAliveTime-amp-unit" class="headerlink" title="keepAliveTime &amp; unit:"></a>keepAliveTime &amp; unit:</h2><p>&emsp;&emsp;keepAliveTime为超过corePoolSize线程数量的线程最大空闲时间，unit为时间单位。</p>
+<h2 id="等待队列："><a href="#等待队列：" class="headerlink" title="等待队列："></a>等待队列：</h2><p>&emsp;&emsp;任何阻塞队列（BlockingQueue）都可以用来转移或保存提交的任务，线程池大小和阻塞队列相互约束线程池：</p>
+<ol>
+<li>如果运行线程数小于corePoolSize，提交新任务时就会新建一个线程来运行；</li>
+<li>如果运行线程数大于或等于corePoolSize，新提交的任务就会入列等待；如果队列已满，并且运行线程数小于maximumPoolSize，也将会新建一个线程来运行；</li>
+<li>如果线程数大于maximumPoolSize，新提交的任务将会根据拒绝策略来处理。</li>
+</ol>
+<h3 id="入队列策略："><a href="#入队列策略：" class="headerlink" title="入队列策略："></a>入队列策略：</h3><h4 id="直接传递："><a href="#直接传递：" class="headerlink" title="直接传递："></a>直接传递：</h4><p>&emsp;&emsp;通过 SynchronousQueue 直接把任务传递给线程。如果当前没可用线程，尝试入队操作会失败，然后再创建一个新的线程。当处理可能具有内部依赖性的请求时，该策略会避免请求被锁定。直接传递通常需要无界的最大线程数（maximumPoolSize），避免拒绝新提交的任务。当任务持续到达的平均速度超过可处理的速度时，可能导致线程的无限增长。</p>
+<h4 id="无界队列："><a href="#无界队列：" class="headerlink" title="无界队列："></a>无界队列：</h4><p>&emsp;&emsp;使用无界队列（如 LinkedBlockingQueue）作为等待队列，当所有的核心线程都在处理任务时， 新提交的任务都会进入队列等待。因此，不会有大于corePoolSize的线程会被创建（maximumPoolSize 也将失去作用）。这种策略适合每个任务都完全独立于其他任务的情况；例如网站服务器。这种类型的等待队列可以使瞬间爆发的高频请求变得平滑。当任务持续到达的平均速度超过可处理速度时，可能导致等待队列无限增长。</p>
+<h4 id="有界队列："><a href="#有界队列：" class="headerlink" title="有界队列："></a>有界队列：</h4><p>&emsp;&emsp;当使用有限的最大线程数时，有界队列（如 ArrayBlockingQueue）可以防止资源耗尽，但是难以调整和控制。队列大小和线程池大小可以相互作用：使用大的队列和小的线程数可以减少CPU使用率、系统资源和上下文切换的开销，但是会导致吞吐量变低，如果任务频繁地阻塞（例如被I/O限制），系统就能为更多的线程调度执行时间。使用小的队列通常需要更多的线程数，这样可以最大化CPU使用率，但可能会需要更大的调度开销，从而降低吞吐量。</p>
+<h2 id="拒绝策略："><a href="#拒绝策略：" class="headerlink" title="拒绝策略："></a>拒绝策略：</h2><p>&emsp;&emsp;当线程池已经关闭或达到饱和（最大线程和队列都已满）状态时，新提交的任务将会被拒绝。<br>ThreadPoolExecutor定义了四种拒绝策略:</p>
+<h3 id="AbortPolicy"><a href="#AbortPolicy" class="headerlink" title="AbortPolicy:"></a>AbortPolicy:</h3><p>&emsp;&emsp;默认策略，在需要拒绝任务时抛出RejectedExecutionException。</p>
+<h3 id="CallerRunsPolicy"><a href="#CallerRunsPolicy" class="headerlink" title="CallerRunsPolicy:"></a>CallerRunsPolicy:</h3><p>&emsp;&emsp;直接在execute方法的调用线程中运行被拒绝的任务，如果线程池已经关闭，任务将被丢弃。</p>
+<h3 id="DiscardPolicy"><a href="#DiscardPolicy" class="headerlink" title="DiscardPolicy:"></a>DiscardPolicy:</h3><p>&emsp;&emsp;直接丢弃任务。</p>
+<h3 id="DiscardOldestPolicy"><a href="#DiscardOldestPolicy" class="headerlink" title="DiscardOldestPolicy:"></a>DiscardOldestPolicy:</h3><p>&emsp;&emsp;丢弃队列中等待时间最长的任务，并执行当前提交的任务，如果线程池已经关闭，任务将被丢弃。</p>
+<h3 id="自定义策略："><a href="#自定义策略：" class="headerlink" title="自定义策略："></a>自定义策略：</h3><p>&emsp;&emsp;我们也可以自定义拒绝策略，只需要实现 RejectedExecutionHandler；需要注意的是，拒绝策略的运行需要指定线程池和队列的容量。</p>
+<hr>
+<h1 id="存在的问题："><a href="#存在的问题：" class="headerlink" title="存在的问题："></a>存在的问题：</h1><ol>
+<li>newFixedThreadPool和newSingleThreadExecutor：主要问题是堆积的请求处理队列可能会耗费非常大的内存，甚至OOM。</li>
+<li>newCachedThreadPool和newScheduledThreadPool：主要问题是线程数最大数是Integer.MAX_VALUE，可能会创建数量非常多的线程，甚至OOM。</li>
+</ol>
+<hr>
+<h1 id="备注："><a href="#备注：" class="headerlink" title="备注："></a>备注：</h1><p>&emsp;&emsp;一般如果线程池任务队列采用LinkedBlockingQueue队列的话，那么不会拒绝任何任务（因为队列大小没有限制），这种情况下，ThreadPoolExecutor最多仅会按照最小线程数来创建线程，也就是说线程池大小被忽略了。<br>&emsp;&emsp;如果线程池任务队列采用ArrayBlockingQueue队列的话，那么ThreadPoolExecutor将会采取一个非常负责的算法，比如假定线程池的最小线程数为4，最大为8所用的ArrayBlockingQueue最大为10。随着任务到达并被放到队列中，线程池中最多运行4个线程（即最小线程数）。即使队列完全填满，也就是说有10个处于等待状态的任务，ThreadPoolExecutor也只会利用4个线程。如果队列已满，而又有新任务进来，此时才会启动一个新线程，这里不会因为队列已满而拒接该任务，相反会启动一个新线程。新线程会运行队列中的第一个任务，为新来的任务腾出空间。<br>&emsp;&emsp;这个算法背后的理念是：该池大部分时间仅使用核心线程（4个），即使有适量的任务在队列中等待运行。这时线程池就可以用作节流阀。如果挤压的请求变得非常多，这时该池就会尝试运行更多的线程来清理；这时第二个节流阀—最大线程数就起作用了。</p>
+]]></content>
+      <categories>
+        <category>java</category>
+        <category>多线程</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>多线程</tag>
+        <tag>线程池</tag>
       </tags>
   </entry>
   <entry>
@@ -5943,62 +6013,6 @@ qos&#x3D;org.apache.dubbo.qos.protocol.QosProtocolWrapper<span aria-hidden="true
       </tags>
   </entry>
   <entry>
-    <title>rocketmq消息分类</title>
-    <url>/hexoblog/md/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/rocketmq/rocketmq%E6%B6%88%E6%81%AF%E5%88%86%E7%B1%BB/</url>
-    <content><![CDATA[<h1 id="消息"><a href="#消息" class="headerlink" title="消息"></a>消息</h1><p>&emsp;&emsp;message就是要传输的信息，一条消息必须有一个主题（Topic）。</p>
-<span id="more"></span>
-
-<h2 id="从特点区分"><a href="#从特点区分" class="headerlink" title="从特点区分"></a>从特点区分</h2><p>&emsp;&emsp;mq中的消息从特点区分可以分为三类：同步消息，异步消息，单向消息。</p>
-<h3 id="同步消息"><a href="#同步消息" class="headerlink" title="同步消息"></a>同步消息</h3><p>&emsp;&emsp;同步发送是指消息发送方发出数据后，会阻塞直到MQ服务方发回响应消息。  </p>
-<h3 id="异步消息"><a href="#异步消息" class="headerlink" title="异步消息"></a>异步消息</h3><p>&emsp;&emsp;异步发送是指发送方发出数据后，不等接收方发回响应，接着发送下个数据包的通讯方式。<br>&emsp;&emsp;MQ 的异步发送，需要用户实现异步发送回调接口（SendCallback），在执行消息的异步发送时，应用不需要等待服务器响应即可直接返回，通过回调接口接收服务器响应，并对服务器的响应结果进行处理。</p>
-<h3 id="单向消息"><a href="#单向消息" class="headerlink" title="单向消息"></a>单向消息</h3><p>&emsp;&emsp;单向（Oneway）发送特点为只负责发送消息，不等待服务器回应且没有回调函数触发，即只发送请求不等待应答。此方式发送消息的过程耗时非常短，一般在微秒级别。这种消息常用于日志收集。</p>
-<h2 id="从共功能分"><a href="#从共功能分" class="headerlink" title="从共功能分"></a>从共功能分</h2><p>&emsp;&emsp;从使用功能也可以分为多种消息，最广为人知的就是事务消息。<br>&emsp;&emsp;消息共有以下分类：</p>
-<ol>
-<li>普通消息</li>
-<li>顺序消息</li>
-<li>广播消息</li>
-<li>延时消息</li>
-<li>批量消息</li>
-<li>事务消息</li>
-</ol>
-<h3 id="顺序消息"><a href="#顺序消息" class="headerlink" title="顺序消息"></a>顺序消息</h3><p>&emsp;&emsp;消息有序指的是一类消息消费时，能按照发送的顺序来消费。</p>
-<h3 id="广播消息"><a href="#广播消息" class="headerlink" title="广播消息"></a>广播消息</h3><p>&emsp;&emsp;广播消息与普通消息不同的是，普通消息只会由消费者组中负载均衡到消息所在MessageQuene的消费者消费，而广播消息由消费者组中的所有消费者消费。</p>
-<h3 id="定时消息"><a href="#定时消息" class="headerlink" title="定时消息"></a>定时消息</h3><p>&emsp;&emsp;<a href="https://www.yuque.com/jiufenshiren/mvgau4/cn_features#19cff416">定时消息</a><br>&emsp;&emsp;定时消息（延迟队列）是指消息发送到broker后，不会立即被消费，等待特定时间投递给真正的topic。<br>&emsp;&emsp;broker有配置项messageDelayLevel，可以配置不同的DelayLevel延迟不同的时间。<br>&emsp;&emsp;定时消息会暂存在名为SCHEDULE_TOPIC_XXXX的topic中，并根据delayTimeLevel存入特定的queue，queueId = delayTimeLevel – 1，即一个queue只存相同延迟的消息，保证具有相同发送延迟的消息能够顺序消费。broker会调度地消费SCHEDULE_TOPIC_XXXX，将消息写入真实的topic。<br>&emsp;&emsp;需要注意的是，定时消息会在第一次写入和调度写入真实topic时都会计数，因此发送数量、tps都会变高。</p>
-<h3 id="事务消息"><a href="#事务消息" class="headerlink" title="事务消息"></a>事务消息</h3><p>&emsp;&emsp;<a href="https://www.yuque.com/jiufenshiren/mvgau4/cn_design#dc145683">官方的事务消息解释</a><br>&emsp;&emsp;RocketMQ事务消息（Transactional Message）是指应用本地事务和发送消息操作可以被定义到全局事务中，要么同时成功，要么同时失败。RocketMQ的事务消息提供类似X/Open XA的分布事务功能，通过事务消息能达到分布式事务的最终一致。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/rocketmq_design_10.png" alt="事务消息大概流程"></p>
-<p>&emsp;&emsp;事务消息的大概流程：</p>
-<ol>
-<li>发送一个事务的半消息。</li>
-<li>服务端将消息持久化成功之后，向发送方ACK确认消息已经发送成功，此时消息为半消息。</li>
-<li>开始执行本地事务，如果发送消息失败，本地事务不执行。</li>
-<li>根据本地事务向mq进行二次提交，Commit或rollback，commit会生成消息索引，mq收到Commit状态则将半消息标记为可投递，订阅方最终将收到该消息；服务端收到Rollback状态则删除半消息，订阅方将不会接受该消息。</li>
-</ol>
-<p>&emsp;&emsp;补偿流程：补偿流程用于mq没有收到发送者二次提交的情况下：</p>
-<ol>
-<li>对没有Commit/Rollback的事务消息（pending状态的消息），从服务端发起一次“回查”。（最大回查15次）</li>
-<li>Producer收到回查消息，检查回查消息对应的本地事务的状态。</li>
-<li>根据本地事务状态，重新Commit或者Rollback。</li>
-</ol>
-<p>&emsp;&emsp;注意：</p>
-<ol>
-<li>需要消息回查接口。</li>
-<li>不能保证消息幂等，需要消费方手动控制，在消费者未ack情况下，可能重复消费。</li>
-</ol>
-<hr>
-<h1 id="消息问题"><a href="#消息问题" class="headerlink" title="消息问题"></a>消息问题</h1><p><a href="https://www.cnblogs.com/duanxz/p/6053598.html">RocketMQ之二：分布式开放消息系统RocketMQ的原理与实践（消息的顺序问题、重复问题、可靠消息/事务消息）</a></p>
-<h2 id="消息顺序问题"><a href="#消息顺序问题" class="headerlink" title="消息顺序问题"></a>消息顺序问题</h2><p>&emsp;&emsp;有着一定顺序的消息，一般需要发送到同一个MessageQuene，因为MessageQuene采用先进先出队列，消费方就可以按照发送的顺序进行消费。<br>&emsp;&emsp;可以自定义MessageQueueSelector实现的算法来选择一个队列。<br>&emsp;&emsp;mq顺序消息中，mq需要收到消费方对上一个消息的确认ACK后才能投递下一个消息，这个会带来上一个消息ack收不到的情况下，会造成重复消费。</p>
-<h2 id="消息重复问题"><a href="#消息重复问题" class="headerlink" title="消息重复问题"></a>消息重复问题</h2><p>&emsp;&emsp;mq中并没有处理消息的重复问题，需要消费方自己实现幂等，解决消息重复消费的问题。</p>
-]]></content>
-      <categories>
-        <category>消息中间件</category>
-        <category>rocketmq</category>
-      </categories>
-      <tags>
-        <tag>消息中间件</tag>
-        <tag>rocketmq</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>rocketmq概念总结</title>
     <url>/hexoblog/md/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/rocketmq/rocketmq%E6%A6%82%E5%BF%B5%E6%80%BB%E7%BB%93/</url>
     <content><![CDATA[<h1 id="核心组成"><a href="#核心组成" class="headerlink" title="核心组成"></a>核心组成</h1><p><a href="https://github.com/apache/rocketmq/tree/master/docs/cn">官方文档看看挺好的</a><br>&emsp;&emsp;rocketmq主要有四大核心组成部分：NameServer，Broker，Producer，Consumer四部分。  </p>
@@ -6058,6 +6072,62 @@ qos&#x3D;org.apache.dubbo.qos.protocol.QosProtocolWrapper<span aria-hidden="true
 <h2 id="Message-Order"><a href="#Message-Order" class="headerlink" title="Message Order"></a>Message Order</h2><p>&emsp;&emsp;消息消费顺序，也有两种：顺序消费，并行消费。</p>
 <h3 id="顺序消费"><a href="#顺序消费" class="headerlink" title="顺序消费"></a>顺序消费</h3><p>&emsp;&emsp;顺序消费表示消息消费的顺序同生产者为每个消息队列发送的顺序一致，所以如果正在处理全局顺序是强制性的场景，需要确保使用的主题只有一个消息队列。</p>
 <h3 id="并行消费"><a href="#并行消费" class="headerlink" title="并行消费"></a>并行消费</h3><p>&emsp;&emsp;并行消费不再保证消息顺序，消费的最大并行数量受每个消费者客户端指定的线程池限制。</p>
+]]></content>
+      <categories>
+        <category>消息中间件</category>
+        <category>rocketmq</category>
+      </categories>
+      <tags>
+        <tag>消息中间件</tag>
+        <tag>rocketmq</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>rocketmq消息分类</title>
+    <url>/hexoblog/md/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/rocketmq/rocketmq%E6%B6%88%E6%81%AF%E5%88%86%E7%B1%BB/</url>
+    <content><![CDATA[<h1 id="消息"><a href="#消息" class="headerlink" title="消息"></a>消息</h1><p>&emsp;&emsp;message就是要传输的信息，一条消息必须有一个主题（Topic）。</p>
+<span id="more"></span>
+
+<h2 id="从特点区分"><a href="#从特点区分" class="headerlink" title="从特点区分"></a>从特点区分</h2><p>&emsp;&emsp;mq中的消息从特点区分可以分为三类：同步消息，异步消息，单向消息。</p>
+<h3 id="同步消息"><a href="#同步消息" class="headerlink" title="同步消息"></a>同步消息</h3><p>&emsp;&emsp;同步发送是指消息发送方发出数据后，会阻塞直到MQ服务方发回响应消息。  </p>
+<h3 id="异步消息"><a href="#异步消息" class="headerlink" title="异步消息"></a>异步消息</h3><p>&emsp;&emsp;异步发送是指发送方发出数据后，不等接收方发回响应，接着发送下个数据包的通讯方式。<br>&emsp;&emsp;MQ 的异步发送，需要用户实现异步发送回调接口（SendCallback），在执行消息的异步发送时，应用不需要等待服务器响应即可直接返回，通过回调接口接收服务器响应，并对服务器的响应结果进行处理。</p>
+<h3 id="单向消息"><a href="#单向消息" class="headerlink" title="单向消息"></a>单向消息</h3><p>&emsp;&emsp;单向（Oneway）发送特点为只负责发送消息，不等待服务器回应且没有回调函数触发，即只发送请求不等待应答。此方式发送消息的过程耗时非常短，一般在微秒级别。这种消息常用于日志收集。</p>
+<h2 id="从共功能分"><a href="#从共功能分" class="headerlink" title="从共功能分"></a>从共功能分</h2><p>&emsp;&emsp;从使用功能也可以分为多种消息，最广为人知的就是事务消息。<br>&emsp;&emsp;消息共有以下分类：</p>
+<ol>
+<li>普通消息</li>
+<li>顺序消息</li>
+<li>广播消息</li>
+<li>延时消息</li>
+<li>批量消息</li>
+<li>事务消息</li>
+</ol>
+<h3 id="顺序消息"><a href="#顺序消息" class="headerlink" title="顺序消息"></a>顺序消息</h3><p>&emsp;&emsp;消息有序指的是一类消息消费时，能按照发送的顺序来消费。</p>
+<h3 id="广播消息"><a href="#广播消息" class="headerlink" title="广播消息"></a>广播消息</h3><p>&emsp;&emsp;广播消息与普通消息不同的是，普通消息只会由消费者组中负载均衡到消息所在MessageQuene的消费者消费，而广播消息由消费者组中的所有消费者消费。</p>
+<h3 id="定时消息"><a href="#定时消息" class="headerlink" title="定时消息"></a>定时消息</h3><p>&emsp;&emsp;<a href="https://www.yuque.com/jiufenshiren/mvgau4/cn_features#19cff416">定时消息</a><br>&emsp;&emsp;定时消息（延迟队列）是指消息发送到broker后，不会立即被消费，等待特定时间投递给真正的topic。<br>&emsp;&emsp;broker有配置项messageDelayLevel，可以配置不同的DelayLevel延迟不同的时间。<br>&emsp;&emsp;定时消息会暂存在名为SCHEDULE_TOPIC_XXXX的topic中，并根据delayTimeLevel存入特定的queue，queueId = delayTimeLevel – 1，即一个queue只存相同延迟的消息，保证具有相同发送延迟的消息能够顺序消费。broker会调度地消费SCHEDULE_TOPIC_XXXX，将消息写入真实的topic。<br>&emsp;&emsp;需要注意的是，定时消息会在第一次写入和调度写入真实topic时都会计数，因此发送数量、tps都会变高。</p>
+<h3 id="事务消息"><a href="#事务消息" class="headerlink" title="事务消息"></a>事务消息</h3><p>&emsp;&emsp;<a href="https://www.yuque.com/jiufenshiren/mvgau4/cn_design#dc145683">官方的事务消息解释</a><br>&emsp;&emsp;RocketMQ事务消息（Transactional Message）是指应用本地事务和发送消息操作可以被定义到全局事务中，要么同时成功，要么同时失败。RocketMQ的事务消息提供类似X/Open XA的分布事务功能，通过事务消息能达到分布式事务的最终一致。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/rocketmq_design_10.png" alt="事务消息大概流程"></p>
+<p>&emsp;&emsp;事务消息的大概流程：</p>
+<ol>
+<li>发送一个事务的半消息。</li>
+<li>服务端将消息持久化成功之后，向发送方ACK确认消息已经发送成功，此时消息为半消息。</li>
+<li>开始执行本地事务，如果发送消息失败，本地事务不执行。</li>
+<li>根据本地事务向mq进行二次提交，Commit或rollback，commit会生成消息索引，mq收到Commit状态则将半消息标记为可投递，订阅方最终将收到该消息；服务端收到Rollback状态则删除半消息，订阅方将不会接受该消息。</li>
+</ol>
+<p>&emsp;&emsp;补偿流程：补偿流程用于mq没有收到发送者二次提交的情况下：</p>
+<ol>
+<li>对没有Commit/Rollback的事务消息（pending状态的消息），从服务端发起一次“回查”。（最大回查15次）</li>
+<li>Producer收到回查消息，检查回查消息对应的本地事务的状态。</li>
+<li>根据本地事务状态，重新Commit或者Rollback。</li>
+</ol>
+<p>&emsp;&emsp;注意：</p>
+<ol>
+<li>需要消息回查接口。</li>
+<li>不能保证消息幂等，需要消费方手动控制，在消费者未ack情况下，可能重复消费。</li>
+</ol>
+<hr>
+<h1 id="消息问题"><a href="#消息问题" class="headerlink" title="消息问题"></a>消息问题</h1><p><a href="https://www.cnblogs.com/duanxz/p/6053598.html">RocketMQ之二：分布式开放消息系统RocketMQ的原理与实践（消息的顺序问题、重复问题、可靠消息/事务消息）</a></p>
+<h2 id="消息顺序问题"><a href="#消息顺序问题" class="headerlink" title="消息顺序问题"></a>消息顺序问题</h2><p>&emsp;&emsp;有着一定顺序的消息，一般需要发送到同一个MessageQuene，因为MessageQuene采用先进先出队列，消费方就可以按照发送的顺序进行消费。<br>&emsp;&emsp;可以自定义MessageQueueSelector实现的算法来选择一个队列。<br>&emsp;&emsp;mq顺序消息中，mq需要收到消费方对上一个消息的确认ACK后才能投递下一个消息，这个会带来上一个消息ack收不到的情况下，会造成重复消费。</p>
+<h2 id="消息重复问题"><a href="#消息重复问题" class="headerlink" title="消息重复问题"></a>消息重复问题</h2><p>&emsp;&emsp;mq中并没有处理消息的重复问题，需要消费方自己实现幂等，解决消息重复消费的问题。</p>
 ]]></content>
       <categories>
         <category>消息中间件</category>
@@ -6248,33 +6318,6 @@ qos&#x3D;org.apache.dubbo.qos.protocol.QosProtocolWrapper<span aria-hidden="true
       </tags>
   </entry>
   <entry>
-    <title>rocketmq集群简介</title>
-    <url>/hexoblog/md/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/rocketmq/rocketmq%E9%9B%86%E7%BE%A4%E7%AE%80%E4%BB%8B/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;Rocketmq的四部分每一部分都可以进行集群部署。<a href="https://www.yuque.com/jiufenshiren/mvgau4/cn_operation#b5212acf">集群搭建</a></p>
-<span id="more"></span>
-
-<h2 id="NameServer"><a href="#NameServer" class="headerlink" title="NameServer"></a>NameServer</h2><p>&emsp;&emsp;NameServer通常是集群的方式部署，各实例间相互不进行信息通讯。Broker是向每一台NameServer注册自己的路由信息，所以每一个NameServer实例上面都保存一份完整的路由信息。当某个NameServer因某种原因下线了，Broker仍然可以向其它NameServer同步其路由信息，Producer,Consumer仍然可以动态感知Broker的路由的信息。</p>
-<h2 id="Broker"><a href="#Broker" class="headerlink" title="Broker"></a>Broker</h2><p>&emsp;&emsp;与NameServer相比，Broker的集群比较复杂些。<br>&emsp;&emsp;Broker部署相对复杂，Broker分为Master与Slave，一个Master可以对应多个Slave，但是一个Slave只能对应一个Master，Master与Slave 的对应关系通过指定相同的BrokerName，不同的BrokerId 来定义，BrokerId为0表示Master，非0表示Slave。Master也可以部署多个。每个Broker与NameServer集群中的所有节点建立长连接，定时注册Topic信息到所有NameServer。 注意：当前RocketMQ版本在部署架构上支持一Master多Slave，但只有BrokerId=1的从服务器才会参与消息的读负载。<br>&emsp;&emsp;broker集群可以分为：单Master模式，多Master模式，多Master多Slave模式。</p>
-<h3 id="单Master模式"><a href="#单Master模式" class="headerlink" title="单Master模式"></a>单Master模式</h3><p>&emsp;&emsp;这种模式一般用于本地学习，或者测试，不适合线上使用，一旦单个Broker挂掉了，会造成所有通信失败。</p>
-<h3 id="多Master模式"><a href="#多Master模式" class="headerlink" title="多Master模式"></a>多Master模式</h3><p>&emsp;&emsp;全是Master，没有Slave。当然，一个broker宕机了，应用是无影响的，缺点在于宕机的Master上未被消费的消息在Master没有恢复之前不可以订阅。<br>&emsp;&emsp;配置简单，单个Master宕机或重启维护对应用无影响，在磁盘配置为RAID10时，即使机器宕机不可恢复情况下，由于RAID10磁盘非常可靠，消息也不会丢（异步刷盘丢失少量消息，同步刷盘一条不丢），性能最高。<br>&emsp;&emsp;缺点是：单台机器宕机期间，这台机器上未被消费的消息在机器恢复之前不可订阅，消息实时性会受到影响。</p>
-<h3 id="多Master多Slave模式"><a href="#多Master多Slave模式" class="headerlink" title="多Master多Slave模式"></a>多Master多Slave模式</h3><p>&emsp;&emsp;这种又可以分为两种，根据数据同步的时间分为，异步复制，同步双写。</p>
-<h4 id="异步复制"><a href="#异步复制" class="headerlink" title="异步复制"></a>异步复制</h4><p>&emsp;&emsp;多对Master-Slave，高可用！采用异步复制的方式，主备之间短暂延迟，MS级别。Master宕机，消费者可以从Slave上进行消费，不受影响，但是Master的宕机，会导致丢失掉极少量的消息。<br>&emsp;&emsp;即使磁盘损坏，消息丢失的非常少，且消息实时性不会受影响，同时Master宕机后，消费者仍然可以从Slave消费，而且此过程对应用透明，不需要人工干预，性能同多Master模式几乎一样。<br>&emsp;&emsp;缺点在于：Master宕机，磁盘损坏情况下会丢失少量消息。</p>
-<h4 id="同步双写"><a href="#同步双写" class="headerlink" title="同步双写"></a>同步双写</h4><p>&emsp;&emsp;和上面的区别点在于采用的是同步方式，也就是在Master/Slave都写成功的前提下，向应用返回成功，可见不论是数据，还是服务都没有单点，都非常可靠！缺点在于同步的性能比异步稍低。<br>&emsp;&emsp;据与服务都无单点故障，Master宕机情况下，消息无延迟，服务可用性与数据可用性都非常高。<br>&emsp;&emsp;缺点是：性能比异步复制模式略低（大约低10%左右），发送单个消息的RT会略高，且目前版本在主节点宕机后，备机不能自动切换为主机。</p>
-<h3 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h3><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E5%90%8C%E6%AD%A5%E5%8F%8C%E5%86%99%E5%92%8C%E5%BC%82%E6%AD%A5%E5%8F%8C%E5%86%99.png" alt="同步双写和异步双写"></p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/mq%E9%9B%86%E7%BE%A4%E6%96%B9%E5%BC%8F%E5%AF%B9%E6%AF%94.png" alt="集群方式对比"></p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E9%AB%98%E5%8F%AF%E7%94%A8%E6%B5%8B%E8%AF%95.png" alt="高可用测试"></p>
-]]></content>
-      <categories>
-        <category>消息中间件</category>
-        <category>rocketmq</category>
-      </categories>
-      <tags>
-        <tag>消息中间件</tag>
-        <tag>rocketmq</tag>
-        <tag>分布式</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>rocketmq简介</title>
     <url>/hexoblog/md/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/rocketmq/rocketmq%E7%AE%80%E4%BB%8B/</url>
     <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;rocketmq是一个纯java，分布式，队列模型的开源消息中间件，前身是MetaQ，是阿里参考Kafka特点研发的一个队列模型的消息中间件，后开源给apache基金会成为了apache的顶级开源项目，具有高性能、高可靠、高实时、分布式特点。<br><a href="https://rocketmq.apache.org/docs/quick-start/">rocketmq</a></p>
@@ -6412,6 +6455,33 @@ java -jar rocketmq-console-ng-1.0.1.jar<span aria-hidden="true" class="line-numb
       <tags>
         <tag>消息中间件</tag>
         <tag>rocketmq</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>rocketmq集群简介</title>
+    <url>/hexoblog/md/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/rocketmq/rocketmq%E9%9B%86%E7%BE%A4%E7%AE%80%E4%BB%8B/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;Rocketmq的四部分每一部分都可以进行集群部署。<a href="https://www.yuque.com/jiufenshiren/mvgau4/cn_operation#b5212acf">集群搭建</a></p>
+<span id="more"></span>
+
+<h2 id="NameServer"><a href="#NameServer" class="headerlink" title="NameServer"></a>NameServer</h2><p>&emsp;&emsp;NameServer通常是集群的方式部署，各实例间相互不进行信息通讯。Broker是向每一台NameServer注册自己的路由信息，所以每一个NameServer实例上面都保存一份完整的路由信息。当某个NameServer因某种原因下线了，Broker仍然可以向其它NameServer同步其路由信息，Producer,Consumer仍然可以动态感知Broker的路由的信息。</p>
+<h2 id="Broker"><a href="#Broker" class="headerlink" title="Broker"></a>Broker</h2><p>&emsp;&emsp;与NameServer相比，Broker的集群比较复杂些。<br>&emsp;&emsp;Broker部署相对复杂，Broker分为Master与Slave，一个Master可以对应多个Slave，但是一个Slave只能对应一个Master，Master与Slave 的对应关系通过指定相同的BrokerName，不同的BrokerId 来定义，BrokerId为0表示Master，非0表示Slave。Master也可以部署多个。每个Broker与NameServer集群中的所有节点建立长连接，定时注册Topic信息到所有NameServer。 注意：当前RocketMQ版本在部署架构上支持一Master多Slave，但只有BrokerId=1的从服务器才会参与消息的读负载。<br>&emsp;&emsp;broker集群可以分为：单Master模式，多Master模式，多Master多Slave模式。</p>
+<h3 id="单Master模式"><a href="#单Master模式" class="headerlink" title="单Master模式"></a>单Master模式</h3><p>&emsp;&emsp;这种模式一般用于本地学习，或者测试，不适合线上使用，一旦单个Broker挂掉了，会造成所有通信失败。</p>
+<h3 id="多Master模式"><a href="#多Master模式" class="headerlink" title="多Master模式"></a>多Master模式</h3><p>&emsp;&emsp;全是Master，没有Slave。当然，一个broker宕机了，应用是无影响的，缺点在于宕机的Master上未被消费的消息在Master没有恢复之前不可以订阅。<br>&emsp;&emsp;配置简单，单个Master宕机或重启维护对应用无影响，在磁盘配置为RAID10时，即使机器宕机不可恢复情况下，由于RAID10磁盘非常可靠，消息也不会丢（异步刷盘丢失少量消息，同步刷盘一条不丢），性能最高。<br>&emsp;&emsp;缺点是：单台机器宕机期间，这台机器上未被消费的消息在机器恢复之前不可订阅，消息实时性会受到影响。</p>
+<h3 id="多Master多Slave模式"><a href="#多Master多Slave模式" class="headerlink" title="多Master多Slave模式"></a>多Master多Slave模式</h3><p>&emsp;&emsp;这种又可以分为两种，根据数据同步的时间分为，异步复制，同步双写。</p>
+<h4 id="异步复制"><a href="#异步复制" class="headerlink" title="异步复制"></a>异步复制</h4><p>&emsp;&emsp;多对Master-Slave，高可用！采用异步复制的方式，主备之间短暂延迟，MS级别。Master宕机，消费者可以从Slave上进行消费，不受影响，但是Master的宕机，会导致丢失掉极少量的消息。<br>&emsp;&emsp;即使磁盘损坏，消息丢失的非常少，且消息实时性不会受影响，同时Master宕机后，消费者仍然可以从Slave消费，而且此过程对应用透明，不需要人工干预，性能同多Master模式几乎一样。<br>&emsp;&emsp;缺点在于：Master宕机，磁盘损坏情况下会丢失少量消息。</p>
+<h4 id="同步双写"><a href="#同步双写" class="headerlink" title="同步双写"></a>同步双写</h4><p>&emsp;&emsp;和上面的区别点在于采用的是同步方式，也就是在Master/Slave都写成功的前提下，向应用返回成功，可见不论是数据，还是服务都没有单点，都非常可靠！缺点在于同步的性能比异步稍低。<br>&emsp;&emsp;据与服务都无单点故障，Master宕机情况下，消息无延迟，服务可用性与数据可用性都非常高。<br>&emsp;&emsp;缺点是：性能比异步复制模式略低（大约低10%左右），发送单个消息的RT会略高，且目前版本在主节点宕机后，备机不能自动切换为主机。</p>
+<h3 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h3><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E5%90%8C%E6%AD%A5%E5%8F%8C%E5%86%99%E5%92%8C%E5%BC%82%E6%AD%A5%E5%8F%8C%E5%86%99.png" alt="同步双写和异步双写"></p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/mq%E9%9B%86%E7%BE%A4%E6%96%B9%E5%BC%8F%E5%AF%B9%E6%AF%94.png" alt="集群方式对比"></p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E9%AB%98%E5%8F%AF%E7%94%A8%E6%B5%8B%E8%AF%95.png" alt="高可用测试"></p>
+]]></content>
+      <categories>
+        <category>消息中间件</category>
+        <category>rocketmq</category>
+      </categories>
+      <tags>
+        <tag>消息中间件</tag>
+        <tag>rocketmq</tag>
+        <tag>分布式</tag>
       </tags>
   </entry>
   <entry>
