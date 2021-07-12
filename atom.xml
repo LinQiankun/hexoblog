@@ -66,13 +66,34 @@
   </entry>
   
   <entry>
+    <title>信也科技（拍拍贷）一面面经</title>
+    <link href="https://linqiankun.github.io/hexoblog/%E9%9D%A2%E7%BB%8F/%E4%BF%A1%E4%B9%9F%E7%A7%91%E6%8A%80%EF%BC%88%E6%8B%8D%E6%8B%8D%E8%B4%B7%EF%BC%89%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/"/>
+    <id>https://linqiankun.github.io/hexoblog/%E9%9D%A2%E7%BB%8F/%E4%BF%A1%E4%B9%9F%E7%A7%91%E6%8A%80%EF%BC%88%E6%8B%8D%E6%8B%8D%E8%B4%B7%EF%BC%89%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/</id>
+    <published>2021-07-09T08:49:43.000Z</published>
+    <updated>2021-07-12T08:09:35.275Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span><p>写面经，攒人品</p><ol><li>项目介绍</li><li>业务介绍</li><li>dubbo服务调用流程</li><li>redis分布式锁实现</li><li>shiro<ol><li>shiro用到那些表</li><li>登录的实现原理</li></ol></li><li>小项目的介绍</li></ol><hr><h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="dubbo服务调用流程"><a href="#dubbo服务调用流程" class="headerlink" title="dubbo服务调用流程"></a>dubbo服务调用流程</h2><p>&emsp;&emsp;<a href="../../md/rpc/dubbo/dubbo%E6%9C%8D%E5%8A%A1%E8%B0%83%E7%94%A8%E8%BF%87%E7%A8%8B">dubbo服务调用过程</a><br>&emsp;&emsp;<a href="../../md/rpc/dubbo/dubbo%E6%9C%8D%E5%8A%A1%E5%90%AF%E5%8A%A8%E6%9A%B4%E9%9C%B2%E8%BF%87%E7%A8%8B">dubbo服务启动暴露过程</a><br>&emsp;&emsp;<a href="../../md/rpc/dubbo/dubbo%E6%9C%8D%E5%8A%A1%E5%BC%95%E5%85%A5%E6%B5%81%E7%A8%8B">dubbo服务引入流程</a></p><h2 id="redis分布式锁实现"><a href="#redis分布式锁实现" class="headerlink" title="redis分布式锁实现"></a>redis分布式锁实现</h2><p>&emsp;&emsp;<a href="../../md/redis/redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81">redis分布式锁</a></p><h2 id="shiro"><a href="#shiro" class="headerlink" title="shiro"></a>shiro</h2>]]></content>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;面经&quot;&gt;&lt;a href=&quot;#面经&quot; class=&quot;headerlink&quot; title=&quot;面经&quot;&gt;&lt;/a&gt;面经&lt;/h1&gt;</summary>
+    
+    
+    
+    <category term="面经" scheme="https://linqiankun.github.io/hexoblog/categories/%E9%9D%A2%E7%BB%8F/"/>
+    
+    
+    <category term="面经" scheme="https://linqiankun.github.io/hexoblog/tags/%E9%9D%A2%E7%BB%8F/"/>
+    
+  </entry>
+  
+  <entry>
     <title>光云科技一面面经</title>
     <link href="https://linqiankun.github.io/hexoblog/%E9%9D%A2%E7%BB%8F/%E5%85%89%E4%BA%91%E7%A7%91%E6%8A%80%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/"/>
     <id>https://linqiankun.github.io/hexoblog/%E9%9D%A2%E7%BB%8F/%E5%85%89%E4%BA%91%E7%A7%91%E6%8A%80%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/</id>
     <published>2021-07-08T09:00:25.000Z</published>
-    <updated>2021-07-08T11:32:42.280Z</updated>
+    <updated>2021-07-12T07:57:40.873Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span><p>写面经，攒人品</p><ol><li>自我介绍</li><li>集合Hashmap<ol><li>底层结构，版本</li><li>1.7与1.8的结构区别，其他区别</li></ol></li><li>ConcurrentHashmap与HashMap<ol><li>结构，区别</li><li>不同版本的区别</li></ol></li><li>CAS是什么？</li><li>常用的jvm虚拟机</li><li>jvm垃圾回收器<ol><li>有那些常用的垃圾回收器</li><li>CMS的垃圾回收过程</li></ol></li><li>单例模式<ol><li>有哪些写法</li><li>区别是什么</li><li>双检锁的优点？是完美的吗？</li></ol></li><li>数据库索引？（聚簇索引、非聚簇索引；hash索引、B+树索引）</li><li> B+树结构？</li><li>事务的隔离级别？作用？</li><li>MVCC<ol><li> MVCC原理</li><li> MVCC在不同的隔离级别的区别</li></ol></li><li>Spring<ol><li> 有什么特点，功能，ioc，aop，DI</li><li> xml配置如何转成Bean</li><li> Bean的实例化过程</li><li> 循环依赖</li></ol></li><li>redis<ol><li> 分布式锁怎么实现的</li><li> 有哪些数据结构</li></ol></li><li>rocketmq<ol><li> 消息消费失败怎么处理的（没处理，使用mq的原生的重发机制）（分为投递失败，业务处理失败）</li></ol></li><li>反问</li></ol><hr><h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1>]]></content>
+    <content type="html"><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span><p>写面经，攒人品</p><ol><li>自我介绍</li><li>集合Hashmap<ol><li>底层结构，版本</li><li>1.7与1.8的结构区别，其他区别</li></ol></li><li>ConcurrentHashmap与HashMap<ol><li>结构，区别</li><li>不同版本的区别</li></ol></li><li>CAS是什么？</li><li>常用的jvm虚拟机</li><li>jvm垃圾回收器<ol><li>有那些常用的垃圾回收器</li><li>CMS的垃圾回收过程</li></ol></li><li>单例模式<ol><li>有哪些写法</li><li>区别是什么</li><li>双检锁的优点？是完美的吗？</li></ol></li><li>数据库索引？（聚簇索引、非聚簇索引；hash索引、B+树索引）</li><li> B+树结构？</li><li>事务的隔离级别？作用？</li><li>MVCC<ol><li> MVCC原理</li><li> MVCC在不同的隔离级别的区别</li></ol></li><li>Spring<ol><li> 有什么特点，功能，ioc，aop，DI</li><li> xml配置如何转成Bean</li><li> Bean的实例化过程</li><li> 循环依赖</li></ol></li><li>redis<ol><li> 分布式锁怎么实现的</li><li> 有哪些数据结构</li></ol></li><li>rocketmq<ol><li> 消息消费失败怎么处理的（没处理，使用mq的原生的重发机制）（分为投递失败，业务处理失败）</li></ol></li><li>syncronized<ol><li> syncronized原理？</li><li> syncronized加在方法上和代码块上的区别？生成的指令的区别？</li></ol></li><li>反问</li></ol><hr><h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="集合HashMap？"><a href="#集合HashMap？" class="headerlink" title="集合HashMap？"></a>集合HashMap？</h2><p>&emsp;&emsp;jdk1.8中hashmap底层采用<code>数组+链表+红黑树</code>的结构；jdk1.7中hashmap底层采用<code>数组+链表</code>的结构。采用链地址法解决hashmap中的hash冲突问题，当链表长度达到8时进化为红黑树，节点数小于等于6时退化为链表。<br>&emsp;&emsp;jdk1.7与jdk1.8中，数据结构发生了变化，链表的尾插法改成了头插法，尾插法在hashmap扩容时有可能造成死循环。</p><h2 id="ConcurrentHashmap与Hashmap？"><a href="#ConcurrentHashmap与Hashmap？" class="headerlink" title="ConcurrentHashmap与Hashmap？"></a>ConcurrentHashmap与Hashmap？</h2><p>&emsp;&emsp;ConcurrentHashmap是juc包中的类，是用于在多线程情况下的hashmap，解决了hashmap在多线程情况下并发不安全的问题。<br>&emsp;&emsp;ConcurrentHashmap在1.7和1.8中采用了不同的结构和加锁方式。<br>&emsp;&emsp;jdk1.7中采用了段（Segment）的设计，每一个段中都是一个Hashmap的结构，将很多个段组合起来就是ConcurrentHashmap的结构，1.7中保证并发安全采用了分段锁的机制，就是在段设计的基础上，对每一个段加悲观锁（syncronized）。<br>&emsp;&emsp;jdk1.8中ConcurrentHashmap的数据结构采用了和Hashmap相同的数据结构，通过使用CAS操作来保证并发下的安全性。</p><h2 id="CAS是什么？"><a href="#CAS是什么？" class="headerlink" title="CAS是什么？"></a>CAS是什么？</h2><p>&emsp;&emsp;CAS就是比较并交换，全称Compare And Set，是一种原子性修改内存数据的一种策略。<br>&emsp;&emsp;CAS操作过程是：会将内存中的数据与一个期望值进行比较，比较结果相等了，才会将内存中的值修改为要改成的值（一般在缓存）。<br>&emsp;&emsp;java中很多地方都用到了CAS，比如AQS中就是用CAS去修改值，ConcurrentHashmap中也用到了。</p><h2 id="常用的JVM虚拟机？"><a href="#常用的JVM虚拟机？" class="headerlink" title="常用的JVM虚拟机？"></a>常用的JVM虚拟机？</h2><p>&emsp;&emsp;主要jvm虚拟机是Hotspot虚拟机，IBM有一款J9 JVM。</p><h2 id="jvm的垃圾回收器？"><a href="#jvm的垃圾回收器？" class="headerlink" title="jvm的垃圾回收器？"></a>jvm的垃圾回收器？</h2><p>&emsp;&emsp;<a href="../../md/jvm/JVM%E2%80%94GC">jvm的垃圾回收算法与垃圾回收器</a></p><h2 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h2><p>&emsp;&emsp;单例模式共有8种写法。</p><ul><li>饿汉式-静态常量</li><li>饿汉式-静态代码块</li><li>懒汉式（默认线程不安全）</li><li>懒汉式-同步方法</li><li>懒汉式-同步代码块</li><li>双重检查锁</li><li>静态内部类</li><li>枚举</li></ul><h2 id="数据库索引"><a href="#数据库索引" class="headerlink" title="数据库索引"></a>数据库索引</h2><p>&emsp;&emsp;<a href="https://www.yuque.com/jiufenshiren/ra5mzi/aoz98d">mysql的索引</a></p><h2 id="B-树结构？"><a href="#B-树结构？" class="headerlink" title="B+树结构？"></a>B+树结构？</h2><p>&emsp;&emsp;<a href="../../%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/B+%E6%A0%91">数据结构-B+树</a></p><h2 id="事务的隔离级别？作用？"><a href="#事务的隔离级别？作用？" class="headerlink" title="事务的隔离级别？作用？"></a>事务的隔离级别？作用？</h2><p>&emsp;&emsp;<a href="https://www.yuque.com/jiufenshiren/ra5mzi/iarni8">事务的隔离级别</a></p><h2 id="MVCC"><a href="#MVCC" class="headerlink" title="MVCC"></a>MVCC</h2><p>&emsp;&emsp;<a href="../../md/mysql/mysql%E4%B8%AD%E7%9A%84MVCC">mysql中的MVCC</a></p><h2 id="Spring"><a href="#Spring" class="headerlink" title="Spring"></a>Spring</h2><h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><h2 id="Rocketmq"><a href="#Rocketmq" class="headerlink" title="Rocketmq"></a>Rocketmq</h2><h2 id="Syncronized"><a href="#Syncronized" class="headerlink" title="Syncronized"></a>Syncronized</h2>]]></content>
     
     
     <summary type="html">&lt;h1 id=&quot;面经&quot;&gt;&lt;a href=&quot;#面经&quot; class=&quot;headerlink&quot; title=&quot;面经&quot;&gt;&lt;/a&gt;面经&lt;/h1&gt;</summary>
@@ -120,9 +141,9 @@
     <link href="https://linqiankun.github.io/hexoblog/%E9%9D%A2%E7%BB%8F/%E7%BD%91%E6%98%93%E4%B8%80%E9%9D%A2%EF%BC%88%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%8F%B0%E2%80%94java%EF%BC%89/"/>
     <id>https://linqiankun.github.io/hexoblog/%E9%9D%A2%E7%BB%8F/%E7%BD%91%E6%98%93%E4%B8%80%E9%9D%A2%EF%BC%88%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%8F%B0%E2%80%94java%EF%BC%89/</id>
     <published>2021-07-03T11:55:15.000Z</published>
-    <updated>2021-07-08T11:45:41.661Z</updated>
+    <updated>2021-07-08T11:49:45.936Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span><p>写面经，攒人品</p><ol><li>项目介绍</li><li>redis分布式锁怎么实现？</li><li>还有其他的实现思路？具体怎么实现？（数据库，zk）</li><li>redis分布式控制抢单，可不可以用数据库乐观锁？</li><li>数据库乐观锁怎么实现？</li><li>redis哨兵模式讲一下？</li><li>哨兵和机器间如何通信（ping，pong）?</li><li>哨兵如何选举leader?</li><li>mvcc讲一下？</li><li>mvcc的目的？原理？场景？</li><li>数据库隔离级别的作用？场景</li><li>redo log，undo log，bin log分别说一下？</li><li>这些是在什么阶段产生的？</li><li>mysql模块说一下？那些产生什么日志？</li><li>mysql索引讲一下？从你自己知道的角度讲？</li><li>聚簇索引和非聚簇索引的区别？</li><li>shiro讲一下？</li><li>shiro怎么存储session？</li><li>你们用shiro怎么存的（token）？</li><li>rocketmq和kafka的区别？</li><li>rocketmq怎么保证消息只会被一台机器消费？</li><li>jvm调优过没？</li><li>系统优化过没？</li><li>线程之间是如何通信的？</li><li>jvm垃圾回收器有哪些？</li><li>jvm垃圾回收算法有哪些？</li><li>多线程怎么通信的？</li><li>如何3个线程按照指定abc的顺序打印10000万次？</li><li>notify和notifyAll的区别？</li><li>可以指定某个线程唤醒吗？</li><li>项目中有什么印象深刻的？（异步获取结果）</li><li>用过大数据方面的东西没？（没有）</li><li>最近有在看什么书？</li><li>有什么想了解的？</li></ol><hr><h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="rocketmq和kafka的区别？"><a href="#rocketmq和kafka的区别？" class="headerlink" title="rocketmq和kafka的区别？"></a>rocketmq和kafka的区别？</h2><p>&emsp;&emsp;<a href="../../md/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/rocketmq%E5%92%8Ckafka%E7%9A%84%E5%8C%BA%E5%88%AB">rocketmq和kafka的区别</a></p>]]></content>
+    <content type="html"><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span><p>写面经，攒人品</p><ol><li>项目介绍</li><li>redis分布式锁怎么实现？</li><li>还有其他的实现思路？具体怎么实现？（数据库，zk）</li><li>redis分布式控制抢单，可不可以用数据库乐观锁？</li><li>数据库乐观锁怎么实现？</li><li>redis哨兵模式讲一下？</li><li>哨兵和机器间如何通信（ping，pong）?</li><li>哨兵如何选举leader?</li><li>mvcc讲一下？</li><li>mvcc的目的？原理？场景？</li><li>数据库隔离级别的作用？场景</li><li>redo log，undo log，bin log分别说一下？</li><li>这些是在什么阶段产生的？</li><li>mysql模块说一下？那些产生什么日志？</li><li>mysql索引讲一下？从你自己知道的角度讲？</li><li>聚簇索引和非聚簇索引的区别？</li><li>shiro讲一下？</li><li>shiro怎么存储session？</li><li>你们用shiro怎么存的（token）？</li><li>rocketmq和kafka的区别？</li><li>rocketmq怎么保证消息只会被一台机器消费？</li><li>jvm调优过没？</li><li>系统优化过没？</li><li>线程之间是如何通信的？</li><li>jvm垃圾回收器有哪些？</li><li>jvm垃圾回收算法有哪些？</li><li>多线程怎么通信的？</li><li>如何3个线程按照指定abc的顺序打印10000万次？</li><li>notify和notifyAll的区别？</li><li>可以指定某个线hex唤醒吗？</li><li>项目中有什么印象深刻的？（异步获取结果）</li><li>用过大数据方面的东西没？（没有）</li><li>最近有在看什么书？</li><li>有什么想了解的？</li></ol><hr><h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="rocketmq和kafka的区别？"><a href="#rocketmq和kafka的区别？" class="headerlink" title="rocketmq和kafka的区别？"></a>rocketmq和kafka的区别？</h2><p>&emsp;&emsp;<a href="../../md/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/rocketmq%E5%92%8Ckafka%E7%9A%84%E5%8C%BA%E5%88%AB">rocketmq和kafka的区别</a></p>]]></content>
     
     
     <summary type="html">&lt;h1 id=&quot;面经&quot;&gt;&lt;a href=&quot;#面经&quot; class=&quot;headerlink&quot; title=&quot;面经&quot;&gt;&lt;/a&gt;面经&lt;/h1&gt;</summary>
@@ -280,8 +301,8 @@
   
   <entry>
     <title>B+树</title>
-    <link href="https://linqiankun.github.io/hexoblog/md/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/B+%E6%A0%91/"/>
-    <id>https://linqiankun.github.io/hexoblog/md/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/B+%E6%A0%91/</id>
+    <link href="https://linqiankun.github.io/hexoblog/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/B+%E6%A0%91/"/>
+    <id>https://linqiankun.github.io/hexoblog/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/B+%E6%A0%91/</id>
     <published>2021-06-24T02:09:57.000Z</published>
     <updated>2021-06-24T08:17:38.550Z</updated>
     
@@ -462,39 +483,6 @@
 &lt;li&gt;Exclusive：独占方式，只有一个线程能执行，如ReentrantLock。&lt;/li&gt;
 &lt;li&gt;Share：共享，多个线程可以同时执行，如Semaphore、CountDownLatch、ReadWriteLock，CyclicBarrier。&lt;/li&gt;
 &lt;/ol&gt;</summary>
-    
-    
-    
-    <category term="java" scheme="https://linqiankun.github.io/hexoblog/categories/java/"/>
-    
-    <category term="juc" scheme="https://linqiankun.github.io/hexoblog/categories/java/juc/"/>
-    
-    <category term="AQS" scheme="https://linqiankun.github.io/hexoblog/categories/java/juc/AQS/"/>
-    
-    <category term="Java" scheme="https://linqiankun.github.io/hexoblog/categories/Java/"/>
-    
-    <category term="多线程" scheme="https://linqiankun.github.io/hexoblog/categories/Java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
-    
-    
-    <category term="java" scheme="https://linqiankun.github.io/hexoblog/tags/java/"/>
-    
-    <category term="juc" scheme="https://linqiankun.github.io/hexoblog/tags/juc/"/>
-    
-    <category term="AQS" scheme="https://linqiankun.github.io/hexoblog/tags/AQS/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>juc之AQS</title>
-    <link href="https://linqiankun.github.io/hexoblog/md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/juc%E4%B9%8BAQS/"/>
-    <id>https://linqiankun.github.io/hexoblog/md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/juc%E4%B9%8BAQS/</id>
-    <published>2021-06-17T07:08:59.000Z</published>
-    <updated>2021-06-29T08:58:19.521Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;AbstractQuenedSynchronizer抽象的队列式同步器。是除了java自带的synchronized关键字之外的锁机制。<br>&emsp;&emsp;AQS定义了一套多线程访问共享资源的同步器框架，许多同步类实现都依赖于它，如常用的ReentrantLock/Semaphore/CountDownLatch…。</p><span id="more"></span><hr><h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><p>&emsp;&emsp;AQS的核心思想，如果被请求的共享资源空闲，则将当前请求资源的线程设置为有效的工作线程，并将共享资源设置为锁定状态，如果请求的资源被占用，那么就需要一套线程阻塞等待以及被唤醒时锁分配的机制，这个机制AQS是用CLH队列锁实现的，即将暂时获取不到锁的线程加入到队列中。<br>&emsp;&emsp;CLH（Craig，Landin，and Hagersten）队列是一个虚拟的双向队列，虚拟的双向队列即不存在队列实例，仅存在节点之间的关联关系。<br><strong>AQS是将每一条请求共享资源的线程封装成一个CLH锁队列的一个结点（Node）</strong>，来实现锁的分配。<br>&emsp;&emsp;Node结点是对每一个等待获取资源的线程的封装，其包含了需要同步的线程本身及其等待状态，如是否被阻塞、是否等待唤醒、是否已经被取消等。变量waitStatus则表示当前Node结点的等待状态，共有5种取值CANCELLED、SIGNAL、CONDITION、PROPAGATE、0。  </p><p>&emsp;&emsp;<em>用大白话来说，AQS就是基于CLH队列，用volatile修饰共享变量state，线程通过CAS去改变状态符，成功则获取锁成功，失败则进入等待队列，等待被唤醒。</em></p><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/AQS-CLH.png" alt="AQS原理"></p><p>&emsp;&emsp;实现了AQS的锁有：自旋锁、互斥锁、读锁写锁、条件产量、信号量、栅栏（Latch）都是AQS的衍生物。</p><hr><h1 id="两种资源共享方式"><a href="#两种资源共享方式" class="headerlink" title="两种资源共享方式"></a>两种资源共享方式</h1><p>&emsp;&emsp;AQS定义了两种资源共享方式：</p><ol><li>Exclusive：独占方式，只有一个线程能执行，如ReentrantLock。</li><li>Share：共享，多个线程可以同时执行，如Semaphore、CountDownLatch、ReadWriteLock，CyclicBarrier。</li></ol><p>&emsp;&emsp;AQS底层使用了模板方法模式，如果需要自定义同步器一般的方式是这样：</p><ol><li>使用者继承AbstractQueuedSynchronizer并重写指定的方法。</li><li>将AQS组合在自定义同步组件的实现中，并调用其模板方法，而这些模板方法会调用使用者重写的方法。如CountDownLatch中的Sync，在CountDownLatch中使用共有的Sync即可。</li></ol><p>&emsp;&emsp;自定义同步器在实现的时候只需要实现共享资源state的获取和释放方式即可，至于具体线程等待队列的维护，AQS已经在顶层实现好了（AbstractQueuedSynchronizer中已经实现了）。自定义同步器实现的时候主要实现下面几种方法：</p><ul><li><strong>isHeldExclusively()：</strong> 该线程是否正在独占资源。只有用到condition才需要去实现它。</li><li><strong>tryAcquire(int)：</strong> 独占方式。尝试获取资源，成功则返回true，失败则返回false。</li><li><strong>tryRelease(int)：</strong> 独占方式。尝试释放资源，成功则返回true，失败则返回false。</li><li><strong>tryAcquireShared(int)：</strong> 共享方式。尝试获取资源。负数表示失败；0表示成功，但没有剩余可用资源；正数表示成功，且有剩余资源。</li><li><strong>tryReleaseShared(int)：</strong> 共享方式。尝试释放资源，如果释放后允许唤醒后续等待结点返回true，否则返回false。</li></ul><p>&emsp;&emsp;一般来说，自定义同步器要么是独占方法，要么是共享方式，他们也只需实现tryAcquire-tryRelease、tryAcquireShared-tryReleaseShared中的一种即可。但AQS也支持自定义同步器同时实现独占和共享两种方式，如ReentrantReadWriteLock。</p><hr><h1 id="NODE节点"><a href="#NODE节点" class="headerlink" title="NODE节点"></a>NODE节点</h1><p>&emsp;&emsp;Node结点是对每一个等待获取资源的线程的封装，其包含了需要同步的线程本身及其等待状态，如是否被阻塞、是否等待唤醒、是否已经被取消等。变量waitStatus则表示当前Node结点的等待状态，共有5种取值<strong>CANCELLED、SIGNAL、CONDITION、PROPAGATE、0</strong>。  </p><ul><li><strong>CANCELLED(1)：</strong> 表示当前结点已取消调度。当timeout或被中断（响应中断的情况下），会触发变更为此状态，进入该状态后的结点将不会再变化。</li><li><strong>SIGNAL(-1)：</strong> 表示后继结点在等待当前结点唤醒。后继结点入队时，会将前继结点的状态更新为SIGNAL。</li><li><strong>CONDITION(-2)：</strong> 表示结点等待在Condition上，当其他线程调用了Condition的signal()方法后，CONDITION状态的结点将从等待队列转移到同步队列中，等待获取同步锁。</li><li><strong>PROPAGATE(-3)：</strong> 共享模式下，前继结点不仅会唤醒其后继结点，同时也可能会唤醒后继的后继结点。</li><li><strong>0：</strong> 新结点入队时的默认状态。</li></ul><p>&emsp;&emsp;负值表示结点处于有效等待状态，而正值表示结点已被取消。所以源码中很多地方用&gt;0、&lt;0来判断结点的状态是否正常。</p><hr><h1 id="参考文献-amp-鸣谢"><a href="#参考文献-amp-鸣谢" class="headerlink" title="参考文献 &amp; 鸣谢"></a>参考文献 &amp; 鸣谢</h1><ul><li><a href="https://www.cnblogs.com/waterystone/p/4920797.html">Java并发之AQS详解</a></li><li><a href="https://blog.csdn.net/mulinsen77/article/details/84583716">AQS详解（面试）</a></li></ul>]]></content>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h1&gt;&lt;p&gt;&amp;emsp;&amp;emsp;AbstractQuenedSynchronizer抽象的队列式同步器。是除了java自带的synchronized关键字之外的锁机制。&lt;br&gt;&amp;emsp;&amp;emsp;AQS定义了一套多线程访问共享资源的同步器框架，许多同步类实现都依赖于它，如常用的ReentrantLock/Semaphore/CountDownLatch…。&lt;/p&gt;</summary>
     
     
     
