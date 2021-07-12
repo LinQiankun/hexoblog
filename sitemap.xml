@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://linqiankun.github.io/hexoblog/%E9%9D%A2%E7%BB%8F/%E4%BF%A1%E4%B9%9F%E7%A7%91%E6%8A%80%EF%BC%88%E6%8B%8D%E6%8B%8D%E8%B4%B7%EF%BC%89%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/</loc>
+    <loc>https://linqiankun.github.io/hexoblog/%E5%A4%96%E5%8C%85%E5%85%AC%E5%8F%B8%E5%A4%A7%E6%B1%87%E6%80%BB/</loc>
     
     <lastmod>2021-07-12</lastmod>
     
@@ -16,14 +16,14 @@
   </url>
   
   <url>
-    <loc>https://linqiankun.github.io/hexoblog/%E9%9D%A2%E7%BB%8F/%E7%BD%91%E6%98%93%E4%B8%80%E9%9D%A2%EF%BC%88%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%8F%B0%E2%80%94java%EF%BC%89/</loc>
+    <loc>https://linqiankun.github.io/hexoblog/%E9%9D%A2%E7%BB%8F/%E4%BF%A1%E4%B9%9F%E7%A7%91%E6%8A%80%EF%BC%88%E6%8B%8D%E6%8B%8D%E8%B4%B7%EF%BC%89%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/</loc>
     
-    <lastmod>2021-07-08</lastmod>
+    <lastmod>2021-07-12</lastmod>
     
   </url>
   
   <url>
-    <loc>https://linqiankun.github.io/hexoblog/%E5%A4%96%E5%8C%85%E5%85%AC%E5%8F%B8%E5%A4%A7%E6%B1%87%E6%80%BB/</loc>
+    <loc>https://linqiankun.github.io/hexoblog/%E9%9D%A2%E7%BB%8F/%E7%BD%91%E6%98%93%E4%B8%80%E9%9D%A2%EF%BC%88%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%8F%B0%E2%80%94java%EF%BC%89/</loc>
     
     <lastmod>2021-07-08</lastmod>
     
@@ -746,13 +746,6 @@
   </url>
   
   <url>
-    <loc>https://linqiankun.github.io/hexoblog/tags/kafka/</loc>
-    <lastmod>2021-07-12</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://linqiankun.github.io/hexoblog/tags/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/</loc>
     <lastmod>2021-07-12</lastmod>
     <changefreq>daily</changefreq>
@@ -761,6 +754,13 @@
   
   <url>
     <loc>https://linqiankun.github.io/hexoblog/tags/rocketmq/</loc>
+    <lastmod>2021-07-12</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://linqiankun.github.io/hexoblog/tags/kafka/</loc>
     <lastmod>2021-07-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1168,7 +1168,7 @@
   </url>
   
   <url>
-    <loc>https://linqiankun.github.io/hexoblog/categories/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/kafka/</loc>
+    <loc>https://linqiankun.github.io/hexoblog/categories/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/rocketmq/</loc>
     <lastmod>2021-07-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1182,7 +1182,7 @@
   </url>
   
   <url>
-    <loc>https://linqiankun.github.io/hexoblog/categories/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/rocketmq/</loc>
+    <loc>https://linqiankun.github.io/hexoblog/categories/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/kafka/</loc>
     <lastmod>2021-07-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
