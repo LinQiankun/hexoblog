@@ -24,12 +24,20 @@
 <li><input disabled="" type="checkbox"> 雪球科技一面面经</li>
 <li><input disabled="" type="checkbox"> 雪球科技二面面经</li>
 <li><input disabled="" type="checkbox"> 网易一面面经</li>
+<li><input disabled="" type="checkbox"> 信也科技一面面经</li>
 </ul>
-<hr>
 <h2 id="DRAFTS-TODO"><a href="#DRAFTS-TODO" class="headerlink" title="DRAFTS_TODO"></a>DRAFTS_TODO</h2><ul>
 <li><input disabled="" type="checkbox"> AIO</li>
 <li><input disabled="" type="checkbox"> kafka简介</li>
 <li><input disabled="" type="checkbox"> rocketmq-Broker启动流程</li>
+</ul>
+<h2 id="OTHER-TODO"><a href="#OTHER-TODO" class="headerlink" title="OTHER_TODO"></a>OTHER_TODO</h2><ul>
+<li><input disabled="" type="checkbox"> shiro</li>
+<li><input disabled="" type="checkbox"> redis数据结构</li>
+<li><input disabled="" type="checkbox"> mq消费失败处理</li>
+<li><input disabled="" type="checkbox"> 单例模式</li>
+<li><input disabled="" type="checkbox"> 腾讯烧香问题</li>
+<li><input disabled="" type="checkbox"> SpringBean的初始化过程</li>
 </ul>
 ]]></content>
       <categories>
@@ -168,9 +176,9 @@
 <li> 消息消费失败怎么处理的（没处理，使用mq的原生的重发机制）（分为投递失败，业务处理失败）</li>
 </ol>
 </li>
-<li>syncronized<ol>
-<li> syncronized原理？</li>
-<li> syncronized加在方法上和代码块上的区别？生成的指令的区别？</li>
+<li>synchronized<ol>
+<li> synchronized原理？</li>
+<li> synchronized加在方法上和代码块上的区别？生成的指令的区别？</li>
 </ol>
 </li>
 <li>反问</li>
@@ -196,7 +204,18 @@
 <h2 id="B-树结构？"><a href="#B-树结构？" class="headerlink" title="B+树结构？"></a>B+树结构？</h2><p>&emsp;&emsp;<a href="../../%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/B+%E6%A0%91">数据结构-B+树</a></p>
 <h2 id="事务的隔离级别？作用？"><a href="#事务的隔离级别？作用？" class="headerlink" title="事务的隔离级别？作用？"></a>事务的隔离级别？作用？</h2><p>&emsp;&emsp;<a href="https://www.yuque.com/jiufenshiren/ra5mzi/iarni8">事务的隔离级别</a></p>
 <h2 id="MVCC"><a href="#MVCC" class="headerlink" title="MVCC"></a>MVCC</h2><p>&emsp;&emsp;<a href="../../md/mysql/mysql%E4%B8%AD%E7%9A%84MVCC">mysql中的MVCC</a></p>
-<h2 id="Spring"><a href="#Spring" class="headerlink" title="Spring"></a>Spring</h2><h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><h3 id="redis分布式锁是怎么实现的？"><a href="#redis分布式锁是怎么实现的？" class="headerlink" title="redis分布式锁是怎么实现的？"></a>redis分布式锁是怎么实现的？</h3><p>&emsp;&emsp;<a href="../../md/redis/redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81">redis分布式锁</a></p>
+<h2 id="Spring"><a href="#Spring" class="headerlink" title="Spring"></a>Spring</h2><h3 id="Spring特点，功能"><a href="#Spring特点，功能" class="headerlink" title="Spring特点，功能"></a>Spring特点，功能</h3><ul>
+<li>方便解耦，简化开发</li>
+<li>支持AOP编程，很容易实现权限拦截，运行期监控</li>
+<li>声明式事务支持，spring容器提供的功能</li>
+<li>方便集成各种优秀框架</li>
+<li>提供了众多工具类，简化API使用难度</li>
+<li>的DI机制降低了业务对象替换的复杂性</li>
+</ul>
+<h3 id="XML配置如何转换为Bean"><a href="#XML配置如何转换为Bean" class="headerlink" title="XML配置如何转换为Bean"></a>XML配置如何转换为Bean</h3><p>&emsp;&emsp;<a href="https://blog.csdn.net/liu20111590/article/details/89857660">spring之xml文件转换为BeanDefinition</a></p>
+<h3 id="Bean的实例化过程"><a href="#Bean的实例化过程" class="headerlink" title="Bean的实例化过程"></a>Bean的实例化过程</h3><p>&emsp;&emsp;<a href="../../md/spring/Spring%E4%B8%ADBean%E7%9A%84%E5%AE%9E%E4%BE%8B%E5%8C%96%E8%BF%87%E7%A8%8B">Spring中Bean的实例化过程</a></p>
+<h3 id="循环依赖"><a href="#循环依赖" class="headerlink" title="循环依赖"></a>循环依赖</h3><p>&emsp;&emsp;<a href="https://www.yuque.com/jiufenshiren/ra5mzi/gmkoub">spring中循环依赖的处理</a></p>
+<h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><h3 id="redis分布式锁是怎么实现的？"><a href="#redis分布式锁是怎么实现的？" class="headerlink" title="redis分布式锁是怎么实现的？"></a>redis分布式锁是怎么实现的？</h3><p>&emsp;&emsp;<a href="../../md/redis/redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81">redis分布式锁</a></p>
 <h3 id="redis的数据结构"><a href="#redis的数据结构" class="headerlink" title="redis的数据结构"></a>redis的数据结构</h3><p>&emsp;&emsp;redis中共有8种数据结构，其中常用的有5种。</p>
 <ul>
 <li>字符串 string</li>
@@ -208,7 +227,11 @@
 <li>地理位置-geospatial</li>
 <li>hyperloglog</li>
 </ul>
-<h2 id="Rocketmq"><a href="#Rocketmq" class="headerlink" title="Rocketmq"></a>Rocketmq</h2><h3 id="消息消费失败怎么处理？"><a href="#消息消费失败怎么处理？" class="headerlink" title="消息消费失败怎么处理？"></a>消息消费失败怎么处理？</h3><h2 id="Syncronized"><a href="#Syncronized" class="headerlink" title="Syncronized"></a>Syncronized</h2>]]></content>
+<p>&emsp;&emsp;<a href="../../md/redis/redis%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84">redis中的数据结构</a></p>
+<h2 id="Rocketmq"><a href="#Rocketmq" class="headerlink" title="Rocketmq"></a>Rocketmq</h2><h3 id="消息消费失败怎么处理？"><a href="#消息消费失败怎么处理？" class="headerlink" title="消息消费失败怎么处理？"></a>消息消费失败怎么处理？</h3><p>&emsp;&emsp;消息消费失败可以分为两种方向，一种是mq进行消息投递失败，另一种是业务系统消费消息失败。<br>&emsp;&emsp;mq消息投递失败会将消息放入定时投递队列中，按照一定的时间间隔后进行消息重投。<br>&emsp;&emsp;业务系统可以将消息存储起来，对于失败的消息，通过定时处理的方式进行恢复。保存起来类似于消息幂等的处理方式。</p>
+<h2 id="Synchronized"><a href="#Synchronized" class="headerlink" title="Synchronized"></a>Synchronized</h2><h3 id="Synchronized原理"><a href="#Synchronized原理" class="headerlink" title="Synchronized原理"></a>Synchronized原理</h3><p>&emsp;&emsp;底层采用monitor指令实现，会生成一条moniter enter和二条moniter exit（一条正常退出，另一条异常退出）指令实现。</p>
+<h3 id="Synchronized加在方法上和代码块上的区别？生成的指令的区别？"><a href="#Synchronized加在方法上和代码块上的区别？生成的指令的区别？" class="headerlink" title="Synchronized加在方法上和代码块上的区别？生成的指令的区别？"></a>Synchronized加在方法上和代码块上的区别？生成的指令的区别？</h3><p>&emsp;&emsp;<a href="https://www.yuque.com/jiufenshiren/ra5mzi/rc3ofp">synchronized</a></p>
+]]></content>
       <categories>
         <category>面经</category>
       </categories>
@@ -470,6 +493,682 @@
       </categories>
       <tags>
         <tag>面经</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>filter_interceptor</title>
+    <url>/hexoblog/md/java/filter-interceptor/</url>
+    <content><![CDATA[<h2 id="过滤器"><a href="#过滤器" class="headerlink" title="过滤器"></a>过滤器</h2><p>&emsp;&emsp;过滤器是用来过滤的，java的过滤器能够为我们提供系统级别的过滤，也就是说能够过滤所有的web请求，这一点是拦截器做不到的。<br>&emsp;&emsp;在java web中，你传入的request，response提前过滤掉一些信息，或者提前设置一些参数，然后在传入Servlet进行业务逻辑，比如过滤掉非法url和非法字符串。<br>&emsp;&emsp;filter流程是线性的，url传来之后，检查之后，可保持原来的流程继续向下执行，被下一个filter，servlet接收。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="拦截器"><a href="#拦截器" class="headerlink" title="拦截器"></a>拦截器</h2><p>&emsp;&emsp;java里面的拦截器提供的是非系统级别的拦截，也就是说，就覆盖面来说，拦截器不如过滤器强大但是更有针对性。<br>&emsp;&emsp;java中的拦截器是基于java反射机制实现的，更准确的划分，应该是基于jdk实现的动态代理。它依赖于具体的接口，在运行期间动态生成字节码。<br>&emsp;&emsp;拦截器是动态拦截Action调用的对象，他提供了一种机制可以使开发者在一个ation执行的前后执行一段代码，也可以在一个action执行前阻止其执行，同时也提供了一种可以提取action中可重用代码的方式。在AOP中，拦截器用于在某个方法或字段被访问之前，进行拦截然后再之前或之后加入某些操作。java的拦截器主要用于插件上，扩展件上，有点类似于面向切面的技术，在用之前要先在配置文件里声明。</p>
+<hr>
+<h2 id="监听器"><a href="#监听器" class="headerlink" title="监听器"></a>监听器</h2><p>&emsp;&emsp;java的监听器也是系统级别的监听。监听器随web应用的启动而启动。<br>&emsp;&emsp;java的监听器在c/s模式里面经常用到，它会对特定的事件产生一个处理。监听器在很多模式下用到，比如说观察者模式，就是使用监听器来实现的，又比如统计网站的在线人数。servlet监听器用于监听一些重要事件的发生，监听器对象可以在事件发生前，发生后做一些必要的处理。</p>
+<hr>
+<h1 id="对照"><a href="#对照" class="headerlink" title="对照"></a>对照</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/interceptor_filter_1.jpg" alt="对照"></p>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>filter</tag>
+        <tag>interceptor</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>javaSPI扩展</title>
+    <url>/hexoblog/md/java/javaSPI%E6%89%A9%E5%B1%95/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;SPI就是一种服务发现机制。<br>&emsp;&emsp;SPI 是一种将服务接口与服务实现分离以达到解耦、大大提升了程序可扩展性的机制。引入服务提供者就是引入了 spi 接口的实现者，通过本地的注册发现获取到具体的实现类，轻松可插拔。<br>&emsp;&emsp;Java SPI 就是把某个接口的 指定实现类 （通过在指定文件配置的方式）给实例化出来了。</p>
+<span id="more"></span>
+
+<hr>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><p>&emsp;&emsp;需要准备一个maven工程，以此为蓝本，进行开发。</p>
+<h2 id="创建接口及实现类"><a href="#创建接口及实现类" class="headerlink" title="创建接口及实现类"></a>创建接口及实现类</h2><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">// 接口</span>
+<span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">HelloService</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token keyword">void</span> <span class="token function">sayHello</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">// 实现类</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">HelloServiceImpl1</span> <span class="token keyword">implements</span> <span class="token class-name">HelloService</span> <span class="token punctuation">&#123;</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">sayHello</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"hello1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">HelloServiceImpl2</span> <span class="token keyword">implements</span> <span class="token class-name">HelloService</span> <span class="token punctuation">&#123;</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">sayHello</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"hello2"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="创建META-INF-service文件夹，建立文件"><a href="#创建META-INF-service文件夹，建立文件" class="headerlink" title="创建META-INF/service文件夹，建立文件"></a>创建META-INF/service文件夹，建立文件</h2><p>&emsp;&emsp;这里建立的文件名与接口的全限定名相同，文件的内容为接口实现类的全限定名。</p>
+<pre class="line-numbers language-txt" data-language="txt"><code class="language-txt">com.lin.javaspi.service.impl.HelloServiceImpl1
+com.lin.javaspi.service.impl.HelloServiceImpl2<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h2 id="启动方法"><a href="#启动方法" class="headerlink" title="启动方法"></a>启动方法</h2><pre class="line-numbers language-java" data-language="java"><code class="language-java">    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">ClassNotFoundException</span><span class="token punctuation">,</span> <span class="token class-name">IllegalAccessException</span><span class="token punctuation">,</span> <span class="token class-name">InstantiationException</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">ServiceLoader</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">HelloService</span><span class="token punctuation">></span></span> load <span class="token operator">=</span> <span class="token class-name">ServiceLoader</span><span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span><span class="token class-name">HelloService</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">Iterator</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">HelloService</span><span class="token punctuation">></span></span> iterator <span class="token operator">=</span> load<span class="token punctuation">.</span><span class="token function">iterator</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>iterator<span class="token punctuation">.</span><span class="token function">hasNext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            <span class="token class-name">HelloService</span> next <span class="token operator">=</span> iterator<span class="token punctuation">.</span><span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            next<span class="token punctuation">.</span><span class="token function">sayHello</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+<span class="token comment">//        Class&lt;?> aClass = Class.forName("com.lin.javaspi.service.impl.HelloServiceImpl1");</span>
+<span class="token comment">//        HelloServiceImpl1 o = (HelloServiceImpl1) aClass.newInstance();</span>
+<span class="token comment">//        o.sayHello();</span>
+    <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h1 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h1><ol>
+<li>应用程序调用ServiceLoader.load方法。<blockquote>
+<p>ServiceLoader.load方法内先创建一个新的ServiceLoader，并实例化该类中的成员变量。</p>
+</blockquote>
+</li>
+<li>应用程序通过迭代器接口获取对象实例。<blockquote>
+<p>ServiceLoader先判断成员变量providers对象中<code>LinkedHashMap&lt;String,S&gt;</code>类型是否有缓存实例对象，如果有缓存，直接返回。</p>
+</blockquote>
+<ol>
+<li>读取META-INF/services/下的配置文件，获得所有能被实例化的类的名称，值得注意的是，ServiceLoader可以跨越jar包获取META-INF下的配置文件。</li>
+<li>通过反射方法<code>Class.forName()</code>加载类对象，并用<code>instance()</code>方法将类实例化。</li>
+<li>把实例化后的类缓存到providers对象中，<code>LinkedHashMap&lt;String,S&gt;</code>类型然后返回实例对象。</li>
+</ol>
+</li>
+</ol>
+<hr>
+<h1 id="要求"><a href="#要求" class="headerlink" title="要求"></a>要求</h1><ol>
+<li>必须要有接口</li>
+<li>对应要有实现类，且具备空参构造方法。</li>
+<li>文件夹META-INF/services放置classpath目录下。</li>
+<li>以“接口全限定名”命名的文件。</li>
+<li>文件内容为接口实现类的全路径。</li>
+</ol>
+<hr>
+<h1 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h1><p>&emsp;&emsp;调用者根据实际使用需要，启用、扩展、或者替换框架的实现策略</p>
+<ol>
+<li><p>jdbc</p>
+<blockquote>
+<p>不同的数据库使用不同的jdbc驱动，他们实现了相同的接口，java.sql.Driver</p>
+</blockquote>
+</li>
+<li><p>日志门面接口实现类加载</p>
+<blockquote>
+<p>slf4j加载不同的提供商的日志实现类</p>
+</blockquote>
+</li>
+<li><p>spring</p>
+</li>
+<li><p>dubbo</p>
+</li>
+</ol>
+<hr>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><p>&emsp;&emsp;使用Java SPI机制的优势是实现解耦，使得第三方服务模块的装配控制的逻辑与调用者的业务代码分离，而不是耦合在一起。应用程序可以根据实际业务情况启用框架扩展或替换框架组件。<br>&emsp;&emsp;相比使用提供接口jar包，供第三方服务模块实现接口的方式，SPI的方式使得源框架，不必关心接口的实现类的路径，可以不用通过下面的方式获取接口实现类：</p>
+<ol>
+<li>代码硬编码import 导入实现类。</li>
+<li>指定类全路径反射获取，<code>Class.forName()</code>。</li>
+<li>第三方服务模块把接口实现类实例注册到指定地方，源框架从该处访问实例。</li>
+</ol>
+<p>&emsp;&emsp;通过SPI的方式，第三方服务模块实现接口后，在第三方的项目代码的META-INF/services目录下的配置文件指定实现类的全路径名，源码框架即可找到实现类。</p>
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><ol>
+<li>虽然ServiceLoader也算是使用的延迟加载，但是基本只能通过遍历全部获取，也就是接口的实现类全部加载并实例化一遍。如果你并不想用某些实现类，它也被加载并实例化了，这就造成了浪费。获取某个实现类的方式不够灵活，只能通过Iterator形式获取，不能根据某个参数来获取对应的实现类。</li>
+<li>多个并发多线程使用ServiceLoader类的实例是不安全的。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>SPI</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>序列化与反序列化</title>
+    <url>/hexoblog/md/java/%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/</url>
+    <content><![CDATA[<h1 id="序列化与反序列化"><a href="#序列化与反序列化" class="headerlink" title="序列化与反序列化"></a>序列化与反序列化</h1><ol>
+<li>序列化：把对象转换为字节数组的过程称为对象的序列化。</li>
+<li>反序列化：把字节序列转换为对象的过程称为对象的反序列化。</li>
+</ol>
+<span id="more"></span>
+
+<hr>
+<h1 id="什么时候需要序列化与反序列化？"><a href="#什么时候需要序列化与反序列化？" class="headerlink" title="什么时候需要序列化与反序列化？"></a>什么时候需要序列化与反序列化？</h1><p>&emsp;&emsp;当我们只在本地 JVM 里运行下 Java 实例，这个时候是不需要什么序列化和反序列化的，但当我们需要将内存中的对象持久化到磁盘，数据库中时， 当我们需要与浏览器进行交互时，当我们需要实现 RPC 时， 这个时候就需要序列化和反序列化了。<br>&emsp;&emsp;对于与浏览器的交互，采用json格式，json格式本身就是将一个对象转换为字符串，而字符串同样是实现了序列化的。<br>&emsp;&emsp;对于将数据持久化到数据库，我们同样是将属性保存到数据库，而不是将对象保存到数据库。</p>
+<hr>
+<h1 id="为什么要实现-Serializable-接口"><a href="#为什么要实现-Serializable-接口" class="headerlink" title="为什么要实现 Serializable 接口?"></a>为什么要实现 Serializable 接口?</h1><p>&emsp;&emsp;在 Java 中实现了 Serializable 接口后， JVM 会在底层帮我们实现序列化和反序列化。</p>
+<hr>
+<h1 id="为什么还要指定serialVersionUID的值"><a href="#为什么还要指定serialVersionUID的值" class="headerlink" title="为什么还要指定serialVersionUID的值?"></a>为什么还要指定serialVersionUID的值?</h1><p>&emsp;&emsp;如果不显示指定serialVersionUID，JVM在序列化时会根据属性自动生成一个serialVersionUID，然后与属性一起序列化，再进行持久化或网络传输。<br>&emsp;&emsp;在反序列化时，JVM会再根据属性自动生成一个新版 serialVersionUID，然后将这个新版serialVersionUID与序列化时生成的旧版serialVersionUID进行比较，如果相同则反序列化成功，否则报错。<br>&emsp;&emsp;如果显示指定了serialVersionUID，JVM在序列化和反序列化时仍然都会生成一个serialVersionUID，但值为我们显示指定的值，这样在反序列化时新旧版本的 serialVersionUID 就一致了。<br>&emsp;&emsp;默认的serialVersionUID，是根据类的属性生成的，如果类的属性发生变化，serialVersionUID的值对应会发生变化，这时候去反序列化原有的对象就会失败。而显式指定之后则解决了这个问题。</p>
+<hr>
+<h1 id="序列化的其他特性"><a href="#序列化的其他特性" class="headerlink" title="序列化的其他特性"></a>序列化的其他特性</h1><p>&emsp;&emsp;被transient关键字修饰的属性不会被序列化，static属性也不会被序列化。</p>
+<h2 id="static-属性为什么不会被序列化"><a href="#static-属性为什么不会被序列化" class="headerlink" title="static 属性为什么不会被序列化?"></a>static 属性为什么不会被序列化?</h2><p>&emsp;&emsp;因为序列化是针对对象而言的，而static属性优先于对象存在，随着类的加载而加载，所以不会被序列化。<br>&emsp;&emsp;其实serialVersionUID属性并没有被序列化，JVM在序列化对象时会自动生成一个serialVersionUID，然后将我们显示指定的serialVersionUID属性值赋给自动生成的serialVersionUID。</p>
+]]></content>
+      <categories>
+        <category>java</category>
+        <category>序列化</category>
+      </categories>
+      <tags>
+        <tag>序列化</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>强软弱虚引用</title>
+    <url>/hexoblog/md/java/%E5%BC%BA%E8%BD%AF%E5%BC%B1%E8%99%9A%E5%BC%95%E7%94%A8/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><h2 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h2><ol>
+<li>可以通过代码的方式决定某些对象的生命周期。</li>
+<li>有利于JVM进行垃圾回收。</li>
+</ol>
+<span id="more"></span>
+
+<hr>
+<h1 id="强引用"><a href="#强引用" class="headerlink" title="强引用"></a>强引用</h1><p>&emsp;&emsp;对象的一般状态，初始化new出来的对象就是强引用。<br>&emsp;&emsp;可达性分析算法中，根据GC Roots向下查找是用的就是强引用。</p>
+<hr>
+<h1 id="软引用"><a href="#软引用" class="headerlink" title="软引用"></a>软引用</h1><blockquote>
+<p>&emsp;&emsp;软参考对象，由垃圾收集器根据内存需求自行清除。软引用通常用于实现内存敏感缓存。<br>假设垃圾收集器在某个时间点确定对象是softly reachable 。 那时候，它可能会选择原子地清除对该对象的所有软引用，以及对任何其他可轻松访问的对象的所有软引用，该对象可以通过一个强引用链来访问该对象。 在同一时间或稍后的时间，它将排入在引用队列中注册的新清除的软引用。</p>
+</blockquote>
+<blockquote>
+<p>&emsp;&emsp;在虚拟机抛出OutOfMemoryError之前，所有软引用对象可以保证被清除。 否则，在清除软引用的时间或者对一组对不同对象的引用将被清除的顺序没有约束。 但是，鼓励虚拟机实现偏离清除最近创建或最近使用的软参考。</p>
+</blockquote>
+<blockquote>
+<p>&emsp;&emsp;此类的直接实例可用于实现简单的缓存; 此类或派生子类也可用于较大的数据结构以实现更复杂的高速缓存。 只要软参考的指示是强有力的，即实际使用中，软参考将不会被清除。 因此，复杂的缓存可以例如阻止其最近使用的条目被丢弃，通过保持对这些条目的强烈的指示，使剩余的条目由垃圾收集器判断丢弃。</p>
+</blockquote>
+<p>&emsp;&emsp;用来描述一些有用但不是必须的对象，类似于生活总可有可无的物品，在java中使用<code>java.lang.ref.SoftReference</code>类来表示。<br>&emsp;&emsp;对于软引用关联着的对象，只有在内存空间不足的时候，垃圾回收器才会回收这些对象。<br>&emsp;&emsp;只要垃圾回收器没有回收掉，程序就可以使用它。<br>&emsp;&emsp;软引用可以和一个引用队列（ReferenceQueue）联合使用，如果软引用所引用的对象被JVM回收，这个软引用就会被加入到与之关联的引用队列中。<br>&emsp;&emsp;软引用可以用来实现内存敏感的高速缓存。当内存足够大时可以把数组存入软引用，取数据时就可从内存里取数据，提高运行效率。如浏览器的后退按钮。</p>
+<hr>
+<h1 id="弱引用"><a href="#弱引用" class="headerlink" title="弱引用"></a>弱引用</h1><blockquote>
+<p>&emsp;&emsp;弱参考对象，不会阻止其指定对象的最终确定，最终确定，然后被回收。弱引用最常用于实现规范化映射。</p>
+</blockquote>
+<blockquote>
+<p>&emsp;&emsp;假设垃圾收集器在某个时间点确定对象是weakly reachable 。 那时，它将原子地清除对该对象的所有弱引用，以及所有弱引用到任何其他弱可触及的对象，通过一连串强软引用可以从该对象到达该对象。 同时，它将声明所有以前弱可触及的对象都是可以确定的。 在同一时间或稍后的时间，它将排列在引用队列中注册的新清除的弱引用。</p>
+</blockquote>
+<p>&emsp;&emsp;弱引用也是描述非必须对象的。与软引用相比，弱引用具有更短暂的生命周期，当JVM进行垃圾回收时，无论内存是否充足，都会回收被弱引用关联的对象，在Java中用<code>java.lang.ref.WeakReference</code>来表示。<br>&emsp;&emsp;在垃圾回收器线程扫描它所管辖的内存区域的过程中，一旦发现了只具有弱引用的对象，不管当前内存空间足够与否，都会回收它的内存。不过，由于垃圾回收器是一个优先级很低的线程， 因此不一定会很快发现那些只具有弱引用的对象。 弱引用可以和一个引用队列（ReferenceQueue）联合使用，如果弱引用所引用的对象被垃圾回 收，Java虚拟机就会把这个弱引用加入到与之关联的引用队列中。</p>
+<hr>
+<h1 id="虚引用"><a href="#虚引用" class="headerlink" title="虚引用"></a>虚引用</h1><blockquote>
+<p>&emsp;&emsp;在收集者确定其指示物可能被回收之后排入队列的Phantom参考对象。幻像引用最常用于以比Java完成机制可能更灵活的方式安排事先清理操作。</p>
+</blockquote>
+<blockquote>
+<p>&emsp;&emsp;如果垃圾收集器在某个时间点确定幻像引用的引用是phantom reachable ，那么在那个时间或稍后的时间，它将引入引用。</p>
+</blockquote>
+<blockquote>
+<p>&emsp;&emsp;为了确保可回收对象保持原样，可能无法检索幻像引用的引用：虚幻引用的get方法始终返回null 。</p>
+</blockquote>
+<blockquote>
+<p>&emsp;&emsp;与软弱引用不同，幻像引用在垃圾收集器排入队列时不会自动清除。 通过幻影引用可访问的对象将一直保持到所有这样的引用被清除或者自身变得不可访问。</p>
+</blockquote>
+<p>&emsp;&emsp;虚引用主要用来跟踪对象被垃圾回收器回收的活动。<br>&emsp;&emsp;与软弱引用不同，虚引用不影响对象的生命周期，虚引用必须和引用队列 （ReferenceQueue）联合使用。<br>&emsp;&emsp;在java中用java.lang.ref.PhantomReference类表示。如果一个对象与虚引用关联，则跟没有引用与之关联一样，在任何时候都可能被垃圾回收器回收。<br>&emsp;&emsp;当垃圾回收器准备回收一个对象时，如果发现它还有虚引用，就会在回收对象的内存之前，把这个虚引用加入到与之关联的引用队列中。程序可以通过判断引用队列中是否已经加入了虚引用，来了解被引用的对象是否将要被垃圾回收。如果程序发现某个虚引用已经被加入到引用队列，那么就可以在所引用的对象的内存被回收之前采取必要的行动。由于Object.finalize()方法的不安全性、低效性，常常使用虚引用完成对象回收前的资源释放工作。</p>
+<blockquote>
+<p>&emsp;&emsp;当GC一但发现了虚引用对象，将会将PhantomReference对象插入ReferenceQueue队列. * 而此时PhantomReference所指向的对象并没有被GC回收，而是要等到ReferenceQueue被你真正的处理后才会被回收。</p>
+</blockquote>
+<p>&emsp;&emsp;当JVM将虚引用插入到引用队列的时候，虚引用执行的对象内存还是存在的。但是PhantomReference并没有暴露API返回对象。所以如果我想做清理工作，需要继承PhantomReference类，以便访问它指向的对象。如NIO直接内存的自动回收，就使用到了sun.misc.Cleaner。</p>
+<hr>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><table>
+<thead>
+<tr>
+<th>引用类型</th>
+<th>被回收时间</th>
+<th>用途</th>
+<th>生存时间</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>强引用</td>
+<td>从来不会</td>
+<td>对象的一般状态</td>
+<td>jvm停止运行时</td>
+</tr>
+<tr>
+<td>软引用</td>
+<td>内存不足时</td>
+<td>对象缓存</td>
+<td>内存不足时</td>
+</tr>
+<tr>
+<td>弱引用</td>
+<td>jvm垃圾回收时</td>
+<td>对象缓存</td>
+<td>gc后</td>
+</tr>
+<tr>
+<td>虚引用</td>
+<td>不知</td>
+<td>不知</td>
+<td>不知</td>
+</tr>
+</tbody></table>
+<p>&emsp;&emsp;利用软引用和弱引用可以解决OOM的问题。</p>
+<p><strong>利用软引用和弱引用解决OOM问题：</strong> 假如有一个应用需要读取大量的本地图片，如果每次读取图片都从硬盘读取，则会严重影响性能，但是如果全部加载到内存当中，又有可能造成内存溢出，此时使用软引用可以解决这个问题。</p>
+<p><strong>设计思路是：</strong> 用一个HashMap来保存图片的路径和相应图片对象关联的软引用之间的映射关系，在内存不足时，JVM会自动回收这些缓存图片对象所占用的空间，从而有效地避免了OOM的问题。</p>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>jvm</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>类加载机制</title>
+    <url>/hexoblog/md/java/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/</url>
+    <content><![CDATA[<h1 id="介绍："><a href="#介绍：" class="headerlink" title="介绍："></a>介绍：</h1><h2 id="什么是类的加载？"><a href="#什么是类的加载？" class="headerlink" title="什么是类的加载？"></a>什么是类的加载？</h2><p>​&emsp;​&emsp;类的加载是指将类的.class文件中的二进制数据读入到内存中，将其放在运行时数据区的方法区内，然后在堆区创建一个java.lang.class对象，用来封装类在方法区内的数据结构。<br>​​&emsp;​&emsp;类的加载的最终产品是位于堆区中的class对象，class对象封装了类在方法区内的数据结构，并且提供了访问方法区内的数据结构的接口。</p>
+<span id="more"></span>
+
+<h2 id="在什么时候启动类加载？"><a href="#在什么时候启动类加载？" class="headerlink" title="在什么时候启动类加载？"></a>在什么时候启动类加载？</h2><p>​​&emsp;​&emsp;类的加载并不需要某个类被“首次主动使用”时再加载它，JVM规范允许类加载器在预料某个类将要被预先使用时就预先加载它，如果在预先加载过程中遇到了.class文件缺失或存在错误，类加载器必须在程序首次主动使用该类时才报告错误，如果这个类一直没有被程序主动使用，那么类加载器就不会报告错误。</p>
+<h2 id="从哪个地方加载类？"><a href="#从哪个地方加载类？" class="headerlink" title="从哪个地方加载类？"></a>从哪个地方加载类？</h2><ol>
+<li>从本地系统中直接加载。</li>
+<li>通过网络下载.class文件。</li>
+<li>从zip、jar等归档文件中加载.class文件。</li>
+<li>从专有数据库中提取.class文件。</li>
+<li>将java源代码编译为.class文件。</li>
+</ol>
+<hr>
+<h1 id="类加载机制："><a href="#类加载机制：" class="headerlink" title="类加载机制："></a>类加载机制：</h1><p>​&emsp;​&emsp;加载主要是将.class文件（也可以是zip包）通过二进制流读入到jvm中，在加载阶段JVM需要完成3件事情。</p>
+<h2 id="加载："><a href="#加载：" class="headerlink" title="加载："></a>加载：</h2><p>​&emsp;​&emsp;加载主要是将.class文件（也可以是zip包）通过二进制流读入到jvm中，在加载阶段JVM需要完成3件事情。</p>
+<ol>
+<li>通过classloader在classpath中获取XXX.class文件，将其以二进制流的方式读入内存。</li>
+<li>将字节流代表的静态存储结构，转化为方法区的运行时存储结构。</li>
+<li>在内存中生成一个该类的java.lang.class对象，作为方法区这个类的各种数据的访问入口。</li>
+</ol>
+<h2 id="连接："><a href="#连接：" class="headerlink" title="连接："></a>连接：</h2><h3 id="验证："><a href="#验证：" class="headerlink" title="验证："></a>验证：</h3><p>​&emsp;​&emsp;主要是确保加载进来的字节流符合JVM规范，验证阶段会有4个检验动作：</p>
+<ol>
+<li>文件格式验证：验证.class文件字节流是否符合class文件的格式的规范，并且能够被当前版本的虚拟机处理。这里主要被魔数、主版本号、常量池等等的校验。</li>
+<li>元数据验证：验证是否符合java语言规范，主要是对字节码描述的信息进行语义分析，以保证其描述的信息符合java语言规范的要求，比如说验证这个类是不是有父类，类中的字段方法是不是和父类冲突等等。</li>
+<li>字节码验证：确保程序语义合法，符合逻辑，是整个验证过程最复杂的阶段。主要是通过数据流和控制流分析，确保程序语义是合法的、符合逻辑。在元数据验证那个阶段对数据类型做出验证后，这个阶段主要对类的方法做出分析，保证类的方法在运行时不会做出危害虚拟机安全的事。</li>
+<li>符号引用验证：确保下一步的解析能正常执行，它是验证的最后一个阶段，发生在虚拟机将符号引用转化为直接引用的时候。主要是对类自身以外的信息进行校验。目的是确保解析动作能够完成。</li>
+</ol>
+<p>​&emsp;​&emsp;对整个类加载机制而言，验证阶段是一个很重要但是非必需的阶段，如果我们的代码能够确保没有问题，那么我们就没有必要去验证，毕竟验证需要花费一定的的时间。当然我们可以使用-Xverfity:none来关闭大部分的验证。</p>
+<h3 id="准备："><a href="#准备：" class="headerlink" title="准备："></a>准备：</h3><p>​&emsp;​&emsp;准备是连接阶段的第二步，主要为静态变量在方法区分配内存，并设置默认初始值。</p>
+<ol>
+<li>类变量会分配内存，但是实例变量不会，实例变量主要随着对象的实例化一块分配到java堆中。</li>
+<li>这里的初始值指的是数据类型默认值，而不是代码中被显式赋予的值，但是如果同时被static和final修饰准备阶段后就已经赋值了，普通赋值位于其他阶段。</li>
+</ol>
+<h3 id="解析："><a href="#解析：" class="headerlink" title="解析："></a>解析：</h3><p>​&emsp;​&emsp;解析是连接阶段的第三步，是虚拟机将常量池内的符合引用替换为直接引用的过程。</p>
+<ol>
+<li>符号引用：以一组符号来描述所引用的目标，可以是任何形式的字面量，只要是能无歧义的定位到目标就好。</li>
+<li>直接引用：直接引用可以是指向目标的指针、相对偏移量或者是一个能直接引用或间接定位到目标的句柄。和虚拟机实现的内存有关，不同的虚拟机直接引用一般不同。</li>
+</ol>
+<p>​&emsp;​&emsp;解析动作主要针对类或接口、字段、类方法、接口方法、方法类型、方法句柄和调用点限定符7类符号引用进行。</p>
+<h2 id="初始化："><a href="#初始化：" class="headerlink" title="初始化："></a>初始化：</h2><p>​​&emsp;​&emsp;这是类加载机制的最后一步，在这个阶段，java代码才开始真正执行。我们知道，在准备阶段已经为类变量赋过一次值，在初始化阶段，程序员可以根据自己的需求来赋值了。<br>​​&emsp;​&emsp;在初始化阶段，主要为类的静态变量赋予正确的初始值，JVM负责对类进行初始化，主要对类变量进行初始化。在Java中对类变量进行初始值设定有两种方式：</p>
+<ol>
+<li>声明变量是指定初始值。</li>
+<li>使用静态代码块为类变量指定初始值。</li>
+</ol>
+<h3 id="JVM初始化步骤："><a href="#JVM初始化步骤：" class="headerlink" title="JVM初始化步骤："></a>JVM初始化步骤：</h3><ol>
+<li>假如这个类还没有被加载和连接，则程序先加载并连接该类。</li>
+<li>假如该类的直接父类还没有被初始化，则先初始化其直接父类。</li>
+<li>假如类中有初始化语句，则系统依次执行这些初始化语句。</li>
+</ol>
+<h3 id="类的初始化时机："><a href="#类的初始化时机：" class="headerlink" title="类的初始化时机："></a>类的初始化时机：</h3><p>​&emsp;​&emsp;只有对类的主动使用时才会导致类的初始化，主动使用包括以下6种：</p>
+<ol>
+<li>创建类的实例，也就是new的时候。</li>
+<li>访问某个类或接口的静态变量，或者对静态变量赋值。</li>
+<li>调用类的静态方法。</li>
+<li>反射操作。</li>
+<li>初始化某个类，则其父类也会被初始化。</li>
+<li>虚拟机启动时被标明为启动类的类，直接用java.exe来运行某个类。</li>
+</ol>
+<hr>
+<h1 id="类加载器："><a href="#类加载器：" class="headerlink" title="类加载器："></a>类加载器：</h1><h2 id="自带类加载器："><a href="#自带类加载器：" class="headerlink" title="自带类加载器："></a>自带类加载器：</h2><p>java语言系统自带有3个类加载器：</p>
+<ol>
+<li>BootStrap ClassLoader：跟类（启动，引导）加载器。它负责加载java的核心类。他比较特殊，因为它是由原生c++代码实现的，并不是java.lang.ClassLoader的子类。</li>
+<li>Extension ClassLoader：扩展类加载器。它负责加载jre的扩展目录（%JAVA_HOME%/jre/lib/ext）中的jar包的类，我们可以通过把自己开发的类打成jar包放入扩展目录来为java提供核心类以外的新功能。</li>
+<li>System ClassLoader（Application ClassLoader）：系统类加载器。它负责再jvm启动时加载来自java命令的-classpath选项、java.class.path系统属性，或CLASSPATH环境变量所指定的jar包和类路径。程序可以通过ClassLoader的静态方法getSystemClassLoader来获取系统类加载器。</li>
+</ol>
+<p>​​&emsp;​&emsp;应用程序都是由这三种类加载器互相配合进行加载的，如果有必要，我们还可以加入自定义的类加载器。因为jvm自带的 ClassLoader只是懂得从本地文件系统加载标准的java class文件，因此如果我们编写了自己的ClassLoader，便可以做到以下几点：</p>
+<ol>
+<li>在执行非置信代码前，自动验证数字签名。</li>
+<li>动态的创建符合用户特定需要的定制化构建类。</li>
+<li>从特定的场所取得java class，例如数据库和网络中。</li>
+</ol>
+<h2 id="自定义类加载器："><a href="#自定义类加载器：" class="headerlink" title="自定义类加载器："></a>自定义类加载器：</h2><p>​​&emsp;​&emsp;Custom ClassLoader：通过java.lang.ClassLoader的子类自定义加载class，属于应用程序根据自身需要定义的ClassLoader，如Tomcat，jboss都会根据j2ee规范自行实现ClassLoader。<br>​​&emsp;​&emsp;自定义类加载器的核心在于对字节码文件的获取，如果是加密的字节码则需要在该类中对文件进行解密。有几点需要注意：</p>
+<ol>
+<li>这里传递的文件名是类的全限定名。</li>
+<li>重写findClass而不重新loadClass，重新loadClass会破坏双亲委派模式。</li>
+</ol>
+<h2 id="类的三种加载方式："><a href="#类的三种加载方式：" class="headerlink" title="类的三种加载方式："></a>类的三种加载方式：</h2><ol>
+<li>通过命令行启动应用时由jvm初始化加载含有main()方法的主类。</li>
+<li>通过Class.forName()方法动态加载，会默认执行初始化块（static{}），但是Class.forName(name,initlize,loader)中的initlize可指定是否要执行初始化块。</li>
+<li>通过ClassLoader.loadClass()方法动态加载，不会执行初始化块。</li>
+</ol>
+<h3 id="Class-forName-和ClassLoader-loadClass-的区别："><a href="#Class-forName-和ClassLoader-loadClass-的区别：" class="headerlink" title="Class.forName()和ClassLoader.loadClass()的区别："></a>Class.forName()和ClassLoader.loadClass()的区别：</h3><ol>
+<li>Class.forName()：将类的.class文件加载到jvm中之外，还会对类进行解释，执行类中的static块；</li>
+<li>ClassLoader.loadClass()：只干一件事情，就是将.class文件加载到jvm中，不会执行static中的内容,只有在newInstance才会去执行static块。</li>
+<li>Class.forName(name, initialize, loader)带参函数也可控制是否加载static块。并且只有调用了newInstance()方法采用调用构造函数，创建类的对象 。</li>
+</ol>
+<h2 id="JVM类加载机制："><a href="#JVM类加载机制：" class="headerlink" title="JVM类加载机制："></a>JVM类加载机制：</h2><ol>
+<li>全盘负责：当一个类加载器负责加载某个Class时，该Class所依赖的和引用的其他Class也将由该类加载器负责载入，除非显示使用另外一个类加载器来载入。</li>
+<li>父类委托：先让父类加载器试图加载该类，只有在父类加载器无法加载该类时才尝试从自己的类路径中加载该类。</li>
+<li>缓存机制：缓存机制将会保证所有加载过的Class都会被缓存，当程序中需要使用某个Class时，类加载器先从缓存区寻找该Class，只有缓存区不存在，系统才会读取该类对应的二进制数据，并将其转换成Class对象，存入缓存区。这就是为什么修改了Class后，必须重启JVM，程序的修改才会生效。</li>
+</ol>
+<h2 id="双亲委派模型："><a href="#双亲委派模型：" class="headerlink" title="双亲委派模型："></a>双亲委派模型：</h2><ol>
+<li>当AppClassLoader加载一个Class时，他首先不会自己去尝试加载这个类，而是把这个加载请求委托给父类加载器ExtClassLoader去完成。</li>
+<li>当ExtClassLoader加载一个Class时，它首先也不会自己去尝试加载这个类，而是把类加载请求委派给BootStrapClassLoader去完成。</li>
+<li>如果BootStrapClassLoader加载失败（例如再$JAVSA_HOME/jre/lib里未查找到该class），会使用ExtClassLoader来尝试加载。</li>
+<li>若ExtClassLoader也加载失败，则会使用AppClassLoader来加载，如果AppClassLoader也加载失败，则会报出异常ClassNotFoundException。</li>
+</ol>
+<h3 id="意义："><a href="#意义：" class="headerlink" title="意义："></a>意义：</h3><ol>
+<li>系统类防止内存中出现多份的同样的字节码。</li>
+<li>保证Java程序安全稳定运行。</li>
+</ol>
+<h2 id="结束生命周期："><a href="#结束生命周期：" class="headerlink" title="结束生命周期："></a>结束生命周期：</h2><p>在以下几种情况，Java虚拟机将结束生命周期：</p>
+<ol>
+<li>执行了System.exit()方法。</li>
+<li>程序正常执行结束。</li>
+<li>程序在执行过程中，遇到了异常或错误而异常终止。</li>
+<li>由于操作系统出现错误，而导致Java虚拟机进程终止。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>jvm</tag>
+        <tag>classloader</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>锁</title>
+    <url>/hexoblog/md/java/%E9%94%81/</url>
+    <content><![CDATA[<h1 id="乐观锁："><a href="#乐观锁：" class="headerlink" title="乐观锁："></a>乐观锁：</h1><p>&emsp;&emsp;乐观锁不是数据库自带的，需要我们去实现。总是假设最好的情况，每次去拿数据时都会认为数据没有被修改，所以不会上锁，但是在提交更新的时候会去判断一下在此期间别人有没有更改数据，可以使用版本号机制算法或者CAS算法实现。乐观锁适用于读多于写的情况，可以提高吞吐量。</p>
+<span id="more"></span>
+
+<p>&emsp;&emsp;乐观锁：假设不会出现并发冲突，只在提交操作时检查是否违反数据完整性。</p>
+<p>&emsp;&emsp;Java JUC中的atomic包就是乐观锁的一种实现，AtomicInteger 通过CAS（Compare And Set）操作实现线程安全的自增。</p>
+<h2 id="实现方式："><a href="#实现方式：" class="headerlink" title="实现方式："></a>实现方式：</h2><ol>
+<li>使用数据版本记录机制实现，这是乐观锁最常用的一种实现方式。为当前数据增加一个版本标识，一般是为数据库表增加一个数据类型的version字段来实现。当读取数据时，将version字段的值一同读出，数据每更新一次，对此version值加一。当我们提交更新时，判断数据库表对应记录的当前版本信息与第一次取出来的version值进行对比，如果数据库表当前版本号与第一次取出来的version值相等，则予以更新，否则认为是过期数据。</li>
+<li>使用时间戳，乐观锁定的第二种实现方式和第一种差不多，同样是在需要乐观锁控制的table中增加一个字段，名称无所谓，字段类型使用时间戳（timestamp）, 和上面的version类似，也是在更新提交的时候检查当前数据库中数据的时间戳和自己更新前取到的时间戳进行对比，如果一致则OK，否则就是版本冲突。</li>
+<li>CAS算法：即是compare and swap（比较与交换），是一种有名的无锁算法，无锁编程，在不使用锁的情况下实现多线程之间的变量同步，也就是在没有线程被阻塞的情况下实现变量的同步，所以也叫非阻塞同步。CAS算法涉及到三个操作数：需要读写的内存值 V、进行比较的值 A、拟写入的新值 B。当且仅当 V 的值等于 A时，CAS通过原子方式用新值B来更新V的值，否则不会执行任何操作（比较和替换是一个原子操作）。一般情况下是一个自旋操作，即不断的重试。</li>
+</ol>
+<h2 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h2><h3 id="ABA问题是一个乐观锁的常见问题："><a href="#ABA问题是一个乐观锁的常见问题：" class="headerlink" title="ABA问题是一个乐观锁的常见问题："></a>ABA问题是一个乐观锁的常见问题：</h3><p>&emsp;&emsp;如果一个变量V初次读取的时候是A值，并且在准备赋值的时候检查到它仍然是A值，那我们就能说明它的值没有被其他线程修改过了吗？很明显是不能的，因为在这段时间它的值可能被改为其他值，然后又改回A，那CAS操作就会误认为它从来没有被修改过。这个问题被称为CAS操作的 “ABA”问题。</p>
+<p>&emsp;&emsp;JDK 1.5 以后的 AtomicStampedReference 类就提供了此种能力，其中的 compareAndSet 方法就是首先检查当前引用是否等于预期引用，并且当前标志是否等于预期标志，如果全部相等，则以原子方式将该引用和该标志的值设置为给定的更新值。</p>
+<h3 id="循环时间长开销大："><a href="#循环时间长开销大：" class="headerlink" title="循环时间长开销大："></a>循环时间长开销大：</h3><p>&emsp;&emsp;自旋CAS（也就是不成功就一直循环执行直到成功）如果长时间不成功，会给CPU带来非常大的执行开销。 如果JVM能支持处理器提供的pause指令那么效率会有一定的提升，pause指令有两个作用，第一它可以延迟流水线执行指令（de-pipeline）,使CPU不会消耗过多的执行资源，延迟的时间取决于具体实现的版本，在一些处理器上延迟时间是零。第二它可以避免在退出循环的时候因内存顺序冲突（memory order violation）而引起CPU流水线被清空（CPU pipeline flush），从而提高CPU的执行效率。</p>
+<h3 id="只能保证一个共享变量的原子操作："><a href="#只能保证一个共享变量的原子操作：" class="headerlink" title="只能保证一个共享变量的原子操作："></a>只能保证一个共享变量的原子操作：</h3><p>&emsp;&emsp;CAS只对单个共享变量有效，当操作涉及跨多个共享变量时CAS无效。但是从JDK 1.5开始，提供了AtomicReference类来保证引用对象之间的原子性，你可以把多个变量放在一个对象里来进行CAS操作.所以我们可以使用锁或者利用AtomicReference类把多个共享变量合并成一个共享变量来操作。</p>
+<h1 id="悲观锁："><a href="#悲观锁：" class="headerlink" title="悲观锁："></a>悲观锁：</h1><p>&emsp;&emsp;总是假设最坏的情况，每次去拿数据时都认为别人会修改，所以每次在拿数据时都会上锁，这样别人想拿数据就会阻塞直到他拿到锁。共享资源每次只给一个线程使用，其他线程阻塞，用完后再把资源转让给其他线程。传统的关系型数据库里面就用到了很多这种锁机制，行锁，表锁，读锁，写锁等，都是在操作之前先上锁。</p>
+<p>&emsp;&emsp;悲观锁：假定会发生并发冲突，屏蔽一切可能违反数据完整性的操作。</p>
+<p>&emsp;&emsp;Java synchronized和ReentrantLock就属于悲观锁的一种实现，每次线程要修改数据时都先获得锁，保证同一时刻只有一个线程能操作数据，其他线程则会被block。</p>
+<h2 id="区别与场景："><a href="#区别与场景：" class="headerlink" title="区别与场景："></a>区别与场景：</h2><h3 id="区别："><a href="#区别：" class="headerlink" title="区别："></a>区别：</h3><p>&emsp;&emsp;乐观锁的思路一般是表中增加版本字段，更新时where语句中增加版本的判断，算是一种CAS（Compare And Swep）操作，商品库存场景中number起到了版本控制（相当于version）的作用（ AND number=#{number}）。</p>
+<p>&emsp;&emsp;悲观锁之所以是悲观，在于他认为本次操作会发生并发冲突，所以一开始就对商品加上锁（SELECT … FOR UPDATE），然后就可以安心的做判断和更新，因为这时候不会有别人更新这条商品库存。</p>
+<h3 id="场景："><a href="#场景：" class="headerlink" title="场景："></a>场景：</h3><p>&emsp;&emsp;乐观锁适用于读多于写的情况，即冲突很少的情况，可以省去很大加锁的开销。多写的情况，冲突会比较多，不适合上面的场景，因为冲突的数据会导致应用不断的retry，一般多写的场景适合适用悲观锁。</p>
+<h3 id="CAS与synchronized："><a href="#CAS与synchronized：" class="headerlink" title="CAS与synchronized："></a>CAS与synchronized：</h3><ol>
+<li>对于资源竞争较少（线程冲突较轻）的情况，使用synchronized同步锁进行线程阻塞和唤醒切换以及用户态内核态间的切换操作额外浪费消耗cpu资源；而CAS基于硬件实现，不需要进入内核，不需要切换线程，操作自旋几率较少，因此可以获得更高的性能。</li>
+<li>对于资源竞争严重（线程冲突严重）的情况，CAS自旋的概率会比较大，从而浪费更多的CPU资源，效率低于synchronized。</li>
+<li>补充：Java并发编程这个领域中synchronized关键字一直都是元老级的角色，很久之前很多人都会称它为 “重量级锁” 。但是，在JavaSE 1.6之后进行了主要包括为了减少获得锁和释放锁带来的性能消耗而引入的 偏向锁 和 轻量级锁 以及其它各种优化之后变得在某些情况下并不是那么重了。</li>
+<li>synchronized的底层实现主要依靠 Lock-Free 的队列，基本思路是 自旋后阻塞，竞争切换后继续竞争锁，稍微牺牲了公平性，但获得了高吞吐量。在线程冲突较少的情况下，可以获得和CAS类似的性能；而线程冲突严重的情况下，性能远高于CAS。</li>
+</ol>
+<h3 id="MySQL隐式和显示锁定："><a href="#MySQL隐式和显示锁定：" class="headerlink" title="MySQL隐式和显示锁定："></a>MySQL隐式和显示锁定：</h3><p>&emsp;&emsp;MySQL InnoDB采用的是两阶段锁定协议（two-phase locking protocol）。在事务执行过程中，随时都可以执行锁定，锁只有在执行 COMMIT或者ROLLBACK的时候才会释放，并且所有的锁是在同一时刻被释放。前面描述的锁定都是隐式锁定，InnoDB会根据事务隔离级别在需要的时候自动加锁。</p>
+<p>&emsp;&emsp;另外，InnoDB也支持通过特定的语句进行显示锁定，这些语句不属于SQL规范：</p>
+<pre class="line-numbers language-none"><code class="language-none">SELECT ... LOCK IN SHARE MODE
+SELECT ... FOR UPDATE<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<hr>
+<h1 id="共享锁："><a href="#共享锁：" class="headerlink" title="共享锁："></a>共享锁：</h1><p>&emsp;&emsp;共享锁（S锁），又称读锁，用于不更改或不更新数据的操作。</p>
+<p>&emsp;&emsp;若事务T对数据对象A加上S锁，则事务T可以读A但不能修改A，其他事务只能再对A加S锁，而不能加X锁，直到T释放A上的S锁。这保证了其他事务可以读A，但在T释放A上的S锁之前不能对A做任何修改。</p>
+<h1 id="排它锁："><a href="#排它锁：" class="headerlink" title="排它锁："></a>排它锁：</h1><p>&emsp;&emsp;排它锁（X锁），又称写锁，用于数据修改，确保不会同时同一资源进行多重更新。</p>
+<p>&emsp;&emsp;若事务T对数据对象A加上X锁，事务T可以读A也可以修改A，其他事务不能再对A加任何锁，直到T释放A上的锁。这保证了其他事务在T释放A上的锁之前不能再读取和修改A。</p>
+<h2 id="解决死锁："><a href="#解决死锁：" class="headerlink" title="解决死锁："></a>解决死锁：</h2><p>共享锁与排它锁会导致死锁问题。</p>
+<p>预防死锁发生：</p>
+<ol>
+<li> 要求每一个事务必须一次封锁所要使用的全部数据（要么全成功，要么全不成功）。</li>
+<li> 规定封锁数据的顺序，所有事务必须按这个顺序实行封锁。</li>
+</ol>
+<p>&emsp;&emsp;允许死锁发生，然后解除它，如果发现死锁，则将其中一个代价较小的事物撤消，回滚这个事务，并释放此事务持有的封锁，使其他事务继续运行。</p>
+<hr>
+<h1 id="更新锁："><a href="#更新锁：" class="headerlink" title="更新锁："></a>更新锁：</h1><p>&emsp;&emsp;更新锁用于防止常见形式的死锁，比如共享锁和排他锁产生的死锁问题。</p>
+<p>&emsp;&emsp;更新锁（U锁）并不能保证不会产生死锁，只是针对共享锁和排他锁提出了一种较为简单的解决方式。共享锁解决死锁，实际上是阻碍了事务T1和T2的并发执行。</p>
+<ol>
+<li>S锁只能读取数据，不能升级成X锁。</li>
+<li>U锁给予事务T读取属性A的权限，没有写的权限，但是可以升级成X锁。</li>
+<li>属性A上面有共享锁，可以添加U锁；但是有U锁，不能添加任何锁。</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>—</th>
+<th>S</th>
+<th>X</th>
+<th>U</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>S</td>
+<td>YES</td>
+<td>NO</td>
+<td>YES</td>
+</tr>
+<tr>
+<td>X</td>
+<td>NO</td>
+<td>NO</td>
+<td>NO</td>
+</tr>
+<tr>
+<td>U</td>
+<td>NO</td>
+<td>NO</td>
+<td>NO</td>
+</tr>
+</tbody></table>
+<h1 id="增量锁："><a href="#增量锁：" class="headerlink" title="增量锁："></a>增量锁：</h1><p>&emsp;&emsp;对于一部分数据库，对数据库的操作仅仅只涉及加与减操作。这样针对这种情况，我们引入增量锁。</p>
+<p>&emsp;&emsp;只有在事务获取了增量锁的前提下，才能够进行增量操作。</p>
+<table>
+<thead>
+<tr>
+<th>—</th>
+<th>S</th>
+<th>X</th>
+<th>I</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>S</td>
+<td>YES</td>
+<td>NO</td>
+<td>NO</td>
+</tr>
+<tr>
+<td>X</td>
+<td>NO</td>
+<td>NO</td>
+<td>NO</td>
+</tr>
+<tr>
+<td>I</td>
+<td>NO</td>
+<td>NO</td>
+<td>YES</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="行锁："><a href="#行锁：" class="headerlink" title="行锁："></a>行锁：</h1><p>&emsp;&emsp;顾名思义，行锁就是一锁锁一行或者多行记录，mysql的行锁是基于索引加载的，所以行锁是要加在索引响应的行上，即命中索引。否则自动扫描全表，走表锁。</p>
+<p>&emsp;&emsp;行锁的特征：锁冲突概率低，并发性高，但是会有死锁的情况出现。</p>
+<ol>
+<li> 行锁必须有索引才能实现，否则会自动锁全表，那么就不是行锁了。</li>
+<li> 两个事务不能锁同一个索引。</li>
+<li> insert ，delete ， update在事务中都会自动默认加上排它锁。</li>
+</ol>
+<p>&emsp;&emsp;当选中某一行时，如果是通过主键或者索引选中的，这个时候是行级锁；如果是通过其它条件选中的，这个时候行级锁会升级成表锁，其它事务无法对当前表进行更新或插入操作。</p>
+<h1 id="表锁："><a href="#表锁：" class="headerlink" title="表锁："></a>表锁：</h1><p>&emsp;&emsp;顾名思义，表锁就是一锁锁一整张表，在表被锁定期间，其他事务不能对该表进行操作，必须等当前表的锁被释放后才能进行操作。表锁响应的是非索引字段，即全表扫描，全表扫描时锁定整张表。</p>
+<h2 id="区别与场景：-1"><a href="#区别与场景：-1" class="headerlink" title="区别与场景："></a>区别与场景：</h2><h3 id="区别：-1"><a href="#区别：-1" class="headerlink" title="区别："></a>区别：</h3><p>表锁：不会出现死锁，发生锁冲突几率高，并发低。</p>
+<p>行锁：会出现死锁，发生锁冲突几率低，并发高。开销大，加锁慢，锁定粒度小。</p>
+<p>&emsp;&emsp;锁冲突：例如说事务A将某几行上锁后，事务B又对其上锁，锁不能共存否则会出现锁冲突。（但是共享锁可以共存，共享锁和排它锁不能共存，排它锁和排他锁也不可以）。</p>
+<p>&emsp;&emsp;死锁：例如说两个事务，事务A锁住了1-5行，同时事务B锁住了6-10行，此时事务A请求锁住6-10行，就会阻塞直到事务B施放6-10行的锁，而随后事务B又请求锁住1-5行，事务B也阻塞直到事务A释放1-5行的锁。死锁发生时，会产生Deadlock错误。</p>
+<h2 id="记录锁："><a href="#记录锁：" class="headerlink" title="记录锁："></a>记录锁：</h2><p>&emsp;&emsp;记录锁是在行锁上衍生的锁。</p>
+<p>&emsp;&emsp;记录锁：记录锁锁的是表中的某一条记录，记录锁的出现条件必须是精准命中索引并且索引是唯一索引。</p>
+<h2 id="间隙锁："><a href="#间隙锁：" class="headerlink" title="间隙锁："></a>间隙锁：</h2><p>&emsp;&emsp;间隙锁又称之为区间锁，每次锁定都是锁定一个区间，隶属行锁。既然间隙锁隶属行锁，那么，间隙锁的触发条件必然是命中索引的，当我们查询数据用范围查询而不是相等条件查询时，查询条件命中索引，并且没有查询到符合条件的记录，此时就会将查询条件中的范围数据进行锁定(即使是范围库中不存在的数据也会被锁定)。</p>
+<p>&emsp;&emsp;间隙锁只会出现在可重复读的事务隔离级别中，mysql5.7默认就是可重复读。间隙锁锁的是一个区间范围，查询命中索引但是没有匹配到相关记录时，锁定的是查询的这个区间范围。</p>
+<h2 id="临间锁："><a href="#临间锁：" class="headerlink" title="临间锁："></a>临间锁：</h2><p>&emsp;&emsp;学习完间隙锁后我们再来看看什么是临间锁，mysql的行锁默认就是使用的临间锁，临间锁是由记录锁和间隙锁共同实现的，上面我们学习间隙锁时，间隙锁的触发条件是命中索引，范围查询没有匹配到相关记录。而临键锁恰好相反，临间锁的触发条件也是查询条件命中索引，不过，临间锁有匹配到数据库记录。</p>
+<p>&emsp;&emsp;间隙锁所锁定的区间是一个左开右闭的集合，而临间锁锁定是当前记录的区间和下一个记录的区间。</p>
+<p>&emsp;&emsp;临间锁锁定区间和查询范围后匹配值很重要，如果后匹配值存在，则只锁定查询区间，否则锁定查询区间和后匹配值与它的下一个值的区间。</p>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>lock</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>deepin安装docker</title>
+    <url>/hexoblog/md/linux/deepin%E5%AE%89%E8%A3%85docker/</url>
+    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;写个毛啊，官方的直接搞来，<a href="https://wiki.deepin.org/wiki/Docker">https://wiki.deepin.org/wiki/Docke</a>。</p>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1>]]></content>
+      <categories>
+        <category>linux</category>
+        <category>deepin</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>linux</tag>
+        <tag>deepin</tag>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>wsl小问题排查</title>
+    <url>/hexoblog/md/linux/wsl%E5%B0%8F%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5/</url>
+    <content><![CDATA[<!-- toc -->
+
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><h2 id="网络问题"><a href="#网络问题" class="headerlink" title="网络问题"></a>网络问题</h2><h3 id="参考的对象类型不支持尝试的操作"><a href="#参考的对象类型不支持尝试的操作" class="headerlink" title="参考的对象类型不支持尝试的操作"></a>参考的对象类型不支持尝试的操作</h3><p>&emsp;&emsp;这种问题一般是因为有启动过代理软件，造成代理冲突。</p>
+<span id="more"></span>
+
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Ubuntu%2020.04%20LTS%202021_3_14%2016_01_57.png" alt="参考的对象不支持的操作"></p>
+<h4 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h4><p>&emsp;&emsp;临时解决方案，重新网络信息：（管理员运行命令行）</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 重置网络信息</span>
+netsh winsock reset<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>wsl</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>linux基本操作</title>
+    <url>/hexoblog/md/linux/linux%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<h1 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h1><h2 id="移动文件-重命名文件"><a href="#移动文件-重命名文件" class="headerlink" title="移动文件/重命名文件"></a>移动文件/重命名文件</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 移动文件</span>
+<span class="token function">mv</span> <span class="token punctuation">[</span>源文件目录<span class="token punctuation">]</span> <span class="token punctuation">[</span>目标文件目录<span class="token punctuation">]</span>
+
+<span class="token comment"># 重命名文件</span>
+<span class="token builtin class-name">cd</span> <span class="token punctuation">[</span>目标目录<span class="token punctuation">]</span>
+<span class="token function">mv</span> <span class="token punctuation">[</span>源文件名<span class="token punctuation">]</span> <span class="token punctuation">[</span>目标文件名<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="复制文件"><a href="#复制文件" class="headerlink" title="复制文件"></a>复制文件</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">cp</span> <span class="token punctuation">[</span>源文件目录/源文件名<span class="token punctuation">]</span> <span class="token punctuation">[</span>目标文件目录<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="删除文件"><a href="#删除文件" class="headerlink" title="删除文件"></a>删除文件</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> <span class="token punctuation">[</span>目标文件目录<span class="token punctuation">]</span>
+<span class="token function">rm</span> -rf <span class="token punctuation">[</span>目标文件名<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>deepin搭建java开发环境</title>
+    <url>/hexoblog/md/linux/deepin%E6%90%AD%E5%BB%BAjava%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</url>
+    <content><![CDATA[<h1 id="安装jdk"><a href="#安装jdk" class="headerlink" title="安装jdk"></a>安装jdk</h1><p>&emsp;&emsp;安装之前最好先获取管理员权限。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 获取后需要输入密码</span>
+<span class="token function">sudo</span> <span class="token function">su</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<span id="more"></span>
+<h2 id="下载jdk"><a href="#下载jdk" class="headerlink" title="下载jdk"></a>下载jdk</h2><p>&emsp;&emsp;进入指定目录，下载jdk文件，我自己通常喜欢下载在<code>/usr/local/src/jdk</code>目录中，<a href="https://www.oracle.com/java/technologies/javase-jdk16-downloads.html">jdk16</a>。<br>&emsp;&emsp;<code>/usr/bin</code>是系统的软件存放的位置。<br>&emsp;&emsp;<code>/usr/local/bin</code>是我们自己的软件存放的位置。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> /usr/local/src/jdk
+
+<span class="token function">wget</span> https://download.oracle.com/otn-pub/java/jdk/16+36/7863447f0ab643c585b9bdebf67c69db/jdk-16_linux-x64_bin.tar.gz?AuthParam<span class="token operator">=</span>1618140718_ccecc5f8b3763f1feed74a49a7f7cbb8<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="将下载的jdk解压缩"><a href="#将下载的jdk解压缩" class="headerlink" title="将下载的jdk解压缩"></a>将下载的jdk解压缩</h2><p>&emsp;&emsp;通过wget下载的压缩包文件名称会奇奇怪怪的。如果通过浏览器下载则没有该问题。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 重命名文件</span>
+<span class="token function">mv</span> <span class="token string">'jdk-16_linux-x64_bin.tar.gz?AuthParam=1618140718_ccecc5f8b3763f1feed74a49a7f7cbb8'</span> jdk-16_linux-x64_bin.tar.gz
+
+<span class="token comment"># 解压缩文件</span>
+<span class="token function">tar</span> xvf jdk-16_linux-x64_bin.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="重命名文件夹（可选）"><a href="#重命名文件夹（可选）" class="headerlink" title="重命名文件夹（可选）"></a>重命名文件夹（可选）</h2><p>&emsp;&emsp;对解压后的文件夹重命名，也可以不做。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">mv</span> jdk-16_linux-x64_bin jdk16<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h2><p>&emsp;&emsp;jdk需要配置PATH和CLASSPATH环境变量。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 系统的环境变量写在/etc/profile文件中</span>
+<span class="token function">vi</span> /etc/profile
+
+<span class="token comment"># 在编辑器末尾添加对应的环境变量</span>
+<span class="token comment"># 这里的路径结合自己的实际安装路径</span>
+<span class="token assign-left variable">JAVA_HOME</span><span class="token operator">=</span>/usr/local/jdk/jdk16
+<span class="token assign-left variable">CLASSPATH</span><span class="token operator">=</span><span class="token variable">$JAVA_HOME</span>/lib
+<span class="token builtin class-name">export</span> CLASSPATH
+<span class="token builtin class-name">export</span> <span class="token assign-left variable"><span class="token environment constant">PATH</span></span><span class="token operator">=</span><span class="token environment constant">$PATH</span><span class="token builtin class-name">:</span><span class="token operator">&amp;</span>JAVA_HOME/bin
+
+<span class="token comment"># 退出vi并保存，这里需要强制保存</span>
+esc
+:wq<span class="token operator">!</span>
+
+<span class="token comment"># 刷新使环境变量生效</span>
+<span class="token builtin class-name">source</span> /etc/profile
+
+<span class="token comment"># 验证，查看版本号</span>
+java -version<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h1 id="安装maven"><a href="#安装maven" class="headerlink" title="安装maven"></a>安装maven</h1><h2 id="下载maven"><a href="#下载maven" class="headerlink" title="下载maven"></a>下载maven</h2><p>&emsp;&emsp;将maven下载进指定目录，这里依照个人习惯，我放在<code>/usr/local/src/maven</code>。<a href="https://mirrors.bfsu.edu.cn/apache/maven/maven-3/3.8.1/binaries/apache-maven-3.8.1-bin.tar.gz">maven3.8.1</a></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> /usr/local/src/maven
+
+<span class="token function">wget</span> https://mirrors.bfsu.edu.cn/apache/maven/maven-3/3.8.1/binaries/apache-maven-3.8.1-bin.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="解压缩文件"><a href="#解压缩文件" class="headerlink" title="解压缩文件"></a>解压缩文件</h2><p>&emsp;&emsp;对下载的maven文件解压缩。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">tar</span> xvf apache-maven-3.8.1-bin.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="重命名文件夹"><a href="#重命名文件夹" class="headerlink" title="重命名文件夹"></a>重命名文件夹</h2><p>&emsp;&emsp;这一步可选操作，目的是为了文件目录整洁。也可以不做。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">mv</span> apache-maven-3.8.1-bin maven3<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="配置环境变量-1"><a href="#配置环境变量-1" class="headerlink" title="配置环境变量"></a>配置环境变量</h2><p>&emsp;&emsp;maven也需要配置PATH环境变量。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">vi</span> /etc/profile
+
+<span class="token comment"># 在编辑器末尾添加对应的环境变量</span>
+<span class="token comment"># 这里的路径结合自己的实际安装路径</span>
+<span class="token assign-left variable">MAVEN_HOME</span><span class="token operator">=</span>/usr/local/maven/maven3
+<span class="token builtin class-name">export</span> <span class="token assign-left variable"><span class="token environment constant">PATH</span></span><span class="token operator">=</span><span class="token environment constant">$PATH</span><span class="token builtin class-name">:</span><span class="token operator">&amp;</span>MAVEN_HOME/bin
+
+<span class="token comment"># 退出vi并保存，这里需要强制保存</span>
+esc
+:wq<span class="token operator">!</span>
+
+<span class="token comment"># 刷新使环境变量生效</span>
+<span class="token builtin class-name">source</span> /etc/profile
+
+<span class="token comment"># 验证，查看版本号</span>
+mvn -v<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h1 id="安装tomcat"><a href="#安装tomcat" class="headerlink" title="安装tomcat"></a>安装tomcat</h1><h2 id="下载tomcat"><a href="#下载tomcat" class="headerlink" title="下载tomcat"></a>下载tomcat</h2><p>&emsp;&emsp;将tomcat下载进指定的位置，我放在<code>/usr/local/src/tomcat</code>。<a href="https://mirrors.tuna.tsinghua.edu.cn/apache/tomcat/tomcat-10/v10.0.5/bin/apache-tomcat-10.0.5.tar.gz">tomcat10</a></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> /usr/local/src/tomcat
+
+<span class="token function">wget</span> https://mirrors.tuna.tsinghua.edu.cn/apache/tomcat/tomcat-10/v10.0.5/bin/apache-tomcat-10.0.5.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="解压压缩包"><a href="#解压压缩包" class="headerlink" title="解压压缩包"></a>解压压缩包</h2><p>&emsp;&emsp;解压下载的压缩文件。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">tar</span> xvf apache-tomcat-10.0.5.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="重命名文件夹-1"><a href="#重命名文件夹-1" class="headerlink" title="重命名文件夹"></a>重命名文件夹</h2><p>&emsp;&emsp;这一步可选操作，目的是为了文件目录整洁。也可以不做。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">mv</span> apache-tomcat-10.0.5 tomcat10<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><p>&emsp;&emsp;进入tomcat的安装目录就可以启动tomcat了。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 进入tomcat的安装位置</span>
+<span class="token builtin class-name">cd</span> /usr/local/src/tomcat/tomcat10/bin
+
+<span class="token comment"># 启动tomcat</span>
+startup.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>&emsp;&emsp;启动完成后可以在localhost:8080查看是否启动成功。</p>
+]]></content>
+      <categories>
+        <category>linux</category>
+        <category>deepin</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>linux</tag>
+        <tag>deepin</tag>
       </tags>
   </entry>
   <entry>
@@ -974,517 +1673,6 @@
       </tags>
   </entry>
   <entry>
-    <title>filter_interceptor</title>
-    <url>/hexoblog/md/java/filter-interceptor/</url>
-    <content><![CDATA[<h2 id="过滤器"><a href="#过滤器" class="headerlink" title="过滤器"></a>过滤器</h2><p>&emsp;&emsp;过滤器是用来过滤的，java的过滤器能够为我们提供系统级别的过滤，也就是说能够过滤所有的web请求，这一点是拦截器做不到的。<br>&emsp;&emsp;在java web中，你传入的request，response提前过滤掉一些信息，或者提前设置一些参数，然后在传入Servlet进行业务逻辑，比如过滤掉非法url和非法字符串。<br>&emsp;&emsp;filter流程是线性的，url传来之后，检查之后，可保持原来的流程继续向下执行，被下一个filter，servlet接收。</p>
-<span id="more"></span>
-
-<hr>
-<h2 id="拦截器"><a href="#拦截器" class="headerlink" title="拦截器"></a>拦截器</h2><p>&emsp;&emsp;java里面的拦截器提供的是非系统级别的拦截，也就是说，就覆盖面来说，拦截器不如过滤器强大但是更有针对性。<br>&emsp;&emsp;java中的拦截器是基于java反射机制实现的，更准确的划分，应该是基于jdk实现的动态代理。它依赖于具体的接口，在运行期间动态生成字节码。<br>&emsp;&emsp;拦截器是动态拦截Action调用的对象，他提供了一种机制可以使开发者在一个ation执行的前后执行一段代码，也可以在一个action执行前阻止其执行，同时也提供了一种可以提取action中可重用代码的方式。在AOP中，拦截器用于在某个方法或字段被访问之前，进行拦截然后再之前或之后加入某些操作。java的拦截器主要用于插件上，扩展件上，有点类似于面向切面的技术，在用之前要先在配置文件里声明。</p>
-<hr>
-<h2 id="监听器"><a href="#监听器" class="headerlink" title="监听器"></a>监听器</h2><p>&emsp;&emsp;java的监听器也是系统级别的监听。监听器随web应用的启动而启动。<br>&emsp;&emsp;java的监听器在c/s模式里面经常用到，它会对特定的事件产生一个处理。监听器在很多模式下用到，比如说观察者模式，就是使用监听器来实现的，又比如统计网站的在线人数。servlet监听器用于监听一些重要事件的发生，监听器对象可以在事件发生前，发生后做一些必要的处理。</p>
-<hr>
-<h1 id="对照"><a href="#对照" class="headerlink" title="对照"></a>对照</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/interceptor_filter_1.jpg" alt="对照"></p>
-]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>filter</tag>
-        <tag>interceptor</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>javaSPI扩展</title>
-    <url>/hexoblog/md/java/javaSPI%E6%89%A9%E5%B1%95/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;SPI就是一种服务发现机制。<br>&emsp;&emsp;SPI 是一种将服务接口与服务实现分离以达到解耦、大大提升了程序可扩展性的机制。引入服务提供者就是引入了 spi 接口的实现者，通过本地的注册发现获取到具体的实现类，轻松可插拔。<br>&emsp;&emsp;Java SPI 就是把某个接口的 指定实现类 （通过在指定文件配置的方式）给实例化出来了。</p>
-<span id="more"></span>
-
-<hr>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><p>&emsp;&emsp;需要准备一个maven工程，以此为蓝本，进行开发。</p>
-<h2 id="创建接口及实现类"><a href="#创建接口及实现类" class="headerlink" title="创建接口及实现类"></a>创建接口及实现类</h2><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">// 接口</span>
-<span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">HelloService</span> <span class="token punctuation">&#123;</span>
-
-    <span class="token keyword">void</span> <span class="token function">sayHello</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-<span class="token punctuation">&#125;</span>
-
-<span class="token comment">// 实现类</span>
-<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">HelloServiceImpl1</span> <span class="token keyword">implements</span> <span class="token class-name">HelloService</span> <span class="token punctuation">&#123;</span>
-    <span class="token annotation punctuation">@Override</span>
-    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">sayHello</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"hello1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span>
-<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">HelloServiceImpl2</span> <span class="token keyword">implements</span> <span class="token class-name">HelloService</span> <span class="token punctuation">&#123;</span>
-    <span class="token annotation punctuation">@Override</span>
-    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">sayHello</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"hello2"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="创建META-INF-service文件夹，建立文件"><a href="#创建META-INF-service文件夹，建立文件" class="headerlink" title="创建META-INF/service文件夹，建立文件"></a>创建META-INF/service文件夹，建立文件</h2><p>&emsp;&emsp;这里建立的文件名与接口的全限定名相同，文件的内容为接口实现类的全限定名。</p>
-<pre class="line-numbers language-txt" data-language="txt"><code class="language-txt">com.lin.javaspi.service.impl.HelloServiceImpl1
-com.lin.javaspi.service.impl.HelloServiceImpl2<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<h2 id="启动方法"><a href="#启动方法" class="headerlink" title="启动方法"></a>启动方法</h2><pre class="line-numbers language-java" data-language="java"><code class="language-java">    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">ClassNotFoundException</span><span class="token punctuation">,</span> <span class="token class-name">IllegalAccessException</span><span class="token punctuation">,</span> <span class="token class-name">InstantiationException</span> <span class="token punctuation">&#123;</span>
-        <span class="token class-name">ServiceLoader</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">HelloService</span><span class="token punctuation">></span></span> load <span class="token operator">=</span> <span class="token class-name">ServiceLoader</span><span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span><span class="token class-name">HelloService</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token class-name">Iterator</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">HelloService</span><span class="token punctuation">></span></span> iterator <span class="token operator">=</span> load<span class="token punctuation">.</span><span class="token function">iterator</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">while</span> <span class="token punctuation">(</span>iterator<span class="token punctuation">.</span><span class="token function">hasNext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
-            <span class="token class-name">HelloService</span> next <span class="token operator">=</span> iterator<span class="token punctuation">.</span><span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            next<span class="token punctuation">.</span><span class="token function">sayHello</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span>
-<span class="token comment">//        Class&lt;?> aClass = Class.forName("com.lin.javaspi.service.impl.HelloServiceImpl1");</span>
-<span class="token comment">//        HelloServiceImpl1 o = (HelloServiceImpl1) aClass.newInstance();</span>
-<span class="token comment">//        o.sayHello();</span>
-    <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<hr>
-<h1 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h1><ol>
-<li>应用程序调用ServiceLoader.load方法。<blockquote>
-<p>ServiceLoader.load方法内先创建一个新的ServiceLoader，并实例化该类中的成员变量。</p>
-</blockquote>
-</li>
-<li>应用程序通过迭代器接口获取对象实例。<blockquote>
-<p>ServiceLoader先判断成员变量providers对象中<code>LinkedHashMap&lt;String,S&gt;</code>类型是否有缓存实例对象，如果有缓存，直接返回。</p>
-</blockquote>
-<ol>
-<li>读取META-INF/services/下的配置文件，获得所有能被实例化的类的名称，值得注意的是，ServiceLoader可以跨越jar包获取META-INF下的配置文件。</li>
-<li>通过反射方法<code>Class.forName()</code>加载类对象，并用<code>instance()</code>方法将类实例化。</li>
-<li>把实例化后的类缓存到providers对象中，<code>LinkedHashMap&lt;String,S&gt;</code>类型然后返回实例对象。</li>
-</ol>
-</li>
-</ol>
-<hr>
-<h1 id="要求"><a href="#要求" class="headerlink" title="要求"></a>要求</h1><ol>
-<li>必须要有接口</li>
-<li>对应要有实现类，且具备空参构造方法。</li>
-<li>文件夹META-INF/services放置classpath目录下。</li>
-<li>以“接口全限定名”命名的文件。</li>
-<li>文件内容为接口实现类的全路径。</li>
-</ol>
-<hr>
-<h1 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h1><p>&emsp;&emsp;调用者根据实际使用需要，启用、扩展、或者替换框架的实现策略</p>
-<ol>
-<li><p>jdbc</p>
-<blockquote>
-<p>不同的数据库使用不同的jdbc驱动，他们实现了相同的接口，java.sql.Driver</p>
-</blockquote>
-</li>
-<li><p>日志门面接口实现类加载</p>
-<blockquote>
-<p>slf4j加载不同的提供商的日志实现类</p>
-</blockquote>
-</li>
-<li><p>spring</p>
-</li>
-<li><p>dubbo</p>
-</li>
-</ol>
-<hr>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><p>&emsp;&emsp;使用Java SPI机制的优势是实现解耦，使得第三方服务模块的装配控制的逻辑与调用者的业务代码分离，而不是耦合在一起。应用程序可以根据实际业务情况启用框架扩展或替换框架组件。<br>&emsp;&emsp;相比使用提供接口jar包，供第三方服务模块实现接口的方式，SPI的方式使得源框架，不必关心接口的实现类的路径，可以不用通过下面的方式获取接口实现类：</p>
-<ol>
-<li>代码硬编码import 导入实现类。</li>
-<li>指定类全路径反射获取，<code>Class.forName()</code>。</li>
-<li>第三方服务模块把接口实现类实例注册到指定地方，源框架从该处访问实例。</li>
-</ol>
-<p>&emsp;&emsp;通过SPI的方式，第三方服务模块实现接口后，在第三方的项目代码的META-INF/services目录下的配置文件指定实现类的全路径名，源码框架即可找到实现类。</p>
-<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><ol>
-<li>虽然ServiceLoader也算是使用的延迟加载，但是基本只能通过遍历全部获取，也就是接口的实现类全部加载并实例化一遍。如果你并不想用某些实现类，它也被加载并实例化了，这就造成了浪费。获取某个实现类的方式不够灵活，只能通过Iterator形式获取，不能根据某个参数来获取对应的实现类。</li>
-<li>多个并发多线程使用ServiceLoader类的实例是不安全的。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>SPI</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>强软弱虚引用</title>
-    <url>/hexoblog/md/java/%E5%BC%BA%E8%BD%AF%E5%BC%B1%E8%99%9A%E5%BC%95%E7%94%A8/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><h2 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h2><ol>
-<li>可以通过代码的方式决定某些对象的生命周期。</li>
-<li>有利于JVM进行垃圾回收。</li>
-</ol>
-<span id="more"></span>
-
-<hr>
-<h1 id="强引用"><a href="#强引用" class="headerlink" title="强引用"></a>强引用</h1><p>&emsp;&emsp;对象的一般状态，初始化new出来的对象就是强引用。<br>&emsp;&emsp;可达性分析算法中，根据GC Roots向下查找是用的就是强引用。</p>
-<hr>
-<h1 id="软引用"><a href="#软引用" class="headerlink" title="软引用"></a>软引用</h1><blockquote>
-<p>&emsp;&emsp;软参考对象，由垃圾收集器根据内存需求自行清除。软引用通常用于实现内存敏感缓存。<br>假设垃圾收集器在某个时间点确定对象是softly reachable 。 那时候，它可能会选择原子地清除对该对象的所有软引用，以及对任何其他可轻松访问的对象的所有软引用，该对象可以通过一个强引用链来访问该对象。 在同一时间或稍后的时间，它将排入在引用队列中注册的新清除的软引用。</p>
-</blockquote>
-<blockquote>
-<p>&emsp;&emsp;在虚拟机抛出OutOfMemoryError之前，所有软引用对象可以保证被清除。 否则，在清除软引用的时间或者对一组对不同对象的引用将被清除的顺序没有约束。 但是，鼓励虚拟机实现偏离清除最近创建或最近使用的软参考。</p>
-</blockquote>
-<blockquote>
-<p>&emsp;&emsp;此类的直接实例可用于实现简单的缓存; 此类或派生子类也可用于较大的数据结构以实现更复杂的高速缓存。 只要软参考的指示是强有力的，即实际使用中，软参考将不会被清除。 因此，复杂的缓存可以例如阻止其最近使用的条目被丢弃，通过保持对这些条目的强烈的指示，使剩余的条目由垃圾收集器判断丢弃。</p>
-</blockquote>
-<p>&emsp;&emsp;用来描述一些有用但不是必须的对象，类似于生活总可有可无的物品，在java中使用<code>java.lang.ref.SoftReference</code>类来表示。<br>&emsp;&emsp;对于软引用关联着的对象，只有在内存空间不足的时候，垃圾回收器才会回收这些对象。<br>&emsp;&emsp;只要垃圾回收器没有回收掉，程序就可以使用它。<br>&emsp;&emsp;软引用可以和一个引用队列（ReferenceQueue）联合使用，如果软引用所引用的对象被JVM回收，这个软引用就会被加入到与之关联的引用队列中。<br>&emsp;&emsp;软引用可以用来实现内存敏感的高速缓存。当内存足够大时可以把数组存入软引用，取数据时就可从内存里取数据，提高运行效率。如浏览器的后退按钮。</p>
-<hr>
-<h1 id="弱引用"><a href="#弱引用" class="headerlink" title="弱引用"></a>弱引用</h1><blockquote>
-<p>&emsp;&emsp;弱参考对象，不会阻止其指定对象的最终确定，最终确定，然后被回收。弱引用最常用于实现规范化映射。</p>
-</blockquote>
-<blockquote>
-<p>&emsp;&emsp;假设垃圾收集器在某个时间点确定对象是weakly reachable 。 那时，它将原子地清除对该对象的所有弱引用，以及所有弱引用到任何其他弱可触及的对象，通过一连串强软引用可以从该对象到达该对象。 同时，它将声明所有以前弱可触及的对象都是可以确定的。 在同一时间或稍后的时间，它将排列在引用队列中注册的新清除的弱引用。</p>
-</blockquote>
-<p>&emsp;&emsp;弱引用也是描述非必须对象的。与软引用相比，弱引用具有更短暂的生命周期，当JVM进行垃圾回收时，无论内存是否充足，都会回收被弱引用关联的对象，在Java中用<code>java.lang.ref.WeakReference</code>来表示。<br>&emsp;&emsp;在垃圾回收器线程扫描它所管辖的内存区域的过程中，一旦发现了只具有弱引用的对象，不管当前内存空间足够与否，都会回收它的内存。不过，由于垃圾回收器是一个优先级很低的线程， 因此不一定会很快发现那些只具有弱引用的对象。 弱引用可以和一个引用队列（ReferenceQueue）联合使用，如果弱引用所引用的对象被垃圾回 收，Java虚拟机就会把这个弱引用加入到与之关联的引用队列中。</p>
-<hr>
-<h1 id="虚引用"><a href="#虚引用" class="headerlink" title="虚引用"></a>虚引用</h1><blockquote>
-<p>&emsp;&emsp;在收集者确定其指示物可能被回收之后排入队列的Phantom参考对象。幻像引用最常用于以比Java完成机制可能更灵活的方式安排事先清理操作。</p>
-</blockquote>
-<blockquote>
-<p>&emsp;&emsp;如果垃圾收集器在某个时间点确定幻像引用的引用是phantom reachable ，那么在那个时间或稍后的时间，它将引入引用。</p>
-</blockquote>
-<blockquote>
-<p>&emsp;&emsp;为了确保可回收对象保持原样，可能无法检索幻像引用的引用：虚幻引用的get方法始终返回null 。</p>
-</blockquote>
-<blockquote>
-<p>&emsp;&emsp;与软弱引用不同，幻像引用在垃圾收集器排入队列时不会自动清除。 通过幻影引用可访问的对象将一直保持到所有这样的引用被清除或者自身变得不可访问。</p>
-</blockquote>
-<p>&emsp;&emsp;虚引用主要用来跟踪对象被垃圾回收器回收的活动。<br>&emsp;&emsp;与软弱引用不同，虚引用不影响对象的生命周期，虚引用必须和引用队列 （ReferenceQueue）联合使用。<br>&emsp;&emsp;在java中用java.lang.ref.PhantomReference类表示。如果一个对象与虚引用关联，则跟没有引用与之关联一样，在任何时候都可能被垃圾回收器回收。<br>&emsp;&emsp;当垃圾回收器准备回收一个对象时，如果发现它还有虚引用，就会在回收对象的内存之前，把这个虚引用加入到与之关联的引用队列中。程序可以通过判断引用队列中是否已经加入了虚引用，来了解被引用的对象是否将要被垃圾回收。如果程序发现某个虚引用已经被加入到引用队列，那么就可以在所引用的对象的内存被回收之前采取必要的行动。由于Object.finalize()方法的不安全性、低效性，常常使用虚引用完成对象回收前的资源释放工作。</p>
-<blockquote>
-<p>&emsp;&emsp;当GC一但发现了虚引用对象，将会将PhantomReference对象插入ReferenceQueue队列. * 而此时PhantomReference所指向的对象并没有被GC回收，而是要等到ReferenceQueue被你真正的处理后才会被回收。</p>
-</blockquote>
-<p>&emsp;&emsp;当JVM将虚引用插入到引用队列的时候，虚引用执行的对象内存还是存在的。但是PhantomReference并没有暴露API返回对象。所以如果我想做清理工作，需要继承PhantomReference类，以便访问它指向的对象。如NIO直接内存的自动回收，就使用到了sun.misc.Cleaner。</p>
-<hr>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><table>
-<thead>
-<tr>
-<th>引用类型</th>
-<th>被回收时间</th>
-<th>用途</th>
-<th>生存时间</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>强引用</td>
-<td>从来不会</td>
-<td>对象的一般状态</td>
-<td>jvm停止运行时</td>
-</tr>
-<tr>
-<td>软引用</td>
-<td>内存不足时</td>
-<td>对象缓存</td>
-<td>内存不足时</td>
-</tr>
-<tr>
-<td>弱引用</td>
-<td>jvm垃圾回收时</td>
-<td>对象缓存</td>
-<td>gc后</td>
-</tr>
-<tr>
-<td>虚引用</td>
-<td>不知</td>
-<td>不知</td>
-<td>不知</td>
-</tr>
-</tbody></table>
-<p>&emsp;&emsp;利用软引用和弱引用可以解决OOM的问题。</p>
-<p><strong>利用软引用和弱引用解决OOM问题：</strong> 假如有一个应用需要读取大量的本地图片，如果每次读取图片都从硬盘读取，则会严重影响性能，但是如果全部加载到内存当中，又有可能造成内存溢出，此时使用软引用可以解决这个问题。</p>
-<p><strong>设计思路是：</strong> 用一个HashMap来保存图片的路径和相应图片对象关联的软引用之间的映射关系，在内存不足时，JVM会自动回收这些缓存图片对象所占用的空间，从而有效地避免了OOM的问题。</p>
-]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>jvm</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>序列化与反序列化</title>
-    <url>/hexoblog/md/java/%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/</url>
-    <content><![CDATA[<h1 id="序列化与反序列化"><a href="#序列化与反序列化" class="headerlink" title="序列化与反序列化"></a>序列化与反序列化</h1><ol>
-<li>序列化：把对象转换为字节数组的过程称为对象的序列化。</li>
-<li>反序列化：把字节序列转换为对象的过程称为对象的反序列化。</li>
-</ol>
-<span id="more"></span>
-
-<hr>
-<h1 id="什么时候需要序列化与反序列化？"><a href="#什么时候需要序列化与反序列化？" class="headerlink" title="什么时候需要序列化与反序列化？"></a>什么时候需要序列化与反序列化？</h1><p>&emsp;&emsp;当我们只在本地 JVM 里运行下 Java 实例，这个时候是不需要什么序列化和反序列化的，但当我们需要将内存中的对象持久化到磁盘，数据库中时， 当我们需要与浏览器进行交互时，当我们需要实现 RPC 时， 这个时候就需要序列化和反序列化了。<br>&emsp;&emsp;对于与浏览器的交互，采用json格式，json格式本身就是将一个对象转换为字符串，而字符串同样是实现了序列化的。<br>&emsp;&emsp;对于将数据持久化到数据库，我们同样是将属性保存到数据库，而不是将对象保存到数据库。</p>
-<hr>
-<h1 id="为什么要实现-Serializable-接口"><a href="#为什么要实现-Serializable-接口" class="headerlink" title="为什么要实现 Serializable 接口?"></a>为什么要实现 Serializable 接口?</h1><p>&emsp;&emsp;在 Java 中实现了 Serializable 接口后， JVM 会在底层帮我们实现序列化和反序列化。</p>
-<hr>
-<h1 id="为什么还要指定serialVersionUID的值"><a href="#为什么还要指定serialVersionUID的值" class="headerlink" title="为什么还要指定serialVersionUID的值?"></a>为什么还要指定serialVersionUID的值?</h1><p>&emsp;&emsp;如果不显示指定serialVersionUID，JVM在序列化时会根据属性自动生成一个serialVersionUID，然后与属性一起序列化，再进行持久化或网络传输。<br>&emsp;&emsp;在反序列化时，JVM会再根据属性自动生成一个新版 serialVersionUID，然后将这个新版serialVersionUID与序列化时生成的旧版serialVersionUID进行比较，如果相同则反序列化成功，否则报错。<br>&emsp;&emsp;如果显示指定了serialVersionUID，JVM在序列化和反序列化时仍然都会生成一个serialVersionUID，但值为我们显示指定的值，这样在反序列化时新旧版本的 serialVersionUID 就一致了。<br>&emsp;&emsp;默认的serialVersionUID，是根据类的属性生成的，如果类的属性发生变化，serialVersionUID的值对应会发生变化，这时候去反序列化原有的对象就会失败。而显式指定之后则解决了这个问题。</p>
-<hr>
-<h1 id="序列化的其他特性"><a href="#序列化的其他特性" class="headerlink" title="序列化的其他特性"></a>序列化的其他特性</h1><p>&emsp;&emsp;被transient关键字修饰的属性不会被序列化，static属性也不会被序列化。</p>
-<h2 id="static-属性为什么不会被序列化"><a href="#static-属性为什么不会被序列化" class="headerlink" title="static 属性为什么不会被序列化?"></a>static 属性为什么不会被序列化?</h2><p>&emsp;&emsp;因为序列化是针对对象而言的，而static属性优先于对象存在，随着类的加载而加载，所以不会被序列化。<br>&emsp;&emsp;其实serialVersionUID属性并没有被序列化，JVM在序列化对象时会自动生成一个serialVersionUID，然后将我们显示指定的serialVersionUID属性值赋给自动生成的serialVersionUID。</p>
-]]></content>
-      <categories>
-        <category>java</category>
-        <category>序列化</category>
-      </categories>
-      <tags>
-        <tag>序列化</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>类加载机制</title>
-    <url>/hexoblog/md/java/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/</url>
-    <content><![CDATA[<h1 id="介绍："><a href="#介绍：" class="headerlink" title="介绍："></a>介绍：</h1><h2 id="什么是类的加载？"><a href="#什么是类的加载？" class="headerlink" title="什么是类的加载？"></a>什么是类的加载？</h2><p>​&emsp;​&emsp;类的加载是指将类的.class文件中的二进制数据读入到内存中，将其放在运行时数据区的方法区内，然后在堆区创建一个java.lang.class对象，用来封装类在方法区内的数据结构。<br>​​&emsp;​&emsp;类的加载的最终产品是位于堆区中的class对象，class对象封装了类在方法区内的数据结构，并且提供了访问方法区内的数据结构的接口。</p>
-<span id="more"></span>
-
-<h2 id="在什么时候启动类加载？"><a href="#在什么时候启动类加载？" class="headerlink" title="在什么时候启动类加载？"></a>在什么时候启动类加载？</h2><p>​​&emsp;​&emsp;类的加载并不需要某个类被“首次主动使用”时再加载它，JVM规范允许类加载器在预料某个类将要被预先使用时就预先加载它，如果在预先加载过程中遇到了.class文件缺失或存在错误，类加载器必须在程序首次主动使用该类时才报告错误，如果这个类一直没有被程序主动使用，那么类加载器就不会报告错误。</p>
-<h2 id="从哪个地方加载类？"><a href="#从哪个地方加载类？" class="headerlink" title="从哪个地方加载类？"></a>从哪个地方加载类？</h2><ol>
-<li>从本地系统中直接加载。</li>
-<li>通过网络下载.class文件。</li>
-<li>从zip、jar等归档文件中加载.class文件。</li>
-<li>从专有数据库中提取.class文件。</li>
-<li>将java源代码编译为.class文件。</li>
-</ol>
-<hr>
-<h1 id="类加载机制："><a href="#类加载机制：" class="headerlink" title="类加载机制："></a>类加载机制：</h1><p>​&emsp;​&emsp;加载主要是将.class文件（也可以是zip包）通过二进制流读入到jvm中，在加载阶段JVM需要完成3件事情。</p>
-<h2 id="加载："><a href="#加载：" class="headerlink" title="加载："></a>加载：</h2><p>​&emsp;​&emsp;加载主要是将.class文件（也可以是zip包）通过二进制流读入到jvm中，在加载阶段JVM需要完成3件事情。</p>
-<ol>
-<li>通过classloader在classpath中获取XXX.class文件，将其以二进制流的方式读入内存。</li>
-<li>将字节流代表的静态存储结构，转化为方法区的运行时存储结构。</li>
-<li>在内存中生成一个该类的java.lang.class对象，作为方法区这个类的各种数据的访问入口。</li>
-</ol>
-<h2 id="连接："><a href="#连接：" class="headerlink" title="连接："></a>连接：</h2><h3 id="验证："><a href="#验证：" class="headerlink" title="验证："></a>验证：</h3><p>​&emsp;​&emsp;主要是确保加载进来的字节流符合JVM规范，验证阶段会有4个检验动作：</p>
-<ol>
-<li>文件格式验证：验证.class文件字节流是否符合class文件的格式的规范，并且能够被当前版本的虚拟机处理。这里主要被魔数、主版本号、常量池等等的校验。</li>
-<li>元数据验证：验证是否符合java语言规范，主要是对字节码描述的信息进行语义分析，以保证其描述的信息符合java语言规范的要求，比如说验证这个类是不是有父类，类中的字段方法是不是和父类冲突等等。</li>
-<li>字节码验证：确保程序语义合法，符合逻辑，是整个验证过程最复杂的阶段。主要是通过数据流和控制流分析，确保程序语义是合法的、符合逻辑。在元数据验证那个阶段对数据类型做出验证后，这个阶段主要对类的方法做出分析，保证类的方法在运行时不会做出危害虚拟机安全的事。</li>
-<li>符号引用验证：确保下一步的解析能正常执行，它是验证的最后一个阶段，发生在虚拟机将符号引用转化为直接引用的时候。主要是对类自身以外的信息进行校验。目的是确保解析动作能够完成。</li>
-</ol>
-<p>​&emsp;​&emsp;对整个类加载机制而言，验证阶段是一个很重要但是非必需的阶段，如果我们的代码能够确保没有问题，那么我们就没有必要去验证，毕竟验证需要花费一定的的时间。当然我们可以使用-Xverfity:none来关闭大部分的验证。</p>
-<h3 id="准备："><a href="#准备：" class="headerlink" title="准备："></a>准备：</h3><p>​&emsp;​&emsp;准备是连接阶段的第二步，主要为静态变量在方法区分配内存，并设置默认初始值。</p>
-<ol>
-<li>类变量会分配内存，但是实例变量不会，实例变量主要随着对象的实例化一块分配到java堆中。</li>
-<li>这里的初始值指的是数据类型默认值，而不是代码中被显式赋予的值，但是如果同时被static和final修饰准备阶段后就已经赋值了，普通赋值位于其他阶段。</li>
-</ol>
-<h3 id="解析："><a href="#解析：" class="headerlink" title="解析："></a>解析：</h3><p>​&emsp;​&emsp;解析是连接阶段的第三步，是虚拟机将常量池内的符合引用替换为直接引用的过程。</p>
-<ol>
-<li>符号引用：以一组符号来描述所引用的目标，可以是任何形式的字面量，只要是能无歧义的定位到目标就好。</li>
-<li>直接引用：直接引用可以是指向目标的指针、相对偏移量或者是一个能直接引用或间接定位到目标的句柄。和虚拟机实现的内存有关，不同的虚拟机直接引用一般不同。</li>
-</ol>
-<p>​&emsp;​&emsp;解析动作主要针对类或接口、字段、类方法、接口方法、方法类型、方法句柄和调用点限定符7类符号引用进行。</p>
-<h2 id="初始化："><a href="#初始化：" class="headerlink" title="初始化："></a>初始化：</h2><p>​​&emsp;​&emsp;这是类加载机制的最后一步，在这个阶段，java代码才开始真正执行。我们知道，在准备阶段已经为类变量赋过一次值，在初始化阶段，程序员可以根据自己的需求来赋值了。<br>​​&emsp;​&emsp;在初始化阶段，主要为类的静态变量赋予正确的初始值，JVM负责对类进行初始化，主要对类变量进行初始化。在Java中对类变量进行初始值设定有两种方式：</p>
-<ol>
-<li>声明变量是指定初始值。</li>
-<li>使用静态代码块为类变量指定初始值。</li>
-</ol>
-<h3 id="JVM初始化步骤："><a href="#JVM初始化步骤：" class="headerlink" title="JVM初始化步骤："></a>JVM初始化步骤：</h3><ol>
-<li>假如这个类还没有被加载和连接，则程序先加载并连接该类。</li>
-<li>假如该类的直接父类还没有被初始化，则先初始化其直接父类。</li>
-<li>假如类中有初始化语句，则系统依次执行这些初始化语句。</li>
-</ol>
-<h3 id="类的初始化时机："><a href="#类的初始化时机：" class="headerlink" title="类的初始化时机："></a>类的初始化时机：</h3><p>​&emsp;​&emsp;只有对类的主动使用时才会导致类的初始化，主动使用包括以下6种：</p>
-<ol>
-<li>创建类的实例，也就是new的时候。</li>
-<li>访问某个类或接口的静态变量，或者对静态变量赋值。</li>
-<li>调用类的静态方法。</li>
-<li>反射操作。</li>
-<li>初始化某个类，则其父类也会被初始化。</li>
-<li>虚拟机启动时被标明为启动类的类，直接用java.exe来运行某个类。</li>
-</ol>
-<hr>
-<h1 id="类加载器："><a href="#类加载器：" class="headerlink" title="类加载器："></a>类加载器：</h1><h2 id="自带类加载器："><a href="#自带类加载器：" class="headerlink" title="自带类加载器："></a>自带类加载器：</h2><p>java语言系统自带有3个类加载器：</p>
-<ol>
-<li>BootStrap ClassLoader：跟类（启动，引导）加载器。它负责加载java的核心类。他比较特殊，因为它是由原生c++代码实现的，并不是java.lang.ClassLoader的子类。</li>
-<li>Extension ClassLoader：扩展类加载器。它负责加载jre的扩展目录（%JAVA_HOME%/jre/lib/ext）中的jar包的类，我们可以通过把自己开发的类打成jar包放入扩展目录来为java提供核心类以外的新功能。</li>
-<li>System ClassLoader（Application ClassLoader）：系统类加载器。它负责再jvm启动时加载来自java命令的-classpath选项、java.class.path系统属性，或CLASSPATH环境变量所指定的jar包和类路径。程序可以通过ClassLoader的静态方法getSystemClassLoader来获取系统类加载器。</li>
-</ol>
-<p>​​&emsp;​&emsp;应用程序都是由这三种类加载器互相配合进行加载的，如果有必要，我们还可以加入自定义的类加载器。因为jvm自带的 ClassLoader只是懂得从本地文件系统加载标准的java class文件，因此如果我们编写了自己的ClassLoader，便可以做到以下几点：</p>
-<ol>
-<li>在执行非置信代码前，自动验证数字签名。</li>
-<li>动态的创建符合用户特定需要的定制化构建类。</li>
-<li>从特定的场所取得java class，例如数据库和网络中。</li>
-</ol>
-<h2 id="自定义类加载器："><a href="#自定义类加载器：" class="headerlink" title="自定义类加载器："></a>自定义类加载器：</h2><p>​​&emsp;​&emsp;Custom ClassLoader：通过java.lang.ClassLoader的子类自定义加载class，属于应用程序根据自身需要定义的ClassLoader，如Tomcat，jboss都会根据j2ee规范自行实现ClassLoader。<br>​​&emsp;​&emsp;自定义类加载器的核心在于对字节码文件的获取，如果是加密的字节码则需要在该类中对文件进行解密。有几点需要注意：</p>
-<ol>
-<li>这里传递的文件名是类的全限定名。</li>
-<li>重写findClass而不重新loadClass，重新loadClass会破坏双亲委派模式。</li>
-</ol>
-<h2 id="类的三种加载方式："><a href="#类的三种加载方式：" class="headerlink" title="类的三种加载方式："></a>类的三种加载方式：</h2><ol>
-<li>通过命令行启动应用时由jvm初始化加载含有main()方法的主类。</li>
-<li>通过Class.forName()方法动态加载，会默认执行初始化块（static{}），但是Class.forName(name,initlize,loader)中的initlize可指定是否要执行初始化块。</li>
-<li>通过ClassLoader.loadClass()方法动态加载，不会执行初始化块。</li>
-</ol>
-<h3 id="Class-forName-和ClassLoader-loadClass-的区别："><a href="#Class-forName-和ClassLoader-loadClass-的区别：" class="headerlink" title="Class.forName()和ClassLoader.loadClass()的区别："></a>Class.forName()和ClassLoader.loadClass()的区别：</h3><ol>
-<li>Class.forName()：将类的.class文件加载到jvm中之外，还会对类进行解释，执行类中的static块；</li>
-<li>ClassLoader.loadClass()：只干一件事情，就是将.class文件加载到jvm中，不会执行static中的内容,只有在newInstance才会去执行static块。</li>
-<li>Class.forName(name, initialize, loader)带参函数也可控制是否加载static块。并且只有调用了newInstance()方法采用调用构造函数，创建类的对象 。</li>
-</ol>
-<h2 id="JVM类加载机制："><a href="#JVM类加载机制：" class="headerlink" title="JVM类加载机制："></a>JVM类加载机制：</h2><ol>
-<li>全盘负责：当一个类加载器负责加载某个Class时，该Class所依赖的和引用的其他Class也将由该类加载器负责载入，除非显示使用另外一个类加载器来载入。</li>
-<li>父类委托：先让父类加载器试图加载该类，只有在父类加载器无法加载该类时才尝试从自己的类路径中加载该类。</li>
-<li>缓存机制：缓存机制将会保证所有加载过的Class都会被缓存，当程序中需要使用某个Class时，类加载器先从缓存区寻找该Class，只有缓存区不存在，系统才会读取该类对应的二进制数据，并将其转换成Class对象，存入缓存区。这就是为什么修改了Class后，必须重启JVM，程序的修改才会生效。</li>
-</ol>
-<h2 id="双亲委派模型："><a href="#双亲委派模型：" class="headerlink" title="双亲委派模型："></a>双亲委派模型：</h2><ol>
-<li>当AppClassLoader加载一个Class时，他首先不会自己去尝试加载这个类，而是把这个加载请求委托给父类加载器ExtClassLoader去完成。</li>
-<li>当ExtClassLoader加载一个Class时，它首先也不会自己去尝试加载这个类，而是把类加载请求委派给BootStrapClassLoader去完成。</li>
-<li>如果BootStrapClassLoader加载失败（例如再$JAVSA_HOME/jre/lib里未查找到该class），会使用ExtClassLoader来尝试加载。</li>
-<li>若ExtClassLoader也加载失败，则会使用AppClassLoader来加载，如果AppClassLoader也加载失败，则会报出异常ClassNotFoundException。</li>
-</ol>
-<h3 id="意义："><a href="#意义：" class="headerlink" title="意义："></a>意义：</h3><ol>
-<li>系统类防止内存中出现多份的同样的字节码。</li>
-<li>保证Java程序安全稳定运行。</li>
-</ol>
-<h2 id="结束生命周期："><a href="#结束生命周期：" class="headerlink" title="结束生命周期："></a>结束生命周期：</h2><p>在以下几种情况，Java虚拟机将结束生命周期：</p>
-<ol>
-<li>执行了System.exit()方法。</li>
-<li>程序正常执行结束。</li>
-<li>程序在执行过程中，遇到了异常或错误而异常终止。</li>
-<li>由于操作系统出现错误，而导致Java虚拟机进程终止。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>jvm</tag>
-        <tag>classloader</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>锁</title>
-    <url>/hexoblog/md/java/%E9%94%81/</url>
-    <content><![CDATA[<h1 id="乐观锁："><a href="#乐观锁：" class="headerlink" title="乐观锁："></a>乐观锁：</h1><p>&emsp;&emsp;乐观锁不是数据库自带的，需要我们去实现。总是假设最好的情况，每次去拿数据时都会认为数据没有被修改，所以不会上锁，但是在提交更新的时候会去判断一下在此期间别人有没有更改数据，可以使用版本号机制算法或者CAS算法实现。乐观锁适用于读多于写的情况，可以提高吞吐量。</p>
-<span id="more"></span>
-
-<p>&emsp;&emsp;乐观锁：假设不会出现并发冲突，只在提交操作时检查是否违反数据完整性。</p>
-<p>&emsp;&emsp;Java JUC中的atomic包就是乐观锁的一种实现，AtomicInteger 通过CAS（Compare And Set）操作实现线程安全的自增。</p>
-<h2 id="实现方式："><a href="#实现方式：" class="headerlink" title="实现方式："></a>实现方式：</h2><ol>
-<li>使用数据版本记录机制实现，这是乐观锁最常用的一种实现方式。为当前数据增加一个版本标识，一般是为数据库表增加一个数据类型的version字段来实现。当读取数据时，将version字段的值一同读出，数据每更新一次，对此version值加一。当我们提交更新时，判断数据库表对应记录的当前版本信息与第一次取出来的version值进行对比，如果数据库表当前版本号与第一次取出来的version值相等，则予以更新，否则认为是过期数据。</li>
-<li>使用时间戳，乐观锁定的第二种实现方式和第一种差不多，同样是在需要乐观锁控制的table中增加一个字段，名称无所谓，字段类型使用时间戳（timestamp）, 和上面的version类似，也是在更新提交的时候检查当前数据库中数据的时间戳和自己更新前取到的时间戳进行对比，如果一致则OK，否则就是版本冲突。</li>
-<li>CAS算法：即是compare and swap（比较与交换），是一种有名的无锁算法，无锁编程，在不使用锁的情况下实现多线程之间的变量同步，也就是在没有线程被阻塞的情况下实现变量的同步，所以也叫非阻塞同步。CAS算法涉及到三个操作数：需要读写的内存值 V、进行比较的值 A、拟写入的新值 B。当且仅当 V 的值等于 A时，CAS通过原子方式用新值B来更新V的值，否则不会执行任何操作（比较和替换是一个原子操作）。一般情况下是一个自旋操作，即不断的重试。</li>
-</ol>
-<h2 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h2><h3 id="ABA问题是一个乐观锁的常见问题："><a href="#ABA问题是一个乐观锁的常见问题：" class="headerlink" title="ABA问题是一个乐观锁的常见问题："></a>ABA问题是一个乐观锁的常见问题：</h3><p>&emsp;&emsp;如果一个变量V初次读取的时候是A值，并且在准备赋值的时候检查到它仍然是A值，那我们就能说明它的值没有被其他线程修改过了吗？很明显是不能的，因为在这段时间它的值可能被改为其他值，然后又改回A，那CAS操作就会误认为它从来没有被修改过。这个问题被称为CAS操作的 “ABA”问题。</p>
-<p>&emsp;&emsp;JDK 1.5 以后的 AtomicStampedReference 类就提供了此种能力，其中的 compareAndSet 方法就是首先检查当前引用是否等于预期引用，并且当前标志是否等于预期标志，如果全部相等，则以原子方式将该引用和该标志的值设置为给定的更新值。</p>
-<h3 id="循环时间长开销大："><a href="#循环时间长开销大：" class="headerlink" title="循环时间长开销大："></a>循环时间长开销大：</h3><p>&emsp;&emsp;自旋CAS（也就是不成功就一直循环执行直到成功）如果长时间不成功，会给CPU带来非常大的执行开销。 如果JVM能支持处理器提供的pause指令那么效率会有一定的提升，pause指令有两个作用，第一它可以延迟流水线执行指令（de-pipeline）,使CPU不会消耗过多的执行资源，延迟的时间取决于具体实现的版本，在一些处理器上延迟时间是零。第二它可以避免在退出循环的时候因内存顺序冲突（memory order violation）而引起CPU流水线被清空（CPU pipeline flush），从而提高CPU的执行效率。</p>
-<h3 id="只能保证一个共享变量的原子操作："><a href="#只能保证一个共享变量的原子操作：" class="headerlink" title="只能保证一个共享变量的原子操作："></a>只能保证一个共享变量的原子操作：</h3><p>&emsp;&emsp;CAS只对单个共享变量有效，当操作涉及跨多个共享变量时CAS无效。但是从JDK 1.5开始，提供了AtomicReference类来保证引用对象之间的原子性，你可以把多个变量放在一个对象里来进行CAS操作.所以我们可以使用锁或者利用AtomicReference类把多个共享变量合并成一个共享变量来操作。</p>
-<h1 id="悲观锁："><a href="#悲观锁：" class="headerlink" title="悲观锁："></a>悲观锁：</h1><p>&emsp;&emsp;总是假设最坏的情况，每次去拿数据时都认为别人会修改，所以每次在拿数据时都会上锁，这样别人想拿数据就会阻塞直到他拿到锁。共享资源每次只给一个线程使用，其他线程阻塞，用完后再把资源转让给其他线程。传统的关系型数据库里面就用到了很多这种锁机制，行锁，表锁，读锁，写锁等，都是在操作之前先上锁。</p>
-<p>&emsp;&emsp;悲观锁：假定会发生并发冲突，屏蔽一切可能违反数据完整性的操作。</p>
-<p>&emsp;&emsp;Java synchronized和ReentrantLock就属于悲观锁的一种实现，每次线程要修改数据时都先获得锁，保证同一时刻只有一个线程能操作数据，其他线程则会被block。</p>
-<h2 id="区别与场景："><a href="#区别与场景：" class="headerlink" title="区别与场景："></a>区别与场景：</h2><h3 id="区别："><a href="#区别：" class="headerlink" title="区别："></a>区别：</h3><p>&emsp;&emsp;乐观锁的思路一般是表中增加版本字段，更新时where语句中增加版本的判断，算是一种CAS（Compare And Swep）操作，商品库存场景中number起到了版本控制（相当于version）的作用（ AND number=#{number}）。</p>
-<p>&emsp;&emsp;悲观锁之所以是悲观，在于他认为本次操作会发生并发冲突，所以一开始就对商品加上锁（SELECT … FOR UPDATE），然后就可以安心的做判断和更新，因为这时候不会有别人更新这条商品库存。</p>
-<h3 id="场景："><a href="#场景：" class="headerlink" title="场景："></a>场景：</h3><p>&emsp;&emsp;乐观锁适用于读多于写的情况，即冲突很少的情况，可以省去很大加锁的开销。多写的情况，冲突会比较多，不适合上面的场景，因为冲突的数据会导致应用不断的retry，一般多写的场景适合适用悲观锁。</p>
-<h3 id="CAS与synchronized："><a href="#CAS与synchronized：" class="headerlink" title="CAS与synchronized："></a>CAS与synchronized：</h3><ol>
-<li>对于资源竞争较少（线程冲突较轻）的情况，使用synchronized同步锁进行线程阻塞和唤醒切换以及用户态内核态间的切换操作额外浪费消耗cpu资源；而CAS基于硬件实现，不需要进入内核，不需要切换线程，操作自旋几率较少，因此可以获得更高的性能。</li>
-<li>对于资源竞争严重（线程冲突严重）的情况，CAS自旋的概率会比较大，从而浪费更多的CPU资源，效率低于synchronized。</li>
-<li>补充：Java并发编程这个领域中synchronized关键字一直都是元老级的角色，很久之前很多人都会称它为 “重量级锁” 。但是，在JavaSE 1.6之后进行了主要包括为了减少获得锁和释放锁带来的性能消耗而引入的 偏向锁 和 轻量级锁 以及其它各种优化之后变得在某些情况下并不是那么重了。</li>
-<li>synchronized的底层实现主要依靠 Lock-Free 的队列，基本思路是 自旋后阻塞，竞争切换后继续竞争锁，稍微牺牲了公平性，但获得了高吞吐量。在线程冲突较少的情况下，可以获得和CAS类似的性能；而线程冲突严重的情况下，性能远高于CAS。</li>
-</ol>
-<h3 id="MySQL隐式和显示锁定："><a href="#MySQL隐式和显示锁定：" class="headerlink" title="MySQL隐式和显示锁定："></a>MySQL隐式和显示锁定：</h3><p>&emsp;&emsp;MySQL InnoDB采用的是两阶段锁定协议（two-phase locking protocol）。在事务执行过程中，随时都可以执行锁定，锁只有在执行 COMMIT或者ROLLBACK的时候才会释放，并且所有的锁是在同一时刻被释放。前面描述的锁定都是隐式锁定，InnoDB会根据事务隔离级别在需要的时候自动加锁。</p>
-<p>&emsp;&emsp;另外，InnoDB也支持通过特定的语句进行显示锁定，这些语句不属于SQL规范：</p>
-<pre class="line-numbers language-none"><code class="language-none">SELECT ... LOCK IN SHARE MODE
-SELECT ... FOR UPDATE<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<hr>
-<h1 id="共享锁："><a href="#共享锁：" class="headerlink" title="共享锁："></a>共享锁：</h1><p>&emsp;&emsp;共享锁（S锁），又称读锁，用于不更改或不更新数据的操作。</p>
-<p>&emsp;&emsp;若事务T对数据对象A加上S锁，则事务T可以读A但不能修改A，其他事务只能再对A加S锁，而不能加X锁，直到T释放A上的S锁。这保证了其他事务可以读A，但在T释放A上的S锁之前不能对A做任何修改。</p>
-<h1 id="排它锁："><a href="#排它锁：" class="headerlink" title="排它锁："></a>排它锁：</h1><p>&emsp;&emsp;排它锁（X锁），又称写锁，用于数据修改，确保不会同时同一资源进行多重更新。</p>
-<p>&emsp;&emsp;若事务T对数据对象A加上X锁，事务T可以读A也可以修改A，其他事务不能再对A加任何锁，直到T释放A上的锁。这保证了其他事务在T释放A上的锁之前不能再读取和修改A。</p>
-<h2 id="解决死锁："><a href="#解决死锁：" class="headerlink" title="解决死锁："></a>解决死锁：</h2><p>共享锁与排它锁会导致死锁问题。</p>
-<p>预防死锁发生：</p>
-<ol>
-<li> 要求每一个事务必须一次封锁所要使用的全部数据（要么全成功，要么全不成功）。</li>
-<li> 规定封锁数据的顺序，所有事务必须按这个顺序实行封锁。</li>
-</ol>
-<p>&emsp;&emsp;允许死锁发生，然后解除它，如果发现死锁，则将其中一个代价较小的事物撤消，回滚这个事务，并释放此事务持有的封锁，使其他事务继续运行。</p>
-<hr>
-<h1 id="更新锁："><a href="#更新锁：" class="headerlink" title="更新锁："></a>更新锁：</h1><p>&emsp;&emsp;更新锁用于防止常见形式的死锁，比如共享锁和排他锁产生的死锁问题。</p>
-<p>&emsp;&emsp;更新锁（U锁）并不能保证不会产生死锁，只是针对共享锁和排他锁提出了一种较为简单的解决方式。共享锁解决死锁，实际上是阻碍了事务T1和T2的并发执行。</p>
-<ol>
-<li>S锁只能读取数据，不能升级成X锁。</li>
-<li>U锁给予事务T读取属性A的权限，没有写的权限，但是可以升级成X锁。</li>
-<li>属性A上面有共享锁，可以添加U锁；但是有U锁，不能添加任何锁。</li>
-</ol>
-<table>
-<thead>
-<tr>
-<th>—</th>
-<th>S</th>
-<th>X</th>
-<th>U</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>S</td>
-<td>YES</td>
-<td>NO</td>
-<td>YES</td>
-</tr>
-<tr>
-<td>X</td>
-<td>NO</td>
-<td>NO</td>
-<td>NO</td>
-</tr>
-<tr>
-<td>U</td>
-<td>NO</td>
-<td>NO</td>
-<td>NO</td>
-</tr>
-</tbody></table>
-<h1 id="增量锁："><a href="#增量锁：" class="headerlink" title="增量锁："></a>增量锁：</h1><p>&emsp;&emsp;对于一部分数据库，对数据库的操作仅仅只涉及加与减操作。这样针对这种情况，我们引入增量锁。</p>
-<p>&emsp;&emsp;只有在事务获取了增量锁的前提下，才能够进行增量操作。</p>
-<table>
-<thead>
-<tr>
-<th>—</th>
-<th>S</th>
-<th>X</th>
-<th>I</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>S</td>
-<td>YES</td>
-<td>NO</td>
-<td>NO</td>
-</tr>
-<tr>
-<td>X</td>
-<td>NO</td>
-<td>NO</td>
-<td>NO</td>
-</tr>
-<tr>
-<td>I</td>
-<td>NO</td>
-<td>NO</td>
-<td>YES</td>
-</tr>
-</tbody></table>
-<hr>
-<h1 id="行锁："><a href="#行锁：" class="headerlink" title="行锁："></a>行锁：</h1><p>&emsp;&emsp;顾名思义，行锁就是一锁锁一行或者多行记录，mysql的行锁是基于索引加载的，所以行锁是要加在索引响应的行上，即命中索引。否则自动扫描全表，走表锁。</p>
-<p>&emsp;&emsp;行锁的特征：锁冲突概率低，并发性高，但是会有死锁的情况出现。</p>
-<ol>
-<li> 行锁必须有索引才能实现，否则会自动锁全表，那么就不是行锁了。</li>
-<li> 两个事务不能锁同一个索引。</li>
-<li> insert ，delete ， update在事务中都会自动默认加上排它锁。</li>
-</ol>
-<p>&emsp;&emsp;当选中某一行时，如果是通过主键或者索引选中的，这个时候是行级锁；如果是通过其它条件选中的，这个时候行级锁会升级成表锁，其它事务无法对当前表进行更新或插入操作。</p>
-<h1 id="表锁："><a href="#表锁：" class="headerlink" title="表锁："></a>表锁：</h1><p>&emsp;&emsp;顾名思义，表锁就是一锁锁一整张表，在表被锁定期间，其他事务不能对该表进行操作，必须等当前表的锁被释放后才能进行操作。表锁响应的是非索引字段，即全表扫描，全表扫描时锁定整张表。</p>
-<h2 id="区别与场景：-1"><a href="#区别与场景：-1" class="headerlink" title="区别与场景："></a>区别与场景：</h2><h3 id="区别：-1"><a href="#区别：-1" class="headerlink" title="区别："></a>区别：</h3><p>表锁：不会出现死锁，发生锁冲突几率高，并发低。</p>
-<p>行锁：会出现死锁，发生锁冲突几率低，并发高。开销大，加锁慢，锁定粒度小。</p>
-<p>&emsp;&emsp;锁冲突：例如说事务A将某几行上锁后，事务B又对其上锁，锁不能共存否则会出现锁冲突。（但是共享锁可以共存，共享锁和排它锁不能共存，排它锁和排他锁也不可以）。</p>
-<p>&emsp;&emsp;死锁：例如说两个事务，事务A锁住了1-5行，同时事务B锁住了6-10行，此时事务A请求锁住6-10行，就会阻塞直到事务B施放6-10行的锁，而随后事务B又请求锁住1-5行，事务B也阻塞直到事务A释放1-5行的锁。死锁发生时，会产生Deadlock错误。</p>
-<h2 id="记录锁："><a href="#记录锁：" class="headerlink" title="记录锁："></a>记录锁：</h2><p>&emsp;&emsp;记录锁是在行锁上衍生的锁。</p>
-<p>&emsp;&emsp;记录锁：记录锁锁的是表中的某一条记录，记录锁的出现条件必须是精准命中索引并且索引是唯一索引。</p>
-<h2 id="间隙锁："><a href="#间隙锁：" class="headerlink" title="间隙锁："></a>间隙锁：</h2><p>&emsp;&emsp;间隙锁又称之为区间锁，每次锁定都是锁定一个区间，隶属行锁。既然间隙锁隶属行锁，那么，间隙锁的触发条件必然是命中索引的，当我们查询数据用范围查询而不是相等条件查询时，查询条件命中索引，并且没有查询到符合条件的记录，此时就会将查询条件中的范围数据进行锁定(即使是范围库中不存在的数据也会被锁定)。</p>
-<p>&emsp;&emsp;间隙锁只会出现在可重复读的事务隔离级别中，mysql5.7默认就是可重复读。间隙锁锁的是一个区间范围，查询命中索引但是没有匹配到相关记录时，锁定的是查询的这个区间范围。</p>
-<h2 id="临间锁："><a href="#临间锁：" class="headerlink" title="临间锁："></a>临间锁：</h2><p>&emsp;&emsp;学习完间隙锁后我们再来看看什么是临间锁，mysql的行锁默认就是使用的临间锁，临间锁是由记录锁和间隙锁共同实现的，上面我们学习间隙锁时，间隙锁的触发条件是命中索引，范围查询没有匹配到相关记录。而临键锁恰好相反，临间锁的触发条件也是查询条件命中索引，不过，临间锁有匹配到数据库记录。</p>
-<p>&emsp;&emsp;间隙锁所锁定的区间是一个左开右闭的集合，而临间锁锁定是当前记录的区间和下一个记录的区间。</p>
-<p>&emsp;&emsp;临间锁锁定区间和查询范围后匹配值很重要，如果后匹配值存在，则只锁定查询区间，否则锁定查询区间和后匹配值与它的下一个值的区间。</p>
-]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>lock</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>JVM内存分配策略</title>
     <url>/hexoblog/md/jvm/JVM%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5/</url>
     <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;就是java对象在堆上分配空间的策略。<br>&emsp;&emsp;具体的分配策略取决于使用那种垃圾回收器的组合，还有虚拟机中参数的设置。这里的一般是分代收集算法下的情况。</p>
@@ -1946,171 +2134,6 @@ SELECT ... FOR UPDATE<span aria-hidden="true" class="line-numbers-rows"><span></
       </tags>
   </entry>
   <entry>
-    <title>deepin搭建java开发环境</title>
-    <url>/hexoblog/md/linux/deepin%E6%90%AD%E5%BB%BAjava%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</url>
-    <content><![CDATA[<h1 id="安装jdk"><a href="#安装jdk" class="headerlink" title="安装jdk"></a>安装jdk</h1><p>&emsp;&emsp;安装之前最好先获取管理员权限。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 获取后需要输入密码</span>
-<span class="token function">sudo</span> <span class="token function">su</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<span id="more"></span>
-<h2 id="下载jdk"><a href="#下载jdk" class="headerlink" title="下载jdk"></a>下载jdk</h2><p>&emsp;&emsp;进入指定目录，下载jdk文件，我自己通常喜欢下载在<code>/usr/local/src/jdk</code>目录中，<a href="https://www.oracle.com/java/technologies/javase-jdk16-downloads.html">jdk16</a>。<br>&emsp;&emsp;<code>/usr/bin</code>是系统的软件存放的位置。<br>&emsp;&emsp;<code>/usr/local/bin</code>是我们自己的软件存放的位置。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> /usr/local/src/jdk
-
-<span class="token function">wget</span> https://download.oracle.com/otn-pub/java/jdk/16+36/7863447f0ab643c585b9bdebf67c69db/jdk-16_linux-x64_bin.tar.gz?AuthParam<span class="token operator">=</span>1618140718_ccecc5f8b3763f1feed74a49a7f7cbb8<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="将下载的jdk解压缩"><a href="#将下载的jdk解压缩" class="headerlink" title="将下载的jdk解压缩"></a>将下载的jdk解压缩</h2><p>&emsp;&emsp;通过wget下载的压缩包文件名称会奇奇怪怪的。如果通过浏览器下载则没有该问题。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 重命名文件</span>
-<span class="token function">mv</span> <span class="token string">'jdk-16_linux-x64_bin.tar.gz?AuthParam=1618140718_ccecc5f8b3763f1feed74a49a7f7cbb8'</span> jdk-16_linux-x64_bin.tar.gz
-
-<span class="token comment"># 解压缩文件</span>
-<span class="token function">tar</span> xvf jdk-16_linux-x64_bin.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="重命名文件夹（可选）"><a href="#重命名文件夹（可选）" class="headerlink" title="重命名文件夹（可选）"></a>重命名文件夹（可选）</h2><p>&emsp;&emsp;对解压后的文件夹重命名，也可以不做。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">mv</span> jdk-16_linux-x64_bin jdk16<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h2><p>&emsp;&emsp;jdk需要配置PATH和CLASSPATH环境变量。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 系统的环境变量写在/etc/profile文件中</span>
-<span class="token function">vi</span> /etc/profile
-
-<span class="token comment"># 在编辑器末尾添加对应的环境变量</span>
-<span class="token comment"># 这里的路径结合自己的实际安装路径</span>
-<span class="token assign-left variable">JAVA_HOME</span><span class="token operator">=</span>/usr/local/jdk/jdk16
-<span class="token assign-left variable">CLASSPATH</span><span class="token operator">=</span><span class="token variable">$JAVA_HOME</span>/lib
-<span class="token builtin class-name">export</span> CLASSPATH
-<span class="token builtin class-name">export</span> <span class="token assign-left variable"><span class="token environment constant">PATH</span></span><span class="token operator">=</span><span class="token environment constant">$PATH</span><span class="token builtin class-name">:</span><span class="token operator">&amp;</span>JAVA_HOME/bin
-
-<span class="token comment"># 退出vi并保存，这里需要强制保存</span>
-esc
-:wq<span class="token operator">!</span>
-
-<span class="token comment"># 刷新使环境变量生效</span>
-<span class="token builtin class-name">source</span> /etc/profile
-
-<span class="token comment"># 验证，查看版本号</span>
-java -version<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<hr>
-<h1 id="安装maven"><a href="#安装maven" class="headerlink" title="安装maven"></a>安装maven</h1><h2 id="下载maven"><a href="#下载maven" class="headerlink" title="下载maven"></a>下载maven</h2><p>&emsp;&emsp;将maven下载进指定目录，这里依照个人习惯，我放在<code>/usr/local/src/maven</code>。<a href="https://mirrors.bfsu.edu.cn/apache/maven/maven-3/3.8.1/binaries/apache-maven-3.8.1-bin.tar.gz">maven3.8.1</a></p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> /usr/local/src/maven
-
-<span class="token function">wget</span> https://mirrors.bfsu.edu.cn/apache/maven/maven-3/3.8.1/binaries/apache-maven-3.8.1-bin.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="解压缩文件"><a href="#解压缩文件" class="headerlink" title="解压缩文件"></a>解压缩文件</h2><p>&emsp;&emsp;对下载的maven文件解压缩。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">tar</span> xvf apache-maven-3.8.1-bin.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="重命名文件夹"><a href="#重命名文件夹" class="headerlink" title="重命名文件夹"></a>重命名文件夹</h2><p>&emsp;&emsp;这一步可选操作，目的是为了文件目录整洁。也可以不做。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">mv</span> apache-maven-3.8.1-bin maven3<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="配置环境变量-1"><a href="#配置环境变量-1" class="headerlink" title="配置环境变量"></a>配置环境变量</h2><p>&emsp;&emsp;maven也需要配置PATH环境变量。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">vi</span> /etc/profile
-
-<span class="token comment"># 在编辑器末尾添加对应的环境变量</span>
-<span class="token comment"># 这里的路径结合自己的实际安装路径</span>
-<span class="token assign-left variable">MAVEN_HOME</span><span class="token operator">=</span>/usr/local/maven/maven3
-<span class="token builtin class-name">export</span> <span class="token assign-left variable"><span class="token environment constant">PATH</span></span><span class="token operator">=</span><span class="token environment constant">$PATH</span><span class="token builtin class-name">:</span><span class="token operator">&amp;</span>MAVEN_HOME/bin
-
-<span class="token comment"># 退出vi并保存，这里需要强制保存</span>
-esc
-:wq<span class="token operator">!</span>
-
-<span class="token comment"># 刷新使环境变量生效</span>
-<span class="token builtin class-name">source</span> /etc/profile
-
-<span class="token comment"># 验证，查看版本号</span>
-mvn -v<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<hr>
-<h1 id="安装tomcat"><a href="#安装tomcat" class="headerlink" title="安装tomcat"></a>安装tomcat</h1><h2 id="下载tomcat"><a href="#下载tomcat" class="headerlink" title="下载tomcat"></a>下载tomcat</h2><p>&emsp;&emsp;将tomcat下载进指定的位置，我放在<code>/usr/local/src/tomcat</code>。<a href="https://mirrors.tuna.tsinghua.edu.cn/apache/tomcat/tomcat-10/v10.0.5/bin/apache-tomcat-10.0.5.tar.gz">tomcat10</a></p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> /usr/local/src/tomcat
-
-<span class="token function">wget</span> https://mirrors.tuna.tsinghua.edu.cn/apache/tomcat/tomcat-10/v10.0.5/bin/apache-tomcat-10.0.5.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="解压压缩包"><a href="#解压压缩包" class="headerlink" title="解压压缩包"></a>解压压缩包</h2><p>&emsp;&emsp;解压下载的压缩文件。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">tar</span> xvf apache-tomcat-10.0.5.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="重命名文件夹-1"><a href="#重命名文件夹-1" class="headerlink" title="重命名文件夹"></a>重命名文件夹</h2><p>&emsp;&emsp;这一步可选操作，目的是为了文件目录整洁。也可以不做。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">mv</span> apache-tomcat-10.0.5 tomcat10<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><p>&emsp;&emsp;进入tomcat的安装目录就可以启动tomcat了。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 进入tomcat的安装位置</span>
-<span class="token builtin class-name">cd</span> /usr/local/src/tomcat/tomcat10/bin
-
-<span class="token comment"># 启动tomcat</span>
-startup.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>&emsp;&emsp;启动完成后可以在localhost:8080查看是否启动成功。</p>
-]]></content>
-      <categories>
-        <category>linux</category>
-        <category>deepin</category>
-      </categories>
-      <tags>
-        <tag>tool</tag>
-        <tag>linux</tag>
-        <tag>deepin</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>deepin安装docker</title>
-    <url>/hexoblog/md/linux/deepin%E5%AE%89%E8%A3%85docker/</url>
-    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;写个毛啊，官方的直接搞来，<a href="https://wiki.deepin.org/wiki/Docker">https://wiki.deepin.org/wiki/Docke</a>。</p>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1>]]></content>
-      <categories>
-        <category>linux</category>
-        <category>deepin</category>
-      </categories>
-      <tags>
-        <tag>tool</tag>
-        <tag>linux</tag>
-        <tag>deepin</tag>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>linux基本操作</title>
-    <url>/hexoblog/md/linux/linux%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
-    <content><![CDATA[<h1 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h1><h2 id="移动文件-重命名文件"><a href="#移动文件-重命名文件" class="headerlink" title="移动文件/重命名文件"></a>移动文件/重命名文件</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 移动文件</span>
-<span class="token function">mv</span> <span class="token punctuation">[</span>源文件目录<span class="token punctuation">]</span> <span class="token punctuation">[</span>目标文件目录<span class="token punctuation">]</span>
-
-<span class="token comment"># 重命名文件</span>
-<span class="token builtin class-name">cd</span> <span class="token punctuation">[</span>目标目录<span class="token punctuation">]</span>
-<span class="token function">mv</span> <span class="token punctuation">[</span>源文件名<span class="token punctuation">]</span> <span class="token punctuation">[</span>目标文件名<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="复制文件"><a href="#复制文件" class="headerlink" title="复制文件"></a>复制文件</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">cp</span> <span class="token punctuation">[</span>源文件目录/源文件名<span class="token punctuation">]</span> <span class="token punctuation">[</span>目标文件目录<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="删除文件"><a href="#删除文件" class="headerlink" title="删除文件"></a>删除文件</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> <span class="token punctuation">[</span>目标文件目录<span class="token punctuation">]</span>
-<span class="token function">rm</span> -rf <span class="token punctuation">[</span>目标文件名<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>]]></content>
-      <categories>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>tool</tag>
-        <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>wsl小问题排查</title>
-    <url>/hexoblog/md/linux/wsl%E5%B0%8F%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5/</url>
-    <content><![CDATA[<!-- toc -->
-
-<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><h2 id="网络问题"><a href="#网络问题" class="headerlink" title="网络问题"></a>网络问题</h2><h3 id="参考的对象类型不支持尝试的操作"><a href="#参考的对象类型不支持尝试的操作" class="headerlink" title="参考的对象类型不支持尝试的操作"></a>参考的对象类型不支持尝试的操作</h3><p>&emsp;&emsp;这种问题一般是因为有启动过代理软件，造成代理冲突。</p>
-<span id="more"></span>
-
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Ubuntu%2020.04%20LTS%202021_3_14%2016_01_57.png" alt="参考的对象不支持的操作"></p>
-<h4 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h4><p>&emsp;&emsp;临时解决方案，重新网络信息：（管理员运行命令行）</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 重置网络信息</span>
-netsh winsock reset<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-]]></content>
-      <categories>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-        <tag>wsl</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>mybatis连接双数据库</title>
     <url>/hexoblog/md/mybatis/mybatis%E8%BF%9E%E6%8E%A5%E5%8F%8C%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
     <content><![CDATA[<h1 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h1><p>&emsp;&emsp;项目中需要从两个不同的数据库查询数据，之前实现方法是：springboot配置连接一个数据源，另一个使用jdbc代码连接。<br>&emsp;&emsp;为了改进，现在使用SpringBoot配置连接两个数据源。</p>
@@ -2485,62 +2508,6 @@ netsh winsock reset<span aria-hidden="true" class="line-numbers-rows"><span></sp
       </tags>
   </entry>
   <entry>
-    <title>mysql中的MVCC</title>
-    <url>/hexoblog/md/mysql/mysql%E4%B8%AD%E7%9A%84MVCC/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;MVCC全称Multi-Version Concurrency Control，即多版本并发控制。MVCC是一种并发控制的方法，一般在数据库管理系统中，实现对数据库的并发访问，在编程语言中实现事务内存。</p>
-<span id="more"></span>
-
-<h2 id="当前读和快照读"><a href="#当前读和快照读" class="headerlink" title="当前读和快照读"></a>当前读和快照读</h2><ul>
-<li><strong>当前读：</strong> 它读取的是记录的最新版本，读取时还要保证其他并发事务不能修改当前记录，会对读取的记录进行加锁。像<code>select lock in share mode(共享锁); select for update, update, insert, delete(排他锁)</code>这些都是当前读。  </li>
-<li><strong>快照读：</strong> 像不加锁的select操作就是快照读，即不加锁的非阻塞读；快照读的前提是隔离级别不是串行化，串行化会使得快照读退化成当前读。（串行化下，一切都是串行，不存在并发的情况）<blockquote>
-<p>&emsp;&emsp;出现快照读是基于提高并发性能的考虑，快照读的实现是基于多版本并发控制，即MVCC。<br>&emsp;&emsp;可以认为MVCC是行锁的一个变种，但它在很多情况下，避免了加锁操作，降低了开销；既然是基于多版本，即快照读可能读到的并不一定是数据的最新版本，而有可能是之前的历史版本</p>
-</blockquote>
-</li>
-</ul>
-<p>&emsp;&emsp;MVCC就是为了实现读写冲突不加锁，这里的读是快照读，当前读是一种加锁操作，是一种悲观锁。</p>
-<h2 id="MVCC与读操作"><a href="#MVCC与读操作" class="headerlink" title="MVCC与读操作"></a>MVCC与读操作</h2><p>&emsp;&emsp;MVCC指的是<strong>维持一个数据的多个版本，使得读写操作没有冲突</strong>。<br>&emsp;&emsp;快照读就是MySQL为我们实现MVCC理想模型的一个具体功能；而当前读就是悲观锁的表现。<br>&emsp;&emsp;MVCC模型在MySQL中的具体实现则是由3个隐式字段，undo日志，Read View等去完成的。</p>
-<h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><h3 id="数据库的并发情况"><a href="#数据库的并发情况" class="headerlink" title="数据库的并发情况"></a>数据库的并发情况</h3><p>&emsp;&emsp;数据库的并发情况分为三种：</p>
-<ul>
-<li>读-读：不存在任何问题，不需要并发控制。</li>
-<li>读-写：有线程安全问题，可能会造成事务隔离性问题，脏读、幻读、不可重复读。</li>
-<li>写-写：有线程安全问题，可能丢失更新，第一类、第二类丢失更新。</li>
-</ul>
-<h3 id="MVCC作用"><a href="#MVCC作用" class="headerlink" title="MVCC作用"></a>MVCC作用</h3><p>&emsp;&emsp;MVCC使用来解决<strong>读写</strong>冲突的<strong>无锁并发机制</strong>，也就是为事务分配单向增长的时间戳，为每一次修改保存一个版本，版本与事务时间戳关联，读操作只读该事务开始前的数据库快照。</p>
-<ul>
-<li>在并发读写数据库时，可以做到在读操作时不用阻塞写操作，写操作不用阻塞读操作，提高了数据库并发读写的性能。</li>
-<li>同时还可以解决脏读、幻读、不可重复读的问题，但不能解决丢失更新。</li>
-</ul>
-<p>&emsp;&emsp;可以使用<code>MVCC+悲观锁/乐观锁</code>来解决并发冲突问题。</p>
-<hr>
-<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><p>&emsp;&emsp;MVCC的目的就是多版本并发控制，在数据中就是为了解决读写冲突。<br>&emsp;&emsp;的实现原理主要是依赖记录中的 3个隐式字段，undo日志，Read View来实现的。所以我们先来看看这个三个point的概念。</p>
-<h2 id="隐式字段"><a href="#隐式字段" class="headerlink" title="隐式字段"></a>隐式字段</h2><p>&emsp;&emsp;数据库表除了我们定义的字段外，还有三个隐式字段：</p>
-<ul>
-<li>DB_TRX_ID：6Byte，最近修改或插入的事务ID，记录创建这条记录/最后一次修改该记录的事务ID。</li>
-<li>DB_ROLL_PTR：7Byte，回滚指针，指向这条记录的上一个版本。</li>
-<li>DB_ROW_ID：6Byte，隐含的自增主键，我们在没有指定主键的时候Innodb会使用隐式主键产生聚簇索引。</li>
-</ul>
-<h2 id="undo日志"><a href="#undo日志" class="headerlink" title="undo日志"></a>undo日志</h2><p>&emsp;&emsp;undo log日志主要分为两种：</p>
-<ul>
-<li>insert undo log：代表事务在插入新纪录时产生的undo log，只在事务回滚时需要，并且在事务提交后可以被立即丢弃。</li>
-<li>uodate undo log：事务在修改或者删除时产生的undo log，不仅在事务回滚时需要，在快照读时也需要，所以不能随便删除，只有在快速读或事务回滚不涉及该日志时，对应的日志才会被purge线程统一清除。</li>
-</ul>
-<h2 id="Read-View"><a href="#Read-View" class="headerlink" title="Read View"></a>Read View</h2><p>&emsp;&emsp;Read View是在事务进行快照读的时候产生的，该事务会在快照读的那一刻会生成数据库事务的快照，记录并维护系统当前活跃事务的ID(当每个事务开启时，都会被分配一个ID, 这个ID是递增的，所以最新的事务，ID值越大)。<br>&emsp;&emsp;Read View主要是用来做可见性判断的，即当我们某个事务执行快照读的时候，对该记录创建一个Read View读视图，把它比作条件用来判断当前事务能够看到哪个版本的数据，既可能是当前最新的数据，也有可能是该行记录的undo log里面的某个版本的数据。<br>&emsp;&emsp;Read View遵循一个可见性算法，主要是将要被修改的数据的最新记录中的DB_TRX_ID（即当前事务ID）取出来，与系统当前其他活跃事务的ID去对比（由Read View维护），如果DB_TRX_ID跟Read View的属性做了某些比较，不符合可见性，那就通过DB_ROLL_PTR回滚指针去取出Undo Log中的DB_TRX_ID再比较，即遍历链表的DB_TRX_ID（从链首到链尾，即从最近的一次修改查起），直到找到满足特定条件的DB_TRX_ID, 那么这个DB_TRX_ID所在的旧记录就是当前事务能看见的最新老版本。<br>&emsp;&emsp;不同的隔离级别生成Read View的时间是不一样的，可重复读是第一次读的时候生成的，之后每一次都是第一次的Read View，而读已提交则是每次都会生成。（这里是指当前读的时候）</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>&emsp;&emsp;简单的说：是通过保存数据在某个时间点的快照来实现的。也就是说，不管需要执行多长时间，每个事务看到的数据是一致的。根据事务开始的时间不同，每个事物对同一张表，同一时刻看到的数据可能是不一样的。</p>
-<hr>
-<h1 id="参考文献-amp-鸣谢"><a href="#参考文献-amp-鸣谢" class="headerlink" title="参考文献 &amp; 鸣谢"></a>参考文献 &amp; 鸣谢</h1><ul>
-<li><a href="https://blog.csdn.net/SnailMann/article/details/94724197">【MySQL笔记】正确的理解MySQL的MVCC及实现原理</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>数据库</category>
-        <category>mysql</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
-        <tag>数据类型</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>mysql常用命令</title>
     <url>/hexoblog/md/mysql/mysql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><h2 id="修改mysql时区"><a href="#修改mysql时区" class="headerlink" title="修改mysql时区"></a>修改mysql时区</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 查看时区</span>
@@ -2616,6 +2583,62 @@ mysqlbinlog --start-positoin<span class="token operator">=</span><span class="to
       </tags>
   </entry>
   <entry>
+    <title>mysql中的MVCC</title>
+    <url>/hexoblog/md/mysql/mysql%E4%B8%AD%E7%9A%84MVCC/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;MVCC全称Multi-Version Concurrency Control，即多版本并发控制。MVCC是一种并发控制的方法，一般在数据库管理系统中，实现对数据库的并发访问，在编程语言中实现事务内存。</p>
+<span id="more"></span>
+
+<h2 id="当前读和快照读"><a href="#当前读和快照读" class="headerlink" title="当前读和快照读"></a>当前读和快照读</h2><ul>
+<li><strong>当前读：</strong> 它读取的是记录的最新版本，读取时还要保证其他并发事务不能修改当前记录，会对读取的记录进行加锁。像<code>select lock in share mode(共享锁); select for update, update, insert, delete(排他锁)</code>这些都是当前读。  </li>
+<li><strong>快照读：</strong> 像不加锁的select操作就是快照读，即不加锁的非阻塞读；快照读的前提是隔离级别不是串行化，串行化会使得快照读退化成当前读。（串行化下，一切都是串行，不存在并发的情况）<blockquote>
+<p>&emsp;&emsp;出现快照读是基于提高并发性能的考虑，快照读的实现是基于多版本并发控制，即MVCC。<br>&emsp;&emsp;可以认为MVCC是行锁的一个变种，但它在很多情况下，避免了加锁操作，降低了开销；既然是基于多版本，即快照读可能读到的并不一定是数据的最新版本，而有可能是之前的历史版本</p>
+</blockquote>
+</li>
+</ul>
+<p>&emsp;&emsp;MVCC就是为了实现读写冲突不加锁，这里的读是快照读，当前读是一种加锁操作，是一种悲观锁。</p>
+<h2 id="MVCC与读操作"><a href="#MVCC与读操作" class="headerlink" title="MVCC与读操作"></a>MVCC与读操作</h2><p>&emsp;&emsp;MVCC指的是<strong>维持一个数据的多个版本，使得读写操作没有冲突</strong>。<br>&emsp;&emsp;快照读就是MySQL为我们实现MVCC理想模型的一个具体功能；而当前读就是悲观锁的表现。<br>&emsp;&emsp;MVCC模型在MySQL中的具体实现则是由3个隐式字段，undo日志，Read View等去完成的。</p>
+<h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><h3 id="数据库的并发情况"><a href="#数据库的并发情况" class="headerlink" title="数据库的并发情况"></a>数据库的并发情况</h3><p>&emsp;&emsp;数据库的并发情况分为三种：</p>
+<ul>
+<li>读-读：不存在任何问题，不需要并发控制。</li>
+<li>读-写：有线程安全问题，可能会造成事务隔离性问题，脏读、幻读、不可重复读。</li>
+<li>写-写：有线程安全问题，可能丢失更新，第一类、第二类丢失更新。</li>
+</ul>
+<h3 id="MVCC作用"><a href="#MVCC作用" class="headerlink" title="MVCC作用"></a>MVCC作用</h3><p>&emsp;&emsp;MVCC使用来解决<strong>读写</strong>冲突的<strong>无锁并发机制</strong>，也就是为事务分配单向增长的时间戳，为每一次修改保存一个版本，版本与事务时间戳关联，读操作只读该事务开始前的数据库快照。</p>
+<ul>
+<li>在并发读写数据库时，可以做到在读操作时不用阻塞写操作，写操作不用阻塞读操作，提高了数据库并发读写的性能。</li>
+<li>同时还可以解决脏读、幻读、不可重复读的问题，但不能解决丢失更新。</li>
+</ul>
+<p>&emsp;&emsp;可以使用<code>MVCC+悲观锁/乐观锁</code>来解决并发冲突问题。</p>
+<hr>
+<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><p>&emsp;&emsp;MVCC的目的就是多版本并发控制，在数据中就是为了解决读写冲突。<br>&emsp;&emsp;的实现原理主要是依赖记录中的 3个隐式字段，undo日志，Read View来实现的。所以我们先来看看这个三个point的概念。</p>
+<h2 id="隐式字段"><a href="#隐式字段" class="headerlink" title="隐式字段"></a>隐式字段</h2><p>&emsp;&emsp;数据库表除了我们定义的字段外，还有三个隐式字段：</p>
+<ul>
+<li>DB_TRX_ID：6Byte，最近修改或插入的事务ID，记录创建这条记录/最后一次修改该记录的事务ID。</li>
+<li>DB_ROLL_PTR：7Byte，回滚指针，指向这条记录的上一个版本。</li>
+<li>DB_ROW_ID：6Byte，隐含的自增主键，我们在没有指定主键的时候Innodb会使用隐式主键产生聚簇索引。</li>
+</ul>
+<h2 id="undo日志"><a href="#undo日志" class="headerlink" title="undo日志"></a>undo日志</h2><p>&emsp;&emsp;undo log日志主要分为两种：</p>
+<ul>
+<li>insert undo log：代表事务在插入新纪录时产生的undo log，只在事务回滚时需要，并且在事务提交后可以被立即丢弃。</li>
+<li>uodate undo log：事务在修改或者删除时产生的undo log，不仅在事务回滚时需要，在快照读时也需要，所以不能随便删除，只有在快速读或事务回滚不涉及该日志时，对应的日志才会被purge线程统一清除。</li>
+</ul>
+<h2 id="Read-View"><a href="#Read-View" class="headerlink" title="Read View"></a>Read View</h2><p>&emsp;&emsp;Read View是在事务进行快照读的时候产生的，该事务会在快照读的那一刻会生成数据库事务的快照，记录并维护系统当前活跃事务的ID(当每个事务开启时，都会被分配一个ID, 这个ID是递增的，所以最新的事务，ID值越大)。<br>&emsp;&emsp;Read View主要是用来做可见性判断的，即当我们某个事务执行快照读的时候，对该记录创建一个Read View读视图，把它比作条件用来判断当前事务能够看到哪个版本的数据，既可能是当前最新的数据，也有可能是该行记录的undo log里面的某个版本的数据。<br>&emsp;&emsp;Read View遵循一个可见性算法，主要是将要被修改的数据的最新记录中的DB_TRX_ID（即当前事务ID）取出来，与系统当前其他活跃事务的ID去对比（由Read View维护），如果DB_TRX_ID跟Read View的属性做了某些比较，不符合可见性，那就通过DB_ROLL_PTR回滚指针去取出Undo Log中的DB_TRX_ID再比较，即遍历链表的DB_TRX_ID（从链首到链尾，即从最近的一次修改查起），直到找到满足特定条件的DB_TRX_ID, 那么这个DB_TRX_ID所在的旧记录就是当前事务能看见的最新老版本。<br>&emsp;&emsp;不同的隔离级别生成Read View的时间是不一样的，可重复读是第一次读的时候生成的，之后每一次都是第一次的Read View，而读已提交则是每次都会生成。（这里是指当前读的时候）</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>&emsp;&emsp;简单的说：是通过保存数据在某个时间点的快照来实现的。也就是说，不管需要执行多长时间，每个事务看到的数据是一致的。根据事务开始的时间不同，每个事物对同一张表，同一时刻看到的数据可能是不一样的。</p>
+<hr>
+<h1 id="参考文献-amp-鸣谢"><a href="#参考文献-amp-鸣谢" class="headerlink" title="参考文献 &amp; 鸣谢"></a>参考文献 &amp; 鸣谢</h1><ul>
+<li><a href="https://blog.csdn.net/SnailMann/article/details/94724197">【MySQL笔记】正确的理解MySQL的MVCC及实现原理</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>数据库</category>
+        <category>mysql</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+        <tag>数据类型</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>mysql浮点数精度</title>
     <url>/hexoblog/md/mysql/mysql%E6%B5%AE%E7%82%B9%E6%95%B0%E7%B2%BE%E5%BA%A6/</url>
     <content><![CDATA[<h1 id="小数类型"><a href="#小数类型" class="headerlink" title="小数类型"></a>小数类型</h1><h2 id="浮点数"><a href="#浮点数" class="headerlink" title="浮点数"></a>浮点数</h2><p>&emsp;&emsp;浮点型又称之为精度类型：是一种有可能丢失精度的数据类型，数据有可能不那么准确（由其是在超出范围的时候）。<br>&emsp;&emsp;浮点型之所以能够存储较大的数值（不精确），原因就是利用存储数据的位来存储指数。</p>
@@ -2632,6 +2655,11 @@ mysqlbinlog --start-positoin<span class="token operator">=</span><span class="to
         <tag>mysql</tag>
         <tag>数据类型</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>redis中的数据结构</title>
+    <url>/hexoblog/md/redis/redis%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>redis为什么这么快</title>
@@ -3055,60 +3083,6 @@ redis-server.exe --service-stop<span aria-hidden="true" class="line-numbers-rows
       </tags>
   </entry>
   <entry>
-    <title>spring事务失效</title>
-    <url>/hexoblog/md/spring/spring%E4%BA%8B%E5%8A%A1%E5%A4%B1%E6%95%88/</url>
-    <content><![CDATA[<h1 id="事务失效的几种类型"><a href="#事务失效的几种类型" class="headerlink" title="事务失效的几种类型"></a>事务失效的几种类型</h1><ol>
-<li>数据库引擎不支持事务。</li>
-<li>没有被Spring管理。</li>
-<li>方法不是public的。</li>
-<li>自身调用问题。</li>
-<li>数据源没有配置事务管理器。</li>
-<li>不支持事务。</li>
-<li>异常被吃了。</li>
-<li>异常类型错误。</li>
-</ol>
-<span id="more"></span>
-
-<hr>
-<h1 id="事务失效类型："><a href="#事务失效类型：" class="headerlink" title="事务失效类型："></a>事务失效类型：</h1><h2 id="数据库引擎不支持事务"><a href="#数据库引擎不支持事务" class="headerlink" title="数据库引擎不支持事务"></a>数据库引擎不支持事务</h2><p>&emsp;&emsp;这里以 MySQL 为例，其 MyISAM 引擎是不支持事务操作的，InnoDB 才是支持事务的引擎，一般要支持事务都会使用 InnoDB。<br>&emsp;&emsp;根据 MySQL 的官方文档：<a href="https://dev.mysql.com/doc/refman/8.0/en/storage-engine-setting.html">https://dev.mysql.com/doc/refman/8.0/en/storage-engine-setting.html</a></p>
-<h2 id="没有被Spring管理"><a href="#没有被Spring管理" class="headerlink" title="没有被Spring管理"></a>没有被Spring管理</h2><p>&emsp;&emsp;Spring中的事务基于AOP实现，则事务类必须被Spring管理，进行代理，才能支持事务。</p>
-<h3 id="方法不是public的"><a href="#方法不是public的" class="headerlink" title="方法不是public的"></a>方法不是public的</h3><p>&emsp;&emsp;@Transaction只对方法名为public的才会生效，其他的不生效。private，static，final方法不能添加事务，添加了也不会生效。</p>
-<h3 id="自身调用问题"><a href="#自身调用问题" class="headerlink" title="自身调用问题"></a>自身调用问题</h3><ol>
-<li> service类中调用本类自己的方法，由于没有经过spring代理，事务不会生效。</li>
-<li>一个无事务的方法调用另一个有事务的方法，事务是不会起作用的。这种情况，可以内部维护一个自己注入的bean，使用这个属性来调用。或者利用AOP上下文来获取代理对象，利用代理对象调用。</li>
-<li>有事务的调用有事务的被调用的不能新开启事务。被调用的开启的新事务不会生效。</li>
-<li>有事务的调用无事务的会生效。</li>
-<li>无事务的调用无事务的，这种情况就会没有事务。  </li>
-</ol>
-<p>&emsp;&emsp;事务是否生效主要看是否通过代理，没有通过代理就不会生效。</p>
-<h2 id="数据源没有配置事务管理器"><a href="#数据源没有配置事务管理器" class="headerlink" title="数据源没有配置事务管理器"></a>数据源没有配置事务管理器</h2><p>&emsp;&emsp;数据源必须开启事务管理器：</p>
-<ol>
-<li>@EnableTransactionManagement  // 启注解事务管理，等同于xml配置方式的 &lt;tx:annotation-driven /&gt;</li>
-<li>@EnableTransactionManagement 在springboot1.4以后可以不写。框架在初始化的时候已经默认给我们注入了两个事务管理器的Bean（JDBC的DataSourceTransactionManager和JPA的JpaTransactionManager ），其实这就包含了我们最常用的Mybatis和Hibeanate了。当然如果不是AutoConfig的而是自己自定义的，请使用该注解开启事务</li>
-</ol>
-<h2 id="不支持事务"><a href="#不支持事务" class="headerlink" title="不支持事务"></a>不支持事务</h2><p>&emsp;&emsp;Propagation设置错误，Propagation用于配置事务的传播行为。Propagation.NOT_SUPPORTED： 表示不以事务运行，当前若存在事务则挂起。</p>
-<h2 id="异常被吃了"><a href="#异常被吃了" class="headerlink" title="异常被吃了"></a>异常被吃了</h2><p>&emsp;&emsp;异常被捕获了，然后不进行抛出，那么无法认为有异常，事务就不会回滚。在service中不应该进行事务的捕获，而进行抛出，在controller中进行异常捕获，这样既支持事务也捕获了异常。</p>
-<h2 id="异常类型错误"><a href="#异常类型错误" class="headerlink" title="异常类型错误"></a>异常类型错误</h2><p>&emsp;&emsp;Spring的事务管理默认是针对Error异常和RuntimeException异常以及其子类进行事务回滚。对runtimeException并不需要抛出，error需要抛出异常，并进行捕获。如果想对其他异常进行支持，则需要配置：@Transactional(rollbackFor = Exception.class)</p>
-<h2 id="业务和事务必须要在同一个线程中"><a href="#业务和事务必须要在同一个线程中" class="headerlink" title="业务和事务必须要在同一个线程中"></a>业务和事务必须要在同一个线程中</h2><p>&emsp;&emsp;不在同一个线程，则事务影响不到。</p>
-<hr>
-<h1 id="事务的隔离级别"><a href="#事务的隔离级别" class="headerlink" title="事务的隔离级别"></a>事务的隔离级别</h1><h2 id="事务会引起的问题："><a href="#事务会引起的问题：" class="headerlink" title="事务会引起的问题："></a>事务会引起的问题：</h2><h3 id="脏读："><a href="#脏读：" class="headerlink" title="脏读："></a>脏读：</h3><p>&emsp;&emsp;当A事务对数据进行修改，但是这种修改还没有提交到数据库中，B事务同时在访问这个数据，由于没有隔离，B获取的数据有可能被A事务回滚，这就导致了数据不一致的问题。</p>
-<h3 id="丢失修改："><a href="#丢失修改：" class="headerlink" title="丢失修改："></a>丢失修改：</h3><p>&emsp;&emsp;当A事务访问数据100，并且修改为100-1=99，同时B事务读取数据也是100，修改数据100-1=99，最终两个事务的修改结果为99，但是实际是98。事务A修改的数据被丢失了。</p>
-<h3 id="不可重复读："><a href="#不可重复读：" class="headerlink" title="不可重复读："></a>不可重复读：</h3><p>&emsp;&emsp;指A事务在读取数据X=100的时候，B事务把数据X=100修改为X=200,这个时候A事务第二次读取数据X的时候，发现X=200了，导致了在整个A事务期间，两次读取数据X不一致了，这就是不可重复读。</p>
-<h3 id="幻读："><a href="#幻读：" class="headerlink" title="幻读："></a>幻读：</h3><p>&emsp;&emsp;幻读和不可重复读类似。幻读表现在，当A事务读取表数据时候，只有3条数据，这个时候B事务插入了2条数据，当A事务再次读取的时候，发现有5条记录了，平白无故多了2条记录，就像幻觉一样。</p>
-<p>&emsp;&emsp;不可重复读的重点是修改: 同样的条件 , 你读取过的数据 , 再次读取出来发现值不一样了，重点在更新操作。<br>&emsp;&emsp;幻读的重点在于新增或者删除：同样的条件 , 第 1 次和第 2 次读出来的记录数不一样，重点在增删操作。</p>
-<h2 id="Spring定义的隔离级别："><a href="#Spring定义的隔离级别：" class="headerlink" title="Spring定义的隔离级别："></a>Spring定义的隔离级别：</h2><p><strong>TransactionDefinition.ISOLATION_DEFAULT：</strong> 数据库的默认隔离级别，MySQL默认采用的 REPEATABLE_READ隔离级别。<br><strong>TransactionDefinition.ISOLATION_READ_UNCOMMITTED：</strong> 最低的隔离级别，最低的隔离级别，允许读取未提交的数据变更，可能会导致脏读、幻读或不可重复读。<br><strong>TransactionDefinition.ISOLATION_READ_COMMITTED：</strong> 允许读取并发事务已经提交的数据，未提交的不可读取，可以阻止脏读，但是幻读或不可重复读仍有可能发生。<br><strong>TransactionDefinition.ISOLATION_REPEATABLE_READ：</strong> 对同一字段的多次重复读取结果都是一致的，除非数据是被本身事务自己所修改，可以阻止脏读和不可重复读，但幻读仍有可能发生。MySQL中通过MVCC解决了该隔离级别下出现幻读的可能。<br><strong>TransactionDefinition.ISOLATION_SERIALIZABLE：</strong> 串行化隔离级别，该级别可以防止脏读、不可重复读以及幻读，但是串行化会影响性能。</p>
-<h3 id="Propagation，传播行为："><a href="#Propagation，传播行为：" class="headerlink" title="Propagation，传播行为："></a>Propagation，传播行为：</h3><p>指多个方法调用时，事务对多个方法之间传播的影响。</p>
-<p><strong>PROPAGATION_REQUIRED：</strong> 如果当前没有事务，就新建一个事务，如果已经存在一个事务中，加入到这个事务中。这是最常见的选择。<br><strong>PROPAGATION_SUPPORTS：</strong> 支持当前事务，如果当前没有事务，就以非事务方式执行。<br><strong>PROPAGATION_MANDATORY：</strong> 使用当前的事务，如果当前没有事务，就抛出异常。<br><strong>PROPAGATION_REQUIRES_NEW：</strong> 新建事务，如果当前存在事务，把当前事务挂起。<br><strong>PROPAGATION_NOT_SUPPORTED：</strong> 以非事务方式执行操作，如果当前存在事务，就把当前事务挂起。<br><strong>PROPAGATION_NEVER：</strong> 以非事务方式执行，如果当前存在事务，则抛出异常。<br><strong>PROPAGATION_NESTED：</strong> 如果当前存在事务，则在嵌套事务内执行。如果当前没有事务，则执行与PROPAGATION_REQUIRED类似的操作。</p>
-]]></content>
-      <categories>
-        <category>spring</category>
-      </categories>
-      <tags>
-        <tag>spring</tag>
-        <tag>acid</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>git</title>
     <url>/hexoblog/md/tool/git/</url>
     <content><![CDATA[<h1 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h1><h2 id="将本地文件推送至远程"><a href="#将本地文件推送至远程" class="headerlink" title="将本地文件推送至远程"></a>将本地文件推送至远程</h2><ol>
@@ -3295,6 +3269,95 @@ hexo d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></sp
         <tag>tool</tag>
         <tag>swagger</tag>
         <tag>springboot</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Spring中Bean的实例化过程</title>
+    <url>/hexoblog/md/spring/Spring%E4%B8%ADBean%E7%9A%84%E5%AE%9E%E4%BE%8B%E5%8C%96%E8%BF%87%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;简要说明Spring什么时候实例化bean。</p>
+<span id="more"></span>
+
+<hr>
+<h1 id="实例化时间"><a href="#实例化时间" class="headerlink" title="实例化时间"></a>实例化时间</h1><p>&emsp;&emsp;如果你使用BeanFactory作为Spring Bean的工厂类，则所有的bean都是在第一次使用该bean的时候实例化。<br>&emsp;&emsp;如果使用ApplicationContext作为工厂类，则可以分为：</p>
+<ol>
+<li>如果bean的scope是singleton的，并且lazy-init为false（默认是false，所以可以不用设置），则 ApplicationContext启动的时候就实例化该Bean，并且将实例化的Bean放在一个map结构的缓存中，下次再使用该Bean的时候， 直接从这个缓存中取。</li>
+<li>如果bean的scope是singleton的，并且lazy-init为true，则该Bean的实例化是在第一次使用该Bean的时候进行实例化。</li>
+<li>如果bean的scope是prototype的，则该Bean的实例化是在第一次使用该Bean的时候进行实例化。</li>
+</ol>
+<hr>
+<h1 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/springbean%E5%AE%9E%E4%BE%8B%E5%8C%96%E8%BF%87%E7%A8%8B.jpg" alt="bean的实例化过程"></p>
+<hr>
+<h1 id="参考文献-amp-鸣谢"><a href="#参考文献-amp-鸣谢" class="headerlink" title="参考文献 &amp; 鸣谢"></a>参考文献 &amp; 鸣谢</h1><ul>
+<li><a href="https://blog.csdn.net/mawming/article/details/52287786">spring装配Bean过程以及Bean实例化过程</a></li>
+<li><a href="https://www.cnblogs.com/kevin-yuan/p/12157017.html">Spring Bean 的实例化过程</a></li>
+<li><a href="https://blog.csdn.net/shuangyue/article/details/8585736">Spring Bean实例化过程（2）</a></li>
+<li><a href="https://www.jianshu.com/p/1d0fb520e5c0">spring之Bean实例化过程</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>spring</category>
+      </categories>
+      <tags>
+        <tag>spring</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>spring中bean的生命周期</title>
+    <url>/hexoblog/md/spring/spring%E4%B8%ADbean%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>spring事务失效</title>
+    <url>/hexoblog/md/spring/spring%E4%BA%8B%E5%8A%A1%E5%A4%B1%E6%95%88/</url>
+    <content><![CDATA[<h1 id="事务失效的几种类型"><a href="#事务失效的几种类型" class="headerlink" title="事务失效的几种类型"></a>事务失效的几种类型</h1><ol>
+<li>数据库引擎不支持事务。</li>
+<li>没有被Spring管理。</li>
+<li>方法不是public的。</li>
+<li>自身调用问题。</li>
+<li>数据源没有配置事务管理器。</li>
+<li>不支持事务。</li>
+<li>异常被吃了。</li>
+<li>异常类型错误。</li>
+</ol>
+<span id="more"></span>
+
+<hr>
+<h1 id="事务失效类型："><a href="#事务失效类型：" class="headerlink" title="事务失效类型："></a>事务失效类型：</h1><h2 id="数据库引擎不支持事务"><a href="#数据库引擎不支持事务" class="headerlink" title="数据库引擎不支持事务"></a>数据库引擎不支持事务</h2><p>&emsp;&emsp;这里以 MySQL 为例，其 MyISAM 引擎是不支持事务操作的，InnoDB 才是支持事务的引擎，一般要支持事务都会使用 InnoDB。<br>&emsp;&emsp;根据 MySQL 的官方文档：<a href="https://dev.mysql.com/doc/refman/8.0/en/storage-engine-setting.html">https://dev.mysql.com/doc/refman/8.0/en/storage-engine-setting.html</a></p>
+<h2 id="没有被Spring管理"><a href="#没有被Spring管理" class="headerlink" title="没有被Spring管理"></a>没有被Spring管理</h2><p>&emsp;&emsp;Spring中的事务基于AOP实现，则事务类必须被Spring管理，进行代理，才能支持事务。</p>
+<h3 id="方法不是public的"><a href="#方法不是public的" class="headerlink" title="方法不是public的"></a>方法不是public的</h3><p>&emsp;&emsp;@Transaction只对方法名为public的才会生效，其他的不生效。private，static，final方法不能添加事务，添加了也不会生效。</p>
+<h3 id="自身调用问题"><a href="#自身调用问题" class="headerlink" title="自身调用问题"></a>自身调用问题</h3><ol>
+<li> service类中调用本类自己的方法，由于没有经过spring代理，事务不会生效。</li>
+<li>一个无事务的方法调用另一个有事务的方法，事务是不会起作用的。这种情况，可以内部维护一个自己注入的bean，使用这个属性来调用。或者利用AOP上下文来获取代理对象，利用代理对象调用。</li>
+<li>有事务的调用有事务的被调用的不能新开启事务。被调用的开启的新事务不会生效。</li>
+<li>有事务的调用无事务的会生效。</li>
+<li>无事务的调用无事务的，这种情况就会没有事务。  </li>
+</ol>
+<p>&emsp;&emsp;事务是否生效主要看是否通过代理，没有通过代理就不会生效。</p>
+<h2 id="数据源没有配置事务管理器"><a href="#数据源没有配置事务管理器" class="headerlink" title="数据源没有配置事务管理器"></a>数据源没有配置事务管理器</h2><p>&emsp;&emsp;数据源必须开启事务管理器：</p>
+<ol>
+<li>@EnableTransactionManagement  // 启注解事务管理，等同于xml配置方式的 &lt;tx:annotation-driven /&gt;</li>
+<li>@EnableTransactionManagement 在springboot1.4以后可以不写。框架在初始化的时候已经默认给我们注入了两个事务管理器的Bean（JDBC的DataSourceTransactionManager和JPA的JpaTransactionManager ），其实这就包含了我们最常用的Mybatis和Hibeanate了。当然如果不是AutoConfig的而是自己自定义的，请使用该注解开启事务</li>
+</ol>
+<h2 id="不支持事务"><a href="#不支持事务" class="headerlink" title="不支持事务"></a>不支持事务</h2><p>&emsp;&emsp;Propagation设置错误，Propagation用于配置事务的传播行为。Propagation.NOT_SUPPORTED： 表示不以事务运行，当前若存在事务则挂起。</p>
+<h2 id="异常被吃了"><a href="#异常被吃了" class="headerlink" title="异常被吃了"></a>异常被吃了</h2><p>&emsp;&emsp;异常被捕获了，然后不进行抛出，那么无法认为有异常，事务就不会回滚。在service中不应该进行事务的捕获，而进行抛出，在controller中进行异常捕获，这样既支持事务也捕获了异常。</p>
+<h2 id="异常类型错误"><a href="#异常类型错误" class="headerlink" title="异常类型错误"></a>异常类型错误</h2><p>&emsp;&emsp;Spring的事务管理默认是针对Error异常和RuntimeException异常以及其子类进行事务回滚。对runtimeException并不需要抛出，error需要抛出异常，并进行捕获。如果想对其他异常进行支持，则需要配置：@Transactional(rollbackFor = Exception.class)</p>
+<h2 id="业务和事务必须要在同一个线程中"><a href="#业务和事务必须要在同一个线程中" class="headerlink" title="业务和事务必须要在同一个线程中"></a>业务和事务必须要在同一个线程中</h2><p>&emsp;&emsp;不在同一个线程，则事务影响不到。</p>
+<hr>
+<h1 id="事务的隔离级别"><a href="#事务的隔离级别" class="headerlink" title="事务的隔离级别"></a>事务的隔离级别</h1><h2 id="事务会引起的问题："><a href="#事务会引起的问题：" class="headerlink" title="事务会引起的问题："></a>事务会引起的问题：</h2><h3 id="脏读："><a href="#脏读：" class="headerlink" title="脏读："></a>脏读：</h3><p>&emsp;&emsp;当A事务对数据进行修改，但是这种修改还没有提交到数据库中，B事务同时在访问这个数据，由于没有隔离，B获取的数据有可能被A事务回滚，这就导致了数据不一致的问题。</p>
+<h3 id="丢失修改："><a href="#丢失修改：" class="headerlink" title="丢失修改："></a>丢失修改：</h3><p>&emsp;&emsp;当A事务访问数据100，并且修改为100-1=99，同时B事务读取数据也是100，修改数据100-1=99，最终两个事务的修改结果为99，但是实际是98。事务A修改的数据被丢失了。</p>
+<h3 id="不可重复读："><a href="#不可重复读：" class="headerlink" title="不可重复读："></a>不可重复读：</h3><p>&emsp;&emsp;指A事务在读取数据X=100的时候，B事务把数据X=100修改为X=200,这个时候A事务第二次读取数据X的时候，发现X=200了，导致了在整个A事务期间，两次读取数据X不一致了，这就是不可重复读。</p>
+<h3 id="幻读："><a href="#幻读：" class="headerlink" title="幻读："></a>幻读：</h3><p>&emsp;&emsp;幻读和不可重复读类似。幻读表现在，当A事务读取表数据时候，只有3条数据，这个时候B事务插入了2条数据，当A事务再次读取的时候，发现有5条记录了，平白无故多了2条记录，就像幻觉一样。</p>
+<p>&emsp;&emsp;不可重复读的重点是修改: 同样的条件 , 你读取过的数据 , 再次读取出来发现值不一样了，重点在更新操作。<br>&emsp;&emsp;幻读的重点在于新增或者删除：同样的条件 , 第 1 次和第 2 次读出来的记录数不一样，重点在增删操作。</p>
+<h2 id="Spring定义的隔离级别："><a href="#Spring定义的隔离级别：" class="headerlink" title="Spring定义的隔离级别："></a>Spring定义的隔离级别：</h2><p><strong>TransactionDefinition.ISOLATION_DEFAULT：</strong> 数据库的默认隔离级别，MySQL默认采用的 REPEATABLE_READ隔离级别。<br><strong>TransactionDefinition.ISOLATION_READ_UNCOMMITTED：</strong> 最低的隔离级别，最低的隔离级别，允许读取未提交的数据变更，可能会导致脏读、幻读或不可重复读。<br><strong>TransactionDefinition.ISOLATION_READ_COMMITTED：</strong> 允许读取并发事务已经提交的数据，未提交的不可读取，可以阻止脏读，但是幻读或不可重复读仍有可能发生。<br><strong>TransactionDefinition.ISOLATION_REPEATABLE_READ：</strong> 对同一字段的多次重复读取结果都是一致的，除非数据是被本身事务自己所修改，可以阻止脏读和不可重复读，但幻读仍有可能发生。MySQL中通过MVCC解决了该隔离级别下出现幻读的可能。<br><strong>TransactionDefinition.ISOLATION_SERIALIZABLE：</strong> 串行化隔离级别，该级别可以防止脏读、不可重复读以及幻读，但是串行化会影响性能。</p>
+<h3 id="Propagation，传播行为："><a href="#Propagation，传播行为：" class="headerlink" title="Propagation，传播行为："></a>Propagation，传播行为：</h3><p>指多个方法调用时，事务对多个方法之间传播的影响。</p>
+<p><strong>PROPAGATION_REQUIRED：</strong> 如果当前没有事务，就新建一个事务，如果已经存在一个事务中，加入到这个事务中。这是最常见的选择。<br><strong>PROPAGATION_SUPPORTS：</strong> 支持当前事务，如果当前没有事务，就以非事务方式执行。<br><strong>PROPAGATION_MANDATORY：</strong> 使用当前的事务，如果当前没有事务，就抛出异常。<br><strong>PROPAGATION_REQUIRES_NEW：</strong> 新建事务，如果当前存在事务，把当前事务挂起。<br><strong>PROPAGATION_NOT_SUPPORTED：</strong> 以非事务方式执行操作，如果当前存在事务，就把当前事务挂起。<br><strong>PROPAGATION_NEVER：</strong> 以非事务方式执行，如果当前存在事务，则抛出异常。<br><strong>PROPAGATION_NESTED：</strong> 如果当前存在事务，则在嵌套事务内执行。如果当前没有事务，则执行与PROPAGATION_REQUIRED类似的操作。</p>
+]]></content>
+      <categories>
+        <category>spring</category>
+      </categories>
+      <tags>
+        <tag>spring</tag>
+        <tag>acid</tag>
       </tags>
   </entry>
   <entry>
@@ -3662,27 +3725,6 @@ hexo d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></sp
       </tags>
   </entry>
   <entry>
-    <title>zookeeper集群及ZAB简介</title>
-    <url>/hexoblog/md/zookeeper/zookeeper%E9%9B%86%E7%BE%A4%E5%8F%8AZAB/</url>
-    <content><![CDATA[<h1 id="集群"><a href="#集群" class="headerlink" title="集群"></a>集群</h1><p>&emsp;&emsp;普通的集群模式一般是主备模式（Master/Slave模式），Master作为主服务器提供写服务，Slave作为从服务器，一般采用异步复制的方式获取Master的数据提供读服务。  </p>
-<span id="more"></span>
-
-<p>&emsp;&emsp;在Zookeeper中，没有使用传统模式，而是引入了Leader，Follower，Observer三种角色。<br>&emsp;&emsp;ZooKeeper集群中的所有机器通过一个Leader选举算法来选定一台称为 “Leader” 的机器，Leader既可以为客户端提供写服务又能提供读服务。除了Leader外，Follower和Observer都只能提供读服务。<br>&emsp;&emsp;Follower和Observer唯一的区别在于Observer机器不参与Leader的选举过程，也不参与写操作的“过半写成功”策略，因此Observer机器可以在不影响写性能的情况下提升集群的读性能。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/zookeeper.jpg" alt="zookeeper角色"></p>
-<hr>
-<h1 id="ZAB简介"><a href="#ZAB简介" class="headerlink" title="ZAB简介"></a>ZAB简介</h1><p>&emsp;&emsp;ZAB（ZooKeeper Atomic Broadcast 原子广播）协议是为分布式协调服务ZooKeeper专门设计的一种支持崩溃恢复的原子广播协议。在ZooKeeper中，主要依赖ZAB协议来实现分布式数据一致性，基于该协议，ZooKeeper实现了一种主备模式的系统架构来保持集群中各个副本之间的数据一致性。<br>&emsp;&emsp;ZAB协议包括两种基本模式：崩溃恢复和消息广播。</p>
-<h2 id="崩溃恢复"><a href="#崩溃恢复" class="headerlink" title="崩溃恢复"></a>崩溃恢复</h2><p>&emsp;&emsp;当整个服务框架在启动过程中，或是当Leader服务器出现网络中断、崩溃退出与重启等异常情况时，ZAB 协议就会进人恢复模式并选举产生新的Leader服务器。<br>&emsp;&emsp;当选举产生了新的Leader服务器，同时集群中已经有过半的机器与该Leader服务器完成了状态同步之后，ZAB协议就会退出恢复模式。其中，所谓的状态同步是指数据同步，用来保证集群中存在过半的机器能够和Leader服务器的数据状态保持一致。</p>
-<h2 id="消息广播"><a href="#消息广播" class="headerlink" title="消息广播"></a>消息广播</h2><p>&emsp;&emsp;当集群中已经有过半的Follower服务器完成了和Leader服务器的状态同步，那么整个服务框架就可以进人消息广播模式了。<br>&emsp;&emsp;当一台同样遵守ZAB协议的服务器启动后加人到集群中时，如果此时集群中已经存在一个Leader服务器在负责进行消息广播，那么新加人的服务器就会自觉地进人数据恢复模式：找到Leader所在的服务器，并与其进行数据同步，然后一起参与到消息广播流程中去。<br>&emsp;&emsp;正如上文介绍中所说的，ZooKeeper设计成只允许唯一的一个Leader服务器来进行事务请求的处理。Leader服务器在接收到客户端的事务请求后，会生成对应的事务提案并发起一轮广播协议；而如果集群中的其他机器接收到客户端的事务请求，那么这些非Leader服务器会首先将这个事务请求转发给Leader服务器。</p>
-]]></content>
-      <categories>
-        <category>zookeeper</category>
-      </categories>
-      <tags>
-        <tag>分布式</tag>
-        <tag>zookeeper</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>zookeeper简述</title>
     <url>/hexoblog/md/zookeeper/zookeeper%E7%AE%80%E8%BF%B0/</url>
     <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;从本质上来说，Zookeeper就是一种分布式协调服务，在分布式环境中协调和管理服务是一个复杂的过程。  </p>
@@ -3769,63 +3811,24 @@ hexo d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></sp
       </tags>
   </entry>
   <entry>
-    <title>一致性hash</title>
-    <url>/hexoblog/md/%E5%88%86%E5%B8%83%E5%BC%8F/%E4%B8%80%E8%87%B4%E6%80%A7hash/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;在分布式系统中，通常不同的机器存储着不同的数据，例如redis集群中存储的数据。<br>&emsp;&emsp;这些数据通常采用hash算法来计算出应该存储在那台机器上。但是，当集群中的节点增加或者减少时，通过原有的hash算法计算出来的位置将会完全错误。<br>&emsp;&emsp;一致性hash就是为了解决这种问题诞生的。</p>
+    <title>zookeeper集群及ZAB简介</title>
+    <url>/hexoblog/md/zookeeper/zookeeper%E9%9B%86%E7%BE%A4%E5%8F%8AZAB/</url>
+    <content><![CDATA[<h1 id="集群"><a href="#集群" class="headerlink" title="集群"></a>集群</h1><p>&emsp;&emsp;普通的集群模式一般是主备模式（Master/Slave模式），Master作为主服务器提供写服务，Slave作为从服务器，一般采用异步复制的方式获取Master的数据提供读服务。  </p>
 <span id="more"></span>
 
+<p>&emsp;&emsp;在Zookeeper中，没有使用传统模式，而是引入了Leader，Follower，Observer三种角色。<br>&emsp;&emsp;ZooKeeper集群中的所有机器通过一个Leader选举算法来选定一台称为 “Leader” 的机器，Leader既可以为客户端提供写服务又能提供读服务。除了Leader外，Follower和Observer都只能提供读服务。<br>&emsp;&emsp;Follower和Observer唯一的区别在于Observer机器不参与Leader的选举过程，也不参与写操作的“过半写成功”策略，因此Observer机器可以在不影响写性能的情况下提升集群的读性能。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/zookeeper.jpg" alt="zookeeper角色"></p>
 <hr>
-<h1 id="内容"><a href="#内容" class="headerlink" title="内容"></a>内容</h1><p>&emsp;&emsp;在redis集群中，我们通常采用一致性hash算法计算数据具体分布在那一台机器上。<br>&emsp;&emsp;普通的hash算法通常采用取模的方式计算出hash结果，而当机器的数量发生变化，也就是除数发生变化时，取到的模也会发生变化，这时根据模数来定位数据存储的位置就会发生错误。<br>&emsp;&emsp;一致性hash算法也是采用取模的原理，来计算数据存储的位置。但与普通hash算法不同的是，一直性hash算法计算出来的并不是直接的位置，而是需要根据hash环查询地址。<br>&emsp;与普通hash算法不同的是，普通hash算法是对机器的数量取模，而一致性hash是对2^32取模。</p>
-<h2 id="hash环"><a href="#hash环" class="headerlink" title="hash环"></a>hash环</h2><p>&emsp;&emsp;在一致性hash中，构造出一个hash环（周长数量为2^32）来标记数据位置。<br>&emsp;&emsp;由于一致性hash算法采用2^32取模，所有的取模结果都将落在构造出来的hash环上。<br>&emsp;&emsp;将所有机器分布在hash环上，机器左边的数据将存储在该机器中，而右边的数据将存储在下一台机器上。因为是环状结构，这样所有的数据都保证了有机器存储。而且，因为是环，所以当环上增加机器节点时，只有该机器节点左边的一小部分数据会发生重新分配机器。</p>
-<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2>]]></content>
-      <categories>
-        <category>分布式</category>
-      </categories>
-      <tags>
-        <tag>分布式</tag>
-        <tag>hash</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>分布式事务</title>
-    <url>/hexoblog/md/%E5%88%86%E5%B8%83%E5%BC%8F/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/</url>
-    <content><![CDATA[<h1 id="分布式事务类型："><a href="#分布式事务类型：" class="headerlink" title="分布式事务类型："></a>分布式事务类型：</h1><p>分布式事务处理机制共有四种：</p>
-<ol>
-<li>两阶段提交</li>
-<li>TCC事务（事务补偿）</li>
-<li>本地消息表（异步确保），</li>
-<li>MQ事务消息。</li>
-</ol>
-<span id="more"></span>
-
-<h2 id="两阶段提交："><a href="#两阶段提交：" class="headerlink" title="两阶段提交："></a>两阶段提交：</h2><p>&emsp;&emsp;与数据库XA事务一样，两阶段提交使用XA协议。<br>&emsp;&emsp;两阶段提交这种方案属于牺牲了一部分可用性来换取的一致性。</p>
-<h3 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;尽量保证了数据的强一致，适合对数据强一致要求很高的关键领域。</p>
-<h3 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;实现复杂，牺牲了可用性，对性能影响较大，不适合高并发高性能场景，如分布式系统跨接口调用。</p>
-<h2 id="TCC事务："><a href="#TCC事务：" class="headerlink" title="TCC事务："></a>TCC事务：</h2><p>&emsp;&emsp;TCC其实就是采用的补偿机制，其核心思想是：针对每个操作，都要注册一个与其对应的确认和补偿操作。分为三个阶段：</p>
-<ol>
-<li> Try阶段主要是对业务系统做检测和资源预留。</li>
-<li> Confirm阶段主要是对业务系统做确认提交，Try阶段执行成功并开始执行Confirm阶段时，默认Confirm阶段是不会出错的。即：只要Try成功，Confirm一定成功。</li>
-<li> Cancel阶段主要是在业务执行错误，需要回滚的状态下，执行的业务取消，预留资源释放。</li>
-</ol>
-<h3 id="优点：-1"><a href="#优点：-1" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;跟2阶段提交比起来，实现及流程相对简单了些，但数据的一致性也要比2阶段提交要差一些。</p>
-<h3 id="缺点：-1"><a href="#缺点：-1" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;在2，3步中都可能失败。TCC是一种应用层的补偿方式，需要程序员在实现时写很多补偿的代码，一些场景中，一些业务流程用TCC不太好定义及处理。</p>
-<h2 id="本地消息表："><a href="#本地消息表：" class="headerlink" title="本地消息表："></a>本地消息表：</h2><p>&emsp;&emsp;使用最多的，核心思想是将分布式事务拆分成本地事务进行处理，来源于ebay。</p>
-<p>基本思路就是：</p>
-<p>&emsp;&emsp;消息生产方，需要额外建一个消息表，并记录消息发送状态。消息表和业务数据要在一个事务里提交，也就是说他们要在一个数据库里面。然后会经由MQ发送到消息的消费方。如果消息发送失败，会进行重试发送。<br>&emsp;&emsp;消息消费方，需要处理这个消息，并完成这个的业务逻辑。如果此时本地事务处理成功，表明已经处理成功了，如果处理失败，那么就会重试执行。如果是业务上面的失败，可以给生产方发送一个业务补偿消息，通知生产方进行回滚等操作。<br>&emsp;&emsp;生产方和消费方定时扫描本地消息表，把还没处理完成的消息或者失败的消息在发送一遍。<br>&emsp;&emsp;这种方案遵循最终一致性。</p>
-<h3 id="优点：-2"><a href="#优点：-2" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;一种非常经典的实现， 避免的分布式事务，实现了最终一致性。</p>
-<h3 id="缺点：-2"><a href="#缺点：-2" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;消息表会耦合到业务系统中，如果没有封装好的解决方案，会有很多杂活需要处理。</p>
-<h2 id="MQ事务消息："><a href="#MQ事务消息：" class="headerlink" title="MQ事务消息："></a>MQ事务消息：</h2><p>&emsp;&emsp;有一些第三方的MQ是支持事务消息的，比如RocketMQ，他们支持事务消息的方式也是类似于采用的二阶段提交，但一些主流的MQ都是不支持事务消息的，如RabbitMQ和Kafka都不支持。</p>
-<p>以阿里的RocketMQ为例：</p>
-<p>&emsp;&emsp;第一阶段Prepared消息，会拿到消息的地址。<br>&emsp;&emsp;第二阶段执行本地事务，第三阶段通过第一阶段拿到的地址去访问消息，并修改状态。<br>&emsp;&emsp;也就是说在业务方法内部要想消息队列提交两次请求，一次发送消息和一次确认消息。如果确认消息发送失败了，RocketMQ会定期扫描消息集群中的事务消息，这是发现了Prepared消息，它会像消息发送者确认，所以生产方需要实现一个check接口，RocketMQ会根据发送端设置的策略来决定是回滚还是继续发送确认消息。这样就保证了消息发送与本地事务同时成功或同时失败。</p>
-<h3 id="优点：-3"><a href="#优点：-3" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;实现了最终一致性，不需要依赖本地数据库事务。</p>
-<h3 id="缺点：-3"><a href="#缺点：-3" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;实现难度大，主流MQ不支持，RocketMQ事务消息部分代码未开源。</p>
+<h1 id="ZAB简介"><a href="#ZAB简介" class="headerlink" title="ZAB简介"></a>ZAB简介</h1><p>&emsp;&emsp;ZAB（ZooKeeper Atomic Broadcast 原子广播）协议是为分布式协调服务ZooKeeper专门设计的一种支持崩溃恢复的原子广播协议。在ZooKeeper中，主要依赖ZAB协议来实现分布式数据一致性，基于该协议，ZooKeeper实现了一种主备模式的系统架构来保持集群中各个副本之间的数据一致性。<br>&emsp;&emsp;ZAB协议包括两种基本模式：崩溃恢复和消息广播。</p>
+<h2 id="崩溃恢复"><a href="#崩溃恢复" class="headerlink" title="崩溃恢复"></a>崩溃恢复</h2><p>&emsp;&emsp;当整个服务框架在启动过程中，或是当Leader服务器出现网络中断、崩溃退出与重启等异常情况时，ZAB 协议就会进人恢复模式并选举产生新的Leader服务器。<br>&emsp;&emsp;当选举产生了新的Leader服务器，同时集群中已经有过半的机器与该Leader服务器完成了状态同步之后，ZAB协议就会退出恢复模式。其中，所谓的状态同步是指数据同步，用来保证集群中存在过半的机器能够和Leader服务器的数据状态保持一致。</p>
+<h2 id="消息广播"><a href="#消息广播" class="headerlink" title="消息广播"></a>消息广播</h2><p>&emsp;&emsp;当集群中已经有过半的Follower服务器完成了和Leader服务器的状态同步，那么整个服务框架就可以进人消息广播模式了。<br>&emsp;&emsp;当一台同样遵守ZAB协议的服务器启动后加人到集群中时，如果此时集群中已经存在一个Leader服务器在负责进行消息广播，那么新加人的服务器就会自觉地进人数据恢复模式：找到Leader所在的服务器，并与其进行数据同步，然后一起参与到消息广播流程中去。<br>&emsp;&emsp;正如上文介绍中所说的，ZooKeeper设计成只允许唯一的一个Leader服务器来进行事务请求的处理。Leader服务器在接收到客户端的事务请求后，会生成对应的事务提案并发起一轮广播协议；而如果集群中的其他机器接收到客户端的事务请求，那么这些非Leader服务器会首先将这个事务请求转发给Leader服务器。</p>
 ]]></content>
       <categories>
-        <category>分布式</category>
+        <category>zookeeper</category>
       </categories>
       <tags>
         <tag>分布式</tag>
-        <tag>acid</tag>
+        <tag>zookeeper</tag>
       </tags>
   </entry>
   <entry>
@@ -3909,6 +3912,24 @@ zkServer<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
       </tags>
   </entry>
   <entry>
+    <title>一致性hash</title>
+    <url>/hexoblog/md/%E5%88%86%E5%B8%83%E5%BC%8F/%E4%B8%80%E8%87%B4%E6%80%A7hash/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;在分布式系统中，通常不同的机器存储着不同的数据，例如redis集群中存储的数据。<br>&emsp;&emsp;这些数据通常采用hash算法来计算出应该存储在那台机器上。但是，当集群中的节点增加或者减少时，通过原有的hash算法计算出来的位置将会完全错误。<br>&emsp;&emsp;一致性hash就是为了解决这种问题诞生的。</p>
+<span id="more"></span>
+
+<hr>
+<h1 id="内容"><a href="#内容" class="headerlink" title="内容"></a>内容</h1><p>&emsp;&emsp;在redis集群中，我们通常采用一致性hash算法计算数据具体分布在那一台机器上。<br>&emsp;&emsp;普通的hash算法通常采用取模的方式计算出hash结果，而当机器的数量发生变化，也就是除数发生变化时，取到的模也会发生变化，这时根据模数来定位数据存储的位置就会发生错误。<br>&emsp;&emsp;一致性hash算法也是采用取模的原理，来计算数据存储的位置。但与普通hash算法不同的是，一直性hash算法计算出来的并不是直接的位置，而是需要根据hash环查询地址。<br>&emsp;与普通hash算法不同的是，普通hash算法是对机器的数量取模，而一致性hash是对2^32取模。</p>
+<h2 id="hash环"><a href="#hash环" class="headerlink" title="hash环"></a>hash环</h2><p>&emsp;&emsp;在一致性hash中，构造出一个hash环（周长数量为2^32）来标记数据位置。<br>&emsp;&emsp;由于一致性hash算法采用2^32取模，所有的取模结果都将落在构造出来的hash环上。<br>&emsp;&emsp;将所有机器分布在hash环上，机器左边的数据将存储在该机器中，而右边的数据将存储在下一台机器上。因为是环状结构，这样所有的数据都保证了有机器存储。而且，因为是环，所以当环上增加机器节点时，只有该机器节点左边的一小部分数据会发生重新分配机器。</p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2>]]></content>
+      <categories>
+        <category>分布式</category>
+      </categories>
+      <tags>
+        <tag>分布式</tag>
+        <tag>hash</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>接口幂等的实现</title>
     <url>/hexoblog/md/%E5%88%86%E5%B8%83%E5%BC%8F/%E6%8E%A5%E5%8F%A3%E5%B9%82%E7%AD%89%E7%9A%84%E5%AE%9E%E7%8E%B0/</url>
     <content><![CDATA[<h1 id="什么是幂等"><a href="#什么是幂等" class="headerlink" title="什么是幂等"></a>什么是幂等</h1><p>&emsp;&emsp;接口幂等性的实质就是：<strong>接口可重复调用，在调用方多次调用的情况下，接口最终得到的结果是一致的。</strong><br>&emsp;&emsp;有些接口天然支持幂等性，比如查询接口；而增加、更新、删除都要人工保持幂等性。</p>
@@ -3934,6 +3955,48 @@ zkServer<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
       <tags>
         <tag>分布式</tag>
         <tag>幂等</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>分布式事务</title>
+    <url>/hexoblog/md/%E5%88%86%E5%B8%83%E5%BC%8F/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/</url>
+    <content><![CDATA[<h1 id="分布式事务类型："><a href="#分布式事务类型：" class="headerlink" title="分布式事务类型："></a>分布式事务类型：</h1><p>分布式事务处理机制共有四种：</p>
+<ol>
+<li>两阶段提交</li>
+<li>TCC事务（事务补偿）</li>
+<li>本地消息表（异步确保），</li>
+<li>MQ事务消息。</li>
+</ol>
+<span id="more"></span>
+
+<h2 id="两阶段提交："><a href="#两阶段提交：" class="headerlink" title="两阶段提交："></a>两阶段提交：</h2><p>&emsp;&emsp;与数据库XA事务一样，两阶段提交使用XA协议。<br>&emsp;&emsp;两阶段提交这种方案属于牺牲了一部分可用性来换取的一致性。</p>
+<h3 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;尽量保证了数据的强一致，适合对数据强一致要求很高的关键领域。</p>
+<h3 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;实现复杂，牺牲了可用性，对性能影响较大，不适合高并发高性能场景，如分布式系统跨接口调用。</p>
+<h2 id="TCC事务："><a href="#TCC事务：" class="headerlink" title="TCC事务："></a>TCC事务：</h2><p>&emsp;&emsp;TCC其实就是采用的补偿机制，其核心思想是：针对每个操作，都要注册一个与其对应的确认和补偿操作。分为三个阶段：</p>
+<ol>
+<li> Try阶段主要是对业务系统做检测和资源预留。</li>
+<li> Confirm阶段主要是对业务系统做确认提交，Try阶段执行成功并开始执行Confirm阶段时，默认Confirm阶段是不会出错的。即：只要Try成功，Confirm一定成功。</li>
+<li> Cancel阶段主要是在业务执行错误，需要回滚的状态下，执行的业务取消，预留资源释放。</li>
+</ol>
+<h3 id="优点：-1"><a href="#优点：-1" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;跟2阶段提交比起来，实现及流程相对简单了些，但数据的一致性也要比2阶段提交要差一些。</p>
+<h3 id="缺点：-1"><a href="#缺点：-1" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;在2，3步中都可能失败。TCC是一种应用层的补偿方式，需要程序员在实现时写很多补偿的代码，一些场景中，一些业务流程用TCC不太好定义及处理。</p>
+<h2 id="本地消息表："><a href="#本地消息表：" class="headerlink" title="本地消息表："></a>本地消息表：</h2><p>&emsp;&emsp;使用最多的，核心思想是将分布式事务拆分成本地事务进行处理，来源于ebay。</p>
+<p>基本思路就是：</p>
+<p>&emsp;&emsp;消息生产方，需要额外建一个消息表，并记录消息发送状态。消息表和业务数据要在一个事务里提交，也就是说他们要在一个数据库里面。然后会经由MQ发送到消息的消费方。如果消息发送失败，会进行重试发送。<br>&emsp;&emsp;消息消费方，需要处理这个消息，并完成这个的业务逻辑。如果此时本地事务处理成功，表明已经处理成功了，如果处理失败，那么就会重试执行。如果是业务上面的失败，可以给生产方发送一个业务补偿消息，通知生产方进行回滚等操作。<br>&emsp;&emsp;生产方和消费方定时扫描本地消息表，把还没处理完成的消息或者失败的消息在发送一遍。<br>&emsp;&emsp;这种方案遵循最终一致性。</p>
+<h3 id="优点：-2"><a href="#优点：-2" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;一种非常经典的实现， 避免的分布式事务，实现了最终一致性。</p>
+<h3 id="缺点：-2"><a href="#缺点：-2" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;消息表会耦合到业务系统中，如果没有封装好的解决方案，会有很多杂活需要处理。</p>
+<h2 id="MQ事务消息："><a href="#MQ事务消息：" class="headerlink" title="MQ事务消息："></a>MQ事务消息：</h2><p>&emsp;&emsp;有一些第三方的MQ是支持事务消息的，比如RocketMQ，他们支持事务消息的方式也是类似于采用的二阶段提交，但一些主流的MQ都是不支持事务消息的，如RabbitMQ和Kafka都不支持。</p>
+<p>以阿里的RocketMQ为例：</p>
+<p>&emsp;&emsp;第一阶段Prepared消息，会拿到消息的地址。<br>&emsp;&emsp;第二阶段执行本地事务，第三阶段通过第一阶段拿到的地址去访问消息，并修改状态。<br>&emsp;&emsp;也就是说在业务方法内部要想消息队列提交两次请求，一次发送消息和一次确认消息。如果确认消息发送失败了，RocketMQ会定期扫描消息集群中的事务消息，这是发现了Prepared消息，它会像消息发送者确认，所以生产方需要实现一个check接口，RocketMQ会根据发送端设置的策略来决定是回滚还是继续发送确认消息。这样就保证了消息发送与本地事务同时成功或同时失败。</p>
+<h3 id="优点：-3"><a href="#优点：-3" class="headerlink" title="优点："></a>优点：</h3><p>&emsp;&emsp;实现了最终一致性，不需要依赖本地数据库事务。</p>
+<h3 id="缺点：-3"><a href="#缺点：-3" class="headerlink" title="缺点："></a>缺点：</h3><p>&emsp;&emsp;实现难度大，主流MQ不支持，RocketMQ事务消息部分代码未开源。</p>
+]]></content>
+      <categories>
+        <category>分布式</category>
+      </categories>
+      <tags>
+        <tag>分布式</tag>
+        <tag>acid</tag>
       </tags>
   </entry>
   <entry>
@@ -4083,13 +4146,13 @@ zkServer<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
 ]]></content>
       <categories>
         <category>消息中间件</category>
-        <category>rocketmq</category>
         <category>kafka</category>
+        <category>rocketmq</category>
       </categories>
       <tags>
+        <tag>kafka</tag>
         <tag>消息中间件</tag>
         <tag>rocketmq</tag>
-        <tag>kafka</tag>
       </tags>
   </entry>
   <entry>
@@ -4479,63 +4542,6 @@ start nginx
       </tags>
   </entry>
   <entry>
-    <title>IO模型</title>
-    <url>/hexoblog/md/java/IO/IO%E6%A8%A1%E5%9E%8B/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;IO是输入输出，IO是面向流的。<br>&emsp;&emsp;java中有三种IO模型： BIO，NIO，AIO。它们又可以分为同步异步，阻塞与非阻塞。<br>&emsp;&emsp;而在linux中有5中IO模型。</p>
-<span id="more"></span>
-
-<hr>
-<h1 id="同步与异步"><a href="#同步与异步" class="headerlink" title="同步与异步"></a>同步与异步</h1><p>&emsp;&emsp;同步与异步说的都是<strong>被调用者</strong>。<br>&emsp;&emsp;同步就是发起一个调用后，被调用者未处理完以前，不用返回。<br>&emsp;&emsp;异步就是发起一个调用后，立刻得到被调用者的回应，表示收到请求，但是并没有返回结果；被调用者通常依靠事件，回调等机制通知调用者返回结果。</p>
-<hr>
-<h1 id="阻塞与非阻塞"><a href="#阻塞与非阻塞" class="headerlink" title="阻塞与非阻塞"></a>阻塞与非阻塞</h1><p>&emsp;&emsp;阻塞与非阻塞说的都是<strong>调用者</strong>。<br>&emsp;&emsp;阻塞就是发起一个请求，调用者一直等待请求结果返回，也就是当前线程会被挂起，无法从事其他任务，只有当条件就绪才能继续。<br>&emsp;&emsp;非阻塞就是发起一个请求，调用者不用一直等着结果返回，可以先去干其他事情。</p>
-<hr>
-<h1 id="BIO、NIO、AIO"><a href="#BIO、NIO、AIO" class="headerlink" title="BIO、NIO、AIO"></a>BIO、NIO、AIO</h1><p>&emsp;&emsp;这些都是经典的IO模型，IO模型就是使用什么样的通道进行数据的发送和接收，很大程度上决定了程序通信的性能。</p>
-<ul>
-<li>BIO：BIO就是传统的IO模型，是<strong>同步阻塞的IO模型</strong>，java.io包中类就是BIO的工具，它提供了很多IO功能，比如输入输出流，对文件进行操作。在网络编程(Socket通信)中也同样进行IO操作。<blockquote>
-<p>服务器实现模式为一个连接一个线程，即客户端有连接请求时服务器端就需要启动一个线程进行处理，如果这个连接不作任何事情会造成不必要的线程开销。</p>
-</blockquote>
-</li>
-<li>NIO：NIO是一种<strong>同步非阻塞的IO模型</strong>，对应java.nio包，提供了Channel , Selector，Buffer等抽象。<blockquote>
-<p>服务器实现模式为一个线程处理多个请求(连接)，即客户端发送的连接请求会被注册到多路复用器上，多路复用器轮询到有 I/O 请求就会进行处理。</p>
-</blockquote>
-</li>
-<li>AIO：<strong>异步非阻塞的IO模型</strong>，是改进版的NIO。<blockquote>
-<p>AIO引入了异步通道的概念，采用了Proactor模式，简化了程序编写，有效的请求才启动线程，它的特点是先由操作系统完成后才通知服务端程序启动线程去处理，一般适用于连接数较多且连接时间较长的应用。</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="举个例子"><a href="#举个例子" class="headerlink" title="举个例子"></a>举个例子</h2><p>&emsp;&emsp;以讲的很多的烧水为例子。</p>
-<ul>
-<li>BIO就是叫一个线程停留在一个水壶那，直到这个水壶烧开，才去处理下一个水壶。  </li>
-<li>NIO是叫一个线程不停的循环观察每一个水壶，根据每个水壶当前的状态去处理。  </li>
-<li>AIO是每个水壶上装一个开关，当水开了以后会提醒对应的线程去处理。</li>
-</ul>
-<h2 id="场景分析"><a href="#场景分析" class="headerlink" title="场景分析"></a>场景分析</h2><ul>
-<li>BIO 方式适用于<strong>连接数比较小且固定的架构</strong>，这种方式对服务器资源要求比较高，并发局限于应用中。</li>
-<li>NIO 方式适用于<strong>连接数目多且连接比较短的架构</strong>，比如聊天服务器，弹幕系统，服务器间通讯等，编程比较复杂，JDK1.4开始支持。</li>
-<li>AIO 方式适用于<strong>连接数目多且连接比较长的架构</strong>，比如相册服务器，充分调用 OS 参与并发操作，变成比较复杂，JDK7 开始支持。</li>
-</ul>
-<hr>
-<h1 id="linux的5中IO模型"><a href="#linux的5中IO模型" class="headerlink" title="linux的5中IO模型"></a>linux的5中IO模型</h1><p>&emsp;&emsp;linux中共有5中IO模型：阻塞IO，非阻塞IO，IO复用模型，信号驱动IO模型，异步IO模型；最后一种是异步的其他都是同步的。</p>
-<p><a href="https://juejin.cn/post/6844903664256024584">掘金大神的文章</a></p>
-<hr>
-<h1 id="参考资料-amp-鸣谢"><a href="#参考资料-amp-鸣谢" class="headerlink" title="参考资料 &amp; 鸣谢"></a>参考资料 &amp; 鸣谢</h1><ul>
-<li><a href="https://juejin.cn/post/6844903664256024584">BIO，NIO，AIO概览</a></li>
-<li><a href="https://juejin.cn/post/6869537077122301965#heading-6">为什么一个还没毕业的大学生能够把 IO 讲的这么好？</a></li>
-<li><a href="https://segmentfault.com/a/1190000037714804">理解什么是BIO/NIO/AIO</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>java</category>
-        <category>io</category>
-      </categories>
-      <tags>
-        <tag>io</tag>
-        <tag>java</tag>
-        <tag>网络</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>NIO</title>
     <url>/hexoblog/md/java/IO/NIO/</url>
     <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;NIO是当下非常火热的一种IO工作方式，它能够解决传统BIO的痛点：阻塞。<br>&emsp;&emsp;NIO是一种同步非阻塞的I/O模型，在Java 1.4 中引入了NIO框架，对应 java.nio 包，提供了 Channel , Selector，Buffer等抽象。<br>&emsp;&emsp;同步非阻塞式IO以块的方式处理数据，面向缓存区的，采用多路复，Reactor模式，基于事件驱动。Netty是实现了NIO的一个流行框架，JBoss的。</p>
@@ -4610,6 +4616,63 @@ start nginx
         <tag>java</tag>
         <tag>网络</tag>
         <tag>nio</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>IO模型</title>
+    <url>/hexoblog/md/java/IO/IO%E6%A8%A1%E5%9E%8B/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;IO是输入输出，IO是面向流的。<br>&emsp;&emsp;java中有三种IO模型： BIO，NIO，AIO。它们又可以分为同步异步，阻塞与非阻塞。<br>&emsp;&emsp;而在linux中有5中IO模型。</p>
+<span id="more"></span>
+
+<hr>
+<h1 id="同步与异步"><a href="#同步与异步" class="headerlink" title="同步与异步"></a>同步与异步</h1><p>&emsp;&emsp;同步与异步说的都是<strong>被调用者</strong>。<br>&emsp;&emsp;同步就是发起一个调用后，被调用者未处理完以前，不用返回。<br>&emsp;&emsp;异步就是发起一个调用后，立刻得到被调用者的回应，表示收到请求，但是并没有返回结果；被调用者通常依靠事件，回调等机制通知调用者返回结果。</p>
+<hr>
+<h1 id="阻塞与非阻塞"><a href="#阻塞与非阻塞" class="headerlink" title="阻塞与非阻塞"></a>阻塞与非阻塞</h1><p>&emsp;&emsp;阻塞与非阻塞说的都是<strong>调用者</strong>。<br>&emsp;&emsp;阻塞就是发起一个请求，调用者一直等待请求结果返回，也就是当前线程会被挂起，无法从事其他任务，只有当条件就绪才能继续。<br>&emsp;&emsp;非阻塞就是发起一个请求，调用者不用一直等着结果返回，可以先去干其他事情。</p>
+<hr>
+<h1 id="BIO、NIO、AIO"><a href="#BIO、NIO、AIO" class="headerlink" title="BIO、NIO、AIO"></a>BIO、NIO、AIO</h1><p>&emsp;&emsp;这些都是经典的IO模型，IO模型就是使用什么样的通道进行数据的发送和接收，很大程度上决定了程序通信的性能。</p>
+<ul>
+<li>BIO：BIO就是传统的IO模型，是<strong>同步阻塞的IO模型</strong>，java.io包中类就是BIO的工具，它提供了很多IO功能，比如输入输出流，对文件进行操作。在网络编程(Socket通信)中也同样进行IO操作。<blockquote>
+<p>服务器实现模式为一个连接一个线程，即客户端有连接请求时服务器端就需要启动一个线程进行处理，如果这个连接不作任何事情会造成不必要的线程开销。</p>
+</blockquote>
+</li>
+<li>NIO：NIO是一种<strong>同步非阻塞的IO模型</strong>，对应java.nio包，提供了Channel , Selector，Buffer等抽象。<blockquote>
+<p>服务器实现模式为一个线程处理多个请求(连接)，即客户端发送的连接请求会被注册到多路复用器上，多路复用器轮询到有 I/O 请求就会进行处理。</p>
+</blockquote>
+</li>
+<li>AIO：<strong>异步非阻塞的IO模型</strong>，是改进版的NIO。<blockquote>
+<p>AIO引入了异步通道的概念，采用了Proactor模式，简化了程序编写，有效的请求才启动线程，它的特点是先由操作系统完成后才通知服务端程序启动线程去处理，一般适用于连接数较多且连接时间较长的应用。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="举个例子"><a href="#举个例子" class="headerlink" title="举个例子"></a>举个例子</h2><p>&emsp;&emsp;以讲的很多的烧水为例子。</p>
+<ul>
+<li>BIO就是叫一个线程停留在一个水壶那，直到这个水壶烧开，才去处理下一个水壶。  </li>
+<li>NIO是叫一个线程不停的循环观察每一个水壶，根据每个水壶当前的状态去处理。  </li>
+<li>AIO是每个水壶上装一个开关，当水开了以后会提醒对应的线程去处理。</li>
+</ul>
+<h2 id="场景分析"><a href="#场景分析" class="headerlink" title="场景分析"></a>场景分析</h2><ul>
+<li>BIO 方式适用于<strong>连接数比较小且固定的架构</strong>，这种方式对服务器资源要求比较高，并发局限于应用中。</li>
+<li>NIO 方式适用于<strong>连接数目多且连接比较短的架构</strong>，比如聊天服务器，弹幕系统，服务器间通讯等，编程比较复杂，JDK1.4开始支持。</li>
+<li>AIO 方式适用于<strong>连接数目多且连接比较长的架构</strong>，比如相册服务器，充分调用 OS 参与并发操作，变成比较复杂，JDK7 开始支持。</li>
+</ul>
+<hr>
+<h1 id="linux的5中IO模型"><a href="#linux的5中IO模型" class="headerlink" title="linux的5中IO模型"></a>linux的5中IO模型</h1><p>&emsp;&emsp;linux中共有5中IO模型：阻塞IO，非阻塞IO，IO复用模型，信号驱动IO模型，异步IO模型；最后一种是异步的其他都是同步的。</p>
+<p><a href="https://juejin.cn/post/6844903664256024584">掘金大神的文章</a></p>
+<hr>
+<h1 id="参考资料-amp-鸣谢"><a href="#参考资料-amp-鸣谢" class="headerlink" title="参考资料 &amp; 鸣谢"></a>参考资料 &amp; 鸣谢</h1><ul>
+<li><a href="https://juejin.cn/post/6844903664256024584">BIO，NIO，AIO概览</a></li>
+<li><a href="https://juejin.cn/post/6869537077122301965#heading-6">为什么一个还没毕业的大学生能够把 IO 讲的这么好？</a></li>
+<li><a href="https://segmentfault.com/a/1190000037714804">理解什么是BIO/NIO/AIO</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>java</category>
+        <category>io</category>
+      </categories>
+      <tags>
+        <tag>io</tag>
+        <tag>java</tag>
+        <tag>网络</tag>
       </tags>
   </entry>
   <entry>
@@ -5524,55 +5587,6 @@ finish，1，Thread-1
       </tags>
   </entry>
   <entry>
-    <title>多线程基础概念</title>
-    <url>/hexoblog/md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/</url>
-    <content><![CDATA[<h1 id="概念："><a href="#概念：" class="headerlink" title="概念："></a>概念：</h1><p><strong>进程：</strong> 进程（Process）是计算机中的程序关于某数据集合上的一次运行活动，是<strong>系统进行资源分配和调度的基本单位</strong>，是操作系统结构的基础。在早期面向进程设计的计算机结构中，进程是程序的基本执行实体；在当代面向线程设计的计算机结构中，进程是线程的容器。程序是指令、数据及其组织形式的描述，进程是程序的实体。</p>
-<p><strong>线程：</strong> 线程（thread）是操作系统能够<strong>进行运算<a href="https://baike.baidu.com/item/%E8%B0%83%E5%BA%A6">调度</a>的最小单位</strong>。它被包含在进程之中，是进程中的实际运作单位。一条线程指的是进程中一个单一顺序的控制流，一个进程中可以并发多个线程，每条线程并行执行不同的任务。线程是独立调度和分派的基本单位。线程分为用户线程和内核线程。</p>
-<span id="more"></span>
-
-<p><strong>多线程：</strong> 多线程是多任务的一种特别的形式，但多线程使用了更小的资源开销。多线程能满足程序员编写高效率的程序来达到充分利用 CPU 的目的。</p>
-<p><strong>并行：</strong> 多个cpu实例或者多台机器同时执行一段处理逻辑，是真正的同时运行。</p>
-<p><strong>并发：</strong> 使用CPU调度算法，使用户看起来在同时运行，其实并不是在同时运行。并发一般发生在对系统中的公用资源操作时。</p>
-<p><strong>线程安全：</strong> 指的是希望多线程的执行顺序对执行结果没有影响，用户只需要关心CPU及其他资源是否够用即可。反之，如果不同的执行顺序导致不同的执行结果，那么就说是线程不安全的。</p>
-<p><strong>同步：</strong> 指通过人为干预的情况下达到线程安全的程度。</p>
-<h2 id="进程VS线程："><a href="#进程VS线程：" class="headerlink" title="进程VS线程："></a>进程VS线程：</h2><ol>
-<li> 地址空间和其它资源：进程间相互独立，同一进程的各线程间共享。某进程内的线程在其它进程不可见。</li>
-<li> 通信：通信方式不同，线程间可以直接读写进程数据段（如全局变量）来进行通信——需要进程同步和互斥手段的辅助，以保证数据的一致性。</li>
-<li> 调度和切换：线程上下文切换比进程上下文切换要快得多。</li>
-<li> 在多线程OS中，进程不是一个可执行的实体。</li>
-</ol>
-<hr>
-<h1 id="线程的状态："><a href="#线程的状态：" class="headerlink" title="线程的状态："></a>线程的状态：</h1><p>Java 给多线程编程提供了内置的支持。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E7%BA%BF%E7%A8%8B%E7%8A%B6%E6%80%81.jpg" alt="线程状态切换"></p>
-<p><strong>新建状态</strong>：一个新产生的线程从新状态开始了它的生命周期。它保持这个状态直到程序start这个线程。此过程线程并未执行。</p>
-<p><strong>就绪状态</strong>：表明线程可以运行，但不是真的在运行，此状态下需要获取cpu才能运行。调用线程的star方法、获取到对象的锁，阻塞状态解除、cpu时间片用完，调用yield()方法、jvm中断此线程。</p>
-<p><strong>运行状态</strong>：线程在阻塞状态获取到cpu使用权，开始实际执行。此状态线程进入run()方法执行方法体。</p>
-<p><strong>阻塞状态</strong>：线程放弃了cpu，调用wait()，sleep()，或同步锁，同步代码块时，失去了所占用的资源，由运行态进入阻塞态，线程将会进入阻塞队列。执行了wait()方法后使线程进入到等待阻塞状态、在进入synchronized代码块，获取同步锁失败时进入同步阻塞、当调用sleep()，join()，或io时进入其它阻塞队列，等待sleep()结束，join()等待其它线程结束，io结束时继续进入就绪状态。</p>
-<p><strong>死亡状态</strong>：线程结束运行后就进入死亡状态。死亡后不会再进入新生态，调用start()方法会报错。通常run()方法运行结束时死亡，或一个未捕获的异常导致猝死。</p>
-<p><strong>超时等待</strong>：处于这种状态的线程不会被分配CPU执行时间，不过无须无限期等待被其他线程显示地唤醒，在达到一定时间后它们会自动唤醒。</p>
-<hr>
-<h1 id="队列："><a href="#队列：" class="headerlink" title="队列："></a>队列：</h1><p>等待队列：线程wait()后进入等待队列，等待被其它线程使用notify()或notifyAll()唤醒。</p>
-<p>同步队列：线程被唤醒后，进入同步同步队列，在此队列中，互相竞争对象的锁，当获取到对象的锁之后就进入了就绪状态等待获取cpu时间片运行。</p>
-<hr>
-<h1 id="线程优先级："><a href="#线程优先级：" class="headerlink" title="线程优先级："></a>线程优先级：</h1><p>每一个 Java 线程都有一个优先级，这样有助于操作系统确定线程的调度顺序。</p>
-<p>Java 线程的优先级是一个整数，其取值范围是 1 （Thread.MIN_PRIORITY ） - 10 （Thread.MAX_PRIORITY ）。</p>
-<p>默认情况下，每一个线程都会分配一个优先级 NORM_PRIORITY（5）。</p>
-<p>具有较高优先级的线程对程序更重要，并且应该在低优先级的线程之前分配处理器资源。但是，线程优先级不能保证线程执行的顺序，而且非常依赖于平台。</p>
-<hr>
-<h1 id="参考资料-amp-鸣谢"><a href="#参考资料-amp-鸣谢" class="headerlink" title="参考资料 &amp; 鸣谢"></a>参考资料 &amp; 鸣谢</h1><ul>
-<li><a href="https://my.oschina.net/linqiankun/blog/3193359">多线程之基础概念</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>java</category>
-        <category>多线程</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>多线程</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>多线程之死锁</title>
     <url>/hexoblog/md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8B%E6%AD%BB%E9%94%81/</url>
     <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;死锁是指两个或两个以上进程（在运行的过程中因争夺资源而造成的一种僵局），若无外力作用，这些线程，进程都将无法向前推进。</p>
@@ -5659,6 +5673,55 @@ finish，1，Thread-1
 <h1 id="参考文献-amp-鸣谢"><a href="#参考文献-amp-鸣谢" class="headerlink" title="参考文献 &amp; 鸣谢"></a>参考文献 &amp; 鸣谢</h1><ul>
 <li><a href="https://blog.csdn.net/wljliujuan/article/details/79614019">死锁，死锁的四个必要条件以及处理策略</a></li>
 <li><a href="https://blog.csdn.net/wangxj_2017/article/details/116447392">多线程的下的死锁问题排查</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>java</category>
+        <category>多线程</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>多线程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>多线程基础概念</title>
+    <url>/hexoblog/md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/</url>
+    <content><![CDATA[<h1 id="概念："><a href="#概念：" class="headerlink" title="概念："></a>概念：</h1><p><strong>进程：</strong> 进程（Process）是计算机中的程序关于某数据集合上的一次运行活动，是<strong>系统进行资源分配和调度的基本单位</strong>，是操作系统结构的基础。在早期面向进程设计的计算机结构中，进程是程序的基本执行实体；在当代面向线程设计的计算机结构中，进程是线程的容器。程序是指令、数据及其组织形式的描述，进程是程序的实体。</p>
+<p><strong>线程：</strong> 线程（thread）是操作系统能够<strong>进行运算<a href="https://baike.baidu.com/item/%E8%B0%83%E5%BA%A6">调度</a>的最小单位</strong>。它被包含在进程之中，是进程中的实际运作单位。一条线程指的是进程中一个单一顺序的控制流，一个进程中可以并发多个线程，每条线程并行执行不同的任务。线程是独立调度和分派的基本单位。线程分为用户线程和内核线程。</p>
+<span id="more"></span>
+
+<p><strong>多线程：</strong> 多线程是多任务的一种特别的形式，但多线程使用了更小的资源开销。多线程能满足程序员编写高效率的程序来达到充分利用 CPU 的目的。</p>
+<p><strong>并行：</strong> 多个cpu实例或者多台机器同时执行一段处理逻辑，是真正的同时运行。</p>
+<p><strong>并发：</strong> 使用CPU调度算法，使用户看起来在同时运行，其实并不是在同时运行。并发一般发生在对系统中的公用资源操作时。</p>
+<p><strong>线程安全：</strong> 指的是希望多线程的执行顺序对执行结果没有影响，用户只需要关心CPU及其他资源是否够用即可。反之，如果不同的执行顺序导致不同的执行结果，那么就说是线程不安全的。</p>
+<p><strong>同步：</strong> 指通过人为干预的情况下达到线程安全的程度。</p>
+<h2 id="进程VS线程："><a href="#进程VS线程：" class="headerlink" title="进程VS线程："></a>进程VS线程：</h2><ol>
+<li> 地址空间和其它资源：进程间相互独立，同一进程的各线程间共享。某进程内的线程在其它进程不可见。</li>
+<li> 通信：通信方式不同，线程间可以直接读写进程数据段（如全局变量）来进行通信——需要进程同步和互斥手段的辅助，以保证数据的一致性。</li>
+<li> 调度和切换：线程上下文切换比进程上下文切换要快得多。</li>
+<li> 在多线程OS中，进程不是一个可执行的实体。</li>
+</ol>
+<hr>
+<h1 id="线程的状态："><a href="#线程的状态：" class="headerlink" title="线程的状态："></a>线程的状态：</h1><p>Java 给多线程编程提供了内置的支持。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E7%BA%BF%E7%A8%8B%E7%8A%B6%E6%80%81.jpg" alt="线程状态切换"></p>
+<p><strong>新建状态</strong>：一个新产生的线程从新状态开始了它的生命周期。它保持这个状态直到程序start这个线程。此过程线程并未执行。</p>
+<p><strong>就绪状态</strong>：表明线程可以运行，但不是真的在运行，此状态下需要获取cpu才能运行。调用线程的star方法、获取到对象的锁，阻塞状态解除、cpu时间片用完，调用yield()方法、jvm中断此线程。</p>
+<p><strong>运行状态</strong>：线程在阻塞状态获取到cpu使用权，开始实际执行。此状态线程进入run()方法执行方法体。</p>
+<p><strong>阻塞状态</strong>：线程放弃了cpu，调用wait()，sleep()，或同步锁，同步代码块时，失去了所占用的资源，由运行态进入阻塞态，线程将会进入阻塞队列。执行了wait()方法后使线程进入到等待阻塞状态、在进入synchronized代码块，获取同步锁失败时进入同步阻塞、当调用sleep()，join()，或io时进入其它阻塞队列，等待sleep()结束，join()等待其它线程结束，io结束时继续进入就绪状态。</p>
+<p><strong>死亡状态</strong>：线程结束运行后就进入死亡状态。死亡后不会再进入新生态，调用start()方法会报错。通常run()方法运行结束时死亡，或一个未捕获的异常导致猝死。</p>
+<p><strong>超时等待</strong>：处于这种状态的线程不会被分配CPU执行时间，不过无须无限期等待被其他线程显示地唤醒，在达到一定时间后它们会自动唤醒。</p>
+<hr>
+<h1 id="队列："><a href="#队列：" class="headerlink" title="队列："></a>队列：</h1><p>等待队列：线程wait()后进入等待队列，等待被其它线程使用notify()或notifyAll()唤醒。</p>
+<p>同步队列：线程被唤醒后，进入同步同步队列，在此队列中，互相竞争对象的锁，当获取到对象的锁之后就进入了就绪状态等待获取cpu时间片运行。</p>
+<hr>
+<h1 id="线程优先级："><a href="#线程优先级：" class="headerlink" title="线程优先级："></a>线程优先级：</h1><p>每一个 Java 线程都有一个优先级，这样有助于操作系统确定线程的调度顺序。</p>
+<p>Java 线程的优先级是一个整数，其取值范围是 1 （Thread.MIN_PRIORITY ） - 10 （Thread.MAX_PRIORITY ）。</p>
+<p>默认情况下，每一个线程都会分配一个优先级 NORM_PRIORITY（5）。</p>
+<p>具有较高优先级的线程对程序更重要，并且应该在低优先级的线程之前分配处理器资源。但是，线程优先级不能保证线程执行的顺序，而且非常依赖于平台。</p>
+<hr>
+<h1 id="参考资料-amp-鸣谢"><a href="#参考资料-amp-鸣谢" class="headerlink" title="参考资料 &amp; 鸣谢"></a>参考资料 &amp; 鸣谢</h1><ul>
+<li><a href="https://my.oschina.net/linqiankun/blog/3193359">多线程之基础概念</a></li>
 </ul>
 ]]></content>
       <categories>
