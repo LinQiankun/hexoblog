@@ -123,6 +123,74 @@
       </tags>
   </entry>
   <entry>
+    <title>涂鸦智能一面面经</title>
+    <url>/hexoblog/%E9%9D%A2%E7%BB%8F/%E6%B6%82%E9%B8%A6%E6%99%BA%E8%83%BD%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/</url>
+    <content><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span>
+<p>写面经，攒人品</p>
+<ol>
+<li>自我介绍</li>
+<li>项目介绍</li>
+<li>线程创建的几个方式</li>
+<li>callable的使用场景（*）</li>
+<li>多线程情况下的资源安全（锁，*）</li>
+<li>线程池的工作原理</li>
+<li>服务调用的方式</li>
+<li>dubbo的协议（*）</li>
+<li>dubbo的序列化方式（*）</li>
+<li>分布式事务<ol>
+<li> 二阶段提交</li>
+<li> mq事务消息</li>
+</ol>
+</li>
+<li>jvm内存模型</li>
+<li>redis分布式锁的问题（碰到过没有）</li>
+<li>学习的方法</li>
+<li>反问<ol>
+<li> lot为什么需要客户管理系统</li>
+<li> 技术栈</li>
+</ol>
+</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/LinQiankun/picurl/main/java%E5%86%99%E9%9D%A2%E7%BB%8F%EF%BC%8C%E6%94%92%E4%BA%BA%E5%93%81_00.jpg" alt="写面经，攒人品"></p>
+<hr>
+<h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="线程创建的几种方式？"><a href="#线程创建的几种方式？" class="headerlink" title="线程创建的几种方式？"></a>线程创建的几种方式？</h2><p>&emsp;&emsp;线程创建的4种方式：</p>
+<ol>
+<li>继承Thread类</li>
+<li>实现Runnable接口</li>
+<li>时间Callable接口</li>
+<li>使用线程池，使用Executor框架创建线程池</li>
+</ol>
+<h2 id="callable的使用场景？"><a href="#callable的使用场景？" class="headerlink" title="callable的使用场景？"></a>callable的使用场景？</h2><p>&emsp;&emsp;callable有返回值，可以通过Future获取返回值。</p>
+<h2 id="多线程情况下的资源安全？"><a href="#多线程情况下的资源安全？" class="headerlink" title="多线程情况下的资源安全？"></a>多线程情况下的资源安全？</h2><p>&emsp;&emsp;有多种保证线程安全的方式：</p>
+<ol>
+<li>加锁的方式</li>
+<li>并发的工具包</li>
+</ol>
+<h2 id="线程池的工作原理？"><a href="#线程池的工作原理？" class="headerlink" title="线程池的工作原理？"></a>线程池的工作原理？</h2><p>&emsp;&emsp;</p>
+<h2 id="服务调用的方式？"><a href="#服务调用的方式？" class="headerlink" title="服务调用的方式？"></a>服务调用的方式？</h2><p>&emsp;&emsp;服务调用分为多种方式调用：</p>
+<ol>
+<li>本地service调用</li>
+<li>远程调用<ol>
+<li>rpc调用</li>
+<li>rest（http）调用</li>
+</ol>
+</li>
+</ol>
+<h2 id="dubbo的协议，dubbo的序列化方式？"><a href="#dubbo的协议，dubbo的序列化方式？" class="headerlink" title="dubbo的协议，dubbo的序列化方式？"></a>dubbo的协议，dubbo的序列化方式？</h2><p>&emsp;&emsp;<a href="../../md/rpc/dubbo/dubbo%E7%9A%849%E7%A7%8D%E5%8D%8F%E8%AE%AE">dubbo的9种协议</a></p>
+<h2 id="分布式事务？"><a href="#分布式事务？" class="headerlink" title="分布式事务？"></a>分布式事务？</h2><p>&emsp;&emsp;<a href="../../md/%E5%88%86%E5%B8%83%E5%BC%8F/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1">分布式事务</a></p>
+<!-- [分布式事务.md](../md/分布式/分布式事务.md) -->
+
+<h2 id="jvm内存模型？"><a href="#jvm内存模型？" class="headerlink" title="jvm内存模型？"></a>jvm内存模型？</h2><p>&emsp;&emsp;<a href="../../md/jvm/jvm%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84">jvm内存结构</a><br>&emsp;&emsp;<a href="../../md/jvm/JVM%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5">JVM内存分配策略</a><br>&emsp;&emsp;<a href="../../md/jvm/jvm%E4%B8%AD%E6%96%B9%E6%B3%95%E5%8C%BA-%E6%B0%B8%E4%B9%85%E4%BB%A3-%E5%85%83%E7%A9%BA%E9%97%B4">jvm中方法区-永久代-元空间</a><br>&emsp;&emsp;<a href="../../md/jvm/JVM%E2%80%94GC">JVM—GC</a></p>
+<h2 id="redis分布式锁的问题？"><a href="#redis分布式锁的问题？" class="headerlink" title="redis分布式锁的问题？"></a>redis分布式锁的问题？</h2><p>&emsp;&emsp;<a href="../../md/redis/redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81">redis分布式锁</a><br>&emsp;&emsp;<a href="../../md/%E5%88%86%E5%B8%83%E5%BC%8F/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81">分布式锁</a><br>&emsp;&emsp;<a href="../../md/zookeeper/zookeeper%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81">zookeeper实现分布式锁</a></p>
+]]></content>
+      <categories>
+        <category>面经</category>
+      </categories>
+      <tags>
+        <tag>面经</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>光云科技一面面经</title>
     <url>/hexoblog/%E9%9D%A2%E7%BB%8F/%E5%85%89%E4%BA%91%E7%A7%91%E6%8A%80%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/</url>
     <content><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span>
@@ -231,74 +299,6 @@
 <h2 id="Rocketmq"><a href="#Rocketmq" class="headerlink" title="Rocketmq"></a>Rocketmq</h2><h3 id="消息消费失败怎么处理？"><a href="#消息消费失败怎么处理？" class="headerlink" title="消息消费失败怎么处理？"></a>消息消费失败怎么处理？</h3><p>&emsp;&emsp;消息消费失败可以分为两种方向，一种是mq进行消息投递失败，另一种是业务系统消费消息失败。<br>&emsp;&emsp;mq消息投递失败会将消息放入定时投递队列中，按照一定的时间间隔后进行消息重投。<br>&emsp;&emsp;业务系统可以将消息存储起来，对于失败的消息，通过定时处理的方式进行恢复。保存起来类似于消息幂等的处理方式。</p>
 <h2 id="Synchronized"><a href="#Synchronized" class="headerlink" title="Synchronized"></a>Synchronized</h2><h3 id="Synchronized原理"><a href="#Synchronized原理" class="headerlink" title="Synchronized原理"></a>Synchronized原理</h3><p>&emsp;&emsp;底层采用monitor指令实现，会生成一条moniter enter和二条moniter exit（一条正常退出，另一条异常退出）指令实现。</p>
 <h3 id="Synchronized加在方法上和代码块上的区别？生成的指令的区别？"><a href="#Synchronized加在方法上和代码块上的区别？生成的指令的区别？" class="headerlink" title="Synchronized加在方法上和代码块上的区别？生成的指令的区别？"></a>Synchronized加在方法上和代码块上的区别？生成的指令的区别？</h3><p>&emsp;&emsp;<a href="https://www.yuque.com/jiufenshiren/ra5mzi/rc3ofp">synchronized</a></p>
-]]></content>
-      <categories>
-        <category>面经</category>
-      </categories>
-      <tags>
-        <tag>面经</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>涂鸦智能一面面经</title>
-    <url>/hexoblog/%E9%9D%A2%E7%BB%8F/%E6%B6%82%E9%B8%A6%E6%99%BA%E8%83%BD%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/</url>
-    <content><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span>
-<p>写面经，攒人品</p>
-<ol>
-<li>自我介绍</li>
-<li>项目介绍</li>
-<li>线程创建的几个方式</li>
-<li>callable的使用场景（*）</li>
-<li>多线程情况下的资源安全（锁，*）</li>
-<li>线程池的工作原理</li>
-<li>服务调用的方式</li>
-<li>dubbo的协议（*）</li>
-<li>dubbo的序列化方式（*）</li>
-<li>分布式事务<ol>
-<li> 二阶段提交</li>
-<li> mq事务消息</li>
-</ol>
-</li>
-<li>jvm内存模型</li>
-<li>redis分布式锁的问题（碰到过没有）</li>
-<li>学习的方法</li>
-<li>反问<ol>
-<li> lot为什么需要客户管理系统</li>
-<li> 技术栈</li>
-</ol>
-</li>
-</ol>
-<p><img src="https://raw.githubusercontent.com/LinQiankun/picurl/main/java%E5%86%99%E9%9D%A2%E7%BB%8F%EF%BC%8C%E6%94%92%E4%BA%BA%E5%93%81_00.jpg" alt="写面经，攒人品"></p>
-<hr>
-<h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="线程创建的几种方式？"><a href="#线程创建的几种方式？" class="headerlink" title="线程创建的几种方式？"></a>线程创建的几种方式？</h2><p>&emsp;&emsp;线程创建的4种方式：</p>
-<ol>
-<li>继承Thread类</li>
-<li>实现Runnable接口</li>
-<li>时间Callable接口</li>
-<li>使用线程池，使用Executor框架创建线程池</li>
-</ol>
-<h2 id="callable的使用场景？"><a href="#callable的使用场景？" class="headerlink" title="callable的使用场景？"></a>callable的使用场景？</h2><p>&emsp;&emsp;callable有返回值，可以通过Future获取返回值。</p>
-<h2 id="多线程情况下的资源安全？"><a href="#多线程情况下的资源安全？" class="headerlink" title="多线程情况下的资源安全？"></a>多线程情况下的资源安全？</h2><p>&emsp;&emsp;有多种保证线程安全的方式：</p>
-<ol>
-<li>加锁的方式</li>
-<li>并发的工具包</li>
-</ol>
-<h2 id="线程池的工作原理？"><a href="#线程池的工作原理？" class="headerlink" title="线程池的工作原理？"></a>线程池的工作原理？</h2><p>&emsp;&emsp;</p>
-<h2 id="服务调用的方式？"><a href="#服务调用的方式？" class="headerlink" title="服务调用的方式？"></a>服务调用的方式？</h2><p>&emsp;&emsp;服务调用分为多种方式调用：</p>
-<ol>
-<li>本地service调用</li>
-<li>远程调用<ol>
-<li>rpc调用</li>
-<li>rest（http）调用</li>
-</ol>
-</li>
-</ol>
-<h2 id="dubbo的协议，dubbo的序列化方式？"><a href="#dubbo的协议，dubbo的序列化方式？" class="headerlink" title="dubbo的协议，dubbo的序列化方式？"></a>dubbo的协议，dubbo的序列化方式？</h2><p>&emsp;&emsp;<a href="../../md/rpc/dubbo/dubbo%E7%9A%849%E7%A7%8D%E5%8D%8F%E8%AE%AE">dubbo的9种协议</a></p>
-<h2 id="分布式事务？"><a href="#分布式事务？" class="headerlink" title="分布式事务？"></a>分布式事务？</h2><p>&emsp;&emsp;<a href="../../md/%E5%88%86%E5%B8%83%E5%BC%8F/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1">分布式事务</a></p>
-<!-- [分布式事务.md](../md/分布式/分布式事务.md) -->
-
-<h2 id="jvm内存模型？"><a href="#jvm内存模型？" class="headerlink" title="jvm内存模型？"></a>jvm内存模型？</h2><p>&emsp;&emsp;<a href="../../md/jvm/jvm%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84">jvm内存结构</a><br>&emsp;&emsp;<a href="../../md/jvm/JVM%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5">JVM内存分配策略</a><br>&emsp;&emsp;<a href="../../md/jvm/jvm%E4%B8%AD%E6%96%B9%E6%B3%95%E5%8C%BA-%E6%B0%B8%E4%B9%85%E4%BB%A3-%E5%85%83%E7%A9%BA%E9%97%B4">jvm中方法区-永久代-元空间</a><br>&emsp;&emsp;<a href="../../md/jvm/JVM%E2%80%94GC">JVM—GC</a></p>
-<h2 id="redis分布式锁的问题？"><a href="#redis分布式锁的问题？" class="headerlink" title="redis分布式锁的问题？"></a>redis分布式锁的问题？</h2><p>&emsp;&emsp;<a href="../../md/redis/redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81">redis分布式锁</a><br>&emsp;&emsp;<a href="../../md/%E5%88%86%E5%B8%83%E5%BC%8F/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81">分布式锁</a><br>&emsp;&emsp;<a href="../../md/zookeeper/zookeeper%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81">zookeeper实现分布式锁</a></p>
 ]]></content>
       <categories>
         <category>面经</category>
@@ -1290,125 +1290,6 @@ com.lin.javaspi.service.impl.HelloServiceImpl2<span aria-hidden="true" class="li
       </tags>
   </entry>
   <entry>
-    <title>类加载机制</title>
-    <url>/hexoblog/md/java/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/</url>
-    <content><![CDATA[<h1 id="介绍："><a href="#介绍：" class="headerlink" title="介绍："></a>介绍：</h1><h2 id="什么是类的加载？"><a href="#什么是类的加载？" class="headerlink" title="什么是类的加载？"></a>什么是类的加载？</h2><p>​&emsp;​&emsp;类的加载是指将类的.class文件中的二进制数据读入到内存中，将其放在运行时数据区的方法区内，然后在堆区创建一个java.lang.class对象，用来封装类在方法区内的数据结构。<br>​​&emsp;​&emsp;类的加载的最终产品是位于堆区中的class对象，class对象封装了类在方法区内的数据结构，并且提供了访问方法区内的数据结构的接口。</p>
-<span id="more"></span>
-
-<h2 id="在什么时候启动类加载？"><a href="#在什么时候启动类加载？" class="headerlink" title="在什么时候启动类加载？"></a>在什么时候启动类加载？</h2><p>​​&emsp;​&emsp;类的加载并不需要某个类被“首次主动使用”时再加载它，JVM规范允许类加载器在预料某个类将要被预先使用时就预先加载它，如果在预先加载过程中遇到了.class文件缺失或存在错误，类加载器必须在程序首次主动使用该类时才报告错误，如果这个类一直没有被程序主动使用，那么类加载器就不会报告错误。</p>
-<h2 id="从哪个地方加载类？"><a href="#从哪个地方加载类？" class="headerlink" title="从哪个地方加载类？"></a>从哪个地方加载类？</h2><ol>
-<li>从本地系统中直接加载。</li>
-<li>通过网络下载.class文件。</li>
-<li>从zip、jar等归档文件中加载.class文件。</li>
-<li>从专有数据库中提取.class文件。</li>
-<li>将java源代码编译为.class文件。</li>
-</ol>
-<hr>
-<h1 id="类加载机制："><a href="#类加载机制：" class="headerlink" title="类加载机制："></a>类加载机制：</h1><p>​&emsp;​&emsp;加载主要是将.class文件（也可以是zip包）通过二进制流读入到jvm中，在加载阶段JVM需要完成3件事情。</p>
-<h2 id="加载："><a href="#加载：" class="headerlink" title="加载："></a>加载：</h2><p>​&emsp;​&emsp;加载主要是将.class文件（也可以是zip包）通过二进制流读入到jvm中，在加载阶段JVM需要完成3件事情。</p>
-<ol>
-<li>通过classloader在classpath中获取XXX.class文件，将其以二进制流的方式读入内存。</li>
-<li>将字节流代表的静态存储结构，转化为方法区的运行时存储结构。</li>
-<li>在内存中生成一个该类的java.lang.class对象，作为方法区这个类的各种数据的访问入口。</li>
-</ol>
-<h2 id="连接："><a href="#连接：" class="headerlink" title="连接："></a>连接：</h2><h3 id="验证："><a href="#验证：" class="headerlink" title="验证："></a>验证：</h3><p>​&emsp;​&emsp;主要是确保加载进来的字节流符合JVM规范，验证阶段会有4个检验动作：</p>
-<ol>
-<li>文件格式验证：验证.class文件字节流是否符合class文件的格式的规范，并且能够被当前版本的虚拟机处理。这里主要被魔数、主版本号、常量池等等的校验。</li>
-<li>元数据验证：验证是否符合java语言规范，主要是对字节码描述的信息进行语义分析，以保证其描述的信息符合java语言规范的要求，比如说验证这个类是不是有父类，类中的字段方法是不是和父类冲突等等。</li>
-<li>字节码验证：确保程序语义合法，符合逻辑，是整个验证过程最复杂的阶段。主要是通过数据流和控制流分析，确保程序语义是合法的、符合逻辑。在元数据验证那个阶段对数据类型做出验证后，这个阶段主要对类的方法做出分析，保证类的方法在运行时不会做出危害虚拟机安全的事。</li>
-<li>符号引用验证：确保下一步的解析能正常执行，它是验证的最后一个阶段，发生在虚拟机将符号引用转化为直接引用的时候。主要是对类自身以外的信息进行校验。目的是确保解析动作能够完成。</li>
-</ol>
-<p>​&emsp;​&emsp;对整个类加载机制而言，验证阶段是一个很重要但是非必需的阶段，如果我们的代码能够确保没有问题，那么我们就没有必要去验证，毕竟验证需要花费一定的的时间。当然我们可以使用-Xverfity:none来关闭大部分的验证。</p>
-<h3 id="准备："><a href="#准备：" class="headerlink" title="准备："></a>准备：</h3><p>​&emsp;​&emsp;准备是连接阶段的第二步，主要为静态变量在方法区分配内存，并设置默认初始值。</p>
-<ol>
-<li>类变量会分配内存，但是实例变量不会，实例变量主要随着对象的实例化一块分配到java堆中。</li>
-<li>这里的初始值指的是数据类型默认值，而不是代码中被显式赋予的值，但是如果同时被static和final修饰准备阶段后就已经赋值了，普通赋值位于其他阶段。</li>
-</ol>
-<h3 id="解析："><a href="#解析：" class="headerlink" title="解析："></a>解析：</h3><p>​&emsp;​&emsp;解析是连接阶段的第三步，是虚拟机将常量池内的符合引用替换为直接引用的过程。</p>
-<ol>
-<li>符号引用：以一组符号来描述所引用的目标，可以是任何形式的字面量，只要是能无歧义的定位到目标就好。</li>
-<li>直接引用：直接引用可以是指向目标的指针、相对偏移量或者是一个能直接引用或间接定位到目标的句柄。和虚拟机实现的内存有关，不同的虚拟机直接引用一般不同。</li>
-</ol>
-<p>​&emsp;​&emsp;解析动作主要针对类或接口、字段、类方法、接口方法、方法类型、方法句柄和调用点限定符7类符号引用进行。</p>
-<h2 id="初始化："><a href="#初始化：" class="headerlink" title="初始化："></a>初始化：</h2><p>​​&emsp;​&emsp;这是类加载机制的最后一步，在这个阶段，java代码才开始真正执行。我们知道，在准备阶段已经为类变量赋过一次值，在初始化阶段，程序员可以根据自己的需求来赋值了。<br>​​&emsp;​&emsp;在初始化阶段，主要为类的静态变量赋予正确的初始值，JVM负责对类进行初始化，主要对类变量进行初始化。在Java中对类变量进行初始值设定有两种方式：</p>
-<ol>
-<li>声明变量是指定初始值。</li>
-<li>使用静态代码块为类变量指定初始值。</li>
-</ol>
-<h3 id="JVM初始化步骤："><a href="#JVM初始化步骤：" class="headerlink" title="JVM初始化步骤："></a>JVM初始化步骤：</h3><ol>
-<li>假如这个类还没有被加载和连接，则程序先加载并连接该类。</li>
-<li>假如该类的直接父类还没有被初始化，则先初始化其直接父类。</li>
-<li>假如类中有初始化语句，则系统依次执行这些初始化语句。</li>
-</ol>
-<h3 id="类的初始化时机："><a href="#类的初始化时机：" class="headerlink" title="类的初始化时机："></a>类的初始化时机：</h3><p>​&emsp;​&emsp;只有对类的主动使用时才会导致类的初始化，主动使用包括以下6种：</p>
-<ol>
-<li>创建类的实例，也就是new的时候。</li>
-<li>访问某个类或接口的静态变量，或者对静态变量赋值。</li>
-<li>调用类的静态方法。</li>
-<li>反射操作。</li>
-<li>初始化某个类，则其父类也会被初始化。</li>
-<li>虚拟机启动时被标明为启动类的类，直接用java.exe来运行某个类。</li>
-</ol>
-<hr>
-<h1 id="类加载器："><a href="#类加载器：" class="headerlink" title="类加载器："></a>类加载器：</h1><h2 id="自带类加载器："><a href="#自带类加载器：" class="headerlink" title="自带类加载器："></a>自带类加载器：</h2><p>java语言系统自带有3个类加载器：</p>
-<ol>
-<li>BootStrap ClassLoader：跟类（启动，引导）加载器。它负责加载java的核心类。他比较特殊，因为它是由原生c++代码实现的，并不是java.lang.ClassLoader的子类。</li>
-<li>Extension ClassLoader：扩展类加载器。它负责加载jre的扩展目录（%JAVA_HOME%/jre/lib/ext）中的jar包的类，我们可以通过把自己开发的类打成jar包放入扩展目录来为java提供核心类以外的新功能。</li>
-<li>System ClassLoader（Application ClassLoader）：系统类加载器。它负责再jvm启动时加载来自java命令的-classpath选项、java.class.path系统属性，或CLASSPATH环境变量所指定的jar包和类路径。程序可以通过ClassLoader的静态方法getSystemClassLoader来获取系统类加载器。</li>
-</ol>
-<p>​​&emsp;​&emsp;应用程序都是由这三种类加载器互相配合进行加载的，如果有必要，我们还可以加入自定义的类加载器。因为jvm自带的 ClassLoader只是懂得从本地文件系统加载标准的java class文件，因此如果我们编写了自己的ClassLoader，便可以做到以下几点：</p>
-<ol>
-<li>在执行非置信代码前，自动验证数字签名。</li>
-<li>动态的创建符合用户特定需要的定制化构建类。</li>
-<li>从特定的场所取得java class，例如数据库和网络中。</li>
-</ol>
-<h2 id="自定义类加载器："><a href="#自定义类加载器：" class="headerlink" title="自定义类加载器："></a>自定义类加载器：</h2><p>​​&emsp;​&emsp;Custom ClassLoader：通过java.lang.ClassLoader的子类自定义加载class，属于应用程序根据自身需要定义的ClassLoader，如Tomcat，jboss都会根据j2ee规范自行实现ClassLoader。<br>​​&emsp;​&emsp;自定义类加载器的核心在于对字节码文件的获取，如果是加密的字节码则需要在该类中对文件进行解密。有几点需要注意：</p>
-<ol>
-<li>这里传递的文件名是类的全限定名。</li>
-<li>重写findClass而不重新loadClass，重新loadClass会破坏双亲委派模式。</li>
-</ol>
-<h2 id="类的三种加载方式："><a href="#类的三种加载方式：" class="headerlink" title="类的三种加载方式："></a>类的三种加载方式：</h2><ol>
-<li>通过命令行启动应用时由jvm初始化加载含有main()方法的主类。</li>
-<li>通过Class.forName()方法动态加载，会默认执行初始化块（static{}），但是Class.forName(name,initlize,loader)中的initlize可指定是否要执行初始化块。</li>
-<li>通过ClassLoader.loadClass()方法动态加载，不会执行初始化块。</li>
-</ol>
-<h3 id="Class-forName-和ClassLoader-loadClass-的区别："><a href="#Class-forName-和ClassLoader-loadClass-的区别：" class="headerlink" title="Class.forName()和ClassLoader.loadClass()的区别："></a>Class.forName()和ClassLoader.loadClass()的区别：</h3><ol>
-<li>Class.forName()：将类的.class文件加载到jvm中之外，还会对类进行解释，执行类中的static块；</li>
-<li>ClassLoader.loadClass()：只干一件事情，就是将.class文件加载到jvm中，不会执行static中的内容,只有在newInstance才会去执行static块。</li>
-<li>Class.forName(name, initialize, loader)带参函数也可控制是否加载static块。并且只有调用了newInstance()方法采用调用构造函数，创建类的对象 。</li>
-</ol>
-<h2 id="JVM类加载机制："><a href="#JVM类加载机制：" class="headerlink" title="JVM类加载机制："></a>JVM类加载机制：</h2><ol>
-<li>全盘负责：当一个类加载器负责加载某个Class时，该Class所依赖的和引用的其他Class也将由该类加载器负责载入，除非显示使用另外一个类加载器来载入。</li>
-<li>父类委托：先让父类加载器试图加载该类，只有在父类加载器无法加载该类时才尝试从自己的类路径中加载该类。</li>
-<li>缓存机制：缓存机制将会保证所有加载过的Class都会被缓存，当程序中需要使用某个Class时，类加载器先从缓存区寻找该Class，只有缓存区不存在，系统才会读取该类对应的二进制数据，并将其转换成Class对象，存入缓存区。这就是为什么修改了Class后，必须重启JVM，程序的修改才会生效。</li>
-</ol>
-<h2 id="双亲委派模型："><a href="#双亲委派模型：" class="headerlink" title="双亲委派模型："></a>双亲委派模型：</h2><ol>
-<li>当AppClassLoader加载一个Class时，他首先不会自己去尝试加载这个类，而是把这个加载请求委托给父类加载器ExtClassLoader去完成。</li>
-<li>当ExtClassLoader加载一个Class时，它首先也不会自己去尝试加载这个类，而是把类加载请求委派给BootStrapClassLoader去完成。</li>
-<li>如果BootStrapClassLoader加载失败（例如再$JAVSA_HOME/jre/lib里未查找到该class），会使用ExtClassLoader来尝试加载。</li>
-<li>若ExtClassLoader也加载失败，则会使用AppClassLoader来加载，如果AppClassLoader也加载失败，则会报出异常ClassNotFoundException。</li>
-</ol>
-<h3 id="意义："><a href="#意义：" class="headerlink" title="意义："></a>意义：</h3><ol>
-<li>系统类防止内存中出现多份的同样的字节码。</li>
-<li>保证Java程序安全稳定运行。</li>
-</ol>
-<h2 id="结束生命周期："><a href="#结束生命周期：" class="headerlink" title="结束生命周期："></a>结束生命周期：</h2><p>在以下几种情况，Java虚拟机将结束生命周期：</p>
-<ol>
-<li>执行了System.exit()方法。</li>
-<li>程序正常执行结束。</li>
-<li>程序在执行过程中，遇到了异常或错误而异常终止。</li>
-<li>由于操作系统出现错误，而导致Java虚拟机进程终止。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>jvm</tag>
-        <tag>classloader</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>锁</title>
     <url>/hexoblog/md/java/%E9%94%81/</url>
     <content><![CDATA[<h1 id="乐观锁："><a href="#乐观锁：" class="headerlink" title="乐观锁："></a>乐观锁：</h1><p>&emsp;&emsp;乐观锁不是数据库自带的，需要我们去实现。总是假设最好的情况，每次去拿数据时都会认为数据没有被修改，所以不会上锁，但是在提交更新的时候会去判断一下在此期间别人有没有更改数据，可以使用版本号机制算法或者CAS算法实现。乐观锁适用于读多于写的情况，可以提高吞吐量。</p>
@@ -1547,6 +1428,125 @@ SELECT ... FOR UPDATE<span aria-hidden="true" class="line-numbers-rows"><span></
       </categories>
       <tags>
         <tag>lock</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>类加载机制</title>
+    <url>/hexoblog/md/java/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/</url>
+    <content><![CDATA[<h1 id="介绍："><a href="#介绍：" class="headerlink" title="介绍："></a>介绍：</h1><h2 id="什么是类的加载？"><a href="#什么是类的加载？" class="headerlink" title="什么是类的加载？"></a>什么是类的加载？</h2><p>​&emsp;​&emsp;类的加载是指将类的.class文件中的二进制数据读入到内存中，将其放在运行时数据区的方法区内，然后在堆区创建一个java.lang.class对象，用来封装类在方法区内的数据结构。<br>​​&emsp;​&emsp;类的加载的最终产品是位于堆区中的class对象，class对象封装了类在方法区内的数据结构，并且提供了访问方法区内的数据结构的接口。</p>
+<span id="more"></span>
+
+<h2 id="在什么时候启动类加载？"><a href="#在什么时候启动类加载？" class="headerlink" title="在什么时候启动类加载？"></a>在什么时候启动类加载？</h2><p>​​&emsp;​&emsp;类的加载并不需要某个类被“首次主动使用”时再加载它，JVM规范允许类加载器在预料某个类将要被预先使用时就预先加载它，如果在预先加载过程中遇到了.class文件缺失或存在错误，类加载器必须在程序首次主动使用该类时才报告错误，如果这个类一直没有被程序主动使用，那么类加载器就不会报告错误。</p>
+<h2 id="从哪个地方加载类？"><a href="#从哪个地方加载类？" class="headerlink" title="从哪个地方加载类？"></a>从哪个地方加载类？</h2><ol>
+<li>从本地系统中直接加载。</li>
+<li>通过网络下载.class文件。</li>
+<li>从zip、jar等归档文件中加载.class文件。</li>
+<li>从专有数据库中提取.class文件。</li>
+<li>将java源代码编译为.class文件。</li>
+</ol>
+<hr>
+<h1 id="类加载机制："><a href="#类加载机制：" class="headerlink" title="类加载机制："></a>类加载机制：</h1><p>​&emsp;​&emsp;加载主要是将.class文件（也可以是zip包）通过二进制流读入到jvm中，在加载阶段JVM需要完成3件事情。</p>
+<h2 id="加载："><a href="#加载：" class="headerlink" title="加载："></a>加载：</h2><p>​&emsp;​&emsp;加载主要是将.class文件（也可以是zip包）通过二进制流读入到jvm中，在加载阶段JVM需要完成3件事情。</p>
+<ol>
+<li>通过classloader在classpath中获取XXX.class文件，将其以二进制流的方式读入内存。</li>
+<li>将字节流代表的静态存储结构，转化为方法区的运行时存储结构。</li>
+<li>在内存中生成一个该类的java.lang.class对象，作为方法区这个类的各种数据的访问入口。</li>
+</ol>
+<h2 id="连接："><a href="#连接：" class="headerlink" title="连接："></a>连接：</h2><h3 id="验证："><a href="#验证：" class="headerlink" title="验证："></a>验证：</h3><p>​&emsp;​&emsp;主要是确保加载进来的字节流符合JVM规范，验证阶段会有4个检验动作：</p>
+<ol>
+<li>文件格式验证：验证.class文件字节流是否符合class文件的格式的规范，并且能够被当前版本的虚拟机处理。这里主要被魔数、主版本号、常量池等等的校验。</li>
+<li>元数据验证：验证是否符合java语言规范，主要是对字节码描述的信息进行语义分析，以保证其描述的信息符合java语言规范的要求，比如说验证这个类是不是有父类，类中的字段方法是不是和父类冲突等等。</li>
+<li>字节码验证：确保程序语义合法，符合逻辑，是整个验证过程最复杂的阶段。主要是通过数据流和控制流分析，确保程序语义是合法的、符合逻辑。在元数据验证那个阶段对数据类型做出验证后，这个阶段主要对类的方法做出分析，保证类的方法在运行时不会做出危害虚拟机安全的事。</li>
+<li>符号引用验证：确保下一步的解析能正常执行，它是验证的最后一个阶段，发生在虚拟机将符号引用转化为直接引用的时候。主要是对类自身以外的信息进行校验。目的是确保解析动作能够完成。</li>
+</ol>
+<p>​&emsp;​&emsp;对整个类加载机制而言，验证阶段是一个很重要但是非必需的阶段，如果我们的代码能够确保没有问题，那么我们就没有必要去验证，毕竟验证需要花费一定的的时间。当然我们可以使用-Xverfity:none来关闭大部分的验证。</p>
+<h3 id="准备："><a href="#准备：" class="headerlink" title="准备："></a>准备：</h3><p>​&emsp;​&emsp;准备是连接阶段的第二步，主要为静态变量在方法区分配内存，并设置默认初始值。</p>
+<ol>
+<li>类变量会分配内存，但是实例变量不会，实例变量主要随着对象的实例化一块分配到java堆中。</li>
+<li>这里的初始值指的是数据类型默认值，而不是代码中被显式赋予的值，但是如果同时被static和final修饰准备阶段后就已经赋值了，普通赋值位于其他阶段。</li>
+</ol>
+<h3 id="解析："><a href="#解析：" class="headerlink" title="解析："></a>解析：</h3><p>​&emsp;​&emsp;解析是连接阶段的第三步，是虚拟机将常量池内的符合引用替换为直接引用的过程。</p>
+<ol>
+<li>符号引用：以一组符号来描述所引用的目标，可以是任何形式的字面量，只要是能无歧义的定位到目标就好。</li>
+<li>直接引用：直接引用可以是指向目标的指针、相对偏移量或者是一个能直接引用或间接定位到目标的句柄。和虚拟机实现的内存有关，不同的虚拟机直接引用一般不同。</li>
+</ol>
+<p>​&emsp;​&emsp;解析动作主要针对类或接口、字段、类方法、接口方法、方法类型、方法句柄和调用点限定符7类符号引用进行。</p>
+<h2 id="初始化："><a href="#初始化：" class="headerlink" title="初始化："></a>初始化：</h2><p>​​&emsp;​&emsp;这是类加载机制的最后一步，在这个阶段，java代码才开始真正执行。我们知道，在准备阶段已经为类变量赋过一次值，在初始化阶段，程序员可以根据自己的需求来赋值了。<br>​​&emsp;​&emsp;在初始化阶段，主要为类的静态变量赋予正确的初始值，JVM负责对类进行初始化，主要对类变量进行初始化。在Java中对类变量进行初始值设定有两种方式：</p>
+<ol>
+<li>声明变量是指定初始值。</li>
+<li>使用静态代码块为类变量指定初始值。</li>
+</ol>
+<h3 id="JVM初始化步骤："><a href="#JVM初始化步骤：" class="headerlink" title="JVM初始化步骤："></a>JVM初始化步骤：</h3><ol>
+<li>假如这个类还没有被加载和连接，则程序先加载并连接该类。</li>
+<li>假如该类的直接父类还没有被初始化，则先初始化其直接父类。</li>
+<li>假如类中有初始化语句，则系统依次执行这些初始化语句。</li>
+</ol>
+<h3 id="类的初始化时机："><a href="#类的初始化时机：" class="headerlink" title="类的初始化时机："></a>类的初始化时机：</h3><p>​&emsp;​&emsp;只有对类的主动使用时才会导致类的初始化，主动使用包括以下6种：</p>
+<ol>
+<li>创建类的实例，也就是new的时候。</li>
+<li>访问某个类或接口的静态变量，或者对静态变量赋值。</li>
+<li>调用类的静态方法。</li>
+<li>反射操作。</li>
+<li>初始化某个类，则其父类也会被初始化。</li>
+<li>虚拟机启动时被标明为启动类的类，直接用java.exe来运行某个类。</li>
+</ol>
+<hr>
+<h1 id="类加载器："><a href="#类加载器：" class="headerlink" title="类加载器："></a>类加载器：</h1><h2 id="自带类加载器："><a href="#自带类加载器：" class="headerlink" title="自带类加载器："></a>自带类加载器：</h2><p>java语言系统自带有3个类加载器：</p>
+<ol>
+<li>BootStrap ClassLoader：跟类（启动，引导）加载器。它负责加载java的核心类。他比较特殊，因为它是由原生c++代码实现的，并不是java.lang.ClassLoader的子类。</li>
+<li>Extension ClassLoader：扩展类加载器。它负责加载jre的扩展目录（%JAVA_HOME%/jre/lib/ext）中的jar包的类，我们可以通过把自己开发的类打成jar包放入扩展目录来为java提供核心类以外的新功能。</li>
+<li>System ClassLoader（Application ClassLoader）：系统类加载器。它负责再jvm启动时加载来自java命令的-classpath选项、java.class.path系统属性，或CLASSPATH环境变量所指定的jar包和类路径。程序可以通过ClassLoader的静态方法getSystemClassLoader来获取系统类加载器。</li>
+</ol>
+<p>​​&emsp;​&emsp;应用程序都是由这三种类加载器互相配合进行加载的，如果有必要，我们还可以加入自定义的类加载器。因为jvm自带的 ClassLoader只是懂得从本地文件系统加载标准的java class文件，因此如果我们编写了自己的ClassLoader，便可以做到以下几点：</p>
+<ol>
+<li>在执行非置信代码前，自动验证数字签名。</li>
+<li>动态的创建符合用户特定需要的定制化构建类。</li>
+<li>从特定的场所取得java class，例如数据库和网络中。</li>
+</ol>
+<h2 id="自定义类加载器："><a href="#自定义类加载器：" class="headerlink" title="自定义类加载器："></a>自定义类加载器：</h2><p>​​&emsp;​&emsp;Custom ClassLoader：通过java.lang.ClassLoader的子类自定义加载class，属于应用程序根据自身需要定义的ClassLoader，如Tomcat，jboss都会根据j2ee规范自行实现ClassLoader。<br>​​&emsp;​&emsp;自定义类加载器的核心在于对字节码文件的获取，如果是加密的字节码则需要在该类中对文件进行解密。有几点需要注意：</p>
+<ol>
+<li>这里传递的文件名是类的全限定名。</li>
+<li>重写findClass而不重新loadClass，重新loadClass会破坏双亲委派模式。</li>
+</ol>
+<h2 id="类的三种加载方式："><a href="#类的三种加载方式：" class="headerlink" title="类的三种加载方式："></a>类的三种加载方式：</h2><ol>
+<li>通过命令行启动应用时由jvm初始化加载含有main()方法的主类。</li>
+<li>通过Class.forName()方法动态加载，会默认执行初始化块（static{}），但是Class.forName(name,initlize,loader)中的initlize可指定是否要执行初始化块。</li>
+<li>通过ClassLoader.loadClass()方法动态加载，不会执行初始化块。</li>
+</ol>
+<h3 id="Class-forName-和ClassLoader-loadClass-的区别："><a href="#Class-forName-和ClassLoader-loadClass-的区别：" class="headerlink" title="Class.forName()和ClassLoader.loadClass()的区别："></a>Class.forName()和ClassLoader.loadClass()的区别：</h3><ol>
+<li>Class.forName()：将类的.class文件加载到jvm中之外，还会对类进行解释，执行类中的static块；</li>
+<li>ClassLoader.loadClass()：只干一件事情，就是将.class文件加载到jvm中，不会执行static中的内容,只有在newInstance才会去执行static块。</li>
+<li>Class.forName(name, initialize, loader)带参函数也可控制是否加载static块。并且只有调用了newInstance()方法采用调用构造函数，创建类的对象 。</li>
+</ol>
+<h2 id="JVM类加载机制："><a href="#JVM类加载机制：" class="headerlink" title="JVM类加载机制："></a>JVM类加载机制：</h2><ol>
+<li>全盘负责：当一个类加载器负责加载某个Class时，该Class所依赖的和引用的其他Class也将由该类加载器负责载入，除非显示使用另外一个类加载器来载入。</li>
+<li>父类委托：先让父类加载器试图加载该类，只有在父类加载器无法加载该类时才尝试从自己的类路径中加载该类。</li>
+<li>缓存机制：缓存机制将会保证所有加载过的Class都会被缓存，当程序中需要使用某个Class时，类加载器先从缓存区寻找该Class，只有缓存区不存在，系统才会读取该类对应的二进制数据，并将其转换成Class对象，存入缓存区。这就是为什么修改了Class后，必须重启JVM，程序的修改才会生效。</li>
+</ol>
+<h2 id="双亲委派模型："><a href="#双亲委派模型：" class="headerlink" title="双亲委派模型："></a>双亲委派模型：</h2><ol>
+<li>当AppClassLoader加载一个Class时，他首先不会自己去尝试加载这个类，而是把这个加载请求委托给父类加载器ExtClassLoader去完成。</li>
+<li>当ExtClassLoader加载一个Class时，它首先也不会自己去尝试加载这个类，而是把类加载请求委派给BootStrapClassLoader去完成。</li>
+<li>如果BootStrapClassLoader加载失败（例如再$JAVSA_HOME/jre/lib里未查找到该class），会使用ExtClassLoader来尝试加载。</li>
+<li>若ExtClassLoader也加载失败，则会使用AppClassLoader来加载，如果AppClassLoader也加载失败，则会报出异常ClassNotFoundException。</li>
+</ol>
+<h3 id="意义："><a href="#意义：" class="headerlink" title="意义："></a>意义：</h3><ol>
+<li>系统类防止内存中出现多份的同样的字节码。</li>
+<li>保证Java程序安全稳定运行。</li>
+</ol>
+<h2 id="结束生命周期："><a href="#结束生命周期：" class="headerlink" title="结束生命周期："></a>结束生命周期：</h2><p>在以下几种情况，Java虚拟机将结束生命周期：</p>
+<ol>
+<li>执行了System.exit()方法。</li>
+<li>程序正常执行结束。</li>
+<li>程序在执行过程中，遇到了异常或错误而异常终止。</li>
+<li>由于操作系统出现错误，而导致Java虚拟机进程终止。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>jvm</tag>
+        <tag>classloader</tag>
       </tags>
   </entry>
   <entry>
@@ -2699,6 +2699,33 @@ mysqlbinlog --start-positoin<span class="token operator">=</span><span class="to
       </tags>
   </entry>
   <entry>
+    <title>redis为什么这么快</title>
+    <url>/hexoblog/md/redis/redis%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%99%E4%B9%88%E5%BF%AB/</url>
+    <content><![CDATA[<h1 id="redis为什么这么快？"><a href="#redis为什么这么快？" class="headerlink" title="redis为什么这么快？"></a>redis为什么这么快？</h1><ol>
+<li>完全基于内存，绝大部分请求时纯内存操作，非常快速。数据在内存中类似于hashmap，hashmap的优势就是查找和操作的时间复杂度都是O(1)。</li>
+<li>数据结构简单，对数据操作也简单，Redis的数据结构是专门进行设计的。SDS。</li>
+<li>采用单线程，避免了不必要的上下文切换和竞争条件，也不存在多进程或多线程切换导致的消耗cpu，不用去考虑各种锁的问题，不存在加锁释放锁的操作，没有因可能出现死锁而导致的消耗。</li>
+<li>使用IO多路复用模型，非阻塞IO。</li>
+<li>使用底层模型不同，他们之间底层实现方式以及客户端之间通信的应用协议不一样，Redis直接自己构建了VM机制，因为一般的系统调用系统函数的话，会浪费一定的时间去移动和请求。</li>
+</ol>
+<span id="more"></span>
+
+<hr>
+<h1 id="多路复用IO模型。"><a href="#多路复用IO模型。" class="headerlink" title="多路复用IO模型。"></a>多路复用IO模型。</h1><ol>
+<li>多路I/O复用模型就是利用select，poll，epoll可以同时监测多个流的I/O事件的能力，在空闲的时候，会把当前线程阻塞掉，当有一个或多个流有I/O事件时，就从阻塞中唤醒，于是程序就会轮询一遍所有流（epoll是只轮询那些真正发出了事件的流），并且只依次顺序的处理就绪的流，这种做法就避免了大量的无用操作。</li>
+<li>这里的多路指的是多个网络连接，复用指的是复用同一个线程。采用多路I/O复用技术，可以让单个线程高效的处理多个连接请求（尽量减少网络IO的时间消耗），且Redis在内存中操作数据的速度非常快，也就是说内存内的操作不会成为影响Redis性能的瓶颈。</li>
+</ol>
+<hr>
+<h1 id="redis为什么是单线程的？"><a href="#redis为什么是单线程的？" class="headerlink" title="redis为什么是单线程的？"></a>redis为什么是单线程的？</h1><p>&emsp;&emsp;CPU并不是redis的瓶颈，瓶颈在于内存的大小或者网络，redis中，网络IO模块采用单线程。<br>&emsp;&emsp;这里的多路指的是多个网络连接，复用指的是复用同一个线程。采用多路I/O复用技术，可以让单个线程高效的处理多个连接请求（尽量减少网络IO的时间消耗），且Redis在内存中操作数据的速度非常快，也就是说内存内的操作不会成为影响Redis性能的瓶颈。</p>
+]]></content>
+      <categories>
+        <category>redis</category>
+      </categories>
+      <tags>
+        <tag>redis</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>redis中的数据结构</title>
     <url>/hexoblog/md/redis/redis%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</url>
     <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;redis中共有8种数据结构，其中常用的有5种。这些数据结构基本采用了底层的8种数据结构实现。</p>
@@ -2793,33 +2820,6 @@ mysqlbinlog --start-positoin<span class="token operator">=</span><span class="to
 <li><a href="https://www.cnblogs.com/cnki/p/6113109.html">Redis实战（2）Redis八种数据结构（Windows Server）</a></li>
 <li><a href="https://www.cnblogs.com/knowledgesea/p/4970026.html">Redis数据结构详解(一)</a></li>
 </ul>
-]]></content>
-      <categories>
-        <category>redis</category>
-      </categories>
-      <tags>
-        <tag>redis</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>redis为什么这么快</title>
-    <url>/hexoblog/md/redis/redis%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%99%E4%B9%88%E5%BF%AB/</url>
-    <content><![CDATA[<h1 id="redis为什么这么快？"><a href="#redis为什么这么快？" class="headerlink" title="redis为什么这么快？"></a>redis为什么这么快？</h1><ol>
-<li>完全基于内存，绝大部分请求时纯内存操作，非常快速。数据在内存中类似于hashmap，hashmap的优势就是查找和操作的时间复杂度都是O(1)。</li>
-<li>数据结构简单，对数据操作也简单，Redis的数据结构是专门进行设计的。SDS。</li>
-<li>采用单线程，避免了不必要的上下文切换和竞争条件，也不存在多进程或多线程切换导致的消耗cpu，不用去考虑各种锁的问题，不存在加锁释放锁的操作，没有因可能出现死锁而导致的消耗。</li>
-<li>使用IO多路复用模型，非阻塞IO。</li>
-<li>使用底层模型不同，他们之间底层实现方式以及客户端之间通信的应用协议不一样，Redis直接自己构建了VM机制，因为一般的系统调用系统函数的话，会浪费一定的时间去移动和请求。</li>
-</ol>
-<span id="more"></span>
-
-<hr>
-<h1 id="多路复用IO模型。"><a href="#多路复用IO模型。" class="headerlink" title="多路复用IO模型。"></a>多路复用IO模型。</h1><ol>
-<li>多路I/O复用模型就是利用select，poll，epoll可以同时监测多个流的I/O事件的能力，在空闲的时候，会把当前线程阻塞掉，当有一个或多个流有I/O事件时，就从阻塞中唤醒，于是程序就会轮询一遍所有流（epoll是只轮询那些真正发出了事件的流），并且只依次顺序的处理就绪的流，这种做法就避免了大量的无用操作。</li>
-<li>这里的多路指的是多个网络连接，复用指的是复用同一个线程。采用多路I/O复用技术，可以让单个线程高效的处理多个连接请求（尽量减少网络IO的时间消耗），且Redis在内存中操作数据的速度非常快，也就是说内存内的操作不会成为影响Redis性能的瓶颈。</li>
-</ol>
-<hr>
-<h1 id="redis为什么是单线程的？"><a href="#redis为什么是单线程的？" class="headerlink" title="redis为什么是单线程的？"></a>redis为什么是单线程的？</h1><p>&emsp;&emsp;CPU并不是redis的瓶颈，瓶颈在于内存的大小或者网络，redis中，网络IO模块采用单线程。<br>&emsp;&emsp;这里的多路指的是多个网络连接，复用指的是复用同一个线程。采用多路I/O复用技术，可以让单个线程高效的处理多个连接请求（尽量减少网络IO的时间消耗），且Redis在内存中操作数据的速度非常快，也就是说内存内的操作不会成为影响Redis性能的瓶颈。</p>
 ]]></content>
       <categories>
         <category>redis</category>
@@ -2940,17 +2940,6 @@ redis-server.exe --service-stop<span aria-hidden="true" class="line-numbers-rows
       </tags>
   </entry>
   <entry>
-    <title>redis底层采用的数据结构</title>
-    <url>/hexoblog/md/redis/redis%E5%BA%95%E5%B1%82%E9%87%87%E7%94%A8%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</url>
-    <content><![CDATA[]]></content>
-      <categories>
-        <category>redis</category>
-      </categories>
-      <tags>
-        <tag>redis</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>redis缓存淘汰策略</title>
     <url>/hexoblog/md/redis/redis%E7%BC%93%E5%AD%98%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5/</url>
     <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;在redis中，如果定期删除漏掉了很多键，而又没有及时删除，很容易就会造成内存耗尽。<br>&emsp;&emsp;内存淘汰机制专门是处理在内存耗尽时，删除旧数据，保证新数据能保存成功。</p>
@@ -3002,6 +2991,17 @@ redis-server.exe --service-stop<span aria-hidden="true" class="line-numbers-rows
 <hr>
 <h1 id="淘汰机制的实现"><a href="#淘汰机制的实现" class="headerlink" title="淘汰机制的实现"></a>淘汰机制的实现</h1><p>&emsp;&emsp;淘汰机制的实现主要就是用于过期主键的删除。</p>
 ]]></content>
+      <categories>
+        <category>redis</category>
+      </categories>
+      <tags>
+        <tag>redis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>redis底层采用的数据结构</title>
+    <url>/hexoblog/md/redis/redis%E5%BA%95%E5%B1%82%E9%87%87%E7%94%A8%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</url>
+    <content><![CDATA[]]></content>
       <categories>
         <category>redis</category>
       </categories>
@@ -3266,7 +3266,63 @@ redis-server.exe --service-stop<span aria-hidden="true" class="line-numbers-rows
   <entry>
     <title>spring中bean的生命周期</title>
     <url>/hexoblog/md/spring/spring%E4%B8%ADbean%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/</url>
-    <content><![CDATA[]]></content>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;Spring中Bean的生命周期，大概可以分为四个阶段和多个扩展点：</p>
+<ol>
+<li>实例化</li>
+<li>属性注入</li>
+<li>初始化</li>
+<li>销毁</li>
+</ol>
+<div id="flowchart-0" class="flow-chart"></div>
+
+<span id="more"></span>
+
+<hr>
+<h1 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h1><p>&emsp;&emsp;生命周期的的主要过程都在doCreate()方法中，在其中顺序的调用实例化，属性赋值，初始化方法。</p>
+<ol>
+<li>createBeanInstance() -&gt; 实例化</li>
+<li>populateBean() -&gt; 属性赋值</li>
+<li>initializeBean() -&gt; 初始化</li>
+</ol>
+<p>&emsp;&emsp;销毁则在容器关闭时调用，详见<code>ConfigurableApplicationContext#close()</code>。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">// 忽略了无关代码</span>
+<span class="token keyword">protected</span> <span class="token class-name">Object</span> <span class="token function">doCreateBean</span><span class="token punctuation">(</span><span class="token keyword">final</span> <span class="token class-name">String</span> beanName<span class="token punctuation">,</span> <span class="token keyword">final</span> <span class="token class-name">RootBeanDefinition</span> mbd<span class="token punctuation">,</span> <span class="token keyword">final</span> <span class="token annotation punctuation">@Nullable</span> <span class="token class-name">Object</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span>
+      <span class="token keyword">throws</span> <span class="token class-name">BeanCreationException</span> <span class="token punctuation">&#123;</span>
+
+   <span class="token comment">// Instantiate the bean.</span>
+   <span class="token class-name">BeanWrapper</span> instanceWrapper <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+   <span class="token keyword">if</span> <span class="token punctuation">(</span>instanceWrapper <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+       <span class="token comment">// 实例化阶段！</span>
+      instanceWrapper <span class="token operator">=</span> <span class="token function">createBeanInstance</span><span class="token punctuation">(</span>beanName<span class="token punctuation">,</span> mbd<span class="token punctuation">,</span> args<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token punctuation">&#125;</span>
+
+   <span class="token comment">// Initialize the bean instance.</span>
+   <span class="token class-name">Object</span> exposedObject <span class="token operator">=</span> bean<span class="token punctuation">;</span>
+   <span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
+       <span class="token comment">// 属性赋值阶段！</span>
+      <span class="token function">populateBean</span><span class="token punctuation">(</span>beanName<span class="token punctuation">,</span> mbd<span class="token punctuation">,</span> instanceWrapper<span class="token punctuation">)</span><span class="token punctuation">;</span>
+       <span class="token comment">// 初始化阶段！</span>
+      exposedObject <span class="token operator">=</span> <span class="token function">initializeBean</span><span class="token punctuation">(</span>beanName<span class="token punctuation">,</span> exposedObject<span class="token punctuation">,</span> mbd<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h1 id="参考文献-amp-鸣谢"><a href="#参考文献-amp-鸣谢" class="headerlink" title="参考文献 &amp; 鸣谢"></a>参考文献 &amp; 鸣谢</h1><ul>
+<li><a href="https://www.jianshu.com/p/1dec08d290c1">请别再问Spring Bean的生命周期了！</a><script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/flowchart/1.6.5/flowchart.min.js"></script><textarea id="flowchart-0-code" style="display: none">op1=>operation: 实例化
+op2=>operation: 属性注入
+op3=>operation: 初始化
+op4=>operation: 销毁
+op1(right)->op2
+op2(right)->op3
+op3(right)->op4</textarea><textarea id="flowchart-0-options" style="display: none">{"theme":"simple","scale":1,"line-width":2,"line-length":50,"text-margin":10,"font-size":12}</textarea><script>  var code = document.getElementById("flowchart-0-code").value;  var options = JSON.parse(decodeURIComponent(document.getElementById("flowchart-0-options").value));  var diagram = flowchart.parse(code);  diagram.drawSVG("flowchart-0", options);</script></li>
+</ul>
+]]></content>
+      <categories>
+        <category>spring</category>
+      </categories>
+      <tags>
+        <tag>spring</tag>
+      </tags>
   </entry>
   <entry>
     <title>spring事务失效</title>
@@ -3595,6 +3651,72 @@ hexo d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></sp
       </tags>
   </entry>
   <entry>
+    <title>zookeeper-leader选举</title>
+    <url>/hexoblog/md/zookeeper/zookeeper-leader%E9%80%89%E4%B8%BE/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;ZAB协议包括了两种基本模式：崩溃恢复，数据广播。<br>&emsp;&emsp;一旦Leader服务器出现崩溃或者由于网络原因导致Leader服务器失去了与过半Follower的联系，那么就会进入崩溃恢复模式。<br>&emsp;&emsp;崩溃恢复主要包括两部分：Leader选举和数据恢复。</p>
+<span id="more"></span>
+
+<h2 id="保证数据一致性"><a href="#保证数据一致性" class="headerlink" title="保证数据一致性"></a>保证数据一致性</h2><p>&emsp;&emsp;假设两种情况：</p>
+<ol>
+<li>一个事务在Leader上提交了，并且过半的Folower都响应Ack了，但是Leader在Commit消息发出之前挂了。</li>
+<li>假设一个事务在Leader提出之后，Leader挂了。</li>
+</ol>
+<p>&emsp;&emsp;要满足上面这两个问题，必须做到：</p>
+<ol>
+<li><strong>确保已经被Leader提交的Proposal必须最终被所有的Follower服务器提交</strong>。</li>
+<li><strong>确保丢弃已经被Leader提出的但是没有被提交的Proposal</strong>。</li>
+</ol>
+<p>&emsp;&emsp;新的Leader的必须满足：</p>
+<ol>
+<li><strong>新选举出来的Leader不能包含未提交的Proposal</strong>。</li>
+<li><strong>新选举的Leader节点中含有最大的Zxid</strong>。</li>
+</ol>
+<h2 id="ZAB如何数据同步"><a href="#ZAB如何数据同步" class="headerlink" title="ZAB如何数据同步"></a>ZAB如何数据同步</h2><p>&emsp;&emsp;完成Leader选举后（新的Leader具有最高的Zxid），在正式开始工作之前（接收事务请求，然后提出新的Proposal），Leader服务器会首先确认事务日志中的所有的Proposal是否已经被集群中过半的服务器Commit。<br>&emsp;&emsp;Leader服务器需要确保所有的Follower服务器能够接收到每一条事务的Proposal，并且能将所有已经提交的事务Proposal应用到内存数据中。等到Follower将所有尚未同步的事务Proposal都从Leader服务器上同步过啦并且应用到内存数据中以后，Leader才会把该Follower加入到真正可用的Follower列表中。</p>
+<h2 id="ZAB数据同步过程中，如何处理需要丢弃的Proposal"><a href="#ZAB数据同步过程中，如何处理需要丢弃的Proposal" class="headerlink" title="ZAB数据同步过程中，如何处理需要丢弃的Proposal"></a>ZAB数据同步过程中，如何处理需要丢弃的Proposal</h2><p>&emsp;&emsp;在ZAB的事务编号Zxid设计中，Zxid是一个64位的数字。<br>&emsp;&emsp;<strong>其中低32位可以看成一个简单的单增计数器，针对客户端每一个事务请求，Leader在产生新的Proposal事务时，都会对该计数器加1。而高32位则代表了Leader周期的epoch编号</strong>。  </p>
+<blockquote>
+<p>&emsp;&emsp;epoch编号可以理解为当前集群所处的年代，或者周期。每次Leader变更之后都会在epoch的基础上加1，这样旧的Leader崩溃恢复之后，其他Follower也不会听它的了，因为Follower只服从epoch最高的Leader命令。</p>
+</blockquote>
+<p>&emsp;&emsp;每当选举产生一个新的Leader，就会从这个Leader服务器上取出本地事务日志充最大编号Proposal的Zxid，并从Zxid中解析得到对应的epoch编号，然后再对其加1，之后该编号就作为新的epoch值，并将低32位数字归零，由0开始重新生成Zxid。<br>&emsp;&emsp;ZAB协议通过epoch编号来区分Leader变化周期，能够有效避免不同的Leader错误的使用了相同的Zxid编号提出了不一样的Proposal的异常情况。<br>&emsp;&emsp;当一个包含了上一个Leader周期尚未提交过的事务Proposal的服务器启动时，当这台机器加入集群中，以Follower角色连上Leader服务器上，Leader服务器会根据自己服务器上最后提交的Proposal来和Follower服务器的Proposal进行比对，比对的结果肯定是Leader要求Follower进行一个回退操作，回退到一个确实已经被集群中过半机器Commit的最新Proposal。</p>
+<hr>
+<h1 id="Leader选举"><a href="#Leader选举" class="headerlink" title="Leader选举"></a>Leader选举</h1><p>&emsp;&emsp;选举分为四个阶段：选举阶段，发现阶段，同步阶段，广播阶段。</p>
+<h2 id="选举阶段"><a href="#选举阶段" class="headerlink" title="选举阶段"></a>选举阶段</h2><p>&emsp;&emsp;节点在一开始都处于选举阶段，只要一个节点得到超过半数节点的票数，他就可以当选准Leader，只有达到同步阶段，这个节点才能真正称为Leader。<br>&emsp;&emsp;Zookeeper规定所有有效的投票都必须在同一个轮次中，每个服务器在开始新一轮投票时，都会对自己维护的logicalClock进行自增操作。<br>&emsp;&emsp;每个服务器在广播自己的选票前，会将自己的投票箱（recvset）清空。该投票箱记录了所受到的选票。(3,2)这种格式，表示3投给了2。<br>&emsp;&emsp;广播选票后，会进行选票PK，选出准Leader。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/zab%E9%80%89%E4%B8%BE.png" alt="ZAB选举"></p>
+<h2 id="发现阶段"><a href="#发现阶段" class="headerlink" title="发现阶段"></a>发现阶段</h2><p>&emsp;&emsp;在这个阶段，Followers和上一轮选举出的准Leader进行通信，同步Followers最近接收的事务Proposal。<br>&emsp;&emsp;<em>一个Follower只会连接一个Leader，如果一个 Follower节点拒绝另一个Follower节点，则会在尝试连接时被拒绝。被拒绝之后，该节点就会进入Leader Election阶段</em>。<br>&emsp;&emsp;这个阶段的主要目标是发现当前大多数节点接收的最新Proposal，并且准Leader生成新的epoch，让Follower接收，更新它们的acceptedEpoch。</p>
+<h2 id="同步阶段"><a href="#同步阶段" class="headerlink" title="同步阶段"></a>同步阶段</h2><p>&emsp;&emsp;同步阶段主要是利用Leader前一阶段获得最新的Proposal历史，同步集群中所有的副本。<br>&emsp;&emsp;只有当超过半数节点都同步完成，准Leader才会称为真正的Leader。Follower只会接受Zxid比自己LastZxid大的Proposal。</p>
+<h2 id="广播阶段"><a href="#广播阶段" class="headerlink" title="广播阶段"></a>广播阶段</h2><p>&emsp;&emsp;到了这个阶段，Zookeeper集群才能正式向外部提供服务，并且Leader进行消息广播。如果有新节点，对新节点进行数据同步。<br>&emsp;&emsp;Zookeeper不需要得到全部的Follower的ACK，超过一般数量的ACK，就饿可以Commit。</p>
+<hr>
+<h1 id="协议实现"><a href="#协议实现" class="headerlink" title="协议实现"></a>协议实现</h1><p>&emsp;&emsp;实际的实现跟上面有所不同，分为三个阶段，将发现和同步阶段合在一起。<br>&emsp;&emsp;实际分为，选举、恢复、广播三个阶段。</p>
+<h2 id="选举阶段-1"><a href="#选举阶段-1" class="headerlink" title="选举阶段"></a>选举阶段</h2><p>&emsp;&emsp;选举阶段采用Fast Leader Election（FLE），会采用LastZxid最大的节点作为Leader，这样就省去了发现最新提议的阶段。<br>&emsp;&emsp;这是基于拥有最新提议的节点也拥有最新的提交记录。<br>&emsp;&emsp;称为Leader的条件：</p>
+<ol>
+<li>选epoch最大的。</li>
+<li>epoch相等，选Zxid最大的。</li>
+<li>若 epoch 和 zxid 相等，选择 server_id 最大的（zoo.cfg中的myid）。</li>
+</ol>
+<p>&emsp;&emsp;节点在选举开始时，都默认投票给自己，当接收其他节点的选票时，会根据上面的Leader条件 判断并且更改自己的选票，然后重新发送选票给其他节点。当有一个节点的得票超过半数，该节点会设置自己的状态为Leading ，其他节点会设置自己的状态为Following。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E9%80%89%E4%B8%BE.png" alt="选举"></p>
+<h2 id="恢复阶段"><a href="#恢复阶段" class="headerlink" title="恢复阶段"></a>恢复阶段</h2><p>&emsp;&emsp;这一阶段Follower发送他们的lastZxid给Leader，Leader根据lastZxid决定如何同步数据。这里的实现跟前面的Phase 2有所不同：Follower收到TRUNC指令会终止L.lastCommitedZxid之后的Proposal，收到DIFF指令会接收新的Proposal。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E6%81%A2%E5%A4%8D.png" alt="恢复"></p>
+<hr>
+<h1 id="两个问题"><a href="#两个问题" class="headerlink" title="两个问题"></a>两个问题</h1><h2 id="已经被处理的请求不能丢"><a href="#已经被处理的请求不能丢" class="headerlink" title="已经被处理的请求不能丢"></a>已经被处理的请求不能丢</h2><p>&emsp;&emsp;就是发送Commit提交消息时，挂掉了。</p>
+<ol>
+<li>选举拥有proposal最大值（即zxid最大）的节点作为新的 leader。<blockquote>
+<p>zxid最大也就是数据最新的节点保存了所有被COMMIT消息的proposal状态。</p>
+</blockquote>
+</li>
+<li>新的leader将自己事务日志中proposal但未COMMIT的消息处理。</li>
+<li>新的leader与follower建立先进先出的队列，先将自身有而 follower没有的proposal发送给follower，再将这些proposal的COMMIT命令发送给follower，以保证所有的follower都保存了所有的proposal、所有的follower都处理了所有的消息。通过以上策略，能保证已经被处理的消息不会丢。</li>
+</ol>
+<h2 id="没被处理的请求需要丢失"><a href="#没被处理的请求需要丢失" class="headerlink" title="没被处理的请求需要丢失"></a>没被处理的请求需要丢失</h2><p>&emsp;&emsp;当leader接收到消息请求生成proposal后就挂了，其他follower并没有收到此proposal，因此经过恢复模式重新选了leader后，这条消息是被跳过的。此时，之前挂了的leader重新启动并注册成了follower，他保留了被跳过消息的proposal状态，与整个系统的状态是不一致的，需要将其删除。<br>&emsp;&emsp;Zxid的设计的好处是旧的leader挂了后重启，它不会被选举为leader，因为此时它的zxid肯定小于当前的新leader。当旧的leader作为follower接入新的leader后，新的leader会让它将所有的拥有旧的epoch号的未被COMMIT的proposal清除。</p>
+]]></content>
+      <categories>
+        <category>zookeeper</category>
+      </categories>
+      <tags>
+        <tag>分布式</tag>
+        <tag>zookeeper</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>zookeeper使用场景</title>
     <url>/hexoblog/md/zookeeper/zookeeper%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF/</url>
     <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;zookeeper是一个典型的发布/订阅模式的分布式数据管理与协调框架。</p>
@@ -3737,72 +3859,6 @@ hexo d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></sp
 </ol>
 <h2 id="dubbo"><a href="#dubbo" class="headerlink" title="dubbo"></a>dubbo</h2><p>&emsp;&emsp;Dubbo基于ZooKeeper实现了服务注册中心。哪一个服务由哪一个机器来提供必需让调用者知道，简单来说就是ip地址和服务名称的对应关系。ZooKeeper通过心跳机制可以检测挂掉的机器并将挂掉机器的ip和服务对应关系从列表中删除。</p>
 <p>&emsp;&emsp;至于支持高并发，简单来说就是横向扩展，在不更改代码的情况通过添加机器来提高运算能力。通过添加新的机器向ZooKeeper注册服务，服务的提供者多了能服务的客户就多了。</p>
-]]></content>
-      <categories>
-        <category>zookeeper</category>
-      </categories>
-      <tags>
-        <tag>分布式</tag>
-        <tag>zookeeper</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>zookeeper-leader选举</title>
-    <url>/hexoblog/md/zookeeper/zookeeper-leader%E9%80%89%E4%B8%BE/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;ZAB协议包括了两种基本模式：崩溃恢复，数据广播。<br>&emsp;&emsp;一旦Leader服务器出现崩溃或者由于网络原因导致Leader服务器失去了与过半Follower的联系，那么就会进入崩溃恢复模式。<br>&emsp;&emsp;崩溃恢复主要包括两部分：Leader选举和数据恢复。</p>
-<span id="more"></span>
-
-<h2 id="保证数据一致性"><a href="#保证数据一致性" class="headerlink" title="保证数据一致性"></a>保证数据一致性</h2><p>&emsp;&emsp;假设两种情况：</p>
-<ol>
-<li>一个事务在Leader上提交了，并且过半的Folower都响应Ack了，但是Leader在Commit消息发出之前挂了。</li>
-<li>假设一个事务在Leader提出之后，Leader挂了。</li>
-</ol>
-<p>&emsp;&emsp;要满足上面这两个问题，必须做到：</p>
-<ol>
-<li><strong>确保已经被Leader提交的Proposal必须最终被所有的Follower服务器提交</strong>。</li>
-<li><strong>确保丢弃已经被Leader提出的但是没有被提交的Proposal</strong>。</li>
-</ol>
-<p>&emsp;&emsp;新的Leader的必须满足：</p>
-<ol>
-<li><strong>新选举出来的Leader不能包含未提交的Proposal</strong>。</li>
-<li><strong>新选举的Leader节点中含有最大的Zxid</strong>。</li>
-</ol>
-<h2 id="ZAB如何数据同步"><a href="#ZAB如何数据同步" class="headerlink" title="ZAB如何数据同步"></a>ZAB如何数据同步</h2><p>&emsp;&emsp;完成Leader选举后（新的Leader具有最高的Zxid），在正式开始工作之前（接收事务请求，然后提出新的Proposal），Leader服务器会首先确认事务日志中的所有的Proposal是否已经被集群中过半的服务器Commit。<br>&emsp;&emsp;Leader服务器需要确保所有的Follower服务器能够接收到每一条事务的Proposal，并且能将所有已经提交的事务Proposal应用到内存数据中。等到Follower将所有尚未同步的事务Proposal都从Leader服务器上同步过啦并且应用到内存数据中以后，Leader才会把该Follower加入到真正可用的Follower列表中。</p>
-<h2 id="ZAB数据同步过程中，如何处理需要丢弃的Proposal"><a href="#ZAB数据同步过程中，如何处理需要丢弃的Proposal" class="headerlink" title="ZAB数据同步过程中，如何处理需要丢弃的Proposal"></a>ZAB数据同步过程中，如何处理需要丢弃的Proposal</h2><p>&emsp;&emsp;在ZAB的事务编号Zxid设计中，Zxid是一个64位的数字。<br>&emsp;&emsp;<strong>其中低32位可以看成一个简单的单增计数器，针对客户端每一个事务请求，Leader在产生新的Proposal事务时，都会对该计数器加1。而高32位则代表了Leader周期的epoch编号</strong>。  </p>
-<blockquote>
-<p>&emsp;&emsp;epoch编号可以理解为当前集群所处的年代，或者周期。每次Leader变更之后都会在epoch的基础上加1，这样旧的Leader崩溃恢复之后，其他Follower也不会听它的了，因为Follower只服从epoch最高的Leader命令。</p>
-</blockquote>
-<p>&emsp;&emsp;每当选举产生一个新的Leader，就会从这个Leader服务器上取出本地事务日志充最大编号Proposal的Zxid，并从Zxid中解析得到对应的epoch编号，然后再对其加1，之后该编号就作为新的epoch值，并将低32位数字归零，由0开始重新生成Zxid。<br>&emsp;&emsp;ZAB协议通过epoch编号来区分Leader变化周期，能够有效避免不同的Leader错误的使用了相同的Zxid编号提出了不一样的Proposal的异常情况。<br>&emsp;&emsp;当一个包含了上一个Leader周期尚未提交过的事务Proposal的服务器启动时，当这台机器加入集群中，以Follower角色连上Leader服务器上，Leader服务器会根据自己服务器上最后提交的Proposal来和Follower服务器的Proposal进行比对，比对的结果肯定是Leader要求Follower进行一个回退操作，回退到一个确实已经被集群中过半机器Commit的最新Proposal。</p>
-<hr>
-<h1 id="Leader选举"><a href="#Leader选举" class="headerlink" title="Leader选举"></a>Leader选举</h1><p>&emsp;&emsp;选举分为四个阶段：选举阶段，发现阶段，同步阶段，广播阶段。</p>
-<h2 id="选举阶段"><a href="#选举阶段" class="headerlink" title="选举阶段"></a>选举阶段</h2><p>&emsp;&emsp;节点在一开始都处于选举阶段，只要一个节点得到超过半数节点的票数，他就可以当选准Leader，只有达到同步阶段，这个节点才能真正称为Leader。<br>&emsp;&emsp;Zookeeper规定所有有效的投票都必须在同一个轮次中，每个服务器在开始新一轮投票时，都会对自己维护的logicalClock进行自增操作。<br>&emsp;&emsp;每个服务器在广播自己的选票前，会将自己的投票箱（recvset）清空。该投票箱记录了所受到的选票。(3,2)这种格式，表示3投给了2。<br>&emsp;&emsp;广播选票后，会进行选票PK，选出准Leader。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/zab%E9%80%89%E4%B8%BE.png" alt="ZAB选举"></p>
-<h2 id="发现阶段"><a href="#发现阶段" class="headerlink" title="发现阶段"></a>发现阶段</h2><p>&emsp;&emsp;在这个阶段，Followers和上一轮选举出的准Leader进行通信，同步Followers最近接收的事务Proposal。<br>&emsp;&emsp;<em>一个Follower只会连接一个Leader，如果一个 Follower节点拒绝另一个Follower节点，则会在尝试连接时被拒绝。被拒绝之后，该节点就会进入Leader Election阶段</em>。<br>&emsp;&emsp;这个阶段的主要目标是发现当前大多数节点接收的最新Proposal，并且准Leader生成新的epoch，让Follower接收，更新它们的acceptedEpoch。</p>
-<h2 id="同步阶段"><a href="#同步阶段" class="headerlink" title="同步阶段"></a>同步阶段</h2><p>&emsp;&emsp;同步阶段主要是利用Leader前一阶段获得最新的Proposal历史，同步集群中所有的副本。<br>&emsp;&emsp;只有当超过半数节点都同步完成，准Leader才会称为真正的Leader。Follower只会接受Zxid比自己LastZxid大的Proposal。</p>
-<h2 id="广播阶段"><a href="#广播阶段" class="headerlink" title="广播阶段"></a>广播阶段</h2><p>&emsp;&emsp;到了这个阶段，Zookeeper集群才能正式向外部提供服务，并且Leader进行消息广播。如果有新节点，对新节点进行数据同步。<br>&emsp;&emsp;Zookeeper不需要得到全部的Follower的ACK，超过一般数量的ACK，就饿可以Commit。</p>
-<hr>
-<h1 id="协议实现"><a href="#协议实现" class="headerlink" title="协议实现"></a>协议实现</h1><p>&emsp;&emsp;实际的实现跟上面有所不同，分为三个阶段，将发现和同步阶段合在一起。<br>&emsp;&emsp;实际分为，选举、恢复、广播三个阶段。</p>
-<h2 id="选举阶段-1"><a href="#选举阶段-1" class="headerlink" title="选举阶段"></a>选举阶段</h2><p>&emsp;&emsp;选举阶段采用Fast Leader Election（FLE），会采用LastZxid最大的节点作为Leader，这样就省去了发现最新提议的阶段。<br>&emsp;&emsp;这是基于拥有最新提议的节点也拥有最新的提交记录。<br>&emsp;&emsp;称为Leader的条件：</p>
-<ol>
-<li>选epoch最大的。</li>
-<li>epoch相等，选Zxid最大的。</li>
-<li>若 epoch 和 zxid 相等，选择 server_id 最大的（zoo.cfg中的myid）。</li>
-</ol>
-<p>&emsp;&emsp;节点在选举开始时，都默认投票给自己，当接收其他节点的选票时，会根据上面的Leader条件 判断并且更改自己的选票，然后重新发送选票给其他节点。当有一个节点的得票超过半数，该节点会设置自己的状态为Leading ，其他节点会设置自己的状态为Following。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E9%80%89%E4%B8%BE.png" alt="选举"></p>
-<h2 id="恢复阶段"><a href="#恢复阶段" class="headerlink" title="恢复阶段"></a>恢复阶段</h2><p>&emsp;&emsp;这一阶段Follower发送他们的lastZxid给Leader，Leader根据lastZxid决定如何同步数据。这里的实现跟前面的Phase 2有所不同：Follower收到TRUNC指令会终止L.lastCommitedZxid之后的Proposal，收到DIFF指令会接收新的Proposal。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E6%81%A2%E5%A4%8D.png" alt="恢复"></p>
-<hr>
-<h1 id="两个问题"><a href="#两个问题" class="headerlink" title="两个问题"></a>两个问题</h1><h2 id="已经被处理的请求不能丢"><a href="#已经被处理的请求不能丢" class="headerlink" title="已经被处理的请求不能丢"></a>已经被处理的请求不能丢</h2><p>&emsp;&emsp;就是发送Commit提交消息时，挂掉了。</p>
-<ol>
-<li>选举拥有proposal最大值（即zxid最大）的节点作为新的 leader。<blockquote>
-<p>zxid最大也就是数据最新的节点保存了所有被COMMIT消息的proposal状态。</p>
-</blockquote>
-</li>
-<li>新的leader将自己事务日志中proposal但未COMMIT的消息处理。</li>
-<li>新的leader与follower建立先进先出的队列，先将自身有而 follower没有的proposal发送给follower，再将这些proposal的COMMIT命令发送给follower，以保证所有的follower都保存了所有的proposal、所有的follower都处理了所有的消息。通过以上策略，能保证已经被处理的消息不会丢。</li>
-</ol>
-<h2 id="没被处理的请求需要丢失"><a href="#没被处理的请求需要丢失" class="headerlink" title="没被处理的请求需要丢失"></a>没被处理的请求需要丢失</h2><p>&emsp;&emsp;当leader接收到消息请求生成proposal后就挂了，其他follower并没有收到此proposal，因此经过恢复模式重新选了leader后，这条消息是被跳过的。此时，之前挂了的leader重新启动并注册成了follower，他保留了被跳过消息的proposal状态，与整个系统的状态是不一致的，需要将其删除。<br>&emsp;&emsp;Zxid的设计的好处是旧的leader挂了后重启，它不会被选举为leader，因为此时它的zxid肯定小于当前的新leader。当旧的leader作为follower接入新的leader后，新的leader会让它将所有的拥有旧的epoch号的未被COMMIT的proposal清除。</p>
 ]]></content>
       <categories>
         <category>zookeeper</category>
@@ -4327,27 +4383,6 @@ zkServer<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
       </tags>
   </entry>
   <entry>
-    <title>jekins安装使用</title>
-    <url>/hexoblog/md/DEVOPS/CICD/jekins%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h1 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h1><p>&emsp;&emsp;网上的教程有很多，把自己的过程记一遍。<br>&emsp;&emsp;首先就是下载jekins的包，在官网下载就可以。win平台的可以下载对应的exe文件。<br><a href="https://www.jenkins.io/download">jekins下载</a><br>8089</p>
-<span id="more"></span>
-
-<hr>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;这里讲的是windows平台的安装。<br>&emsp;&emsp;安装也是很简单，一路点击next就可以了。</p>
-<hr>
-<h1 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h1><p>&emsp;&emsp;先看官方的，有空再总结自己的。<br>&emsp;&emsp;<a href="https://blog.csdn.net/wise18146705004/article/details/105455426">jekins在win10的安装和使用</a><br>&emsp;&emsp;<a href="https://www.jenkins.io/zh/doc/book/installing/">安装Jenkins </a><br>&emsp;&emsp;<a href="https://www.jenkins.io/zh/download/">Jenkins 的安装和设置</a></p>
-]]></content>
-      <categories>
-        <category>CICD</category>
-        <category>jekins</category>
-      </categories>
-      <tags>
-        <tag>tool</tag>
-        <tag>CICD</tag>
-        <tag>jekins</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>dcokerdesktop小问题排查</title>
     <url>/hexoblog/md/DEVOPS/docker/dcokerdesktop%E5%B0%8F%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5/</url>
     <content><![CDATA[<!-- toc -->
@@ -4366,44 +4401,6 @@ zkServer<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
       <tags>
         <tag>docker</tag>
         <tag>wsl</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>nginx基础安装及使用</title>
-    <url>/hexoblog/md/DEVOPS/nginx/nginx%E5%9F%BA%E7%A1%80%E5%AE%89%E8%A3%85%E5%8F%8A%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>&emsp;&emsp;Nginx是一款轻量级的Web服务器、反向代理服务器，由于它的内存占用少，启动极快，高并发能力强，在互联网项目中广泛应用。</p>
-<span id="more"></span>
-
-<p>&emsp;&emsp;nginx可以用来做：反向代理服务器，静态Http服务器，负载均衡，虚拟主机。</p>
-<hr>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;这里的安装目前是在windows环境下，傻瓜式安装即可。  </p>
-<h2 id="下载解压"><a href="#下载解压" class="headerlink" title="下载解压"></a>下载解压</h2><p>&emsp;&emsp;nginx在windows安装很简单，下载后解压就好，纯绿色安装。<br>&emsp;&emsp;在官方地址下载nginx，解压后放在想要放的文件夹。<br>&emsp;&emsp;下载地址：<a href="http://nginx.org/en/download.html">下载地址</a>。</p>
-<hr>
-<h1 id="基础使用"><a href="#基础使用" class="headerlink" title="基础使用"></a>基础使用</h1><p>&emsp;&emsp;启动，关机，重新加载等基础操作。<br>&emsp;&emsp;如果没有配置环境变量，启动前请进入nginx安装目录，如果有配置可以不进入。  </p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 进入解压后的nginx</span>
-<span class="token builtin class-name">cd</span> nginx-1.18.0
-
-<span class="token comment"># 启动nginx（windows下）</span>
-start nginx
-./nginx
-
-<span class="token comment"># 停止nginx</span>
-<span class="token comment"># stop是快速停止nginx，quit是有序停止nginx。</span>
-./nginx -s stop
-./nginx -s quit
-<span class="token comment"># 重新加载配置</span>
-./nginx -s reload
-
-<span class="token comment"># 校验配置</span>
-./nginx -t
-<span class="token comment"># 查看版本</span>
-./nginx -v<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
-      <categories>
-        <category>nginx</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-        <tag>nginx</tag>
       </tags>
   </entry>
   <entry>
@@ -4610,6 +4607,65 @@ docker <span class="token builtin class-name">exec</span> -it <span class="token
       </tags>
   </entry>
   <entry>
+    <title>jekins安装使用</title>
+    <url>/hexoblog/md/DEVOPS/CICD/jekins%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h1 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h1><p>&emsp;&emsp;网上的教程有很多，把自己的过程记一遍。<br>&emsp;&emsp;首先就是下载jekins的包，在官网下载就可以。win平台的可以下载对应的exe文件。<br><a href="https://www.jenkins.io/download">jekins下载</a><br>8089</p>
+<span id="more"></span>
+
+<hr>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;这里讲的是windows平台的安装。<br>&emsp;&emsp;安装也是很简单，一路点击next就可以了。</p>
+<hr>
+<h1 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h1><p>&emsp;&emsp;先看官方的，有空再总结自己的。<br>&emsp;&emsp;<a href="https://blog.csdn.net/wise18146705004/article/details/105455426">jekins在win10的安装和使用</a><br>&emsp;&emsp;<a href="https://www.jenkins.io/zh/doc/book/installing/">安装Jenkins </a><br>&emsp;&emsp;<a href="https://www.jenkins.io/zh/download/">Jenkins 的安装和设置</a></p>
+]]></content>
+      <categories>
+        <category>CICD</category>
+        <category>jekins</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>CICD</tag>
+        <tag>jekins</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>nginx基础安装及使用</title>
+    <url>/hexoblog/md/DEVOPS/nginx/nginx%E5%9F%BA%E7%A1%80%E5%AE%89%E8%A3%85%E5%8F%8A%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>&emsp;&emsp;Nginx是一款轻量级的Web服务器、反向代理服务器，由于它的内存占用少，启动极快，高并发能力强，在互联网项目中广泛应用。</p>
+<span id="more"></span>
+
+<p>&emsp;&emsp;nginx可以用来做：反向代理服务器，静态Http服务器，负载均衡，虚拟主机。</p>
+<hr>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;这里的安装目前是在windows环境下，傻瓜式安装即可。  </p>
+<h2 id="下载解压"><a href="#下载解压" class="headerlink" title="下载解压"></a>下载解压</h2><p>&emsp;&emsp;nginx在windows安装很简单，下载后解压就好，纯绿色安装。<br>&emsp;&emsp;在官方地址下载nginx，解压后放在想要放的文件夹。<br>&emsp;&emsp;下载地址：<a href="http://nginx.org/en/download.html">下载地址</a>。</p>
+<hr>
+<h1 id="基础使用"><a href="#基础使用" class="headerlink" title="基础使用"></a>基础使用</h1><p>&emsp;&emsp;启动，关机，重新加载等基础操作。<br>&emsp;&emsp;如果没有配置环境变量，启动前请进入nginx安装目录，如果有配置可以不进入。  </p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 进入解压后的nginx</span>
+<span class="token builtin class-name">cd</span> nginx-1.18.0
+
+<span class="token comment"># 启动nginx（windows下）</span>
+start nginx
+./nginx
+
+<span class="token comment"># 停止nginx</span>
+<span class="token comment"># stop是快速停止nginx，quit是有序停止nginx。</span>
+./nginx -s stop
+./nginx -s quit
+<span class="token comment"># 重新加载配置</span>
+./nginx -s reload
+
+<span class="token comment"># 校验配置</span>
+./nginx -t
+<span class="token comment"># 查看版本</span>
+./nginx -v<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
+      <categories>
+        <category>nginx</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>nginx</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>IO多路复用</title>
     <url>/hexoblog/md/java/IO/IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8/</url>
     <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;IO多路复用是一个IO模型，指的是复用同一个线程监控多路网络连接。<br>&emsp;&emsp;现在大多的IO多路复用都是同步模型，Reactor模式。  </p>
@@ -4690,140 +4746,6 @@ docker <span class="token builtin class-name">exec</span> -it <span class="token
         <tag>io</tag>
         <tag>java</tag>
         <tag>NIO</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>IO模型</title>
-    <url>/hexoblog/md/java/IO/IO%E6%A8%A1%E5%9E%8B/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;IO是输入输出，IO是面向流的。<br>&emsp;&emsp;java中有三种IO模型： BIO，NIO，AIO。它们又可以分为同步异步，阻塞与非阻塞。<br>&emsp;&emsp;而在linux中有5中IO模型。</p>
-<span id="more"></span>
-
-<hr>
-<h1 id="同步与异步"><a href="#同步与异步" class="headerlink" title="同步与异步"></a>同步与异步</h1><p>&emsp;&emsp;同步与异步说的都是<strong>被调用者</strong>。<br>&emsp;&emsp;同步就是发起一个调用后，被调用者未处理完以前，不用返回。<br>&emsp;&emsp;异步就是发起一个调用后，立刻得到被调用者的回应，表示收到请求，但是并没有返回结果；被调用者通常依靠事件，回调等机制通知调用者返回结果。</p>
-<hr>
-<h1 id="阻塞与非阻塞"><a href="#阻塞与非阻塞" class="headerlink" title="阻塞与非阻塞"></a>阻塞与非阻塞</h1><p>&emsp;&emsp;阻塞与非阻塞说的都是<strong>调用者</strong>。<br>&emsp;&emsp;阻塞就是发起一个请求，调用者一直等待请求结果返回，也就是当前线程会被挂起，无法从事其他任务，只有当条件就绪才能继续。<br>&emsp;&emsp;非阻塞就是发起一个请求，调用者不用一直等着结果返回，可以先去干其他事情。</p>
-<hr>
-<h1 id="BIO、NIO、AIO"><a href="#BIO、NIO、AIO" class="headerlink" title="BIO、NIO、AIO"></a>BIO、NIO、AIO</h1><p>&emsp;&emsp;这些都是经典的IO模型，IO模型就是使用什么样的通道进行数据的发送和接收，很大程度上决定了程序通信的性能。</p>
-<ul>
-<li>BIO：BIO就是传统的IO模型，是<strong>同步阻塞的IO模型</strong>，java.io包中类就是BIO的工具，它提供了很多IO功能，比如输入输出流，对文件进行操作。在网络编程(Socket通信)中也同样进行IO操作。<blockquote>
-<p>服务器实现模式为一个连接一个线程，即客户端有连接请求时服务器端就需要启动一个线程进行处理，如果这个连接不作任何事情会造成不必要的线程开销。</p>
-</blockquote>
-</li>
-<li>NIO：NIO是一种<strong>同步非阻塞的IO模型</strong>，对应java.nio包，提供了Channel , Selector，Buffer等抽象。<blockquote>
-<p>服务器实现模式为一个线程处理多个请求(连接)，即客户端发送的连接请求会被注册到多路复用器上，多路复用器轮询到有 I/O 请求就会进行处理。</p>
-</blockquote>
-</li>
-<li>AIO：<strong>异步非阻塞的IO模型</strong>，是改进版的NIO。<blockquote>
-<p>AIO引入了异步通道的概念，采用了Proactor模式，简化了程序编写，有效的请求才启动线程，它的特点是先由操作系统完成后才通知服务端程序启动线程去处理，一般适用于连接数较多且连接时间较长的应用。</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="举个例子"><a href="#举个例子" class="headerlink" title="举个例子"></a>举个例子</h2><p>&emsp;&emsp;以讲的很多的烧水为例子。</p>
-<ul>
-<li>BIO就是叫一个线程停留在一个水壶那，直到这个水壶烧开，才去处理下一个水壶。  </li>
-<li>NIO是叫一个线程不停的循环观察每一个水壶，根据每个水壶当前的状态去处理。  </li>
-<li>AIO是每个水壶上装一个开关，当水开了以后会提醒对应的线程去处理。</li>
-</ul>
-<h2 id="场景分析"><a href="#场景分析" class="headerlink" title="场景分析"></a>场景分析</h2><ul>
-<li>BIO 方式适用于<strong>连接数比较小且固定的架构</strong>，这种方式对服务器资源要求比较高，并发局限于应用中。</li>
-<li>NIO 方式适用于<strong>连接数目多且连接比较短的架构</strong>，比如聊天服务器，弹幕系统，服务器间通讯等，编程比较复杂，JDK1.4开始支持。</li>
-<li>AIO 方式适用于<strong>连接数目多且连接比较长的架构</strong>，比如相册服务器，充分调用 OS 参与并发操作，变成比较复杂，JDK7 开始支持。</li>
-</ul>
-<hr>
-<h1 id="linux的5中IO模型"><a href="#linux的5中IO模型" class="headerlink" title="linux的5中IO模型"></a>linux的5中IO模型</h1><p>&emsp;&emsp;linux中共有5中IO模型：阻塞IO，非阻塞IO，IO复用模型，信号驱动IO模型，异步IO模型；最后一种是异步的其他都是同步的。</p>
-<p><a href="https://juejin.cn/post/6844903664256024584">掘金大神的文章</a></p>
-<hr>
-<h1 id="参考资料-amp-鸣谢"><a href="#参考资料-amp-鸣谢" class="headerlink" title="参考资料 &amp; 鸣谢"></a>参考资料 &amp; 鸣谢</h1><ul>
-<li><a href="https://juejin.cn/post/6844903664256024584">BIO，NIO，AIO概览</a></li>
-<li><a href="https://juejin.cn/post/6869537077122301965#heading-6">为什么一个还没毕业的大学生能够把 IO 讲的这么好？</a></li>
-<li><a href="https://segmentfault.com/a/1190000037714804">理解什么是BIO/NIO/AIO</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>java</category>
-        <category>io</category>
-      </categories>
-      <tags>
-        <tag>io</tag>
-        <tag>java</tag>
-        <tag>网络</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>NIO</title>
-    <url>/hexoblog/md/java/IO/NIO/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;NIO是当下非常火热的一种IO工作方式，它能够解决传统BIO的痛点：阻塞。<br>&emsp;&emsp;NIO是一种同步非阻塞的I/O模型，在Java 1.4 中引入了NIO框架，对应 java.nio 包，提供了 Channel , Selector，Buffer等抽象。<br>&emsp;&emsp;同步非阻塞式IO以块的方式处理数据，面向缓存区的，采用多路复，Reactor模式，基于事件驱动。Netty是实现了NIO的一个流行框架，JBoss的。</p>
-<span id="more"></span>
-
-<ul>
-<li>BIO如果遇到IO阻塞时，线程将会被挂起，直到IO完成后才唤醒线程，线程切换带来了额外的开销。</li>
-<li>BIO中每个IO都需要有对应的一个线程去专门处理该次IO请求，会让服务器的压力迅速提高。</li>
-</ul>
-<hr>
-<h1 id="NIO与BIO的区别"><a href="#NIO与BIO的区别" class="headerlink" title="NIO与BIO的区别"></a>NIO与BIO的区别</h1><p>&emsp;&emsp;BIO是面向流的IO，它建立的通道都是单向的，所以输入和输出流的通道不相同，必须建立2个通道，通道内的都是传输==0101001···==的字节数据。<br>&emsp;&emsp;NIO是面向缓冲区的，它会建立一个通道（Channel），该通道我们可以理解为铁路，该铁路上可以运输各种货物，而通道上会有一个缓冲区（Buffer）用于存储真正的数据，缓冲区我们可以理解为一辆火车。通道（铁路）只是作为运输数据的一个连接资源，而真正存储数据的是缓冲区（火车）。即通道负责传输，缓冲区负责存储。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/BIO%E7%BB%93%E6%9E%84.jpg" alt="BIO结构"><br><img src="https://gitee.com/linqiankun/picurl/raw/master/java/NIO%E7%BB%93%E6%9E%84.jpg" alt="NIO结构"></p>
-<p>&emsp;&emsp;区别基本可以用下表表示：</p>
-<table>
-<thead>
-<tr>
-<th>BIO</th>
-<th>NIO</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>面向流</td>
-<td>面向缓冲区</td>
-</tr>
-<tr>
-<td>单向通道</td>
-<td>双向通道</td>
-</tr>
-<tr>
-<td>阻塞IO</td>
-<td>非阻塞IO</td>
-</tr>
-<tr>
-<td>—</td>
-<td>选择器Selectors</td>
-</tr>
-</tbody></table>
-<hr>
-<h1 id="概念介绍"><a href="#概念介绍" class="headerlink" title="概念介绍"></a>概念介绍</h1><h2 id="缓冲区（Buffer）"><a href="#缓冲区（Buffer）" class="headerlink" title="缓冲区（Buffer）"></a>缓冲区（Buffer）</h2><p>&emsp;缓冲区是存储数据的区域，在 Java 中，缓冲区就是数组，为了可以操作不同数据类型的数据，Java 提供了许多不同类型的缓冲区，除了布尔类型以外，其它基本数据类型都有对应的缓冲区数组对象。<br>&emsp;&emsp;因为NIO是基于缓冲的，所以buffer是最底层的必要类，这也是IO和NIO的根本不同，虽然stream等有buffer开头的扩展类，但只是流的包装类，还是从流读到缓冲区，而NIO却是直接读到buffer中进行操作。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/NIOBuffer.jpg" alt="Buffer"></p>
-<h2 id="通道（Channel）"><a href="#通道（Channel）" class="headerlink" title="通道（Channel）"></a>通道（Channel）</h2><p>&emsp;&emsp;类似于IO的stream，但是不同的是除了FileChannel，其他的channel都能以非阻塞状态运行。FileChannel执行的是文件的操作，可以直接DMA操作内存而不依赖于CPU。其他比如socketchannel就可以在数据准备好时才进行调用。IO分为磁盘IO和网络IO，所以通常意义上的NIO是指网络IO，即除FileChnnel之外的channel都可以非阻塞。<br>&emsp;&emsp;通道是可以双向读写的，传统的 BIO 需要使用输入/输出流表示数据的流向，在 NIO 中可以减少通道资源的消耗。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/NIOChannel.jpg" alt="Channel"></p>
-<p>可以通过 getChannel() 方法获取一个通道，支持获取通道的类如下：</p>
-<ul>
-<li>文件IO：FileInputStream、FileOutputStream、RandomAccessFile</li>
-<li>TCP网络IO：Socket、ServerSocket</li>
-<li>UDP网络IO：DatagramSocket</li>
-</ul>
-<h2 id="选择器（Selectors）"><a href="#选择器（Selectors）" class="headerlink" title="选择器（Selectors）"></a>选择器（Selectors）</h2><p>&emsp;&emsp;选择器是提升IO性能的灵魂之一，它底层利用了多路复用IO机制，让选择器可以监听多个IO连接，根据IO的状态响应到服务器端进行处理。通俗地说：选择器可以监听多个IO连接，而传统的BIO每个IO连接都需要有一个线程去监听和处理。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/NIOSelectors.jpg" alt="Selectors"></p>
-<p>&emsp;&emsp;在BIO中，每个Socket都需要有一个专门的线程去处理每个请求，而在NIO中，只需要一个Selector即可监听各个Socket请求，而且Selector并不是阻塞的，所以不会因为多个线程之间切换导致上下文切换带来的开销。<br>&emsp;&emsp;在Java NIO中，选择器是使用Selector类表示，Selector可以接收各种IO连接，在IO状态准备就绪时，会通知该通道注册的 Selector，Selector在下一次轮询时会发现该IO连接就绪，进而处理该连接，Selector选择器主要用于网络IO当中。<br>&emsp;&emsp;选择器的作用就是：<strong>监听多个IO通道，当有通道就绪时选择器会轮询发现该通道，并做相应的处理。那么IO状态分为很多种，我们如何去识别就绪的通道是处于哪种状态呢？在Java中提供了选择键（SelectionKey）。</strong></p>
-<h3 id="选择键（SelectionKey）"><a href="#选择键（SelectionKey）" class="headerlink" title="选择键（SelectionKey）"></a>选择键（SelectionKey）</h3><p>&emsp;&emsp;在选择器轮询到有就绪通道时，会返回这些通道的就绪选择键（SelectionKey），通过选择键可以获取到通道进行操作。<br>&emsp;&emsp;java中提供了四种选择键：</p>
-<ul>
-<li>SelectionKey.OP_READ：套接字通道准备好进行读操作</li>
-<li>SelectionKey.OP_WRITE：套接字通道准备好进行写操作</li>
-<li>SelectionKey.OP_ACCEPT：服务器套接字通道接受其它通道</li>
-<li>SelectionKey.OP_CONNECT：套接字通道准备完成连接</li>
-</ul>
-<hr>
-<h1 id="参考文献-amp-鸣谢"><a href="#参考文献-amp-鸣谢" class="headerlink" title="参考文献 &amp; 鸣谢"></a>参考文献 &amp; 鸣谢</h1><ul>
-<li><a href="https://juejin.cn/post/6869537077122301965#heading-6">为什么一个还没毕业的大学生能够把 IO 讲的这么好？</a></li>
-<li><a href="https://segmentfault.com/a/1190000021493582">BIO、NIO、AIO疑点解析</a></li>
-<li><a href="https://segmentfault.com/a/1190000037714804">理解什么是BIO/NIO/AIO</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>java</category>
-        <category>io</category>
-      </categories>
-      <tags>
-        <tag>io</tag>
-        <tag>java</tag>
-        <tag>网络</tag>
-        <tag>nio</tag>
       </tags>
   </entry>
   <entry>
@@ -5042,6 +4964,140 @@ docker <span class="token builtin class-name">exec</span> -it <span class="token
       </tags>
   </entry>
   <entry>
+    <title>IO模型</title>
+    <url>/hexoblog/md/java/IO/IO%E6%A8%A1%E5%9E%8B/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;IO是输入输出，IO是面向流的。<br>&emsp;&emsp;java中有三种IO模型： BIO，NIO，AIO。它们又可以分为同步异步，阻塞与非阻塞。<br>&emsp;&emsp;而在linux中有5中IO模型。</p>
+<span id="more"></span>
+
+<hr>
+<h1 id="同步与异步"><a href="#同步与异步" class="headerlink" title="同步与异步"></a>同步与异步</h1><p>&emsp;&emsp;同步与异步说的都是<strong>被调用者</strong>。<br>&emsp;&emsp;同步就是发起一个调用后，被调用者未处理完以前，不用返回。<br>&emsp;&emsp;异步就是发起一个调用后，立刻得到被调用者的回应，表示收到请求，但是并没有返回结果；被调用者通常依靠事件，回调等机制通知调用者返回结果。</p>
+<hr>
+<h1 id="阻塞与非阻塞"><a href="#阻塞与非阻塞" class="headerlink" title="阻塞与非阻塞"></a>阻塞与非阻塞</h1><p>&emsp;&emsp;阻塞与非阻塞说的都是<strong>调用者</strong>。<br>&emsp;&emsp;阻塞就是发起一个请求，调用者一直等待请求结果返回，也就是当前线程会被挂起，无法从事其他任务，只有当条件就绪才能继续。<br>&emsp;&emsp;非阻塞就是发起一个请求，调用者不用一直等着结果返回，可以先去干其他事情。</p>
+<hr>
+<h1 id="BIO、NIO、AIO"><a href="#BIO、NIO、AIO" class="headerlink" title="BIO、NIO、AIO"></a>BIO、NIO、AIO</h1><p>&emsp;&emsp;这些都是经典的IO模型，IO模型就是使用什么样的通道进行数据的发送和接收，很大程度上决定了程序通信的性能。</p>
+<ul>
+<li>BIO：BIO就是传统的IO模型，是<strong>同步阻塞的IO模型</strong>，java.io包中类就是BIO的工具，它提供了很多IO功能，比如输入输出流，对文件进行操作。在网络编程(Socket通信)中也同样进行IO操作。<blockquote>
+<p>服务器实现模式为一个连接一个线程，即客户端有连接请求时服务器端就需要启动一个线程进行处理，如果这个连接不作任何事情会造成不必要的线程开销。</p>
+</blockquote>
+</li>
+<li>NIO：NIO是一种<strong>同步非阻塞的IO模型</strong>，对应java.nio包，提供了Channel , Selector，Buffer等抽象。<blockquote>
+<p>服务器实现模式为一个线程处理多个请求(连接)，即客户端发送的连接请求会被注册到多路复用器上，多路复用器轮询到有 I/O 请求就会进行处理。</p>
+</blockquote>
+</li>
+<li>AIO：<strong>异步非阻塞的IO模型</strong>，是改进版的NIO。<blockquote>
+<p>AIO引入了异步通道的概念，采用了Proactor模式，简化了程序编写，有效的请求才启动线程，它的特点是先由操作系统完成后才通知服务端程序启动线程去处理，一般适用于连接数较多且连接时间较长的应用。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="举个例子"><a href="#举个例子" class="headerlink" title="举个例子"></a>举个例子</h2><p>&emsp;&emsp;以讲的很多的烧水为例子。</p>
+<ul>
+<li>BIO就是叫一个线程停留在一个水壶那，直到这个水壶烧开，才去处理下一个水壶。  </li>
+<li>NIO是叫一个线程不停的循环观察每一个水壶，根据每个水壶当前的状态去处理。  </li>
+<li>AIO是每个水壶上装一个开关，当水开了以后会提醒对应的线程去处理。</li>
+</ul>
+<h2 id="场景分析"><a href="#场景分析" class="headerlink" title="场景分析"></a>场景分析</h2><ul>
+<li>BIO 方式适用于<strong>连接数比较小且固定的架构</strong>，这种方式对服务器资源要求比较高，并发局限于应用中。</li>
+<li>NIO 方式适用于<strong>连接数目多且连接比较短的架构</strong>，比如聊天服务器，弹幕系统，服务器间通讯等，编程比较复杂，JDK1.4开始支持。</li>
+<li>AIO 方式适用于<strong>连接数目多且连接比较长的架构</strong>，比如相册服务器，充分调用 OS 参与并发操作，变成比较复杂，JDK7 开始支持。</li>
+</ul>
+<hr>
+<h1 id="linux的5中IO模型"><a href="#linux的5中IO模型" class="headerlink" title="linux的5中IO模型"></a>linux的5中IO模型</h1><p>&emsp;&emsp;linux中共有5中IO模型：阻塞IO，非阻塞IO，IO复用模型，信号驱动IO模型，异步IO模型；最后一种是异步的其他都是同步的。</p>
+<p><a href="https://juejin.cn/post/6844903664256024584">掘金大神的文章</a></p>
+<hr>
+<h1 id="参考资料-amp-鸣谢"><a href="#参考资料-amp-鸣谢" class="headerlink" title="参考资料 &amp; 鸣谢"></a>参考资料 &amp; 鸣谢</h1><ul>
+<li><a href="https://juejin.cn/post/6844903664256024584">BIO，NIO，AIO概览</a></li>
+<li><a href="https://juejin.cn/post/6869537077122301965#heading-6">为什么一个还没毕业的大学生能够把 IO 讲的这么好？</a></li>
+<li><a href="https://segmentfault.com/a/1190000037714804">理解什么是BIO/NIO/AIO</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>java</category>
+        <category>io</category>
+      </categories>
+      <tags>
+        <tag>io</tag>
+        <tag>java</tag>
+        <tag>网络</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>NIO</title>
+    <url>/hexoblog/md/java/IO/NIO/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;NIO是当下非常火热的一种IO工作方式，它能够解决传统BIO的痛点：阻塞。<br>&emsp;&emsp;NIO是一种同步非阻塞的I/O模型，在Java 1.4 中引入了NIO框架，对应 java.nio 包，提供了 Channel , Selector，Buffer等抽象。<br>&emsp;&emsp;同步非阻塞式IO以块的方式处理数据，面向缓存区的，采用多路复，Reactor模式，基于事件驱动。Netty是实现了NIO的一个流行框架，JBoss的。</p>
+<span id="more"></span>
+
+<ul>
+<li>BIO如果遇到IO阻塞时，线程将会被挂起，直到IO完成后才唤醒线程，线程切换带来了额外的开销。</li>
+<li>BIO中每个IO都需要有对应的一个线程去专门处理该次IO请求，会让服务器的压力迅速提高。</li>
+</ul>
+<hr>
+<h1 id="NIO与BIO的区别"><a href="#NIO与BIO的区别" class="headerlink" title="NIO与BIO的区别"></a>NIO与BIO的区别</h1><p>&emsp;&emsp;BIO是面向流的IO，它建立的通道都是单向的，所以输入和输出流的通道不相同，必须建立2个通道，通道内的都是传输==0101001···==的字节数据。<br>&emsp;&emsp;NIO是面向缓冲区的，它会建立一个通道（Channel），该通道我们可以理解为铁路，该铁路上可以运输各种货物，而通道上会有一个缓冲区（Buffer）用于存储真正的数据，缓冲区我们可以理解为一辆火车。通道（铁路）只是作为运输数据的一个连接资源，而真正存储数据的是缓冲区（火车）。即通道负责传输，缓冲区负责存储。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/BIO%E7%BB%93%E6%9E%84.jpg" alt="BIO结构"><br><img src="https://gitee.com/linqiankun/picurl/raw/master/java/NIO%E7%BB%93%E6%9E%84.jpg" alt="NIO结构"></p>
+<p>&emsp;&emsp;区别基本可以用下表表示：</p>
+<table>
+<thead>
+<tr>
+<th>BIO</th>
+<th>NIO</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>面向流</td>
+<td>面向缓冲区</td>
+</tr>
+<tr>
+<td>单向通道</td>
+<td>双向通道</td>
+</tr>
+<tr>
+<td>阻塞IO</td>
+<td>非阻塞IO</td>
+</tr>
+<tr>
+<td>—</td>
+<td>选择器Selectors</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="概念介绍"><a href="#概念介绍" class="headerlink" title="概念介绍"></a>概念介绍</h1><h2 id="缓冲区（Buffer）"><a href="#缓冲区（Buffer）" class="headerlink" title="缓冲区（Buffer）"></a>缓冲区（Buffer）</h2><p>&emsp;缓冲区是存储数据的区域，在 Java 中，缓冲区就是数组，为了可以操作不同数据类型的数据，Java 提供了许多不同类型的缓冲区，除了布尔类型以外，其它基本数据类型都有对应的缓冲区数组对象。<br>&emsp;&emsp;因为NIO是基于缓冲的，所以buffer是最底层的必要类，这也是IO和NIO的根本不同，虽然stream等有buffer开头的扩展类，但只是流的包装类，还是从流读到缓冲区，而NIO却是直接读到buffer中进行操作。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/NIOBuffer.jpg" alt="Buffer"></p>
+<h2 id="通道（Channel）"><a href="#通道（Channel）" class="headerlink" title="通道（Channel）"></a>通道（Channel）</h2><p>&emsp;&emsp;类似于IO的stream，但是不同的是除了FileChannel，其他的channel都能以非阻塞状态运行。FileChannel执行的是文件的操作，可以直接DMA操作内存而不依赖于CPU。其他比如socketchannel就可以在数据准备好时才进行调用。IO分为磁盘IO和网络IO，所以通常意义上的NIO是指网络IO，即除FileChnnel之外的channel都可以非阻塞。<br>&emsp;&emsp;通道是可以双向读写的，传统的 BIO 需要使用输入/输出流表示数据的流向，在 NIO 中可以减少通道资源的消耗。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/NIOChannel.jpg" alt="Channel"></p>
+<p>可以通过 getChannel() 方法获取一个通道，支持获取通道的类如下：</p>
+<ul>
+<li>文件IO：FileInputStream、FileOutputStream、RandomAccessFile</li>
+<li>TCP网络IO：Socket、ServerSocket</li>
+<li>UDP网络IO：DatagramSocket</li>
+</ul>
+<h2 id="选择器（Selectors）"><a href="#选择器（Selectors）" class="headerlink" title="选择器（Selectors）"></a>选择器（Selectors）</h2><p>&emsp;&emsp;选择器是提升IO性能的灵魂之一，它底层利用了多路复用IO机制，让选择器可以监听多个IO连接，根据IO的状态响应到服务器端进行处理。通俗地说：选择器可以监听多个IO连接，而传统的BIO每个IO连接都需要有一个线程去监听和处理。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/NIOSelectors.jpg" alt="Selectors"></p>
+<p>&emsp;&emsp;在BIO中，每个Socket都需要有一个专门的线程去处理每个请求，而在NIO中，只需要一个Selector即可监听各个Socket请求，而且Selector并不是阻塞的，所以不会因为多个线程之间切换导致上下文切换带来的开销。<br>&emsp;&emsp;在Java NIO中，选择器是使用Selector类表示，Selector可以接收各种IO连接，在IO状态准备就绪时，会通知该通道注册的 Selector，Selector在下一次轮询时会发现该IO连接就绪，进而处理该连接，Selector选择器主要用于网络IO当中。<br>&emsp;&emsp;选择器的作用就是：<strong>监听多个IO通道，当有通道就绪时选择器会轮询发现该通道，并做相应的处理。那么IO状态分为很多种，我们如何去识别就绪的通道是处于哪种状态呢？在Java中提供了选择键（SelectionKey）。</strong></p>
+<h3 id="选择键（SelectionKey）"><a href="#选择键（SelectionKey）" class="headerlink" title="选择键（SelectionKey）"></a>选择键（SelectionKey）</h3><p>&emsp;&emsp;在选择器轮询到有就绪通道时，会返回这些通道的就绪选择键（SelectionKey），通过选择键可以获取到通道进行操作。<br>&emsp;&emsp;java中提供了四种选择键：</p>
+<ul>
+<li>SelectionKey.OP_READ：套接字通道准备好进行读操作</li>
+<li>SelectionKey.OP_WRITE：套接字通道准备好进行写操作</li>
+<li>SelectionKey.OP_ACCEPT：服务器套接字通道接受其它通道</li>
+<li>SelectionKey.OP_CONNECT：套接字通道准备完成连接</li>
+</ul>
+<hr>
+<h1 id="参考文献-amp-鸣谢"><a href="#参考文献-amp-鸣谢" class="headerlink" title="参考文献 &amp; 鸣谢"></a>参考文献 &amp; 鸣谢</h1><ul>
+<li><a href="https://juejin.cn/post/6869537077122301965#heading-6">为什么一个还没毕业的大学生能够把 IO 讲的这么好？</a></li>
+<li><a href="https://segmentfault.com/a/1190000021493582">BIO、NIO、AIO疑点解析</a></li>
+<li><a href="https://segmentfault.com/a/1190000037714804">理解什么是BIO/NIO/AIO</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>java</category>
+        <category>io</category>
+      </categories>
+      <tags>
+        <tag>io</tag>
+        <tag>java</tag>
+        <tag>网络</tag>
+        <tag>nio</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>juc之AQS</title>
     <url>/hexoblog/md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/juc%E4%B9%8BAQS/</url>
     <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;AbstractQuenedSynchronizer抽象的队列式同步器。是除了java自带的synchronized关键字之外的锁机制。<br>&emsp;&emsp;AQS定义了一套多线程访问共享资源的同步器框架，许多同步类实现都依赖于它，如常用的ReentrantLock/Semaphore/CountDownLatch…。</p>
@@ -5086,6 +5142,133 @@ docker <span class="token builtin class-name">exec</span> -it <span class="token
 <h1 id="参考文献-amp-鸣谢"><a href="#参考文献-amp-鸣谢" class="headerlink" title="参考文献 &amp; 鸣谢"></a>参考文献 &amp; 鸣谢</h1><ul>
 <li><a href="https://www.cnblogs.com/waterystone/p/4920797.html">Java并发之AQS详解</a></li>
 <li><a href="https://blog.csdn.net/mulinsen77/article/details/84583716">AQS详解（面试）</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>java</category>
+        <category>juc</category>
+        <category>AQS</category>
+        <category>Java</category>
+        <category>多线程</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>juc</tag>
+        <tag>AQS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>juc之AQS源码二</title>
+    <url>/hexoblog/md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/juc%E4%B9%8BAQS%E6%BA%90%E7%A0%81%E4%BA%8C/</url>
+    <content><![CDATA[<h1 id="共享方式"><a href="#共享方式" class="headerlink" title="共享方式"></a>共享方式</h1><p>&emsp;&emsp;juc之AQS源码一中讲了独占方式的源码，这里分析共享方式的源码。</p>
+<span id="more"></span>
+
+<h2 id="acquireShared共享方式获取资源"><a href="#acquireShared共享方式获取资源" class="headerlink" title="acquireShared共享方式获取资源"></a>acquireShared共享方式获取资源</h2><h3 id="acquireShared方法"><a href="#acquireShared方法" class="headerlink" title="acquireShared方法"></a>acquireShared方法</h3><p>&emsp;&emsp;acquireShared方法是共享模式下线程获取共享资源的顶层入口。它会获取指定量的资源，获取成功则直接返回，获取失败则进入等待队列，直到获取到资源为止，整个过程忽略中断。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">final</span> <span class="token keyword">void</span> <span class="token function">acquireShared</span><span class="token punctuation">(</span><span class="token keyword">int</span> arg<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">tryAcquireShared</span><span class="token punctuation">(</span>arg<span class="token punctuation">)</span> <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span>
+        <span class="token function">doAcquireShared</span><span class="token punctuation">(</span>arg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>&emsp;&emsp;这里tryAcquireShared()依然需要自定义同步器去实现。但是AQS已经把其返回值的语义定义好了：负值代表获取失败；0代表获取成功，但没有剩余资源；正数表示获取成功，还有剩余资源，其他线程还可以去获取。<br>&emsp;&emsp;所以函数流程如下：</p>
+<ol>
+<li>tryAcquireShared()尝试获取资源，成功则直接返回。</li>
+<li>失败则通过doAcquireShared()进入等待队列，直到获取到资源为止才返回。</li>
+</ol>
+<h3 id="doAcquireShared方法"><a href="#doAcquireShared方法" class="headerlink" title="doAcquireShared方法"></a>doAcquireShared方法</h3><p>&emsp;&emsp;此方法用于将当前线程加入等待队列尾部休息，直到其他线程释放资源唤醒自己，自己成功拿到相应量的资源后才返回。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">doAcquireShared</span><span class="token punctuation">(</span><span class="token keyword">int</span> arg<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// 加入队列尾部</span>
+    <span class="token keyword">final</span> <span class="token class-name">Node</span> node <span class="token operator">=</span> <span class="token function">addWaiter</span><span class="token punctuation">(</span><span class="token class-name">Node</span><span class="token punctuation">.</span>SHARED<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 是否成功的标志</span>
+    <span class="token keyword">boolean</span> failed <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">// 是否有外部中断的标志</span>
+        <span class="token keyword">boolean</span> interrupted <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token punctuation">;</span><span class="token punctuation">;</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token comment">// 拿到前驱节点</span>
+            <span class="token keyword">final</span> <span class="token class-name">Node</span> p <span class="token operator">=</span> node<span class="token punctuation">.</span><span class="token function">predecessor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">// 如果到head的下一个，因为head是拿到资源的线程，此时node被唤醒，很可能是head用完资源来唤醒自己的</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>p <span class="token operator">==</span> head<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token comment">// 尝试获取资源</span>
+                <span class="token keyword">int</span> r <span class="token operator">=</span> <span class="token function">tryAcquireShared</span><span class="token punctuation">(</span>arg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>r <span class="token operator">>=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                    <span class="token comment">// 如果有剩余资源唤醒后面的线程，这里就是和独占式的区别</span>
+                    <span class="token function">setHeadAndPropagate</span><span class="token punctuation">(</span>node<span class="token punctuation">,</span> r<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    p<span class="token punctuation">.</span>next <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span> <span class="token comment">// help GC</span>
+                    <span class="token comment">// 如果有外部中断，补充中断</span>
+                    <span class="token keyword">if</span> <span class="token punctuation">(</span>interrupted<span class="token punctuation">)</span>
+                        <span class="token function">selfInterrupt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    failed <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+                    <span class="token keyword">return</span><span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span>
+            <span class="token punctuation">&#125;</span>
+            <span class="token comment">// 判断状态，寻找安全点，进入waiting状态，等着被unpark()或interrupt()</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">shouldParkAfterFailedAcquire</span><span class="token punctuation">(</span>p<span class="token punctuation">,</span> node<span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span>
+                <span class="token function">parkAndCheckInterrupt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                interrupted <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span> <span class="token keyword">finally</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>failed<span class="token punctuation">)</span>
+            <span class="token function">cancelAcquire</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>&emsp;&emsp;这个方法和acquireQueued方法很相似，只不过这里将补充中断的位置搬进来了。</p>
+<h3 id="setHeadAndPropagate方法"><a href="#setHeadAndPropagate方法" class="headerlink" title="setHeadAndPropagate方法"></a>setHeadAndPropagate方法</h3><p>&emsp;&emsp;这个方法在自己苏醒的同时，如果条件符合（比如还有剩余资源），还会去唤醒后继结点，毕竟是共享模式！</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">setHeadAndPropagate</span><span class="token punctuation">(</span><span class="token class-name">Node</span> node<span class="token punctuation">,</span> <span class="token keyword">int</span> propagate<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token class-name">Node</span> h <span class="token operator">=</span> head<span class="token punctuation">;</span> <span class="token comment">// Record old head for check below</span>
+    <span class="token function">setHead</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>propagate <span class="token operator">></span> <span class="token number">0</span> <span class="token operator">||</span> h <span class="token operator">==</span> <span class="token keyword">null</span> <span class="token operator">||</span> h<span class="token punctuation">.</span>waitStatus <span class="token operator">&lt;</span> <span class="token number">0</span> <span class="token operator">||</span>
+        <span class="token punctuation">(</span>h <span class="token operator">=</span> head<span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token keyword">null</span> <span class="token operator">||</span> h<span class="token punctuation">.</span>waitStatus <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">Node</span> s <span class="token operator">=</span> node<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+        <span class="token comment">// 这里调用了唤醒线程的方法，唤醒后面的线程</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>s <span class="token operator">==</span> <span class="token keyword">null</span> <span class="token operator">||</span> s<span class="token punctuation">.</span><span class="token function">isShared</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token function">doReleaseShared</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>&emsp;&emsp;基本流程：</p>
+<ol>
+<li><code>tryAcquireShared()</code>尝试获取资源，成功则直接返回。</li>
+<li>失败则通过<code>doAcquireShared()</code>进入等待队列<code>park()</code>，直到被<code>unpark()/interrupt()</code>并成功获取到资源才返回。整个等待过程也是忽略中断的。</li>
+</ol>
+<p>&emsp;&emsp;跟acquire的流程相似，多了个自己拿到资源后，还回去唤醒后面的线程。</p>
+<h2 id="releaseShared共享方式释放资源"><a href="#releaseShared共享方式释放资源" class="headerlink" title="releaseShared共享方式释放资源"></a>releaseShared共享方式释放资源</h2><h3 id="releaseShared方法"><a href="#releaseShared方法" class="headerlink" title="releaseShared方法"></a>releaseShared方法</h3><p>&emsp;&emsp;此方法是共享模式下线程释放共享资源的顶层入口。<br>&emsp;&emsp;它会释放指定量的资源，如果成功释放且允许唤醒等待线程，它会唤醒等待队列里的其他线程来获取资源。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">final</span> <span class="token keyword">boolean</span> <span class="token function">releaseShared</span><span class="token punctuation">(</span><span class="token keyword">int</span> arg<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// 尝试释放资源</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">tryReleaseShared</span><span class="token punctuation">(</span>arg<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">// 唤醒后面的线程</span>
+        <span class="token function">doReleaseShared</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>&emsp;&emsp;释放掉资源后，唤醒后继。<br>&emsp;&emsp;跟独占模式下的release()相似，但有一点稍微需要注意：独占模式下的tryRelease()在完全释放掉资源（state=0）后，才会返回true去唤醒其他线程，这主要是基于独占下可重入的考量；而共享模式下的releaseShared()则没有这种要求（只要有释放，就回去唤醒），共享模式实质就是控制一定量的线程并发执行，那么拥有资源的线程在释放掉部分资源时就可以唤醒后继等待结点。</p>
+<h3 id="doReleaseShared方法"><a href="#doReleaseShared方法" class="headerlink" title="doReleaseShared方法"></a>doReleaseShared方法</h3><p>&emsp;&emsp;这个方法用于唤醒后继节点。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">doReleaseShared</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token punctuation">;</span><span class="token punctuation">;</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">Node</span> h <span class="token operator">=</span> head<span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>h <span class="token operator">!=</span> <span class="token keyword">null</span> <span class="token operator">&amp;&amp;</span> h <span class="token operator">!=</span> tail<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">int</span> ws <span class="token operator">=</span> h<span class="token punctuation">.</span>waitStatus<span class="token punctuation">;</span>
+            <span class="token comment">// 该状态表示后继节点需要唤醒</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>ws <span class="token operator">==</span> <span class="token class-name">Node</span><span class="token punctuation">.</span>SIGNAL<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">compareAndSetWaitStatus</span><span class="token punctuation">(</span>h<span class="token punctuation">,</span> <span class="token class-name">Node</span><span class="token punctuation">.</span>SIGNAL<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                    <span class="token keyword">continue</span><span class="token punctuation">;</span>            <span class="token comment">// loop to recheck cases</span>
+                <span class="token comment">// 唤醒后继节点</span>
+                <span class="token function">unparkSuccessor</span><span class="token punctuation">(</span>h<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+            <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>ws <span class="token operator">==</span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span>
+                     <span class="token operator">!</span><span class="token function">compareAndSetWaitStatus</span><span class="token punctuation">(</span>h<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token class-name">Node</span><span class="token punctuation">.</span>PROPAGATE<span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token keyword">continue</span><span class="token punctuation">;</span>                <span class="token comment">// loop on failed CAS</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>h <span class="token operator">==</span> head<span class="token punctuation">)</span>                   <span class="token comment">// loop if head changed</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h1 id="参考文献-amp-鸣谢"><a href="#参考文献-amp-鸣谢" class="headerlink" title="参考文献 &amp; 鸣谢"></a>参考文献 &amp; 鸣谢</h1><ul>
+<li><a href="https://www.cnblogs.com/waterystone/p/4920797.html">Java并发之AQS详解</a></li>
 </ul>
 ]]></content>
       <categories>
@@ -5300,133 +5483,6 @@ docker <span class="token builtin class-name">exec</span> -it <span class="token
 <li>release代码有bug，抛出异常了？目前来看，Doug Lea的release方法还是比较健壮的，没有看出能引发异常的情形（如果有，恐怕早被用户吐槽了）。除非自己写的tryRelease()有bug，那就没啥说的，自己写的bug只能自己含着泪去承受了。</li>
 </ol>
 </blockquote>
-<hr>
-<h1 id="参考文献-amp-鸣谢"><a href="#参考文献-amp-鸣谢" class="headerlink" title="参考文献 &amp; 鸣谢"></a>参考文献 &amp; 鸣谢</h1><ul>
-<li><a href="https://www.cnblogs.com/waterystone/p/4920797.html">Java并发之AQS详解</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>java</category>
-        <category>juc</category>
-        <category>AQS</category>
-        <category>Java</category>
-        <category>多线程</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>juc</tag>
-        <tag>AQS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>juc之AQS源码二</title>
-    <url>/hexoblog/md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/juc%E4%B9%8BAQS%E6%BA%90%E7%A0%81%E4%BA%8C/</url>
-    <content><![CDATA[<h1 id="共享方式"><a href="#共享方式" class="headerlink" title="共享方式"></a>共享方式</h1><p>&emsp;&emsp;juc之AQS源码一中讲了独占方式的源码，这里分析共享方式的源码。</p>
-<span id="more"></span>
-
-<h2 id="acquireShared共享方式获取资源"><a href="#acquireShared共享方式获取资源" class="headerlink" title="acquireShared共享方式获取资源"></a>acquireShared共享方式获取资源</h2><h3 id="acquireShared方法"><a href="#acquireShared方法" class="headerlink" title="acquireShared方法"></a>acquireShared方法</h3><p>&emsp;&emsp;acquireShared方法是共享模式下线程获取共享资源的顶层入口。它会获取指定量的资源，获取成功则直接返回，获取失败则进入等待队列，直到获取到资源为止，整个过程忽略中断。</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">final</span> <span class="token keyword">void</span> <span class="token function">acquireShared</span><span class="token punctuation">(</span><span class="token keyword">int</span> arg<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">tryAcquireShared</span><span class="token punctuation">(</span>arg<span class="token punctuation">)</span> <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span>
-        <span class="token function">doAcquireShared</span><span class="token punctuation">(</span>arg<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>&emsp;&emsp;这里tryAcquireShared()依然需要自定义同步器去实现。但是AQS已经把其返回值的语义定义好了：负值代表获取失败；0代表获取成功，但没有剩余资源；正数表示获取成功，还有剩余资源，其他线程还可以去获取。<br>&emsp;&emsp;所以函数流程如下：</p>
-<ol>
-<li>tryAcquireShared()尝试获取资源，成功则直接返回。</li>
-<li>失败则通过doAcquireShared()进入等待队列，直到获取到资源为止才返回。</li>
-</ol>
-<h3 id="doAcquireShared方法"><a href="#doAcquireShared方法" class="headerlink" title="doAcquireShared方法"></a>doAcquireShared方法</h3><p>&emsp;&emsp;此方法用于将当前线程加入等待队列尾部休息，直到其他线程释放资源唤醒自己，自己成功拿到相应量的资源后才返回。</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">doAcquireShared</span><span class="token punctuation">(</span><span class="token keyword">int</span> arg<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    <span class="token comment">// 加入队列尾部</span>
-    <span class="token keyword">final</span> <span class="token class-name">Node</span> node <span class="token operator">=</span> <span class="token function">addWaiter</span><span class="token punctuation">(</span><span class="token class-name">Node</span><span class="token punctuation">.</span>SHARED<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token comment">// 是否成功的标志</span>
-    <span class="token keyword">boolean</span> failed <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
-    <span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
-        <span class="token comment">// 是否有外部中断的标志</span>
-        <span class="token keyword">boolean</span> interrupted <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
-        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token punctuation">;</span><span class="token punctuation">;</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-            <span class="token comment">// 拿到前驱节点</span>
-            <span class="token keyword">final</span> <span class="token class-name">Node</span> p <span class="token operator">=</span> node<span class="token punctuation">.</span><span class="token function">predecessor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token comment">// 如果到head的下一个，因为head是拿到资源的线程，此时node被唤醒，很可能是head用完资源来唤醒自己的</span>
-            <span class="token keyword">if</span> <span class="token punctuation">(</span>p <span class="token operator">==</span> head<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-                <span class="token comment">// 尝试获取资源</span>
-                <span class="token keyword">int</span> r <span class="token operator">=</span> <span class="token function">tryAcquireShared</span><span class="token punctuation">(</span>arg<span class="token punctuation">)</span><span class="token punctuation">;</span>
-                <span class="token keyword">if</span> <span class="token punctuation">(</span>r <span class="token operator">>=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-                    <span class="token comment">// 如果有剩余资源唤醒后面的线程，这里就是和独占式的区别</span>
-                    <span class="token function">setHeadAndPropagate</span><span class="token punctuation">(</span>node<span class="token punctuation">,</span> r<span class="token punctuation">)</span><span class="token punctuation">;</span>
-                    p<span class="token punctuation">.</span>next <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span> <span class="token comment">// help GC</span>
-                    <span class="token comment">// 如果有外部中断，补充中断</span>
-                    <span class="token keyword">if</span> <span class="token punctuation">(</span>interrupted<span class="token punctuation">)</span>
-                        <span class="token function">selfInterrupt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-                    failed <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
-                    <span class="token keyword">return</span><span class="token punctuation">;</span>
-                <span class="token punctuation">&#125;</span>
-            <span class="token punctuation">&#125;</span>
-            <span class="token comment">// 判断状态，寻找安全点，进入waiting状态，等着被unpark()或interrupt()</span>
-            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">shouldParkAfterFailedAcquire</span><span class="token punctuation">(</span>p<span class="token punctuation">,</span> node<span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span>
-                <span class="token function">parkAndCheckInterrupt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-                interrupted <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span>
-    <span class="token punctuation">&#125;</span> <span class="token keyword">finally</span> <span class="token punctuation">&#123;</span>
-        <span class="token keyword">if</span> <span class="token punctuation">(</span>failed<span class="token punctuation">)</span>
-            <span class="token function">cancelAcquire</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>&emsp;&emsp;这个方法和acquireQueued方法很相似，只不过这里将补充中断的位置搬进来了。</p>
-<h3 id="setHeadAndPropagate方法"><a href="#setHeadAndPropagate方法" class="headerlink" title="setHeadAndPropagate方法"></a>setHeadAndPropagate方法</h3><p>&emsp;&emsp;这个方法在自己苏醒的同时，如果条件符合（比如还有剩余资源），还会去唤醒后继结点，毕竟是共享模式！</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">setHeadAndPropagate</span><span class="token punctuation">(</span><span class="token class-name">Node</span> node<span class="token punctuation">,</span> <span class="token keyword">int</span> propagate<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    <span class="token class-name">Node</span> h <span class="token operator">=</span> head<span class="token punctuation">;</span> <span class="token comment">// Record old head for check below</span>
-    <span class="token function">setHead</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">if</span> <span class="token punctuation">(</span>propagate <span class="token operator">></span> <span class="token number">0</span> <span class="token operator">||</span> h <span class="token operator">==</span> <span class="token keyword">null</span> <span class="token operator">||</span> h<span class="token punctuation">.</span>waitStatus <span class="token operator">&lt;</span> <span class="token number">0</span> <span class="token operator">||</span>
-        <span class="token punctuation">(</span>h <span class="token operator">=</span> head<span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token keyword">null</span> <span class="token operator">||</span> h<span class="token punctuation">.</span>waitStatus <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token class-name">Node</span> s <span class="token operator">=</span> node<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
-        <span class="token comment">// 这里调用了唤醒线程的方法，唤醒后面的线程</span>
-        <span class="token keyword">if</span> <span class="token punctuation">(</span>s <span class="token operator">==</span> <span class="token keyword">null</span> <span class="token operator">||</span> s<span class="token punctuation">.</span><span class="token function">isShared</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-            <span class="token function">doReleaseShared</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>&emsp;&emsp;基本流程：</p>
-<ol>
-<li><code>tryAcquireShared()</code>尝试获取资源，成功则直接返回。</li>
-<li>失败则通过<code>doAcquireShared()</code>进入等待队列<code>park()</code>，直到被<code>unpark()/interrupt()</code>并成功获取到资源才返回。整个等待过程也是忽略中断的。</li>
-</ol>
-<p>&emsp;&emsp;跟acquire的流程相似，多了个自己拿到资源后，还回去唤醒后面的线程。</p>
-<h2 id="releaseShared共享方式释放资源"><a href="#releaseShared共享方式释放资源" class="headerlink" title="releaseShared共享方式释放资源"></a>releaseShared共享方式释放资源</h2><h3 id="releaseShared方法"><a href="#releaseShared方法" class="headerlink" title="releaseShared方法"></a>releaseShared方法</h3><p>&emsp;&emsp;此方法是共享模式下线程释放共享资源的顶层入口。<br>&emsp;&emsp;它会释放指定量的资源，如果成功释放且允许唤醒等待线程，它会唤醒等待队列里的其他线程来获取资源。</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">final</span> <span class="token keyword">boolean</span> <span class="token function">releaseShared</span><span class="token punctuation">(</span><span class="token keyword">int</span> arg<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    <span class="token comment">// 尝试释放资源</span>
-    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">tryReleaseShared</span><span class="token punctuation">(</span>arg<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token comment">// 唤醒后面的线程</span>
-        <span class="token function">doReleaseShared</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>&emsp;&emsp;释放掉资源后，唤醒后继。<br>&emsp;&emsp;跟独占模式下的release()相似，但有一点稍微需要注意：独占模式下的tryRelease()在完全释放掉资源（state=0）后，才会返回true去唤醒其他线程，这主要是基于独占下可重入的考量；而共享模式下的releaseShared()则没有这种要求（只要有释放，就回去唤醒），共享模式实质就是控制一定量的线程并发执行，那么拥有资源的线程在释放掉部分资源时就可以唤醒后继等待结点。</p>
-<h3 id="doReleaseShared方法"><a href="#doReleaseShared方法" class="headerlink" title="doReleaseShared方法"></a>doReleaseShared方法</h3><p>&emsp;&emsp;这个方法用于唤醒后继节点。</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">doReleaseShared</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token punctuation">;</span><span class="token punctuation">;</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token class-name">Node</span> h <span class="token operator">=</span> head<span class="token punctuation">;</span>
-        <span class="token keyword">if</span> <span class="token punctuation">(</span>h <span class="token operator">!=</span> <span class="token keyword">null</span> <span class="token operator">&amp;&amp;</span> h <span class="token operator">!=</span> tail<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-            <span class="token keyword">int</span> ws <span class="token operator">=</span> h<span class="token punctuation">.</span>waitStatus<span class="token punctuation">;</span>
-            <span class="token comment">// 该状态表示后继节点需要唤醒</span>
-            <span class="token keyword">if</span> <span class="token punctuation">(</span>ws <span class="token operator">==</span> <span class="token class-name">Node</span><span class="token punctuation">.</span>SIGNAL<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-                <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">compareAndSetWaitStatus</span><span class="token punctuation">(</span>h<span class="token punctuation">,</span> <span class="token class-name">Node</span><span class="token punctuation">.</span>SIGNAL<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-                    <span class="token keyword">continue</span><span class="token punctuation">;</span>            <span class="token comment">// loop to recheck cases</span>
-                <span class="token comment">// 唤醒后继节点</span>
-                <span class="token function">unparkSuccessor</span><span class="token punctuation">(</span>h<span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token punctuation">&#125;</span>
-            <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>ws <span class="token operator">==</span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span>
-                     <span class="token operator">!</span><span class="token function">compareAndSetWaitStatus</span><span class="token punctuation">(</span>h<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token class-name">Node</span><span class="token punctuation">.</span>PROPAGATE<span class="token punctuation">)</span><span class="token punctuation">)</span>
-                <span class="token keyword">continue</span><span class="token punctuation">;</span>                <span class="token comment">// loop on failed CAS</span>
-        <span class="token punctuation">&#125;</span>
-        <span class="token keyword">if</span> <span class="token punctuation">(</span>h <span class="token operator">==</span> head<span class="token punctuation">)</span>                   <span class="token comment">// loop if head changed</span>
-            <span class="token keyword">break</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
 <hr>
 <h1 id="参考文献-amp-鸣谢"><a href="#参考文献-amp-鸣谢" class="headerlink" title="参考文献 &amp; 鸣谢"></a>参考文献 &amp; 鸣谢</h1><ul>
 <li><a href="https://www.cnblogs.com/waterystone/p/4920797.html">Java并发之AQS详解</a></li>
