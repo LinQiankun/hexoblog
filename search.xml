@@ -31,6 +31,9 @@
 <li><input disabled="" type="checkbox"> 网易一面面经</li>
 <li><input disabled="" type="checkbox"> 信也科技一面面经</li>
 <li><input disabled="" type="checkbox"> 禾连科技一面面经</li>
+<li><input disabled="" type="checkbox"> 海康威视一面面经</li>
+<li><input disabled="" type="checkbox"> 同花顺一面面经</li>
+<li><input disabled="" type="checkbox"> 大华一面面经</li>
 </ul>
 <h2 id="DRAFTS-TODO"><a href="#DRAFTS-TODO" class="headerlink" title="DRAFTS_TODO"></a>DRAFTS_TODO</h2><ul>
 <li><input disabled="" type="checkbox"> AIO</li>
@@ -43,41 +46,6 @@
 <li><input disabled="" type="checkbox"> 单例模式</li>
 <li><input disabled="" type="checkbox"> 腾讯烧香问题</li>
 </ul>
-]]></content>
-      <categories>
-        <category>todo</category>
-      </categories>
-      <tags>
-        <tag>todo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>外包公司大汇总</title>
-    <url>/hexoblog/%E5%A4%96%E5%8C%85%E5%85%AC%E5%8F%B8%E5%A4%A7%E6%B1%87%E6%80%BB/</url>
-    <content><![CDATA[<h1 id="外包公司汇总"><a href="#外包公司汇总" class="headerlink" title="外包公司汇总"></a>外包公司汇总</h1><span id="more"></span>
-
-<ol>
-<li>德科（华为）</li>
-<li>捷程易信（网易）</li>
-<li>恒生（阿里）</li>
-<li><em>乌鸠科技</em>（阿里）</li>
-<li><em>端点</em>（阿里）</li>
-<li>博彦科技</li>
-<li>科蓝软件</li>
-<li>奥解思</li>
-<li>法本</li>
-<li>广讯通信</li>
-<li>京北方</li>
-<li>汉克时代</li>
-<li>华钦软件CLPS</li>
-<li>长亮科技（银行）</li>
-<li>信雅达科技</li>
-<li>网达软件（咪咕）</li>
-<li>神州信息（银行）</li>
-<li>宇信科技（银行）</li>
-<li>宁波易简电子科技（银行）</li>
-<li>安硕信息技术</li>
-</ol>
 ]]></content>
       <categories>
         <category>todo</category>
@@ -127,115 +95,46 @@
       </tags>
   </entry>
   <entry>
-    <title>光云科技一面面经</title>
-    <url>/hexoblog/%E9%9D%A2%E7%BB%8F/%E5%85%89%E4%BA%91%E7%A7%91%E6%8A%80%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/</url>
+    <title>同花顺一面面经</title>
+    <url>/hexoblog/%E9%9D%A2%E7%BB%8F/%E5%90%8C%E8%8A%B1%E9%A1%BA%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/</url>
     <content><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span>
 <p>写面经，攒人品</p>
 <ol>
 <li>自我介绍</li>
-<li>集合Hashmap<ol>
-<li>底层结构，版本</li>
-<li>1.7与1.8的结构区别，其他区别</li>
+<li>jvm<ol>
+<li>堆内存溢出<ol>
+<li>怎么快速的堆内存溢出</li>
+<li>溢出怎么防止</li>
+<li>为什么会堆内存溢出</li>
+<li>不段创建String对象，和不断创建线程造成溢出的区别？</li>
+<li>怎么分析，dump内存文件</li>
+<li>分析hprof文件，有那些内容</li>
 </ol>
 </li>
-<li>ConcurrentHashmap与HashMap<ol>
-<li>结构，区别</li>
-<li>不同版本的区别</li>
+<li>栈指针溢出<ol>
+<li>怎么快速的栈指针溢出</li>
+<li>怎么防止</li>
+<li>为什么会栈指针溢出</li>
 </ol>
 </li>
-<li>CAS是什么？</li>
-<li>常用的jvm虚拟机</li>
-<li>jvm垃圾回收器<ol>
-<li>有那些常用的垃圾回收器</li>
-<li>CMS的垃圾回收过程</li>
+<li>垃圾回收器<ol>
+<li>你们用的垃圾回收器</li>
+<li>你知道的垃圾回收器</li>
+<li>讲一讲过程，区别（CMS，G1）</li>
 </ol>
 </li>
-<li>单例模式<ol>
-<li>有哪些写法</li>
-<li>区别是什么</li>
-<li>双检锁的优点？是完美的吗？</li>
 </ol>
 </li>
-<li>数据库索引？（聚簇索引、非聚簇索引；hash索引、B+树索引）</li>
-<li> B+树结构？</li>
-<li>事务的隔离级别？作用？</li>
-<li>MVCC<ol>
-<li> MVCC原理</li>
-<li> MVCC在不同的隔离级别的区别</li>
-</ol>
-</li>
-<li>Spring<ol>
-<li> 有什么特点，功能，ioc，aop，DI</li>
-<li> xml配置如何转成Bean</li>
-<li> Bean的实例化过程</li>
-<li> 循环依赖</li>
-</ol>
-</li>
-<li>redis<ol>
-<li> 分布式锁怎么实现的</li>
-<li> 有哪些数据结构</li>
-</ol>
-</li>
-<li>rocketmq<ol>
-<li> 消息消费失败怎么处理的（没处理，使用mq的原生的重发机制）（分为投递失败，业务处理失败）</li>
-</ol>
-</li>
-<li>synchronized<ol>
-<li> synchronized原理？</li>
-<li> synchronized加在方法上和代码块上的区别？生成的指令的区别？</li>
-</ol>
-</li>
+<li>redis分布式锁实现</li>
+<li>mysql索引，为什么需要索引，自己的理解</li>
+<li>你们数据量级，一次处理的数据量</li>
+<li>线程池，几个核心参数的作用，不背原理</li>
+<li>hashmap和hashtable的区别</li>
+<li>dubbo如何实现高可用的</li>
 <li>反问</li>
 </ol>
 <hr>
-<h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="集合HashMap？"><a href="#集合HashMap？" class="headerlink" title="集合HashMap？"></a>集合HashMap？</h2><p>&emsp;&emsp;jdk1.8中hashmap底层采用<code>数组+链表+红黑树</code>的结构；jdk1.7中hashmap底层采用<code>数组+链表</code>的结构。采用链地址法解决hashmap中的hash冲突问题，当链表长度达到8时进化为红黑树，节点数小于等于6时退化为链表。<br>&emsp;&emsp;jdk1.7与jdk1.8中，数据结构发生了变化，链表的尾插法改成了头插法，尾插法在hashmap扩容时有可能造成死循环。</p>
-<h2 id="ConcurrentHashmap与Hashmap？"><a href="#ConcurrentHashmap与Hashmap？" class="headerlink" title="ConcurrentHashmap与Hashmap？"></a>ConcurrentHashmap与Hashmap？</h2><p>&emsp;&emsp;ConcurrentHashmap是juc包中的类，是用于在多线程情况下的hashmap，解决了hashmap在多线程情况下并发不安全的问题。<br>&emsp;&emsp;ConcurrentHashmap在1.7和1.8中采用了不同的结构和加锁方式。<br>&emsp;&emsp;jdk1.7中采用了段（Segment）的设计，每一个段中都是一个Hashmap的结构，将很多个段组合起来就是ConcurrentHashmap的结构，1.7中保证并发安全采用了分段锁的机制，就是在段设计的基础上，对每一个段加悲观锁（syncronized）。<br>&emsp;&emsp;jdk1.8中ConcurrentHashmap的数据结构采用了和Hashmap相同的数据结构，通过使用CAS操作来保证并发下的安全性。</p>
-<h2 id="CAS是什么？"><a href="#CAS是什么？" class="headerlink" title="CAS是什么？"></a>CAS是什么？</h2><p>&emsp;&emsp;CAS就是比较并交换，全称Compare And Set，是一种原子性修改内存数据的一种策略。<br>&emsp;&emsp;CAS操作过程是：会将内存中的数据与一个期望值进行比较，比较结果相等了，才会将内存中的值修改为要改成的值（一般在缓存）。<br>&emsp;&emsp;java中很多地方都用到了CAS，比如AQS中就是用CAS去修改值，ConcurrentHashmap中也用到了。</p>
-<h2 id="常用的JVM虚拟机？"><a href="#常用的JVM虚拟机？" class="headerlink" title="常用的JVM虚拟机？"></a>常用的JVM虚拟机？</h2><p>&emsp;&emsp;主要jvm虚拟机是Hotspot虚拟机，IBM有一款J9 JVM。</p>
-<h2 id="jvm的垃圾回收器？"><a href="#jvm的垃圾回收器？" class="headerlink" title="jvm的垃圾回收器？"></a>jvm的垃圾回收器？</h2><p>&emsp;&emsp;<a href="../../md/jvm/JVM%E2%80%94GC">jvm的垃圾回收算法与垃圾回收器</a></p>
-<h2 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h2><p>&emsp;&emsp;单例模式共有8种写法。</p>
-<ul>
-<li>饿汉式-静态常量</li>
-<li>饿汉式-静态代码块</li>
-<li>懒汉式（默认线程不安全）</li>
-<li>懒汉式-同步方法</li>
-<li>懒汉式-同步代码块</li>
-<li>双重检查锁</li>
-<li>静态内部类</li>
-<li>枚举</li>
-</ul>
-<h2 id="数据库索引"><a href="#数据库索引" class="headerlink" title="数据库索引"></a>数据库索引</h2><p>&emsp;&emsp;<a href="https://www.yuque.com/jiufenshiren/ra5mzi/aoz98d">mysql的索引</a></p>
-<h2 id="B-树结构？"><a href="#B-树结构？" class="headerlink" title="B+树结构？"></a>B+树结构？</h2><p>&emsp;&emsp;<a href="../../%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/B+%E6%A0%91">数据结构-B+树</a></p>
-<h2 id="事务的隔离级别？作用？"><a href="#事务的隔离级别？作用？" class="headerlink" title="事务的隔离级别？作用？"></a>事务的隔离级别？作用？</h2><p>&emsp;&emsp;<a href="https://www.yuque.com/jiufenshiren/ra5mzi/iarni8">事务的隔离级别</a></p>
-<h2 id="MVCC"><a href="#MVCC" class="headerlink" title="MVCC"></a>MVCC</h2><p>&emsp;&emsp;<a href="../../md/mysql/mysql%E4%B8%AD%E7%9A%84MVCC">mysql中的MVCC</a></p>
-<h2 id="Spring"><a href="#Spring" class="headerlink" title="Spring"></a>Spring</h2><h3 id="Spring特点，功能"><a href="#Spring特点，功能" class="headerlink" title="Spring特点，功能"></a>Spring特点，功能</h3><ul>
-<li>方便解耦，简化开发</li>
-<li>支持AOP编程，很容易实现权限拦截，运行期监控</li>
-<li>声明式事务支持，spring容器提供的功能</li>
-<li>方便集成各种优秀框架</li>
-<li>提供了众多工具类，简化API使用难度</li>
-<li>的DI机制降低了业务对象替换的复杂性</li>
-</ul>
-<h3 id="XML配置如何转换为Bean"><a href="#XML配置如何转换为Bean" class="headerlink" title="XML配置如何转换为Bean"></a>XML配置如何转换为Bean</h3><p>&emsp;&emsp;<a href="https://blog.csdn.net/liu20111590/article/details/89857660">spring之xml文件转换为BeanDefinition</a></p>
-<h3 id="Bean的实例化过程"><a href="#Bean的实例化过程" class="headerlink" title="Bean的实例化过程"></a>Bean的实例化过程</h3><p>&emsp;&emsp;<a href="../../md/spring/Spring%E4%B8%ADBean%E7%9A%84%E5%AE%9E%E4%BE%8B%E5%8C%96%E8%BF%87%E7%A8%8B">Spring中Bean的实例化过程</a></p>
-<h3 id="循环依赖"><a href="#循环依赖" class="headerlink" title="循环依赖"></a>循环依赖</h3><p>&emsp;&emsp;<a href="https://www.yuque.com/jiufenshiren/ra5mzi/gmkoub">spring中循环依赖的处理</a></p>
-<h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><h3 id="redis分布式锁是怎么实现的？"><a href="#redis分布式锁是怎么实现的？" class="headerlink" title="redis分布式锁是怎么实现的？"></a>redis分布式锁是怎么实现的？</h3><p>&emsp;&emsp;<a href="../../md/redis/redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81">redis分布式锁</a></p>
-<h3 id="redis的数据结构"><a href="#redis的数据结构" class="headerlink" title="redis的数据结构"></a>redis的数据结构</h3><p>&emsp;&emsp;redis中共有8种数据结构，其中常用的有5种。</p>
-<ul>
-<li>字符串 string</li>
-<li>散列-hash</li>
-<li>列表-list</li>
-<li>集合-set</li>
-<li>有序集合-zset</li>
-<li>位图-bitmap</li>
-<li>地理位置-geospatial</li>
-<li>hyperloglog</li>
-</ul>
-<p>&emsp;&emsp;<a href="../../md/redis/redis%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84">redis中的数据结构</a></p>
-<h2 id="Rocketmq"><a href="#Rocketmq" class="headerlink" title="Rocketmq"></a>Rocketmq</h2><h3 id="消息消费失败怎么处理？"><a href="#消息消费失败怎么处理？" class="headerlink" title="消息消费失败怎么处理？"></a>消息消费失败怎么处理？</h3><p>&emsp;&emsp;消息消费失败可以分为两种方向，一种是mq进行消息投递失败，另一种是业务系统消费消息失败。<br>&emsp;&emsp;mq消息投递失败会将消息放入定时投递队列中，按照一定的时间间隔后进行消息重投。<br>&emsp;&emsp;业务系统可以将消息存储起来，对于失败的消息，通过定时处理的方式进行恢复。保存起来类似于消息幂等的处理方式。</p>
-<h2 id="Synchronized"><a href="#Synchronized" class="headerlink" title="Synchronized"></a>Synchronized</h2><h3 id="Synchronized原理"><a href="#Synchronized原理" class="headerlink" title="Synchronized原理"></a>Synchronized原理</h3><p>&emsp;&emsp;底层采用monitor指令实现，会生成一条moniter enter和二条moniter exit（一条正常退出，另一条异常退出）指令实现。</p>
-<h3 id="Synchronized加在方法上和代码块上的区别？生成的指令的区别？"><a href="#Synchronized加在方法上和代码块上的区别？生成的指令的区别？" class="headerlink" title="Synchronized加在方法上和代码块上的区别？生成的指令的区别？"></a>Synchronized加在方法上和代码块上的区别？生成的指令的区别？</h3><p>&emsp;&emsp;<a href="https://www.yuque.com/jiufenshiren/ra5mzi/rc3ofp">synchronized</a></p>
-]]></content>
+<h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1>]]></content>
       <categories>
         <category>面经</category>
       </categories>
@@ -244,71 +143,38 @@
       </tags>
   </entry>
   <entry>
-    <title>涂鸦智能一面面经</title>
-    <url>/hexoblog/%E9%9D%A2%E7%BB%8F/%E6%B6%82%E9%B8%A6%E6%99%BA%E8%83%BD%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/</url>
-    <content><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span>
-<p>写面经，攒人品</p>
-<ol>
-<li>自我介绍</li>
-<li>项目介绍</li>
-<li>线程创建的几个方式</li>
-<li>callable的使用场景（*）</li>
-<li>多线程情况下的资源安全（锁，*）</li>
-<li>线程池的工作原理</li>
-<li>服务调用的方式</li>
-<li>dubbo的协议（*）</li>
-<li>dubbo的序列化方式（*）</li>
-<li>分布式事务<ol>
-<li> 二阶段提交</li>
-<li> mq事务消息</li>
-</ol>
-</li>
-<li>jvm内存模型</li>
-<li>redis分布式锁的问题（碰到过没有）</li>
-<li>学习的方法</li>
-<li>反问<ol>
-<li> lot为什么需要客户管理系统</li>
-<li> 技术栈</li>
-</ol>
-</li>
-</ol>
-<p><img src="https://raw.githubusercontent.com/LinQiankun/picurl/main/java%E5%86%99%E9%9D%A2%E7%BB%8F%EF%BC%8C%E6%94%92%E4%BA%BA%E5%93%81_00.jpg" alt="写面经，攒人品"></p>
-<hr>
-<h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="线程创建的几种方式？"><a href="#线程创建的几种方式？" class="headerlink" title="线程创建的几种方式？"></a>线程创建的几种方式？</h2><p>&emsp;&emsp;线程创建的4种方式：</p>
-<ol>
-<li>继承Thread类</li>
-<li>实现Runnable接口</li>
-<li>时间Callable接口</li>
-<li>使用线程池，使用Executor框架创建线程池</li>
-</ol>
-<h2 id="callable的使用场景？"><a href="#callable的使用场景？" class="headerlink" title="callable的使用场景？"></a>callable的使用场景？</h2><p>&emsp;&emsp;callable有返回值，可以通过Future获取返回值。</p>
-<h2 id="多线程情况下的资源安全？"><a href="#多线程情况下的资源安全？" class="headerlink" title="多线程情况下的资源安全？"></a>多线程情况下的资源安全？</h2><p>&emsp;&emsp;有多种保证线程安全的方式：</p>
-<ol>
-<li>加锁的方式</li>
-<li>并发的工具包</li>
-</ol>
-<h2 id="线程池的工作原理？"><a href="#线程池的工作原理？" class="headerlink" title="线程池的工作原理？"></a>线程池的工作原理？</h2><p>&emsp;&emsp;</p>
-<h2 id="服务调用的方式？"><a href="#服务调用的方式？" class="headerlink" title="服务调用的方式？"></a>服务调用的方式？</h2><p>&emsp;&emsp;服务调用分为多种方式调用：</p>
-<ol>
-<li>本地service调用</li>
-<li>远程调用<ol>
-<li>rpc调用</li>
-<li>rest（http）调用</li>
-</ol>
-</li>
-</ol>
-<h2 id="dubbo的协议，dubbo的序列化方式？"><a href="#dubbo的协议，dubbo的序列化方式？" class="headerlink" title="dubbo的协议，dubbo的序列化方式？"></a>dubbo的协议，dubbo的序列化方式？</h2><p>&emsp;&emsp;<a href="../../md/rpc/dubbo/dubbo%E7%9A%849%E7%A7%8D%E5%8D%8F%E8%AE%AE">dubbo的9种协议</a></p>
-<h2 id="分布式事务？"><a href="#分布式事务？" class="headerlink" title="分布式事务？"></a>分布式事务？</h2><p>&emsp;&emsp;<a href="../../md/%E5%88%86%E5%B8%83%E5%BC%8F/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1">分布式事务</a></p>
-<!-- [分布式事务.md](../md/分布式/分布式事务.md) -->
+    <title>外包公司大汇总</title>
+    <url>/hexoblog/%E5%A4%96%E5%8C%85%E5%85%AC%E5%8F%B8%E5%A4%A7%E6%B1%87%E6%80%BB/</url>
+    <content><![CDATA[<h1 id="外包公司汇总"><a href="#外包公司汇总" class="headerlink" title="外包公司汇总"></a>外包公司汇总</h1><span id="more"></span>
 
-<h2 id="jvm内存模型？"><a href="#jvm内存模型？" class="headerlink" title="jvm内存模型？"></a>jvm内存模型？</h2><p>&emsp;&emsp;<a href="../../md/jvm/jvm%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84">jvm内存结构</a><br>&emsp;&emsp;<a href="../../md/jvm/JVM%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5">JVM内存分配策略</a><br>&emsp;&emsp;<a href="../../md/jvm/jvm%E4%B8%AD%E6%96%B9%E6%B3%95%E5%8C%BA-%E6%B0%B8%E4%B9%85%E4%BB%A3-%E5%85%83%E7%A9%BA%E9%97%B4">jvm中方法区-永久代-元空间</a><br>&emsp;&emsp;<a href="../../md/jvm/JVM%E2%80%94GC">JVM—GC</a></p>
-<h2 id="redis分布式锁的问题？"><a href="#redis分布式锁的问题？" class="headerlink" title="redis分布式锁的问题？"></a>redis分布式锁的问题？</h2><p>&emsp;&emsp;<a href="../../md/redis/redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81">redis分布式锁</a><br>&emsp;&emsp;<a href="../../md/%E5%88%86%E5%B8%83%E5%BC%8F/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81">分布式锁</a><br>&emsp;&emsp;<a href="../../md/zookeeper/zookeeper%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81">zookeeper实现分布式锁</a></p>
+<ol>
+<li>德科（华为）</li>
+<li>捷程易信（网易）</li>
+<li>恒生（阿里）</li>
+<li><em>乌鸠科技</em>（阿里）</li>
+<li><em>端点</em>（阿里）</li>
+<li>博彦科技</li>
+<li>科蓝软件</li>
+<li>奥解思</li>
+<li>法本</li>
+<li>广讯通信</li>
+<li>京北方</li>
+<li>汉克时代</li>
+<li>华钦软件CLPS</li>
+<li>长亮科技（银行）</li>
+<li>信雅达科技</li>
+<li>网达软件（咪咕）</li>
+<li>神州信息（银行）</li>
+<li>宇信科技（银行）</li>
+<li>宁波易简电子科技（银行）</li>
+<li>安硕信息技术</li>
+</ol>
 ]]></content>
       <categories>
-        <category>面经</category>
+        <category>todo</category>
       </categories>
       <tags>
-        <tag>面经</tag>
+        <tag>todo</tag>
       </tags>
   </entry>
   <entry>
@@ -434,55 +300,6 @@
 </ol>
 <hr>
 <h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1>]]></content>
-      <categories>
-        <category>面经</category>
-      </categories>
-      <tags>
-        <tag>面经</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>端点科技一面面经</title>
-    <url>/hexoblog/%E9%9D%A2%E7%BB%8F/%E7%AB%AF%E7%82%B9%E7%A7%91%E6%8A%80%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/</url>
-    <content><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span>
-<p>写面经，攒人品</p>
-<ol>
-<li>自我介绍</li>
-<li>项目介绍</li>
-<li>项目中使用到的技术（亮点）</li>
-<li>分布式锁<ol>
-<li>redis实现与zk实现的区别</li>
-<li>redis单机挂的情况</li>
-<li>多应用服务器抢占redis锁，造成redis服务器CPU飙红</li>
-</ol>
-</li>
-<li>Rocketmq - 使用场景</li>
-<li>索引</li>
-<li>B+树<ol>
-<li>结构</li>
-<li>如何优化查询</li>
-<li>原理等</li>
-</ol>
-</li>
-<li>CountDownLatch原理</li>
-<li>线程池<ol>
-<li> 线程池的参数</li>
-</ol>
-</li>
-<li>非阻塞IO与阻塞IO</li>
-</ol>
-<p><img src="https://raw.githubusercontent.com/LinQiankun/picurl/main/java%E5%86%99%E9%9D%A2%E7%BB%8F%EF%BC%8C%E6%94%92%E4%BA%BA%E5%93%81_00.jpg" alt="写面经，攒人品"></p>
-<hr>
-<h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h2><h3 id="redis实现与zk实现的区别"><a href="#redis实现与zk实现的区别" class="headerlink" title="redis实现与zk实现的区别"></a>redis实现与zk实现的区别</h3><h3 id="redis单机挂的情况"><a href="#redis单机挂的情况" class="headerlink" title="redis单机挂的情况"></a>redis单机挂的情况</h3><p>&emsp;&emsp;redis单机挂的情况下，考虑使用集群作为分布式锁的载体，使用redlock作为分布式锁的实现，这里的集群采用redis cluster而不采用主从复制模式，主从复制模式下，故障转移可能导致锁丢失，cluster的几率小很多。</p>
-<h3 id="多应用服务器抢占redis锁，造成redis服务器CPU飙红"><a href="#多应用服务器抢占redis锁，造成redis服务器CPU飙红" class="headerlink" title="多应用服务器抢占redis锁，造成redis服务器CPU飙红"></a>多应用服务器抢占redis锁，造成redis服务器CPU飙红</h3><p>&emsp;&emsp;redlock模式下，加分布式锁是给每一台redis服务器一台一台加锁的，加锁成功一半以后，就认为是分布式加锁成功。<br>&emsp;&emsp;检查当前锁状态只是一次读而已，写入锁也只是一次写入。本质上就是读写，另外单次锁状态的读取和写入数据量都很小。理论上来说你的业务量没有大到一定程度，锁的操作不会带来redis服务器的太多压力，如果有，那么你的其他业务的读写可能更要值得关注了。另外真有问题，就锁这一块的读写也不会引起CPU飙升。</p>
-<h2 id="RocketMQ使用场景"><a href="#RocketMQ使用场景" class="headerlink" title="RocketMQ使用场景"></a>RocketMQ使用场景</h2><p>&emsp;&emsp;<a href="../../md/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%AE%80%E4%BB%8B">消息中间件简介</a></p>
-<h2 id="mysql中索引结构"><a href="#mysql中索引结构" class="headerlink" title="mysql中索引结构"></a>mysql中索引结构</h2><p>&emsp;&emsp;索引结构分为两种，Hash索引和B+树索引。<br>&emsp;&emsp;<a href="https://www.yuque.com/jiufenshiren/ra5mzi/aoz98d">索引</a></p>
-<h2 id="B-树"><a href="#B-树" class="headerlink" title="B+树"></a>B+树</h2><p>&emsp;&emsp;<a href="../../md/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/B+%E6%A0%91">B+树</a></p>
-<h3 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h3><h3 id="如何优化查询"><a href="#如何优化查询" class="headerlink" title="如何优化查询"></a>如何优化查询</h3><p>&emsp;&emsp;减少IO次数。</p>
-<h2 id="CountDownLatch原理"><a href="#CountDownLatch原理" class="headerlink" title="CountDownLatch原理"></a>CountDownLatch原理</h2><p>&emsp;&emsp;<a href="../../md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/juc%E4%B9%8BCountDownLatch">juc之CountDownLatch</a></p>
-<h2 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h2><p>&emsp;&emsp;<a href="../../md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/threadpool">threadpool</a></p>
-<h2 id="非阻塞IO与阻塞IO"><a href="#非阻塞IO与阻塞IO" class="headerlink" title="非阻塞IO与阻塞IO"></a>非阻塞IO与阻塞IO</h2><p>&emsp;&emsp;<a href="../../md/java/IO/java%E4%BC%A0%E7%BB%9FIO%E6%B5%81-BIO">java传统IO流-BIO</a><br>&emsp;&emsp;<a href="../../md/java/IO/NIO">NIO</a><br>&emsp;&emsp;<a href="../../md/java/IO/IO%E6%A8%A1%E5%9E%8B">IO模型</a><br>&emsp;&emsp;<a href="../../md/java/IO/IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8">IO多路复用</a></p>
-]]></content>
       <categories>
         <category>面经</category>
       </categories>
@@ -650,6 +467,110 @@
       </tags>
   </entry>
   <entry>
+    <title>TCP三次握手四次挥手</title>
+    <url>/hexoblog/md/internet/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;在网络层通过IP协议可以实现两个主机之间的通信，但是无法确定是主机中的那个进程之间进行的通信，而实际及性能通信的则是主机中的进程。  </p>
+<span id="more"></span>
+
+<p>&emsp;&emsp;TCP面向连接的服务，在传送数据之前必须先建立连接，数据传送完成后要释放连接。因此TCP是一种可靠的的运输服务，但是正因为这样，不可避免的增加了许多的开销，比如确认，流量控制等。对应的应用层的协议主要有SMTP,TELNET,HTTP,FTP等。<br>&emsp;&emsp;TCP把连接作为最基本的对象，每一条TCP连接都有两个端点，这种断点我们叫作套接字（socket），它的定义为端口号拼接到IP地址即构成了套接字，例如，若IP地址为127.0.0.1 而端口号为80，那么得到的套接字为127.0.0.1:80。<br>&emsp;&emsp;TCP采用全双工通信，这要求了服务端与客户端必须双方都能进行向对方发送数据，所以建立断开连接必须建立或者断开两次。</p>
+<hr>
+<h1 id="TCP报文"><a href="#TCP报文" class="headerlink" title="TCP报文"></a>TCP报文</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/tcp%E6%8A%A5%E6%96%87%E9%A6%96%E9%83%A8.jpg" alt="TCP报文"></p>
+<ol>
+<li>源端口和目的端口：分别写入源端口和目的接口。</li>
+<li>序号：占4个字节，TCP连接中传送的字节流中的每个字节都按顺序编号。当前为301时，如果传输100个字节后，下一个报文段从401开始。</li>
+<li>确认号：占4个字节，是期望收到对方下一个报文的第一个数据字节的序号。</li>
+<li>数据偏移：占4位（半个字节），它指出TCP报文的数据距离TCP报文段的起始处有多远。</li>
+<li>保留位置：占6位，保留今后使用，但目前应都位0。</li>
+<li>紧急URG：当URG=1，表明紧急指针字段有效。告诉系统此报文段中有紧急数据。</li>
+<li>确认ACK：仅当ACK=1时，确认号字段才有效。TCP规定，在连接建立后所有报文的传输都必须把ACK置1。</li>
+<li>推送PSH：当两个应用进程进行交互式通信时，有时在一端的应用进程希望在键入一个命令后立即就能收到对方的响应，这时候就将PSH=1。</li>
+<li>复位RST：当RST=1，表明TCP连接中出现严重差错，必须释放连接，然后再重新建立连接。</li>
+<li>同步SYN：在连接建立时用来同步序号。当SYN=1，ACK=0，表明是连接请求报文，若同意连接，则响应报文中应该使SYN=1，ACK=1。</li>
+<li>终止FIN：用来释放连接。当FIN=1，表明此报文的发送方的数据已经发送完毕，并且要求释放。</li>
+<li>窗口：占2字节，指的是通知接收方，发送本报文你需要有多大的空间来接受。</li>
+<li>检验和：占2字节，校验首部和数据这两部分。</li>
+<li>紧急指针：占2字节，指出本报文段中的紧急数据的字节数。</li>
+<li>选项：长度可变，定义一些其他的可选的参数。</li>
+</ol>
+<hr>
+<h1 id="TCP连接的建立（三次握手）"><a href="#TCP连接的建立（三次握手）" class="headerlink" title="TCP连接的建立（三次握手）"></a>TCP连接的建立（三次握手）</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/tcp%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B.png" alt="TCP连接建立"></p>
+<ol>
+<li>服务端先创建传输控制块，准备监听客户端进程的连接请求，此时服务器就进入了Listen状态。</li>
+<li>客户端也建立传输控制块，向服务端发送连接请求报文，此时客户端进入SYN-SENT状态（同步已发送）。<blockquote>
+<p>TCP规定，SYN报文段（SYN=1的报文段）<strong>不能携带数据</strong>，但需消耗掉一个序号。<br>此时报文内容SYN=1，seq=x。</p>
+</blockquote>
+</li>
+<li>服务器接收到请求后，如果同意连接，则发出确认报文，此时服务器进入SYN-RCVD状态（同步收到）。<blockquote>
+<p>这个报文同样不能携带数据，需要消耗一个序号。<br>此时报文内容为SYN=1,ACK=1,seq=y,ack=x+1。seq为自己发送的序列号，ack因为上一次的发连接请求报文不带数据，所以确认号直接为x+。</p>
+</blockquote>
+</li>
+<li>客户端进程收到确认后，还要向服务器给出确认。确认后，TCP连接建立，客户端进入ESTABLISHED状态（已建立连接）。<blockquote>
+<p>TCP规定，ACK报文段可以携带数据，但是如果不携带数据则不消耗序号。<br>此时的报文内容为ACK=1,seq=x+1,ack=y+1；这里相对于同步请求是客户端发给服务端的第二个请求，所有seq为x+1。</p>
+</blockquote>
+</li>
+<li>当服务器收到客户端的确认后也进入ESTABLISHED状态，此后双方就可以开始通信了。</li>
+</ol>
+<hr>
+<h1 id="TCP连接的断开（四次回收）"><a href="#TCP连接的断开（四次回收）" class="headerlink" title="TCP连接的断开（四次回收）"></a>TCP连接的断开（四次回收）</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B.png" alt="四次挥手"></p>
+<ol>
+<li>客户端发送连接释放报文，停止发送数据，客户端进入FIN-WAIT-1状态（终止等待1）。<blockquote>
+<p>TCP规定，FIN报文段即使不携带数据，也要消耗一个序号。与SYN报文段相似。<br>此时报文内容为FIN=1,seq=u。这里的序列号跟随前面的数据的序列号，为最后一个字节数据的序列号加一。</p>
+</blockquote>
+</li>
+<li>服务器收到连接释放报文，发送出自己的释放报文，服务端进入CLOSE-WAIT状态（关闭等待）。<blockquote>
+<p>TCP服务器通知高层的应用进程，客户端向服务器的方向就释放了，这时候处于半关闭状态，即客户端已经没有数据要发送了，但是服务器若发送数据，客户端依然要接受。这个过程需要持续一段时间，等待服务器将数据发送完。<br>此时报文内容为ACK=1,seq=v,ack=u+1。</p>
+</blockquote>
+</li>
+<li>客户端收到服务器的释放确认后，进入FIN-WAIT-2状态，等待服务器发送连接释放报文，这个过程中会继续接受服务器发送的数据内容。</li>
+<li>服务器将数据发送完毕后，向客户端发送连接释放报文，服务器进入LAST-ACK状态，等待最后的确认。<blockquote>
+<p>此时报文内容为FIN=1,ACK=1,seq=w,ack=u+1，在上个过程中，客户端不会向服务端发送信息所以ack不变，而服务端会向客户端发送所以seq会变化。</p>
+</blockquote>
+</li>
+<li>客户端收到连接释放后，向服务器发出确认，客户端进入TIME-WAIT状态。<blockquote>
+<p>注意此时TCP连接还没有释放，必须经过2*MSL（最长报文段寿命）的时间后，当客户端撤销相应的TCB后，才进入CLOSED状态。<br>此时报文内容为ACK=1,seq=u+1,ack=w+1。</p>
+</blockquote>
+</li>
+<li>服务器收到确认信息后，会立即进入CLOSED状态，撤销TCB结束连接。</li>
+</ol>
+<hr>
+<h1 id="通俗一点"><a href="#通俗一点" class="headerlink" title="通俗一点"></a>通俗一点</h1><p>&emsp;&emsp;举个例子：</p>
+<ul>
+<li>甲方：你好，我是甲方，你能听到吗？</li>
+<li>乙方：你好，我能听到，我是乙方，你能听到吗？&lt;甲方收到，甲方建立连接&gt;</li>
+<li>甲方：我能听到。&lt;乙方收到，乙方建立连接&gt;</li>
+<li></li>
+<li>连接建立，开始扯皮。</li>
+<li>甲方乙方：。。。（扯皮中）。</li>
+<li></li>
+<li>甲方：我说完了，就这样吧。</li>
+<li>乙方：你说完了好的，我最后在说一下。</li>
+<li>乙方：。。。乙方批斗需求中。</li>
+<li>乙方：我也说完了，挂了吧。</li>
+<li>甲方：好的，挂了。&lt;乙方收到，乙方挂掉了&gt;</li>
+<li></li>
+<li>甲方：{等了一个来回的时间了，他应该收到了}。&lt;甲方挂掉了&gt;</li>
+</ul>
+<hr>
+<h1 id="一点问题"><a href="#一点问题" class="headerlink" title="一点问题"></a>一点问题</h1><h2 id="为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）"><a href="#为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）" class="headerlink" title="为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）"></a>为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）</h2><p>&emsp;&emsp;防止因网络抖动各种原因造成的连接请求，突然又传送到了服务端，从而产生错误。<br>&emsp;&emsp;采用两次握手的情况下，假设第一次的连接请求在网络中阻塞了，服务端没有收到客户端的请求报文就不会处理，客户端一直收不到确认就会认为服务器没有收到，则会重新发送这条请求，此后客户端和服务端完成握手，建立连接。<br>&emsp;&emsp;这时，在网络中阻塞的第一次的请求突然到达服务器就会出现问题。</p>
+<blockquote>
+<p>如果建立连接后传输完成数据且关闭连接了，就会产生重新建立连接的问题，而采用3次握手，即使服务端收到了出错的连接请求而发送了确认信息，但是客户端没有需要传输的数据，不会进行第三次握手操作，就不会产生问题。<br>如果传输数据过程中收到了错误的连接请求，即使进行确认，也不会第三次进行握手。（这里待议）</p>
+</blockquote>
+<h2 id="服务端易受到SYN攻击？"><a href="#服务端易受到SYN攻击？" class="headerlink" title="服务端易受到SYN攻击？"></a>服务端易受到SYN攻击？</h2><p>&emsp;&emsp;服务端的资源是在第二次进行握手的时候分配的，而客户端的资源是在进行第三次握手的时候分配的。所以服务器容易收到SYN洪泛攻击，就是在短时间内伪造大量不存在的ip，不断的向服务器发送SYN包，服务端则回复并等待确认包，但是源地址是虚构的，所有不会收到确认包，服务端将不断重发进行重试知道超时，这些伪造的SYN包将占用大量且长时间的占用未连接队列，导致正常请求将被丢弃，引起网络瘫痪。<br>&emsp;&emsp;可以通过降低主机的等待时间释放未连接占用，或者短时间收到某ip的重复SYN报文将丢弃后续请求。</p>
+<h2 id="为什么客户端最后还要等待2MSL？"><a href="#为什么客户端最后还要等待2MSL？" class="headerlink" title="为什么客户端最后还要等待2MSL？"></a>为什么客户端最后还要等待2MSL？</h2><p>&emsp;&emsp;保证客户端的最后一个ACK报文能够到达服务器，在服务端，没有接受到客户端的ACK就会认为服务器没有收到自己发送的FIN请求，这时就会重发FIN请求。对于客户端而言，收到FIN请求后，发送ACK确认信息，假设服务端没有收到ACK信息，就会重新发送FIN请求，客户端就会重新收到FIN请求，没有收到重新发送的FIN请求，就认为没有问题就可以断开连接了。</p>
+<h2 id="如果已经建立了连接，但是客户端突然出现故障了怎么办？"><a href="#如果已经建立了连接，但是客户端突然出现故障了怎么办？" class="headerlink" title="如果已经建立了连接，但是客户端突然出现故障了怎么办？"></a>如果已经建立了连接，但是客户端突然出现故障了怎么办？</h2><p>&emsp;&emsp;TCP设置有一个保活器，服务器每一次收到数据就会重新复位这个计时器，若计时器走完，没有收到客户端的数据，服务器就会发送探测报文，75秒一个探测报文，连续10个探测报文没有收到恢复，就认为客户端故障，断开连接。</p>
+<h2 id="为什么是四次挥手而不是三次或者五次呢？"><a href="#为什么是四次挥手而不是三次或者五次呢？" class="headerlink" title="为什么是四次挥手而不是三次或者五次呢？"></a>为什么是四次挥手而不是三次或者五次呢？</h2><p>&emsp;&emsp;第二次挥手和第三次挥手都是服务端向客户端发送报文，第二次挥手是服务端收到了客户端的断开请求，通知客户端收到了，此时客户端没有数据向服务端发送了，但不代表服务端也没有数据向客户端发送，因为服务端要把剩余还没有发送的报文发送完毕再断开连接；第三次挥手是服务端数据全部发送完毕，向客户端发送断开请求报文（FIN=1）。<br>&emsp;&emsp;如果将这两次合二为一，就会出现服务端收到请求后立即确认并且断开连接，会造成服务端发送到客户端的数据不完整。五次则没有必要。</p>
+<h2 id="问什么连接是三次断开是四次呢？"><a href="#问什么连接是三次断开是四次呢？" class="headerlink" title="问什么连接是三次断开是四次呢？"></a>问什么连接是三次断开是四次呢？</h2><p>&emsp;&emsp;断开是四次的原因和上面的问题的解答是一样的。<br>&emsp;&emsp;对于建立连接，3次其实是建立可靠连接的最小次数。可参考第一道问题。<br>&emsp;&emsp;因为当服务端收到客户端的SYN连接请求报文后，可以直接发送SYN+ACK报文。其中ACK报文是用来应答的，SYN报文是用来同步的。但是关闭连接时，当Server端收到FIN报文时，很可能并不会立即关闭连接，所以只能先回复一个ACK报文，告诉客户端，”你发的FIN报文我收到了”。只有等到我服务端所有的报文都发送完了，我才能发送FIN报文，因此不能一起发送。故需要四步握手。<br>&emsp;&emsp;四次挥手相比于三次握手，将服务端返回给客户端的ACK+SYN报文，拆成了2次发送。</p>
+]]></content>
+      <categories>
+        <category>网络</category>
+        <category>TCP</category>
+      </categories>
+      <tags>
+        <tag>网络</tag>
+        <tag>TCP</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>TCP与UDP</title>
     <url>/hexoblog/md/internet/TCP%E4%B8%8EUDP/</url>
     <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;TCP是传输控制协议，UDP是用户数据报协议，均处在传输层。  </p>
@@ -802,110 +723,6 @@
       </tags>
   </entry>
   <entry>
-    <title>TCP三次握手四次挥手</title>
-    <url>/hexoblog/md/internet/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;在网络层通过IP协议可以实现两个主机之间的通信，但是无法确定是主机中的那个进程之间进行的通信，而实际及性能通信的则是主机中的进程。  </p>
-<span id="more"></span>
-
-<p>&emsp;&emsp;TCP面向连接的服务，在传送数据之前必须先建立连接，数据传送完成后要释放连接。因此TCP是一种可靠的的运输服务，但是正因为这样，不可避免的增加了许多的开销，比如确认，流量控制等。对应的应用层的协议主要有SMTP,TELNET,HTTP,FTP等。<br>&emsp;&emsp;TCP把连接作为最基本的对象，每一条TCP连接都有两个端点，这种断点我们叫作套接字（socket），它的定义为端口号拼接到IP地址即构成了套接字，例如，若IP地址为127.0.0.1 而端口号为80，那么得到的套接字为127.0.0.1:80。<br>&emsp;&emsp;TCP采用全双工通信，这要求了服务端与客户端必须双方都能进行向对方发送数据，所以建立断开连接必须建立或者断开两次。</p>
-<hr>
-<h1 id="TCP报文"><a href="#TCP报文" class="headerlink" title="TCP报文"></a>TCP报文</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/tcp%E6%8A%A5%E6%96%87%E9%A6%96%E9%83%A8.jpg" alt="TCP报文"></p>
-<ol>
-<li>源端口和目的端口：分别写入源端口和目的接口。</li>
-<li>序号：占4个字节，TCP连接中传送的字节流中的每个字节都按顺序编号。当前为301时，如果传输100个字节后，下一个报文段从401开始。</li>
-<li>确认号：占4个字节，是期望收到对方下一个报文的第一个数据字节的序号。</li>
-<li>数据偏移：占4位（半个字节），它指出TCP报文的数据距离TCP报文段的起始处有多远。</li>
-<li>保留位置：占6位，保留今后使用，但目前应都位0。</li>
-<li>紧急URG：当URG=1，表明紧急指针字段有效。告诉系统此报文段中有紧急数据。</li>
-<li>确认ACK：仅当ACK=1时，确认号字段才有效。TCP规定，在连接建立后所有报文的传输都必须把ACK置1。</li>
-<li>推送PSH：当两个应用进程进行交互式通信时，有时在一端的应用进程希望在键入一个命令后立即就能收到对方的响应，这时候就将PSH=1。</li>
-<li>复位RST：当RST=1，表明TCP连接中出现严重差错，必须释放连接，然后再重新建立连接。</li>
-<li>同步SYN：在连接建立时用来同步序号。当SYN=1，ACK=0，表明是连接请求报文，若同意连接，则响应报文中应该使SYN=1，ACK=1。</li>
-<li>终止FIN：用来释放连接。当FIN=1，表明此报文的发送方的数据已经发送完毕，并且要求释放。</li>
-<li>窗口：占2字节，指的是通知接收方，发送本报文你需要有多大的空间来接受。</li>
-<li>检验和：占2字节，校验首部和数据这两部分。</li>
-<li>紧急指针：占2字节，指出本报文段中的紧急数据的字节数。</li>
-<li>选项：长度可变，定义一些其他的可选的参数。</li>
-</ol>
-<hr>
-<h1 id="TCP连接的建立（三次握手）"><a href="#TCP连接的建立（三次握手）" class="headerlink" title="TCP连接的建立（三次握手）"></a>TCP连接的建立（三次握手）</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/tcp%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B.png" alt="TCP连接建立"></p>
-<ol>
-<li>服务端先创建传输控制块，准备监听客户端进程的连接请求，此时服务器就进入了Listen状态。</li>
-<li>客户端也建立传输控制块，向服务端发送连接请求报文，此时客户端进入SYN-SENT状态（同步已发送）。<blockquote>
-<p>TCP规定，SYN报文段（SYN=1的报文段）<strong>不能携带数据</strong>，但需消耗掉一个序号。<br>此时报文内容SYN=1，seq=x。</p>
-</blockquote>
-</li>
-<li>服务器接收到请求后，如果同意连接，则发出确认报文，此时服务器进入SYN-RCVD状态（同步收到）。<blockquote>
-<p>这个报文同样不能携带数据，需要消耗一个序号。<br>此时报文内容为SYN=1,ACK=1,seq=y,ack=x+1。seq为自己发送的序列号，ack因为上一次的发连接请求报文不带数据，所以确认号直接为x+。</p>
-</blockquote>
-</li>
-<li>客户端进程收到确认后，还要向服务器给出确认。确认后，TCP连接建立，客户端进入ESTABLISHED状态（已建立连接）。<blockquote>
-<p>TCP规定，ACK报文段可以携带数据，但是如果不携带数据则不消耗序号。<br>此时的报文内容为ACK=1,seq=x+1,ack=y+1；这里相对于同步请求是客户端发给服务端的第二个请求，所有seq为x+1。</p>
-</blockquote>
-</li>
-<li>当服务器收到客户端的确认后也进入ESTABLISHED状态，此后双方就可以开始通信了。</li>
-</ol>
-<hr>
-<h1 id="TCP连接的断开（四次回收）"><a href="#TCP连接的断开（四次回收）" class="headerlink" title="TCP连接的断开（四次回收）"></a>TCP连接的断开（四次回收）</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B.png" alt="四次挥手"></p>
-<ol>
-<li>客户端发送连接释放报文，停止发送数据，客户端进入FIN-WAIT-1状态（终止等待1）。<blockquote>
-<p>TCP规定，FIN报文段即使不携带数据，也要消耗一个序号。与SYN报文段相似。<br>此时报文内容为FIN=1,seq=u。这里的序列号跟随前面的数据的序列号，为最后一个字节数据的序列号加一。</p>
-</blockquote>
-</li>
-<li>服务器收到连接释放报文，发送出自己的释放报文，服务端进入CLOSE-WAIT状态（关闭等待）。<blockquote>
-<p>TCP服务器通知高层的应用进程，客户端向服务器的方向就释放了，这时候处于半关闭状态，即客户端已经没有数据要发送了，但是服务器若发送数据，客户端依然要接受。这个过程需要持续一段时间，等待服务器将数据发送完。<br>此时报文内容为ACK=1,seq=v,ack=u+1。</p>
-</blockquote>
-</li>
-<li>客户端收到服务器的释放确认后，进入FIN-WAIT-2状态，等待服务器发送连接释放报文，这个过程中会继续接受服务器发送的数据内容。</li>
-<li>服务器将数据发送完毕后，向客户端发送连接释放报文，服务器进入LAST-ACK状态，等待最后的确认。<blockquote>
-<p>此时报文内容为FIN=1,ACK=1,seq=w,ack=u+1，在上个过程中，客户端不会向服务端发送信息所以ack不变，而服务端会向客户端发送所以seq会变化。</p>
-</blockquote>
-</li>
-<li>客户端收到连接释放后，向服务器发出确认，客户端进入TIME-WAIT状态。<blockquote>
-<p>注意此时TCP连接还没有释放，必须经过2*MSL（最长报文段寿命）的时间后，当客户端撤销相应的TCB后，才进入CLOSED状态。<br>此时报文内容为ACK=1,seq=u+1,ack=w+1。</p>
-</blockquote>
-</li>
-<li>服务器收到确认信息后，会立即进入CLOSED状态，撤销TCB结束连接。</li>
-</ol>
-<hr>
-<h1 id="通俗一点"><a href="#通俗一点" class="headerlink" title="通俗一点"></a>通俗一点</h1><p>&emsp;&emsp;举个例子：</p>
-<ul>
-<li>甲方：你好，我是甲方，你能听到吗？</li>
-<li>乙方：你好，我能听到，我是乙方，你能听到吗？&lt;甲方收到，甲方建立连接&gt;</li>
-<li>甲方：我能听到。&lt;乙方收到，乙方建立连接&gt;</li>
-<li></li>
-<li>连接建立，开始扯皮。</li>
-<li>甲方乙方：。。。（扯皮中）。</li>
-<li></li>
-<li>甲方：我说完了，就这样吧。</li>
-<li>乙方：你说完了好的，我最后在说一下。</li>
-<li>乙方：。。。乙方批斗需求中。</li>
-<li>乙方：我也说完了，挂了吧。</li>
-<li>甲方：好的，挂了。&lt;乙方收到，乙方挂掉了&gt;</li>
-<li></li>
-<li>甲方：{等了一个来回的时间了，他应该收到了}。&lt;甲方挂掉了&gt;</li>
-</ul>
-<hr>
-<h1 id="一点问题"><a href="#一点问题" class="headerlink" title="一点问题"></a>一点问题</h1><h2 id="为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）"><a href="#为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）" class="headerlink" title="为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）"></a>为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）</h2><p>&emsp;&emsp;防止因网络抖动各种原因造成的连接请求，突然又传送到了服务端，从而产生错误。<br>&emsp;&emsp;采用两次握手的情况下，假设第一次的连接请求在网络中阻塞了，服务端没有收到客户端的请求报文就不会处理，客户端一直收不到确认就会认为服务器没有收到，则会重新发送这条请求，此后客户端和服务端完成握手，建立连接。<br>&emsp;&emsp;这时，在网络中阻塞的第一次的请求突然到达服务器就会出现问题。</p>
-<blockquote>
-<p>如果建立连接后传输完成数据且关闭连接了，就会产生重新建立连接的问题，而采用3次握手，即使服务端收到了出错的连接请求而发送了确认信息，但是客户端没有需要传输的数据，不会进行第三次握手操作，就不会产生问题。<br>如果传输数据过程中收到了错误的连接请求，即使进行确认，也不会第三次进行握手。（这里待议）</p>
-</blockquote>
-<h2 id="服务端易受到SYN攻击？"><a href="#服务端易受到SYN攻击？" class="headerlink" title="服务端易受到SYN攻击？"></a>服务端易受到SYN攻击？</h2><p>&emsp;&emsp;服务端的资源是在第二次进行握手的时候分配的，而客户端的资源是在进行第三次握手的时候分配的。所以服务器容易收到SYN洪泛攻击，就是在短时间内伪造大量不存在的ip，不断的向服务器发送SYN包，服务端则回复并等待确认包，但是源地址是虚构的，所有不会收到确认包，服务端将不断重发进行重试知道超时，这些伪造的SYN包将占用大量且长时间的占用未连接队列，导致正常请求将被丢弃，引起网络瘫痪。<br>&emsp;&emsp;可以通过降低主机的等待时间释放未连接占用，或者短时间收到某ip的重复SYN报文将丢弃后续请求。</p>
-<h2 id="为什么客户端最后还要等待2MSL？"><a href="#为什么客户端最后还要等待2MSL？" class="headerlink" title="为什么客户端最后还要等待2MSL？"></a>为什么客户端最后还要等待2MSL？</h2><p>&emsp;&emsp;保证客户端的最后一个ACK报文能够到达服务器，在服务端，没有接受到客户端的ACK就会认为服务器没有收到自己发送的FIN请求，这时就会重发FIN请求。对于客户端而言，收到FIN请求后，发送ACK确认信息，假设服务端没有收到ACK信息，就会重新发送FIN请求，客户端就会重新收到FIN请求，没有收到重新发送的FIN请求，就认为没有问题就可以断开连接了。</p>
-<h2 id="如果已经建立了连接，但是客户端突然出现故障了怎么办？"><a href="#如果已经建立了连接，但是客户端突然出现故障了怎么办？" class="headerlink" title="如果已经建立了连接，但是客户端突然出现故障了怎么办？"></a>如果已经建立了连接，但是客户端突然出现故障了怎么办？</h2><p>&emsp;&emsp;TCP设置有一个保活器，服务器每一次收到数据就会重新复位这个计时器，若计时器走完，没有收到客户端的数据，服务器就会发送探测报文，75秒一个探测报文，连续10个探测报文没有收到恢复，就认为客户端故障，断开连接。</p>
-<h2 id="为什么是四次挥手而不是三次或者五次呢？"><a href="#为什么是四次挥手而不是三次或者五次呢？" class="headerlink" title="为什么是四次挥手而不是三次或者五次呢？"></a>为什么是四次挥手而不是三次或者五次呢？</h2><p>&emsp;&emsp;第二次挥手和第三次挥手都是服务端向客户端发送报文，第二次挥手是服务端收到了客户端的断开请求，通知客户端收到了，此时客户端没有数据向服务端发送了，但不代表服务端也没有数据向客户端发送，因为服务端要把剩余还没有发送的报文发送完毕再断开连接；第三次挥手是服务端数据全部发送完毕，向客户端发送断开请求报文（FIN=1）。<br>&emsp;&emsp;如果将这两次合二为一，就会出现服务端收到请求后立即确认并且断开连接，会造成服务端发送到客户端的数据不完整。五次则没有必要。</p>
-<h2 id="问什么连接是三次断开是四次呢？"><a href="#问什么连接是三次断开是四次呢？" class="headerlink" title="问什么连接是三次断开是四次呢？"></a>问什么连接是三次断开是四次呢？</h2><p>&emsp;&emsp;断开是四次的原因和上面的问题的解答是一样的。<br>&emsp;&emsp;对于建立连接，3次其实是建立可靠连接的最小次数。可参考第一道问题。<br>&emsp;&emsp;因为当服务端收到客户端的SYN连接请求报文后，可以直接发送SYN+ACK报文。其中ACK报文是用来应答的，SYN报文是用来同步的。但是关闭连接时，当Server端收到FIN报文时，很可能并不会立即关闭连接，所以只能先回复一个ACK报文，告诉客户端，”你发的FIN报文我收到了”。只有等到我服务端所有的报文都发送完了，我才能发送FIN报文，因此不能一起发送。故需要四步握手。<br>&emsp;&emsp;四次挥手相比于三次握手，将服务端返回给客户端的ACK+SYN报文，拆成了2次发送。</p>
-]]></content>
-      <categories>
-        <category>网络</category>
-        <category>TCP</category>
-      </categories>
-      <tags>
-        <tag>网络</tag>
-        <tag>TCP</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>异常的三次握手四次挥手</title>
     <url>/hexoblog/md/internet/%E5%BC%82%E5%B8%B8%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/</url>
     <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;TCP作为一个靠谱的协议，在传输数据的前后，需要在双端之间建立连接，并在双端各自维护连接的状态。<br>&emsp;&emsp;建立连接前，TCP会通过三次握手来保证双端状态正确，然后就可以正常传输数据了。当数据传输完成，需要断开连接的时候，TCP会通过四次握手来完成双端的断连，并回收各自的资源。<br>&emsp;&emsp;这个过程中也会产生各种问题，有因网络原因造成的也有其他原因造成的。一般来说主要就是丢包的问题，基本就是超时重传等来保证TCP的可靠性。</p>
@@ -1043,6 +860,27 @@
       </tags>
   </entry>
   <entry>
+    <title>filter_interceptor</title>
+    <url>/hexoblog/md/java/filter-interceptor/</url>
+    <content><![CDATA[<h2 id="过滤器"><a href="#过滤器" class="headerlink" title="过滤器"></a>过滤器</h2><p>&emsp;&emsp;过滤器是用来过滤的，java的过滤器能够为我们提供系统级别的过滤，也就是说能够过滤所有的web请求，这一点是拦截器做不到的。<br>&emsp;&emsp;在java web中，你传入的request，response提前过滤掉一些信息，或者提前设置一些参数，然后在传入Servlet进行业务逻辑，比如过滤掉非法url和非法字符串。<br>&emsp;&emsp;filter流程是线性的，url传来之后，检查之后，可保持原来的流程继续向下执行，被下一个filter，servlet接收。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="拦截器"><a href="#拦截器" class="headerlink" title="拦截器"></a>拦截器</h2><p>&emsp;&emsp;java里面的拦截器提供的是非系统级别的拦截，也就是说，就覆盖面来说，拦截器不如过滤器强大但是更有针对性。<br>&emsp;&emsp;java中的拦截器是基于java反射机制实现的，更准确的划分，应该是基于jdk实现的动态代理。它依赖于具体的接口，在运行期间动态生成字节码。<br>&emsp;&emsp;拦截器是动态拦截Action调用的对象，他提供了一种机制可以使开发者在一个ation执行的前后执行一段代码，也可以在一个action执行前阻止其执行，同时也提供了一种可以提取action中可重用代码的方式。在AOP中，拦截器用于在某个方法或字段被访问之前，进行拦截然后再之前或之后加入某些操作。java的拦截器主要用于插件上，扩展件上，有点类似于面向切面的技术，在用之前要先在配置文件里声明。</p>
+<hr>
+<h2 id="监听器"><a href="#监听器" class="headerlink" title="监听器"></a>监听器</h2><p>&emsp;&emsp;java的监听器也是系统级别的监听。监听器随web应用的启动而启动。<br>&emsp;&emsp;java的监听器在c/s模式里面经常用到，它会对特定的事件产生一个处理。监听器在很多模式下用到，比如说观察者模式，就是使用监听器来实现的，又比如统计网站的在线人数。servlet监听器用于监听一些重要事件的发生，监听器对象可以在事件发生前，发生后做一些必要的处理。</p>
+<hr>
+<h1 id="对照"><a href="#对照" class="headerlink" title="对照"></a>对照</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/interceptor_filter_1.jpg" alt="对照"></p>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>filter</tag>
+        <tag>interceptor</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>javaSPI扩展</title>
     <url>/hexoblog/md/java/javaSPI%E6%89%A9%E5%B1%95/</url>
     <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;SPI就是一种服务发现机制。<br>&emsp;&emsp;SPI 是一种将服务接口与服务实现分离以达到解耦、大大提升了程序可扩展性的机制。引入服务提供者就是引入了 spi 接口的实现者，通过本地的注册发现获取到具体的实现类，轻松可插拔。<br>&emsp;&emsp;Java SPI 就是把某个接口的 指定实现类 （通过在指定文件配置的方式）给实例化出来了。</p>
@@ -1148,27 +986,6 @@ com.lin.javaspi.service.impl.HelloServiceImpl2<span aria-hidden="true" class="li
       <tags>
         <tag>java</tag>
         <tag>SPI</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>filter_interceptor</title>
-    <url>/hexoblog/md/java/filter-interceptor/</url>
-    <content><![CDATA[<h2 id="过滤器"><a href="#过滤器" class="headerlink" title="过滤器"></a>过滤器</h2><p>&emsp;&emsp;过滤器是用来过滤的，java的过滤器能够为我们提供系统级别的过滤，也就是说能够过滤所有的web请求，这一点是拦截器做不到的。<br>&emsp;&emsp;在java web中，你传入的request，response提前过滤掉一些信息，或者提前设置一些参数，然后在传入Servlet进行业务逻辑，比如过滤掉非法url和非法字符串。<br>&emsp;&emsp;filter流程是线性的，url传来之后，检查之后，可保持原来的流程继续向下执行，被下一个filter，servlet接收。</p>
-<span id="more"></span>
-
-<hr>
-<h2 id="拦截器"><a href="#拦截器" class="headerlink" title="拦截器"></a>拦截器</h2><p>&emsp;&emsp;java里面的拦截器提供的是非系统级别的拦截，也就是说，就覆盖面来说，拦截器不如过滤器强大但是更有针对性。<br>&emsp;&emsp;java中的拦截器是基于java反射机制实现的，更准确的划分，应该是基于jdk实现的动态代理。它依赖于具体的接口，在运行期间动态生成字节码。<br>&emsp;&emsp;拦截器是动态拦截Action调用的对象，他提供了一种机制可以使开发者在一个ation执行的前后执行一段代码，也可以在一个action执行前阻止其执行，同时也提供了一种可以提取action中可重用代码的方式。在AOP中，拦截器用于在某个方法或字段被访问之前，进行拦截然后再之前或之后加入某些操作。java的拦截器主要用于插件上，扩展件上，有点类似于面向切面的技术，在用之前要先在配置文件里声明。</p>
-<hr>
-<h2 id="监听器"><a href="#监听器" class="headerlink" title="监听器"></a>监听器</h2><p>&emsp;&emsp;java的监听器也是系统级别的监听。监听器随web应用的启动而启动。<br>&emsp;&emsp;java的监听器在c/s模式里面经常用到，它会对特定的事件产生一个处理。监听器在很多模式下用到，比如说观察者模式，就是使用监听器来实现的，又比如统计网站的在线人数。servlet监听器用于监听一些重要事件的发生，监听器对象可以在事件发生前，发生后做一些必要的处理。</p>
-<hr>
-<h1 id="对照"><a href="#对照" class="headerlink" title="对照"></a>对照</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/interceptor_filter_1.jpg" alt="对照"></p>
-]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>filter</tag>
-        <tag>interceptor</tag>
       </tags>
   </entry>
   <entry>
@@ -1706,6 +1523,57 @@ SELECT ... FOR UPDATE<span aria-hidden="true" class="line-numbers-rows"><span></
       </tags>
   </entry>
   <entry>
+    <title>happens-before</title>
+    <url>/hexoblog/md/jvm/happens-before/</url>
+    <content><![CDATA[<h1 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h1><p>&emsp;&emsp;在JMM中，由于存在线程本地内存和主内存的原因，再加上重排序，会导致多线程环境下存在可见性的问题。<br>&emsp;&emsp;JDK5开始，JMM使用happens-before概念来阐述多线程之间的内存可见性问题。</p>
+<blockquote>
+<p>&emsp;&emsp;在JMM中，如果一个操作的执行结果需要对另一个操作可见，那么这两个操作之间必须存在happens-before关系。  </p>
+</blockquote>
+<p>&emsp;&emsp;happens-before原则非常重要，它是判断数据是否存在竞争、线程是否安全的主要依据，依靠这个规则，我们解决在并发环境下两操作之间是否可能存在冲突的所有问题。</p>
+<span id="more"></span>
+
+<hr>
+<h1 id="内容："><a href="#内容：" class="headerlink" title="内容："></a>内容：</h1><h2 id="happens-before原则定义："><a href="#happens-before原则定义：" class="headerlink" title="happens-before原则定义："></a>happens-before原则定义：</h2><ol>
+<li>如果一个操作happens-before另一个操作，那么第一个操作的执行结果将对第二个操作可见，而且第一个操作的执行顺序在第二个操作之前。</li>
+<li>两个操作之间存在happens-before原则，并不意味着一定要按照happens-before原则制定的顺序来执行。如果重排序之后的执行结果与按照happens-before关系来执行的结果一致，那么这种重排序并不非法。</li>
+</ol>
+<h2 id="happens-before原则规则："><a href="#happens-before原则规则：" class="headerlink" title="happens-before原则规则："></a>happens-before原则规则：</h2><ol>
+<li>程序次序规则：一个线程内，按照代码顺序，书写在前面的操作先行发生于书写在后面的操作；</li>
+<li>锁定规则：一个unLock操作先行发生于后面对同一个锁额lock操作；</li>
+<li>volatile变量规则：对一个变量的写操作先行发生于后面对这个变量的读操作；</li>
+<li>传递规则：如果操作A先行发生于操作B，而操作B又先行发生于操作C，则可以得出操作A先行发生于操作C；</li>
+<li>线程启动规则：Thread对象的start()方法先行发生于此线程的每个一个动作；</li>
+<li>线程中断规则：对线程interrupt()方法的调用先行发生于被中断线程的代码检测到中断事件的发生；</li>
+<li>线程终结规则：线程中所有的操作都先行发生于线程的终止检测，我们可以通过Thread.join()方法结束、Thread.isAlive()的返回值手段检测到线程已经终止执行；</li>
+<li>对象终结规则：一个对象的初始化完成先行发生于他的finalize()方法的开始；</li>
+</ol>
+<h3 id="程序次序规则："><a href="#程序次序规则：" class="headerlink" title="程序次序规则："></a>程序次序规则：</h3><p>&emsp;&emsp;一段代码在单线程中的执行结果是有序的，注意是执行结果，因为虚拟机、处理器会对指令进行重排序（重排序后面会详细介绍）。虽然重排序了，但是并不会影响程序的执行结果，所以程序最终执行的结果与顺序执行的结果是一致的。故而这个规则只对单线程有效，在多线程环境下无法保证正确性。</p>
+<h3 id="锁定规则："><a href="#锁定规则：" class="headerlink" title="锁定规则："></a>锁定规则：</h3><p>&emsp;&emsp;这个规则比较好理解，无论是在单线程环境还是多线程环境，一个锁处于被锁定状态，那么必须先执行unlock操作后面才能进行lock操作。</p>
+<h3 id="volatile变量规则："><a href="#volatile变量规则：" class="headerlink" title="volatile变量规则："></a>volatile变量规则：</h3><p>&emsp;&emsp; 这是一条比较重要的规则，它标志着volatile保证了线程可见性。通俗点讲就是如果一个线程先去写一个volatile变量，然后一个线程去读这个变量，那么这个写操作一定是happens-before读操作的。</p>
+<h3 id="传递规则："><a href="#传递规则：" class="headerlink" title="传递规则："></a>传递规则：</h3><p>&emsp;&emsp;提现了happens-before原则具有传递性，即A happens-before B , B happens-before C，那么A happens-before C。</p>
+<h3 id="线程启动规则："><a href="#线程启动规则：" class="headerlink" title="线程启动规则："></a>线程启动规则：</h3><p>&emsp;&emsp;假定线程A在执行过程中，通过执行ThreadB.start()来启动线程B，那么线程A对共享变量的修改在接下来线程B开始执行后确保对线程B可见。</p>
+<h3 id="线程终结规则："><a href="#线程终结规则：" class="headerlink" title="线程终结规则："></a>线程终结规则：</h3><p>&emsp;&emsp;假定线程A在执行的过程中，通过制定ThreadB.join()等待线程B终止，那么线程B在终止之前对共享变量的修改在线程A等待返回后可见。</p>
+<hr>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>&emsp;&emsp;上面八条是原生Java满足Happens-before关系的规则，但是我们可以对他们进行推导出其他满足happens-before的规则：</p>
+<ol>
+<li>将一个元素放入一个线程安全的队列的操作Happens-Before从队列中取出这个元素的操作。</li>
+<li>将一个元素放入一个线程安全容器的操作Happens-Before从容器中取出这个元素的操作。</li>
+<li>在CountDownLatch上的倒数操作Happens-Before CountDownLatch#await()操作。</li>
+<li>释放Semaphore许可的操作Happens-Before获得许可操作。</li>
+<li>Future表示的任务的所有操作Happens-Before Future#get()操作。</li>
+<li>向Executor提交一个Runnable或Callable的操作Happens-Before任务开始执行操作。</li>
+<li>如果两个操作不满足上述任意一个happens-before规则，那么这两个操作就没有顺序的保障，JVM就可以对这两个操作进行重排序。如果操作Ahappens-before操作B，那么操作A在内存上所做的操作对操作B都是可见的。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>jvm</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>jvm</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>jvm中方法区_永久代_元空间</title>
     <url>/hexoblog/md/jvm/jvm%E4%B8%AD%E6%96%B9%E6%B3%95%E5%8C%BA-%E6%B0%B8%E4%B9%85%E4%BB%A3-%E5%85%83%E7%A9%BA%E9%97%B4/</url>
     <content><![CDATA[<h1 id="方法区："><a href="#方法区：" class="headerlink" title="方法区："></a>方法区：</h1><p>&emsp;&emsp;来看点jvm规范中的原文，7和8一样的。  </p>
@@ -1781,57 +1649,6 @@ SELECT ... FOR UPDATE<span aria-hidden="true" class="line-numbers-rows"><span></
       <tags>
         <tag>jvm</tag>
         <tag>memory</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>happens-before</title>
-    <url>/hexoblog/md/jvm/happens-before/</url>
-    <content><![CDATA[<h1 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h1><p>&emsp;&emsp;在JMM中，由于存在线程本地内存和主内存的原因，再加上重排序，会导致多线程环境下存在可见性的问题。<br>&emsp;&emsp;JDK5开始，JMM使用happens-before概念来阐述多线程之间的内存可见性问题。</p>
-<blockquote>
-<p>&emsp;&emsp;在JMM中，如果一个操作的执行结果需要对另一个操作可见，那么这两个操作之间必须存在happens-before关系。  </p>
-</blockquote>
-<p>&emsp;&emsp;happens-before原则非常重要，它是判断数据是否存在竞争、线程是否安全的主要依据，依靠这个规则，我们解决在并发环境下两操作之间是否可能存在冲突的所有问题。</p>
-<span id="more"></span>
-
-<hr>
-<h1 id="内容："><a href="#内容：" class="headerlink" title="内容："></a>内容：</h1><h2 id="happens-before原则定义："><a href="#happens-before原则定义：" class="headerlink" title="happens-before原则定义："></a>happens-before原则定义：</h2><ol>
-<li>如果一个操作happens-before另一个操作，那么第一个操作的执行结果将对第二个操作可见，而且第一个操作的执行顺序在第二个操作之前。</li>
-<li>两个操作之间存在happens-before原则，并不意味着一定要按照happens-before原则制定的顺序来执行。如果重排序之后的执行结果与按照happens-before关系来执行的结果一致，那么这种重排序并不非法。</li>
-</ol>
-<h2 id="happens-before原则规则："><a href="#happens-before原则规则：" class="headerlink" title="happens-before原则规则："></a>happens-before原则规则：</h2><ol>
-<li>程序次序规则：一个线程内，按照代码顺序，书写在前面的操作先行发生于书写在后面的操作；</li>
-<li>锁定规则：一个unLock操作先行发生于后面对同一个锁额lock操作；</li>
-<li>volatile变量规则：对一个变量的写操作先行发生于后面对这个变量的读操作；</li>
-<li>传递规则：如果操作A先行发生于操作B，而操作B又先行发生于操作C，则可以得出操作A先行发生于操作C；</li>
-<li>线程启动规则：Thread对象的start()方法先行发生于此线程的每个一个动作；</li>
-<li>线程中断规则：对线程interrupt()方法的调用先行发生于被中断线程的代码检测到中断事件的发生；</li>
-<li>线程终结规则：线程中所有的操作都先行发生于线程的终止检测，我们可以通过Thread.join()方法结束、Thread.isAlive()的返回值手段检测到线程已经终止执行；</li>
-<li>对象终结规则：一个对象的初始化完成先行发生于他的finalize()方法的开始；</li>
-</ol>
-<h3 id="程序次序规则："><a href="#程序次序规则：" class="headerlink" title="程序次序规则："></a>程序次序规则：</h3><p>&emsp;&emsp;一段代码在单线程中的执行结果是有序的，注意是执行结果，因为虚拟机、处理器会对指令进行重排序（重排序后面会详细介绍）。虽然重排序了，但是并不会影响程序的执行结果，所以程序最终执行的结果与顺序执行的结果是一致的。故而这个规则只对单线程有效，在多线程环境下无法保证正确性。</p>
-<h3 id="锁定规则："><a href="#锁定规则：" class="headerlink" title="锁定规则："></a>锁定规则：</h3><p>&emsp;&emsp;这个规则比较好理解，无论是在单线程环境还是多线程环境，一个锁处于被锁定状态，那么必须先执行unlock操作后面才能进行lock操作。</p>
-<h3 id="volatile变量规则："><a href="#volatile变量规则：" class="headerlink" title="volatile变量规则："></a>volatile变量规则：</h3><p>&emsp;&emsp; 这是一条比较重要的规则，它标志着volatile保证了线程可见性。通俗点讲就是如果一个线程先去写一个volatile变量，然后一个线程去读这个变量，那么这个写操作一定是happens-before读操作的。</p>
-<h3 id="传递规则："><a href="#传递规则：" class="headerlink" title="传递规则："></a>传递规则：</h3><p>&emsp;&emsp;提现了happens-before原则具有传递性，即A happens-before B , B happens-before C，那么A happens-before C。</p>
-<h3 id="线程启动规则："><a href="#线程启动规则：" class="headerlink" title="线程启动规则："></a>线程启动规则：</h3><p>&emsp;&emsp;假定线程A在执行过程中，通过执行ThreadB.start()来启动线程B，那么线程A对共享变量的修改在接下来线程B开始执行后确保对线程B可见。</p>
-<h3 id="线程终结规则："><a href="#线程终结规则：" class="headerlink" title="线程终结规则："></a>线程终结规则：</h3><p>&emsp;&emsp;假定线程A在执行的过程中，通过制定ThreadB.join()等待线程B终止，那么线程B在终止之前对共享变量的修改在线程A等待返回后可见。</p>
-<hr>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>&emsp;&emsp;上面八条是原生Java满足Happens-before关系的规则，但是我们可以对他们进行推导出其他满足happens-before的规则：</p>
-<ol>
-<li>将一个元素放入一个线程安全的队列的操作Happens-Before从队列中取出这个元素的操作。</li>
-<li>将一个元素放入一个线程安全容器的操作Happens-Before从容器中取出这个元素的操作。</li>
-<li>在CountDownLatch上的倒数操作Happens-Before CountDownLatch#await()操作。</li>
-<li>释放Semaphore许可的操作Happens-Before获得许可操作。</li>
-<li>Future表示的任务的所有操作Happens-Before Future#get()操作。</li>
-<li>向Executor提交一个Runnable或Callable的操作Happens-Before任务开始执行操作。</li>
-<li>如果两个操作不满足上述任意一个happens-before规则，那么这两个操作就没有顺序的保障，JVM就可以对这两个操作进行重排序。如果操作Ahappens-before操作B，那么操作A在内存上所做的操作对操作B都是可见的。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>jvm</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>jvm</tag>
       </tags>
   </entry>
   <entry>
@@ -4388,24 +4205,289 @@ zkServer<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
       </tags>
   </entry>
   <entry>
-    <title>jekins安装使用</title>
-    <url>/hexoblog/md/DEVOPS/CICD/jekins%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h1 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h1><p>&emsp;&emsp;网上的教程有很多，把自己的过程记一遍。<br>&emsp;&emsp;首先就是下载jekins的包，在官网下载就可以。win平台的可以下载对应的exe文件。<br><a href="https://www.jenkins.io/download">jekins下载</a><br>8089</p>
-<span id="more"></span>
-
+    <title>光云科技一面面经</title>
+    <url>/hexoblog/%E9%9D%A2%E7%BB%8F/answer/%E5%85%89%E4%BA%91%E7%A7%91%E6%8A%80%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/</url>
+    <content><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span>
+<p>写面经，攒人品</p>
+<ol>
+<li>自我介绍</li>
+<li>集合Hashmap<ol>
+<li>底层结构，版本</li>
+<li>1.7与1.8的结构区别，其他区别</li>
+</ol>
+</li>
+<li>ConcurrentHashmap与HashMap<ol>
+<li>结构，区别</li>
+<li>不同版本的区别</li>
+</ol>
+</li>
+<li>CAS是什么？</li>
+<li>常用的jvm虚拟机</li>
+<li>jvm垃圾回收器<ol>
+<li>有那些常用的垃圾回收器</li>
+<li>CMS的垃圾回收过程</li>
+</ol>
+</li>
+<li>单例模式<ol>
+<li>有哪些写法</li>
+<li>区别是什么</li>
+<li>双检锁的优点？是完美的吗？</li>
+</ol>
+</li>
+<li>数据库索引？（聚簇索引、非聚簇索引；hash索引、B+树索引）</li>
+<li> B+树结构？</li>
+<li>事务的隔离级别？作用？</li>
+<li>MVCC<ol>
+<li> MVCC原理</li>
+<li> MVCC在不同的隔离级别的区别</li>
+</ol>
+</li>
+<li>Spring<ol>
+<li> 有什么特点，功能，ioc，aop，DI</li>
+<li> xml配置如何转成Bean</li>
+<li> Bean的实例化过程</li>
+<li> 循环依赖</li>
+</ol>
+</li>
+<li>redis<ol>
+<li> 分布式锁怎么实现的</li>
+<li> 有哪些数据结构</li>
+</ol>
+</li>
+<li>rocketmq<ol>
+<li> 消息消费失败怎么处理的（没处理，使用mq的原生的重发机制）（分为投递失败，业务处理失败）</li>
+</ol>
+</li>
+<li>synchronized<ol>
+<li> synchronized原理？</li>
+<li> synchronized加在方法上和代码块上的区别？生成的指令的区别？</li>
+</ol>
+</li>
+<li>反问</li>
+</ol>
 <hr>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;这里讲的是windows平台的安装。<br>&emsp;&emsp;安装也是很简单，一路点击next就可以了。</p>
-<hr>
-<h1 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h1><p>&emsp;&emsp;先看官方的，有空再总结自己的。<br>&emsp;&emsp;<a href="https://blog.csdn.net/wise18146705004/article/details/105455426">jekins在win10的安装和使用</a><br>&emsp;&emsp;<a href="https://www.jenkins.io/zh/doc/book/installing/">安装Jenkins </a><br>&emsp;&emsp;<a href="https://www.jenkins.io/zh/download/">Jenkins 的安装和设置</a></p>
+<h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="集合HashMap？"><a href="#集合HashMap？" class="headerlink" title="集合HashMap？"></a>集合HashMap？</h2><p>&emsp;&emsp;jdk1.8中hashmap底层采用<code>数组+链表+红黑树</code>的结构；jdk1.7中hashmap底层采用<code>数组+链表</code>的结构。采用链地址法解决hashmap中的hash冲突问题，当链表长度达到8时进化为红黑树，节点数小于等于6时退化为链表。<br>&emsp;&emsp;jdk1.7与jdk1.8中，数据结构发生了变化，链表的尾插法改成了头插法，尾插法在hashmap扩容时有可能造成死循环。</p>
+<h2 id="ConcurrentHashmap与Hashmap？"><a href="#ConcurrentHashmap与Hashmap？" class="headerlink" title="ConcurrentHashmap与Hashmap？"></a>ConcurrentHashmap与Hashmap？</h2><p>&emsp;&emsp;ConcurrentHashmap是juc包中的类，是用于在多线程情况下的hashmap，解决了hashmap在多线程情况下并发不安全的问题。<br>&emsp;&emsp;ConcurrentHashmap在1.7和1.8中采用了不同的结构和加锁方式。<br>&emsp;&emsp;jdk1.7中采用了段（Segment）的设计，每一个段中都是一个Hashmap的结构，将很多个段组合起来就是ConcurrentHashmap的结构，1.7中保证并发安全采用了分段锁的机制，就是在段设计的基础上，对每一个段加悲观锁（syncronized）。<br>&emsp;&emsp;jdk1.8中ConcurrentHashmap的数据结构采用了和Hashmap相同的数据结构，通过使用CAS操作来保证并发下的安全性。</p>
+<h2 id="CAS是什么？"><a href="#CAS是什么？" class="headerlink" title="CAS是什么？"></a>CAS是什么？</h2><p>&emsp;&emsp;CAS就是比较并交换，全称Compare And Set，是一种原子性修改内存数据的一种策略。<br>&emsp;&emsp;CAS操作过程是：会将内存中的数据与一个期望值进行比较，比较结果相等了，才会将内存中的值修改为要改成的值（一般在缓存）。<br>&emsp;&emsp;java中很多地方都用到了CAS，比如AQS中就是用CAS去修改值，ConcurrentHashmap中也用到了。</p>
+<h2 id="常用的JVM虚拟机？"><a href="#常用的JVM虚拟机？" class="headerlink" title="常用的JVM虚拟机？"></a>常用的JVM虚拟机？</h2><p>&emsp;&emsp;主要jvm虚拟机是Hotspot虚拟机，IBM有一款J9 JVM。</p>
+<h2 id="jvm的垃圾回收器？"><a href="#jvm的垃圾回收器？" class="headerlink" title="jvm的垃圾回收器？"></a>jvm的垃圾回收器？</h2><p>&emsp;&emsp;<a href="../../../md/jvm/JVM%E2%80%94GC">jvm的垃圾回收算法与垃圾回收器</a></p>
+<h2 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h2><p>&emsp;&emsp;单例模式共有8种写法。</p>
+<ul>
+<li>饿汉式-静态常量</li>
+<li>饿汉式-静态代码块</li>
+<li>懒汉式（默认线程不安全）</li>
+<li>懒汉式-同步方法</li>
+<li>懒汉式-同步代码块</li>
+<li>双重检查锁</li>
+<li>静态内部类</li>
+<li>枚举</li>
+</ul>
+<h2 id="数据库索引"><a href="#数据库索引" class="headerlink" title="数据库索引"></a>数据库索引</h2><p>&emsp;&emsp;<a href="https://www.yuque.com/jiufenshiren/ra5mzi/aoz98d">mysql的索引</a></p>
+<h2 id="B-树结构？"><a href="#B-树结构？" class="headerlink" title="B+树结构？"></a>B+树结构？</h2><p>&emsp;&emsp;<a href="../../../%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/B+%E6%A0%91">数据结构-B+树</a></p>
+<h2 id="事务的隔离级别？作用？"><a href="#事务的隔离级别？作用？" class="headerlink" title="事务的隔离级别？作用？"></a>事务的隔离级别？作用？</h2><p>&emsp;&emsp;<a href="https://www.yuque.com/jiufenshiren/ra5mzi/iarni8">事务的隔离级别</a></p>
+<h2 id="MVCC"><a href="#MVCC" class="headerlink" title="MVCC"></a>MVCC</h2><p>&emsp;&emsp;<a href="../../../md/mysql/mysql%E4%B8%AD%E7%9A%84MVCC">mysql中的MVCC</a></p>
+<h2 id="Spring"><a href="#Spring" class="headerlink" title="Spring"></a>Spring</h2><h3 id="Spring特点，功能"><a href="#Spring特点，功能" class="headerlink" title="Spring特点，功能"></a>Spring特点，功能</h3><ul>
+<li>方便解耦，简化开发</li>
+<li>支持AOP编程，很容易实现权限拦截，运行期监控</li>
+<li>声明式事务支持，spring容器提供的功能</li>
+<li>方便集成各种优秀框架</li>
+<li>提供了众多工具类，简化API使用难度</li>
+<li>的DI机制降低了业务对象替换的复杂性</li>
+</ul>
+<h3 id="XML配置如何转换为Bean"><a href="#XML配置如何转换为Bean" class="headerlink" title="XML配置如何转换为Bean"></a>XML配置如何转换为Bean</h3><p>&emsp;&emsp;<a href="https://blog.csdn.net/liu20111590/article/details/89857660">spring之xml文件转换为BeanDefinition</a></p>
+<h3 id="Bean的实例化过程"><a href="#Bean的实例化过程" class="headerlink" title="Bean的实例化过程"></a>Bean的实例化过程</h3><p>&emsp;&emsp;<a href="../../../md/spring/Spring%E4%B8%ADBean%E7%9A%84%E5%AE%9E%E4%BE%8B%E5%8C%96%E8%BF%87%E7%A8%8B">Spring中Bean的实例化过程</a></p>
+<h3 id="循环依赖"><a href="#循环依赖" class="headerlink" title="循环依赖"></a>循环依赖</h3><p>&emsp;&emsp;<a href="https://www.yuque.com/jiufenshiren/ra5mzi/gmkoub">spring中循环依赖的处理</a></p>
+<h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><h3 id="redis分布式锁是怎么实现的？"><a href="#redis分布式锁是怎么实现的？" class="headerlink" title="redis分布式锁是怎么实现的？"></a>redis分布式锁是怎么实现的？</h3><p>&emsp;&emsp;<a href="../../../md/redis/redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81">redis分布式锁</a></p>
+<h3 id="redis的数据结构"><a href="#redis的数据结构" class="headerlink" title="redis的数据结构"></a>redis的数据结构</h3><p>&emsp;&emsp;redis中共有8种数据结构，其中常用的有5种。</p>
+<ul>
+<li>字符串 string</li>
+<li>散列-hash</li>
+<li>列表-list</li>
+<li>集合-set</li>
+<li>有序集合-zset</li>
+<li>位图-bitmap</li>
+<li>地理位置-geospatial</li>
+<li>hyperloglog</li>
+</ul>
+<p>&emsp;&emsp;<a href="../../../md/redis/redis%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84">redis中的数据结构</a></p>
+<h2 id="Rocketmq"><a href="#Rocketmq" class="headerlink" title="Rocketmq"></a>Rocketmq</h2><h3 id="消息消费失败怎么处理？"><a href="#消息消费失败怎么处理？" class="headerlink" title="消息消费失败怎么处理？"></a>消息消费失败怎么处理？</h3><p>&emsp;&emsp;消息消费失败可以分为两种方向，一种是mq进行消息投递失败，另一种是业务系统消费消息失败。<br>&emsp;&emsp;mq消息投递失败会将消息放入定时投递队列中，按照一定的时间间隔后进行消息重投。<br>&emsp;&emsp;业务系统可以将消息存储起来，对于失败的消息，通过定时处理的方式进行恢复。保存起来类似于消息幂等的处理方式。</p>
+<h2 id="Synchronized"><a href="#Synchronized" class="headerlink" title="Synchronized"></a>Synchronized</h2><h3 id="Synchronized原理"><a href="#Synchronized原理" class="headerlink" title="Synchronized原理"></a>Synchronized原理</h3><p>&emsp;&emsp;底层采用monitor指令实现，会生成一条moniter enter和二条moniter exit（一条正常退出，另一条异常退出）指令实现。</p>
+<h3 id="Synchronized加在方法上和代码块上的区别？生成的指令的区别？"><a href="#Synchronized加在方法上和代码块上的区别？生成的指令的区别？" class="headerlink" title="Synchronized加在方法上和代码块上的区别？生成的指令的区别？"></a>Synchronized加在方法上和代码块上的区别？生成的指令的区别？</h3><p>&emsp;&emsp;<a href="https://www.yuque.com/jiufenshiren/ra5mzi/rc3ofp">synchronized</a></p>
 ]]></content>
       <categories>
-        <category>CICD</category>
-        <category>jekins</category>
+        <category>面经</category>
+        <category>answer</category>
       </categories>
       <tags>
-        <tag>tool</tag>
-        <tag>CICD</tag>
-        <tag>jekins</tag>
+        <tag>面经</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>大华一面面经</title>
+    <url>/hexoblog/%E9%9D%A2%E7%BB%8F/answer/%E5%A4%A7%E5%8D%8E%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/</url>
+    <content><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span>
+<p>写面经，攒人品</p>
+<ol>
+<li>自我介绍</li>
+<li>jvm类的加载过程？</li>
+<li>dubbo如何做选举的？</li>
+<li>了解的设计模式，spring用的设计模式？</li>
+<li>还了解那些设计模式？</li>
+<li>springboot里面的listener？</li>
+<li>代理模式与AOP？</li>
+<li>redis主从复制与哨兵模式？</li>
+<li>分布式事务实现？</li>
+<li>syncnorized和ReentrantLock的区别？</li>
+<li>反问</li>
+</ol>
+<hr>
+<h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="jvm类的加载过程"><a href="#jvm类的加载过程" class="headerlink" title="jvm类的加载过程"></a>jvm类的加载过程</h2><p>&emsp;&emsp;<a href="../../../md/java/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6">类加载机制</a><br>&emsp;&emsp;<a href="https://www.yuque.com/jiufenshiren/ra5mzi/dvd9gz">类加载机制</a></p>
+<h2 id="dubbo如何做选举的"><a href="#dubbo如何做选举的" class="headerlink" title="dubbo如何做选举的"></a>dubbo如何做选举的</h2><p>&emsp;&emsp;这里的选举并不是zk的选举，而是服务消费方获取到提供方节点后，根据负载均衡算法选择某台机器进行远程调用。常见的负载均衡算法有：  </p>
+<ul>
+<li>轮询</li>
+<li>随机</li>
+<li>一致性Hash</li>
+</ul>
+<h2 id="spring用到的设计模式？"><a href="#spring用到的设计模式？" class="headerlink" title="spring用到的设计模式？"></a>spring用到的设计模式？</h2><ul>
+<li>单例模式</li>
+<li>工厂模式</li>
+<li>代理模式</li>
+<li>等</li>
+</ul>
+<h2 id="还了解那些设计模式？"><a href="#还了解那些设计模式？" class="headerlink" title="还了解那些设计模式？"></a>还了解那些设计模式？</h2><ul>
+<li>模板方法模式</li>
+<li>建造者模式</li>
+<li>策略模式</li>
+</ul>
+<h2 id="springboot里面的listener？"><a href="#springboot里面的listener？" class="headerlink" title="springboot里面的listener？"></a>springboot里面的listener？</h2><h2 id="代理模式与AOP？"><a href="#代理模式与AOP？" class="headerlink" title="代理模式与AOP？"></a>代理模式与AOP？</h2><p>&emsp;&emsp;代理模式分为静态代理，动态代理，动态代理又可分为很多种，jdk，cglib等。<br>&emsp;&emsp;AOP是面向切面编程，其中用到了动态代理。</p>
+<h2 id="redis主从复制与哨兵模式？"><a href="#redis主从复制与哨兵模式？" class="headerlink" title="redis主从复制与哨兵模式？"></a>redis主从复制与哨兵模式？</h2><p>&emsp;&emsp;<a href="https://www.yuque.com/jiufenshiren/ra5mzi/haaf3c">redis的高可用方案</a></p>
+<h2 id="分布式事务的实现"><a href="#分布式事务的实现" class="headerlink" title="分布式事务的实现"></a>分布式事务的实现</h2><p>&emsp;&emsp;<a href="../../../md/%E5%88%86%E5%B8%83%E5%BC%8F/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1">分布式事务</a><br>&emsp;&emsp;<a href="https://www.yuque.com/jiufenshiren/ra5mzi/fwl3rv">分布式事务</a></p>
+<h2 id="syncnorized和ReentrantLock的区别？"><a href="#syncnorized和ReentrantLock的区别？" class="headerlink" title="syncnorized和ReentrantLock的区别？"></a>syncnorized和ReentrantLock的区别？</h2><p>&emsp;&emsp;<a href="https://www.yuque.com/jiufenshiren/ra5mzi/rc3ofp">syncnorized</a></p>
+]]></content>
+      <categories>
+        <category>面经</category>
+      </categories>
+      <tags>
+        <tag>面经</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>涂鸦智能一面面经</title>
+    <url>/hexoblog/%E9%9D%A2%E7%BB%8F/answer/%E6%B6%82%E9%B8%A6%E6%99%BA%E8%83%BD%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/</url>
+    <content><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span>
+<p>写面经，攒人品</p>
+<ol>
+<li>自我介绍</li>
+<li>项目介绍</li>
+<li>线程创建的几个方式</li>
+<li>callable的使用场景（*）</li>
+<li>多线程情况下的资源安全（锁，*）</li>
+<li>线程池的工作原理</li>
+<li>服务调用的方式</li>
+<li>dubbo的协议（*）</li>
+<li>dubbo的序列化方式（*）</li>
+<li>分布式事务<ol>
+<li> 二阶段提交</li>
+<li> mq事务消息</li>
+</ol>
+</li>
+<li>jvm内存模型</li>
+<li>redis分布式锁的问题（碰到过没有）</li>
+<li>学习的方法</li>
+<li>反问<ol>
+<li> lot为什么需要客户管理系统</li>
+<li> 技术栈</li>
+</ol>
+</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/LinQiankun/picurl/main/java%E5%86%99%E9%9D%A2%E7%BB%8F%EF%BC%8C%E6%94%92%E4%BA%BA%E5%93%81_00.jpg" alt="写面经，攒人品"></p>
+<hr>
+<h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="线程创建的几种方式？"><a href="#线程创建的几种方式？" class="headerlink" title="线程创建的几种方式？"></a>线程创建的几种方式？</h2><p>&emsp;&emsp;线程创建的4种方式：</p>
+<ol>
+<li>继承Thread类</li>
+<li>实现Runnable接口</li>
+<li>时间Callable接口</li>
+<li>使用线程池，使用Executor框架创建线程池</li>
+</ol>
+<h2 id="callable的使用场景？"><a href="#callable的使用场景？" class="headerlink" title="callable的使用场景？"></a>callable的使用场景？</h2><p>&emsp;&emsp;callable有返回值，可以通过Future获取返回值。</p>
+<h2 id="多线程情况下的资源安全？"><a href="#多线程情况下的资源安全？" class="headerlink" title="多线程情况下的资源安全？"></a>多线程情况下的资源安全？</h2><p>&emsp;&emsp;有多种保证线程安全的方式：</p>
+<ol>
+<li>加锁的方式</li>
+<li>并发的工具包</li>
+</ol>
+<h2 id="线程池的工作原理？"><a href="#线程池的工作原理？" class="headerlink" title="线程池的工作原理？"></a>线程池的工作原理？</h2><p>&emsp;&emsp;</p>
+<h2 id="服务调用的方式？"><a href="#服务调用的方式？" class="headerlink" title="服务调用的方式？"></a>服务调用的方式？</h2><p>&emsp;&emsp;服务调用分为多种方式调用：</p>
+<ol>
+<li>本地service调用</li>
+<li>远程调用<ol>
+<li>rpc调用</li>
+<li>rest（http）调用</li>
+</ol>
+</li>
+</ol>
+<h2 id="dubbo的协议，dubbo的序列化方式？"><a href="#dubbo的协议，dubbo的序列化方式？" class="headerlink" title="dubbo的协议，dubbo的序列化方式？"></a>dubbo的协议，dubbo的序列化方式？</h2><p>&emsp;&emsp;<a href="../../../md/rpc/dubbo/dubbo%E7%9A%849%E7%A7%8D%E5%8D%8F%E8%AE%AE">dubbo的9种协议</a></p>
+<h2 id="分布式事务？"><a href="#分布式事务？" class="headerlink" title="分布式事务？"></a>分布式事务？</h2><p>&emsp;&emsp;<a href="../../../md/%E5%88%86%E5%B8%83%E5%BC%8F/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1">分布式事务</a></p>
+<!-- [分布式事务.md](../../md/分布式/分布式事务.md) -->
+
+<h2 id="jvm内存模型？"><a href="#jvm内存模型？" class="headerlink" title="jvm内存模型？"></a>jvm内存模型？</h2><p>&emsp;&emsp;<a href="../../../md/jvm/jvm%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84">jvm内存结构</a><br>&emsp;&emsp;<a href="../../../md/jvm/JVM%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5">JVM内存分配策略</a><br>&emsp;&emsp;<a href="../../../md/jvm/jvm%E4%B8%AD%E6%96%B9%E6%B3%95%E5%8C%BA-%E6%B0%B8%E4%B9%85%E4%BB%A3-%E5%85%83%E7%A9%BA%E9%97%B4">jvm中方法区-永久代-元空间</a><br>&emsp;&emsp;<a href="../../../md/jvm/JVM%E2%80%94GC">JVM—GC</a></p>
+<h2 id="redis分布式锁的问题？"><a href="#redis分布式锁的问题？" class="headerlink" title="redis分布式锁的问题？"></a>redis分布式锁的问题？</h2><p>&emsp;&emsp;<a href="../../../md/redis/redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81">redis分布式锁</a><br>&emsp;&emsp;<a href="../../../md/%E5%88%86%E5%B8%83%E5%BC%8F/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81">分布式锁</a><br>&emsp;&emsp;<a href="../../../md/zookeeper/zookeeper%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81">zookeeper实现分布式锁</a></p>
+]]></content>
+      <categories>
+        <category>面经</category>
+        <category>answer</category>
+      </categories>
+      <tags>
+        <tag>面经</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>端点科技一面面经</title>
+    <url>/hexoblog/%E9%9D%A2%E7%BB%8F/answer/%E7%AB%AF%E7%82%B9%E7%A7%91%E6%8A%80%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/</url>
+    <content><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span>
+<p>写面经，攒人品</p>
+<ol>
+<li>自我介绍</li>
+<li>项目介绍</li>
+<li>项目中使用到的技术（亮点）</li>
+<li>分布式锁<ol>
+<li>redis实现与zk实现的区别</li>
+<li>redis单机挂的情况</li>
+<li>多应用服务器抢占redis锁，造成redis服务器CPU飙红</li>
+</ol>
+</li>
+<li>Rocketmq - 使用场景</li>
+<li>索引</li>
+<li>B+树<ol>
+<li>结构</li>
+<li>如何优化查询</li>
+<li>原理等</li>
+</ol>
+</li>
+<li>CountDownLatch原理</li>
+<li>线程池<ol>
+<li> 线程池的参数</li>
+</ol>
+</li>
+<li>非阻塞IO与阻塞IO</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/LinQiankun/picurl/main/java%E5%86%99%E9%9D%A2%E7%BB%8F%EF%BC%8C%E6%94%92%E4%BA%BA%E5%93%81_00.jpg" alt="写面经，攒人品"></p>
+<hr>
+<h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h2><h3 id="redis实现与zk实现的区别"><a href="#redis实现与zk实现的区别" class="headerlink" title="redis实现与zk实现的区别"></a>redis实现与zk实现的区别</h3><h3 id="redis单机挂的情况"><a href="#redis单机挂的情况" class="headerlink" title="redis单机挂的情况"></a>redis单机挂的情况</h3><p>&emsp;&emsp;redis单机挂的情况下，考虑使用集群作为分布式锁的载体，使用redlock作为分布式锁的实现，这里的集群采用redis cluster而不采用主从复制模式，主从复制模式下，故障转移可能导致锁丢失，cluster的几率小很多。</p>
+<h3 id="多应用服务器抢占redis锁，造成redis服务器CPU飙红"><a href="#多应用服务器抢占redis锁，造成redis服务器CPU飙红" class="headerlink" title="多应用服务器抢占redis锁，造成redis服务器CPU飙红"></a>多应用服务器抢占redis锁，造成redis服务器CPU飙红</h3><p>&emsp;&emsp;redlock模式下，加分布式锁是给每一台redis服务器一台一台加锁的，加锁成功一半以后，就认为是分布式加锁成功。<br>&emsp;&emsp;检查当前锁状态只是一次读而已，写入锁也只是一次写入。本质上就是读写，另外单次锁状态的读取和写入数据量都很小。理论上来说你的业务量没有大到一定程度，锁的操作不会带来redis服务器的太多压力，如果有，那么你的其他业务的读写可能更要值得关注了。另外真有问题，就锁这一块的读写也不会引起CPU飙升。</p>
+<h2 id="RocketMQ使用场景"><a href="#RocketMQ使用场景" class="headerlink" title="RocketMQ使用场景"></a>RocketMQ使用场景</h2><p>&emsp;&emsp;<a href="../../../md/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%AE%80%E4%BB%8B">消息中间件简介</a></p>
+<h2 id="mysql中索引结构"><a href="#mysql中索引结构" class="headerlink" title="mysql中索引结构"></a>mysql中索引结构</h2><p>&emsp;&emsp;索引结构分为两种，Hash索引和B+树索引。<br>&emsp;&emsp;<a href="https://www.yuque.com/jiufenshiren/ra5mzi/aoz98d">索引</a></p>
+<h2 id="B-树"><a href="#B-树" class="headerlink" title="B+树"></a>B+树</h2><p>&emsp;&emsp;<a href="../../../md/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/B+%E6%A0%91">B+树</a></p>
+<h3 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h3><h3 id="如何优化查询"><a href="#如何优化查询" class="headerlink" title="如何优化查询"></a>如何优化查询</h3><p>&emsp;&emsp;减少IO次数。</p>
+<h2 id="CountDownLatch原理"><a href="#CountDownLatch原理" class="headerlink" title="CountDownLatch原理"></a>CountDownLatch原理</h2><p>&emsp;&emsp;<a href="../../../md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/juc%E4%B9%8BCountDownLatch">juc之CountDownLatch</a></p>
+<h2 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h2><p>&emsp;&emsp;<a href="../../../md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/threadpool">threadpool</a></p>
+<h2 id="非阻塞IO与阻塞IO"><a href="#非阻塞IO与阻塞IO" class="headerlink" title="非阻塞IO与阻塞IO"></a>非阻塞IO与阻塞IO</h2><p>&emsp;&emsp;<a href="../../../md/java/IO/java%E4%BC%A0%E7%BB%9FIO%E6%B5%81-BIO">java传统IO流-BIO</a><br>&emsp;&emsp;<a href="../../../md/java/IO/NIO">NIO</a><br>&emsp;&emsp;<a href="../../../md/java/IO/IO%E6%A8%A1%E5%9E%8B">IO模型</a><br>&emsp;&emsp;<a href="../../../md/java/IO/IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8">IO多路复用</a></p>
+]]></content>
+      <categories>
+        <category>面经</category>
+        <category>answer</category>
+      </categories>
+      <tags>
+        <tag>面经</tag>
       </tags>
   </entry>
   <entry>
@@ -4630,6 +4712,27 @@ docker <span class="token builtin class-name">exec</span> -it <span class="token
         <tag>tool</tag>
         <tag>docker</tag>
         <tag>wsl</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>jekins安装使用</title>
+    <url>/hexoblog/md/DEVOPS/CICD/jekins%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h1 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h1><p>&emsp;&emsp;网上的教程有很多，把自己的过程记一遍。<br>&emsp;&emsp;首先就是下载jekins的包，在官网下载就可以。win平台的可以下载对应的exe文件。<br><a href="https://www.jenkins.io/download">jekins下载</a><br>8089</p>
+<span id="more"></span>
+
+<hr>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;这里讲的是windows平台的安装。<br>&emsp;&emsp;安装也是很简单，一路点击next就可以了。</p>
+<hr>
+<h1 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h1><p>&emsp;&emsp;先看官方的，有空再总结自己的。<br>&emsp;&emsp;<a href="https://blog.csdn.net/wise18146705004/article/details/105455426">jekins在win10的安装和使用</a><br>&emsp;&emsp;<a href="https://www.jenkins.io/zh/doc/book/installing/">安装Jenkins </a><br>&emsp;&emsp;<a href="https://www.jenkins.io/zh/download/">Jenkins 的安装和设置</a></p>
+]]></content>
+      <categories>
+        <category>CICD</category>
+        <category>jekins</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>CICD</tag>
+        <tag>jekins</tag>
       </tags>
   </entry>
   <entry>
