@@ -55,6 +55,41 @@
       </tags>
   </entry>
   <entry>
+    <title>外包公司大汇总</title>
+    <url>/hexoblog/%E5%A4%96%E5%8C%85%E5%85%AC%E5%8F%B8%E5%A4%A7%E6%B1%87%E6%80%BB/</url>
+    <content><![CDATA[<h1 id="外包公司汇总"><a href="#外包公司汇总" class="headerlink" title="外包公司汇总"></a>外包公司汇总</h1><span id="more"></span>
+
+<ol>
+<li>德科（华为）</li>
+<li>捷程易信（网易）</li>
+<li>恒生（阿里）</li>
+<li><em>乌鸠科技</em>（阿里）</li>
+<li><em>端点</em>（阿里）</li>
+<li>博彦科技</li>
+<li>科蓝软件</li>
+<li>奥解思</li>
+<li>法本</li>
+<li>广讯通信</li>
+<li>京北方</li>
+<li>汉克时代</li>
+<li>华钦软件CLPS</li>
+<li>长亮科技（银行）</li>
+<li>信雅达科技</li>
+<li>网达软件（咪咕）</li>
+<li>神州信息（银行）</li>
+<li>宇信科技（银行）</li>
+<li>宁波易简电子科技（银行）</li>
+<li>安硕信息技术</li>
+</ol>
+]]></content>
+      <categories>
+        <category>todo</category>
+      </categories>
+      <tags>
+        <tag>todo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>B+树</title>
     <url>/hexoblog/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/B+%E6%A0%91/</url>
     <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;</p>
@@ -133,72 +168,6 @@
 <li>dubbo如何实现高可用的</li>
 <li>反问</li>
 </ol>
-<hr>
-<h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1>]]></content>
-      <categories>
-        <category>面经</category>
-      </categories>
-      <tags>
-        <tag>面经</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>外包公司大汇总</title>
-    <url>/hexoblog/%E5%A4%96%E5%8C%85%E5%85%AC%E5%8F%B8%E5%A4%A7%E6%B1%87%E6%80%BB/</url>
-    <content><![CDATA[<h1 id="外包公司汇总"><a href="#外包公司汇总" class="headerlink" title="外包公司汇总"></a>外包公司汇总</h1><span id="more"></span>
-
-<ol>
-<li>德科（华为）</li>
-<li>捷程易信（网易）</li>
-<li>恒生（阿里）</li>
-<li><em>乌鸠科技</em>（阿里）</li>
-<li><em>端点</em>（阿里）</li>
-<li>博彦科技</li>
-<li>科蓝软件</li>
-<li>奥解思</li>
-<li>法本</li>
-<li>广讯通信</li>
-<li>京北方</li>
-<li>汉克时代</li>
-<li>华钦软件CLPS</li>
-<li>长亮科技（银行）</li>
-<li>信雅达科技</li>
-<li>网达软件（咪咕）</li>
-<li>神州信息（银行）</li>
-<li>宇信科技（银行）</li>
-<li>宁波易简电子科技（银行）</li>
-<li>安硕信息技术</li>
-</ol>
-]]></content>
-      <categories>
-        <category>todo</category>
-      </categories>
-      <tags>
-        <tag>todo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>深圳雪球科技（NFC）一面面经</title>
-    <url>/hexoblog/%E9%9D%A2%E7%BB%8F/%E6%B7%B1%E5%9C%B3%E9%9B%AA%E7%90%83%E7%A7%91%E6%8A%80%EF%BC%88NFC%EF%BC%89%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/</url>
-    <content><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span>
-<p>写面经，攒人品</p>
-<ol>
-<li>自我介绍</li>
-<li>项目介绍</li>
-<li>dubbo中如何找到调用的节点（服务调用过程）</li>
-<li>zookeeper的选举机制</li>
-<li>redis分布式锁原理</li>
-<li>12306设计（自己关注点问题，感觉防止超卖）<ol>
-<li>很多人抢票中的问题</li>
-</ol>
-</li>
-<li>事务的隔离级别</li>
-<li>用过oracle吗</li>
-<li>你们用的隔离级别</li>
-<li>一个事务读了数据，另一个修改了，再去读会，会不一样，这是那个级别会发生的问题</li>
-<li>反问（公司规模，具体业务）</li>
-</ol>
-<p><img src="https://raw.githubusercontent.com/LinQiankun/picurl/main/java%E5%86%99%E9%9D%A2%E7%BB%8F%EF%BC%8C%E6%94%92%E4%BA%BA%E5%93%81_00.jpg" alt="写面经，攒人品"></p>
 <hr>
 <h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1>]]></content>
       <categories>
@@ -4270,7 +4239,9 @@ zkServer<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
 <h2 id="ConcurrentHashmap与Hashmap？"><a href="#ConcurrentHashmap与Hashmap？" class="headerlink" title="ConcurrentHashmap与Hashmap？"></a>ConcurrentHashmap与Hashmap？</h2><p>&emsp;&emsp;ConcurrentHashmap是juc包中的类，是用于在多线程情况下的hashmap，解决了hashmap在多线程情况下并发不安全的问题。<br>&emsp;&emsp;ConcurrentHashmap在1.7和1.8中采用了不同的结构和加锁方式。<br>&emsp;&emsp;jdk1.7中采用了段（Segment）的设计，每一个段中都是一个Hashmap的结构，将很多个段组合起来就是ConcurrentHashmap的结构，1.7中保证并发安全采用了分段锁的机制，就是在段设计的基础上，对每一个段加悲观锁（syncronized）。<br>&emsp;&emsp;jdk1.8中ConcurrentHashmap的数据结构采用了和Hashmap相同的数据结构，通过使用CAS操作来保证并发下的安全性。</p>
 <h2 id="CAS是什么？"><a href="#CAS是什么？" class="headerlink" title="CAS是什么？"></a>CAS是什么？</h2><p>&emsp;&emsp;CAS就是比较并交换，全称Compare And Set，是一种原子性修改内存数据的一种策略。<br>&emsp;&emsp;CAS操作过程是：会将内存中的数据与一个期望值进行比较，比较结果相等了，才会将内存中的值修改为要改成的值（一般在缓存）。<br>&emsp;&emsp;java中很多地方都用到了CAS，比如AQS中就是用CAS去修改值，ConcurrentHashmap中也用到了。</p>
 <h2 id="常用的JVM虚拟机？"><a href="#常用的JVM虚拟机？" class="headerlink" title="常用的JVM虚拟机？"></a>常用的JVM虚拟机？</h2><p>&emsp;&emsp;主要jvm虚拟机是Hotspot虚拟机，IBM有一款J9 JVM。</p>
-<h2 id="jvm的垃圾回收器？"><a href="#jvm的垃圾回收器？" class="headerlink" title="jvm的垃圾回收器？"></a>jvm的垃圾回收器？</h2><p>&emsp;&emsp;<a href="../../../md/jvm/JVM%E2%80%94GC">jvm的垃圾回收算法与垃圾回收器</a></p>
+<h2 id="jvm的垃圾回收器？"><a href="#jvm的垃圾回收器？" class="headerlink" title="jvm的垃圾回收器？"></a>jvm的垃圾回收器？</h2><ul>
+<li><a href="../../../md/jvm/JVM%E2%80%94GC">jvm的垃圾回收算法与垃圾回收器</a></li>
+</ul>
 <h2 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h2><p>&emsp;&emsp;单例模式共有8种写法。</p>
 <ul>
 <li>饿汉式-静态常量</li>
@@ -4282,10 +4253,18 @@ zkServer<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
 <li>静态内部类</li>
 <li>枚举</li>
 </ul>
-<h2 id="数据库索引"><a href="#数据库索引" class="headerlink" title="数据库索引"></a>数据库索引</h2><p>&emsp;&emsp;<a href="https://www.yuque.com/jiufenshiren/ra5mzi/aoz98d">mysql的索引</a></p>
-<h2 id="B-树结构？"><a href="#B-树结构？" class="headerlink" title="B+树结构？"></a>B+树结构？</h2><p>&emsp;&emsp;<a href="../../../%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/B+%E6%A0%91">数据结构-B+树</a></p>
-<h2 id="事务的隔离级别？作用？"><a href="#事务的隔离级别？作用？" class="headerlink" title="事务的隔离级别？作用？"></a>事务的隔离级别？作用？</h2><p>&emsp;&emsp;<a href="https://www.yuque.com/jiufenshiren/ra5mzi/iarni8">事务的隔离级别</a></p>
-<h2 id="MVCC"><a href="#MVCC" class="headerlink" title="MVCC"></a>MVCC</h2><p>&emsp;&emsp;<a href="../../../md/mysql/mysql%E4%B8%AD%E7%9A%84MVCC">mysql中的MVCC</a></p>
+<h2 id="数据库索引"><a href="#数据库索引" class="headerlink" title="数据库索引"></a>数据库索引</h2><ul>
+<li><a href="https://www.yuque.com/jiufenshiren/ra5mzi/aoz98d">mysql的索引</a></li>
+</ul>
+<h2 id="B-树结构？"><a href="#B-树结构？" class="headerlink" title="B+树结构？"></a>B+树结构？</h2><ul>
+<li><a href="../../../%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/B+%E6%A0%91">数据结构-B+树</a></li>
+</ul>
+<h2 id="事务的隔离级别？作用？"><a href="#事务的隔离级别？作用？" class="headerlink" title="事务的隔离级别？作用？"></a>事务的隔离级别？作用？</h2><ul>
+<li><a href="https://www.yuque.com/jiufenshiren/ra5mzi/iarni8">事务的隔离级别</a></li>
+</ul>
+<h2 id="MVCC"><a href="#MVCC" class="headerlink" title="MVCC"></a>MVCC</h2><ul>
+<li><a href="../../../md/mysql/mysql%E4%B8%AD%E7%9A%84MVCC">mysql中的MVCC</a></li>
+</ul>
 <h2 id="Spring"><a href="#Spring" class="headerlink" title="Spring"></a>Spring</h2><h3 id="Spring特点，功能"><a href="#Spring特点，功能" class="headerlink" title="Spring特点，功能"></a>Spring特点，功能</h3><ul>
 <li>方便解耦，简化开发</li>
 <li>支持AOP编程，很容易实现权限拦截，运行期监控</li>
@@ -4294,25 +4273,44 @@ zkServer<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
 <li>提供了众多工具类，简化API使用难度</li>
 <li>的DI机制降低了业务对象替换的复杂性</li>
 </ul>
-<h3 id="XML配置如何转换为Bean"><a href="#XML配置如何转换为Bean" class="headerlink" title="XML配置如何转换为Bean"></a>XML配置如何转换为Bean</h3><p>&emsp;&emsp;<a href="https://blog.csdn.net/liu20111590/article/details/89857660">spring之xml文件转换为BeanDefinition</a></p>
-<h3 id="Bean的实例化过程"><a href="#Bean的实例化过程" class="headerlink" title="Bean的实例化过程"></a>Bean的实例化过程</h3><p>&emsp;&emsp;<a href="../../../md/spring/Spring%E4%B8%ADBean%E7%9A%84%E5%AE%9E%E4%BE%8B%E5%8C%96%E8%BF%87%E7%A8%8B">Spring中Bean的实例化过程</a></p>
-<h3 id="循环依赖"><a href="#循环依赖" class="headerlink" title="循环依赖"></a>循环依赖</h3><p>&emsp;&emsp;<a href="https://www.yuque.com/jiufenshiren/ra5mzi/gmkoub">spring中循环依赖的处理</a></p>
-<h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><h3 id="redis分布式锁是怎么实现的？"><a href="#redis分布式锁是怎么实现的？" class="headerlink" title="redis分布式锁是怎么实现的？"></a>redis分布式锁是怎么实现的？</h3><p>&emsp;&emsp;<a href="../../../md/redis/redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81">redis分布式锁</a></p>
+<h3 id="XML配置如何转换为Bean"><a href="#XML配置如何转换为Bean" class="headerlink" title="XML配置如何转换为Bean"></a>XML配置如何转换为Bean</h3><ul>
+<li><a href="https://blog.csdn.net/liu20111590/article/details/89857660">spring之xml文件转换为BeanDefinition</a></li>
+</ul>
+<h3 id="Bean的实例化过程"><a href="#Bean的实例化过程" class="headerlink" title="Bean的实例化过程"></a>Bean的实例化过程</h3><ul>
+<li><a href="../../../md/spring/Spring%E4%B8%ADBean%E7%9A%84%E5%AE%9E%E4%BE%8B%E5%8C%96%E8%BF%87%E7%A8%8B">Spring中Bean的实例化过程</a></li>
+</ul>
+<h3 id="循环依赖"><a href="#循环依赖" class="headerlink" title="循环依赖"></a>循环依赖</h3><ul>
+<li><a href="https://www.yuque.com/jiufenshiren/ra5mzi/gmkoub">spring中循环依赖的处理</a></li>
+</ul>
+<h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><h3 id="redis分布式锁是怎么实现的？"><a href="#redis分布式锁是怎么实现的？" class="headerlink" title="redis分布式锁是怎么实现的？"></a>redis分布式锁是怎么实现的？</h3><ul>
+<li><a href="../../../md/redis/redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81">redis分布式锁</a></li>
+</ul>
 <h3 id="redis的数据结构"><a href="#redis的数据结构" class="headerlink" title="redis的数据结构"></a>redis的数据结构</h3><p>&emsp;&emsp;redis中共有8种数据结构，其中常用的有5种。</p>
 <ul>
-<li>字符串 string</li>
-<li>散列-hash</li>
-<li>列表-list</li>
-<li>集合-set</li>
-<li>有序集合-zset</li>
-<li>位图-bitmap</li>
-<li>地理位置-geospatial</li>
-<li>hyperloglog</li>
+<li><p>字符串 string</p>
+</li>
+<li><p>散列-hash</p>
+</li>
+<li><p>列表-list</p>
+</li>
+<li><p>集合-set</p>
+</li>
+<li><p>有序集合-zset</p>
+</li>
+<li><p>位图-bitmap</p>
+</li>
+<li><p>地理位置-geospatial</p>
+</li>
+<li><p>hyperloglog</p>
+</li>
+<li><p><a href="../../../md/redis/redis%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84">redis中的数据结构</a></p>
+</li>
 </ul>
-<p>&emsp;&emsp;<a href="../../../md/redis/redis%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84">redis中的数据结构</a></p>
 <h2 id="Rocketmq"><a href="#Rocketmq" class="headerlink" title="Rocketmq"></a>Rocketmq</h2><h3 id="消息消费失败怎么处理？"><a href="#消息消费失败怎么处理？" class="headerlink" title="消息消费失败怎么处理？"></a>消息消费失败怎么处理？</h3><p>&emsp;&emsp;消息消费失败可以分为两种方向，一种是mq进行消息投递失败，另一种是业务系统消费消息失败。<br>&emsp;&emsp;mq消息投递失败会将消息放入定时投递队列中，按照一定的时间间隔后进行消息重投。<br>&emsp;&emsp;业务系统可以将消息存储起来，对于失败的消息，通过定时处理的方式进行恢复。保存起来类似于消息幂等的处理方式。</p>
 <h2 id="Synchronized"><a href="#Synchronized" class="headerlink" title="Synchronized"></a>Synchronized</h2><h3 id="Synchronized原理"><a href="#Synchronized原理" class="headerlink" title="Synchronized原理"></a>Synchronized原理</h3><p>&emsp;&emsp;底层采用monitor指令实现，会生成一条moniter enter和二条moniter exit（一条正常退出，另一条异常退出）指令实现。</p>
-<h3 id="Synchronized加在方法上和代码块上的区别？生成的指令的区别？"><a href="#Synchronized加在方法上和代码块上的区别？生成的指令的区别？" class="headerlink" title="Synchronized加在方法上和代码块上的区别？生成的指令的区别？"></a>Synchronized加在方法上和代码块上的区别？生成的指令的区别？</h3><p>&emsp;&emsp;<a href="https://www.yuque.com/jiufenshiren/ra5mzi/rc3ofp">synchronized</a></p>
+<h3 id="Synchronized加在方法上和代码块上的区别？生成的指令的区别？"><a href="#Synchronized加在方法上和代码块上的区别？生成的指令的区别？" class="headerlink" title="Synchronized加在方法上和代码块上的区别？生成的指令的区别？"></a>Synchronized加在方法上和代码块上的区别？生成的指令的区别？</h3><ul>
+<li><a href="https://www.yuque.com/jiufenshiren/ra5mzi/rc3ofp">synchronized</a></li>
+</ul>
 ]]></content>
       <categories>
         <category>面经</category>
@@ -4341,7 +4339,10 @@ zkServer<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
 <li>反问</li>
 </ol>
 <hr>
-<h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="jvm类的加载过程"><a href="#jvm类的加载过程" class="headerlink" title="jvm类的加载过程"></a>jvm类的加载过程</h2><p>&emsp;&emsp;<a href="../../../md/java/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6">类加载机制</a><br>&emsp;&emsp;<a href="https://www.yuque.com/jiufenshiren/ra5mzi/dvd9gz">类加载机制</a></p>
+<h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="jvm类的加载过程"><a href="#jvm类的加载过程" class="headerlink" title="jvm类的加载过程"></a>jvm类的加载过程</h2><ul>
+<li><a href="../../../md/java/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6">类加载机制</a>  </li>
+<li><a href="https://www.yuque.com/jiufenshiren/ra5mzi/dvd9gz">类加载机制</a></li>
+</ul>
 <h2 id="dubbo如何做选举的"><a href="#dubbo如何做选举的" class="headerlink" title="dubbo如何做选举的"></a>dubbo如何做选举的</h2><p>&emsp;&emsp;这里的选举并不是zk的选举，而是服务消费方获取到提供方节点后，根据负载均衡算法选择某台机器进行远程调用。常见的负载均衡算法有：  </p>
 <ul>
 <li>轮询</li>
@@ -4360,9 +4361,16 @@ zkServer<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
 <li>策略模式</li>
 </ul>
 <h2 id="springboot里面的listener？"><a href="#springboot里面的listener？" class="headerlink" title="springboot里面的listener？"></a>springboot里面的listener？</h2><h2 id="代理模式与AOP？"><a href="#代理模式与AOP？" class="headerlink" title="代理模式与AOP？"></a>代理模式与AOP？</h2><p>&emsp;&emsp;代理模式分为静态代理，动态代理，动态代理又可分为很多种，jdk，cglib等。<br>&emsp;&emsp;AOP是面向切面编程，其中用到了动态代理。</p>
-<h2 id="redis主从复制与哨兵模式？"><a href="#redis主从复制与哨兵模式？" class="headerlink" title="redis主从复制与哨兵模式？"></a>redis主从复制与哨兵模式？</h2><p>&emsp;&emsp;<a href="https://www.yuque.com/jiufenshiren/ra5mzi/haaf3c">redis的高可用方案</a></p>
-<h2 id="分布式事务的实现"><a href="#分布式事务的实现" class="headerlink" title="分布式事务的实现"></a>分布式事务的实现</h2><p>&emsp;&emsp;<a href="../../../md/%E5%88%86%E5%B8%83%E5%BC%8F/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1">分布式事务</a><br>&emsp;&emsp;<a href="https://www.yuque.com/jiufenshiren/ra5mzi/fwl3rv">分布式事务</a></p>
-<h2 id="syncnorized和ReentrantLock的区别？"><a href="#syncnorized和ReentrantLock的区别？" class="headerlink" title="syncnorized和ReentrantLock的区别？"></a>syncnorized和ReentrantLock的区别？</h2><p>&emsp;&emsp;<a href="https://www.yuque.com/jiufenshiren/ra5mzi/rc3ofp">syncnorized</a></p>
+<h2 id="redis主从复制与哨兵模式？"><a href="#redis主从复制与哨兵模式？" class="headerlink" title="redis主从复制与哨兵模式？"></a>redis主从复制与哨兵模式？</h2><ul>
+<li><a href="https://www.yuque.com/jiufenshiren/ra5mzi/haaf3c">redis的高可用方案</a></li>
+</ul>
+<h2 id="分布式事务的实现"><a href="#分布式事务的实现" class="headerlink" title="分布式事务的实现"></a>分布式事务的实现</h2><ul>
+<li><a href="../../../md/%E5%88%86%E5%B8%83%E5%BC%8F/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1">分布式事务</a>  </li>
+<li><a href="https://www.yuque.com/jiufenshiren/ra5mzi/fwl3rv">分布式事务</a></li>
+</ul>
+<h2 id="syncnorized和ReentrantLock的区别？"><a href="#syncnorized和ReentrantLock的区别？" class="headerlink" title="syncnorized和ReentrantLock的区别？"></a>syncnorized和ReentrantLock的区别？</h2><ul>
+<li><a href="https://www.yuque.com/jiufenshiren/ra5mzi/rc3ofp">syncnorized</a></li>
+</ul>
 ]]></content>
       <categories>
         <category>面经</category>
@@ -4415,7 +4423,9 @@ zkServer<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
 <li>加锁的方式</li>
 <li>并发的工具包</li>
 </ol>
-<h2 id="线程池的工作原理？"><a href="#线程池的工作原理？" class="headerlink" title="线程池的工作原理？"></a>线程池的工作原理？</h2><p>&emsp;&emsp;</p>
+<h2 id="线程池的工作原理？"><a href="#线程池的工作原理？" class="headerlink" title="线程池的工作原理？"></a>线程池的工作原理？</h2><ul>
+<li><a href="../../../md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/threadpool">threadpool</a></li>
+</ul>
 <h2 id="服务调用的方式？"><a href="#服务调用的方式？" class="headerlink" title="服务调用的方式？"></a>服务调用的方式？</h2><p>&emsp;&emsp;服务调用分为多种方式调用：</p>
 <ol>
 <li>本地service调用</li>
@@ -4425,12 +4435,79 @@ zkServer<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
 </ol>
 </li>
 </ol>
-<h2 id="dubbo的协议，dubbo的序列化方式？"><a href="#dubbo的协议，dubbo的序列化方式？" class="headerlink" title="dubbo的协议，dubbo的序列化方式？"></a>dubbo的协议，dubbo的序列化方式？</h2><p>&emsp;&emsp;<a href="../../../md/rpc/dubbo/dubbo%E7%9A%849%E7%A7%8D%E5%8D%8F%E8%AE%AE">dubbo的9种协议</a></p>
-<h2 id="分布式事务？"><a href="#分布式事务？" class="headerlink" title="分布式事务？"></a>分布式事务？</h2><p>&emsp;&emsp;<a href="../../../md/%E5%88%86%E5%B8%83%E5%BC%8F/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1">分布式事务</a></p>
-<!-- [分布式事务.md](../../md/分布式/分布式事务.md) -->
+<h2 id="dubbo的协议，dubbo的序列化方式？"><a href="#dubbo的协议，dubbo的序列化方式？" class="headerlink" title="dubbo的协议，dubbo的序列化方式？"></a>dubbo的协议，dubbo的序列化方式？</h2><ul>
+<li><a href="../../../md/rpc/dubbo/dubbo%E7%9A%849%E7%A7%8D%E5%8D%8F%E8%AE%AE">dubbo的9种协议</a></li>
+</ul>
+<h2 id="分布式事务？"><a href="#分布式事务？" class="headerlink" title="分布式事务？"></a>分布式事务？</h2><ul>
+<li><a href="../../../md/%E5%88%86%E5%B8%83%E5%BC%8F/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1">分布式事务</a><!-- [分布式事务.md](../../md/分布式/分布式事务.md) -->
 
-<h2 id="jvm内存模型？"><a href="#jvm内存模型？" class="headerlink" title="jvm内存模型？"></a>jvm内存模型？</h2><p>&emsp;&emsp;<a href="../../../md/jvm/jvm%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84">jvm内存结构</a><br>&emsp;&emsp;<a href="../../../md/jvm/JVM%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5">JVM内存分配策略</a><br>&emsp;&emsp;<a href="../../../md/jvm/jvm%E4%B8%AD%E6%96%B9%E6%B3%95%E5%8C%BA-%E6%B0%B8%E4%B9%85%E4%BB%A3-%E5%85%83%E7%A9%BA%E9%97%B4">jvm中方法区-永久代-元空间</a><br>&emsp;&emsp;<a href="../../../md/jvm/JVM%E2%80%94GC">JVM—GC</a></p>
-<h2 id="redis分布式锁的问题？"><a href="#redis分布式锁的问题？" class="headerlink" title="redis分布式锁的问题？"></a>redis分布式锁的问题？</h2><p>&emsp;&emsp;<a href="../../../md/redis/redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81">redis分布式锁</a><br>&emsp;&emsp;<a href="../../../md/%E5%88%86%E5%B8%83%E5%BC%8F/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81">分布式锁</a><br>&emsp;&emsp;<a href="../../../md/zookeeper/zookeeper%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81">zookeeper实现分布式锁</a></p>
+</li>
+</ul>
+<h2 id="jvm内存模型？"><a href="#jvm内存模型？" class="headerlink" title="jvm内存模型？"></a>jvm内存模型？</h2><ul>
+<li><a href="../../../md/jvm/jvm%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84">jvm内存结构</a>  </li>
+<li><a href="../../../md/jvm/JVM%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5">JVM内存分配策略</a>  </li>
+<li><a href="../../../md/jvm/jvm%E4%B8%AD%E6%96%B9%E6%B3%95%E5%8C%BA-%E6%B0%B8%E4%B9%85%E4%BB%A3-%E5%85%83%E7%A9%BA%E9%97%B4">jvm中方法区-永久代-元空间</a>  </li>
+<li><a href="../../../md/jvm/JVM%E2%80%94GC">JVM—GC</a></li>
+</ul>
+<h2 id="redis分布式锁的问题？"><a href="#redis分布式锁的问题？" class="headerlink" title="redis分布式锁的问题？"></a>redis分布式锁的问题？</h2><ul>
+<li><a href="../../../md/redis/redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81">redis分布式锁</a>  </li>
+<li><a href="../../../md/%E5%88%86%E5%B8%83%E5%BC%8F/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81">分布式锁</a>  </li>
+<li><a href="../../../md/zookeeper/zookeeper%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81">zookeeper实现分布式锁</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>面经</category>
+        <category>answer</category>
+      </categories>
+      <tags>
+        <tag>面经</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>深圳雪球科技（NFC）一面面经</title>
+    <url>/hexoblog/%E9%9D%A2%E7%BB%8F/answer/%E6%B7%B1%E5%9C%B3%E9%9B%AA%E7%90%83%E7%A7%91%E6%8A%80%EF%BC%88NFC%EF%BC%89%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/</url>
+    <content><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span>
+<p>写面经，攒人品</p>
+<ol>
+<li>自我介绍</li>
+<li>项目介绍</li>
+<li>dubbo中如何找到调用的节点（服务调用过程）</li>
+<li>zookeeper的选举机制</li>
+<li>redis分布式锁原理</li>
+<li>12306设计（自己关注点问题，感觉防止超卖）<ol>
+<li>很多人抢票中的问题</li>
+</ol>
+</li>
+<li>事务的隔离级别</li>
+<li>用过oracle吗（没有）</li>
+<li>你们用的隔离级别</li>
+<li>一个事务读了数据，另一个修改了，再去读会，会不一样，这是那个级别会发生的问题</li>
+<li>反问（公司规模，具体业务）</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/LinQiankun/picurl/main/java%E5%86%99%E9%9D%A2%E7%BB%8F%EF%BC%8C%E6%94%92%E4%BA%BA%E5%93%81_00.jpg" alt="写面经，攒人品"></p>
+<hr>
+<h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="dubbo中如何找到调用的节点"><a href="#dubbo中如何找到调用的节点" class="headerlink" title="dubbo中如何找到调用的节点"></a>dubbo中如何找到调用的节点</h2><p>&emsp;&emsp;这个过程应该分为两步，第一步是服务发现，第二步是负载均衡选取节点。  </p>
+<ul>
+<li><a href="../../../md/rpc/dubbo/dubbo%E6%9C%8D%E5%8A%A1%E5%90%AF%E5%8A%A8%E6%9A%B4%E9%9C%B2%E8%BF%87%E7%A8%8B">dubbo服务启动暴露过程</a>  </li>
+<li><a href="../../../md/rpc/dubbo/dubbo%E6%9C%8D%E5%8A%A1%E5%BC%95%E5%85%A5%E6%B5%81%E7%A8%8B">dubbo服务引入流程</a>  </li>
+<li><a href="../../../md/rpc/dubbo/dubbo%E6%9C%8D%E5%8A%A1%E8%B0%83%E7%94%A8%E8%BF%87%E7%A8%8B">dubbo服务调用过程</a>  </li>
+</ul>
+<p>&emsp;&emsp;服务发现，就是获取到可调用的节点后，负载均衡过程中会根据一些算法去选择某一个节点调用，具体的算法一般有：</p>
+<ul>
+<li>随机</li>
+<li>轮询</li>
+<li>一致性hash</li>
+</ul>
+<h2 id="zookeeper的选举机制"><a href="#zookeeper的选举机制" class="headerlink" title="zookeeper的选举机制"></a>zookeeper的选举机制</h2><ul>
+<li><a href="../../../md/zookeeper/ZAB%E5%8D%8F%E8%AE%AE">ZAB协议</a></li>
+<li><a href="../../../md/zookeeper/zookeeper-leader%E9%80%89%E4%B8%BE">zookeeper-leader选举</a></li>
+</ul>
+<h2 id="redis分布式锁原理"><a href="#redis分布式锁原理" class="headerlink" title="redis分布式锁原理"></a>redis分布式锁原理</h2><ul>
+<li><a href="../../../md/redis/redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81">redis分布式锁</a></li>
+</ul>
+<h2 id="事务的隔离级别"><a href="#事务的隔离级别" class="headerlink" title="事务的隔离级别"></a>事务的隔离级别</h2><ul>
+<li><a href="https://www.yuque.com/jiufenshiren/ra5mzi/iarni8">mysql中的事务</a></li>
+</ul>
 ]]></content>
       <categories>
         <category>面经</category>
@@ -4474,13 +4551,29 @@ zkServer<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
 <hr>
 <h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h2><h3 id="redis实现与zk实现的区别"><a href="#redis实现与zk实现的区别" class="headerlink" title="redis实现与zk实现的区别"></a>redis实现与zk实现的区别</h3><h3 id="redis单机挂的情况"><a href="#redis单机挂的情况" class="headerlink" title="redis单机挂的情况"></a>redis单机挂的情况</h3><p>&emsp;&emsp;redis单机挂的情况下，考虑使用集群作为分布式锁的载体，使用redlock作为分布式锁的实现，这里的集群采用redis cluster而不采用主从复制模式，主从复制模式下，故障转移可能导致锁丢失，cluster的几率小很多。</p>
 <h3 id="多应用服务器抢占redis锁，造成redis服务器CPU飙红"><a href="#多应用服务器抢占redis锁，造成redis服务器CPU飙红" class="headerlink" title="多应用服务器抢占redis锁，造成redis服务器CPU飙红"></a>多应用服务器抢占redis锁，造成redis服务器CPU飙红</h3><p>&emsp;&emsp;redlock模式下，加分布式锁是给每一台redis服务器一台一台加锁的，加锁成功一半以后，就认为是分布式加锁成功。<br>&emsp;&emsp;检查当前锁状态只是一次读而已，写入锁也只是一次写入。本质上就是读写，另外单次锁状态的读取和写入数据量都很小。理论上来说你的业务量没有大到一定程度，锁的操作不会带来redis服务器的太多压力，如果有，那么你的其他业务的读写可能更要值得关注了。另外真有问题，就锁这一块的读写也不会引起CPU飙升。</p>
-<h2 id="RocketMQ使用场景"><a href="#RocketMQ使用场景" class="headerlink" title="RocketMQ使用场景"></a>RocketMQ使用场景</h2><p>&emsp;&emsp;<a href="../../../md/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%AE%80%E4%BB%8B">消息中间件简介</a></p>
-<h2 id="mysql中索引结构"><a href="#mysql中索引结构" class="headerlink" title="mysql中索引结构"></a>mysql中索引结构</h2><p>&emsp;&emsp;索引结构分为两种，Hash索引和B+树索引。<br>&emsp;&emsp;<a href="https://www.yuque.com/jiufenshiren/ra5mzi/aoz98d">索引</a></p>
-<h2 id="B-树"><a href="#B-树" class="headerlink" title="B+树"></a>B+树</h2><p>&emsp;&emsp;<a href="../../../md/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/B+%E6%A0%91">B+树</a></p>
+<h2 id="RocketMQ使用场景"><a href="#RocketMQ使用场景" class="headerlink" title="RocketMQ使用场景"></a>RocketMQ使用场景</h2><ul>
+<li><a href="../../../md/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%AE%80%E4%BB%8B">消息中间件简介</a></li>
+</ul>
+<h2 id="mysql中索引结构"><a href="#mysql中索引结构" class="headerlink" title="mysql中索引结构"></a>mysql中索引结构</h2><p>&emsp;&emsp;索引结构分为两种，Hash索引和B+树索引。  </p>
+<ul>
+<li><a href="https://www.yuque.com/jiufenshiren/ra5mzi/aoz98d">索引</a></li>
+</ul>
+<h2 id="B-树"><a href="#B-树" class="headerlink" title="B+树"></a>B+树</h2><ul>
+<li><a href="../../../md/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/B+%E6%A0%91">B+树</a></li>
+</ul>
 <h3 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h3><h3 id="如何优化查询"><a href="#如何优化查询" class="headerlink" title="如何优化查询"></a>如何优化查询</h3><p>&emsp;&emsp;减少IO次数。</p>
-<h2 id="CountDownLatch原理"><a href="#CountDownLatch原理" class="headerlink" title="CountDownLatch原理"></a>CountDownLatch原理</h2><p>&emsp;&emsp;<a href="../../../md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/juc%E4%B9%8BCountDownLatch">juc之CountDownLatch</a></p>
-<h2 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h2><p>&emsp;&emsp;<a href="../../../md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/threadpool">threadpool</a></p>
-<h2 id="非阻塞IO与阻塞IO"><a href="#非阻塞IO与阻塞IO" class="headerlink" title="非阻塞IO与阻塞IO"></a>非阻塞IO与阻塞IO</h2><p>&emsp;&emsp;<a href="../../../md/java/IO/java%E4%BC%A0%E7%BB%9FIO%E6%B5%81-BIO">java传统IO流-BIO</a><br>&emsp;&emsp;<a href="../../../md/java/IO/NIO">NIO</a><br>&emsp;&emsp;<a href="../../../md/java/IO/IO%E6%A8%A1%E5%9E%8B">IO模型</a><br>&emsp;&emsp;<a href="../../../md/java/IO/IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8">IO多路复用</a></p>
+<h2 id="CountDownLatch原理"><a href="#CountDownLatch原理" class="headerlink" title="CountDownLatch原理"></a>CountDownLatch原理</h2><ul>
+<li><a href="../../../md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/juc%E4%B9%8BCountDownLatch">juc之CountDownLatch</a></li>
+</ul>
+<h2 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h2><ul>
+<li><a href="../../../md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/threadpool">threadpool</a></li>
+</ul>
+<h2 id="非阻塞IO与阻塞IO"><a href="#非阻塞IO与阻塞IO" class="headerlink" title="非阻塞IO与阻塞IO"></a>非阻塞IO与阻塞IO</h2><ul>
+<li><a href="../../../md/java/IO/java%E4%BC%A0%E7%BB%9FIO%E6%B5%81-BIO">java传统IO流-BIO</a>  </li>
+<li><a href="../../../md/java/IO/NIO">NIO</a>  </li>
+<li><a href="../../../md/java/IO/IO%E6%A8%A1%E5%9E%8B">IO模型</a>  </li>
+<li><a href="../../../md/java/IO/IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8">IO多路复用</a></li>
+</ul>
 ]]></content>
       <categories>
         <category>面经</category>
@@ -4488,6 +4581,27 @@ zkServer<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
       </categories>
       <tags>
         <tag>面经</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>jekins安装使用</title>
+    <url>/hexoblog/md/DEVOPS/CICD/jekins%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h1 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h1><p>&emsp;&emsp;网上的教程有很多，把自己的过程记一遍。<br>&emsp;&emsp;首先就是下载jekins的包，在官网下载就可以。win平台的可以下载对应的exe文件。<br><a href="https://www.jenkins.io/download">jekins下载</a><br>8089</p>
+<span id="more"></span>
+
+<hr>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;这里讲的是windows平台的安装。<br>&emsp;&emsp;安装也是很简单，一路点击next就可以了。</p>
+<hr>
+<h1 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h1><p>&emsp;&emsp;先看官方的，有空再总结自己的。<br>&emsp;&emsp;<a href="https://blog.csdn.net/wise18146705004/article/details/105455426">jekins在win10的安装和使用</a><br>&emsp;&emsp;<a href="https://www.jenkins.io/zh/doc/book/installing/">安装Jenkins </a><br>&emsp;&emsp;<a href="https://www.jenkins.io/zh/download/">Jenkins 的安装和设置</a></p>
+]]></content>
+      <categories>
+        <category>CICD</category>
+        <category>jekins</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>CICD</tag>
+        <tag>jekins</tag>
       </tags>
   </entry>
   <entry>
@@ -4712,27 +4826,6 @@ docker <span class="token builtin class-name">exec</span> -it <span class="token
         <tag>tool</tag>
         <tag>docker</tag>
         <tag>wsl</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>jekins安装使用</title>
-    <url>/hexoblog/md/DEVOPS/CICD/jekins%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h1 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h1><p>&emsp;&emsp;网上的教程有很多，把自己的过程记一遍。<br>&emsp;&emsp;首先就是下载jekins的包，在官网下载就可以。win平台的可以下载对应的exe文件。<br><a href="https://www.jenkins.io/download">jekins下载</a><br>8089</p>
-<span id="more"></span>
-
-<hr>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;这里讲的是windows平台的安装。<br>&emsp;&emsp;安装也是很简单，一路点击next就可以了。</p>
-<hr>
-<h1 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h1><p>&emsp;&emsp;先看官方的，有空再总结自己的。<br>&emsp;&emsp;<a href="https://blog.csdn.net/wise18146705004/article/details/105455426">jekins在win10的安装和使用</a><br>&emsp;&emsp;<a href="https://www.jenkins.io/zh/doc/book/installing/">安装Jenkins </a><br>&emsp;&emsp;<a href="https://www.jenkins.io/zh/download/">Jenkins 的安装和设置</a></p>
-]]></content>
-      <categories>
-        <category>CICD</category>
-        <category>jekins</category>
-      </categories>
-      <tags>
-        <tag>tool</tag>
-        <tag>CICD</tag>
-        <tag>jekins</tag>
       </tags>
   </entry>
   <entry>
@@ -6049,6 +6142,106 @@ finish，1，Thread-1
       </tags>
   </entry>
   <entry>
+    <title>dubboSPI扩展机制自适应</title>
+    <url>/hexoblog/md/rpc/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E6%9C%BA%E5%88%B6%E8%87%AA%E9%80%82%E5%BA%94/</url>
+    <content><![CDATA[<h1 id="扩展点自适应"><a href="#扩展点自适应" class="headerlink" title="扩展点自适应"></a>扩展点自适应</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>&emsp;&emsp;ExtensionLoader注入的依赖扩展点是一个Adaptive实例，直到扩展点方法执行时才决定调用是哪一个扩展点实现。<br>&emsp;&emsp;dubbo使用url对象传递对象信息，包含key和value。<br>&emsp;&emsp;扩展点方法调用会有URL参数（或是参数有URL成员）这样依赖的扩展点也可以从URL拿到配置信息，所有的扩展点自己定好配置的 Key后，配置信息从URL上从最外层传入。URL在配置传递上即是一条总线。</p>
+<span id="more"></span>
+<h2 id="Adaptive注解"><a href="#Adaptive注解" class="headerlink" title="@Adaptive注解"></a>@Adaptive注解</h2><p>&emsp;&emsp;表示该类是一个扩展类（Adaptive实例），不需要生成代理方法直接使用即可。<br>&emsp;&emsp;在方法上则表示该方法需生成代理, 此时就需要用到上面提到的URL参数。<br>&emsp;&emsp;如果作用在方法会帮我们在运行时动态生成一个Adaptive实例（只包含扩展方法的），如果作用在类上就相当于自己定义了一个现成的。</p>
+<h3 id="注解在实现类上"><a href="#注解在实现类上" class="headerlink" title="注解在实现类上"></a>注解在实现类上</h3><p>&emsp;&emsp;表示该类是一个扩展类，不需要生成代理方法直接使用即可。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">// 扩展的接口</span>
+<span class="token annotation punctuation">@SPI</span>
+<span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">AdaptiveService</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">void</span> <span class="token function">sayHello</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">// 是扩展类</span>
+<span class="token annotation punctuation">@Adaptive</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">AdaptiveServiceImpl</span> <span class="token keyword">implements</span> <span class="token class-name">AdaptiveService</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">sayHello</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"hello"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">// 同样需要文件</span>
+<span class="token comment">// 文件名为接口全限定名</span>
+<span class="token comment">// 内容为key=value，value为实现类全限定名</span>
+<span class="token class-name">AdaptiveService</span><span class="token operator">=</span><span class="token class-name"><span class="token namespace">com<span class="token punctuation">.</span>lin<span class="token punctuation">.</span>extendAdaptive<span class="token punctuation">.</span>extend<span class="token punctuation">.</span>impl<span class="token punctuation">.</span></span>AdaptiveServiceImpl</span>
+
+<span class="token comment">// 启动类</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ExtendAdaptiveMain</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">ExtensionLoader</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">AdaptiveService</span><span class="token punctuation">></span></span> extensionLoader <span class="token operator">=</span> <span class="token class-name">ExtensionLoader</span><span class="token punctuation">.</span><span class="token function">getExtensionLoader</span><span class="token punctuation">(</span><span class="token class-name">AdaptiveService</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">AdaptiveService</span> adaptiveExtension <span class="token operator">=</span> extensionLoader<span class="token punctuation">.</span><span class="token function">getAdaptiveExtension</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        adaptiveExtension<span class="token punctuation">.</span><span class="token function">sayHello</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="注解在接口方法上"><a href="#注解在接口方法上" class="headerlink" title="注解在接口方法上"></a>注解在接口方法上</h3><p>&emsp;&emsp;在方法上则表示该方法需生成代理, 此时就需要用到上面提到的URL参数。<br>&emsp;&emsp;当注解在接口方法上时，方法中需要传入一个URL参数，或者包装有URL参数时，会通过动态编译获得一个Adaptive实例。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">// 接口</span>
+<span class="token annotation punctuation">@SPI</span>
+<span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">MethodAdaptiveService</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token annotation punctuation">@Adaptive</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token string">"key"</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+    <span class="token keyword">void</span> <span class="token function">sayHello</span><span class="token punctuation">(</span><span class="token class-name">URL</span> url<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">// 实现类</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MethodAdaptiveServiceImpl</span> <span class="token keyword">implements</span> <span class="token class-name">MethodAdaptiveService</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">sayHello</span><span class="token punctuation">(</span><span class="token class-name">URL</span> url<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"method"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">// META—INF文件与注解在类上时相同</span>
+<span class="token class-name">MethodAdaptiveService</span><span class="token operator">=</span><span class="token class-name"><span class="token namespace">com<span class="token punctuation">.</span>lin<span class="token punctuation">.</span>extendAdaptive<span class="token punctuation">.</span>extend<span class="token punctuation">.</span>impl<span class="token punctuation">.</span></span>MethodAdaptiveServiceImpl</span>
+
+<span class="token comment">// 启动</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">ExtensionLoader</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">MethodAdaptiveService</span><span class="token punctuation">></span></span> extensionLoader <span class="token operator">=</span> <span class="token class-name">ExtensionLoader</span><span class="token punctuation">.</span><span class="token function">getExtensionLoader</span><span class="token punctuation">(</span><span class="token class-name">MethodAdaptiveService</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">MethodAdaptiveService</span> adaptiveExtension <span class="token operator">=</span> extensionLoader<span class="token punctuation">.</span><span class="token function">getAdaptiveExtension</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">HashMap</span> hashMap <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashMap</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">// key与接口中注解的key相同，value与文件中声明的名称相同</span>
+        hashMap<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"key"</span><span class="token punctuation">,</span><span class="token string">"MethodAdaptiveService"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">URL</span> url <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token function">URL</span><span class="token punctuation">(</span><span class="token string">"dubbo"</span><span class="token punctuation">,</span><span class="token string">"localhost"</span><span class="token punctuation">,</span><span class="token number">8080</span><span class="token punctuation">,</span>hashMap<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        adaptiveExtension<span class="token punctuation">.</span><span class="token function">sayHello</span><span class="token punctuation">(</span>url<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+<span class="token comment">// 生成的实例</span>
+<span class="token keyword">package</span> <span class="token namespace">com<span class="token punctuation">.</span>lin<span class="token punctuation">.</span>extendAdaptive<span class="token punctuation">.</span>extend</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token namespace">org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>dubbo<span class="token punctuation">.</span>common<span class="token punctuation">.</span>extension<span class="token punctuation">.</span></span><span class="token class-name">ExtensionLoader</span><span class="token punctuation">;</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MethodAdaptiveService</span>$<span class="token class-name">Adaptive</span> <span class="token keyword">implements</span> <span class="token class-name"><span class="token namespace">com<span class="token punctuation">.</span>lin<span class="token punctuation">.</span>extendAdaptive<span class="token punctuation">.</span>extend<span class="token punctuation">.</span></span>MethodAdaptiveService</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">sayHello</span><span class="token punctuation">(</span><span class="token class-name"><span class="token namespace">org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>dubbo<span class="token punctuation">.</span>common<span class="token punctuation">.</span></span>URL</span> arg0<span class="token punctuation">)</span>  <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>arg0 <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">IllegalArgumentException</span><span class="token punctuation">(</span><span class="token string">"url == null"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name"><span class="token namespace">org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>dubbo<span class="token punctuation">.</span>common<span class="token punctuation">.</span></span>URL</span> url <span class="token operator">=</span> arg0<span class="token punctuation">;</span>
+        <span class="token class-name">String</span> extName <span class="token operator">=</span> url<span class="token punctuation">.</span><span class="token function">getParameter</span><span class="token punctuation">(</span><span class="token string">"key"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>extName <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">IllegalStateException</span><span class="token punctuation">(</span><span class="token string">"Failed to get extension (com.lin.extendAdaptive.extend.MethodAdaptiveService) name from url ("</span> <span class="token operator">+</span> url<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">") use keys([key])"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name"><span class="token namespace">com<span class="token punctuation">.</span>lin<span class="token punctuation">.</span>extendAdaptive<span class="token punctuation">.</span>extend<span class="token punctuation">.</span></span>MethodAdaptiveService</span> extension <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token namespace">com<span class="token punctuation">.</span>lin<span class="token punctuation">.</span>extendAdaptive<span class="token punctuation">.</span>extend<span class="token punctuation">.</span></span>MethodAdaptiveService</span><span class="token punctuation">)</span><span class="token class-name">ExtensionLoader</span><span class="token punctuation">.</span><span class="token function">getExtensionLoader</span><span class="token punctuation">(</span><span class="token class-name"><span class="token namespace">com<span class="token punctuation">.</span>lin<span class="token punctuation">.</span>extendAdaptive<span class="token punctuation">.</span>extend<span class="token punctuation">.</span></span>MethodAdaptiveService</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getExtension</span><span class="token punctuation">(</span>extName<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        extension<span class="token punctuation">.</span><span class="token function">sayHello</span><span class="token punctuation">(</span>url<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">,</span> dubbo version<span class="token operator">:</span> <span class="token number">2.7</span><span class="token number">.1</span><span class="token punctuation">,</span> current host<span class="token operator">:</span> <span class="token number">192.168</span><span class="token number">.139</span><span class="token number">.15</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>&emsp;&emsp;程序运行时，会经过动态编译过程生成MethodAdaptiveService对应的Adaptive实例，即MethodAdaptiveService$Adaptive。<br>&emsp;&emsp;就是在程序运行过程中，根据条件，通过拼接字符串的形式生成java源码，然后进行编译获得对应的实例。</p>
+<hr>
+<h1 id="扩展点自动注入"><a href="#扩展点自动注入" class="headerlink" title="扩展点自动注入"></a>扩展点自动注入</h1><p>有bug稍后。</p>
+]]></content>
+      <categories>
+        <category>rpc</category>
+        <category>dubbo</category>
+      </categories>
+      <tags>
+        <tag>SPI</tag>
+        <tag>dubbo</tag>
+        <tag>rpc</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>dubboSPI扩展机制基本使用，自动包装</title>
     <url>/hexoblog/md/rpc/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E6%9C%BA%E5%88%B6%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%EF%BC%8C%E8%87%AA%E5%8A%A8%E5%8C%85%E8%A3%85/</url>
     <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;DubboSPI是基于JavaSPI的一个扩展与补充。<br><a href="https://dubbo.apache.org/zh/docs/v2.7/dev/spi/">https://dubbo.apache.org/zh/docs/v2.7/dev/spi/</a></p>
@@ -6151,106 +6344,6 @@ com.lin.extendwrapper.extend.ExtendService
 <span class="token assign-left variable">ExtendService</span><span class="token operator">=</span>com.lin.extendwrapper.extend.impl.ExtendServiceImplWrapper<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>&emsp;&emsp;扩展点自动包装，会在通过ExtensionLoader获取扩展点时判断是否是包装类。如果是wrapper包装类，就是调用wrapper的service中的方法，包装后执行。</p>
-]]></content>
-      <categories>
-        <category>rpc</category>
-        <category>dubbo</category>
-      </categories>
-      <tags>
-        <tag>SPI</tag>
-        <tag>dubbo</tag>
-        <tag>rpc</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>dubboSPI扩展机制自适应</title>
-    <url>/hexoblog/md/rpc/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E6%9C%BA%E5%88%B6%E8%87%AA%E9%80%82%E5%BA%94/</url>
-    <content><![CDATA[<h1 id="扩展点自适应"><a href="#扩展点自适应" class="headerlink" title="扩展点自适应"></a>扩展点自适应</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>&emsp;&emsp;ExtensionLoader注入的依赖扩展点是一个Adaptive实例，直到扩展点方法执行时才决定调用是哪一个扩展点实现。<br>&emsp;&emsp;dubbo使用url对象传递对象信息，包含key和value。<br>&emsp;&emsp;扩展点方法调用会有URL参数（或是参数有URL成员）这样依赖的扩展点也可以从URL拿到配置信息，所有的扩展点自己定好配置的 Key后，配置信息从URL上从最外层传入。URL在配置传递上即是一条总线。</p>
-<span id="more"></span>
-<h2 id="Adaptive注解"><a href="#Adaptive注解" class="headerlink" title="@Adaptive注解"></a>@Adaptive注解</h2><p>&emsp;&emsp;表示该类是一个扩展类（Adaptive实例），不需要生成代理方法直接使用即可。<br>&emsp;&emsp;在方法上则表示该方法需生成代理, 此时就需要用到上面提到的URL参数。<br>&emsp;&emsp;如果作用在方法会帮我们在运行时动态生成一个Adaptive实例（只包含扩展方法的），如果作用在类上就相当于自己定义了一个现成的。</p>
-<h3 id="注解在实现类上"><a href="#注解在实现类上" class="headerlink" title="注解在实现类上"></a>注解在实现类上</h3><p>&emsp;&emsp;表示该类是一个扩展类，不需要生成代理方法直接使用即可。</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">// 扩展的接口</span>
-<span class="token annotation punctuation">@SPI</span>
-<span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">AdaptiveService</span> <span class="token punctuation">&#123;</span>
-    <span class="token keyword">void</span> <span class="token function">sayHello</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span>
-
-<span class="token comment">// 是扩展类</span>
-<span class="token annotation punctuation">@Adaptive</span>
-<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">AdaptiveServiceImpl</span> <span class="token keyword">implements</span> <span class="token class-name">AdaptiveService</span> <span class="token punctuation">&#123;</span>
-
-    <span class="token annotation punctuation">@Override</span>
-    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">sayHello</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
-        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"hello"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span>
-
-<span class="token comment">// 同样需要文件</span>
-<span class="token comment">// 文件名为接口全限定名</span>
-<span class="token comment">// 内容为key=value，value为实现类全限定名</span>
-<span class="token class-name">AdaptiveService</span><span class="token operator">=</span><span class="token class-name"><span class="token namespace">com<span class="token punctuation">.</span>lin<span class="token punctuation">.</span>extendAdaptive<span class="token punctuation">.</span>extend<span class="token punctuation">.</span>impl<span class="token punctuation">.</span></span>AdaptiveServiceImpl</span>
-
-<span class="token comment">// 启动类</span>
-<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ExtendAdaptiveMain</span> <span class="token punctuation">&#123;</span>
-
-    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token class-name">ExtensionLoader</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">AdaptiveService</span><span class="token punctuation">></span></span> extensionLoader <span class="token operator">=</span> <span class="token class-name">ExtensionLoader</span><span class="token punctuation">.</span><span class="token function">getExtensionLoader</span><span class="token punctuation">(</span><span class="token class-name">AdaptiveService</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token class-name">AdaptiveService</span> adaptiveExtension <span class="token operator">=</span> extensionLoader<span class="token punctuation">.</span><span class="token function">getAdaptiveExtension</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        adaptiveExtension<span class="token punctuation">.</span><span class="token function">sayHello</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h3 id="注解在接口方法上"><a href="#注解在接口方法上" class="headerlink" title="注解在接口方法上"></a>注解在接口方法上</h3><p>&emsp;&emsp;在方法上则表示该方法需生成代理, 此时就需要用到上面提到的URL参数。<br>&emsp;&emsp;当注解在接口方法上时，方法中需要传入一个URL参数，或者包装有URL参数时，会通过动态编译获得一个Adaptive实例。</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">// 接口</span>
-<span class="token annotation punctuation">@SPI</span>
-<span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">MethodAdaptiveService</span> <span class="token punctuation">&#123;</span>
-
-    <span class="token annotation punctuation">@Adaptive</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token string">"key"</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
-    <span class="token keyword">void</span> <span class="token function">sayHello</span><span class="token punctuation">(</span><span class="token class-name">URL</span> url<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span>
-
-<span class="token comment">// 实现类</span>
-<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MethodAdaptiveServiceImpl</span> <span class="token keyword">implements</span> <span class="token class-name">MethodAdaptiveService</span> <span class="token punctuation">&#123;</span>
-
-    <span class="token annotation punctuation">@Override</span>
-    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">sayHello</span><span class="token punctuation">(</span><span class="token class-name">URL</span> url<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
-        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"method"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span>
-
-<span class="token comment">// META—INF文件与注解在类上时相同</span>
-<span class="token class-name">MethodAdaptiveService</span><span class="token operator">=</span><span class="token class-name"><span class="token namespace">com<span class="token punctuation">.</span>lin<span class="token punctuation">.</span>extendAdaptive<span class="token punctuation">.</span>extend<span class="token punctuation">.</span>impl<span class="token punctuation">.</span></span>MethodAdaptiveServiceImpl</span>
-
-<span class="token comment">// 启动</span>
-    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token class-name">ExtensionLoader</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">MethodAdaptiveService</span><span class="token punctuation">></span></span> extensionLoader <span class="token operator">=</span> <span class="token class-name">ExtensionLoader</span><span class="token punctuation">.</span><span class="token function">getExtensionLoader</span><span class="token punctuation">(</span><span class="token class-name">MethodAdaptiveService</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token class-name">MethodAdaptiveService</span> adaptiveExtension <span class="token operator">=</span> extensionLoader<span class="token punctuation">.</span><span class="token function">getAdaptiveExtension</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token class-name">HashMap</span> hashMap <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashMap</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token comment">// key与接口中注解的key相同，value与文件中声明的名称相同</span>
-        hashMap<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"key"</span><span class="token punctuation">,</span><span class="token string">"MethodAdaptiveService"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token class-name">URL</span> url <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token function">URL</span><span class="token punctuation">(</span><span class="token string">"dubbo"</span><span class="token punctuation">,</span><span class="token string">"localhost"</span><span class="token punctuation">,</span><span class="token number">8080</span><span class="token punctuation">,</span>hashMap<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        adaptiveExtension<span class="token punctuation">.</span><span class="token function">sayHello</span><span class="token punctuation">(</span>url<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-
-<span class="token comment">// 生成的实例</span>
-<span class="token keyword">package</span> <span class="token namespace">com<span class="token punctuation">.</span>lin<span class="token punctuation">.</span>extendAdaptive<span class="token punctuation">.</span>extend</span><span class="token punctuation">;</span>
-<span class="token keyword">import</span> <span class="token namespace">org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>dubbo<span class="token punctuation">.</span>common<span class="token punctuation">.</span>extension<span class="token punctuation">.</span></span><span class="token class-name">ExtensionLoader</span><span class="token punctuation">;</span>
-<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MethodAdaptiveService</span>$<span class="token class-name">Adaptive</span> <span class="token keyword">implements</span> <span class="token class-name"><span class="token namespace">com<span class="token punctuation">.</span>lin<span class="token punctuation">.</span>extendAdaptive<span class="token punctuation">.</span>extend<span class="token punctuation">.</span></span>MethodAdaptiveService</span> <span class="token punctuation">&#123;</span>
-    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">sayHello</span><span class="token punctuation">(</span><span class="token class-name"><span class="token namespace">org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>dubbo<span class="token punctuation">.</span>common<span class="token punctuation">.</span></span>URL</span> arg0<span class="token punctuation">)</span>  <span class="token punctuation">&#123;</span>
-        <span class="token keyword">if</span> <span class="token punctuation">(</span>arg0 <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span>
-            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">IllegalArgumentException</span><span class="token punctuation">(</span><span class="token string">"url == null"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token class-name"><span class="token namespace">org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>dubbo<span class="token punctuation">.</span>common<span class="token punctuation">.</span></span>URL</span> url <span class="token operator">=</span> arg0<span class="token punctuation">;</span>
-        <span class="token class-name">String</span> extName <span class="token operator">=</span> url<span class="token punctuation">.</span><span class="token function">getParameter</span><span class="token punctuation">(</span><span class="token string">"key"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">if</span><span class="token punctuation">(</span>extName <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span>
-            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">IllegalStateException</span><span class="token punctuation">(</span><span class="token string">"Failed to get extension (com.lin.extendAdaptive.extend.MethodAdaptiveService) name from url ("</span> <span class="token operator">+</span> url<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">") use keys([key])"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token class-name"><span class="token namespace">com<span class="token punctuation">.</span>lin<span class="token punctuation">.</span>extendAdaptive<span class="token punctuation">.</span>extend<span class="token punctuation">.</span></span>MethodAdaptiveService</span> extension <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token namespace">com<span class="token punctuation">.</span>lin<span class="token punctuation">.</span>extendAdaptive<span class="token punctuation">.</span>extend<span class="token punctuation">.</span></span>MethodAdaptiveService</span><span class="token punctuation">)</span><span class="token class-name">ExtensionLoader</span><span class="token punctuation">.</span><span class="token function">getExtensionLoader</span><span class="token punctuation">(</span><span class="token class-name"><span class="token namespace">com<span class="token punctuation">.</span>lin<span class="token punctuation">.</span>extendAdaptive<span class="token punctuation">.</span>extend<span class="token punctuation">.</span></span>MethodAdaptiveService</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getExtension</span><span class="token punctuation">(</span>extName<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        extension<span class="token punctuation">.</span><span class="token function">sayHello</span><span class="token punctuation">(</span>url<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">,</span> dubbo version<span class="token operator">:</span> <span class="token number">2.7</span><span class="token number">.1</span><span class="token punctuation">,</span> current host<span class="token operator">:</span> <span class="token number">192.168</span><span class="token number">.139</span><span class="token number">.15</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>&emsp;&emsp;程序运行时，会经过动态编译过程生成MethodAdaptiveService对应的Adaptive实例，即MethodAdaptiveService$Adaptive。<br>&emsp;&emsp;就是在程序运行过程中，根据条件，通过拼接字符串的形式生成java源码，然后进行编译获得对应的实例。</p>
-<hr>
-<h1 id="扩展点自动注入"><a href="#扩展点自动注入" class="headerlink" title="扩展点自动注入"></a>扩展点自动注入</h1><p>有bug稍后。</p>
 ]]></content>
       <categories>
         <category>rpc</category>
