@@ -59,6 +59,52 @@
   </entry>
   
   <entry>
+    <title>同花顺二面面经</title>
+    <link href="https://linqiankun.github.io/hexoblog/%E9%9D%A2%E7%BB%8F/%E5%90%8C%E8%8A%B1%E9%A1%BA%E4%BA%8C%E9%9D%A2%E9%9D%A2%E7%BB%8F/"/>
+    <id>https://linqiankun.github.io/hexoblog/%E9%9D%A2%E7%BB%8F/%E5%90%8C%E8%8A%B1%E9%A1%BA%E4%BA%8C%E9%9D%A2%E9%9D%A2%E7%BB%8F/</id>
+    <published>2021-07-23T09:51:59.000Z</published>
+    <updated>2021-07-25T08:18:35.820Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span><p>写面经，攒人品</p>]]></content>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;面经&quot;&gt;&lt;a href=&quot;#面经&quot; class=&quot;headerlink&quot; title=&quot;面经&quot;&gt;&lt;/a&gt;面经&lt;/h1&gt;</summary>
+    
+    
+    
+    <category term="面经" scheme="https://linqiankun.github.io/hexoblog/categories/%E9%9D%A2%E7%BB%8F/"/>
+    
+    
+    <category term="面经" scheme="https://linqiankun.github.io/hexoblog/tags/%E9%9D%A2%E7%BB%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>索引的优缺点</title>
+    <link href="https://linqiankun.github.io/hexoblog/md/mysql/%E7%B4%A2%E5%BC%95%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9/"/>
+    <id>https://linqiankun.github.io/hexoblog/md/mysql/%E7%B4%A2%E5%BC%95%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9/</id>
+    <published>2021-07-22T06:53:37.000Z</published>
+    <updated>2021-07-22T07:20:59.769Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h1><p>&emsp;&emsp;索引的作用在于创建索引能大大提高系统的性能。</p><span id="more"></span><hr><h1 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h1><ul><li>通过创建唯一性索引，可以保证数据库表中每一行数据的唯一性</li><li>大大加快数据的检索速度，这也是创建索引的最主要原因</li><li>加快表与表之间的连接，在实现数据的参考完整性方面特别有意义</li><li>在使用分组和排序，子句进行数据检索时，同样可以显著减少查询中分组和排序的时间</li><li>通过使用索引，可以在查询的过程中，使用优化隐藏器，提高系统的性能。</li></ul><hr><h1 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h1><ul><li>创建索引和维护索引需要时间，这种时间随着数据量的增加而增加</li><li>索引需要占物理空间，除了数据表占数据空间之外，每一个索引还要占物理空间，如果要建立聚簇索引，需要的空间更大</li><li>当对表中的数据进行增加、删除和修改的时候，索引也要动态的维护，这就降低了数据的维护速度。</li></ul>]]></content>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;索引&quot;&gt;&lt;a href=&quot;#索引&quot; class=&quot;headerlink&quot; title=&quot;索引&quot;&gt;&lt;/a&gt;索引&lt;/h1&gt;&lt;p&gt;&amp;emsp;&amp;emsp;索引的作用在于创建索引能大大提高系统的性能。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="数据库" scheme="https://linqiankun.github.io/hexoblog/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+    <category term="mysql" scheme="https://linqiankun.github.io/hexoblog/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql/"/>
+    
+    
+    <category term="mysql" scheme="https://linqiankun.github.io/hexoblog/tags/mysql/"/>
+    
+    <category term="数据库" scheme="https://linqiankun.github.io/hexoblog/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+  </entry>
+  
+  <entry>
     <title>大华一面面经</title>
     <link href="https://linqiankun.github.io/hexoblog/%E9%9D%A2%E7%BB%8F/answer/%E5%A4%A7%E5%8D%8E%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/"/>
     <id>https://linqiankun.github.io/hexoblog/%E9%9D%A2%E7%BB%8F/answer/%E5%A4%A7%E5%8D%8E%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/</id>
@@ -84,9 +130,9 @@
     <link href="https://linqiankun.github.io/hexoblog/%E9%9D%A2%E7%BB%8F/%E5%90%8C%E8%8A%B1%E9%A1%BA%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/"/>
     <id>https://linqiankun.github.io/hexoblog/%E9%9D%A2%E7%BB%8F/%E5%90%8C%E8%8A%B1%E9%A1%BA%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/</id>
     <published>2021-07-21T01:49:24.000Z</published>
-    <updated>2021-07-21T03:31:43.045Z</updated>
+    <updated>2021-07-25T08:17:45.006Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span><p>写面经，攒人品</p><ol><li>自我介绍</li><li>jvm<ol><li>堆内存溢出<ol><li>怎么快速的堆内存溢出</li><li>溢出怎么防止</li><li>为什么会堆内存溢出</li><li>不段创建String对象，和不断创建线程造成溢出的区别？</li><li>怎么分析，dump内存文件</li><li>分析hprof文件，有那些内容</li></ol></li><li>栈指针溢出<ol><li>怎么快速的栈指针溢出</li><li>怎么防止</li><li>为什么会栈指针溢出</li></ol></li><li>垃圾回收器<ol><li>你们用的垃圾回收器</li><li>你知道的垃圾回收器</li><li>讲一讲过程，区别（CMS，G1）</li></ol></li></ol></li><li>redis分布式锁实现</li><li>mysql索引，为什么需要索引，自己的理解</li><li>你们数据量级，一次处理的数据量</li><li>线程池，几个核心参数的作用，不背原理</li><li>hashmap和hashtable的区别</li><li>dubbo如何实现高可用的</li><li>反问</li></ol><hr><h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1>]]></content>
+    <content type="html"><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span><p>写面经，攒人品</p><ol><li>自我介绍</li><li>jvm<ol><li>堆内存溢出<ol><li>怎么快速的堆内存溢出</li><li>溢出怎么防止</li><li>为什么会堆内存溢出</li><li>不段创建String对象，和不断创建线程造成溢出的区别？</li><li>怎么分析，dump内存文件</li><li>分析hprof文件，有那些内容</li></ol></li><li>栈指针溢出<ol><li>怎么快速的栈指针溢出</li><li>怎么防止</li><li>为什么会栈指针溢出</li></ol></li><li>垃圾回收器<ol><li>你们用的垃圾回收器</li><li>你知道的垃圾回收器</li><li>讲一讲过程，区别（CMS，G1）</li></ol></li></ol></li><li>redis分布式锁实现</li><li>mysql索引，为什么需要索引，自己的理解</li><li>mysql索引的数据结构</li><li>你们数据量级，一次处理的数据量</li><li>线程池，几个核心参数的作用，不背原理</li><li>hashmap和hashtable的区别</li><li>dubbo如何实现高可用的</li><li>反问</li></ol><hr><h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="redis分布式锁的实现"><a href="#redis分布式锁的实现" class="headerlink" title="redis分布式锁的实现"></a>redis分布式锁的实现</h2><ul><li><a href="../md/redis/redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81.md">reids分布式锁</a></li><li><a href="../md/%E5%88%86%E5%B8%83%E5%BC%8F/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81.md">分布式锁</a></li></ul><h2 id="mysql索引，为什么需要索引"><a href="#mysql索引，为什么需要索引" class="headerlink" title="mysql索引，为什么需要索引"></a>mysql索引，为什么需要索引</h2><ul><li><a href="https://www.yuque.com/jiufenshiren/ra5mzi/aoz98d">mysql索引</a></li><li><a href="../md/mysql/%E7%B4%A2%E5%BC%95%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9.md">索引的优缺点</a></li></ul><p>&emsp;&emsp;mysql索引的最大最用就在于提高查询效率，原理在数据结构中，索引在提高查询效率的同时降低了修改的效率。  </p><h2 id="mysql索引的数据结构"><a href="#mysql索引的数据结构" class="headerlink" title="mysql索引的数据结构"></a>mysql索引的数据结构</h2><p>&emsp;&emsp;索引数据的组织结构和数据的组织结构是一样的，都是B+树的结构，区别在于他们的叶子节点所存储的数据，数据存储文件中叶子节点中存储着主键索引和表中的数据，而索引保存文件中，叶子节点则存储着索引字段以及对应的主键id值。<br>&emsp;&emsp;当通过素引进行查询时，会先根据索引查询出主键id的值，在在数据保存文件中，根据id查出所需要的数据，这个过程叫做回表。</p><h2 id="线程池理解（corepoolsize）"><a href="#线程池理解（corepoolsize）" class="headerlink" title="线程池理解（corepoolsize）"></a>线程池理解（corepoolsize）</h2><ul><li><a href="../md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/threadpool.md">threadpool</a></li><li><a href="https://www.yuque.com/jiufenshiren/ra5mzi/egl1t0">threadpool</a><br>&emsp;&emsp;个人理解，核心线程数，就相当于车间里面的流水线数，就是正常情况下运行的流水线数，最大的线程数，就是再有紧急订单的情况下，我们在正常的流水线上，扩充到的流水线数。</li></ul><h2 id="hashmap和hashtable"><a href="#hashmap和hashtable" class="headerlink" title="hashmap和hashtable"></a>hashmap和hashtable</h2><p>&emsp;&emsp;hashmap和hashtable的区别有几点：</p><ul><li>继承和实现方式不同<ul><li>hashmap实现的是map接口</li><li>hashtable实现的是map接口继承的Dictionary类</li></ul></li><li>线程安全不同<ul><li>hashmap线程不安全</li><li>hashtable线程安全，在每个方法中都加入Synchronize方法。</li></ul></li><li>对null的处理不同<ul><li>hashtable键与值均不允许null</li><li>hashmap均可以null，null为键只会有一个</li></ul></li><li>支持的遍历种类不同<ul><li>Hashtable、HashMap都使用了Iterator。</li><li>而由于历史原因，Hashtable还使用了Enumeration的方式 。</li></ul></li><li>通过Iterator迭代器遍历时，遍历的顺序不同<ul><li>hashmap采用fail-fast机制</li><li>hashtable在1.8以后才用了fail-fast机制</li></ul></li><li>容量的初始值和增加方式都不一样<ul><li>hashmap初始16，扩容为2倍</li><li>hashtable为11，扩容为2*N+1</li></ul></li><li>添加key-value时的hash值算法不同<ul><li>haspmap采用key的hashcode确定位置</li><li>hashtable采用对象的hashcode，然后对长度才用除留余数法确定位置</li></ul></li></ul><h2 id="dubbo如何实现高可用"><a href="#dubbo如何实现高可用" class="headerlink" title="dubbo如何实现高可用"></a>dubbo如何实现高可用</h2><p>&emsp;&emsp;dubbo通过一系列手段实现了，高可用。</p><ul><li>zookeeper宕机与dubbo直连<ul><li>zookeeper注册中心宕机，还可以消费dubbo暴露的服务<ul><li>监控中心宕掉不影响使用，只是丢失部分采样数据</li><li>数据库宕掉后，注册中心仍能通过缓存提供服务列表查询，但不能注册新服务</li><li>注册中心对等集群，任意一台宕掉后，将自动切换到另一台</li><li>注册中心全部宕机后，可以通过本地缓存进行通信，（直连）</li><li>服务提供者无状态，任意一台宕掉后，不影响使用</li><li>服务提供者全部宕掉后，服务消费者应用将无法使用，并无限次重连等待服务提供者恢复</li></ul></li></ul></li><li>集群下的负载均衡<ul><li>带权重的随机</li><li>带权重的轮询</li><li>最少活跃数</li><li>一致性hash</li></ul></li><li>服务降级</li><li>集群容错机制<ul><li>Failover Cluster：失败自动切换</li><li>Failfast Cluster：快速失败，失败则立即报错</li><li>Failsafe Cluster：安全失败，失败就会忽略</li><li>Failback Cluster：失败自动恢复，会定时重发</li><li>Forking Cluster：并行调用，只需一个成功返回</li><li>Broadcast Cluster：广播调用，逐个调用每个提供者，任意一台报错则报错</li></ul></li></ul><h2 id="JVM"><a href="#JVM" class="headerlink" title="JVM"></a>JVM</h2><h3 id="堆内存溢出"><a href="#堆内存溢出" class="headerlink" title="堆内存溢出"></a>堆内存溢出</h3><h4 id="怎么快速的堆内存溢出？"><a href="#怎么快速的堆内存溢出？" class="headerlink" title="怎么快速的堆内存溢出？"></a>怎么快速的堆内存溢出？</h4><p>&emsp;&emsp;通过jvm参数去设置堆内存大小，然后再循环里面不断的创建线程，直到报OutOfMemory异常。</p><h4 id="堆内存溢出怎么防止？"><a href="#堆内存溢出怎么防止？" class="headerlink" title="堆内存溢出怎么防止？"></a>堆内存溢出怎么防止？</h4><h4 id="为什么会堆内存溢出？"><a href="#为什么会堆内存溢出？" class="headerlink" title="为什么会堆内存溢出？"></a>为什么会堆内存溢出？</h4><h4 id="不断创建String和不断创建线程造成内存溢出的区别？"><a href="#不断创建String和不断创建线程造成内存溢出的区别？" class="headerlink" title="不断创建String和不断创建线程造成内存溢出的区别？"></a>不断创建String和不断创建线程造成内存溢出的区别？</h4><h4 id="怎么分析，dump内存文件"><a href="#怎么分析，dump内存文件" class="headerlink" title="怎么分析，dump内存文件"></a>怎么分析，dump内存文件</h4><h4 id="hprof文件有哪些内容？"><a href="#hprof文件有哪些内容？" class="headerlink" title="hprof文件有哪些内容？"></a>hprof文件有哪些内容？</h4><h3 id="栈指针溢出"><a href="#栈指针溢出" class="headerlink" title="栈指针溢出"></a>栈指针溢出</h3><h4 id="怎么快速栈指针溢出？"><a href="#怎么快速栈指针溢出？" class="headerlink" title="怎么快速栈指针溢出？"></a>怎么快速栈指针溢出？</h4><p>&emsp;&emsp;通过死循环内调用方法，或者递归没有出口，无限递归，造成StackOverFlow异常。</p><h4 id="怎么防止栈指针溢出？"><a href="#怎么防止栈指针溢出？" class="headerlink" title="怎么防止栈指针溢出？"></a>怎么防止栈指针溢出？</h4><h4 id="为什么为栈指针溢出？"><a href="#为什么为栈指针溢出？" class="headerlink" title="为什么为栈指针溢出？"></a>为什么为栈指针溢出？</h4><h3 id="垃圾回收器"><a href="#垃圾回收器" class="headerlink" title="垃圾回收器"></a>垃圾回收器</h3><h4 id="你们用的垃圾回收器？你知道的垃圾回收器？CMS和G1的区别？"><a href="#你们用的垃圾回收器？你知道的垃圾回收器？CMS和G1的区别？" class="headerlink" title="你们用的垃圾回收器？你知道的垃圾回收器？CMS和G1的区别？"></a>你们用的垃圾回收器？你知道的垃圾回收器？CMS和G1的区别？</h4><ul><li><a href="../md/jvm/JVM%E2%80%94GC.md">JVM-GC</a></li></ul>]]></content>
     
     
     <summary type="html">&lt;h1 id=&quot;面经&quot;&gt;&lt;a href=&quot;#面经&quot; class=&quot;headerlink&quot; title=&quot;面经&quot;&gt;&lt;/a&gt;面经&lt;/h1&gt;</summary>
@@ -218,12 +264,12 @@
   
   <entry>
     <title>信也科技（拍拍贷）一面面经</title>
-    <link href="https://linqiankun.github.io/hexoblog/%E9%9D%A2%E7%BB%8F/%E4%BF%A1%E4%B9%9F%E7%A7%91%E6%8A%80%EF%BC%88%E6%8B%8D%E6%8B%8D%E8%B4%B7%EF%BC%89%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/"/>
-    <id>https://linqiankun.github.io/hexoblog/%E9%9D%A2%E7%BB%8F/%E4%BF%A1%E4%B9%9F%E7%A7%91%E6%8A%80%EF%BC%88%E6%8B%8D%E6%8B%8D%E8%B4%B7%EF%BC%89%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/</id>
+    <link href="https://linqiankun.github.io/hexoblog/%E9%9D%A2%E7%BB%8F/answer/%E4%BF%A1%E4%B9%9F%E7%A7%91%E6%8A%80%EF%BC%88%E6%8B%8D%E6%8B%8D%E8%B4%B7%EF%BC%89%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/"/>
+    <id>https://linqiankun.github.io/hexoblog/%E9%9D%A2%E7%BB%8F/answer/%E4%BF%A1%E4%B9%9F%E7%A7%91%E6%8A%80%EF%BC%88%E6%8B%8D%E6%8B%8D%E8%B4%B7%EF%BC%89%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/</id>
     <published>2021-07-09T08:49:43.000Z</published>
-    <updated>2021-07-12T08:09:35.275Z</updated>
+    <updated>2021-07-25T08:29:00.209Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span><p>写面经，攒人品</p><ol><li>项目介绍</li><li>业务介绍</li><li>dubbo服务调用流程</li><li>redis分布式锁实现</li><li>shiro<ol><li>shiro用到那些表</li><li>登录的实现原理</li></ol></li><li>小项目的介绍</li></ol><hr><h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="dubbo服务调用流程"><a href="#dubbo服务调用流程" class="headerlink" title="dubbo服务调用流程"></a>dubbo服务调用流程</h2><p>&emsp;&emsp;<a href="../../md/rpc/dubbo/dubbo%E6%9C%8D%E5%8A%A1%E8%B0%83%E7%94%A8%E8%BF%87%E7%A8%8B">dubbo服务调用过程</a><br>&emsp;&emsp;<a href="../../md/rpc/dubbo/dubbo%E6%9C%8D%E5%8A%A1%E5%90%AF%E5%8A%A8%E6%9A%B4%E9%9C%B2%E8%BF%87%E7%A8%8B">dubbo服务启动暴露过程</a><br>&emsp;&emsp;<a href="../../md/rpc/dubbo/dubbo%E6%9C%8D%E5%8A%A1%E5%BC%95%E5%85%A5%E6%B5%81%E7%A8%8B">dubbo服务引入流程</a></p><h2 id="redis分布式锁实现"><a href="#redis分布式锁实现" class="headerlink" title="redis分布式锁实现"></a>redis分布式锁实现</h2><p>&emsp;&emsp;<a href="../../md/redis/redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81">redis分布式锁</a></p><h2 id="shiro"><a href="#shiro" class="headerlink" title="shiro"></a>shiro</h2>]]></content>
+    <content type="html"><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span><p>写面经，攒人品</p><ol><li>项目介绍</li><li>业务介绍</li><li>dubbo服务调用流程</li><li>redis分布式锁实现</li><li>shiro<ol><li>shiro用到那些表</li><li>登录的实现原理</li></ol></li><li>小项目的介绍</li></ol><hr><h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="dubbo服务调用流程"><a href="#dubbo服务调用流程" class="headerlink" title="dubbo服务调用流程"></a>dubbo服务调用流程</h2><p>&emsp;&emsp;<a href="../../../md/rpc/dubbo/dubbo%E6%9C%8D%E5%8A%A1%E8%B0%83%E7%94%A8%E8%BF%87%E7%A8%8B">dubbo服务调用过程</a><br>&emsp;&emsp;<a href="../../../md/rpc/dubbo/dubbo%E6%9C%8D%E5%8A%A1%E5%90%AF%E5%8A%A8%E6%9A%B4%E9%9C%B2%E8%BF%87%E7%A8%8B">dubbo服务启动暴露过程</a><br>&emsp;&emsp;<a href="../../../md/rpc/dubbo/dubbo%E6%9C%8D%E5%8A%A1%E5%BC%95%E5%85%A5%E6%B5%81%E7%A8%8B">dubbo服务引入流程</a></p><h2 id="redis分布式锁实现"><a href="#redis分布式锁实现" class="headerlink" title="redis分布式锁实现"></a>redis分布式锁实现</h2><p>&emsp;&emsp;<a href="../../../md/redis/redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81">redis分布式锁</a></p><h2 id="shiro"><a href="#shiro" class="headerlink" title="shiro"></a>shiro</h2><h3 id="shiro用到了那些表？"><a href="#shiro用到了那些表？" class="headerlink" title="shiro用到了那些表？"></a>shiro用到了那些表？</h3><p>&emsp;&emsp;shiro中将权限系统分为了用户，角色，权限三个维度。要使用到一些表：</p><ul><li>用户表</li><li>角色表</li><li>资源表（权限表）</li><li>用户角色关联表</li><li>角色权限关联表</li><li>用户登录信息表（自己扩展）</li></ul><p>&emsp;&emsp;通过这种方式可以比较精细的将权限控制到每个页面，每个按钮。</p><h3 id="登录的实现原理？"><a href="#登录的实现原理？" class="headerlink" title="登录的实现原理？"></a>登录的实现原理？</h3><p>&emsp;&emsp;配合shiro可以有多种实现原理。</p><ul><li>shiro+token+inteceptor</li><li>shiro+session</li></ul><p>&emsp;&emsp;还可以搭配其他的手段实现，jwt，oauth2等，都可以进行集成。</p>]]></content>
     
     
     <summary type="html">&lt;h1 id=&quot;面经&quot;&gt;&lt;a href=&quot;#面经&quot; class=&quot;headerlink&quot; title=&quot;面经&quot;&gt;&lt;/a&gt;面经&lt;/h1&gt;</summary>
@@ -430,54 +476,6 @@
     <category term="分布式" scheme="https://linqiankun.github.io/hexoblog/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
     
     <category term="幂等" scheme="https://linqiankun.github.io/hexoblog/tags/%E5%B9%82%E7%AD%89/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>深圳雪球科技（NFC）一面面经</title>
-    <link href="https://linqiankun.github.io/hexoblog/%E9%9D%A2%E7%BB%8F/answer/%E6%B7%B1%E5%9C%B3%E9%9B%AA%E7%90%83%E7%A7%91%E6%8A%80%EF%BC%88NFC%EF%BC%89%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/"/>
-    <id>https://linqiankun.github.io/hexoblog/%E9%9D%A2%E7%BB%8F/answer/%E6%B7%B1%E5%9C%B3%E9%9B%AA%E7%90%83%E7%A7%91%E6%8A%80%EF%BC%88NFC%EF%BC%89%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/</id>
-    <published>2021-06-25T10:20:43.000Z</published>
-    <updated>2021-07-21T05:49:13.215Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span><p>写面经，攒人品</p><ol><li>自我介绍</li><li>项目介绍</li><li>dubbo中如何找到调用的节点（服务调用过程）</li><li>zookeeper的选举机制</li><li>redis分布式锁原理</li><li>12306设计（自己关注点问题，感觉防止超卖）<ol><li>很多人抢票中的问题</li></ol></li><li>事务的隔离级别</li><li>用过oracle吗（没有）</li><li>你们用的隔离级别</li><li>一个事务读了数据，另一个修改了，再去读会，会不一样，这是那个级别会发生的问题</li><li>反问（公司规模，具体业务）</li></ol><p><img src="https://raw.githubusercontent.com/LinQiankun/picurl/main/java%E5%86%99%E9%9D%A2%E7%BB%8F%EF%BC%8C%E6%94%92%E4%BA%BA%E5%93%81_00.jpg" alt="写面经，攒人品"></p><hr><h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="dubbo中如何找到调用的节点"><a href="#dubbo中如何找到调用的节点" class="headerlink" title="dubbo中如何找到调用的节点"></a>dubbo中如何找到调用的节点</h2><p>&emsp;&emsp;这个过程应该分为两步，第一步是服务发现，第二步是负载均衡选取节点。  </p><ul><li><a href="../../../md/rpc/dubbo/dubbo%E6%9C%8D%E5%8A%A1%E5%90%AF%E5%8A%A8%E6%9A%B4%E9%9C%B2%E8%BF%87%E7%A8%8B">dubbo服务启动暴露过程</a>  </li><li><a href="../../../md/rpc/dubbo/dubbo%E6%9C%8D%E5%8A%A1%E5%BC%95%E5%85%A5%E6%B5%81%E7%A8%8B">dubbo服务引入流程</a>  </li><li><a href="../../../md/rpc/dubbo/dubbo%E6%9C%8D%E5%8A%A1%E8%B0%83%E7%94%A8%E8%BF%87%E7%A8%8B">dubbo服务调用过程</a>  </li></ul><p>&emsp;&emsp;服务发现，就是获取到可调用的节点后，负载均衡过程中会根据一些算法去选择某一个节点调用，具体的算法一般有：</p><ul><li>随机</li><li>轮询</li><li>一致性hash</li></ul><h2 id="zookeeper的选举机制"><a href="#zookeeper的选举机制" class="headerlink" title="zookeeper的选举机制"></a>zookeeper的选举机制</h2><ul><li><a href="../../../md/zookeeper/ZAB%E5%8D%8F%E8%AE%AE">ZAB协议</a></li><li><a href="../../../md/zookeeper/zookeeper-leader%E9%80%89%E4%B8%BE">zookeeper-leader选举</a></li></ul><h2 id="redis分布式锁原理"><a href="#redis分布式锁原理" class="headerlink" title="redis分布式锁原理"></a>redis分布式锁原理</h2><ul><li><a href="../../../md/redis/redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81">redis分布式锁</a></li></ul><h2 id="事务的隔离级别"><a href="#事务的隔离级别" class="headerlink" title="事务的隔离级别"></a>事务的隔离级别</h2><ul><li><a href="https://www.yuque.com/jiufenshiren/ra5mzi/iarni8">mysql中的事务</a></li></ul>]]></content>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;面经&quot;&gt;&lt;a href=&quot;#面经&quot; class=&quot;headerlink&quot; title=&quot;面经&quot;&gt;&lt;/a&gt;面经&lt;/h1&gt;</summary>
-    
-    
-    
-    <category term="面经" scheme="https://linqiankun.github.io/hexoblog/categories/%E9%9D%A2%E7%BB%8F/"/>
-    
-    <category term="answer" scheme="https://linqiankun.github.io/hexoblog/categories/%E9%9D%A2%E7%BB%8F/answer/"/>
-    
-    
-    <category term="面经" scheme="https://linqiankun.github.io/hexoblog/tags/%E9%9D%A2%E7%BB%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>B+树</title>
-    <link href="https://linqiankun.github.io/hexoblog/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/B+%E6%A0%91/"/>
-    <id>https://linqiankun.github.io/hexoblog/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/B+%E6%A0%91/</id>
-    <published>2021-06-24T02:09:57.000Z</published>
-    <updated>2021-06-24T08:17:38.550Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h1 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h1&gt;&lt;p&gt;&amp;emsp;&amp;emsp;&lt;/p&gt;
-</summary>
-      
-    
-    
-    
-    <category term="数据结构" scheme="https://linqiankun.github.io/hexoblog/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
-    
-    
-    <category term="数据结构" scheme="https://linqiankun.github.io/hexoblog/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
     
   </entry>
   
