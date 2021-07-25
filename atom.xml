@@ -109,7 +109,7 @@
     <link href="https://linqiankun.github.io/hexoblog/%E9%9D%A2%E7%BB%8F/answer/%E5%A4%A7%E5%8D%8E%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/"/>
     <id>https://linqiankun.github.io/hexoblog/%E9%9D%A2%E7%BB%8F/answer/%E5%A4%A7%E5%8D%8E%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/</id>
     <published>2021-07-21T01:52:29.000Z</published>
-    <updated>2021-07-21T05:40:51.968Z</updated>
+    <updated>2021-07-25T09:14:41.194Z</updated>
     
     <content type="html"><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span><p>写面经，攒人品</p><ol><li>自我介绍</li><li>jvm类的加载过程？</li><li>dubbo如何做选举的？</li><li>了解的设计模式，spring用的设计模式？</li><li>还了解那些设计模式？</li><li>springboot里面的listener？</li><li>代理模式与AOP？</li><li>redis主从复制与哨兵模式？</li><li>分布式事务实现？</li><li>syncnorized和ReentrantLock的区别？</li><li>反问</li></ol><hr><h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="jvm类的加载过程"><a href="#jvm类的加载过程" class="headerlink" title="jvm类的加载过程"></a>jvm类的加载过程</h2><ul><li><a href="../../../md/java/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6">类加载机制</a>  </li><li><a href="https://www.yuque.com/jiufenshiren/ra5mzi/dvd9gz">类加载机制</a></li></ul><h2 id="dubbo如何做选举的"><a href="#dubbo如何做选举的" class="headerlink" title="dubbo如何做选举的"></a>dubbo如何做选举的</h2><p>&emsp;&emsp;这里的选举并不是zk的选举，而是服务消费方获取到提供方节点后，根据负载均衡算法选择某台机器进行远程调用。常见的负载均衡算法有：  </p><ul><li>轮询</li><li>随机</li><li>一致性Hash</li></ul><h2 id="spring用到的设计模式？"><a href="#spring用到的设计模式？" class="headerlink" title="spring用到的设计模式？"></a>spring用到的设计模式？</h2><ul><li>单例模式</li><li>工厂模式</li><li>代理模式</li><li>等</li></ul><h2 id="还了解那些设计模式？"><a href="#还了解那些设计模式？" class="headerlink" title="还了解那些设计模式？"></a>还了解那些设计模式？</h2><ul><li>模板方法模式</li><li>建造者模式</li><li>策略模式</li></ul><h2 id="springboot里面的listener？"><a href="#springboot里面的listener？" class="headerlink" title="springboot里面的listener？"></a>springboot里面的listener？</h2><h2 id="代理模式与AOP？"><a href="#代理模式与AOP？" class="headerlink" title="代理模式与AOP？"></a>代理模式与AOP？</h2><p>&emsp;&emsp;代理模式分为静态代理，动态代理，动态代理又可分为很多种，jdk，cglib等。<br>&emsp;&emsp;AOP是面向切面编程，其中用到了动态代理。</p><h2 id="redis主从复制与哨兵模式？"><a href="#redis主从复制与哨兵模式？" class="headerlink" title="redis主从复制与哨兵模式？"></a>redis主从复制与哨兵模式？</h2><ul><li><a href="https://www.yuque.com/jiufenshiren/ra5mzi/haaf3c">redis的高可用方案</a></li></ul><h2 id="分布式事务的实现"><a href="#分布式事务的实现" class="headerlink" title="分布式事务的实现"></a>分布式事务的实现</h2><ul><li><a href="../../../md/%E5%88%86%E5%B8%83%E5%BC%8F/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1">分布式事务</a>  </li><li><a href="https://www.yuque.com/jiufenshiren/ra5mzi/fwl3rv">分布式事务</a></li></ul><h2 id="syncnorized和ReentrantLock的区别？"><a href="#syncnorized和ReentrantLock的区别？" class="headerlink" title="syncnorized和ReentrantLock的区别？"></a>syncnorized和ReentrantLock的区别？</h2><ul><li><a href="https://www.yuque.com/jiufenshiren/ra5mzi/rc3ofp">syncnorized</a></li></ul>]]></content>
     
@@ -119,6 +119,8 @@
     
     
     <category term="面经" scheme="https://linqiankun.github.io/hexoblog/categories/%E9%9D%A2%E7%BB%8F/"/>
+    
+    <category term="answer" scheme="https://linqiankun.github.io/hexoblog/categories/%E9%9D%A2%E7%BB%8F/answer/"/>
     
     
     <category term="面经" scheme="https://linqiankun.github.io/hexoblog/tags/%E9%9D%A2%E7%BB%8F/"/>
@@ -267,7 +269,7 @@
     <link href="https://linqiankun.github.io/hexoblog/%E9%9D%A2%E7%BB%8F/answer/%E4%BF%A1%E4%B9%9F%E7%A7%91%E6%8A%80%EF%BC%88%E6%8B%8D%E6%8B%8D%E8%B4%B7%EF%BC%89%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/"/>
     <id>https://linqiankun.github.io/hexoblog/%E9%9D%A2%E7%BB%8F/answer/%E4%BF%A1%E4%B9%9F%E7%A7%91%E6%8A%80%EF%BC%88%E6%8B%8D%E6%8B%8D%E8%B4%B7%EF%BC%89%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/</id>
     <published>2021-07-09T08:49:43.000Z</published>
-    <updated>2021-07-25T08:29:00.209Z</updated>
+    <updated>2021-07-25T09:15:06.749Z</updated>
     
     <content type="html"><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span><p>写面经，攒人品</p><ol><li>项目介绍</li><li>业务介绍</li><li>dubbo服务调用流程</li><li>redis分布式锁实现</li><li>shiro<ol><li>shiro用到那些表</li><li>登录的实现原理</li></ol></li><li>小项目的介绍</li></ol><hr><h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="dubbo服务调用流程"><a href="#dubbo服务调用流程" class="headerlink" title="dubbo服务调用流程"></a>dubbo服务调用流程</h2><p>&emsp;&emsp;<a href="../../../md/rpc/dubbo/dubbo%E6%9C%8D%E5%8A%A1%E8%B0%83%E7%94%A8%E8%BF%87%E7%A8%8B">dubbo服务调用过程</a><br>&emsp;&emsp;<a href="../../../md/rpc/dubbo/dubbo%E6%9C%8D%E5%8A%A1%E5%90%AF%E5%8A%A8%E6%9A%B4%E9%9C%B2%E8%BF%87%E7%A8%8B">dubbo服务启动暴露过程</a><br>&emsp;&emsp;<a href="../../../md/rpc/dubbo/dubbo%E6%9C%8D%E5%8A%A1%E5%BC%95%E5%85%A5%E6%B5%81%E7%A8%8B">dubbo服务引入流程</a></p><h2 id="redis分布式锁实现"><a href="#redis分布式锁实现" class="headerlink" title="redis分布式锁实现"></a>redis分布式锁实现</h2><p>&emsp;&emsp;<a href="../../../md/redis/redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81">redis分布式锁</a></p><h2 id="shiro"><a href="#shiro" class="headerlink" title="shiro"></a>shiro</h2><h3 id="shiro用到了那些表？"><a href="#shiro用到了那些表？" class="headerlink" title="shiro用到了那些表？"></a>shiro用到了那些表？</h3><p>&emsp;&emsp;shiro中将权限系统分为了用户，角色，权限三个维度。要使用到一些表：</p><ul><li>用户表</li><li>角色表</li><li>资源表（权限表）</li><li>用户角色关联表</li><li>角色权限关联表</li><li>用户登录信息表（自己扩展）</li></ul><p>&emsp;&emsp;通过这种方式可以比较精细的将权限控制到每个页面，每个按钮。</p><h3 id="登录的实现原理？"><a href="#登录的实现原理？" class="headerlink" title="登录的实现原理？"></a>登录的实现原理？</h3><p>&emsp;&emsp;配合shiro可以有多种实现原理。</p><ul><li>shiro+token+inteceptor</li><li>shiro+session</li></ul><p>&emsp;&emsp;还可以搭配其他的手段实现，jwt，oauth2等，都可以进行集成。</p>]]></content>
     
@@ -277,6 +279,8 @@
     
     
     <category term="面经" scheme="https://linqiankun.github.io/hexoblog/categories/%E9%9D%A2%E7%BB%8F/"/>
+    
+    <category term="answer" scheme="https://linqiankun.github.io/hexoblog/categories/%E9%9D%A2%E7%BB%8F/answer/"/>
     
     
     <category term="面经" scheme="https://linqiankun.github.io/hexoblog/tags/%E9%9D%A2%E7%BB%8F/"/>
@@ -383,12 +387,12 @@
   
   <entry>
     <title>深圳雪球科技（NFC）二面面经</title>
-    <link href="https://linqiankun.github.io/hexoblog/%E9%9D%A2%E7%BB%8F/%E6%B7%B1%E5%9C%B3%E9%9B%AA%E7%90%83%E7%A7%91%E6%8A%80%EF%BC%88NFC%EF%BC%89%E4%BA%8C%E9%9D%A2%E9%9D%A2%E7%BB%8F/"/>
-    <id>https://linqiankun.github.io/hexoblog/%E9%9D%A2%E7%BB%8F/%E6%B7%B1%E5%9C%B3%E9%9B%AA%E7%90%83%E7%A7%91%E6%8A%80%EF%BC%88NFC%EF%BC%89%E4%BA%8C%E9%9D%A2%E9%9D%A2%E7%BB%8F/</id>
+    <link href="https://linqiankun.github.io/hexoblog/%E9%9D%A2%E7%BB%8F/answer/%E6%B7%B1%E5%9C%B3%E9%9B%AA%E7%90%83%E7%A7%91%E6%8A%80%EF%BC%88NFC%EF%BC%89%E4%BA%8C%E9%9D%A2%E9%9D%A2%E7%BB%8F/"/>
+    <id>https://linqiankun.github.io/hexoblog/%E9%9D%A2%E7%BB%8F/answer/%E6%B7%B1%E5%9C%B3%E9%9B%AA%E7%90%83%E7%A7%91%E6%8A%80%EF%BC%88NFC%EF%BC%89%E4%BA%8C%E9%9D%A2%E9%9D%A2%E7%BB%8F/</id>
     <published>2021-07-02T03:16:49.000Z</published>
-    <updated>2021-07-02T07:19:47.963Z</updated>
+    <updated>2021-07-25T09:14:58.333Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span><p>写面经，攒人品</p><ol><li>目前情况<ol><li>姓名等个人信息</li><li>在职状态</li><li>薪资</li></ol></li><li>项目介绍<ol><li>业务</li><li>技术栈</li><li>遇到问题</li><li>如何解决</li></ol></li><li>redis分布式锁实现</li><li>redis模板（jedis、redisTemplate）</li><li>多线程<ol><li> 多线程死锁怎么解决</li><li> DeadLock</li><li>多线程线程数量设计<ol><li> 慢IO</li><li> CPU密集</li></ol></li></ol></li><li>项目中的多线程代码是你写的吗</li><li>线程池原理</li><li>后面的规划（技术，管理）</li><li>基建怎么建设（自建机房，阿里云）</li><li>发布流程（有发布系统，用jekins）</li><li>容器化<ol><li> 有没有容器化</li><li> k8s</li><li> docker使用</li><li> 目前是本地虚拟机没有容器化</li></ol></li><li>抗压能力，加班情况</li><li>为什么换工作</li><li>换工作选择什么行业</li></ol><p><img src="https://raw.githubusercontent.com/LinQiankun/picurl/main/java%E5%86%99%E9%9D%A2%E7%BB%8F%EF%BC%8C%E6%94%92%E4%BA%BA%E5%93%81_00.jpg" alt="写面经，攒人品"></p><hr><h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1>]]></content>
+    <content type="html"><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span><p>写面经，攒人品</p><ol><li>目前情况<ol><li>姓名等个人信息</li><li>在职状态</li><li>薪资</li></ol></li><li>项目介绍<ol><li>业务</li><li>技术栈</li><li>遇到问题</li><li>如何解决</li></ol></li><li>redis分布式锁实现</li><li>redis模板（jedis、redisTemplate）</li><li>多线程<ol><li> 多线程死锁怎么解决</li><li> DeadLock</li><li>多线程线程数量设计<ol><li> 慢IO</li><li> CPU密集</li></ol></li></ol></li><li>项目中的多线程代码是你写的吗</li><li>线程池原理</li><li>后面的规划（技术，管理）</li><li>基建怎么建设（自建机房，阿里云）</li><li>发布流程（有发布系统，用jekins）</li><li>容器化<ol><li> 有没有容器化</li><li> k8s</li><li> docker使用</li><li> 目前是本地虚拟机没有容器化</li></ol></li><li>抗压能力，加班情况</li><li>为什么换工作</li><li>换工作选择什么行业</li></ol><p><img src="https://raw.githubusercontent.com/LinQiankun/picurl/main/java%E5%86%99%E9%9D%A2%E7%BB%8F%EF%BC%8C%E6%94%92%E4%BA%BA%E5%93%81_00.jpg" alt="写面经，攒人品"></p><hr><h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="redis分布式锁技术？"><a href="#redis分布式锁技术？" class="headerlink" title="redis分布式锁技术？"></a>redis分布式锁技术？</h2><ul><li><a href="../../../md/redis/redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81">redis分布式锁</a></li></ul><h2 id="redis模板？"><a href="#redis模板？" class="headerlink" title="redis模板？"></a>redis模板？</h2><p>&emsp;&emsp;redis用的到模板有jedis，redisTemplate</p><h2 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h2><h3 id="多线程死锁怎么解决？"><a href="#多线程死锁怎么解决？" class="headerlink" title="多线程死锁怎么解决？"></a>多线程死锁怎么解决？</h3><ul><li><a href="../../../md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8B%E6%AD%BB%E9%94%81">多线程之死锁</a></li></ul><h3 id="多线程线程数量设计？"><a href="#多线程线程数量设计？" class="headerlink" title="多线程线程数量设计？"></a>多线程线程数量设计？</h3><p>&emsp;&emsp;线程池中，线程数量的设计一般分成两大类，IO密集型和CPU密集型。</p><ul><li>IO密集型：CPU*2+1</li><li>CPU密集型：CPU+1</li></ul><p>&emsp;&emsp;实际使用中，则需要在此基础上不断的进行测试，不断地进行优化，直到找到合适的线程数量为止。</p><h2 id="线程池原理？"><a href="#线程池原理？" class="headerlink" title="线程池原理？"></a>线程池原理？</h2><ul><li><a href="../../../md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/threadpool">threadpool</a></li></ul>]]></content>
     
     
     <summary type="html">&lt;h1 id=&quot;面经&quot;&gt;&lt;a href=&quot;#面经&quot; class=&quot;headerlink&quot; title=&quot;面经&quot;&gt;&lt;/a&gt;面经&lt;/h1&gt;</summary>
@@ -396,6 +400,8 @@
     
     
     <category term="面经" scheme="https://linqiankun.github.io/hexoblog/categories/%E9%9D%A2%E7%BB%8F/"/>
+    
+    <category term="answer" scheme="https://linqiankun.github.io/hexoblog/categories/%E9%9D%A2%E7%BB%8F/answer/"/>
     
     
     <category term="面经" scheme="https://linqiankun.github.io/hexoblog/tags/%E9%9D%A2%E7%BB%8F/"/>
