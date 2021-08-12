@@ -54,6 +54,18 @@
       </tags>
   </entry>
   <entry>
+    <title>B+树</title>
+    <url>/hexoblog/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/B+%E6%A0%91/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;</p>
+]]></content>
+      <categories>
+        <category>数据结构</category>
+      </categories>
+      <tags>
+        <tag>数据结构</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>外包公司大汇总</title>
     <url>/hexoblog/%E5%A4%96%E5%8C%85%E5%85%AC%E5%8F%B8%E5%A4%A7%E6%B1%87%E6%80%BB/</url>
     <content><![CDATA[<h1 id="外包公司汇总"><a href="#外包公司汇总" class="headerlink" title="外包公司汇总"></a>外包公司汇总</h1><span id="more"></span>
@@ -86,18 +98,6 @@
       </categories>
       <tags>
         <tag>todo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>B+树</title>
-    <url>/hexoblog/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/B+%E6%A0%91/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;</p>
-]]></content>
-      <categories>
-        <category>数据结构</category>
-      </categories>
-      <tags>
-        <tag>数据结构</tag>
       </tags>
   </entry>
   <entry>
@@ -149,6 +149,110 @@
       </categories>
       <tags>
         <tag>面经</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>TCP三次握手四次挥手</title>
+    <url>/hexoblog/md/internet/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;在网络层通过IP协议可以实现两个主机之间的通信，但是无法确定是主机中的那个进程之间进行的通信，而实际及性能通信的则是主机中的进程。  </p>
+<span id="more"></span>
+
+<p>&emsp;&emsp;TCP面向连接的服务，在传送数据之前必须先建立连接，数据传送完成后要释放连接。因此TCP是一种可靠的的运输服务，但是正因为这样，不可避免的增加了许多的开销，比如确认，流量控制等。对应的应用层的协议主要有SMTP,TELNET,HTTP,FTP等。<br>&emsp;&emsp;TCP把连接作为最基本的对象，每一条TCP连接都有两个端点，这种断点我们叫作套接字（socket），它的定义为端口号拼接到IP地址即构成了套接字，例如，若IP地址为127.0.0.1 而端口号为80，那么得到的套接字为127.0.0.1:80。<br>&emsp;&emsp;TCP采用全双工通信，这要求了服务端与客户端必须双方都能进行向对方发送数据，所以建立断开连接必须建立或者断开两次。</p>
+<hr>
+<h1 id="TCP报文"><a href="#TCP报文" class="headerlink" title="TCP报文"></a>TCP报文</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/tcp%E6%8A%A5%E6%96%87%E9%A6%96%E9%83%A8.jpg" alt="TCP报文"></p>
+<ol>
+<li>源端口和目的端口：分别写入源端口和目的接口。</li>
+<li>序号：占4个字节，TCP连接中传送的字节流中的每个字节都按顺序编号。当前为301时，如果传输100个字节后，下一个报文段从401开始。</li>
+<li>确认号：占4个字节，是期望收到对方下一个报文的第一个数据字节的序号。</li>
+<li>数据偏移：占4位（半个字节），它指出TCP报文的数据距离TCP报文段的起始处有多远。</li>
+<li>保留位置：占6位，保留今后使用，但目前应都位0。</li>
+<li>紧急URG：当URG=1，表明紧急指针字段有效。告诉系统此报文段中有紧急数据。</li>
+<li>确认ACK：仅当ACK=1时，确认号字段才有效。TCP规定，在连接建立后所有报文的传输都必须把ACK置1。</li>
+<li>推送PSH：当两个应用进程进行交互式通信时，有时在一端的应用进程希望在键入一个命令后立即就能收到对方的响应，这时候就将PSH=1。</li>
+<li>复位RST：当RST=1，表明TCP连接中出现严重差错，必须释放连接，然后再重新建立连接。</li>
+<li>同步SYN：在连接建立时用来同步序号。当SYN=1，ACK=0，表明是连接请求报文，若同意连接，则响应报文中应该使SYN=1，ACK=1。</li>
+<li>终止FIN：用来释放连接。当FIN=1，表明此报文的发送方的数据已经发送完毕，并且要求释放。</li>
+<li>窗口：占2字节，指的是通知接收方，发送本报文你需要有多大的空间来接受。</li>
+<li>检验和：占2字节，校验首部和数据这两部分。</li>
+<li>紧急指针：占2字节，指出本报文段中的紧急数据的字节数。</li>
+<li>选项：长度可变，定义一些其他的可选的参数。</li>
+</ol>
+<hr>
+<h1 id="TCP连接的建立（三次握手）"><a href="#TCP连接的建立（三次握手）" class="headerlink" title="TCP连接的建立（三次握手）"></a>TCP连接的建立（三次握手）</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/tcp%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B.png" alt="TCP连接建立"></p>
+<ol>
+<li>服务端先创建传输控制块，准备监听客户端进程的连接请求，此时服务器就进入了Listen状态。</li>
+<li>客户端也建立传输控制块，向服务端发送连接请求报文，此时客户端进入SYN-SENT状态（同步已发送）。<blockquote>
+<p>TCP规定，SYN报文段（SYN=1的报文段）<strong>不能携带数据</strong>，但需消耗掉一个序号。<br>此时报文内容SYN=1，seq=x。</p>
+</blockquote>
+</li>
+<li>服务器接收到请求后，如果同意连接，则发出确认报文，此时服务器进入SYN-RCVD状态（同步收到）。<blockquote>
+<p>这个报文同样不能携带数据，需要消耗一个序号。<br>此时报文内容为SYN=1,ACK=1,seq=y,ack=x+1。seq为自己发送的序列号，ack因为上一次的发连接请求报文不带数据，所以确认号直接为x+。</p>
+</blockquote>
+</li>
+<li>客户端进程收到确认后，还要向服务器给出确认。确认后，TCP连接建立，客户端进入ESTABLISHED状态（已建立连接）。<blockquote>
+<p>TCP规定，ACK报文段可以携带数据，但是如果不携带数据则不消耗序号。<br>此时的报文内容为ACK=1,seq=x+1,ack=y+1；这里相对于同步请求是客户端发给服务端的第二个请求，所有seq为x+1。</p>
+</blockquote>
+</li>
+<li>当服务器收到客户端的确认后也进入ESTABLISHED状态，此后双方就可以开始通信了。</li>
+</ol>
+<hr>
+<h1 id="TCP连接的断开（四次回收）"><a href="#TCP连接的断开（四次回收）" class="headerlink" title="TCP连接的断开（四次回收）"></a>TCP连接的断开（四次回收）</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B.png" alt="四次挥手"></p>
+<ol>
+<li>客户端发送连接释放报文，停止发送数据，客户端进入FIN-WAIT-1状态（终止等待1）。<blockquote>
+<p>TCP规定，FIN报文段即使不携带数据，也要消耗一个序号。与SYN报文段相似。<br>此时报文内容为FIN=1,seq=u。这里的序列号跟随前面的数据的序列号，为最后一个字节数据的序列号加一。</p>
+</blockquote>
+</li>
+<li>服务器收到连接释放报文，发送出自己的释放报文，服务端进入CLOSE-WAIT状态（关闭等待）。<blockquote>
+<p>TCP服务器通知高层的应用进程，客户端向服务器的方向就释放了，这时候处于半关闭状态，即客户端已经没有数据要发送了，但是服务器若发送数据，客户端依然要接受。这个过程需要持续一段时间，等待服务器将数据发送完。<br>此时报文内容为ACK=1,seq=v,ack=u+1。</p>
+</blockquote>
+</li>
+<li>客户端收到服务器的释放确认后，进入FIN-WAIT-2状态，等待服务器发送连接释放报文，这个过程中会继续接受服务器发送的数据内容。</li>
+<li>服务器将数据发送完毕后，向客户端发送连接释放报文，服务器进入LAST-ACK状态，等待最后的确认。<blockquote>
+<p>此时报文内容为FIN=1,ACK=1,seq=w,ack=u+1，在上个过程中，客户端不会向服务端发送信息所以ack不变，而服务端会向客户端发送所以seq会变化。</p>
+</blockquote>
+</li>
+<li>客户端收到连接释放后，向服务器发出确认，客户端进入TIME-WAIT状态。<blockquote>
+<p>注意此时TCP连接还没有释放，必须经过2*MSL（最长报文段寿命）的时间后，当客户端撤销相应的TCB后，才进入CLOSED状态。<br>此时报文内容为ACK=1,seq=u+1,ack=w+1。</p>
+</blockquote>
+</li>
+<li>服务器收到确认信息后，会立即进入CLOSED状态，撤销TCB结束连接。</li>
+</ol>
+<hr>
+<h1 id="通俗一点"><a href="#通俗一点" class="headerlink" title="通俗一点"></a>通俗一点</h1><p>&emsp;&emsp;举个例子：</p>
+<ul>
+<li>甲方：你好，我是甲方，你能听到吗？</li>
+<li>乙方：你好，我能听到，我是乙方，你能听到吗？&lt;甲方收到，甲方建立连接&gt;</li>
+<li>甲方：我能听到。&lt;乙方收到，乙方建立连接&gt;</li>
+<li></li>
+<li>连接建立，开始扯皮。</li>
+<li>甲方乙方：。。。（扯皮中）。</li>
+<li></li>
+<li>甲方：我说完了，就这样吧。</li>
+<li>乙方：你说完了好的，我最后在说一下。</li>
+<li>乙方：。。。乙方批斗需求中。</li>
+<li>乙方：我也说完了，挂了吧。</li>
+<li>甲方：好的，挂了。&lt;乙方收到，乙方挂掉了&gt;</li>
+<li></li>
+<li>甲方：{等了一个来回的时间了，他应该收到了}。&lt;甲方挂掉了&gt;</li>
+</ul>
+<hr>
+<h1 id="一点问题"><a href="#一点问题" class="headerlink" title="一点问题"></a>一点问题</h1><h2 id="为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）"><a href="#为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）" class="headerlink" title="为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）"></a>为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）</h2><p>&emsp;&emsp;防止因网络抖动各种原因造成的连接请求，突然又传送到了服务端，从而产生错误。<br>&emsp;&emsp;采用两次握手的情况下，假设第一次的连接请求在网络中阻塞了，服务端没有收到客户端的请求报文就不会处理，客户端一直收不到确认就会认为服务器没有收到，则会重新发送这条请求，此后客户端和服务端完成握手，建立连接。<br>&emsp;&emsp;这时，在网络中阻塞的第一次的请求突然到达服务器就会出现问题。</p>
+<blockquote>
+<p>如果建立连接后传输完成数据且关闭连接了，就会产生重新建立连接的问题，而采用3次握手，即使服务端收到了出错的连接请求而发送了确认信息，但是客户端没有需要传输的数据，不会进行第三次握手操作，就不会产生问题。<br>如果传输数据过程中收到了错误的连接请求，即使进行确认，也不会第三次进行握手。（这里待议）</p>
+</blockquote>
+<h2 id="服务端易受到SYN攻击？"><a href="#服务端易受到SYN攻击？" class="headerlink" title="服务端易受到SYN攻击？"></a>服务端易受到SYN攻击？</h2><p>&emsp;&emsp;服务端的资源是在第二次进行握手的时候分配的，而客户端的资源是在进行第三次握手的时候分配的。所以服务器容易收到SYN洪泛攻击，就是在短时间内伪造大量不存在的ip，不断的向服务器发送SYN包，服务端则回复并等待确认包，但是源地址是虚构的，所有不会收到确认包，服务端将不断重发进行重试知道超时，这些伪造的SYN包将占用大量且长时间的占用未连接队列，导致正常请求将被丢弃，引起网络瘫痪。<br>&emsp;&emsp;可以通过降低主机的等待时间释放未连接占用，或者短时间收到某ip的重复SYN报文将丢弃后续请求。</p>
+<h2 id="为什么客户端最后还要等待2MSL？"><a href="#为什么客户端最后还要等待2MSL？" class="headerlink" title="为什么客户端最后还要等待2MSL？"></a>为什么客户端最后还要等待2MSL？</h2><p>&emsp;&emsp;保证客户端的最后一个ACK报文能够到达服务器，在服务端，没有接受到客户端的ACK就会认为服务器没有收到自己发送的FIN请求，这时就会重发FIN请求。对于客户端而言，收到FIN请求后，发送ACK确认信息，假设服务端没有收到ACK信息，就会重新发送FIN请求，客户端就会重新收到FIN请求，没有收到重新发送的FIN请求，就认为没有问题就可以断开连接了。</p>
+<h2 id="如果已经建立了连接，但是客户端突然出现故障了怎么办？"><a href="#如果已经建立了连接，但是客户端突然出现故障了怎么办？" class="headerlink" title="如果已经建立了连接，但是客户端突然出现故障了怎么办？"></a>如果已经建立了连接，但是客户端突然出现故障了怎么办？</h2><p>&emsp;&emsp;TCP设置有一个保活器，服务器每一次收到数据就会重新复位这个计时器，若计时器走完，没有收到客户端的数据，服务器就会发送探测报文，75秒一个探测报文，连续10个探测报文没有收到恢复，就认为客户端故障，断开连接。</p>
+<h2 id="为什么是四次挥手而不是三次或者五次呢？"><a href="#为什么是四次挥手而不是三次或者五次呢？" class="headerlink" title="为什么是四次挥手而不是三次或者五次呢？"></a>为什么是四次挥手而不是三次或者五次呢？</h2><p>&emsp;&emsp;第二次挥手和第三次挥手都是服务端向客户端发送报文，第二次挥手是服务端收到了客户端的断开请求，通知客户端收到了，此时客户端没有数据向服务端发送了，但不代表服务端也没有数据向客户端发送，因为服务端要把剩余还没有发送的报文发送完毕再断开连接；第三次挥手是服务端数据全部发送完毕，向客户端发送断开请求报文（FIN=1）。<br>&emsp;&emsp;如果将这两次合二为一，就会出现服务端收到请求后立即确认并且断开连接，会造成服务端发送到客户端的数据不完整。五次则没有必要。</p>
+<h2 id="问什么连接是三次断开是四次呢？"><a href="#问什么连接是三次断开是四次呢？" class="headerlink" title="问什么连接是三次断开是四次呢？"></a>问什么连接是三次断开是四次呢？</h2><p>&emsp;&emsp;断开是四次的原因和上面的问题的解答是一样的。<br>&emsp;&emsp;对于建立连接，3次其实是建立可靠连接的最小次数。可参考第一道问题。<br>&emsp;&emsp;因为当服务端收到客户端的SYN连接请求报文后，可以直接发送SYN+ACK报文。其中ACK报文是用来应答的，SYN报文是用来同步的。但是关闭连接时，当Server端收到FIN报文时，很可能并不会立即关闭连接，所以只能先回复一个ACK报文，告诉客户端，”你发的FIN报文我收到了”。只有等到我服务端所有的报文都发送完了，我才能发送FIN报文，因此不能一起发送。故需要四步握手。<br>&emsp;&emsp;四次挥手相比于三次握手，将服务端返回给客户端的ACK+SYN报文，拆成了2次发送。</p>
+]]></content>
+      <categories>
+        <category>网络</category>
+        <category>TCP</category>
+      </categories>
+      <tags>
+        <tag>TCP</tag>
+        <tag>网络</tag>
       </tags>
   </entry>
   <entry>
@@ -255,112 +359,37 @@
         <category>HTTP</category>
       </categories>
       <tags>
-        <tag>HTTP</tag>
         <tag>网络</tag>
+        <tag>HTTP</tag>
       </tags>
   </entry>
   <entry>
-    <title>TCP三次握手四次挥手</title>
-    <url>/hexoblog/md/internet/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;在网络层通过IP协议可以实现两个主机之间的通信，但是无法确定是主机中的那个进程之间进行的通信，而实际及性能通信的则是主机中的进程。  </p>
+    <title>异常的三次握手四次挥手</title>
+    <url>/hexoblog/md/internet/%E5%BC%82%E5%B8%B8%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;TCP作为一个靠谱的协议，在传输数据的前后，需要在双端之间建立连接，并在双端各自维护连接的状态。<br>&emsp;&emsp;建立连接前，TCP会通过三次握手来保证双端状态正确，然后就可以正常传输数据了。当数据传输完成，需要断开连接的时候，TCP会通过四次握手来完成双端的断连，并回收各自的资源。<br>&emsp;&emsp;这个过程中也会产生各种问题，有因网络原因造成的也有其他原因造成的。一般来说主要就是丢包的问题，基本就是超时重传等来保证TCP的可靠性。</p>
 <span id="more"></span>
 
-<p>&emsp;&emsp;TCP面向连接的服务，在传送数据之前必须先建立连接，数据传送完成后要释放连接。因此TCP是一种可靠的的运输服务，但是正因为这样，不可避免的增加了许多的开销，比如确认，流量控制等。对应的应用层的协议主要有SMTP,TELNET,HTTP,FTP等。<br>&emsp;&emsp;TCP把连接作为最基本的对象，每一条TCP连接都有两个端点，这种断点我们叫作套接字（socket），它的定义为端口号拼接到IP地址即构成了套接字，例如，若IP地址为127.0.0.1 而端口号为80，那么得到的套接字为127.0.0.1:80。<br>&emsp;&emsp;TCP采用全双工通信，这要求了服务端与客户端必须双方都能进行向对方发送数据，所以建立断开连接必须建立或者断开两次。</p>
+<p><a href="https://network.51cto.com/art/202002/610542.htm">TCP异常</a></p>
 <hr>
-<h1 id="TCP报文"><a href="#TCP报文" class="headerlink" title="TCP报文"></a>TCP报文</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/tcp%E6%8A%A5%E6%96%87%E9%A6%96%E9%83%A8.jpg" alt="TCP报文"></p>
-<ol>
-<li>源端口和目的端口：分别写入源端口和目的接口。</li>
-<li>序号：占4个字节，TCP连接中传送的字节流中的每个字节都按顺序编号。当前为301时，如果传输100个字节后，下一个报文段从401开始。</li>
-<li>确认号：占4个字节，是期望收到对方下一个报文的第一个数据字节的序号。</li>
-<li>数据偏移：占4位（半个字节），它指出TCP报文的数据距离TCP报文段的起始处有多远。</li>
-<li>保留位置：占6位，保留今后使用，但目前应都位0。</li>
-<li>紧急URG：当URG=1，表明紧急指针字段有效。告诉系统此报文段中有紧急数据。</li>
-<li>确认ACK：仅当ACK=1时，确认号字段才有效。TCP规定，在连接建立后所有报文的传输都必须把ACK置1。</li>
-<li>推送PSH：当两个应用进程进行交互式通信时，有时在一端的应用进程希望在键入一个命令后立即就能收到对方的响应，这时候就将PSH=1。</li>
-<li>复位RST：当RST=1，表明TCP连接中出现严重差错，必须释放连接，然后再重新建立连接。</li>
-<li>同步SYN：在连接建立时用来同步序号。当SYN=1，ACK=0，表明是连接请求报文，若同意连接，则响应报文中应该使SYN=1，ACK=1。</li>
-<li>终止FIN：用来释放连接。当FIN=1，表明此报文的发送方的数据已经发送完毕，并且要求释放。</li>
-<li>窗口：占2字节，指的是通知接收方，发送本报文你需要有多大的空间来接受。</li>
-<li>检验和：占2字节，校验首部和数据这两部分。</li>
-<li>紧急指针：占2字节，指出本报文段中的紧急数据的字节数。</li>
-<li>选项：长度可变，定义一些其他的可选的参数。</li>
-</ol>
+<h1 id="三次握手中的问题"><a href="#三次握手中的问题" class="headerlink" title="三次握手中的问题"></a>三次握手中的问题</h1><h2 id="客户端第一个SYN包丢失"><a href="#客户端第一个SYN包丢失" class="headerlink" title="客户端第一个SYN包丢失"></a>客户端第一个SYN包丢失</h2><p>&emsp;&emsp;如果客户端的第一个ACK包丢失，服务器无法收到这个包，不会做任何事情。<br>&emsp;&emsp;而在TCP协议中，某端的一组「请求-应答」中，在一定时间范围内，只要没有收到应答的「ACK」包，无论是请求包对方没有收到，还是对方的应答包自己没有收到，均认为是丢包了，都会触发超时重传机制。<br>&emsp;&emsp;此时客户端会重传丢失的SYN包。</p>
+<h2 id="服务端收到SYNd返回的SYN-ACK包丢失"><a href="#服务端收到SYNd返回的SYN-ACK包丢失" class="headerlink" title="服务端收到SYNd返回的SYN+ACK包丢失"></a>服务端收到SYNd返回的SYN+ACK包丢失</h2><p>&emsp;&emsp;此时服务端已经收到客户端的数据，并且发出了对于改信息的回复。<br>&emsp;&emsp;这个问题站在客户端而言，无法区分是服务端没有收到第一次的SYN包，还是自己没有收到回复信息，只能等待一段时间后重新发送SYN包，这和上面的情况就一样了。<br>&emsp;&emsp;对于服务端，发送了SYN+ACK包后，无法等到对方的确认ACK信息，也只能对这个SYN+ACK包进行重传。<br>&emsp;&emsp;由于客户端的重传，服务端会收到这个重传的SYN包，此时会针对这个新的SYN包立即发送SYN+ACK信息。</p>
+<h2 id="客户端收到SYN-ACK返回的ACK包丢失"><a href="#客户端收到SYN-ACK返回的ACK包丢失" class="headerlink" title="客户端收到SYN+ACK返回的ACK包丢失"></a>客户端收到SYN+ACK返回的ACK包丢失</h2><p>&emsp;&emsp;如果最后一个ACK包丢了，服务端因为收不到ACK会走重传机制，而客户端此时进入ESTABLISHED状态。<br>&emsp;&emsp;多数情况下，客户端进入ESTABLISHED状态后，则认为连接已建立，会立即发送数据。但是服务端因为没有收到最后一个ACK包，依然处于SYN-RCVD状态。<br>&emsp;&emsp;所以当服务端处于SYN-RCVD状态下时，接收到客户端真实发送来的数据包时，会认为连接已建立，并进入ESTABLISHED状态。<br>&emsp;&emsp;也有地方认为当服务端处于SYN-RCVD状态下，收到客户端的数据包后，会直接回复RST包响应，表示服务端错误，并进入CLOSE状态。<br>&emsp;&emsp;实际情况下，当客户端在ESTABLISHED状态下，开始发送数据包时，会携带上一个ACK的确认序号，所以哪怕客户端响应的ACK包丢了，服务端在收到这个数据包时，能够通过包内ACK的确认序号，正常进入ESTABLISHED状态。</p>
+<h2 id="客户端故意不发最后一次ACK包"><a href="#客户端故意不发最后一次ACK包" class="headerlink" title="客户端故意不发最后一次ACK包"></a>客户端故意不发最后一次ACK包</h2><p>-0<br>&emsp;&emsp;如果客户端是恶意的，在发送SYN包后，并收到SYN+ACK后就不回复了，那么服务端此时处于一种半连接的状态，虽然服务端会通过tcp_synack_retries配置重试的次数，不会无限等待下去，但是这也是有一个时间周期的。<br>&emsp;&emsp;如果短时间内存在大量的这种恶意连接，对服务端来说压力就会很大，这就是所谓的SYN FLOOD攻击。</p>
 <hr>
-<h1 id="TCP连接的建立（三次握手）"><a href="#TCP连接的建立（三次握手）" class="headerlink" title="TCP连接的建立（三次握手）"></a>TCP连接的建立（三次握手）</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/tcp%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B.png" alt="TCP连接建立"></p>
-<ol>
-<li>服务端先创建传输控制块，准备监听客户端进程的连接请求，此时服务器就进入了Listen状态。</li>
-<li>客户端也建立传输控制块，向服务端发送连接请求报文，此时客户端进入SYN-SENT状态（同步已发送）。<blockquote>
-<p>TCP规定，SYN报文段（SYN=1的报文段）<strong>不能携带数据</strong>，但需消耗掉一个序号。<br>此时报文内容SYN=1，seq=x。</p>
-</blockquote>
-</li>
-<li>服务器接收到请求后，如果同意连接，则发出确认报文，此时服务器进入SYN-RCVD状态（同步收到）。<blockquote>
-<p>这个报文同样不能携带数据，需要消耗一个序号。<br>此时报文内容为SYN=1,ACK=1,seq=y,ack=x+1。seq为自己发送的序列号，ack因为上一次的发连接请求报文不带数据，所以确认号直接为x+。</p>
-</blockquote>
-</li>
-<li>客户端进程收到确认后，还要向服务器给出确认。确认后，TCP连接建立，客户端进入ESTABLISHED状态（已建立连接）。<blockquote>
-<p>TCP规定，ACK报文段可以携带数据，但是如果不携带数据则不消耗序号。<br>此时的报文内容为ACK=1,seq=x+1,ack=y+1；这里相对于同步请求是客户端发给服务端的第二个请求，所有seq为x+1。</p>
-</blockquote>
-</li>
-<li>当服务器收到客户端的确认后也进入ESTABLISHED状态，此后双方就可以开始通信了。</li>
-</ol>
-<hr>
-<h1 id="TCP连接的断开（四次回收）"><a href="#TCP连接的断开（四次回收）" class="headerlink" title="TCP连接的断开（四次回收）"></a>TCP连接的断开（四次回收）</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B.png" alt="四次挥手"></p>
-<ol>
-<li>客户端发送连接释放报文，停止发送数据，客户端进入FIN-WAIT-1状态（终止等待1）。<blockquote>
-<p>TCP规定，FIN报文段即使不携带数据，也要消耗一个序号。与SYN报文段相似。<br>此时报文内容为FIN=1,seq=u。这里的序列号跟随前面的数据的序列号，为最后一个字节数据的序列号加一。</p>
-</blockquote>
-</li>
-<li>服务器收到连接释放报文，发送出自己的释放报文，服务端进入CLOSE-WAIT状态（关闭等待）。<blockquote>
-<p>TCP服务器通知高层的应用进程，客户端向服务器的方向就释放了，这时候处于半关闭状态，即客户端已经没有数据要发送了，但是服务器若发送数据，客户端依然要接受。这个过程需要持续一段时间，等待服务器将数据发送完。<br>此时报文内容为ACK=1,seq=v,ack=u+1。</p>
-</blockquote>
-</li>
-<li>客户端收到服务器的释放确认后，进入FIN-WAIT-2状态，等待服务器发送连接释放报文，这个过程中会继续接受服务器发送的数据内容。</li>
-<li>服务器将数据发送完毕后，向客户端发送连接释放报文，服务器进入LAST-ACK状态，等待最后的确认。<blockquote>
-<p>此时报文内容为FIN=1,ACK=1,seq=w,ack=u+1，在上个过程中，客户端不会向服务端发送信息所以ack不变，而服务端会向客户端发送所以seq会变化。</p>
-</blockquote>
-</li>
-<li>客户端收到连接释放后，向服务器发出确认，客户端进入TIME-WAIT状态。<blockquote>
-<p>注意此时TCP连接还没有释放，必须经过2*MSL（最长报文段寿命）的时间后，当客户端撤销相应的TCB后，才进入CLOSED状态。<br>此时报文内容为ACK=1,seq=u+1,ack=w+1。</p>
-</blockquote>
-</li>
-<li>服务器收到确认信息后，会立即进入CLOSED状态，撤销TCB结束连接。</li>
-</ol>
-<hr>
-<h1 id="通俗一点"><a href="#通俗一点" class="headerlink" title="通俗一点"></a>通俗一点</h1><p>&emsp;&emsp;举个例子：</p>
-<ul>
-<li>甲方：你好，我是甲方，你能听到吗？</li>
-<li>乙方：你好，我能听到，我是乙方，你能听到吗？&lt;甲方收到，甲方建立连接&gt;</li>
-<li>甲方：我能听到。&lt;乙方收到，乙方建立连接&gt;</li>
-<li></li>
-<li>连接建立，开始扯皮。</li>
-<li>甲方乙方：。。。（扯皮中）。</li>
-<li></li>
-<li>甲方：我说完了，就这样吧。</li>
-<li>乙方：你说完了好的，我最后在说一下。</li>
-<li>乙方：。。。乙方批斗需求中。</li>
-<li>乙方：我也说完了，挂了吧。</li>
-<li>甲方：好的，挂了。&lt;乙方收到，乙方挂掉了&gt;</li>
-<li></li>
-<li>甲方：{等了一个来回的时间了，他应该收到了}。&lt;甲方挂掉了&gt;</li>
-</ul>
-<hr>
-<h1 id="一点问题"><a href="#一点问题" class="headerlink" title="一点问题"></a>一点问题</h1><h2 id="为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）"><a href="#为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）" class="headerlink" title="为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）"></a>为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）</h2><p>&emsp;&emsp;防止因网络抖动各种原因造成的连接请求，突然又传送到了服务端，从而产生错误。<br>&emsp;&emsp;采用两次握手的情况下，假设第一次的连接请求在网络中阻塞了，服务端没有收到客户端的请求报文就不会处理，客户端一直收不到确认就会认为服务器没有收到，则会重新发送这条请求，此后客户端和服务端完成握手，建立连接。<br>&emsp;&emsp;这时，在网络中阻塞的第一次的请求突然到达服务器就会出现问题。</p>
-<blockquote>
-<p>如果建立连接后传输完成数据且关闭连接了，就会产生重新建立连接的问题，而采用3次握手，即使服务端收到了出错的连接请求而发送了确认信息，但是客户端没有需要传输的数据，不会进行第三次握手操作，就不会产生问题。<br>如果传输数据过程中收到了错误的连接请求，即使进行确认，也不会第三次进行握手。（这里待议）</p>
-</blockquote>
-<h2 id="服务端易受到SYN攻击？"><a href="#服务端易受到SYN攻击？" class="headerlink" title="服务端易受到SYN攻击？"></a>服务端易受到SYN攻击？</h2><p>&emsp;&emsp;服务端的资源是在第二次进行握手的时候分配的，而客户端的资源是在进行第三次握手的时候分配的。所以服务器容易收到SYN洪泛攻击，就是在短时间内伪造大量不存在的ip，不断的向服务器发送SYN包，服务端则回复并等待确认包，但是源地址是虚构的，所有不会收到确认包，服务端将不断重发进行重试知道超时，这些伪造的SYN包将占用大量且长时间的占用未连接队列，导致正常请求将被丢弃，引起网络瘫痪。<br>&emsp;&emsp;可以通过降低主机的等待时间释放未连接占用，或者短时间收到某ip的重复SYN报文将丢弃后续请求。</p>
-<h2 id="为什么客户端最后还要等待2MSL？"><a href="#为什么客户端最后还要等待2MSL？" class="headerlink" title="为什么客户端最后还要等待2MSL？"></a>为什么客户端最后还要等待2MSL？</h2><p>&emsp;&emsp;保证客户端的最后一个ACK报文能够到达服务器，在服务端，没有接受到客户端的ACK就会认为服务器没有收到自己发送的FIN请求，这时就会重发FIN请求。对于客户端而言，收到FIN请求后，发送ACK确认信息，假设服务端没有收到ACK信息，就会重新发送FIN请求，客户端就会重新收到FIN请求，没有收到重新发送的FIN请求，就认为没有问题就可以断开连接了。</p>
-<h2 id="如果已经建立了连接，但是客户端突然出现故障了怎么办？"><a href="#如果已经建立了连接，但是客户端突然出现故障了怎么办？" class="headerlink" title="如果已经建立了连接，但是客户端突然出现故障了怎么办？"></a>如果已经建立了连接，但是客户端突然出现故障了怎么办？</h2><p>&emsp;&emsp;TCP设置有一个保活器，服务器每一次收到数据就会重新复位这个计时器，若计时器走完，没有收到客户端的数据，服务器就会发送探测报文，75秒一个探测报文，连续10个探测报文没有收到恢复，就认为客户端故障，断开连接。</p>
-<h2 id="为什么是四次挥手而不是三次或者五次呢？"><a href="#为什么是四次挥手而不是三次或者五次呢？" class="headerlink" title="为什么是四次挥手而不是三次或者五次呢？"></a>为什么是四次挥手而不是三次或者五次呢？</h2><p>&emsp;&emsp;第二次挥手和第三次挥手都是服务端向客户端发送报文，第二次挥手是服务端收到了客户端的断开请求，通知客户端收到了，此时客户端没有数据向服务端发送了，但不代表服务端也没有数据向客户端发送，因为服务端要把剩余还没有发送的报文发送完毕再断开连接；第三次挥手是服务端数据全部发送完毕，向客户端发送断开请求报文（FIN=1）。<br>&emsp;&emsp;如果将这两次合二为一，就会出现服务端收到请求后立即确认并且断开连接，会造成服务端发送到客户端的数据不完整。五次则没有必要。</p>
-<h2 id="问什么连接是三次断开是四次呢？"><a href="#问什么连接是三次断开是四次呢？" class="headerlink" title="问什么连接是三次断开是四次呢？"></a>问什么连接是三次断开是四次呢？</h2><p>&emsp;&emsp;断开是四次的原因和上面的问题的解答是一样的。<br>&emsp;&emsp;对于建立连接，3次其实是建立可靠连接的最小次数。可参考第一道问题。<br>&emsp;&emsp;因为当服务端收到客户端的SYN连接请求报文后，可以直接发送SYN+ACK报文。其中ACK报文是用来应答的，SYN报文是用来同步的。但是关闭连接时，当Server端收到FIN报文时，很可能并不会立即关闭连接，所以只能先回复一个ACK报文，告诉客户端，”你发的FIN报文我收到了”。只有等到我服务端所有的报文都发送完了，我才能发送FIN报文，因此不能一起发送。故需要四步握手。<br>&emsp;&emsp;四次挥手相比于三次握手，将服务端返回给客户端的ACK+SYN报文，拆成了2次发送。</p>
+<h1 id="四次挥手中的问题"><a href="#四次挥手中的问题" class="headerlink" title="四次挥手中的问题"></a>四次挥手中的问题</h1><h2 id="客户端断开连接的FIN包丢失"><a href="#客户端断开连接的FIN包丢失" class="headerlink" title="客户端断开连接的FIN包丢失"></a>客户端断开连接的FIN包丢失</h2><p>&emsp;&emsp;这种情况下，会触发超时重传机制，不会去考虑是自己发出的包丢失，还是无法收到对方发来的恢复，直到关闭连接。</p>
+<h2 id="服务端第一次返回的ACK包丢失"><a href="#服务端第一次返回的ACK包丢失" class="headerlink" title="服务端第一次返回的ACK包丢失"></a>服务端第一次返回的ACK包丢失</h2><p>&emsp;&emsp;这种情况下，客户端无法收到服务端返回的ACK包，会触发重传机制，重传FIN包。<br>&emsp;&emsp;而服务器收到重传的FIN包后，会立即在重传对FIN包的ACK包。<br>&emsp;&emsp;而此时服务器已经进入CLOSED-WAIT状态，开始做断开连接前的准备工作。当准备好之后，会回复FIN+ACK，这个消息是携带了之前ACK的响应序号的，这就是第三次挥手的包。</p>
+<h2 id="服务器发送的FIN-ACK包丢失"><a href="#服务器发送的FIN-ACK包丢失" class="headerlink" title="服务器发送的FIN+ACK包丢失"></a>服务器发送的FIN+ACK包丢失</h2><p>&emsp;&emsp;这是第三次挥手的包丢失了，此时客户端有两种情况，要么处于FIN-WAIT-2状态(之前的 ACK 也丢了)，会一直等待；要么处于TIME-WAIT状态，会等待 2MSL 时间。<br>&emsp;&emsp;而服务端则收不到对应的ACK确认包，则会进行超时重传。</p>
+<h2 id="客户端最后返回的ACK包丢失"><a href="#客户端最后返回的ACK包丢失" class="headerlink" title="客户端最后返回的ACK包丢失"></a>客户端最后返回的ACK包丢失</h2><p>&emsp;&emsp;客户端在回复ACK后，会进入TIME-WAIT状态，开始长达2MSL的等待，服务端因为没有收到ACK的回复，会重试一段时间，直到服务端重试超时后主动断开。<br>&emsp;&emsp;或者等待新的客户端接入后，收到服务端重试的FIN消息后，回复RST消息，在收到RST消息后，复位服务端的状态。</p>
+<h2 id="客户端收到ACK后服务端跑路"><a href="#客户端收到ACK后服务端跑路" class="headerlink" title="客户端收到ACK后服务端跑路"></a>客户端收到ACK后服务端跑路</h2><p>&emsp;&emsp;客户端在收到ACK后，进入了FIN-WAIT-2状态，等待服务端发来的FIN包，而如果服务端跑路了，这个包永远都等不到。<br>&emsp;&emsp;在TCP协议中，是没有对这个状态的处理机制的。但是协议不管，系统来凑，操作系统会接管这个状态，在一段时间后，直接进行客户端关闭，这中间会用心跳等进行检测。</p>
+<h2 id="客户端收到ACK后客户端跑路"><a href="#客户端收到ACK后客户端跑路" class="headerlink" title="客户端收到ACK后客户端跑路"></a>客户端收到ACK后客户端跑路</h2><p>&emsp;&emsp;客户端收到ACK后直接跑路，服务端后续在发送的FIN+ACK就没有接收端，也就不会得到回复，会不断的走TCP的超时重试的机制，此时服务端处于LAST-ACK状态。<br>&emsp;&emsp;这种情况下，有两种情况：在超过一定时间后，服务器直接进行关闭，这种类似于客户端的关闭；另一种情况则是收到客户端的RST消息，关闭连接。<br>&emsp;&emsp;RST消息是一种重置消息，表示当前错误了，应该回到初始的状态。如果客户端跑路后有新的客户端接入，会在此发送SYN以期望建立连接，此时这个SYN将被忽略，并直接回复FIN+ACK消息，新客户端在收到FIN消息后是不会认的，并且会回复一个RST消息。</p>
 ]]></content>
       <categories>
         <category>网络</category>
         <category>TCP</category>
       </categories>
       <tags>
-        <tag>网络</tag>
         <tag>TCP</tag>
+        <tag>网络</tag>
       </tags>
   </entry>
   <entry>
@@ -510,38 +539,9 @@
         <category>UDP</category>
       </categories>
       <tags>
-        <tag>网络</tag>
         <tag>TCP</tag>
+        <tag>网络</tag>
         <tag>UDP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>异常的三次握手四次挥手</title>
-    <url>/hexoblog/md/internet/%E5%BC%82%E5%B8%B8%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;TCP作为一个靠谱的协议，在传输数据的前后，需要在双端之间建立连接，并在双端各自维护连接的状态。<br>&emsp;&emsp;建立连接前，TCP会通过三次握手来保证双端状态正确，然后就可以正常传输数据了。当数据传输完成，需要断开连接的时候，TCP会通过四次握手来完成双端的断连，并回收各自的资源。<br>&emsp;&emsp;这个过程中也会产生各种问题，有因网络原因造成的也有其他原因造成的。一般来说主要就是丢包的问题，基本就是超时重传等来保证TCP的可靠性。</p>
-<span id="more"></span>
-
-<p><a href="https://network.51cto.com/art/202002/610542.htm">TCP异常</a></p>
-<hr>
-<h1 id="三次握手中的问题"><a href="#三次握手中的问题" class="headerlink" title="三次握手中的问题"></a>三次握手中的问题</h1><h2 id="客户端第一个SYN包丢失"><a href="#客户端第一个SYN包丢失" class="headerlink" title="客户端第一个SYN包丢失"></a>客户端第一个SYN包丢失</h2><p>&emsp;&emsp;如果客户端的第一个ACK包丢失，服务器无法收到这个包，不会做任何事情。<br>&emsp;&emsp;而在TCP协议中，某端的一组「请求-应答」中，在一定时间范围内，只要没有收到应答的「ACK」包，无论是请求包对方没有收到，还是对方的应答包自己没有收到，均认为是丢包了，都会触发超时重传机制。<br>&emsp;&emsp;此时客户端会重传丢失的SYN包。</p>
-<h2 id="服务端收到SYNd返回的SYN-ACK包丢失"><a href="#服务端收到SYNd返回的SYN-ACK包丢失" class="headerlink" title="服务端收到SYNd返回的SYN+ACK包丢失"></a>服务端收到SYNd返回的SYN+ACK包丢失</h2><p>&emsp;&emsp;此时服务端已经收到客户端的数据，并且发出了对于改信息的回复。<br>&emsp;&emsp;这个问题站在客户端而言，无法区分是服务端没有收到第一次的SYN包，还是自己没有收到回复信息，只能等待一段时间后重新发送SYN包，这和上面的情况就一样了。<br>&emsp;&emsp;对于服务端，发送了SYN+ACK包后，无法等到对方的确认ACK信息，也只能对这个SYN+ACK包进行重传。<br>&emsp;&emsp;由于客户端的重传，服务端会收到这个重传的SYN包，此时会针对这个新的SYN包立即发送SYN+ACK信息。</p>
-<h2 id="客户端收到SYN-ACK返回的ACK包丢失"><a href="#客户端收到SYN-ACK返回的ACK包丢失" class="headerlink" title="客户端收到SYN+ACK返回的ACK包丢失"></a>客户端收到SYN+ACK返回的ACK包丢失</h2><p>&emsp;&emsp;如果最后一个ACK包丢了，服务端因为收不到ACK会走重传机制，而客户端此时进入ESTABLISHED状态。<br>&emsp;&emsp;多数情况下，客户端进入ESTABLISHED状态后，则认为连接已建立，会立即发送数据。但是服务端因为没有收到最后一个ACK包，依然处于SYN-RCVD状态。<br>&emsp;&emsp;所以当服务端处于SYN-RCVD状态下时，接收到客户端真实发送来的数据包时，会认为连接已建立，并进入ESTABLISHED状态。<br>&emsp;&emsp;也有地方认为当服务端处于SYN-RCVD状态下，收到客户端的数据包后，会直接回复RST包响应，表示服务端错误，并进入CLOSE状态。<br>&emsp;&emsp;实际情况下，当客户端在ESTABLISHED状态下，开始发送数据包时，会携带上一个ACK的确认序号，所以哪怕客户端响应的ACK包丢了，服务端在收到这个数据包时，能够通过包内ACK的确认序号，正常进入ESTABLISHED状态。</p>
-<h2 id="客户端故意不发最后一次ACK包"><a href="#客户端故意不发最后一次ACK包" class="headerlink" title="客户端故意不发最后一次ACK包"></a>客户端故意不发最后一次ACK包</h2><p>-0<br>&emsp;&emsp;如果客户端是恶意的，在发送SYN包后，并收到SYN+ACK后就不回复了，那么服务端此时处于一种半连接的状态，虽然服务端会通过tcp_synack_retries配置重试的次数，不会无限等待下去，但是这也是有一个时间周期的。<br>&emsp;&emsp;如果短时间内存在大量的这种恶意连接，对服务端来说压力就会很大，这就是所谓的SYN FLOOD攻击。</p>
-<hr>
-<h1 id="四次挥手中的问题"><a href="#四次挥手中的问题" class="headerlink" title="四次挥手中的问题"></a>四次挥手中的问题</h1><h2 id="客户端断开连接的FIN包丢失"><a href="#客户端断开连接的FIN包丢失" class="headerlink" title="客户端断开连接的FIN包丢失"></a>客户端断开连接的FIN包丢失</h2><p>&emsp;&emsp;这种情况下，会触发超时重传机制，不会去考虑是自己发出的包丢失，还是无法收到对方发来的恢复，直到关闭连接。</p>
-<h2 id="服务端第一次返回的ACK包丢失"><a href="#服务端第一次返回的ACK包丢失" class="headerlink" title="服务端第一次返回的ACK包丢失"></a>服务端第一次返回的ACK包丢失</h2><p>&emsp;&emsp;这种情况下，客户端无法收到服务端返回的ACK包，会触发重传机制，重传FIN包。<br>&emsp;&emsp;而服务器收到重传的FIN包后，会立即在重传对FIN包的ACK包。<br>&emsp;&emsp;而此时服务器已经进入CLOSED-WAIT状态，开始做断开连接前的准备工作。当准备好之后，会回复FIN+ACK，这个消息是携带了之前ACK的响应序号的，这就是第三次挥手的包。</p>
-<h2 id="服务器发送的FIN-ACK包丢失"><a href="#服务器发送的FIN-ACK包丢失" class="headerlink" title="服务器发送的FIN+ACK包丢失"></a>服务器发送的FIN+ACK包丢失</h2><p>&emsp;&emsp;这是第三次挥手的包丢失了，此时客户端有两种情况，要么处于FIN-WAIT-2状态(之前的 ACK 也丢了)，会一直等待；要么处于TIME-WAIT状态，会等待 2MSL 时间。<br>&emsp;&emsp;而服务端则收不到对应的ACK确认包，则会进行超时重传。</p>
-<h2 id="客户端最后返回的ACK包丢失"><a href="#客户端最后返回的ACK包丢失" class="headerlink" title="客户端最后返回的ACK包丢失"></a>客户端最后返回的ACK包丢失</h2><p>&emsp;&emsp;客户端在回复ACK后，会进入TIME-WAIT状态，开始长达2MSL的等待，服务端因为没有收到ACK的回复，会重试一段时间，直到服务端重试超时后主动断开。<br>&emsp;&emsp;或者等待新的客户端接入后，收到服务端重试的FIN消息后，回复RST消息，在收到RST消息后，复位服务端的状态。</p>
-<h2 id="客户端收到ACK后服务端跑路"><a href="#客户端收到ACK后服务端跑路" class="headerlink" title="客户端收到ACK后服务端跑路"></a>客户端收到ACK后服务端跑路</h2><p>&emsp;&emsp;客户端在收到ACK后，进入了FIN-WAIT-2状态，等待服务端发来的FIN包，而如果服务端跑路了，这个包永远都等不到。<br>&emsp;&emsp;在TCP协议中，是没有对这个状态的处理机制的。但是协议不管，系统来凑，操作系统会接管这个状态，在一段时间后，直接进行客户端关闭，这中间会用心跳等进行检测。</p>
-<h2 id="客户端收到ACK后客户端跑路"><a href="#客户端收到ACK后客户端跑路" class="headerlink" title="客户端收到ACK后客户端跑路"></a>客户端收到ACK后客户端跑路</h2><p>&emsp;&emsp;客户端收到ACK后直接跑路，服务端后续在发送的FIN+ACK就没有接收端，也就不会得到回复，会不断的走TCP的超时重试的机制，此时服务端处于LAST-ACK状态。<br>&emsp;&emsp;这种情况下，有两种情况：在超过一定时间后，服务器直接进行关闭，这种类似于客户端的关闭；另一种情况则是收到客户端的RST消息，关闭连接。<br>&emsp;&emsp;RST消息是一种重置消息，表示当前错误了，应该回到初始的状态。如果客户端跑路后有新的客户端接入，会在此发送SYN以期望建立连接，此时这个SYN将被忽略，并直接回复FIN+ACK消息，新客户端在收到FIN消息后是不会认的，并且会回复一个RST消息。</p>
-]]></content>
-      <categories>
-        <category>网络</category>
-        <category>TCP</category>
-      </categories>
-      <tags>
-        <tag>网络</tag>
-        <tag>TCP</tag>
       </tags>
   </entry>
   <entry>
@@ -653,27 +653,6 @@
       </tags>
   </entry>
   <entry>
-    <title>filter_interceptor</title>
-    <url>/hexoblog/md/java/filter-interceptor/</url>
-    <content><![CDATA[<h2 id="过滤器"><a href="#过滤器" class="headerlink" title="过滤器"></a>过滤器</h2><p>&emsp;&emsp;过滤器是用来过滤的，java的过滤器能够为我们提供系统级别的过滤，也就是说能够过滤所有的web请求，这一点是拦截器做不到的。<br>&emsp;&emsp;在java web中，你传入的request，response提前过滤掉一些信息，或者提前设置一些参数，然后在传入Servlet进行业务逻辑，比如过滤掉非法url和非法字符串。<br>&emsp;&emsp;filter流程是线性的，url传来之后，检查之后，可保持原来的流程继续向下执行，被下一个filter，servlet接收。</p>
-<span id="more"></span>
-
-<hr>
-<h2 id="拦截器"><a href="#拦截器" class="headerlink" title="拦截器"></a>拦截器</h2><p>&emsp;&emsp;java里面的拦截器提供的是非系统级别的拦截，也就是说，就覆盖面来说，拦截器不如过滤器强大但是更有针对性。<br>&emsp;&emsp;java中的拦截器是基于java反射机制实现的，更准确的划分，应该是基于jdk实现的动态代理。它依赖于具体的接口，在运行期间动态生成字节码。<br>&emsp;&emsp;拦截器是动态拦截Action调用的对象，他提供了一种机制可以使开发者在一个ation执行的前后执行一段代码，也可以在一个action执行前阻止其执行，同时也提供了一种可以提取action中可重用代码的方式。在AOP中，拦截器用于在某个方法或字段被访问之前，进行拦截然后再之前或之后加入某些操作。java的拦截器主要用于插件上，扩展件上，有点类似于面向切面的技术，在用之前要先在配置文件里声明。</p>
-<hr>
-<h2 id="监听器"><a href="#监听器" class="headerlink" title="监听器"></a>监听器</h2><p>&emsp;&emsp;java的监听器也是系统级别的监听。监听器随web应用的启动而启动。<br>&emsp;&emsp;java的监听器在c/s模式里面经常用到，它会对特定的事件产生一个处理。监听器在很多模式下用到，比如说观察者模式，就是使用监听器来实现的，又比如统计网站的在线人数。servlet监听器用于监听一些重要事件的发生，监听器对象可以在事件发生前，发生后做一些必要的处理。</p>
-<hr>
-<h1 id="对照"><a href="#对照" class="headerlink" title="对照"></a>对照</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/interceptor_filter_1.jpg" alt="对照"></p>
-]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>filter</tag>
-        <tag>interceptor</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>javaSPI扩展</title>
     <url>/hexoblog/md/java/javaSPI%E6%89%A9%E5%B1%95/</url>
     <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;SPI就是一种服务发现机制。<br>&emsp;&emsp;SPI 是一种将服务接口与服务实现分离以达到解耦、大大提升了程序可扩展性的机制。引入服务提供者就是引入了 spi 接口的实现者，通过本地的注册发现获取到具体的实现类，轻松可插拔。<br>&emsp;&emsp;Java SPI 就是把某个接口的 指定实现类 （通过在指定文件配置的方式）给实例化出来了。</p>
@@ -779,6 +758,27 @@ com.lin.javaspi.service.impl.HelloServiceImpl2<span aria-hidden="true" class="li
       <tags>
         <tag>java</tag>
         <tag>SPI</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>filter_interceptor</title>
+    <url>/hexoblog/md/java/filter-interceptor/</url>
+    <content><![CDATA[<h2 id="过滤器"><a href="#过滤器" class="headerlink" title="过滤器"></a>过滤器</h2><p>&emsp;&emsp;过滤器是用来过滤的，java的过滤器能够为我们提供系统级别的过滤，也就是说能够过滤所有的web请求，这一点是拦截器做不到的。<br>&emsp;&emsp;在java web中，你传入的request，response提前过滤掉一些信息，或者提前设置一些参数，然后在传入Servlet进行业务逻辑，比如过滤掉非法url和非法字符串。<br>&emsp;&emsp;filter流程是线性的，url传来之后，检查之后，可保持原来的流程继续向下执行，被下一个filter，servlet接收。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="拦截器"><a href="#拦截器" class="headerlink" title="拦截器"></a>拦截器</h2><p>&emsp;&emsp;java里面的拦截器提供的是非系统级别的拦截，也就是说，就覆盖面来说，拦截器不如过滤器强大但是更有针对性。<br>&emsp;&emsp;java中的拦截器是基于java反射机制实现的，更准确的划分，应该是基于jdk实现的动态代理。它依赖于具体的接口，在运行期间动态生成字节码。<br>&emsp;&emsp;拦截器是动态拦截Action调用的对象，他提供了一种机制可以使开发者在一个ation执行的前后执行一段代码，也可以在一个action执行前阻止其执行，同时也提供了一种可以提取action中可重用代码的方式。在AOP中，拦截器用于在某个方法或字段被访问之前，进行拦截然后再之前或之后加入某些操作。java的拦截器主要用于插件上，扩展件上，有点类似于面向切面的技术，在用之前要先在配置文件里声明。</p>
+<hr>
+<h2 id="监听器"><a href="#监听器" class="headerlink" title="监听器"></a>监听器</h2><p>&emsp;&emsp;java的监听器也是系统级别的监听。监听器随web应用的启动而启动。<br>&emsp;&emsp;java的监听器在c/s模式里面经常用到，它会对特定的事件产生一个处理。监听器在很多模式下用到，比如说观察者模式，就是使用监听器来实现的，又比如统计网站的在线人数。servlet监听器用于监听一些重要事件的发生，监听器对象可以在事件发生前，发生后做一些必要的处理。</p>
+<hr>
+<h1 id="对照"><a href="#对照" class="headerlink" title="对照"></a>对照</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/interceptor_filter_1.jpg" alt="对照"></p>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>filter</tag>
+        <tag>interceptor</tag>
       </tags>
   </entry>
   <entry>
@@ -1215,57 +1215,6 @@ SELECT ... FOR UPDATE<span aria-hidden="true" class="line-numbers-rows"><span></
       </tags>
   </entry>
   <entry>
-    <title>happens-before</title>
-    <url>/hexoblog/md/jvm/happens-before/</url>
-    <content><![CDATA[<h1 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h1><p>&emsp;&emsp;在JMM中，由于存在线程本地内存和主内存的原因，再加上重排序，会导致多线程环境下存在可见性的问题。<br>&emsp;&emsp;JDK5开始，JMM使用happens-before概念来阐述多线程之间的内存可见性问题。</p>
-<blockquote>
-<p>&emsp;&emsp;在JMM中，如果一个操作的执行结果需要对另一个操作可见，那么这两个操作之间必须存在happens-before关系。  </p>
-</blockquote>
-<p>&emsp;&emsp;happens-before原则非常重要，它是判断数据是否存在竞争、线程是否安全的主要依据，依靠这个规则，我们解决在并发环境下两操作之间是否可能存在冲突的所有问题。</p>
-<span id="more"></span>
-
-<hr>
-<h1 id="内容："><a href="#内容：" class="headerlink" title="内容："></a>内容：</h1><h2 id="happens-before原则定义："><a href="#happens-before原则定义：" class="headerlink" title="happens-before原则定义："></a>happens-before原则定义：</h2><ol>
-<li>如果一个操作happens-before另一个操作，那么第一个操作的执行结果将对第二个操作可见，而且第一个操作的执行顺序在第二个操作之前。</li>
-<li>两个操作之间存在happens-before原则，并不意味着一定要按照happens-before原则制定的顺序来执行。如果重排序之后的执行结果与按照happens-before关系来执行的结果一致，那么这种重排序并不非法。</li>
-</ol>
-<h2 id="happens-before原则规则："><a href="#happens-before原则规则：" class="headerlink" title="happens-before原则规则："></a>happens-before原则规则：</h2><ol>
-<li>程序次序规则：一个线程内，按照代码顺序，书写在前面的操作先行发生于书写在后面的操作；</li>
-<li>锁定规则：一个unLock操作先行发生于后面对同一个锁额lock操作；</li>
-<li>volatile变量规则：对一个变量的写操作先行发生于后面对这个变量的读操作；</li>
-<li>传递规则：如果操作A先行发生于操作B，而操作B又先行发生于操作C，则可以得出操作A先行发生于操作C；</li>
-<li>线程启动规则：Thread对象的start()方法先行发生于此线程的每个一个动作；</li>
-<li>线程中断规则：对线程interrupt()方法的调用先行发生于被中断线程的代码检测到中断事件的发生；</li>
-<li>线程终结规则：线程中所有的操作都先行发生于线程的终止检测，我们可以通过Thread.join()方法结束、Thread.isAlive()的返回值手段检测到线程已经终止执行；</li>
-<li>对象终结规则：一个对象的初始化完成先行发生于他的finalize()方法的开始；</li>
-</ol>
-<h3 id="程序次序规则："><a href="#程序次序规则：" class="headerlink" title="程序次序规则："></a>程序次序规则：</h3><p>&emsp;&emsp;一段代码在单线程中的执行结果是有序的，注意是执行结果，因为虚拟机、处理器会对指令进行重排序（重排序后面会详细介绍）。虽然重排序了，但是并不会影响程序的执行结果，所以程序最终执行的结果与顺序执行的结果是一致的。故而这个规则只对单线程有效，在多线程环境下无法保证正确性。</p>
-<h3 id="锁定规则："><a href="#锁定规则：" class="headerlink" title="锁定规则："></a>锁定规则：</h3><p>&emsp;&emsp;这个规则比较好理解，无论是在单线程环境还是多线程环境，一个锁处于被锁定状态，那么必须先执行unlock操作后面才能进行lock操作。</p>
-<h3 id="volatile变量规则："><a href="#volatile变量规则：" class="headerlink" title="volatile变量规则："></a>volatile变量规则：</h3><p>&emsp;&emsp; 这是一条比较重要的规则，它标志着volatile保证了线程可见性。通俗点讲就是如果一个线程先去写一个volatile变量，然后一个线程去读这个变量，那么这个写操作一定是happens-before读操作的。</p>
-<h3 id="传递规则："><a href="#传递规则：" class="headerlink" title="传递规则："></a>传递规则：</h3><p>&emsp;&emsp;提现了happens-before原则具有传递性，即A happens-before B , B happens-before C，那么A happens-before C。</p>
-<h3 id="线程启动规则："><a href="#线程启动规则：" class="headerlink" title="线程启动规则："></a>线程启动规则：</h3><p>&emsp;&emsp;假定线程A在执行过程中，通过执行ThreadB.start()来启动线程B，那么线程A对共享变量的修改在接下来线程B开始执行后确保对线程B可见。</p>
-<h3 id="线程终结规则："><a href="#线程终结规则：" class="headerlink" title="线程终结规则："></a>线程终结规则：</h3><p>&emsp;&emsp;假定线程A在执行的过程中，通过制定ThreadB.join()等待线程B终止，那么线程B在终止之前对共享变量的修改在线程A等待返回后可见。</p>
-<hr>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>&emsp;&emsp;上面八条是原生Java满足Happens-before关系的规则，但是我们可以对他们进行推导出其他满足happens-before的规则：</p>
-<ol>
-<li>将一个元素放入一个线程安全的队列的操作Happens-Before从队列中取出这个元素的操作。</li>
-<li>将一个元素放入一个线程安全容器的操作Happens-Before从容器中取出这个元素的操作。</li>
-<li>在CountDownLatch上的倒数操作Happens-Before CountDownLatch#await()操作。</li>
-<li>释放Semaphore许可的操作Happens-Before获得许可操作。</li>
-<li>Future表示的任务的所有操作Happens-Before Future#get()操作。</li>
-<li>向Executor提交一个Runnable或Callable的操作Happens-Before任务开始执行操作。</li>
-<li>如果两个操作不满足上述任意一个happens-before规则，那么这两个操作就没有顺序的保障，JVM就可以对这两个操作进行重排序。如果操作Ahappens-before操作B，那么操作A在内存上所做的操作对操作B都是可见的。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>jvm</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>jvm</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Volatile</title>
     <url>/hexoblog/md/jvm/Volatile/</url>
     <content><![CDATA[<h1 id="JMM"><a href="#JMM" class="headerlink" title="JMM"></a>JMM</h1><p>&emsp;&emsp;Java内存模型，是虚拟机规范中所定义的一种内存模型，Java内存模型是标准化的，屏蔽掉了底层计算机之间的区别。<br>&emsp;&emsp;Java内存模型描述了Java程序中各种变量（线程共享变量）的访问规则，以及在JVM中将变量，存储到内存和从内存中读取变量这样的底层细节。</p>
@@ -1356,6 +1305,57 @@ SELECT ... FOR UPDATE<span aria-hidden="true" class="line-numbers-rows"><span></
 <li>volatile提供了happens-before保证，对volatile变量v的写入happens-before所有其他线程后续对v的读操作。</li>
 <li>volatile可以使得long和double的赋值是原子的。</li>
 <li>volatile可以在单例双重检查中实现可见性和禁止指令重排序，从而保证安全性。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>jvm</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>jvm</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>happens-before</title>
+    <url>/hexoblog/md/jvm/happens-before/</url>
+    <content><![CDATA[<h1 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h1><p>&emsp;&emsp;在JMM中，由于存在线程本地内存和主内存的原因，再加上重排序，会导致多线程环境下存在可见性的问题。<br>&emsp;&emsp;JDK5开始，JMM使用happens-before概念来阐述多线程之间的内存可见性问题。</p>
+<blockquote>
+<p>&emsp;&emsp;在JMM中，如果一个操作的执行结果需要对另一个操作可见，那么这两个操作之间必须存在happens-before关系。  </p>
+</blockquote>
+<p>&emsp;&emsp;happens-before原则非常重要，它是判断数据是否存在竞争、线程是否安全的主要依据，依靠这个规则，我们解决在并发环境下两操作之间是否可能存在冲突的所有问题。</p>
+<span id="more"></span>
+
+<hr>
+<h1 id="内容："><a href="#内容：" class="headerlink" title="内容："></a>内容：</h1><h2 id="happens-before原则定义："><a href="#happens-before原则定义：" class="headerlink" title="happens-before原则定义："></a>happens-before原则定义：</h2><ol>
+<li>如果一个操作happens-before另一个操作，那么第一个操作的执行结果将对第二个操作可见，而且第一个操作的执行顺序在第二个操作之前。</li>
+<li>两个操作之间存在happens-before原则，并不意味着一定要按照happens-before原则制定的顺序来执行。如果重排序之后的执行结果与按照happens-before关系来执行的结果一致，那么这种重排序并不非法。</li>
+</ol>
+<h2 id="happens-before原则规则："><a href="#happens-before原则规则：" class="headerlink" title="happens-before原则规则："></a>happens-before原则规则：</h2><ol>
+<li>程序次序规则：一个线程内，按照代码顺序，书写在前面的操作先行发生于书写在后面的操作；</li>
+<li>锁定规则：一个unLock操作先行发生于后面对同一个锁额lock操作；</li>
+<li>volatile变量规则：对一个变量的写操作先行发生于后面对这个变量的读操作；</li>
+<li>传递规则：如果操作A先行发生于操作B，而操作B又先行发生于操作C，则可以得出操作A先行发生于操作C；</li>
+<li>线程启动规则：Thread对象的start()方法先行发生于此线程的每个一个动作；</li>
+<li>线程中断规则：对线程interrupt()方法的调用先行发生于被中断线程的代码检测到中断事件的发生；</li>
+<li>线程终结规则：线程中所有的操作都先行发生于线程的终止检测，我们可以通过Thread.join()方法结束、Thread.isAlive()的返回值手段检测到线程已经终止执行；</li>
+<li>对象终结规则：一个对象的初始化完成先行发生于他的finalize()方法的开始；</li>
+</ol>
+<h3 id="程序次序规则："><a href="#程序次序规则：" class="headerlink" title="程序次序规则："></a>程序次序规则：</h3><p>&emsp;&emsp;一段代码在单线程中的执行结果是有序的，注意是执行结果，因为虚拟机、处理器会对指令进行重排序（重排序后面会详细介绍）。虽然重排序了，但是并不会影响程序的执行结果，所以程序最终执行的结果与顺序执行的结果是一致的。故而这个规则只对单线程有效，在多线程环境下无法保证正确性。</p>
+<h3 id="锁定规则："><a href="#锁定规则：" class="headerlink" title="锁定规则："></a>锁定规则：</h3><p>&emsp;&emsp;这个规则比较好理解，无论是在单线程环境还是多线程环境，一个锁处于被锁定状态，那么必须先执行unlock操作后面才能进行lock操作。</p>
+<h3 id="volatile变量规则："><a href="#volatile变量规则：" class="headerlink" title="volatile变量规则："></a>volatile变量规则：</h3><p>&emsp;&emsp; 这是一条比较重要的规则，它标志着volatile保证了线程可见性。通俗点讲就是如果一个线程先去写一个volatile变量，然后一个线程去读这个变量，那么这个写操作一定是happens-before读操作的。</p>
+<h3 id="传递规则："><a href="#传递规则：" class="headerlink" title="传递规则："></a>传递规则：</h3><p>&emsp;&emsp;提现了happens-before原则具有传递性，即A happens-before B , B happens-before C，那么A happens-before C。</p>
+<h3 id="线程启动规则："><a href="#线程启动规则：" class="headerlink" title="线程启动规则："></a>线程启动规则：</h3><p>&emsp;&emsp;假定线程A在执行过程中，通过执行ThreadB.start()来启动线程B，那么线程A对共享变量的修改在接下来线程B开始执行后确保对线程B可见。</p>
+<h3 id="线程终结规则："><a href="#线程终结规则：" class="headerlink" title="线程终结规则："></a>线程终结规则：</h3><p>&emsp;&emsp;假定线程A在执行的过程中，通过制定ThreadB.join()等待线程B终止，那么线程B在终止之前对共享变量的修改在线程A等待返回后可见。</p>
+<hr>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>&emsp;&emsp;上面八条是原生Java满足Happens-before关系的规则，但是我们可以对他们进行推导出其他满足happens-before的规则：</p>
+<ol>
+<li>将一个元素放入一个线程安全的队列的操作Happens-Before从队列中取出这个元素的操作。</li>
+<li>将一个元素放入一个线程安全容器的操作Happens-Before从容器中取出这个元素的操作。</li>
+<li>在CountDownLatch上的倒数操作Happens-Before CountDownLatch#await()操作。</li>
+<li>释放Semaphore许可的操作Happens-Before获得许可操作。</li>
+<li>Future表示的任务的所有操作Happens-Before Future#get()操作。</li>
+<li>向Executor提交一个Runnable或Callable的操作Happens-Before任务开始执行操作。</li>
+<li>如果两个操作不满足上述任意一个happens-before规则，那么这两个操作就没有顺序的保障，JVM就可以对这两个操作进行重排序。如果操作Ahappens-before操作B，那么操作A在内存上所做的操作对操作B都是可见的。</li>
 </ol>
 ]]></content>
       <categories>
@@ -1556,41 +1556,6 @@ SELECT ... FOR UPDATE<span aria-hidden="true" class="line-numbers-rows"><span></
       </tags>
   </entry>
   <entry>
-    <title>jvm命令</title>
-    <url>/hexoblog/md/jvm/jvm%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<h1 id="JVM命令的使用"><a href="#JVM命令的使用" class="headerlink" title="JVM命令的使用"></a>JVM命令的使用</h1><p><a href="https://blog.csdn.net/wangxiaotongfan/article/details/82560739">https://blog.csdn.net/wangxiaotongfan/article/details/82560739</a></p>
-<h2 id="JPS"><a href="#JPS" class="headerlink" title="JPS"></a>JPS</h2><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>&emsp;&emsp;显示当前系统的java进程。</p>
-<h3 id="格式"><a href="#格式" class="headerlink" title="格式"></a>格式</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h3 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h3><ol>
-<li>-q：只显示pid，不显示class名称，jar文件名和传递给main方法的参数。</li>
-<li>-l：输出应用程序main class的完整package名或者应用程序的jar文件完整路径名。</li>
-<li>-m：输出jvm启动时传递给main方法启动。</li>
-<li>-v：输出JVM启动时显示指定的JVM参数。</li>
-</ol>
-<h2 id="JSTAT"><a href="#JSTAT" class="headerlink" title="JSTAT"></a>JSTAT</h2><h3 id="介绍-1"><a href="#介绍-1" class="headerlink" title="介绍"></a>介绍</h3><p>&emsp;&emsp;用于监视虚拟机运行时状态信息的命令，它可以显示出虚拟机进程中的类装载、内存、垃圾收集、JIT编译(Just In Time Compiler, 即时编译器)等运行数据。</p>
-<h3 id="格式-1"><a href="#格式-1" class="headerlink" title="格式"></a>格式</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h3 id="参数-1"><a href="#参数-1" class="headerlink" title="参数"></a>参数</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token keyword">if</span> <span class="token punctuation">[</span> <span class="token string">"<span class="token variable">$DEBUG</span>"</span> <span class="token operator">=</span> <span class="token string">"true"</span> <span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token keyword">then</span>
-  <span class="token builtin class-name">echo</span> -e <span class="token string">"<span class="token entity" title="\033">\033</span>[0;31m debug is open,port=<span class="token variable">$DEBUG_PORT</span> <span class="token entity" title="\033">\033</span>[0m"</span>
-  <span class="token assign-left variable">JAVA_OPTS</span><span class="token operator">=</span><span class="token string">"<span class="token variable">$JAVA_OPTS</span> -Xdebug -Xrunjdwp:transport=dt_socket,address=<span class="token variable">$DEBUG_PORT</span>,server=y,suspend=y"</span>
-<span class="token keyword">fi</span>
-
-<span class="token assign-left variable">JAVA_HEAP_DUMP_OPTS</span><span class="token operator">=</span>-XX:HeapDumpPath<span class="token operator">=</span><span class="token variable">$LOG_HOME</span>/dump.hprof
-<span class="token assign-left variable">JAVA_OPTS</span><span class="token operator">=</span><span class="token string">"<span class="token variable">$JAVA_OPTS</span> -Dserver.port=<span class="token variable">$PORT</span> -Dlog.home=<span class="token variable">$LOG_HOME</span> -Duse.flume=false -Xms128m -Xmx2048m -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=1024m -Dfile.encoding=utf-8 -XX:+HeapDumpOnOutOfMemoryError <span class="token variable">$JAVA_HEAP_DUMP_OPTS</span>"</span>
-<span class="token comment">#JAVA_OPTS="$JAVA_OPTS -XX:+TraceClassLoading -XX:+TraceClassUnloading"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-]]></content>
-      <categories>
-        <category>jvm</category>
-      </categories>
-      <tags>
-        <tag>jvm</tag>
-        <tag>tool</tag>
-        <tag>jdk</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>jvm调优</title>
     <url>/hexoblog/md/jvm/jvm%E8%B0%83%E4%BC%98/</url>
     <content><![CDATA[<h1 id="JVM堆内存调优"><a href="#JVM堆内存调优" class="headerlink" title="JVM堆内存调优"></a>JVM堆内存调优</h1><span id="more"></span>
@@ -1637,6 +1602,41 @@ SELECT ... FOR UPDATE<span aria-hidden="true" class="line-numbers-rows"><span></
       <tags>
         <tag>jvm</tag>
         <tag>tool</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>jvm命令</title>
+    <url>/hexoblog/md/jvm/jvm%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h1 id="JVM命令的使用"><a href="#JVM命令的使用" class="headerlink" title="JVM命令的使用"></a>JVM命令的使用</h1><p><a href="https://blog.csdn.net/wangxiaotongfan/article/details/82560739">https://blog.csdn.net/wangxiaotongfan/article/details/82560739</a></p>
+<h2 id="JPS"><a href="#JPS" class="headerlink" title="JPS"></a>JPS</h2><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>&emsp;&emsp;显示当前系统的java进程。</p>
+<h3 id="格式"><a href="#格式" class="headerlink" title="格式"></a>格式</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h3><ol>
+<li>-q：只显示pid，不显示class名称，jar文件名和传递给main方法的参数。</li>
+<li>-l：输出应用程序main class的完整package名或者应用程序的jar文件完整路径名。</li>
+<li>-m：输出jvm启动时传递给main方法启动。</li>
+<li>-v：输出JVM启动时显示指定的JVM参数。</li>
+</ol>
+<h2 id="JSTAT"><a href="#JSTAT" class="headerlink" title="JSTAT"></a>JSTAT</h2><h3 id="介绍-1"><a href="#介绍-1" class="headerlink" title="介绍"></a>介绍</h3><p>&emsp;&emsp;用于监视虚拟机运行时状态信息的命令，它可以显示出虚拟机进程中的类装载、内存、垃圾收集、JIT编译(Just In Time Compiler, 即时编译器)等运行数据。</p>
+<h3 id="格式-1"><a href="#格式-1" class="headerlink" title="格式"></a>格式</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="参数-1"><a href="#参数-1" class="headerlink" title="参数"></a>参数</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token keyword">if</span> <span class="token punctuation">[</span> <span class="token string">"<span class="token variable">$DEBUG</span>"</span> <span class="token operator">=</span> <span class="token string">"true"</span> <span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token keyword">then</span>
+  <span class="token builtin class-name">echo</span> -e <span class="token string">"<span class="token entity" title="\033">\033</span>[0;31m debug is open,port=<span class="token variable">$DEBUG_PORT</span> <span class="token entity" title="\033">\033</span>[0m"</span>
+  <span class="token assign-left variable">JAVA_OPTS</span><span class="token operator">=</span><span class="token string">"<span class="token variable">$JAVA_OPTS</span> -Xdebug -Xrunjdwp:transport=dt_socket,address=<span class="token variable">$DEBUG_PORT</span>,server=y,suspend=y"</span>
+<span class="token keyword">fi</span>
+
+<span class="token assign-left variable">JAVA_HEAP_DUMP_OPTS</span><span class="token operator">=</span>-XX:HeapDumpPath<span class="token operator">=</span><span class="token variable">$LOG_HOME</span>/dump.hprof
+<span class="token assign-left variable">JAVA_OPTS</span><span class="token operator">=</span><span class="token string">"<span class="token variable">$JAVA_OPTS</span> -Dserver.port=<span class="token variable">$PORT</span> -Dlog.home=<span class="token variable">$LOG_HOME</span> -Duse.flume=false -Xms128m -Xmx2048m -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=1024m -Dfile.encoding=utf-8 -XX:+HeapDumpOnOutOfMemoryError <span class="token variable">$JAVA_HEAP_DUMP_OPTS</span>"</span>
+<span class="token comment">#JAVA_OPTS="$JAVA_OPTS -XX:+TraceClassLoading -XX:+TraceClassUnloading"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+]]></content>
+      <categories>
+        <category>jvm</category>
+      </categories>
+      <tags>
+        <tag>jvm</tag>
+        <tag>tool</tag>
+        <tag>jdk</tag>
       </tags>
   </entry>
   <entry>
@@ -2179,6 +2179,62 @@ netsh winsock reset<span aria-hidden="true" class="line-numbers-rows"><span></sp
       </tags>
   </entry>
   <entry>
+    <title>mysql中的MVCC</title>
+    <url>/hexoblog/md/mysql/mysql%E4%B8%AD%E7%9A%84MVCC/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;MVCC全称Multi-Version Concurrency Control，即多版本并发控制。MVCC是一种并发控制的方法，一般在数据库管理系统中，实现对数据库的并发访问，在编程语言中实现事务内存。</p>
+<span id="more"></span>
+
+<h2 id="当前读和快照读"><a href="#当前读和快照读" class="headerlink" title="当前读和快照读"></a>当前读和快照读</h2><ul>
+<li><strong>当前读：</strong> 它读取的是记录的最新版本，读取时还要保证其他并发事务不能修改当前记录，会对读取的记录进行加锁。像<code>select lock in share mode(共享锁); select for update, update, insert, delete(排他锁)</code>这些都是当前读。  </li>
+<li><strong>快照读：</strong> 像不加锁的select操作就是快照读，即不加锁的非阻塞读；快照读的前提是隔离级别不是串行化，串行化会使得快照读退化成当前读。（串行化下，一切都是串行，不存在并发的情况）<blockquote>
+<p>&emsp;&emsp;出现快照读是基于提高并发性能的考虑，快照读的实现是基于多版本并发控制，即MVCC。<br>&emsp;&emsp;可以认为MVCC是行锁的一个变种，但它在很多情况下，避免了加锁操作，降低了开销；既然是基于多版本，即快照读可能读到的并不一定是数据的最新版本，而有可能是之前的历史版本</p>
+</blockquote>
+</li>
+</ul>
+<p>&emsp;&emsp;MVCC就是为了实现读写冲突不加锁，这里的读是快照读，当前读是一种加锁操作，是一种悲观锁。</p>
+<h2 id="MVCC与读操作"><a href="#MVCC与读操作" class="headerlink" title="MVCC与读操作"></a>MVCC与读操作</h2><p>&emsp;&emsp;MVCC指的是<strong>维持一个数据的多个版本，使得读写操作没有冲突</strong>。<br>&emsp;&emsp;快照读就是MySQL为我们实现MVCC理想模型的一个具体功能；而当前读就是悲观锁的表现。<br>&emsp;&emsp;MVCC模型在MySQL中的具体实现则是由3个隐式字段，undo日志，Read View等去完成的。</p>
+<h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><h3 id="数据库的并发情况"><a href="#数据库的并发情况" class="headerlink" title="数据库的并发情况"></a>数据库的并发情况</h3><p>&emsp;&emsp;数据库的并发情况分为三种：</p>
+<ul>
+<li>读-读：不存在任何问题，不需要并发控制。</li>
+<li>读-写：有线程安全问题，可能会造成事务隔离性问题，脏读、幻读、不可重复读。</li>
+<li>写-写：有线程安全问题，可能丢失更新，第一类、第二类丢失更新。</li>
+</ul>
+<h3 id="MVCC作用"><a href="#MVCC作用" class="headerlink" title="MVCC作用"></a>MVCC作用</h3><p>&emsp;&emsp;MVCC使用来解决<strong>读写</strong>冲突的<strong>无锁并发机制</strong>，也就是为事务分配单向增长的时间戳，为每一次修改保存一个版本，版本与事务时间戳关联，读操作只读该事务开始前的数据库快照。</p>
+<ul>
+<li>在并发读写数据库时，可以做到在读操作时不用阻塞写操作，写操作不用阻塞读操作，提高了数据库并发读写的性能。</li>
+<li>同时还可以解决脏读、幻读、不可重复读的问题，但不能解决丢失更新。</li>
+</ul>
+<p>&emsp;&emsp;可以使用<code>MVCC+悲观锁/乐观锁</code>来解决并发冲突问题。</p>
+<hr>
+<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><p>&emsp;&emsp;MVCC的目的就是多版本并发控制，在数据中就是为了解决读写冲突。<br>&emsp;&emsp;的实现原理主要是依赖记录中的 3个隐式字段，undo日志，Read View来实现的。所以我们先来看看这个三个point的概念。</p>
+<h2 id="隐式字段"><a href="#隐式字段" class="headerlink" title="隐式字段"></a>隐式字段</h2><p>&emsp;&emsp;数据库表除了我们定义的字段外，还有三个隐式字段：</p>
+<ul>
+<li>DB_TRX_ID：6Byte，最近修改或插入的事务ID，记录创建这条记录/最后一次修改该记录的事务ID。</li>
+<li>DB_ROLL_PTR：7Byte，回滚指针，指向这条记录的上一个版本。</li>
+<li>DB_ROW_ID：6Byte，隐含的自增主键，我们在没有指定主键的时候Innodb会使用隐式主键产生聚簇索引。</li>
+</ul>
+<h2 id="undo日志"><a href="#undo日志" class="headerlink" title="undo日志"></a>undo日志</h2><p>&emsp;&emsp;undo log日志主要分为两种：</p>
+<ul>
+<li>insert undo log：代表事务在插入新纪录时产生的undo log，只在事务回滚时需要，并且在事务提交后可以被立即丢弃。</li>
+<li>uodate undo log：事务在修改或者删除时产生的undo log，不仅在事务回滚时需要，在快照读时也需要，所以不能随便删除，只有在快速读或事务回滚不涉及该日志时，对应的日志才会被purge线程统一清除。</li>
+</ul>
+<h2 id="Read-View"><a href="#Read-View" class="headerlink" title="Read View"></a>Read View</h2><p>&emsp;&emsp;Read View是在事务进行快照读的时候产生的，该事务会在快照读的那一刻会生成数据库事务的快照，记录并维护系统当前活跃事务的ID(当每个事务开启时，都会被分配一个ID, 这个ID是递增的，所以最新的事务，ID值越大)。<br>&emsp;&emsp;Read View主要是用来做可见性判断的，即当我们某个事务执行快照读的时候，对该记录创建一个Read View读视图，把它比作条件用来判断当前事务能够看到哪个版本的数据，既可能是当前最新的数据，也有可能是该行记录的undo log里面的某个版本的数据。<br>&emsp;&emsp;Read View遵循一个可见性算法，主要是将要被修改的数据的最新记录中的DB_TRX_ID（即当前事务ID）取出来，与系统当前其他活跃事务的ID去对比（由Read View维护），如果DB_TRX_ID跟Read View的属性做了某些比较，不符合可见性，那就通过DB_ROLL_PTR回滚指针去取出Undo Log中的DB_TRX_ID再比较，即遍历链表的DB_TRX_ID（从链首到链尾，即从最近的一次修改查起），直到找到满足特定条件的DB_TRX_ID, 那么这个DB_TRX_ID所在的旧记录就是当前事务能看见的最新老版本。<br>&emsp;&emsp;不同的隔离级别生成Read View的时间是不一样的，可重复读是第一次读的时候生成的，之后每一次都是第一次的Read View，而读已提交则是每次都会生成。（这里是指当前读的时候）</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>&emsp;&emsp;简单的说：是通过保存数据在某个时间点的快照来实现的。也就是说，不管需要执行多长时间，每个事务看到的数据是一致的。根据事务开始的时间不同，每个事物对同一张表，同一时刻看到的数据可能是不一样的。</p>
+<hr>
+<h1 id="参考文献-amp-鸣谢"><a href="#参考文献-amp-鸣谢" class="headerlink" title="参考文献 &amp; 鸣谢"></a>参考文献 &amp; 鸣谢</h1><ul>
+<li><a href="https://blog.csdn.net/SnailMann/article/details/94724197">【MySQL笔记】正确的理解MySQL的MVCC及实现原理</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>数据库</category>
+        <category>mysql</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+        <tag>数据类型</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>mysql常用命令</title>
     <url>/hexoblog/md/mysql/mysql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><h2 id="修改mysql时区"><a href="#修改mysql时区" class="headerlink" title="修改mysql时区"></a>修改mysql时区</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 查看时区</span>
@@ -2254,51 +2310,13 @@ mysqlbinlog --start-positoin<span class="token operator">=</span><span class="to
       </tags>
   </entry>
   <entry>
-    <title>mysql中的MVCC</title>
-    <url>/hexoblog/md/mysql/mysql%E4%B8%AD%E7%9A%84MVCC/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;MVCC全称Multi-Version Concurrency Control，即多版本并发控制。MVCC是一种并发控制的方法，一般在数据库管理系统中，实现对数据库的并发访问，在编程语言中实现事务内存。</p>
+    <title>mysql浮点数精度</title>
+    <url>/hexoblog/md/mysql/mysql%E6%B5%AE%E7%82%B9%E6%95%B0%E7%B2%BE%E5%BA%A6/</url>
+    <content><![CDATA[<h1 id="小数类型"><a href="#小数类型" class="headerlink" title="小数类型"></a>小数类型</h1><h2 id="浮点数"><a href="#浮点数" class="headerlink" title="浮点数"></a>浮点数</h2><p>&emsp;&emsp;浮点型又称之为精度类型：是一种有可能丢失精度的数据类型，数据有可能不那么准确（由其是在超出范围的时候）。<br>&emsp;&emsp;浮点型之所以能够存储较大的数值（不精确），原因就是利用存储数据的位来存储指数。</p>
 <span id="more"></span>
-
-<h2 id="当前读和快照读"><a href="#当前读和快照读" class="headerlink" title="当前读和快照读"></a>当前读和快照读</h2><ul>
-<li><strong>当前读：</strong> 它读取的是记录的最新版本，读取时还要保证其他并发事务不能修改当前记录，会对读取的记录进行加锁。像<code>select lock in share mode(共享锁); select for update, update, insert, delete(排他锁)</code>这些都是当前读。  </li>
-<li><strong>快照读：</strong> 像不加锁的select操作就是快照读，即不加锁的非阻塞读；快照读的前提是隔离级别不是串行化，串行化会使得快照读退化成当前读。（串行化下，一切都是串行，不存在并发的情况）<blockquote>
-<p>&emsp;&emsp;出现快照读是基于提高并发性能的考虑，快照读的实现是基于多版本并发控制，即MVCC。<br>&emsp;&emsp;可以认为MVCC是行锁的一个变种，但它在很多情况下，避免了加锁操作，降低了开销；既然是基于多版本，即快照读可能读到的并不一定是数据的最新版本，而有可能是之前的历史版本</p>
-</blockquote>
-</li>
-</ul>
-<p>&emsp;&emsp;MVCC就是为了实现读写冲突不加锁，这里的读是快照读，当前读是一种加锁操作，是一种悲观锁。</p>
-<h2 id="MVCC与读操作"><a href="#MVCC与读操作" class="headerlink" title="MVCC与读操作"></a>MVCC与读操作</h2><p>&emsp;&emsp;MVCC指的是<strong>维持一个数据的多个版本，使得读写操作没有冲突</strong>。<br>&emsp;&emsp;快照读就是MySQL为我们实现MVCC理想模型的一个具体功能；而当前读就是悲观锁的表现。<br>&emsp;&emsp;MVCC模型在MySQL中的具体实现则是由3个隐式字段，undo日志，Read View等去完成的。</p>
-<h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><h3 id="数据库的并发情况"><a href="#数据库的并发情况" class="headerlink" title="数据库的并发情况"></a>数据库的并发情况</h3><p>&emsp;&emsp;数据库的并发情况分为三种：</p>
-<ul>
-<li>读-读：不存在任何问题，不需要并发控制。</li>
-<li>读-写：有线程安全问题，可能会造成事务隔离性问题，脏读、幻读、不可重复读。</li>
-<li>写-写：有线程安全问题，可能丢失更新，第一类、第二类丢失更新。</li>
-</ul>
-<h3 id="MVCC作用"><a href="#MVCC作用" class="headerlink" title="MVCC作用"></a>MVCC作用</h3><p>&emsp;&emsp;MVCC使用来解决<strong>读写</strong>冲突的<strong>无锁并发机制</strong>，也就是为事务分配单向增长的时间戳，为每一次修改保存一个版本，版本与事务时间戳关联，读操作只读该事务开始前的数据库快照。</p>
-<ul>
-<li>在并发读写数据库时，可以做到在读操作时不用阻塞写操作，写操作不用阻塞读操作，提高了数据库并发读写的性能。</li>
-<li>同时还可以解决脏读、幻读、不可重复读的问题，但不能解决丢失更新。</li>
-</ul>
-<p>&emsp;&emsp;可以使用<code>MVCC+悲观锁/乐观锁</code>来解决并发冲突问题。</p>
-<hr>
-<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><p>&emsp;&emsp;MVCC的目的就是多版本并发控制，在数据中就是为了解决读写冲突。<br>&emsp;&emsp;的实现原理主要是依赖记录中的 3个隐式字段，undo日志，Read View来实现的。所以我们先来看看这个三个point的概念。</p>
-<h2 id="隐式字段"><a href="#隐式字段" class="headerlink" title="隐式字段"></a>隐式字段</h2><p>&emsp;&emsp;数据库表除了我们定义的字段外，还有三个隐式字段：</p>
-<ul>
-<li>DB_TRX_ID：6Byte，最近修改或插入的事务ID，记录创建这条记录/最后一次修改该记录的事务ID。</li>
-<li>DB_ROLL_PTR：7Byte，回滚指针，指向这条记录的上一个版本。</li>
-<li>DB_ROW_ID：6Byte，隐含的自增主键，我们在没有指定主键的时候Innodb会使用隐式主键产生聚簇索引。</li>
-</ul>
-<h2 id="undo日志"><a href="#undo日志" class="headerlink" title="undo日志"></a>undo日志</h2><p>&emsp;&emsp;undo log日志主要分为两种：</p>
-<ul>
-<li>insert undo log：代表事务在插入新纪录时产生的undo log，只在事务回滚时需要，并且在事务提交后可以被立即丢弃。</li>
-<li>uodate undo log：事务在修改或者删除时产生的undo log，不仅在事务回滚时需要，在快照读时也需要，所以不能随便删除，只有在快速读或事务回滚不涉及该日志时，对应的日志才会被purge线程统一清除。</li>
-</ul>
-<h2 id="Read-View"><a href="#Read-View" class="headerlink" title="Read View"></a>Read View</h2><p>&emsp;&emsp;Read View是在事务进行快照读的时候产生的，该事务会在快照读的那一刻会生成数据库事务的快照，记录并维护系统当前活跃事务的ID(当每个事务开启时，都会被分配一个ID, 这个ID是递增的，所以最新的事务，ID值越大)。<br>&emsp;&emsp;Read View主要是用来做可见性判断的，即当我们某个事务执行快照读的时候，对该记录创建一个Read View读视图，把它比作条件用来判断当前事务能够看到哪个版本的数据，既可能是当前最新的数据，也有可能是该行记录的undo log里面的某个版本的数据。<br>&emsp;&emsp;Read View遵循一个可见性算法，主要是将要被修改的数据的最新记录中的DB_TRX_ID（即当前事务ID）取出来，与系统当前其他活跃事务的ID去对比（由Read View维护），如果DB_TRX_ID跟Read View的属性做了某些比较，不符合可见性，那就通过DB_ROLL_PTR回滚指针去取出Undo Log中的DB_TRX_ID再比较，即遍历链表的DB_TRX_ID（从链首到链尾，即从最近的一次修改查起），直到找到满足特定条件的DB_TRX_ID, 那么这个DB_TRX_ID所在的旧记录就是当前事务能看见的最新老版本。<br>&emsp;&emsp;不同的隔离级别生成Read View的时间是不一样的，可重复读是第一次读的时候生成的，之后每一次都是第一次的Read View，而读已提交则是每次都会生成。（这里是指当前读的时候）</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>&emsp;&emsp;简单的说：是通过保存数据在某个时间点的快照来实现的。也就是说，不管需要执行多长时间，每个事务看到的数据是一致的。根据事务开始的时间不同，每个事物对同一张表，同一时刻看到的数据可能是不一样的。</p>
-<hr>
-<h1 id="参考文献-amp-鸣谢"><a href="#参考文献-amp-鸣谢" class="headerlink" title="参考文献 &amp; 鸣谢"></a>参考文献 &amp; 鸣谢</h1><ul>
-<li><a href="https://blog.csdn.net/SnailMann/article/details/94724197">【MySQL笔记】正确的理解MySQL的MVCC及实现原理</a></li>
-</ul>
+<h3 id="float"><a href="#float" class="headerlink" title="float"></a>float</h3><p>&emsp;&emsp;单精度浮点数，采用4个字节存储，保证7个位的精度。<br>&emsp;&emsp;Float(M,D)：表示一共存储M个有效数字，其中小数部分占D位。M(1<del>255)称为精度，D(1</del>30)称为标度且不能大于M-2，是可选的。<br>&emsp;&emsp;对于小数位数超长的，会采用四舍五入进行进位。</p>
+<h3 id="double"><a href="#double" class="headerlink" title="double"></a>double</h3><p>&emsp;&emsp;双精度浮点数，采用8个字节存储，表示的范围更大，精度最大15位。</p>
+<h2 id="定点数"><a href="#定点数" class="headerlink" title="定点数"></a>定点数</h2><p>&emsp;&emsp;能够保证数据精确的小数（小数部分可能不精确，超出长度会四舍五入），整数部分一定精确。<br>&emsp;&emsp;mysql中定点数只有一种，就是Decimal(M,D)。<br>&emsp;&emsp;Decimal定点数：系统自动根据存储的数据来分配存储空间，每大概9个数就会分配四个字节来进行存储，同时小数和整数部分是分开的。采用M+2个字节存储。<br>&emsp;&emsp;Decimal(M,D)：M表示总长度，最大值不能超过65，D代表小数部分长度，最长不能超过30。（默认为10，0）是必选的。</p>
 ]]></content>
       <categories>
         <category>数据库</category>
@@ -2337,24 +2355,6 @@ mysqlbinlog --start-positoin<span class="token operator">=</span><span class="to
       <tags>
         <tag>mysql</tag>
         <tag>数据库</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mysql浮点数精度</title>
-    <url>/hexoblog/md/mysql/mysql%E6%B5%AE%E7%82%B9%E6%95%B0%E7%B2%BE%E5%BA%A6/</url>
-    <content><![CDATA[<h1 id="小数类型"><a href="#小数类型" class="headerlink" title="小数类型"></a>小数类型</h1><h2 id="浮点数"><a href="#浮点数" class="headerlink" title="浮点数"></a>浮点数</h2><p>&emsp;&emsp;浮点型又称之为精度类型：是一种有可能丢失精度的数据类型，数据有可能不那么准确（由其是在超出范围的时候）。<br>&emsp;&emsp;浮点型之所以能够存储较大的数值（不精确），原因就是利用存储数据的位来存储指数。</p>
-<span id="more"></span>
-<h3 id="float"><a href="#float" class="headerlink" title="float"></a>float</h3><p>&emsp;&emsp;单精度浮点数，采用4个字节存储，保证7个位的精度。<br>&emsp;&emsp;Float(M,D)：表示一共存储M个有效数字，其中小数部分占D位。M(1<del>255)称为精度，D(1</del>30)称为标度且不能大于M-2，是可选的。<br>&emsp;&emsp;对于小数位数超长的，会采用四舍五入进行进位。</p>
-<h3 id="double"><a href="#double" class="headerlink" title="double"></a>double</h3><p>&emsp;&emsp;双精度浮点数，采用8个字节存储，表示的范围更大，精度最大15位。</p>
-<h2 id="定点数"><a href="#定点数" class="headerlink" title="定点数"></a>定点数</h2><p>&emsp;&emsp;能够保证数据精确的小数（小数部分可能不精确，超出长度会四舍五入），整数部分一定精确。<br>&emsp;&emsp;mysql中定点数只有一种，就是Decimal(M,D)。<br>&emsp;&emsp;Decimal定点数：系统自动根据存储的数据来分配存储空间，每大概9个数就会分配四个字节来进行存储，同时小数和整数部分是分开的。采用M+2个字节存储。<br>&emsp;&emsp;Decimal(M,D)：M表示总长度，最大值不能超过65，D代表小数部分长度，最长不能超过30。（默认为10，0）是必选的。</p>
-]]></content>
-      <categories>
-        <category>数据库</category>
-        <category>mysql</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
-        <tag>数据类型</tag>
       </tags>
   </entry>
   <entry>
@@ -2913,59 +2913,6 @@ redis-server.exe --service-stop<span aria-hidden="true" class="line-numbers-rows
       </tags>
   </entry>
   <entry>
-    <title>redlock-redis分布式锁的实现</title>
-    <url>/hexoblog/md/redis/redlock-redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9A%84%E5%AE%9E%E7%8E%B0/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;Redlock全名叫做Redis-Distributed-Lock。用redis实现的分布式锁。<br>&emsp;&emsp;单节点的情况下，可以使用setnx实现分布式锁，在集群的情况下，就需要是要redlock来实现分布式锁。</p>
-<span id="more"></span>
-
-<hr>
-<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><p>&emsp;&emsp;假设一个集群中有5台机器，现在进行加锁，大概流程如下：</p>
-<ol>
-<li>获取当前系统的时间戳，毫秒为单位。</li>
-<li>依次尝试从5个实例，使用相同的key和具有唯一性的value获取锁。当向redis请求获取锁时，客户端需要设置一个网络连接和响应超时时间，这个超时时间应该小于锁的失效时间。这样可以避免在某台实例挂掉的情况下，客户端仍在等待结果。</li>
-<li>客户端使用当前时间减去开始获取锁的时间，就得到了获取锁使用的时间。<strong>当从大多数节点获取锁成功，并且获取锁使用的时间小于锁失效时间，才算获取锁成功</strong>。</li>
-<li>如果成功获取到了锁，锁的真正有效时间等于有效时间减去获取锁使用的时间。</li>
-<li>如果获取锁失败，客户端应该在所有实例上解锁。（没有成功也要解锁，防止实际加锁成功，但因为客户端没有得到响应造成的误判）</li>
-</ol>
-<hr>
-<h1 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h1><h2 id="关键"><a href="#关键" class="headerlink" title="关键"></a>关键</h2><ol>
-<li>先假设client获取所有实例，所有实例包含相同的key和过期时间(TTL) ,但每个实例set命令时间不同导致不能同时过期，第一个set命令之前是T1,最后一个set命令后为T2,则此client有效获取锁的最小时间为TTL-(T2-T1)-时钟漂移（这里算出来的是实际可用时间）。</li>
-<li>对于以N/2+1(也就是一半以上)的方式判断获取锁成功，是因为如果小于一半判断为成功的话，有可能出现多个client都成功获取锁的情况，从而使锁失效。</li>
-<li>一个client锁定大多数事例耗费的时间大于或接近锁的过期时间，就认为锁无效，并且解锁这个redis实例(不执行业务) ;只要在TTL时间内成功获取一半以上的锁便是有效锁;否则无效。</li>
-</ol>
-<h2 id="系统保活"><a href="#系统保活" class="headerlink" title="系统保活"></a>系统保活</h2><ol>
-<li>获取锁失败（或者业务完成），能够自动释放锁，不能等到锁过期。</li>
-<li>在client重试获取锁前（第一次失败到第二次重试时间间隔）大于第一次获取锁消耗的时间。</li>
-<li>重试获取有次数限制。</li>
-</ol>
-<h2 id="崩溃恢复"><a href="#崩溃恢复" class="headerlink" title="崩溃恢复"></a>崩溃恢复</h2><ol>
-<li>如果redis没有持久化功能，在clientA获取锁成功后，所有redis重启，clientB能够再次获取到锁，这样违法了锁的排他互斥性。</li>
-<li>如果启动AOF永久化存储，事情会好些。举例:当我们重启redis后，由于redis过期机制是按照unix时间戳走的，所以在重启后，然后会按照规定的时间过期，不影响业务；但是由于AOF同步到磁盘的方式默认是每秒1次，如果在一秒内断电（这一秒的数据没有写到磁盘，锁没有写入磁盘），会导致数据丢失，立即重启会造成锁互斥性失效；但如果同步磁盘方式使用Always(每一个写命令都同步到硬盘)造成性能急剧下降；所以在锁完全有效性和性能方面要有所取舍。</li>
-<li>有效解决既保证锁完全有效性及性能高效及即使断电情况的方法是redis同步到磁盘方式保持默认的每秒，在redis无论因为什么原因停掉后要等待TTL（一个锁有效期）时间后再重启(学名:延迟重启) ；缺点是 在TTL时间内服务相当于暂停状态。</li>
-</ol>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
-<li>TTL时长要大于正常业务执行的时间+获取所有redis服务消耗时间+时钟漂移。</li>
-<li>获取redis所有服务消耗时间要远小于TTL时间，并且获取成功的锁个数要在总数的一般以上：N/2+1。</li>
-<li>锁重试次数要有限制。</li>
-<li>在redis崩溃后（无论一个还是所有），要延迟TTL时间重启redis。</li>
-</ol>
-<hr>
-<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><h2 id="故障转移导致无法实现真正的redlock"><a href="#故障转移导致无法实现真正的redlock" class="headerlink" title="故障转移导致无法实现真正的redlock?"></a>故障转移导致无法实现真正的redlock?</h2><p>&emsp;&emsp;因为redis在进行主从复制的时候是异步完成的，比如在clientA获取锁后，主redis复制数据到从redis过程中崩溃了，导致没有复制到从redis中，然后从redis选举出一个升级为主redis,造成新的主redis没有clientA 设置的锁，这是clientB尝试获取锁，并且能够成功获取锁，导致互斥失效。<br>&emsp;&emsp;这个失败的原因是因为从redis立刻升级为主redis，如果能够过TTL时间再升级为主redis（延迟升级）后，或者立刻升级为主redis但是过TTL的时间后再执行获取锁的任务，就能成功产生互斥效果；是不是这样就能实现基于redis主从的Redlock。这样会产生某一个集群某一时刻没有主服务器。</p>
-<h2 id="redlock重试"><a href="#redlock重试" class="headerlink" title="redlock重试"></a>redlock重试</h2><p>&emsp;&emsp;<em>当client不能获取锁时，应该在随机时间后重试获取锁；并且最好在同一时刻并发的把set命令发送给所有redis实例；而且对于已经获取锁的client在完成任务后要及时释放锁，这是为了节省时间。</em></p>
-<h2 id="redlock释放锁"><a href="#redlock释放锁" class="headerlink" title="redlock释放锁"></a>redlock释放锁</h2><p>&emsp;&emsp;由于释放锁时会判断这个锁的value是不是自己设置的，如果是才删除；所以在释放锁时非常简单，只要向所有实例都发出释放锁的命令，不用考虑能否成功释放锁。</p>
-<h2 id="Redisson"><a href="#Redisson" class="headerlink" title="Redisson"></a>Redisson</h2><p>&emsp;&emsp;redlock的实际使用模板。</p>
-<p><a href="https://www.cnblogs.com/niceyoo/p/13736140.html">https://www.cnblogs.com/niceyoo/p/13736140.html</a></p>
-]]></content>
-      <categories>
-        <category>redis</category>
-      </categories>
-      <tags>
-        <tag>redis</tag>
-        <tag>分布式</tag>
-        <tag>锁</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>redis过期键删除</title>
     <url>/hexoblog/md/redis/redis%E8%BF%87%E6%9C%9F%E9%94%AE%E5%88%A0%E9%99%A4/</url>
     <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;Redis的过期键删除指的是，对redis中因有效时间到了而对失效数据的处理策略。<br>&emsp;&emsp;Redis的内存淘汰策略指的是，当操作系统分配给Redis的内存不够使用时，在有新数据存入时，对老数据的处理逻辑。</p>
@@ -3031,6 +2978,59 @@ redis-server.exe --service-stop<span aria-hidden="true" class="line-numbers-rows
       </categories>
       <tags>
         <tag>redis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>redlock-redis分布式锁的实现</title>
+    <url>/hexoblog/md/redis/redlock-redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9A%84%E5%AE%9E%E7%8E%B0/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;Redlock全名叫做Redis-Distributed-Lock。用redis实现的分布式锁。<br>&emsp;&emsp;单节点的情况下，可以使用setnx实现分布式锁，在集群的情况下，就需要是要redlock来实现分布式锁。</p>
+<span id="more"></span>
+
+<hr>
+<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><p>&emsp;&emsp;假设一个集群中有5台机器，现在进行加锁，大概流程如下：</p>
+<ol>
+<li>获取当前系统的时间戳，毫秒为单位。</li>
+<li>依次尝试从5个实例，使用相同的key和具有唯一性的value获取锁。当向redis请求获取锁时，客户端需要设置一个网络连接和响应超时时间，这个超时时间应该小于锁的失效时间。这样可以避免在某台实例挂掉的情况下，客户端仍在等待结果。</li>
+<li>客户端使用当前时间减去开始获取锁的时间，就得到了获取锁使用的时间。<strong>当从大多数节点获取锁成功，并且获取锁使用的时间小于锁失效时间，才算获取锁成功</strong>。</li>
+<li>如果成功获取到了锁，锁的真正有效时间等于有效时间减去获取锁使用的时间。</li>
+<li>如果获取锁失败，客户端应该在所有实例上解锁。（没有成功也要解锁，防止实际加锁成功，但因为客户端没有得到响应造成的误判）</li>
+</ol>
+<hr>
+<h1 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h1><h2 id="关键"><a href="#关键" class="headerlink" title="关键"></a>关键</h2><ol>
+<li>先假设client获取所有实例，所有实例包含相同的key和过期时间(TTL) ,但每个实例set命令时间不同导致不能同时过期，第一个set命令之前是T1,最后一个set命令后为T2,则此client有效获取锁的最小时间为TTL-(T2-T1)-时钟漂移（这里算出来的是实际可用时间）。</li>
+<li>对于以N/2+1(也就是一半以上)的方式判断获取锁成功，是因为如果小于一半判断为成功的话，有可能出现多个client都成功获取锁的情况，从而使锁失效。</li>
+<li>一个client锁定大多数事例耗费的时间大于或接近锁的过期时间，就认为锁无效，并且解锁这个redis实例(不执行业务) ;只要在TTL时间内成功获取一半以上的锁便是有效锁;否则无效。</li>
+</ol>
+<h2 id="系统保活"><a href="#系统保活" class="headerlink" title="系统保活"></a>系统保活</h2><ol>
+<li>获取锁失败（或者业务完成），能够自动释放锁，不能等到锁过期。</li>
+<li>在client重试获取锁前（第一次失败到第二次重试时间间隔）大于第一次获取锁消耗的时间。</li>
+<li>重试获取有次数限制。</li>
+</ol>
+<h2 id="崩溃恢复"><a href="#崩溃恢复" class="headerlink" title="崩溃恢复"></a>崩溃恢复</h2><ol>
+<li>如果redis没有持久化功能，在clientA获取锁成功后，所有redis重启，clientB能够再次获取到锁，这样违法了锁的排他互斥性。</li>
+<li>如果启动AOF永久化存储，事情会好些。举例:当我们重启redis后，由于redis过期机制是按照unix时间戳走的，所以在重启后，然后会按照规定的时间过期，不影响业务；但是由于AOF同步到磁盘的方式默认是每秒1次，如果在一秒内断电（这一秒的数据没有写到磁盘，锁没有写入磁盘），会导致数据丢失，立即重启会造成锁互斥性失效；但如果同步磁盘方式使用Always(每一个写命令都同步到硬盘)造成性能急剧下降；所以在锁完全有效性和性能方面要有所取舍。</li>
+<li>有效解决既保证锁完全有效性及性能高效及即使断电情况的方法是redis同步到磁盘方式保持默认的每秒，在redis无论因为什么原因停掉后要等待TTL（一个锁有效期）时间后再重启(学名:延迟重启) ；缺点是 在TTL时间内服务相当于暂停状态。</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
+<li>TTL时长要大于正常业务执行的时间+获取所有redis服务消耗时间+时钟漂移。</li>
+<li>获取redis所有服务消耗时间要远小于TTL时间，并且获取成功的锁个数要在总数的一般以上：N/2+1。</li>
+<li>锁重试次数要有限制。</li>
+<li>在redis崩溃后（无论一个还是所有），要延迟TTL时间重启redis。</li>
+</ol>
+<hr>
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><h2 id="故障转移导致无法实现真正的redlock"><a href="#故障转移导致无法实现真正的redlock" class="headerlink" title="故障转移导致无法实现真正的redlock?"></a>故障转移导致无法实现真正的redlock?</h2><p>&emsp;&emsp;因为redis在进行主从复制的时候是异步完成的，比如在clientA获取锁后，主redis复制数据到从redis过程中崩溃了，导致没有复制到从redis中，然后从redis选举出一个升级为主redis,造成新的主redis没有clientA 设置的锁，这是clientB尝试获取锁，并且能够成功获取锁，导致互斥失效。<br>&emsp;&emsp;这个失败的原因是因为从redis立刻升级为主redis，如果能够过TTL时间再升级为主redis（延迟升级）后，或者立刻升级为主redis但是过TTL的时间后再执行获取锁的任务，就能成功产生互斥效果；是不是这样就能实现基于redis主从的Redlock。这样会产生某一个集群某一时刻没有主服务器。</p>
+<h2 id="redlock重试"><a href="#redlock重试" class="headerlink" title="redlock重试"></a>redlock重试</h2><p>&emsp;&emsp;<em>当client不能获取锁时，应该在随机时间后重试获取锁；并且最好在同一时刻并发的把set命令发送给所有redis实例；而且对于已经获取锁的client在完成任务后要及时释放锁，这是为了节省时间。</em></p>
+<h2 id="redlock释放锁"><a href="#redlock释放锁" class="headerlink" title="redlock释放锁"></a>redlock释放锁</h2><p>&emsp;&emsp;由于释放锁时会判断这个锁的value是不是自己设置的，如果是才删除；所以在释放锁时非常简单，只要向所有实例都发出释放锁的命令，不用考虑能否成功释放锁。</p>
+<h2 id="Redisson"><a href="#Redisson" class="headerlink" title="Redisson"></a>Redisson</h2><p>&emsp;&emsp;redlock的实际使用模板。</p>
+<p><a href="https://www.cnblogs.com/niceyoo/p/13736140.html">https://www.cnblogs.com/niceyoo/p/13736140.html</a></p>
+]]></content>
+      <categories>
+        <category>redis</category>
+      </categories>
+      <tags>
+        <tag>redis</tag>
+        <tag>分布式</tag>
+        <tag>锁</tag>
       </tags>
   </entry>
   <entry>
@@ -3217,7 +3217,7 @@ op3=>operation: 初始化
 op4=>operation: 销毁
 op1(right)->op2
 op2(right)->op3
-op3(right)->op4</textarea><textarea id="flowchart-0-options" style="display: none">{"scale":1,"line-width":2,"line-length":50,"text-margin":10,"font-size":12,"theme":"simple"}</textarea><script>  var code = document.getElementById("flowchart-0-code").value;  var options = JSON.parse(decodeURIComponent(document.getElementById("flowchart-0-options").value));  var diagram = flowchart.parse(code);  diagram.drawSVG("flowchart-0", options);</script></li>
+op3(right)->op4</textarea><textarea id="flowchart-0-options" style="display: none">{"theme":"simple","scale":1,"line-width":2,"line-length":50,"text-margin":10,"font-size":12}</textarea><script>  var code = document.getElementById("flowchart-0-code").value;  var options = JSON.parse(decodeURIComponent(document.getElementById("flowchart-0-options").value));  var diagram = flowchart.parse(code);  diagram.drawSVG("flowchart-0", options);</script></li>
 </ul>
 ]]></content>
       <categories>
@@ -3471,6 +3471,72 @@ hexo d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></sp
       </tags>
   </entry>
   <entry>
+    <title>zookeeper-leader选举</title>
+    <url>/hexoblog/md/zookeeper/zookeeper-leader%E9%80%89%E4%B8%BE/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;ZAB协议包括了两种基本模式：崩溃恢复，数据广播。<br>&emsp;&emsp;一旦Leader服务器出现崩溃或者由于网络原因导致Leader服务器失去了与过半Follower的联系，那么就会进入崩溃恢复模式。<br>&emsp;&emsp;崩溃恢复主要包括两部分：Leader选举和数据恢复。</p>
+<span id="more"></span>
+
+<h2 id="保证数据一致性"><a href="#保证数据一致性" class="headerlink" title="保证数据一致性"></a>保证数据一致性</h2><p>&emsp;&emsp;假设两种情况：</p>
+<ol>
+<li>一个事务在Leader上提交了，并且过半的Folower都响应Ack了，但是Leader在Commit消息发出之前挂了。</li>
+<li>假设一个事务在Leader提出之后，Leader挂了。</li>
+</ol>
+<p>&emsp;&emsp;要满足上面这两个问题，必须做到：</p>
+<ol>
+<li><strong>确保已经被Leader提交的Proposal必须最终被所有的Follower服务器提交</strong>。</li>
+<li><strong>确保丢弃已经被Leader提出的但是没有被提交的Proposal</strong>。</li>
+</ol>
+<p>&emsp;&emsp;新的Leader的必须满足：</p>
+<ol>
+<li><strong>新选举出来的Leader不能包含未提交的Proposal</strong>。</li>
+<li><strong>新选举的Leader节点中含有最大的Zxid</strong>。</li>
+</ol>
+<h2 id="ZAB如何数据同步"><a href="#ZAB如何数据同步" class="headerlink" title="ZAB如何数据同步"></a>ZAB如何数据同步</h2><p>&emsp;&emsp;完成Leader选举后（新的Leader具有最高的Zxid），在正式开始工作之前（接收事务请求，然后提出新的Proposal），Leader服务器会首先确认事务日志中的所有的Proposal是否已经被集群中过半的服务器Commit。<br>&emsp;&emsp;Leader服务器需要确保所有的Follower服务器能够接收到每一条事务的Proposal，并且能将所有已经提交的事务Proposal应用到内存数据中。等到Follower将所有尚未同步的事务Proposal都从Leader服务器上同步过啦并且应用到内存数据中以后，Leader才会把该Follower加入到真正可用的Follower列表中。</p>
+<h2 id="ZAB数据同步过程中，如何处理需要丢弃的Proposal"><a href="#ZAB数据同步过程中，如何处理需要丢弃的Proposal" class="headerlink" title="ZAB数据同步过程中，如何处理需要丢弃的Proposal"></a>ZAB数据同步过程中，如何处理需要丢弃的Proposal</h2><p>&emsp;&emsp;在ZAB的事务编号Zxid设计中，Zxid是一个64位的数字。<br>&emsp;&emsp;<strong>其中低32位可以看成一个简单的单增计数器，针对客户端每一个事务请求，Leader在产生新的Proposal事务时，都会对该计数器加1。而高32位则代表了Leader周期的epoch编号</strong>。  </p>
+<blockquote>
+<p>&emsp;&emsp;epoch编号可以理解为当前集群所处的年代，或者周期。每次Leader变更之后都会在epoch的基础上加1，这样旧的Leader崩溃恢复之后，其他Follower也不会听它的了，因为Follower只服从epoch最高的Leader命令。</p>
+</blockquote>
+<p>&emsp;&emsp;每当选举产生一个新的Leader，就会从这个Leader服务器上取出本地事务日志充最大编号Proposal的Zxid，并从Zxid中解析得到对应的epoch编号，然后再对其加1，之后该编号就作为新的epoch值，并将低32位数字归零，由0开始重新生成Zxid。<br>&emsp;&emsp;ZAB协议通过epoch编号来区分Leader变化周期，能够有效避免不同的Leader错误的使用了相同的Zxid编号提出了不一样的Proposal的异常情况。<br>&emsp;&emsp;当一个包含了上一个Leader周期尚未提交过的事务Proposal的服务器启动时，当这台机器加入集群中，以Follower角色连上Leader服务器上，Leader服务器会根据自己服务器上最后提交的Proposal来和Follower服务器的Proposal进行比对，比对的结果肯定是Leader要求Follower进行一个回退操作，回退到一个确实已经被集群中过半机器Commit的最新Proposal。</p>
+<hr>
+<h1 id="Leader选举"><a href="#Leader选举" class="headerlink" title="Leader选举"></a>Leader选举</h1><p>&emsp;&emsp;选举分为四个阶段：选举阶段，发现阶段，同步阶段，广播阶段。</p>
+<h2 id="选举阶段"><a href="#选举阶段" class="headerlink" title="选举阶段"></a>选举阶段</h2><p>&emsp;&emsp;节点在一开始都处于选举阶段，只要一个节点得到超过半数节点的票数，他就可以当选准Leader，只有达到同步阶段，这个节点才能真正称为Leader。<br>&emsp;&emsp;Zookeeper规定所有有效的投票都必须在同一个轮次中，每个服务器在开始新一轮投票时，都会对自己维护的logicalClock进行自增操作。<br>&emsp;&emsp;每个服务器在广播自己的选票前，会将自己的投票箱（recvset）清空。该投票箱记录了所受到的选票。(3,2)这种格式，表示3投给了2。<br>&emsp;&emsp;广播选票后，会进行选票PK，选出准Leader。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/zab%E9%80%89%E4%B8%BE.png" alt="ZAB选举"></p>
+<h2 id="发现阶段"><a href="#发现阶段" class="headerlink" title="发现阶段"></a>发现阶段</h2><p>&emsp;&emsp;在这个阶段，Followers和上一轮选举出的准Leader进行通信，同步Followers最近接收的事务Proposal。<br>&emsp;&emsp;<em>一个Follower只会连接一个Leader，如果一个 Follower节点拒绝另一个Follower节点，则会在尝试连接时被拒绝。被拒绝之后，该节点就会进入Leader Election阶段</em>。<br>&emsp;&emsp;这个阶段的主要目标是发现当前大多数节点接收的最新Proposal，并且准Leader生成新的epoch，让Follower接收，更新它们的acceptedEpoch。</p>
+<h2 id="同步阶段"><a href="#同步阶段" class="headerlink" title="同步阶段"></a>同步阶段</h2><p>&emsp;&emsp;同步阶段主要是利用Leader前一阶段获得最新的Proposal历史，同步集群中所有的副本。<br>&emsp;&emsp;只有当超过半数节点都同步完成，准Leader才会称为真正的Leader。Follower只会接受Zxid比自己LastZxid大的Proposal。</p>
+<h2 id="广播阶段"><a href="#广播阶段" class="headerlink" title="广播阶段"></a>广播阶段</h2><p>&emsp;&emsp;到了这个阶段，Zookeeper集群才能正式向外部提供服务，并且Leader进行消息广播。如果有新节点，对新节点进行数据同步。<br>&emsp;&emsp;Zookeeper不需要得到全部的Follower的ACK，超过一般数量的ACK，就饿可以Commit。</p>
+<hr>
+<h1 id="协议实现"><a href="#协议实现" class="headerlink" title="协议实现"></a>协议实现</h1><p>&emsp;&emsp;实际的实现跟上面有所不同，分为三个阶段，将发现和同步阶段合在一起。<br>&emsp;&emsp;实际分为，选举、恢复、广播三个阶段。</p>
+<h2 id="选举阶段-1"><a href="#选举阶段-1" class="headerlink" title="选举阶段"></a>选举阶段</h2><p>&emsp;&emsp;选举阶段采用Fast Leader Election（FLE），会采用LastZxid最大的节点作为Leader，这样就省去了发现最新提议的阶段。<br>&emsp;&emsp;这是基于拥有最新提议的节点也拥有最新的提交记录。<br>&emsp;&emsp;称为Leader的条件：</p>
+<ol>
+<li>选epoch最大的。</li>
+<li>epoch相等，选Zxid最大的。</li>
+<li>若 epoch 和 zxid 相等，选择 server_id 最大的（zoo.cfg中的myid）。</li>
+</ol>
+<p>&emsp;&emsp;节点在选举开始时，都默认投票给自己，当接收其他节点的选票时，会根据上面的Leader条件 判断并且更改自己的选票，然后重新发送选票给其他节点。当有一个节点的得票超过半数，该节点会设置自己的状态为Leading ，其他节点会设置自己的状态为Following。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E9%80%89%E4%B8%BE.png" alt="选举"></p>
+<h2 id="恢复阶段"><a href="#恢复阶段" class="headerlink" title="恢复阶段"></a>恢复阶段</h2><p>&emsp;&emsp;这一阶段Follower发送他们的lastZxid给Leader，Leader根据lastZxid决定如何同步数据。这里的实现跟前面的Phase 2有所不同：Follower收到TRUNC指令会终止L.lastCommitedZxid之后的Proposal，收到DIFF指令会接收新的Proposal。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E6%81%A2%E5%A4%8D.png" alt="恢复"></p>
+<hr>
+<h1 id="两个问题"><a href="#两个问题" class="headerlink" title="两个问题"></a>两个问题</h1><h2 id="已经被处理的请求不能丢"><a href="#已经被处理的请求不能丢" class="headerlink" title="已经被处理的请求不能丢"></a>已经被处理的请求不能丢</h2><p>&emsp;&emsp;就是发送Commit提交消息时，挂掉了。</p>
+<ol>
+<li>选举拥有proposal最大值（即zxid最大）的节点作为新的 leader。<blockquote>
+<p>zxid最大也就是数据最新的节点保存了所有被COMMIT消息的proposal状态。</p>
+</blockquote>
+</li>
+<li>新的leader将自己事务日志中proposal但未COMMIT的消息处理。</li>
+<li>新的leader与follower建立先进先出的队列，先将自身有而 follower没有的proposal发送给follower，再将这些proposal的COMMIT命令发送给follower，以保证所有的follower都保存了所有的proposal、所有的follower都处理了所有的消息。通过以上策略，能保证已经被处理的消息不会丢。</li>
+</ol>
+<h2 id="没被处理的请求需要丢失"><a href="#没被处理的请求需要丢失" class="headerlink" title="没被处理的请求需要丢失"></a>没被处理的请求需要丢失</h2><p>&emsp;&emsp;当leader接收到消息请求生成proposal后就挂了，其他follower并没有收到此proposal，因此经过恢复模式重新选了leader后，这条消息是被跳过的。此时，之前挂了的leader重新启动并注册成了follower，他保留了被跳过消息的proposal状态，与整个系统的状态是不一致的，需要将其删除。<br>&emsp;&emsp;Zxid的设计的好处是旧的leader挂了后重启，它不会被选举为leader，因为此时它的zxid肯定小于当前的新leader。当旧的leader作为follower接入新的leader后，新的leader会让它将所有的拥有旧的epoch号的未被COMMIT的proposal清除。</p>
+]]></content>
+      <categories>
+        <category>zookeeper</category>
+      </categories>
+      <tags>
+        <tag>分布式</tag>
+        <tag>zookeeper</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>ZAB协议</title>
     <url>/hexoblog/md/zookeeper/ZAB%E5%8D%8F%E8%AE%AE/</url>
     <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;ZAB协议的全称是Zookeeper Atomic Broadcast（Zookeeper）原子广播。<br>&emsp;&emsp;Zookeeper是通过 Zab 协议来保证分布式事务的最终一致性。</p>
@@ -3554,68 +3620,42 @@ hexo d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></sp
       </tags>
   </entry>
   <entry>
-    <title>zookeeper-leader选举</title>
-    <url>/hexoblog/md/zookeeper/zookeeper-leader%E9%80%89%E4%B8%BE/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;ZAB协议包括了两种基本模式：崩溃恢复，数据广播。<br>&emsp;&emsp;一旦Leader服务器出现崩溃或者由于网络原因导致Leader服务器失去了与过半Follower的联系，那么就会进入崩溃恢复模式。<br>&emsp;&emsp;崩溃恢复主要包括两部分：Leader选举和数据恢复。</p>
+    <title>zookeeper单机安装基础使用</title>
+    <url>/hexoblog/md/zookeeper/zookeeper%E5%8D%95%E6%9C%BA%E5%AE%89%E8%A3%85%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>&emsp;&emsp;zookeeper是一个分布式服务框架，主要用来解决分布式应用中经常遇到的一些数据管理问题。<br>&emsp;&emsp;zookeeper=文件系统+监听通知机制。</p>
 <span id="more"></span>
 
-<h2 id="保证数据一致性"><a href="#保证数据一致性" class="headerlink" title="保证数据一致性"></a>保证数据一致性</h2><p>&emsp;&emsp;假设两种情况：</p>
-<ol>
-<li>一个事务在Leader上提交了，并且过半的Folower都响应Ack了，但是Leader在Commit消息发出之前挂了。</li>
-<li>假设一个事务在Leader提出之后，Leader挂了。</li>
-</ol>
-<p>&emsp;&emsp;要满足上面这两个问题，必须做到：</p>
-<ol>
-<li><strong>确保已经被Leader提交的Proposal必须最终被所有的Follower服务器提交</strong>。</li>
-<li><strong>确保丢弃已经被Leader提出的但是没有被提交的Proposal</strong>。</li>
-</ol>
-<p>&emsp;&emsp;新的Leader的必须满足：</p>
-<ol>
-<li><strong>新选举出来的Leader不能包含未提交的Proposal</strong>。</li>
-<li><strong>新选举的Leader节点中含有最大的Zxid</strong>。</li>
-</ol>
-<h2 id="ZAB如何数据同步"><a href="#ZAB如何数据同步" class="headerlink" title="ZAB如何数据同步"></a>ZAB如何数据同步</h2><p>&emsp;&emsp;完成Leader选举后（新的Leader具有最高的Zxid），在正式开始工作之前（接收事务请求，然后提出新的Proposal），Leader服务器会首先确认事务日志中的所有的Proposal是否已经被集群中过半的服务器Commit。<br>&emsp;&emsp;Leader服务器需要确保所有的Follower服务器能够接收到每一条事务的Proposal，并且能将所有已经提交的事务Proposal应用到内存数据中。等到Follower将所有尚未同步的事务Proposal都从Leader服务器上同步过啦并且应用到内存数据中以后，Leader才会把该Follower加入到真正可用的Follower列表中。</p>
-<h2 id="ZAB数据同步过程中，如何处理需要丢弃的Proposal"><a href="#ZAB数据同步过程中，如何处理需要丢弃的Proposal" class="headerlink" title="ZAB数据同步过程中，如何处理需要丢弃的Proposal"></a>ZAB数据同步过程中，如何处理需要丢弃的Proposal</h2><p>&emsp;&emsp;在ZAB的事务编号Zxid设计中，Zxid是一个64位的数字。<br>&emsp;&emsp;<strong>其中低32位可以看成一个简单的单增计数器，针对客户端每一个事务请求，Leader在产生新的Proposal事务时，都会对该计数器加1。而高32位则代表了Leader周期的epoch编号</strong>。  </p>
-<blockquote>
-<p>&emsp;&emsp;epoch编号可以理解为当前集群所处的年代，或者周期。每次Leader变更之后都会在epoch的基础上加1，这样旧的Leader崩溃恢复之后，其他Follower也不会听它的了，因为Follower只服从epoch最高的Leader命令。</p>
-</blockquote>
-<p>&emsp;&emsp;每当选举产生一个新的Leader，就会从这个Leader服务器上取出本地事务日志充最大编号Proposal的Zxid，并从Zxid中解析得到对应的epoch编号，然后再对其加1，之后该编号就作为新的epoch值，并将低32位数字归零，由0开始重新生成Zxid。<br>&emsp;&emsp;ZAB协议通过epoch编号来区分Leader变化周期，能够有效避免不同的Leader错误的使用了相同的Zxid编号提出了不一样的Proposal的异常情况。<br>&emsp;&emsp;当一个包含了上一个Leader周期尚未提交过的事务Proposal的服务器启动时，当这台机器加入集群中，以Follower角色连上Leader服务器上，Leader服务器会根据自己服务器上最后提交的Proposal来和Follower服务器的Proposal进行比对，比对的结果肯定是Leader要求Follower进行一个回退操作，回退到一个确实已经被集群中过半机器Commit的最新Proposal。</p>
+<h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>&emsp;&emsp;在官网下载zookeeper指定版本，<a href="https://zookeeper.apache.org/">https://zookeeper.apache.org/</a>。<br>&emsp;&emsp;下载指定的压缩包apache-zookeeper-3.7.0-bin.tar.gz。</p>
+<h2 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h2><p>&emsp;&emsp;将下载的压缩包解压到指定的目录，这里是单机模式安装。<br>&emsp;&emsp;将解压后的目录中的zoo_sample.cfg配置文件重命名为zoo.cfg。</p>
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><p>&emsp;&emsp;进入解压后目录的bin文件夹，执行zkerver.cmd命令，liunx下执行zkserver.sh程序。<br>&emsp;&emsp;如果不成功需要指定刚才配置的zoo.cfg文件的路径。  </p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 启动服务端程序</span>
+<span class="token operator">></span> zkserver
+
+<span class="token comment"># 启动客户端程序（本机上）</span>
+<span class="token operator">></span> zkcli
+
+<span class="token comment"># 可以连接远程的机器</span>
+<span class="token operator">></span> zkCli.sh -server host:port<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Windows%20PowerShell%202021_5_10%2010_52_23.png" alt="启动成功"></p>
 <hr>
-<h1 id="Leader选举"><a href="#Leader选举" class="headerlink" title="Leader选举"></a>Leader选举</h1><p>&emsp;&emsp;选举分为四个阶段：选举阶段，发现阶段，同步阶段，广播阶段。</p>
-<h2 id="选举阶段"><a href="#选举阶段" class="headerlink" title="选举阶段"></a>选举阶段</h2><p>&emsp;&emsp;节点在一开始都处于选举阶段，只要一个节点得到超过半数节点的票数，他就可以当选准Leader，只有达到同步阶段，这个节点才能真正称为Leader。<br>&emsp;&emsp;Zookeeper规定所有有效的投票都必须在同一个轮次中，每个服务器在开始新一轮投票时，都会对自己维护的logicalClock进行自增操作。<br>&emsp;&emsp;每个服务器在广播自己的选票前，会将自己的投票箱（recvset）清空。该投票箱记录了所受到的选票。(3,2)这种格式，表示3投给了2。<br>&emsp;&emsp;广播选票后，会进行选票PK，选出准Leader。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/zab%E9%80%89%E4%B8%BE.png" alt="ZAB选举"></p>
-<h2 id="发现阶段"><a href="#发现阶段" class="headerlink" title="发现阶段"></a>发现阶段</h2><p>&emsp;&emsp;在这个阶段，Followers和上一轮选举出的准Leader进行通信，同步Followers最近接收的事务Proposal。<br>&emsp;&emsp;<em>一个Follower只会连接一个Leader，如果一个 Follower节点拒绝另一个Follower节点，则会在尝试连接时被拒绝。被拒绝之后，该节点就会进入Leader Election阶段</em>。<br>&emsp;&emsp;这个阶段的主要目标是发现当前大多数节点接收的最新Proposal，并且准Leader生成新的epoch，让Follower接收，更新它们的acceptedEpoch。</p>
-<h2 id="同步阶段"><a href="#同步阶段" class="headerlink" title="同步阶段"></a>同步阶段</h2><p>&emsp;&emsp;同步阶段主要是利用Leader前一阶段获得最新的Proposal历史，同步集群中所有的副本。<br>&emsp;&emsp;只有当超过半数节点都同步完成，准Leader才会称为真正的Leader。Follower只会接受Zxid比自己LastZxid大的Proposal。</p>
-<h2 id="广播阶段"><a href="#广播阶段" class="headerlink" title="广播阶段"></a>广播阶段</h2><p>&emsp;&emsp;到了这个阶段，Zookeeper集群才能正式向外部提供服务，并且Leader进行消息广播。如果有新节点，对新节点进行数据同步。<br>&emsp;&emsp;Zookeeper不需要得到全部的Follower的ACK，超过一般数量的ACK，就饿可以Commit。</p>
-<hr>
-<h1 id="协议实现"><a href="#协议实现" class="headerlink" title="协议实现"></a>协议实现</h1><p>&emsp;&emsp;实际的实现跟上面有所不同，分为三个阶段，将发现和同步阶段合在一起。<br>&emsp;&emsp;实际分为，选举、恢复、广播三个阶段。</p>
-<h2 id="选举阶段-1"><a href="#选举阶段-1" class="headerlink" title="选举阶段"></a>选举阶段</h2><p>&emsp;&emsp;选举阶段采用Fast Leader Election（FLE），会采用LastZxid最大的节点作为Leader，这样就省去了发现最新提议的阶段。<br>&emsp;&emsp;这是基于拥有最新提议的节点也拥有最新的提交记录。<br>&emsp;&emsp;称为Leader的条件：</p>
-<ol>
-<li>选epoch最大的。</li>
-<li>epoch相等，选Zxid最大的。</li>
-<li>若 epoch 和 zxid 相等，选择 server_id 最大的（zoo.cfg中的myid）。</li>
-</ol>
-<p>&emsp;&emsp;节点在选举开始时，都默认投票给自己，当接收其他节点的选票时，会根据上面的Leader条件 判断并且更改自己的选票，然后重新发送选票给其他节点。当有一个节点的得票超过半数，该节点会设置自己的状态为Leading ，其他节点会设置自己的状态为Following。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E9%80%89%E4%B8%BE.png" alt="选举"></p>
-<h2 id="恢复阶段"><a href="#恢复阶段" class="headerlink" title="恢复阶段"></a>恢复阶段</h2><p>&emsp;&emsp;这一阶段Follower发送他们的lastZxid给Leader，Leader根据lastZxid决定如何同步数据。这里的实现跟前面的Phase 2有所不同：Follower收到TRUNC指令会终止L.lastCommitedZxid之后的Proposal，收到DIFF指令会接收新的Proposal。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E6%81%A2%E5%A4%8D.png" alt="恢复"></p>
-<hr>
-<h1 id="两个问题"><a href="#两个问题" class="headerlink" title="两个问题"></a>两个问题</h1><h2 id="已经被处理的请求不能丢"><a href="#已经被处理的请求不能丢" class="headerlink" title="已经被处理的请求不能丢"></a>已经被处理的请求不能丢</h2><p>&emsp;&emsp;就是发送Commit提交消息时，挂掉了。</p>
-<ol>
-<li>选举拥有proposal最大值（即zxid最大）的节点作为新的 leader。<blockquote>
-<p>zxid最大也就是数据最新的节点保存了所有被COMMIT消息的proposal状态。</p>
-</blockquote>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><h2 id="查看dubbo服务"><a href="#查看dubbo服务" class="headerlink" title="查看dubbo服务"></a>查看dubbo服务</h2><ol>
+<li><p>使用zk客户端连接</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">./zkcli.sh
+./zkcli.bat<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 </li>
-<li>新的leader将自己事务日志中proposal但未COMMIT的消息处理。</li>
-<li>新的leader与follower建立先进先出的队列，先将自身有而 follower没有的proposal发送给follower，再将这些proposal的COMMIT命令发送给follower，以保证所有的follower都保存了所有的proposal、所有的follower都处理了所有的消息。通过以上策略，能保证已经被处理的消息不会丢。</li>
+<li><p>查看服务的提供者</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"><span class="token function">ls</span> /dubbo/****.***.Service/Providers<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li><p>查看服务的消费者</p>
+ <pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"><span class="token function">ls</span> /dubbo/****.****.Service/Consumers<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
 </ol>
-<h2 id="没被处理的请求需要丢失"><a href="#没被处理的请求需要丢失" class="headerlink" title="没被处理的请求需要丢失"></a>没被处理的请求需要丢失</h2><p>&emsp;&emsp;当leader接收到消息请求生成proposal后就挂了，其他follower并没有收到此proposal，因此经过恢复模式重新选了leader后，这条消息是被跳过的。此时，之前挂了的leader重新启动并注册成了follower，他保留了被跳过消息的proposal状态，与整个系统的状态是不一致的，需要将其删除。<br>&emsp;&emsp;Zxid的设计的好处是旧的leader挂了后重启，它不会被选举为leader，因为此时它的zxid肯定小于当前的新leader。当旧的leader作为follower接入新的leader后，新的leader会让它将所有的拥有旧的epoch号的未被COMMIT的proposal清除。</p>
 ]]></content>
       <categories>
         <category>zookeeper</category>
       </categories>
       <tags>
-        <tag>分布式</tag>
+        <tag>tool</tag>
         <tag>zookeeper</tag>
       </tags>
   </entry>
@@ -3772,43 +3812,26 @@ hexo d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></sp
       </tags>
   </entry>
   <entry>
-    <title>zookeeper单机安装基础使用</title>
-    <url>/hexoblog/md/zookeeper/zookeeper%E5%8D%95%E6%9C%BA%E5%AE%89%E8%A3%85%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>&emsp;&emsp;zookeeper是一个分布式服务框架，主要用来解决分布式应用中经常遇到的一些数据管理问题。<br>&emsp;&emsp;zookeeper=文件系统+监听通知机制。</p>
+    <title>zookeeper实现分布式锁</title>
+    <url>/hexoblog/md/zookeeper/zookeeper%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;分布式锁的作用：<strong>在整个系统提供一个全局、唯一的锁，在分布式系统中每个系统在进行相关操作的时候需要获取到该锁，才能执行相应操作</strong>。  </p>
 <span id="more"></span>
 
-<h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>&emsp;&emsp;在官网下载zookeeper指定版本，<a href="https://zookeeper.apache.org/">https://zookeeper.apache.org/</a>。<br>&emsp;&emsp;下载指定的压缩包apache-zookeeper-3.7.0-bin.tar.gz。</p>
-<h2 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h2><p>&emsp;&emsp;将下载的压缩包解压到指定的目录，这里是单机模式安装。<br>&emsp;&emsp;将解压后的目录中的zoo_sample.cfg配置文件重命名为zoo.cfg。</p>
-<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><p>&emsp;&emsp;进入解压后目录的bin文件夹，执行zkerver.cmd命令，liunx下执行zkserver.sh程序。<br>&emsp;&emsp;如果不成功需要指定刚才配置的zoo.cfg文件的路径。  </p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 启动服务端程序</span>
-<span class="token operator">></span> zkserver
-
-<span class="token comment"># 启动客户端程序（本机上）</span>
-<span class="token operator">></span> zkcli
-
-<span class="token comment"># 可以连接远程的机器</span>
-<span class="token operator">></span> zkCli.sh -server host:port<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Windows%20PowerShell%202021_5_10%2010_52_23.png" alt="启动成功"></p>
-<hr>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><h2 id="查看dubbo服务"><a href="#查看dubbo服务" class="headerlink" title="查看dubbo服务"></a>查看dubbo服务</h2><ol>
-<li><p>使用zk客户端连接</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">./zkcli.sh
-./zkcli.bat<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-</li>
-<li><p>查看服务的提供者</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"><span class="token function">ls</span> /dubbo/****.***.Service/Providers<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-</li>
-<li><p>查看服务的消费者</p>
- <pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"><span class="token function">ls</span> /dubbo/****.****.Service/Consumers<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+<p>&emsp;&emsp;大致思想为：<strong>每个客户端对每个方法加锁时，在zookeeper上的与该方法对应的指定节点的目录下，生成一个唯一的瞬时有序节点。判断是否获取锁的方式很简单，只需要判断有序节点中序号最小的一个。当释放锁的时候，只需将这个瞬时节点删除即可。同时，其可以避免服务宕机导致的锁无法释放，而产生死锁的问题</strong>。</p>
+<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><ol>
+<li>利用Zookeeper可以创建临时有序节点的特性创建一个分布式锁。</li>
+<li>多个系统的多个线程都要在此目录下创建临时有序节点，因为Zookeeper会为我们保证节点的有序性，所以可以利用节点的顺序性来对不同线程的先来后到进行判断。此时，在分布式下应该添加锁的线程就是zk指定目录下序号最小的临时序列节点所代表的线程。</li>
+<li>当每个线程请求对应资源时，都需要现在zk指定目录下创建临时有序节点，然后获取当前目录下最小的节点序号（加锁的线程），判断最小节点是不是当前节点（是不是自己），如果是那么获取锁成功，如果不是获取锁失败。</li>
+<li>获取锁失败的线程获取当前节点上一个临时有序节点，并对此节点进行监听。当该节点删除的时候（执行结束或者掉线，释放锁）这个线程会获取到通知，代表获取到了锁。这里的每一个节点都只是监听它的上一个节点，而不是监听最小的节点。因为临时节点都是有序号的，而且序号不会回退，所以只需要监听比其小1的节点。只要比它小1的节点被删除，则它就可以拿到资源去操作。</li>
 </ol>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/zk%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81.jpg" alt="分布式锁流程"></p>
 ]]></content>
       <categories>
         <category>zookeeper</category>
       </categories>
       <tags>
-        <tag>tool</tag>
         <tag>zookeeper</tag>
+        <tag>分布式锁</tag>
       </tags>
   </entry>
   <entry>
@@ -3895,29 +3918,6 @@ hexo d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></sp
       </categories>
       <tags>
         <tag>zookeeper</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>zookeeper实现分布式锁</title>
-    <url>/hexoblog/md/zookeeper/zookeeper%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;分布式锁的作用：<strong>在整个系统提供一个全局、唯一的锁，在分布式系统中每个系统在进行相关操作的时候需要获取到该锁，才能执行相应操作</strong>。  </p>
-<span id="more"></span>
-
-<p>&emsp;&emsp;大致思想为：<strong>每个客户端对每个方法加锁时，在zookeeper上的与该方法对应的指定节点的目录下，生成一个唯一的瞬时有序节点。判断是否获取锁的方式很简单，只需要判断有序节点中序号最小的一个。当释放锁的时候，只需将这个瞬时节点删除即可。同时，其可以避免服务宕机导致的锁无法释放，而产生死锁的问题</strong>。</p>
-<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><ol>
-<li>利用Zookeeper可以创建临时有序节点的特性创建一个分布式锁。</li>
-<li>多个系统的多个线程都要在此目录下创建临时有序节点，因为Zookeeper会为我们保证节点的有序性，所以可以利用节点的顺序性来对不同线程的先来后到进行判断。此时，在分布式下应该添加锁的线程就是zk指定目录下序号最小的临时序列节点所代表的线程。</li>
-<li>当每个线程请求对应资源时，都需要现在zk指定目录下创建临时有序节点，然后获取当前目录下最小的节点序号（加锁的线程），判断最小节点是不是当前节点（是不是自己），如果是那么获取锁成功，如果不是获取锁失败。</li>
-<li>获取锁失败的线程获取当前节点上一个临时有序节点，并对此节点进行监听。当该节点删除的时候（执行结束或者掉线，释放锁）这个线程会获取到通知，代表获取到了锁。这里的每一个节点都只是监听它的上一个节点，而不是监听最小的节点。因为临时节点都是有序号的，而且序号不会回退，所以只需要监听比其小1的节点。只要比它小1的节点被删除，则它就可以拿到资源去操作。</li>
-</ol>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/zk%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81.jpg" alt="分布式锁流程"></p>
-]]></content>
-      <categories>
-        <category>zookeeper</category>
-      </categories>
-      <tags>
-        <tag>zookeeper</tag>
-        <tag>分布式锁</tag>
       </tags>
   </entry>
   <entry>
@@ -4478,66 +4478,6 @@ zkServer<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
       </tags>
   </entry>
   <entry>
-    <title>大华一面面经</title>
-    <url>/hexoblog/%E9%9D%A2%E7%BB%8F/answer/%E5%A4%A7%E5%8D%8E%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/</url>
-    <content><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span>
-<p>写面经，攒人品</p>
-<ol>
-<li>自我介绍</li>
-<li>jvm类的加载过程？</li>
-<li>dubbo如何做选举的？</li>
-<li>了解的设计模式，spring用的设计模式？</li>
-<li>还了解那些设计模式？</li>
-<li>springboot里面的listener？</li>
-<li>代理模式与AOP？</li>
-<li>redis主从复制与哨兵模式？</li>
-<li>分布式事务实现？</li>
-<li>syncnorized和ReentrantLock的区别？</li>
-<li>反问</li>
-</ol>
-<hr>
-<h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="jvm类的加载过程"><a href="#jvm类的加载过程" class="headerlink" title="jvm类的加载过程"></a>jvm类的加载过程</h2><ul>
-<li><a href="../../../md/java/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6">类加载机制</a>  </li>
-<li><a href="https://www.yuque.com/jiufenshiren/ra5mzi/dvd9gz">类加载机制</a></li>
-</ul>
-<h2 id="dubbo如何做选举的"><a href="#dubbo如何做选举的" class="headerlink" title="dubbo如何做选举的"></a>dubbo如何做选举的</h2><p>&emsp;&emsp;这里的选举并不是zk的选举，而是服务消费方获取到提供方节点后，根据负载均衡算法选择某台机器进行远程调用。常见的负载均衡算法有：  </p>
-<ul>
-<li>轮询</li>
-<li>随机</li>
-<li>一致性Hash</li>
-</ul>
-<h2 id="spring用到的设计模式？"><a href="#spring用到的设计模式？" class="headerlink" title="spring用到的设计模式？"></a>spring用到的设计模式？</h2><ul>
-<li>单例模式</li>
-<li>工厂模式</li>
-<li>代理模式</li>
-<li>等</li>
-</ul>
-<h2 id="还了解那些设计模式？"><a href="#还了解那些设计模式？" class="headerlink" title="还了解那些设计模式？"></a>还了解那些设计模式？</h2><ul>
-<li>模板方法模式</li>
-<li>建造者模式</li>
-<li>策略模式</li>
-</ul>
-<h2 id="springboot里面的listener？"><a href="#springboot里面的listener？" class="headerlink" title="springboot里面的listener？"></a>springboot里面的listener？</h2><h2 id="代理模式与AOP？"><a href="#代理模式与AOP？" class="headerlink" title="代理模式与AOP？"></a>代理模式与AOP？</h2><p>&emsp;&emsp;代理模式分为静态代理，动态代理，动态代理又可分为很多种，jdk，cglib等。<br>&emsp;&emsp;AOP是面向切面编程，其中用到了动态代理。</p>
-<h2 id="redis主从复制与哨兵模式？"><a href="#redis主从复制与哨兵模式？" class="headerlink" title="redis主从复制与哨兵模式？"></a>redis主从复制与哨兵模式？</h2><ul>
-<li><a href="https://www.yuque.com/jiufenshiren/ra5mzi/haaf3c">redis的高可用方案</a></li>
-</ul>
-<h2 id="分布式事务的实现"><a href="#分布式事务的实现" class="headerlink" title="分布式事务的实现"></a>分布式事务的实现</h2><ul>
-<li><a href="../../../md/%E5%88%86%E5%B8%83%E5%BC%8F/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1">分布式事务</a>  </li>
-<li><a href="https://www.yuque.com/jiufenshiren/ra5mzi/fwl3rv">分布式事务</a></li>
-</ul>
-<h2 id="syncnorized和ReentrantLock的区别？"><a href="#syncnorized和ReentrantLock的区别？" class="headerlink" title="syncnorized和ReentrantLock的区别？"></a>syncnorized和ReentrantLock的区别？</h2><ul>
-<li><a href="https://www.yuque.com/jiufenshiren/ra5mzi/rc3ofp">syncnorized</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>面经</category>
-        <category>answer</category>
-      </categories>
-      <tags>
-        <tag>面经</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>同花顺一面面经</title>
     <url>/hexoblog/%E9%9D%A2%E7%BB%8F/answer/%E5%90%8C%E8%8A%B1%E9%A1%BA%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/</url>
     <content><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span>
@@ -4730,6 +4670,66 @@ zkServer<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
 ]]></content>
       <categories>
         <category>面经</category>
+      </categories>
+      <tags>
+        <tag>面经</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>大华一面面经</title>
+    <url>/hexoblog/%E9%9D%A2%E7%BB%8F/answer/%E5%A4%A7%E5%8D%8E%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/</url>
+    <content><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span>
+<p>写面经，攒人品</p>
+<ol>
+<li>自我介绍</li>
+<li>jvm类的加载过程？</li>
+<li>dubbo如何做选举的？</li>
+<li>了解的设计模式，spring用的设计模式？</li>
+<li>还了解那些设计模式？</li>
+<li>springboot里面的listener？</li>
+<li>代理模式与AOP？</li>
+<li>redis主从复制与哨兵模式？</li>
+<li>分布式事务实现？</li>
+<li>syncnorized和ReentrantLock的区别？</li>
+<li>反问</li>
+</ol>
+<hr>
+<h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="jvm类的加载过程"><a href="#jvm类的加载过程" class="headerlink" title="jvm类的加载过程"></a>jvm类的加载过程</h2><ul>
+<li><a href="../../../md/java/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6">类加载机制</a>  </li>
+<li><a href="https://www.yuque.com/jiufenshiren/ra5mzi/dvd9gz">类加载机制</a></li>
+</ul>
+<h2 id="dubbo如何做选举的"><a href="#dubbo如何做选举的" class="headerlink" title="dubbo如何做选举的"></a>dubbo如何做选举的</h2><p>&emsp;&emsp;这里的选举并不是zk的选举，而是服务消费方获取到提供方节点后，根据负载均衡算法选择某台机器进行远程调用。常见的负载均衡算法有：  </p>
+<ul>
+<li>轮询</li>
+<li>随机</li>
+<li>一致性Hash</li>
+</ul>
+<h2 id="spring用到的设计模式？"><a href="#spring用到的设计模式？" class="headerlink" title="spring用到的设计模式？"></a>spring用到的设计模式？</h2><ul>
+<li>单例模式</li>
+<li>工厂模式</li>
+<li>代理模式</li>
+<li>等</li>
+</ul>
+<h2 id="还了解那些设计模式？"><a href="#还了解那些设计模式？" class="headerlink" title="还了解那些设计模式？"></a>还了解那些设计模式？</h2><ul>
+<li>模板方法模式</li>
+<li>建造者模式</li>
+<li>策略模式</li>
+</ul>
+<h2 id="springboot里面的listener？"><a href="#springboot里面的listener？" class="headerlink" title="springboot里面的listener？"></a>springboot里面的listener？</h2><h2 id="代理模式与AOP？"><a href="#代理模式与AOP？" class="headerlink" title="代理模式与AOP？"></a>代理模式与AOP？</h2><p>&emsp;&emsp;代理模式分为静态代理，动态代理，动态代理又可分为很多种，jdk，cglib等。<br>&emsp;&emsp;AOP是面向切面编程，其中用到了动态代理。</p>
+<h2 id="redis主从复制与哨兵模式？"><a href="#redis主从复制与哨兵模式？" class="headerlink" title="redis主从复制与哨兵模式？"></a>redis主从复制与哨兵模式？</h2><ul>
+<li><a href="https://www.yuque.com/jiufenshiren/ra5mzi/haaf3c">redis的高可用方案</a></li>
+</ul>
+<h2 id="分布式事务的实现"><a href="#分布式事务的实现" class="headerlink" title="分布式事务的实现"></a>分布式事务的实现</h2><ul>
+<li><a href="../../../md/%E5%88%86%E5%B8%83%E5%BC%8F/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1">分布式事务</a>  </li>
+<li><a href="https://www.yuque.com/jiufenshiren/ra5mzi/fwl3rv">分布式事务</a></li>
+</ul>
+<h2 id="syncnorized和ReentrantLock的区别？"><a href="#syncnorized和ReentrantLock的区别？" class="headerlink" title="syncnorized和ReentrantLock的区别？"></a>syncnorized和ReentrantLock的区别？</h2><ul>
+<li><a href="https://www.yuque.com/jiufenshiren/ra5mzi/rc3ofp">syncnorized</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>面经</category>
+        <category>answer</category>
       </categories>
       <tags>
         <tag>面经</tag>
@@ -4995,6 +4995,184 @@ zkServer<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
       </tags>
   </entry>
   <entry>
+    <title>禾连科技一面面经</title>
+    <url>/hexoblog/%E9%9D%A2%E7%BB%8F/answer/%E7%A6%BE%E8%BF%9E%E7%A7%91%E6%8A%80%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/</url>
+    <content><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span>
+<p>写面经，攒人品</p>
+<ol>
+<li>项目介绍</li>
+<li>用到那些jdk版本？</li>
+<li>1.8有哪些新特性？</li>
+<li>Stream API用到那些方法？</li>
+<li>Stream API并行情况？</li>
+<li>用到那些集合？</li>
+<li>用到那些线程安全的集合？</li>
+<li>threadlocal用在什么场景？</li>
+<li>threadlocal结构？</li>
+<li>子线程能否拿到主线程threadlocal的内容？怎么拿？</li>
+<li>为什么用dubbo？</li>
+<li>dubbo用什么做注册中心？</li>
+<li>还有那些注册中心？</li>
+<li>dubbo启动扫描服务的过程？</li>
+<li>同一个dubbo服务，不同的用户要使用，dubbo怎么做用户区分？</li>
+<li>索引失效的情况？</li>
+<li>like对字段后半截查询（前半截模糊，后半截精确），如何优化？</li>
+<li>为什么有young gc和old gc？</li>
+<li>标记清除算法用在那个阶段？</li>
+<li>反射有那些方法得到一个类？</li>
+<li>Class.forName和ClassLoader.loadclass的区别？</li>
+<li>为什么要用Class.forName？使用场景？</li>
+<li>为什么用rocketmq？</li>
+<li>rocketmq用在什么场景？</li>
+<li>分布式锁怎么实现的？为什么没有用成熟的解决方案？</li>
+<li>反问</li>
+</ol>
+<hr>
+<h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="jdk1-8有哪些新特性？"><a href="#jdk1-8有哪些新特性？" class="headerlink" title="jdk1.8有哪些新特性？"></a>jdk1.8有哪些新特性？</h2><p>&emsp;&emsp;1.8中添加了一些新的特性。</p>
+<ul>
+<li>Lambda表达式</li>
+<li>函数式接口</li>
+<li>方法引用和构造器引用（前三个一般联合使用）</li>
+<li>Stream API</li>
+<li>接口中的默认方法和静态方法</li>
+<li>LocalDate API</li>
+<li>Optional类</li>
+<li>Base64 API</li>
+<li>数组并行操作</li>
+<li>永久代移除，增加元空间</li>
+</ul>
+<h2 id="Stream-API用到那些方法？"><a href="#Stream-API用到那些方法？" class="headerlink" title="Stream API用到那些方法？"></a>Stream API用到那些方法？</h2><ul>
+<li><a href="https://mp.weixin.qq.com/s/jUBKPGGgF0mkuxQ6RBeYyA">20 个实例玩转 Java 8 Stream</a></li>
+<li><a href="https://mp.weixin.qq.com/s/Vu5LMjlBMXtmdFk2QfnFtw">深度掌握java stream 流操作，让你的代码高出一个逼格！</a></li>
+</ul>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/StreamAPI.jpg" alt="StreamAPI"><br><img src="https://gitee.com/linqiankun/picurl/raw/master/java/StreamAPI2.png" alt="StreamAPI"></p>
+<h2 id="Stream-API并行情况？"><a href="#Stream-API并行情况？" class="headerlink" title="Stream API并行情况？"></a>Stream API并行情况？</h2><ul>
+<li><a href="https://mp.weixin.qq.com/s/7J56xP1DVXa8H1kH32QFhA">你了解 JDK 8 Stream 数据流效率吗？千万级数据量性能如何？</a></li>
+<li><a href="https://mp.weixin.qq.com/s/EOw9zVIlC6MnEaGCHqca6A">Java8 Stream 数据流，大数据量下的性能效率怎么样？</a></li>
+<li><a href="https://mp.weixin.qq.com/s/ESmH1vLGENEop-C1R2HCAQ">JDK 8 Stream 数据流效率怎么样？</a></li>
+</ul>
+<h2 id="常用的有哪些集合？"><a href="#常用的有哪些集合？" class="headerlink" title="常用的有哪些集合？"></a>常用的有哪些集合？</h2><p>&emsp;&emsp;常用的集合主要可以分为4类，map、set、list和vector，hashtable等其他的。  </p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E9%9B%86%E5%90%881.jpg" alt="集合集成关系图"></p>
+<h2 id="常用的并发安全集合集合有哪些？"><a href="#常用的并发安全集合集合有哪些？" class="headerlink" title="常用的并发安全集合集合有哪些？"></a>常用的并发安全集合集合有哪些？</h2><ul>
+<li><a href="https://www.jianshu.com/p/b8544e2c5fdb">多线程并发下的线程安全的集合类的使用</a></li>
+</ul>
+<p>&emsp;&emsp;并发安全的集合有多种，也可以将不安全的集合转化为并发安全的集合。</p>
+<ul>
+<li>ConcurrentHashMap</li>
+<li>HashTable</li>
+<li>Collections.synchronizedCollection()方法转换</li>
+<li>StringBuffer</li>
+</ul>
+<h2 id="threadlocal用在什么场景？"><a href="#threadlocal用在什么场景？" class="headerlink" title="threadlocal用在什么场景？"></a>threadlocal用在什么场景？</h2><p>&emsp;&emsp;ThreadLocal有两大典型使用场景。</p>
+<ul>
+<li><strong>场景1：</strong> 每个线程需要一个独享的对象（通常是工具类，典型需要使用的类有SimpleDateFormat和Random<blockquote>
+<p>SimpleDateFormat这种每个线程都需要使用，但是线程不安全的类</p>
+</blockquote>
+</li>
+<li><strong>场景2：</strong> 每个线程内需要保存全局变量（例如在拦截器中获取用户信息），可以让不同方法直接使用，避免参数传递的麻烦。</li>
+</ul>
+<h2 id="threadlocal结构？"><a href="#threadlocal结构？" class="headerlink" title="threadlocal结构？"></a>threadlocal结构？</h2><p>&emsp;&emsp;threadLocal底层采用了一个和线程绑定的ThreadLocalMap，这个map与线程绑定，每个线程都是自己，对自己的进行操作。<br>&emsp;&emsp;ThreadLocalMap的底层则是一个Entry数组，用threadlocal作为Entry的key，而值则是由我们控制。</p>
+<h2 id="子线程能否拿到主线程threadlocal的内容？怎么拿？"><a href="#子线程能否拿到主线程threadlocal的内容？怎么拿？" class="headerlink" title="子线程能否拿到主线程threadlocal的内容？怎么拿？"></a>子线程能否拿到主线程threadlocal的内容？怎么拿？</h2><p>&emsp;&emsp;默认情况下，子线程是无法拿到主线程的ThreadLocal中的信息的，可以通过手动传递，ThreadLocal有一个子类，可以使用<code>InheritableThreadLocal</code>，可以进行父子线程传递数据。</p>
+<h2 id="为什么用dubbo？"><a href="#为什么用dubbo？" class="headerlink" title="为什么用dubbo？"></a>为什么用dubbo？</h2><ul>
+<li><a href="../../../md/rpc/dubbo/dubbo%E5%9F%BA%E7%A1%80%E5%8F%8A%E4%BB%8B%E7%BB%8D">dubbo基础及介绍</a></li>
+</ul>
+<h2 id="dubbo用什么做注册中心？"><a href="#dubbo用什么做注册中心？" class="headerlink" title="dubbo用什么做注册中心？"></a>dubbo用什么做注册中心？</h2><p>&emsp;&emsp;dubbo的注册中心有四种：</p>
+<ul>
+<li><p>Nacos注册中心</p>
+</li>
+<li><p>Multicast注册中心</p>
+<blockquote>
+<p>不需要启动任何中心节点，只要广播地址一样，就可以互相发现。<br>为了减少广播量，Dubbo缺省使用单播发送提供者地址信息给消费者，如果一个机器上同时启了多个消费者进程，消费者需声明unicast=false，否则只会有一个消费者能收到消息；当服务者和消费者运行在同一台机器上，消费者同样需要声明unicast=false，否则消费者无法收到消息，导致<code>No provider available for the service</code>异常。</p>
+</blockquote>
+</li>
+<li><p>Zookeeper注册中心</p>
+</li>
+<li><p>Redis注册中心</p>
+<blockquote>
+<p>从2.1.0版本开始支持。<br>使用Redis的Key/Map结构存储数据结构。<br>使用Redis的Publish/Subscribe事件通知数据变更。</p>
+</blockquote>
+</li>
+<li><p>Simple注册中心</p>
+<blockquote>
+<p>Simple注册中心本身就是一个普通的Dubbo服务，可以减少第三方依赖，使整体通讯方式一致。<br>不支持集群</p>
+</blockquote>
+</li>
+<li><p><a href="https://dubbo.apache.org/zh/docs/v2.7/user/references/registry/">https://dubbo.apache.org/zh/docs/v2.7/user/references/registry/</a></p>
+</li>
+</ul>
+<h2 id="dubbo启动扫描服务的过程？"><a href="#dubbo启动扫描服务的过程？" class="headerlink" title="dubbo启动扫描服务的过程？"></a>dubbo启动扫描服务的过程？</h2><ul>
+<li><a href="../../../md/rpc/dubbo/dubbo%E6%9C%8D%E5%8A%A1%E5%BC%95%E5%85%A5%E6%B5%81%E7%A8%8B">dubbo服务发现</a></li>
+<li><a href="../../../md/rpc/dubbo/dubbo%E6%9C%8D%E5%8A%A1%E8%B0%83%E7%94%A8%E8%BF%87%E7%A8%8B">dubbo服务调用过程</a></li>
+</ul>
+<h2 id="同一个dubbo服务，不同的用户要使用，dubbo怎么做用户区分？"><a href="#同一个dubbo服务，不同的用户要使用，dubbo怎么做用户区分？" class="headerlink" title="同一个dubbo服务，不同的用户要使用，dubbo怎么做用户区分？"></a>同一个dubbo服务，不同的用户要使用，dubbo怎么做用户区分？</h2><p>&emsp;&emsp;对于这种情况，可以通过对相同的接口采用不同的版本进行区分。</p>
+<h2 id="索引失效的情况？"><a href="#索引失效的情况？" class="headerlink" title="索引失效的情况？"></a>索引失效的情况？</h2><ul>
+<li><a href="https://www.yuque.com/jiufenshiren/ra5mzi/aoz98d#1ETQP">索引失效的情况</a></li>
+</ul>
+<h2 id="like对字段后半截查询（前半截模糊，后半截精确），如何优化？"><a href="#like对字段后半截查询（前半截模糊，后半截精确），如何优化？" class="headerlink" title="like对字段后半截查询（前半截模糊，后半截精确），如何优化？"></a>like对字段后半截查询（前半截模糊，后半截精确），如何优化？</h2><p>&emsp;&emsp;一般而言在后半段模糊的情况下，like中的值可以根据前半段进行索引匹配，提高效率。<br>&emsp;&emsp;对于前半段模糊的情况，可以考虑使用覆盖索引，对like中的值和一个其他字段建立复合索引。<br>&emsp;&emsp;也考虑使用函数达到优化的效果：</p>
+<pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token operator">-</span> LOCATE<span class="token punctuation">(</span><span class="token string">'substr'</span><span class="token punctuation">,</span>str<span class="token punctuation">,</span>pos<span class="token punctuation">)</span>：返回substr在<span class="token punctuation">(</span>pos后<span class="token punctuation">)</span>str中第一次出现的位置，如果substr在str中不存在，返回值为<span class="token number">0</span>。
+  <span class="token operator">></span> <span class="token keyword">SELECT</span> <span class="token punctuation">`</span><span class="token keyword">column</span><span class="token punctuation">`</span> <span class="token keyword">FROM</span> <span class="token punctuation">`</span><span class="token keyword">table</span><span class="token punctuation">`</span> <span class="token keyword">WHERE</span> LOCATE<span class="token punctuation">(</span><span class="token string">'keyword'</span><span class="token punctuation">,</span> <span class="token punctuation">`</span>field<span class="token punctuation">`</span><span class="token punctuation">)</span><span class="token operator">></span><span class="token number">0</span>
+<span class="token operator">-</span> POSITION<span class="token punctuation">(</span><span class="token string">'substr'</span> <span class="token operator">IN</span> <span class="token punctuation">`</span>field<span class="token punctuation">`</span><span class="token punctuation">)</span>
+  <span class="token operator">></span> <span class="token keyword">SELECT</span> <span class="token punctuation">`</span><span class="token keyword">column</span><span class="token punctuation">`</span> <span class="token keyword">FROM</span> <span class="token punctuation">`</span><span class="token keyword">table</span><span class="token punctuation">`</span> <span class="token keyword">WHERE</span> POSITION<span class="token punctuation">(</span><span class="token string">'keyword'</span> <span class="token operator">IN</span> <span class="token punctuation">`</span>filed<span class="token punctuation">`</span><span class="token punctuation">)</span>
+<span class="token operator">-</span> INSTR<span class="token punctuation">(</span><span class="token punctuation">`</span>str<span class="token punctuation">`</span><span class="token punctuation">,</span><span class="token string">'substr'</span><span class="token punctuation">)</span>
+  <span class="token operator">></span> <span class="token keyword">SELECT</span> <span class="token punctuation">`</span><span class="token keyword">column</span><span class="token punctuation">`</span> <span class="token keyword">FROM</span> <span class="token punctuation">`</span><span class="token keyword">table</span><span class="token punctuation">`</span> <span class="token keyword">WHERE</span> INSTR<span class="token punctuation">(</span><span class="token punctuation">`</span>field<span class="token punctuation">`</span><span class="token punctuation">,</span> <span class="token string">'keyword'</span> <span class="token punctuation">)</span><span class="token operator">></span><span class="token number">0</span> 
+<span class="token operator">-</span> FIND_IN_SET<span class="token punctuation">(</span>str1<span class="token punctuation">,</span>str2<span class="token punctuation">)</span>：返回str2中str1所在的位置索引，其中str2必须以<span class="token string">","</span>分割开。
+  <span class="token operator">></span> <span class="token keyword">SELECT</span> <span class="token operator">*</span> <span class="token keyword">FROM</span> <span class="token punctuation">`</span>person<span class="token punctuation">`</span> <span class="token keyword">WHERE</span> FIND_IN_SET<span class="token punctuation">(</span><span class="token string">'keyword'</span><span class="token punctuation">,</span><span class="token punctuation">`</span>field<span class="token punctuation">`</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li><a href="https://blog.csdn.net/soinice/article/details/98476139">MySQL - 如何优化模糊查询（like 模糊查询)</a></li>
+<li><a href="https://blog.csdn.net/UFO___/article/details/81164996">https://blog.csdn.net/UFO___/article/details/81164996</a></li>
+</ul>
+<h2 id="为什么有young-gc和old-gc？"><a href="#为什么有young-gc和old-gc？" class="headerlink" title="为什么有young gc和old gc？"></a>为什么有young gc和old gc？</h2><p>&emsp;&emsp;GC是为了清理JVM在运行中产生的垃圾内存，回收使用。因为GC的效率问题，才会分为young gc和old gc。<br>&emsp;&emsp;相对而言，young gc速度快、次数多，而old gc速度慢、次数少、会停止任务的执行。  </p>
+<ul>
+<li><a href="../../../md/jvm/JVM%E2%80%94GC">GC</a></li>
+<li><a href="https://blog.csdn.net/wildwolf_001/article/details/108873331">Minor GC、Young GC、Full GC、Old GC、Major GC、Mixed GC傻傻分不清</a></li>
+</ul>
+<h2 id="标记清除算法用在什么阶段？"><a href="#标记清除算法用在什么阶段？" class="headerlink" title="标记清除算法用在什么阶段？"></a>标记清除算法用在什么阶段？</h2><p>&emsp;&emsp;标记清除算法一般用在老年代的垃圾回收，主要用在CMS垃圾回收器。</p>
+<h2 id="Class-forName和ClassLoader-loadclass的区别？"><a href="#Class-forName和ClassLoader-loadclass的区别？" class="headerlink" title="Class.forName和ClassLoader.loadclass的区别？"></a>Class.forName和ClassLoader.loadclass的区别？</h2><p>&emsp;&emsp;两者都是加载类的方法，ClassLoader.loadclass中会又三种类加载器，当前类加载器，指定类加载器，线程上下文类加载器。<br>&emsp;&emsp;Class.forName则是通过当前类加载器加载类的。底层会采用ClassLoader.loadclass。<br>&emsp;&emsp;Class.forName加载类的同时进行了初始化工作，ClassLoader.loadclass只加载进了内存中，ClassLoader.loadclass加载的类在用new关键字构造对象时才会初始化。<br>&emsp;&emsp;jdbc中规定，加载的同时需要将类注册进DriverManager中，ClassLoader.loadclass中没有类进行初始化，所以无法注册，不能使用。</p>
+<ul>
+<li><a href="https://www.jianshu.com/p/aedee0e14319">Class.forName和ClassLoader.loadClass</a></li>
+<li><a href="https://blog.csdn.net/a24b86/article/details/119112800">应用在JDBC的Class.forName和ClassLoader.loadClass区别</a></li>
+<li><a href="https://www.cnblogs.com/zeng1994/p/81976a2ea470861e34a4223b7561a970.html">Class.forName() 与 ClassLoader.loadClass()的区别</a></li>
+</ul>
+<h2 id="为什么要用Class-forName？使用场景？"><a href="#为什么要用Class-forName？使用场景？" class="headerlink" title="为什么要用Class.forName？使用场景？"></a>为什么要用Class.forName？使用场景？</h2><p>&emsp;&emsp;<code>Class.forName()</code>，是为了动态加载类，在数据库驱动场景中使用较多，一般在动态加载类后还需要调用<code>newInstance()</code>方法来实例化对象。<br>&emsp;&emsp;<code>Class.forName()</code>返回的是类，<code>newInstance()</code>返回的是实例化的对象。<br>&emsp;&emsp;<code>newInstance()</code>方法返回的对象是弱类型，而<code>new</code>返回的对象是强类型。<br>&emsp;&emsp;java中有三种获得类的方法：</p>
+<ul>
+<li>Class Object = object.getClass();</li>
+<li>Class Object = Object.class;</li>
+<li>Class Object = Class.forName(“java.lang.Object”);</li>
+</ul>
+<h2 id="为什么使用rocketmq？rocketmq用在什么场景？"><a href="#为什么使用rocketmq？rocketmq用在什么场景？" class="headerlink" title="为什么使用rocketmq？rocketmq用在什么场景？"></a>为什么使用rocketmq？rocketmq用在什么场景？</h2><ul>
+<li><a href="../../../categories/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/rocketmq/">rocketmq分类</a></li>
+</ul>
+<h2 id="分布式锁怎么实现的？为什么没有用成熟的解决方案？"><a href="#分布式锁怎么实现的？为什么没有用成熟的解决方案？" class="headerlink" title="分布式锁怎么实现的？为什么没有用成熟的解决方案？"></a>分布式锁怎么实现的？为什么没有用成熟的解决方案？</h2><ul>
+<li><a href="../../../md/redis/redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81">redis分布式</a></li>
+<li><a href="../../../md/zookeeper/zookeeper%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81">zookeeper实现分布式锁</a></li>
+<li><a href="../../../md/%E5%88%86%E5%B8%83%E5%BC%8F/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81">分布式锁</a></li>
+</ul>
+<hr>
+<h1 id="参考文献-amp-鸣谢"><a href="#参考文献-amp-鸣谢" class="headerlink" title="参考文献 &amp; 鸣谢"></a>参考文献 &amp; 鸣谢</h1><ul>
+<li><a href="https://www.jianshu.com/p/b8544e2c5fdb">多线程并发下的线程安全的集合类的使用</a></li>
+<li><a href="https://mp.weixin.qq.com/s/7J56xP1DVXa8H1kH32QFhA">你了解 JDK 8 Stream 数据流效率吗？千万级数据量性能如何？</a></li>
+<li><a href="https://mp.weixin.qq.com/s/EOw9zVIlC6MnEaGCHqca6A">Java8 Stream 数据流，大数据量下的性能效率怎么样？</a></li>
+<li><a href="https://mp.weixin.qq.com/s/ESmH1vLGENEop-C1R2HCAQ">JDK 8 Stream 数据流效率怎么样？</a></li>
+<li><a href="https://mp.weixin.qq.com/s/jUBKPGGgF0mkuxQ6RBeYyA">20 个实例玩转 Java 8 Stream</a></li>
+<li><a href="https://mp.weixin.qq.com/s/Vu5LMjlBMXtmdFk2QfnFtw">深度掌握java stream 流操作，让你的代码高出一个逼格！</a></li>
+<li><a href="https://blog.csdn.net/ZytheMoon/article/details/89715618">Java版本：JDK8的十大新特性介绍</a></li>
+<li><a href="https://blog.csdn.net/qq_29411737/article/details/80835658">JDK1.8 新特性（全）</a></li>
+<li><a href="https://blog.csdn.net/wildwolf_001/article/details/108873331">Minor GC、Young GC、Full GC、Old GC、Major GC、Mixed GC傻傻分不清</a></li>
+<li><a href="https://www.jianshu.com/p/aedee0e14319">Class.forName和ClassLoader.loadClass</a></li>
+<li><a href="https://blog.csdn.net/a24b86/article/details/119112800">应用在JDBC的Class.forName和ClassLoader.loadClass区别</a></li>
+<li><a href="https://www.cnblogs.com/zeng1994/p/81976a2ea470861e34a4223b7561a970.html">Class.forName() 与 ClassLoader.loadClass()的区别</a></li>
+<li><a href="https://dubbo.apache.org/zh/docs/v2.7/user/references/registry/">https://dubbo.apache.org/zh/docs/v2.7/user/references/registry/</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>面经</category>
+      </categories>
+      <tags>
+        <tag>面经</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>端点科技一面面经</title>
     <url>/hexoblog/%E9%9D%A2%E7%BB%8F/answer/%E7%AB%AF%E7%82%B9%E7%A7%91%E6%8A%80%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/</url>
     <content><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span>
@@ -5061,202 +5239,84 @@ zkServer<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
       </tags>
   </entry>
   <entry>
-    <title>禾连科技一面面经</title>
-    <url>/hexoblog/%E9%9D%A2%E7%BB%8F/answer/%E7%A6%BE%E8%BF%9E%E7%A7%91%E6%8A%80%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/</url>
-    <content><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span>
-<p>写面经，攒人品</p>
-<ol>
-<li>项目介绍</li>
-<li>用到那些jdk版本？</li>
-<li>1.8有哪些新特性？</li>
-<li>Stream API用到那些方法？</li>
-<li>Stream API并行情况？</li>
-<li>用到那些集合？</li>
-<li>用到那些线程安全的集合？</li>
-<li>threadlocal用在什么场景？</li>
-<li>threadlocal结构？</li>
-<li>子线程能否拿到主线程threadlocal的内容？怎么拿？</li>
-<li>为什么用dubbo？</li>
-<li>dubbo用什么做注册中心？</li>
-<li>还有那些注册中心？</li>
-<li>dubbo启动扫描服务的过程？</li>
-<li>同一个dubbo服务，不同的用户要使用，dubbo怎么做用户区分？</li>
-<li>索引失效的情况？</li>
-<li>like对字段后半截查询（前半截模糊，后半截精确），如何优化？</li>
-<li>为什么有young gc和old gc？</li>
-<li>标记清除算法用在那个阶段？</li>
-<li>反射有那些方法得到一个类？</li>
-<li>Class.forName和ClassLoader.loadclass的区别？</li>
-<li>为什么要用Class.forName？使用场景？</li>
-<li>为什么用rocketmq？</li>
-<li>rocketmq用在什么场景？</li>
-<li>分布式锁怎么实现的？为什么没有用成熟的解决方案？</li>
-<li>反问</li>
-</ol>
-<hr>
-<h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="jdk1-8有哪些新特性？"><a href="#jdk1-8有哪些新特性？" class="headerlink" title="jdk1.8有哪些新特性？"></a>jdk1.8有哪些新特性？</h2><p>&emsp;&emsp;1.8中添加了一些新的特性。</p>
-<ul>
-<li>Lambda表达式</li>
-<li>函数式接口</li>
-<li>方法引用和构造器引用（前三个一般联合使用）</li>
-<li>Stream API</li>
-<li>接口中的默认方法和静态方法</li>
-<li>LocalDate API</li>
-<li>Optional类</li>
-<li>Base64 API</li>
-<li>数组并行操作</li>
-<li>永久代移除，增加元空间</li>
-</ul>
-<h2 id="Stream-API用到那些方法？"><a href="#Stream-API用到那些方法？" class="headerlink" title="Stream API用到那些方法？"></a>Stream API用到那些方法？</h2><ul>
-<li><a href="https://mp.weixin.qq.com/s/jUBKPGGgF0mkuxQ6RBeYyA">20 个实例玩转 Java 8 Stream</a></li>
-<li><a href="https://mp.weixin.qq.com/s/Vu5LMjlBMXtmdFk2QfnFtw">深度掌握java stream 流操作，让你的代码高出一个逼格！</a></li>
-</ul>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/StreamAPI.jpg" alt="StreamAPI"><br><img src="https://giteye.com/linqiankun/picurl/raw/master/java/StreamAPI2.png" alt="StreamAPI"></p>
-<h2 id="Stream-API并行情况？"><a href="#Stream-API并行情况？" class="headerlink" title="Stream API并行情况？"></a>Stream API并行情况？</h2><ul>
-<li><a href="https://mp.weixin.qq.com/s/7J56xP1DVXa8H1kH32QFhA">你了解 JDK 8 Stream 数据流效率吗？千万级数据量性能如何？</a></li>
-<li><a href="https://mp.weixin.qq.com/s/EOw9zVIlC6MnEaGCHqca6A">Java8 Stream 数据流，大数据量下的性能效率怎么样？</a></li>
-<li><a href="https://mp.weixin.qq.com/s/ESmH1vLGENEop-C1R2HCAQ">JDK 8 Stream 数据流效率怎么样？</a></li>
-</ul>
-<h2 id="常用的有哪些集合？"><a href="#常用的有哪些集合？" class="headerlink" title="常用的有哪些集合？"></a>常用的有哪些集合？</h2><p>&emsp;&emsp;常用的集合主要可以分为4类，map、set、list和vector，hashtable等其他的。  </p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E9%9B%86%E5%90%881.jpg" alt="集合集成关系图"></p>
-<h2 id="常用的并发安全集合集合有哪些？"><a href="#常用的并发安全集合集合有哪些？" class="headerlink" title="常用的并发安全集合集合有哪些？"></a>常用的并发安全集合集合有哪些？</h2><ul>
-<li><a href="https://www.jianshu.com/p/b8544e2c5fdb">多线程并发下的线程安全的集合类的使用</a></li>
-</ul>
-<p>&emsp;&emsp;并发安全的集合有多种，也可以将不安全的集合转化为并发安全的集合。</p>
-<ul>
-<li>ConcurrentHashMap</li>
-<li>HashTable</li>
-<li>Collections.synchronizedCollection()方法转换</li>
-<li>StringBuffer</li>
-</ul>
-<h2 id="threadlocal用在什么场景？"><a href="#threadlocal用在什么场景？" class="headerlink" title="threadlocal用在什么场景？"></a>threadlocal用在什么场景？</h2><p>&emsp;&emsp;ThreadLocal有两大典型使用场景。</p>
-<ul>
-<li><strong>场景1：</strong> 每个线程需要一个独享的对象（通常是工具类，典型需要使用的类有SimpleDateFormat和Random<blockquote>
-<p>SimpleDateFormat这种每个线程都需要使用，但是线程不安全的类</p>
-</blockquote>
-</li>
-<li><strong>场景2：</strong> 每个线程内需要保存全局变量（例如在拦截器中获取用户信息），可以让不同方法直接使用，避免参数传递的麻烦。</li>
-</ul>
-<h2 id="threadlocal结构？"><a href="#threadlocal结构？" class="headerlink" title="threadlocal结构？"></a>threadlocal结构？</h2><p>&emsp;&emsp;threadLocal底层采用了一个和线程绑定的ThreadLocalMap，这个map与线程绑定，每个线程都是自己，对自己的进行操作。<br>&emsp;&emsp;ThreadLocalMap的底层则是一个Entry数组，用threadlocal作为Entry的key，而值则是由我们控制。</p>
-<h2 id="子线程能否拿到主线程threadlocal的内容？怎么拿？"><a href="#子线程能否拿到主线程threadlocal的内容？怎么拿？" class="headerlink" title="子线程能否拿到主线程threadlocal的内容？怎么拿？"></a>子线程能否拿到主线程threadlocal的内容？怎么拿？</h2><p>&emsp;&emsp;默认情况下，子线程是无法拿到主线程的ThreadLocal中的信息的，可以通过手动传递，ThreadLocal有一个子类，可以使用<code>InheritableThreadLocal</code>，可以进行父子线程传递数据。</p>
-<h2 id="为什么用dubbo？"><a href="#为什么用dubbo？" class="headerlink" title="为什么用dubbo？"></a>为什么用dubbo？</h2><ul>
-<li><a href="../../md/rpc/dubbo/dubbo%E5%9F%BA%E7%A1%80%E5%8F%8A%E4%BB%8B%E7%BB%8D">dubbo基础及介绍</a></li>
-</ul>
-<h2 id="dubbo用什么做注册中心？"><a href="#dubbo用什么做注册中心？" class="headerlink" title="dubbo用什么做注册中心？"></a>dubbo用什么做注册中心？</h2><p>&emsp;&emsp;dubbo的注册中心有四种：</p>
-<ul>
-<li><p>Nacos注册中心</p>
-</li>
-<li><p>Multicast注册中心</p>
-<blockquote>
-<p>不需要启动任何中心节点，只要广播地址一样，就可以互相发现。<br>为了减少广播量，Dubbo缺省使用单播发送提供者地址信息给消费者，如果一个机器上同时启了多个消费者进程，消费者需声明unicast=false，否则只会有一个消费者能收到消息；当服务者和消费者运行在同一台机器上，消费者同样需要声明unicast=false，否则消费者无法收到消息，导致<code>No provider available for the service</code>异常。</p>
-</blockquote>
-</li>
-<li><p>Zookeeper注册中心</p>
-</li>
-<li><p>Redis注册中心</p>
-<blockquote>
-<p>从2.1.0版本开始支持。<br>使用Redis的Key/Map结构存储数据结构。<br>使用Redis的Publish/Subscribe事件通知数据变更。</p>
-</blockquote>
-</li>
-<li><p>Simple注册中心</p>
-<blockquote>
-<p>Simple注册中心本身就是一个普通的Dubbo服务，可以减少第三方依赖，使整体通讯方式一致。<br>不支持集群</p>
-</blockquote>
-</li>
-<li><p><a href="https://dubbo.apache.org/zh/docs/v2.7/user/references/registry/">https://dubbo.apache.org/zh/docs/v2.7/user/references/registry/</a></p>
-</li>
-</ul>
-<h2 id="dubbo启动扫描服务的过程？"><a href="#dubbo启动扫描服务的过程？" class="headerlink" title="dubbo启动扫描服务的过程？"></a>dubbo启动扫描服务的过程？</h2><ul>
-<li><a href="../../md/rpc/dubbo/dubbo%E6%9C%8D%E5%8A%A1%E5%BC%95%E5%85%A5%E6%B5%81%E7%A8%8B">dubbo服务发现</a></li>
-<li><a href="../../md/rpc/dubbo/dubbo%E6%9C%8D%E5%8A%A1%E8%B0%83%E7%94%A8%E8%BF%87%E7%A8%8B">dubbo服务调用过程</a></li>
-</ul>
-<h2 id="同一个dubbo服务，不同的用户要使用，dubbo怎么做用户区分？"><a href="#同一个dubbo服务，不同的用户要使用，dubbo怎么做用户区分？" class="headerlink" title="同一个dubbo服务，不同的用户要使用，dubbo怎么做用户区分？"></a>同一个dubbo服务，不同的用户要使用，dubbo怎么做用户区分？</h2><p>&emsp;&emsp;对于这种情况，可以通过对相同的接口采用不同的版本进行区分。</p>
-<h2 id="索引失效的情况？"><a href="#索引失效的情况？" class="headerlink" title="索引失效的情况？"></a>索引失效的情况？</h2><ul>
-<li><a href="https://www.yuque.com/jiufenshiren/ra5mzi/aoz98d#1ETQP">索引失效的情况</a></li>
-</ul>
-<h2 id="like对字段后半截查询（前半截模糊，后半截精确），如何优化？"><a href="#like对字段后半截查询（前半截模糊，后半截精确），如何优化？" class="headerlink" title="like对字段后半截查询（前半截模糊，后半截精确），如何优化？"></a>like对字段后半截查询（前半截模糊，后半截精确），如何优化？</h2><p>&emsp;&emsp;一般而言在后半段模糊的情况下，like中的值可以根据前半段进行索引匹配，提高效率。<br>&emsp;&emsp;对于前半段模糊的情况，可以考虑使用覆盖索引，对like中的值和一个其他字段建立复合索引。<br>&emsp;&emsp;也考虑使用函数达到优化的效果：</p>
-<pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token operator">-</span> LOCATE<span class="token punctuation">(</span><span class="token string">'substr'</span><span class="token punctuation">,</span>str<span class="token punctuation">,</span>pos<span class="token punctuation">)</span>：返回substr在<span class="token punctuation">(</span>pos后<span class="token punctuation">)</span>str中第一次出现的位置，如果substr在str中不存在，返回值为<span class="token number">0</span>。
-  <span class="token operator">></span> <span class="token keyword">SELECT</span> <span class="token punctuation">`</span><span class="token keyword">column</span><span class="token punctuation">`</span> <span class="token keyword">FROM</span> <span class="token punctuation">`</span><span class="token keyword">table</span><span class="token punctuation">`</span> <span class="token keyword">WHERE</span> LOCATE<span class="token punctuation">(</span><span class="token string">'keyword'</span><span class="token punctuation">,</span> <span class="token punctuation">`</span>field<span class="token punctuation">`</span><span class="token punctuation">)</span><span class="token operator">></span><span class="token number">0</span>
-<span class="token operator">-</span> POSITION<span class="token punctuation">(</span><span class="token string">'substr'</span> <span class="token operator">IN</span> <span class="token punctuation">`</span>field<span class="token punctuation">`</span><span class="token punctuation">)</span>
-  <span class="token operator">></span> <span class="token keyword">SELECT</span> <span class="token punctuation">`</span><span class="token keyword">column</span><span class="token punctuation">`</span> <span class="token keyword">FROM</span> <span class="token punctuation">`</span><span class="token keyword">table</span><span class="token punctuation">`</span> <span class="token keyword">WHERE</span> POSITION<span class="token punctuation">(</span><span class="token string">'keyword'</span> <span class="token operator">IN</span> <span class="token punctuation">`</span>filed<span class="token punctuation">`</span><span class="token punctuation">)</span>
-<span class="token operator">-</span> INSTR<span class="token punctuation">(</span><span class="token punctuation">`</span>str<span class="token punctuation">`</span><span class="token punctuation">,</span><span class="token string">'substr'</span><span class="token punctuation">)</span>
-  <span class="token operator">></span> <span class="token keyword">SELECT</span> <span class="token punctuation">`</span><span class="token keyword">column</span><span class="token punctuation">`</span> <span class="token keyword">FROM</span> <span class="token punctuation">`</span><span class="token keyword">table</span><span class="token punctuation">`</span> <span class="token keyword">WHERE</span> INSTR<span class="token punctuation">(</span><span class="token punctuation">`</span>field<span class="token punctuation">`</span><span class="token punctuation">,</span> <span class="token string">'keyword'</span> <span class="token punctuation">)</span><span class="token operator">></span><span class="token number">0</span> 
-<span class="token operator">-</span> FIND_IN_SET<span class="token punctuation">(</span>str1<span class="token punctuation">,</span>str2<span class="token punctuation">)</span>：返回str2中str1所在的位置索引，其中str2必须以<span class="token string">","</span>分割开。
-  <span class="token operator">></span> <span class="token keyword">SELECT</span> <span class="token operator">*</span> <span class="token keyword">FROM</span> <span class="token punctuation">`</span>person<span class="token punctuation">`</span> <span class="token keyword">WHERE</span> FIND_IN_SET<span class="token punctuation">(</span><span class="token string">'keyword'</span><span class="token punctuation">,</span><span class="token punctuation">`</span>field<span class="token punctuation">`</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<ul>
-<li><a href="https://blog.csdn.net/soinice/article/details/98476139">MySQL - 如何优化模糊查询（like 模糊查询)</a></li>
-<li><a href="https://blog.csdn.net/UFO___/article/details/81164996">https://blog.csdn.net/UFO___/article/details/81164996</a></li>
-</ul>
-<h2 id="为什么有young-gc和old-gc？"><a href="#为什么有young-gc和old-gc？" class="headerlink" title="为什么有young gc和old gc？"></a>为什么有young gc和old gc？</h2><p>&emsp;&emsp;GC是为了清理JVM在运行中产生的垃圾内存，回收使用。因为GC的效率问题，才会分为young gc和old gc。<br>&emsp;&emsp;相对而言，young gc速度快、次数多，而old gc速度慢、次数少、会停止任务的执行。  </p>
-<ul>
-<li><a href="../../md/jvm/JVM%E2%80%94GC">GC</a></li>
-<li><a href="https://blog.csdn.net/wildwolf_001/article/details/108873331">Minor GC、Young GC、Full GC、Old GC、Major GC、Mixed GC傻傻分不清</a></li>
-</ul>
-<h2 id="标记清除算法用在什么阶段？"><a href="#标记清除算法用在什么阶段？" class="headerlink" title="标记清除算法用在什么阶段？"></a>标记清除算法用在什么阶段？</h2><p>&emsp;&emsp;标记清除算法一般用在老年代的垃圾回收，主要用在CMS垃圾回收器。</p>
-<h2 id="Class-forName和ClassLoader-loadclass的区别？"><a href="#Class-forName和ClassLoader-loadclass的区别？" class="headerlink" title="Class.forName和ClassLoader.loadclass的区别？"></a>Class.forName和ClassLoader.loadclass的区别？</h2><p>&emsp;&emsp;两者都是加载类的方法，ClassLoader.loadclass中会又三种类加载器，当前类加载器，指定类加载器，线程上下文类加载器。<br>&emsp;&emsp;Class.forName则是通过当前类加载器加载类的。底层会采用ClassLoader.loadclass。<br>&emsp;&emsp;Class.forName加载类的同时进行了初始化工作，ClassLoader.loadclass只加载进了内存中，ClassLoader.loadclass加载的类在用new关键字构造对象时才会初始化。<br>&emsp;&emsp;jdbc中规定，加载的同时需要将类注册进DriverManager中，ClassLoader.loadclass中没有类进行初始化，所以无法注册，不能使用。</p>
-<ul>
-<li><a href="https://www.jianshu.com/p/aedee0e14319">Class.forName和ClassLoader.loadClass</a></li>
-<li><a href="https://blog.csdn.net/a24b86/article/details/119112800">应用在JDBC的Class.forName和ClassLoader.loadClass区别</a></li>
-<li><a href="https://www.cnblogs.com/zeng1994/p/81976a2ea470861e34a4223b7561a970.html">Class.forName() 与 ClassLoader.loadClass()的区别</a></li>
-</ul>
-<h2 id="为什么要用Class-forName？使用场景？"><a href="#为什么要用Class-forName？使用场景？" class="headerlink" title="为什么要用Class.forName？使用场景？"></a>为什么要用Class.forName？使用场景？</h2><p>&emsp;&emsp;<code>Class.forName()</code>，是为了动态加载类，在数据库驱动场景中使用较多，一般在动态加载类后还需要调用<code>newInstance()</code>方法来实例化对象。<br>&emsp;&emsp;<code>Class.forName()</code>返回的是类，<code>newInstance()</code>返回的是实例化的对象。<br>&emsp;&emsp;<code>newInstance()</code>方法返回的对象是弱类型，而<code>new</code>返回的对象是强类型。<br>&emsp;&emsp;java中有三种获得类的方法：</p>
-<ul>
-<li>Class Object = object.getClass();</li>
-<li>Class Object = Object.class;</li>
-<li>Class Object = Class.forName(“java.lang.Object”);</li>
-</ul>
-<h2 id="为什么使用rocketmq？rocketmq用在什么场景？"><a href="#为什么使用rocketmq？rocketmq用在什么场景？" class="headerlink" title="为什么使用rocketmq？rocketmq用在什么场景？"></a>为什么使用rocketmq？rocketmq用在什么场景？</h2><ul>
-<li><a href="../../../categories/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/rocketmq/">rocketmq分类</a></li>
-</ul>
-<h2 id="分布式锁怎么实现的？为什么没有用成熟的解决方案？"><a href="#分布式锁怎么实现的？为什么没有用成熟的解决方案？" class="headerlink" title="分布式锁怎么实现的？为什么没有用成熟的解决方案？"></a>分布式锁怎么实现的？为什么没有用成熟的解决方案？</h2><ul>
-<li><a href="../../md/redis/redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81">redis分布式</a></li>
-<li><a href="../../md/zookeeper/zookeeper%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81">zookeeper实现分布式锁</a></li>
-<li><a href="../../md/%E5%88%86%E5%B8%83%E5%BC%8F/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81">分布式锁</a></li>
-</ul>
-<hr>
-<h1 id="参考文献-amp-鸣谢"><a href="#参考文献-amp-鸣谢" class="headerlink" title="参考文献 &amp; 鸣谢"></a>参考文献 &amp; 鸣谢</h1><ul>
-<li><a href="https://www.jianshu.com/p/b8544e2c5fdb">多线程并发下的线程安全的集合类的使用</a></li>
-<li><a href="https://mp.weixin.qq.com/s/7J56xP1DVXa8H1kH32QFhA">你了解 JDK 8 Stream 数据流效率吗？千万级数据量性能如何？</a></li>
-<li><a href="https://mp.weixin.qq.com/s/EOw9zVIlC6MnEaGCHqca6A">Java8 Stream 数据流，大数据量下的性能效率怎么样？</a></li>
-<li><a href="https://mp.weixin.qq.com/s/ESmH1vLGENEop-C1R2HCAQ">JDK 8 Stream 数据流效率怎么样？</a></li>
-<li><a href="https://mp.weixin.qq.com/s/jUBKPGGgF0mkuxQ6RBeYyA">20 个实例玩转 Java 8 Stream</a></li>
-<li><a href="https://mp.weixin.qq.com/s/Vu5LMjlBMXtmdFk2QfnFtw">深度掌握java stream 流操作，让你的代码高出一个逼格！</a></li>
-<li><a href="https://blog.csdn.net/ZytheMoon/article/details/89715618">Java版本：JDK8的十大新特性介绍</a></li>
-<li><a href="https://blog.csdn.net/qq_29411737/article/details/80835658">JDK1.8 新特性（全）</a></li>
-<li><a href="https://blog.csdn.net/wildwolf_001/article/details/108873331">Minor GC、Young GC、Full GC、Old GC、Major GC、Mixed GC傻傻分不清</a></li>
-<li><a href="https://www.jianshu.com/p/aedee0e14319">Class.forName和ClassLoader.loadClass</a></li>
-<li><a href="https://blog.csdn.net/a24b86/article/details/119112800">应用在JDBC的Class.forName和ClassLoader.loadClass区别</a></li>
-<li><a href="https://www.cnblogs.com/zeng1994/p/81976a2ea470861e34a4223b7561a970.html">Class.forName() 与 ClassLoader.loadClass()的区别</a></li>
-<li><a href="https://dubbo.apache.org/zh/docs/v2.7/user/references/registry/">https://dubbo.apache.org/zh/docs/v2.7/user/references/registry/</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>面经</category>
-      </categories>
-      <tags>
-        <tag>面经</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>jekins安装使用</title>
-    <url>/hexoblog/md/DEVOPS/CICD/jekins%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h1 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h1><p>&emsp;&emsp;网上的教程有很多，把自己的过程记一遍。<br>&emsp;&emsp;首先就是下载jekins的包，在官网下载就可以。win平台的可以下载对应的exe文件。<br><a href="https://www.jenkins.io/download">jekins下载</a><br>8089</p>
+    <title>docker安装与使用</title>
+    <url>/hexoblog/md/DEVOPS/docker/docker%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h1 id="docker介绍："><a href="#docker介绍：" class="headerlink" title="docker介绍："></a>docker介绍：</h1><p>&emsp;&emsp;docker是个鲸鱼，拉了很多集装箱的鲸鱼。<br>&emsp;&emsp;docker是个开源的容器引擎。可以让开发者快速将他们的应用及依赖打包到一个可移植的容器中，然后发布到不同的平台。</p>
+<h2 id="docker的优点："><a href="#docker的优点：" class="headerlink" title="docker的优点："></a>docker的优点：</h2><p><strong>省时，省事，省钱。</strong></p>
 <span id="more"></span>
 
 <hr>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;这里讲的是windows平台的安装。<br>&emsp;&emsp;安装也是很简单，一路点击next就可以了。</p>
-<hr>
-<h1 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h1><p>&emsp;&emsp;先看官方的，有空再总结自己的。<br>&emsp;&emsp;<a href="https://blog.csdn.net/wise18146705004/article/details/105455426">jekins在win10的安装和使用</a><br>&emsp;&emsp;<a href="https://www.jenkins.io/zh/doc/book/installing/">安装Jenkins </a><br>&emsp;&emsp;<a href="https://www.jenkins.io/zh/download/">Jenkins 的安装和设置</a></p>
+<h1 id="docker安装："><a href="#docker安装：" class="headerlink" title="docker安装："></a>docker安装：</h1><p>&emsp;&emsp;这里介绍docker在windows平台家庭版下的安装。</p>
+<p>&emsp;&emsp;在windows家庭版下，安装docker需要先开启计算机的虚拟化功能，并且需要先安装wsl。</p>
+<h2 id="开启计算机的虚拟化功能："><a href="#开启计算机的虚拟化功能：" class="headerlink" title="开启计算机的虚拟化功能："></a>开启计算机的虚拟化功能：</h2><p>&emsp;&emsp;在控制面板-&gt;程序-&gt;启用或关闭Windows功能中开启即可：</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Windows%20%E5%8A%9F%E8%83%BD%202021_3_5%2015_47_19.png" alt="windows功能"></p>
+<p>&emsp;&emsp;我么这里将虚拟机平台（hyper-v）和适用于linux的windows子系统同时勾选，下面的勾选为了下一步的安装wsl的ubuntu。<br>&emsp;&emsp;点击确定，等待执行完，重启电脑就可以了。</p>
+<h2 id="安装Ubuntu"><a href="#安装Ubuntu" class="headerlink" title="安装Ubuntu"></a>安装Ubuntu</h2><p>&emsp;&emsp;我们在microsoft store中直接搜索linux，就会出现很多linux发行版，这里我选择的时ubuntu，也可以选择其他自己喜欢的发行版。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Microsoft%20Store%202021_3_5%2015_54_47.png" alt="microsoft store"></p>
+<h2 id="安装docker-desktop"><a href="#安装docker-desktop" class="headerlink" title="安装docker-desktop"></a>安装docker-desktop</h2><p>&emsp;&emsp;这里去官网下载<a href="https://www.docker.com/products/docker-desktop">docker-desktop</a>。<br>&emsp;&emsp;下载后双击打开下载的exe文件，完成安装。整个安装过程还是很简单的，不过这里的只是社区版，仅提供4个月的支持，不推荐生产使用。<br>&emsp;&emsp;点击右上角的齿轮图标可以设置界面，可以设置不自动启动，也可以在配置安装的wsl连接docker。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Settings%202021_3_5%2016_18_18.png" alt="设置不自动启动" title="不自动启动"></p>
+<p>开启refresh后，wsl中可以连接docker。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Settings%202021_3_5%2016_18_08.png" alt="wsl连接docker" title="wsl连接docker"></p>
+<p>&emsp;&emsp;安装完成后可以用命令进行验证，查看版本号等。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">docker -v
+docker version<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>&emsp;&emsp;出现下面的结果即为安装成功：</p>
+<img src="https://gitee.com/linqiankun/picurl/raw/master/java/Windows%20PowerShell%202021_3_5%2016_25_22.png" alt="Windows PowerShell 2021_3_5 16_25_22"  />
+
+<p>&emsp;&emsp;当然这样安装的docker是运行在一个轻量级的linux虚拟机上的，（图中的**OS/Arch选项）当然docker也提供了在windows的，但是那必须在win10 专业版，教育版，企业版上才行。<br>&emsp;&emsp;接下来就可以愉快的玩耍了。</p>
+<h1 id="基础使用："><a href="#基础使用：" class="headerlink" title="基础使用："></a>基础使用：</h1><h2 id="启动docker"><a href="#启动docker" class="headerlink" title="启动docker"></a>启动docker</h2><p>&emsp;&emsp;这样安装的docker安装成功后就启动起来了，就可以直接使用了。<br>&emsp;&emsp;这样的貌似不能用syatemctl进行启动。</p>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 查看镜像列表</span>
+docker image <span class="token function">ls</span>
+
+<span class="token comment"># 在仓库中查找镜像</span>
+docker search <span class="token operator">&lt;</span>imagetitle<span class="token operator">></span>
+
+<span class="token comment"># 下载镜像</span>
+docker pull <span class="token operator">&lt;</span>imagetitle<span class="token operator">></span>
+
+<span class="token comment"># 删除镜像(需要无运行该镜像的容器)</span>
+docker rmi <span class="token operator">&lt;</span>imageId<span class="token operator">></span>
+
+<span class="token comment"># 查看镜像</span>
+docker inspect <span class="token operator">&lt;</span>imageId<span class="token operator">></span>
+
+<span class="token comment"># 运行镜像</span>
+docker run -p <span class="token operator">&lt;</span>port<span class="token operator">></span>:<span class="token operator">&lt;</span>port<span class="token operator">></span> <span class="token operator">&lt;</span>imagetitle<span class="token operator">></span>
+
+<span class="token comment"># 查看容器列表（运行中的镜像）</span>
+docker container <span class="token function">ls</span>
+docker <span class="token function">ps</span>
+
+<span class="token comment"># 查看所有容器</span>
+docker <span class="token function">ps</span> -a
+
+<span class="token comment"># 删除容器</span>
+docker <span class="token function">rm</span> <span class="token operator">&lt;</span>containerId<span class="token operator">></span>
+
+<span class="token comment"># 也可以直接运行容器</span>
+docker start <span class="token operator">&lt;</span>containerId<span class="token operator">></span>
+
+<span class="token comment"># 重启</span>
+docker restart <span class="token operator">&lt;</span>contarinerId<span class="token operator">></span>
+
+<span class="token comment"># 停止</span>
+docker stop <span class="token operator">&lt;</span>containerId<span class="token operator">></span>
+
+<span class="token comment"># 进入容器</span>
+docker <span class="token builtin class-name">exec</span> -it <span class="token operator">&lt;</span>containerId<span class="token operator">></span> /bin/bash
+
+<span class="token comment"># 退出容器</span>
+<span class="token builtin class-name">exit</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 ]]></content>
       <categories>
-        <category>CICD</category>
-        <category>jekins</category>
+        <category>docker</category>
       </categories>
       <tags>
         <tag>tool</tag>
-        <tag>CICD</tag>
-        <tag>jekins</tag>
+        <tag>docker</tag>
+        <tag>wsl</tag>
       </tags>
   </entry>
   <entry>
@@ -5403,87 +5463,6 @@ COPY dist/  /usr/share/nginx/html/<span aria-hidden="true" class="line-numbers-r
       </tags>
   </entry>
   <entry>
-    <title>docker安装与使用</title>
-    <url>/hexoblog/md/DEVOPS/docker/docker%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h1 id="docker介绍："><a href="#docker介绍：" class="headerlink" title="docker介绍："></a>docker介绍：</h1><p>&emsp;&emsp;docker是个鲸鱼，拉了很多集装箱的鲸鱼。<br>&emsp;&emsp;docker是个开源的容器引擎。可以让开发者快速将他们的应用及依赖打包到一个可移植的容器中，然后发布到不同的平台。</p>
-<h2 id="docker的优点："><a href="#docker的优点：" class="headerlink" title="docker的优点："></a>docker的优点：</h2><p><strong>省时，省事，省钱。</strong></p>
-<span id="more"></span>
-
-<hr>
-<h1 id="docker安装："><a href="#docker安装：" class="headerlink" title="docker安装："></a>docker安装：</h1><p>&emsp;&emsp;这里介绍docker在windows平台家庭版下的安装。</p>
-<p>&emsp;&emsp;在windows家庭版下，安装docker需要先开启计算机的虚拟化功能，并且需要先安装wsl。</p>
-<h2 id="开启计算机的虚拟化功能："><a href="#开启计算机的虚拟化功能：" class="headerlink" title="开启计算机的虚拟化功能："></a>开启计算机的虚拟化功能：</h2><p>&emsp;&emsp;在控制面板-&gt;程序-&gt;启用或关闭Windows功能中开启即可：</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Windows%20%E5%8A%9F%E8%83%BD%202021_3_5%2015_47_19.png" alt="windows功能"></p>
-<p>&emsp;&emsp;我么这里将虚拟机平台（hyper-v）和适用于linux的windows子系统同时勾选，下面的勾选为了下一步的安装wsl的ubuntu。<br>&emsp;&emsp;点击确定，等待执行完，重启电脑就可以了。</p>
-<h2 id="安装Ubuntu"><a href="#安装Ubuntu" class="headerlink" title="安装Ubuntu"></a>安装Ubuntu</h2><p>&emsp;&emsp;我们在microsoft store中直接搜索linux，就会出现很多linux发行版，这里我选择的时ubuntu，也可以选择其他自己喜欢的发行版。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Microsoft%20Store%202021_3_5%2015_54_47.png" alt="microsoft store"></p>
-<h2 id="安装docker-desktop"><a href="#安装docker-desktop" class="headerlink" title="安装docker-desktop"></a>安装docker-desktop</h2><p>&emsp;&emsp;这里去官网下载<a href="https://www.docker.com/products/docker-desktop">docker-desktop</a>。<br>&emsp;&emsp;下载后双击打开下载的exe文件，完成安装。整个安装过程还是很简单的，不过这里的只是社区版，仅提供4个月的支持，不推荐生产使用。<br>&emsp;&emsp;点击右上角的齿轮图标可以设置界面，可以设置不自动启动，也可以在配置安装的wsl连接docker。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Settings%202021_3_5%2016_18_18.png" alt="设置不自动启动" title="不自动启动"></p>
-<p>开启refresh后，wsl中可以连接docker。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/Settings%202021_3_5%2016_18_08.png" alt="wsl连接docker" title="wsl连接docker"></p>
-<p>&emsp;&emsp;安装完成后可以用命令进行验证，查看版本号等。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">docker -v
-docker version<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<p>&emsp;&emsp;出现下面的结果即为安装成功：</p>
-<img src="https://gitee.com/linqiankun/picurl/raw/master/java/Windows%20PowerShell%202021_3_5%2016_25_22.png" alt="Windows PowerShell 2021_3_5 16_25_22"  />
-
-<p>&emsp;&emsp;当然这样安装的docker是运行在一个轻量级的linux虚拟机上的，（图中的**OS/Arch选项）当然docker也提供了在windows的，但是那必须在win10 专业版，教育版，企业版上才行。<br>&emsp;&emsp;接下来就可以愉快的玩耍了。</p>
-<h1 id="基础使用："><a href="#基础使用：" class="headerlink" title="基础使用："></a>基础使用：</h1><h2 id="启动docker"><a href="#启动docker" class="headerlink" title="启动docker"></a>启动docker</h2><p>&emsp;&emsp;这样安装的docker安装成功后就启动起来了，就可以直接使用了。<br>&emsp;&emsp;这样的貌似不能用syatemctl进行启动。</p>
-<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 查看镜像列表</span>
-docker image <span class="token function">ls</span>
-
-<span class="token comment"># 在仓库中查找镜像</span>
-docker search <span class="token operator">&lt;</span>imagetitle<span class="token operator">></span>
-
-<span class="token comment"># 下载镜像</span>
-docker pull <span class="token operator">&lt;</span>imagetitle<span class="token operator">></span>
-
-<span class="token comment"># 删除镜像(需要无运行该镜像的容器)</span>
-docker rmi <span class="token operator">&lt;</span>imageId<span class="token operator">></span>
-
-<span class="token comment"># 查看镜像</span>
-docker inspect <span class="token operator">&lt;</span>imageId<span class="token operator">></span>
-
-<span class="token comment"># 运行镜像</span>
-docker run -p <span class="token operator">&lt;</span>port<span class="token operator">></span>:<span class="token operator">&lt;</span>port<span class="token operator">></span> <span class="token operator">&lt;</span>imagetitle<span class="token operator">></span>
-
-<span class="token comment"># 查看容器列表（运行中的镜像）</span>
-docker container <span class="token function">ls</span>
-docker <span class="token function">ps</span>
-
-<span class="token comment"># 查看所有容器</span>
-docker <span class="token function">ps</span> -a
-
-<span class="token comment"># 删除容器</span>
-docker <span class="token function">rm</span> <span class="token operator">&lt;</span>containerId<span class="token operator">></span>
-
-<span class="token comment"># 也可以直接运行容器</span>
-docker start <span class="token operator">&lt;</span>containerId<span class="token operator">></span>
-
-<span class="token comment"># 重启</span>
-docker restart <span class="token operator">&lt;</span>contarinerId<span class="token operator">></span>
-
-<span class="token comment"># 停止</span>
-docker stop <span class="token operator">&lt;</span>containerId<span class="token operator">></span>
-
-<span class="token comment"># 进入容器</span>
-docker <span class="token builtin class-name">exec</span> -it <span class="token operator">&lt;</span>containerId<span class="token operator">></span> /bin/bash
-
-<span class="token comment"># 退出容器</span>
-<span class="token builtin class-name">exit</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-]]></content>
-      <categories>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>tool</tag>
-        <tag>docker</tag>
-        <tag>wsl</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>nginx基础安装及使用</title>
     <url>/hexoblog/md/DEVOPS/nginx/nginx%E5%9F%BA%E7%A1%80%E5%AE%89%E8%A3%85%E5%8F%8A%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>&emsp;&emsp;Nginx是一款轻量级的Web服务器、反向代理服务器，由于它的内存占用少，启动极快，高并发能力强，在互联网项目中广泛应用。</p>
@@ -5519,6 +5498,27 @@ start nginx
       <tags>
         <tag>linux</tag>
         <tag>nginx</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>jekins安装使用</title>
+    <url>/hexoblog/md/DEVOPS/CICD/jekins%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h1 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h1><p>&emsp;&emsp;网上的教程有很多，把自己的过程记一遍。<br>&emsp;&emsp;首先就是下载jekins的包，在官网下载就可以。win平台的可以下载对应的exe文件。<br><a href="https://www.jenkins.io/download">jekins下载</a><br>8089</p>
+<span id="more"></span>
+
+<hr>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;这里讲的是windows平台的安装。<br>&emsp;&emsp;安装也是很简单，一路点击next就可以了。</p>
+<hr>
+<h1 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h1><p>&emsp;&emsp;先看官方的，有空再总结自己的。<br>&emsp;&emsp;<a href="https://blog.csdn.net/wise18146705004/article/details/105455426">jekins在win10的安装和使用</a><br>&emsp;&emsp;<a href="https://www.jenkins.io/zh/doc/book/installing/">安装Jenkins </a><br>&emsp;&emsp;<a href="https://www.jenkins.io/zh/download/">Jenkins 的安装和设置</a></p>
+]]></content>
+      <categories>
+        <category>CICD</category>
+        <category>jekins</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>CICD</tag>
+        <tag>jekins</tag>
       </tags>
   </entry>
   <entry>
@@ -5605,6 +5605,63 @@ start nginx
       </tags>
   </entry>
   <entry>
+    <title>IO模型</title>
+    <url>/hexoblog/md/java/IO/IO%E6%A8%A1%E5%9E%8B/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;IO是输入输出，IO是面向流的。<br>&emsp;&emsp;java中有三种IO模型： BIO，NIO，AIO。它们又可以分为同步异步，阻塞与非阻塞。<br>&emsp;&emsp;而在linux中有5中IO模型。</p>
+<span id="more"></span>
+
+<hr>
+<h1 id="同步与异步"><a href="#同步与异步" class="headerlink" title="同步与异步"></a>同步与异步</h1><p>&emsp;&emsp;同步与异步说的都是<strong>被调用者</strong>。<br>&emsp;&emsp;同步就是发起一个调用后，被调用者未处理完以前，不用返回。<br>&emsp;&emsp;异步就是发起一个调用后，立刻得到被调用者的回应，表示收到请求，但是并没有返回结果；被调用者通常依靠事件，回调等机制通知调用者返回结果。</p>
+<hr>
+<h1 id="阻塞与非阻塞"><a href="#阻塞与非阻塞" class="headerlink" title="阻塞与非阻塞"></a>阻塞与非阻塞</h1><p>&emsp;&emsp;阻塞与非阻塞说的都是<strong>调用者</strong>。<br>&emsp;&emsp;阻塞就是发起一个请求，调用者一直等待请求结果返回，也就是当前线程会被挂起，无法从事其他任务，只有当条件就绪才能继续。<br>&emsp;&emsp;非阻塞就是发起一个请求，调用者不用一直等着结果返回，可以先去干其他事情。</p>
+<hr>
+<h1 id="BIO、NIO、AIO"><a href="#BIO、NIO、AIO" class="headerlink" title="BIO、NIO、AIO"></a>BIO、NIO、AIO</h1><p>&emsp;&emsp;这些都是经典的IO模型，IO模型就是使用什么样的通道进行数据的发送和接收，很大程度上决定了程序通信的性能。</p>
+<ul>
+<li>BIO：BIO就是传统的IO模型，是<strong>同步阻塞的IO模型</strong>，java.io包中类就是BIO的工具，它提供了很多IO功能，比如输入输出流，对文件进行操作。在网络编程(Socket通信)中也同样进行IO操作。<blockquote>
+<p>服务器实现模式为一个连接一个线程，即客户端有连接请求时服务器端就需要启动一个线程进行处理，如果这个连接不作任何事情会造成不必要的线程开销。</p>
+</blockquote>
+</li>
+<li>NIO：NIO是一种<strong>同步非阻塞的IO模型</strong>，对应java.nio包，提供了Channel , Selector，Buffer等抽象。<blockquote>
+<p>服务器实现模式为一个线程处理多个请求(连接)，即客户端发送的连接请求会被注册到多路复用器上，多路复用器轮询到有 I/O 请求就会进行处理。</p>
+</blockquote>
+</li>
+<li>AIO：<strong>异步非阻塞的IO模型</strong>，是改进版的NIO。<blockquote>
+<p>AIO引入了异步通道的概念，采用了Proactor模式，简化了程序编写，有效的请求才启动线程，它的特点是先由操作系统完成后才通知服务端程序启动线程去处理，一般适用于连接数较多且连接时间较长的应用。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="举个例子"><a href="#举个例子" class="headerlink" title="举个例子"></a>举个例子</h2><p>&emsp;&emsp;以讲的很多的烧水为例子。</p>
+<ul>
+<li>BIO就是叫一个线程停留在一个水壶那，直到这个水壶烧开，才去处理下一个水壶。  </li>
+<li>NIO是叫一个线程不停的循环观察每一个水壶，根据每个水壶当前的状态去处理。  </li>
+<li>AIO是每个水壶上装一个开关，当水开了以后会提醒对应的线程去处理。</li>
+</ul>
+<h2 id="场景分析"><a href="#场景分析" class="headerlink" title="场景分析"></a>场景分析</h2><ul>
+<li>BIO 方式适用于<strong>连接数比较小且固定的架构</strong>，这种方式对服务器资源要求比较高，并发局限于应用中。</li>
+<li>NIO 方式适用于<strong>连接数目多且连接比较短的架构</strong>，比如聊天服务器，弹幕系统，服务器间通讯等，编程比较复杂，JDK1.4开始支持。</li>
+<li>AIO 方式适用于<strong>连接数目多且连接比较长的架构</strong>，比如相册服务器，充分调用 OS 参与并发操作，变成比较复杂，JDK7 开始支持。</li>
+</ul>
+<hr>
+<h1 id="linux的5中IO模型"><a href="#linux的5中IO模型" class="headerlink" title="linux的5中IO模型"></a>linux的5中IO模型</h1><p>&emsp;&emsp;linux中共有5中IO模型：阻塞IO，非阻塞IO，IO复用模型，信号驱动IO模型，异步IO模型；最后一种是异步的其他都是同步的。</p>
+<p><a href="https://juejin.cn/post/6844903664256024584">掘金大神的文章</a></p>
+<hr>
+<h1 id="参考资料-amp-鸣谢"><a href="#参考资料-amp-鸣谢" class="headerlink" title="参考资料 &amp; 鸣谢"></a>参考资料 &amp; 鸣谢</h1><ul>
+<li><a href="https://juejin.cn/post/6844903664256024584">BIO，NIO，AIO概览</a></li>
+<li><a href="https://juejin.cn/post/6869537077122301965#heading-6">为什么一个还没毕业的大学生能够把 IO 讲的这么好？</a></li>
+<li><a href="https://segmentfault.com/a/1190000037714804">理解什么是BIO/NIO/AIO</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>java</category>
+        <category>io</category>
+      </categories>
+      <tags>
+        <tag>io</tag>
+        <tag>java</tag>
+        <tag>网络</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>NIO</title>
     <url>/hexoblog/md/java/IO/NIO/</url>
     <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;NIO是当下非常火热的一种IO工作方式，它能够解决传统BIO的痛点：阻塞。<br>&emsp;&emsp;NIO是一种同步非阻塞的I/O模型，在Java 1.4 中引入了NIO框架，对应 java.nio 包，提供了 Channel , Selector，Buffer等抽象。<br>&emsp;&emsp;同步非阻塞式IO以块的方式处理数据，面向缓存区的，采用多路复，Reactor模式，基于事件驱动。Netty是实现了NIO的一个流行框架，JBoss的。</p>
@@ -5679,63 +5736,6 @@ start nginx
         <tag>java</tag>
         <tag>网络</tag>
         <tag>nio</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>IO模型</title>
-    <url>/hexoblog/md/java/IO/IO%E6%A8%A1%E5%9E%8B/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;IO是输入输出，IO是面向流的。<br>&emsp;&emsp;java中有三种IO模型： BIO，NIO，AIO。它们又可以分为同步异步，阻塞与非阻塞。<br>&emsp;&emsp;而在linux中有5中IO模型。</p>
-<span id="more"></span>
-
-<hr>
-<h1 id="同步与异步"><a href="#同步与异步" class="headerlink" title="同步与异步"></a>同步与异步</h1><p>&emsp;&emsp;同步与异步说的都是<strong>被调用者</strong>。<br>&emsp;&emsp;同步就是发起一个调用后，被调用者未处理完以前，不用返回。<br>&emsp;&emsp;异步就是发起一个调用后，立刻得到被调用者的回应，表示收到请求，但是并没有返回结果；被调用者通常依靠事件，回调等机制通知调用者返回结果。</p>
-<hr>
-<h1 id="阻塞与非阻塞"><a href="#阻塞与非阻塞" class="headerlink" title="阻塞与非阻塞"></a>阻塞与非阻塞</h1><p>&emsp;&emsp;阻塞与非阻塞说的都是<strong>调用者</strong>。<br>&emsp;&emsp;阻塞就是发起一个请求，调用者一直等待请求结果返回，也就是当前线程会被挂起，无法从事其他任务，只有当条件就绪才能继续。<br>&emsp;&emsp;非阻塞就是发起一个请求，调用者不用一直等着结果返回，可以先去干其他事情。</p>
-<hr>
-<h1 id="BIO、NIO、AIO"><a href="#BIO、NIO、AIO" class="headerlink" title="BIO、NIO、AIO"></a>BIO、NIO、AIO</h1><p>&emsp;&emsp;这些都是经典的IO模型，IO模型就是使用什么样的通道进行数据的发送和接收，很大程度上决定了程序通信的性能。</p>
-<ul>
-<li>BIO：BIO就是传统的IO模型，是<strong>同步阻塞的IO模型</strong>，java.io包中类就是BIO的工具，它提供了很多IO功能，比如输入输出流，对文件进行操作。在网络编程(Socket通信)中也同样进行IO操作。<blockquote>
-<p>服务器实现模式为一个连接一个线程，即客户端有连接请求时服务器端就需要启动一个线程进行处理，如果这个连接不作任何事情会造成不必要的线程开销。</p>
-</blockquote>
-</li>
-<li>NIO：NIO是一种<strong>同步非阻塞的IO模型</strong>，对应java.nio包，提供了Channel , Selector，Buffer等抽象。<blockquote>
-<p>服务器实现模式为一个线程处理多个请求(连接)，即客户端发送的连接请求会被注册到多路复用器上，多路复用器轮询到有 I/O 请求就会进行处理。</p>
-</blockquote>
-</li>
-<li>AIO：<strong>异步非阻塞的IO模型</strong>，是改进版的NIO。<blockquote>
-<p>AIO引入了异步通道的概念，采用了Proactor模式，简化了程序编写，有效的请求才启动线程，它的特点是先由操作系统完成后才通知服务端程序启动线程去处理，一般适用于连接数较多且连接时间较长的应用。</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="举个例子"><a href="#举个例子" class="headerlink" title="举个例子"></a>举个例子</h2><p>&emsp;&emsp;以讲的很多的烧水为例子。</p>
-<ul>
-<li>BIO就是叫一个线程停留在一个水壶那，直到这个水壶烧开，才去处理下一个水壶。  </li>
-<li>NIO是叫一个线程不停的循环观察每一个水壶，根据每个水壶当前的状态去处理。  </li>
-<li>AIO是每个水壶上装一个开关，当水开了以后会提醒对应的线程去处理。</li>
-</ul>
-<h2 id="场景分析"><a href="#场景分析" class="headerlink" title="场景分析"></a>场景分析</h2><ul>
-<li>BIO 方式适用于<strong>连接数比较小且固定的架构</strong>，这种方式对服务器资源要求比较高，并发局限于应用中。</li>
-<li>NIO 方式适用于<strong>连接数目多且连接比较短的架构</strong>，比如聊天服务器，弹幕系统，服务器间通讯等，编程比较复杂，JDK1.4开始支持。</li>
-<li>AIO 方式适用于<strong>连接数目多且连接比较长的架构</strong>，比如相册服务器，充分调用 OS 参与并发操作，变成比较复杂，JDK7 开始支持。</li>
-</ul>
-<hr>
-<h1 id="linux的5中IO模型"><a href="#linux的5中IO模型" class="headerlink" title="linux的5中IO模型"></a>linux的5中IO模型</h1><p>&emsp;&emsp;linux中共有5中IO模型：阻塞IO，非阻塞IO，IO复用模型，信号驱动IO模型，异步IO模型；最后一种是异步的其他都是同步的。</p>
-<p><a href="https://juejin.cn/post/6844903664256024584">掘金大神的文章</a></p>
-<hr>
-<h1 id="参考资料-amp-鸣谢"><a href="#参考资料-amp-鸣谢" class="headerlink" title="参考资料 &amp; 鸣谢"></a>参考资料 &amp; 鸣谢</h1><ul>
-<li><a href="https://juejin.cn/post/6844903664256024584">BIO，NIO，AIO概览</a></li>
-<li><a href="https://juejin.cn/post/6869537077122301965#heading-6">为什么一个还没毕业的大学生能够把 IO 讲的这么好？</a></li>
-<li><a href="https://segmentfault.com/a/1190000037714804">理解什么是BIO/NIO/AIO</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>java</category>
-        <category>io</category>
-      </categories>
-      <tags>
-        <tag>io</tag>
-        <tag>java</tag>
-        <tag>网络</tag>
       </tags>
   </entry>
   <entry>
@@ -5954,6 +5954,66 @@ start nginx
       </tags>
   </entry>
   <entry>
+    <title>juc之AQS</title>
+    <url>/hexoblog/md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/juc%E4%B9%8BAQS/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;AbstractQuenedSynchronizer抽象的队列式同步器。是除了java自带的synchronized关键字之外的锁机制。<br>&emsp;&emsp;AQS定义了一套多线程访问共享资源的同步器框架，许多同步类实现都依赖于它，如常用的ReentrantLock/Semaphore/CountDownLatch…。</p>
+<span id="more"></span>
+
+<hr>
+<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><p>&emsp;&emsp;AQS的核心思想，如果被请求的共享资源空闲，则将当前请求资源的线程设置为有效的工作线程，并将共享资源设置为锁定状态，如果请求的资源被占用，那么就需要一套线程阻塞等待以及被唤醒时锁分配的机制，这个机制AQS是用CLH队列锁实现的，即将暂时获取不到锁的线程加入到队列中。<br>&emsp;&emsp;CLH（Craig，Landin，and Hagersten）队列是一个虚拟的双向队列，虚拟的双向队列即不存在队列实例，仅存在节点之间的关联关系。<br><strong>AQS是将每一条请求共享资源的线程封装成一个CLH锁队列的一个结点（Node）</strong>，来实现锁的分配。<br>&emsp;&emsp;Node结点是对每一个等待获取资源的线程的封装，其包含了需要同步的线程本身及其等待状态，如是否被阻塞、是否等待唤醒、是否已经被取消等。变量waitStatus则表示当前Node结点的等待状态，共有5种取值CANCELLED、SIGNAL、CONDITION、PROPAGATE、0。  </p>
+<p>&emsp;&emsp;<em>用大白话来说，AQS就是基于CLH队列，用volatile修饰共享变量state，线程通过CAS去改变状态符，成功则获取锁成功，失败则进入等待队列，等待被唤醒。</em></p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/AQS-CLH.png" alt="AQS原理"></p>
+<p>&emsp;&emsp;实现了AQS的锁有：自旋锁、互斥锁、读锁写锁、条件产量、信号量、栅栏（Latch）都是AQS的衍生物。</p>
+<hr>
+<h1 id="两种资源共享方式"><a href="#两种资源共享方式" class="headerlink" title="两种资源共享方式"></a>两种资源共享方式</h1><p>&emsp;&emsp;AQS定义了两种资源共享方式：</p>
+<ol>
+<li>Exclusive：独占方式，只有一个线程能执行，如ReentrantLock。</li>
+<li>Share：共享，多个线程可以同时执行，如Semaphore、CountDownLatch、ReadWriteLock，CyclicBarrier。</li>
+</ol>
+<p>&emsp;&emsp;AQS底层使用了模板方法模式，如果需要自定义同步器一般的方式是这样：</p>
+<ol>
+<li>使用者继承AbstractQueuedSynchronizer并重写指定的方法。</li>
+<li>将AQS组合在自定义同步组件的实现中，并调用其模板方法，而这些模板方法会调用使用者重写的方法。如CountDownLatch中的Sync，在CountDownLatch中使用共有的Sync即可。</li>
+</ol>
+<p>&emsp;&emsp;自定义同步器在实现的时候只需要实现共享资源state的获取和释放方式即可，至于具体线程等待队列的维护，AQS已经在顶层实现好了（AbstractQueuedSynchronizer中已经实现了）。自定义同步器实现的时候主要实现下面几种方法：</p>
+<ul>
+<li><strong>isHeldExclusively()：</strong> 该线程是否正在独占资源。只有用到condition才需要去实现它。</li>
+<li><strong>tryAcquire(int)：</strong> 独占方式。尝试获取资源，成功则返回true，失败则返回false。</li>
+<li><strong>tryRelease(int)：</strong> 独占方式。尝试释放资源，成功则返回true，失败则返回false。</li>
+<li><strong>tryAcquireShared(int)：</strong> 共享方式。尝试获取资源。负数表示失败；0表示成功，但没有剩余可用资源；正数表示成功，且有剩余资源。</li>
+<li><strong>tryReleaseShared(int)：</strong> 共享方式。尝试释放资源，如果释放后允许唤醒后续等待结点返回true，否则返回false。</li>
+</ul>
+<p>&emsp;&emsp;一般来说，自定义同步器要么是独占方法，要么是共享方式，他们也只需实现tryAcquire-tryRelease、tryAcquireShared-tryReleaseShared中的一种即可。但AQS也支持自定义同步器同时实现独占和共享两种方式，如ReentrantReadWriteLock。</p>
+<hr>
+<h1 id="NODE节点"><a href="#NODE节点" class="headerlink" title="NODE节点"></a>NODE节点</h1><p>&emsp;&emsp;Node结点是对每一个等待获取资源的线程的封装，其包含了需要同步的线程本身及其等待状态，如是否被阻塞、是否等待唤醒、是否已经被取消等。变量waitStatus则表示当前Node结点的等待状态，共有5种取值<strong>CANCELLED、SIGNAL、CONDITION、PROPAGATE、0</strong>。  </p>
+<ul>
+<li><strong>CANCELLED(1)：</strong> 表示当前结点已取消调度。当timeout或被中断（响应中断的情况下），会触发变更为此状态，进入该状态后的结点将不会再变化。</li>
+<li><strong>SIGNAL(-1)：</strong> 表示后继结点在等待当前结点唤醒。后继结点入队时，会将前继结点的状态更新为SIGNAL。</li>
+<li><strong>CONDITION(-2)：</strong> 表示结点等待在Condition上，当其他线程调用了Condition的signal()方法后，CONDITION状态的结点将从等待队列转移到同步队列中，等待获取同步锁。</li>
+<li><strong>PROPAGATE(-3)：</strong> 共享模式下，前继结点不仅会唤醒其后继结点，同时也可能会唤醒后继的后继结点。</li>
+<li><strong>0：</strong> 新结点入队时的默认状态。</li>
+</ul>
+<p>&emsp;&emsp;负值表示结点处于有效等待状态，而正值表示结点已被取消。所以源码中很多地方用&gt;0、&lt;0来判断结点的状态是否正常。</p>
+<hr>
+<h1 id="参考文献-amp-鸣谢"><a href="#参考文献-amp-鸣谢" class="headerlink" title="参考文献 &amp; 鸣谢"></a>参考文献 &amp; 鸣谢</h1><ul>
+<li><a href="https://www.cnblogs.com/waterystone/p/4920797.html">Java并发之AQS详解</a></li>
+<li><a href="https://blog.csdn.net/mulinsen77/article/details/84583716">AQS详解（面试）</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>java</category>
+        <category>juc</category>
+        <category>AQS</category>
+        <category>Java</category>
+        <category>多线程</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>juc</tag>
+        <tag>AQS</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>juc之AQS源码一</title>
     <url>/hexoblog/md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/juc%E4%B9%8BAQS%E6%BA%90%E7%A0%81%E4%B8%80/</url>
     <content><![CDATA[<h1 id="两种资源共享方式"><a href="#两种资源共享方式" class="headerlink" title="两种资源共享方式"></a>两种资源共享方式</h1><p>&emsp;&emsp;AQS定义了两种资源共享方式：</p>
@@ -6155,66 +6215,6 @@ start nginx
 <hr>
 <h1 id="参考文献-amp-鸣谢"><a href="#参考文献-amp-鸣谢" class="headerlink" title="参考文献 &amp; 鸣谢"></a>参考文献 &amp; 鸣谢</h1><ul>
 <li><a href="https://www.cnblogs.com/waterystone/p/4920797.html">Java并发之AQS详解</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>java</category>
-        <category>juc</category>
-        <category>AQS</category>
-        <category>Java</category>
-        <category>多线程</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>juc</tag>
-        <tag>AQS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>juc之AQS</title>
-    <url>/hexoblog/md/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/juc%E4%B9%8BAQS/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;AbstractQuenedSynchronizer抽象的队列式同步器。是除了java自带的synchronized关键字之外的锁机制。<br>&emsp;&emsp;AQS定义了一套多线程访问共享资源的同步器框架，许多同步类实现都依赖于它，如常用的ReentrantLock/Semaphore/CountDownLatch…。</p>
-<span id="more"></span>
-
-<hr>
-<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><p>&emsp;&emsp;AQS的核心思想，如果被请求的共享资源空闲，则将当前请求资源的线程设置为有效的工作线程，并将共享资源设置为锁定状态，如果请求的资源被占用，那么就需要一套线程阻塞等待以及被唤醒时锁分配的机制，这个机制AQS是用CLH队列锁实现的，即将暂时获取不到锁的线程加入到队列中。<br>&emsp;&emsp;CLH（Craig，Landin，and Hagersten）队列是一个虚拟的双向队列，虚拟的双向队列即不存在队列实例，仅存在节点之间的关联关系。<br><strong>AQS是将每一条请求共享资源的线程封装成一个CLH锁队列的一个结点（Node）</strong>，来实现锁的分配。<br>&emsp;&emsp;Node结点是对每一个等待获取资源的线程的封装，其包含了需要同步的线程本身及其等待状态，如是否被阻塞、是否等待唤醒、是否已经被取消等。变量waitStatus则表示当前Node结点的等待状态，共有5种取值CANCELLED、SIGNAL、CONDITION、PROPAGATE、0。  </p>
-<p>&emsp;&emsp;<em>用大白话来说，AQS就是基于CLH队列，用volatile修饰共享变量state，线程通过CAS去改变状态符，成功则获取锁成功，失败则进入等待队列，等待被唤醒。</em></p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/AQS-CLH.png" alt="AQS原理"></p>
-<p>&emsp;&emsp;实现了AQS的锁有：自旋锁、互斥锁、读锁写锁、条件产量、信号量、栅栏（Latch）都是AQS的衍生物。</p>
-<hr>
-<h1 id="两种资源共享方式"><a href="#两种资源共享方式" class="headerlink" title="两种资源共享方式"></a>两种资源共享方式</h1><p>&emsp;&emsp;AQS定义了两种资源共享方式：</p>
-<ol>
-<li>Exclusive：独占方式，只有一个线程能执行，如ReentrantLock。</li>
-<li>Share：共享，多个线程可以同时执行，如Semaphore、CountDownLatch、ReadWriteLock，CyclicBarrier。</li>
-</ol>
-<p>&emsp;&emsp;AQS底层使用了模板方法模式，如果需要自定义同步器一般的方式是这样：</p>
-<ol>
-<li>使用者继承AbstractQueuedSynchronizer并重写指定的方法。</li>
-<li>将AQS组合在自定义同步组件的实现中，并调用其模板方法，而这些模板方法会调用使用者重写的方法。如CountDownLatch中的Sync，在CountDownLatch中使用共有的Sync即可。</li>
-</ol>
-<p>&emsp;&emsp;自定义同步器在实现的时候只需要实现共享资源state的获取和释放方式即可，至于具体线程等待队列的维护，AQS已经在顶层实现好了（AbstractQueuedSynchronizer中已经实现了）。自定义同步器实现的时候主要实现下面几种方法：</p>
-<ul>
-<li><strong>isHeldExclusively()：</strong> 该线程是否正在独占资源。只有用到condition才需要去实现它。</li>
-<li><strong>tryAcquire(int)：</strong> 独占方式。尝试获取资源，成功则返回true，失败则返回false。</li>
-<li><strong>tryRelease(int)：</strong> 独占方式。尝试释放资源，成功则返回true，失败则返回false。</li>
-<li><strong>tryAcquireShared(int)：</strong> 共享方式。尝试获取资源。负数表示失败；0表示成功，但没有剩余可用资源；正数表示成功，且有剩余资源。</li>
-<li><strong>tryReleaseShared(int)：</strong> 共享方式。尝试释放资源，如果释放后允许唤醒后续等待结点返回true，否则返回false。</li>
-</ul>
-<p>&emsp;&emsp;一般来说，自定义同步器要么是独占方法，要么是共享方式，他们也只需实现tryAcquire-tryRelease、tryAcquireShared-tryReleaseShared中的一种即可。但AQS也支持自定义同步器同时实现独占和共享两种方式，如ReentrantReadWriteLock。</p>
-<hr>
-<h1 id="NODE节点"><a href="#NODE节点" class="headerlink" title="NODE节点"></a>NODE节点</h1><p>&emsp;&emsp;Node结点是对每一个等待获取资源的线程的封装，其包含了需要同步的线程本身及其等待状态，如是否被阻塞、是否等待唤醒、是否已经被取消等。变量waitStatus则表示当前Node结点的等待状态，共有5种取值<strong>CANCELLED、SIGNAL、CONDITION、PROPAGATE、0</strong>。  </p>
-<ul>
-<li><strong>CANCELLED(1)：</strong> 表示当前结点已取消调度。当timeout或被中断（响应中断的情况下），会触发变更为此状态，进入该状态后的结点将不会再变化。</li>
-<li><strong>SIGNAL(-1)：</strong> 表示后继结点在等待当前结点唤醒。后继结点入队时，会将前继结点的状态更新为SIGNAL。</li>
-<li><strong>CONDITION(-2)：</strong> 表示结点等待在Condition上，当其他线程调用了Condition的signal()方法后，CONDITION状态的结点将从等待队列转移到同步队列中，等待获取同步锁。</li>
-<li><strong>PROPAGATE(-3)：</strong> 共享模式下，前继结点不仅会唤醒其后继结点，同时也可能会唤醒后继的后继结点。</li>
-<li><strong>0：</strong> 新结点入队时的默认状态。</li>
-</ul>
-<p>&emsp;&emsp;负值表示结点处于有效等待状态，而正值表示结点已被取消。所以源码中很多地方用&gt;0、&lt;0来判断结点的状态是否正常。</p>
-<hr>
-<h1 id="参考文献-amp-鸣谢"><a href="#参考文献-amp-鸣谢" class="headerlink" title="参考文献 &amp; 鸣谢"></a>参考文献 &amp; 鸣谢</h1><ul>
-<li><a href="https://www.cnblogs.com/waterystone/p/4920797.html">Java并发之AQS详解</a></li>
-<li><a href="https://blog.csdn.net/mulinsen77/article/details/84583716">AQS详解（面试）</a></li>
 </ul>
 ]]></content>
       <categories>
@@ -6911,29 +6911,6 @@ com.lin.extendwrapper.extend.ExtendService
       </tags>
   </entry>
   <entry>
-    <title>dubboSPI扩展点自动激活</title>
-    <url>/hexoblog/md/rpc/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E7%82%B9%E8%87%AA%E5%8A%A8%E6%BF%80%E6%B4%BB/</url>
-    <content><![CDATA[<h1 id="扩展点自动激活"><a href="#扩展点自动激活" class="headerlink" title="扩展点自动激活"></a>扩展点自动激活</h1><p>&emsp;&emsp;对于集合类扩展点，比如：Filter, InvokerListener, ExportListener, TelnetHandler, StatusChecker 等，可以同时加载多个实现，此时，可以用自动激活来简化配置。</p>
-<span id="more"></span>
-
-<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">// 激活过滤器</span>
-<span class="token annotation punctuation">@Activate</span>
-<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">FilterOne</span> <span class="token keyword">implements</span> <span class="token class-name">Filter</span> <span class="token punctuation">&#123;</span>
-    <span class="token annotation punctuation">@Override</span>
-    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">doFilter</span><span class="token punctuation">(</span><span class="token class-name">ServletRequest</span> request<span class="token punctuation">,</span> <span class="token class-name">ServletResponse</span> response<span class="token punctuation">,</span> <span class="token class-name">FilterChain</span> chain<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
-    <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
-      <categories>
-        <category>rpc</category>
-        <category>dubbo</category>
-      </categories>
-      <tags>
-        <tag>SPI</tag>
-        <tag>dubbo</tag>
-        <tag>rpc</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>dubboSPI扩展机制自适应</title>
     <url>/hexoblog/md/rpc/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E6%9C%BA%E5%88%B6%E8%87%AA%E9%80%82%E5%BA%94/</url>
     <content><![CDATA[<h1 id="扩展点自适应"><a href="#扩展点自适应" class="headerlink" title="扩展点自适应"></a>扩展点自适应</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>&emsp;&emsp;ExtensionLoader注入的依赖扩展点是一个Adaptive实例，直到扩展点方法执行时才决定调用是哪一个扩展点实现。<br>&emsp;&emsp;dubbo使用url对象传递对象信息，包含key和value。<br>&emsp;&emsp;扩展点方法调用会有URL参数（或是参数有URL成员）这样依赖的扩展点也可以从URL拿到配置信息，所有的扩展点自己定好配置的 Key后，配置信息从URL上从最外层传入。URL在配置传递上即是一条总线。</p>
@@ -7023,6 +7000,29 @@ com.lin.extendwrapper.extend.ExtendService
 <hr>
 <h1 id="扩展点自动注入"><a href="#扩展点自动注入" class="headerlink" title="扩展点自动注入"></a>扩展点自动注入</h1><p>有bug稍后。</p>
 ]]></content>
+      <categories>
+        <category>rpc</category>
+        <category>dubbo</category>
+      </categories>
+      <tags>
+        <tag>SPI</tag>
+        <tag>dubbo</tag>
+        <tag>rpc</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>dubboSPI扩展点自动激活</title>
+    <url>/hexoblog/md/rpc/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E7%82%B9%E8%87%AA%E5%8A%A8%E6%BF%80%E6%B4%BB/</url>
+    <content><![CDATA[<h1 id="扩展点自动激活"><a href="#扩展点自动激活" class="headerlink" title="扩展点自动激活"></a>扩展点自动激活</h1><p>&emsp;&emsp;对于集合类扩展点，比如：Filter, InvokerListener, ExportListener, TelnetHandler, StatusChecker 等，可以同时加载多个实现，此时，可以用自动激活来简化配置。</p>
+<span id="more"></span>
+
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">// 激活过滤器</span>
+<span class="token annotation punctuation">@Activate</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">FilterOne</span> <span class="token keyword">implements</span> <span class="token class-name">Filter</span> <span class="token punctuation">&#123;</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">doFilter</span><span class="token punctuation">(</span><span class="token class-name">ServletRequest</span> request<span class="token punctuation">,</span> <span class="token class-name">ServletResponse</span> response<span class="token punctuation">,</span> <span class="token class-name">FilterChain</span> chain<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
       <categories>
         <category>rpc</category>
         <category>dubbo</category>
