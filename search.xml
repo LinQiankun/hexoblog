@@ -38,6 +38,7 @@
 <li><input disabled="" type="checkbox"> AIO</li>
 <li><input disabled="" type="checkbox"> kafka简介</li>
 <li><input disabled="" type="checkbox"> rocketmq-Broker启动流程</li>
+<li><input disabled="" type="checkbox"> B+树</li>
 </ul>
 <h2 id="OTHER-TODO"><a href="#OTHER-TODO" class="headerlink" title="OTHER_TODO"></a>OTHER_TODO</h2><ul>
 <li><input disabled="" type="checkbox"> shiro</li>
@@ -86,18 +87,6 @@
       </categories>
       <tags>
         <tag>todo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>B+树</title>
-    <url>/hexoblog/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/B+%E6%A0%91/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;</p>
-]]></content>
-      <categories>
-        <category>数据结构</category>
-      </categories>
-      <tags>
-        <tag>数据结构</tag>
       </tags>
   </entry>
   <entry>
@@ -150,14 +139,118 @@
 <li><a href="../md/zookeeper/zookeeper%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81.md">zookeeper实现分布式锁</a></li>
 </ul>
 <h3 id="redis分布式控制抢单，可不可以用数据库乐观锁？"><a href="#redis分布式控制抢单，可不可以用数据库乐观锁？" class="headerlink" title="redis分布式控制抢单，可不可以用数据库乐观锁？"></a>redis分布式控制抢单，可不可以用数据库乐观锁？</h3><p>&emsp;&emsp;可以，效率并且比分布式锁搞，控制抢单行为本质上数据库的比较并修改操作。</p>
-<h2 id="数据库乐观锁怎么实现？"><a href="#数据库乐观锁怎么实现？" class="headerlink" title="数据库乐观锁怎么实现？"></a>数据库乐观锁怎么实现？</h2><p>&emsp;&emsp;通过增加时间戳字段，或者增加版本号字段实现。</p>
-<h2 id="redis哨兵模式讲一下？"><a href="#redis哨兵模式讲一下？" class="headerlink" title="redis哨兵模式讲一下？"></a>redis哨兵模式讲一下？</h2><h2 id="rocketmq和kafka的区别？"><a href="#rocketmq和kafka的区别？" class="headerlink" title="rocketmq和kafka的区别？"></a>rocketmq和kafka的区别？</h2><p>&emsp;&emsp;<a href="../../md/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/rocketmq%E5%92%8Ckafka%E7%9A%84%E5%8C%BA%E5%88%AB">rocketmq和kafka的区别</a></p>
+<h2 id="数据库乐观锁怎么实现？"><a href="#数据库乐观锁怎么实现？" class="headerlink" title="数据库乐观锁怎么实现？"></a>数据库乐观锁怎么实现？</h2><p>&emsp;&emsp;通过增加时间戳字段，或者增加版本号字段实现。在更新数据的时候进行对增加的时间戳字段或版本号字段进行比较，如果相同则进行更新，不同则不更新。一种更大范围的比较并交换思路。</p>
+<h2 id="redis哨兵模式讲一下？"><a href="#redis哨兵模式讲一下？" class="headerlink" title="redis哨兵模式讲一下？"></a>redis哨兵模式讲一下？</h2><h2 id="哨兵和机器间如何通信（ping，pong）"><a href="#哨兵和机器间如何通信（ping，pong）" class="headerlink" title="哨兵和机器间如何通信（ping，pong）?"></a>哨兵和机器间如何通信（ping，pong）?</h2><h2 id="rocketmq和kafka的区别？"><a href="#rocketmq和kafka的区别？" class="headerlink" title="rocketmq和kafka的区别？"></a>rocketmq和kafka的区别？</h2><p>&emsp;&emsp;<a href="../../md/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/rocketmq%E5%92%8Ckafka%E7%9A%84%E5%8C%BA%E5%88%AB">rocketmq和kafka的区别</a></p>
 ]]></content>
       <categories>
         <category>面经</category>
       </categories>
       <tags>
         <tag>面经</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>TCP三次握手四次挥手</title>
+    <url>/hexoblog/md/internet/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;在网络层通过IP协议可以实现两个主机之间的通信，但是无法确定是主机中的那个进程之间进行的通信，而实际及性能通信的则是主机中的进程。  </p>
+<span id="more"></span>
+
+<p>&emsp;&emsp;TCP面向连接的服务，在传送数据之前必须先建立连接，数据传送完成后要释放连接。因此TCP是一种可靠的的运输服务，但是正因为这样，不可避免的增加了许多的开销，比如确认，流量控制等。对应的应用层的协议主要有SMTP,TELNET,HTTP,FTP等。<br>&emsp;&emsp;TCP把连接作为最基本的对象，每一条TCP连接都有两个端点，这种断点我们叫作套接字（socket），它的定义为端口号拼接到IP地址即构成了套接字，例如，若IP地址为127.0.0.1 而端口号为80，那么得到的套接字为127.0.0.1:80。<br>&emsp;&emsp;TCP采用全双工通信，这要求了服务端与客户端必须双方都能进行向对方发送数据，所以建立断开连接必须建立或者断开两次。</p>
+<hr>
+<h1 id="TCP报文"><a href="#TCP报文" class="headerlink" title="TCP报文"></a>TCP报文</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/tcp%E6%8A%A5%E6%96%87%E9%A6%96%E9%83%A8.jpg" alt="TCP报文"></p>
+<ol>
+<li>源端口和目的端口：分别写入源端口和目的接口。</li>
+<li>序号：占4个字节，TCP连接中传送的字节流中的每个字节都按顺序编号。当前为301时，如果传输100个字节后，下一个报文段从401开始。</li>
+<li>确认号：占4个字节，是期望收到对方下一个报文的第一个数据字节的序号。</li>
+<li>数据偏移：占4位（半个字节），它指出TCP报文的数据距离TCP报文段的起始处有多远。</li>
+<li>保留位置：占6位，保留今后使用，但目前应都位0。</li>
+<li>紧急URG：当URG=1，表明紧急指针字段有效。告诉系统此报文段中有紧急数据。</li>
+<li>确认ACK：仅当ACK=1时，确认号字段才有效。TCP规定，在连接建立后所有报文的传输都必须把ACK置1。</li>
+<li>推送PSH：当两个应用进程进行交互式通信时，有时在一端的应用进程希望在键入一个命令后立即就能收到对方的响应，这时候就将PSH=1。</li>
+<li>复位RST：当RST=1，表明TCP连接中出现严重差错，必须释放连接，然后再重新建立连接。</li>
+<li>同步SYN：在连接建立时用来同步序号。当SYN=1，ACK=0，表明是连接请求报文，若同意连接，则响应报文中应该使SYN=1，ACK=1。</li>
+<li>终止FIN：用来释放连接。当FIN=1，表明此报文的发送方的数据已经发送完毕，并且要求释放。</li>
+<li>窗口：占2字节，指的是通知接收方，发送本报文你需要有多大的空间来接受。</li>
+<li>检验和：占2字节，校验首部和数据这两部分。</li>
+<li>紧急指针：占2字节，指出本报文段中的紧急数据的字节数。</li>
+<li>选项：长度可变，定义一些其他的可选的参数。</li>
+</ol>
+<hr>
+<h1 id="TCP连接的建立（三次握手）"><a href="#TCP连接的建立（三次握手）" class="headerlink" title="TCP连接的建立（三次握手）"></a>TCP连接的建立（三次握手）</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/tcp%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B.png" alt="TCP连接建立"></p>
+<ol>
+<li>服务端先创建传输控制块，准备监听客户端进程的连接请求，此时服务器就进入了Listen状态。</li>
+<li>客户端也建立传输控制块，向服务端发送连接请求报文，此时客户端进入SYN-SENT状态（同步已发送）。<blockquote>
+<p>TCP规定，SYN报文段（SYN=1的报文段）<strong>不能携带数据</strong>，但需消耗掉一个序号。<br>此时报文内容SYN=1，seq=x。</p>
+</blockquote>
+</li>
+<li>服务器接收到请求后，如果同意连接，则发出确认报文，此时服务器进入SYN-RCVD状态（同步收到）。<blockquote>
+<p>这个报文同样不能携带数据，需要消耗一个序号。<br>此时报文内容为SYN=1,ACK=1,seq=y,ack=x+1。seq为自己发送的序列号，ack因为上一次的发连接请求报文不带数据，所以确认号直接为x+。</p>
+</blockquote>
+</li>
+<li>客户端进程收到确认后，还要向服务器给出确认。确认后，TCP连接建立，客户端进入ESTABLISHED状态（已建立连接）。<blockquote>
+<p>TCP规定，ACK报文段可以携带数据，但是如果不携带数据则不消耗序号。<br>此时的报文内容为ACK=1,seq=x+1,ack=y+1；这里相对于同步请求是客户端发给服务端的第二个请求，所有seq为x+1。</p>
+</blockquote>
+</li>
+<li>当服务器收到客户端的确认后也进入ESTABLISHED状态，此后双方就可以开始通信了。</li>
+</ol>
+<hr>
+<h1 id="TCP连接的断开（四次回收）"><a href="#TCP连接的断开（四次回收）" class="headerlink" title="TCP连接的断开（四次回收）"></a>TCP连接的断开（四次回收）</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B.png" alt="四次挥手"></p>
+<ol>
+<li>客户端发送连接释放报文，停止发送数据，客户端进入FIN-WAIT-1状态（终止等待1）。<blockquote>
+<p>TCP规定，FIN报文段即使不携带数据，也要消耗一个序号。与SYN报文段相似。<br>此时报文内容为FIN=1,seq=u。这里的序列号跟随前面的数据的序列号，为最后一个字节数据的序列号加一。</p>
+</blockquote>
+</li>
+<li>服务器收到连接释放报文，发送出自己的释放报文，服务端进入CLOSE-WAIT状态（关闭等待）。<blockquote>
+<p>TCP服务器通知高层的应用进程，客户端向服务器的方向就释放了，这时候处于半关闭状态，即客户端已经没有数据要发送了，但是服务器若发送数据，客户端依然要接受。这个过程需要持续一段时间，等待服务器将数据发送完。<br>此时报文内容为ACK=1,seq=v,ack=u+1。</p>
+</blockquote>
+</li>
+<li>客户端收到服务器的释放确认后，进入FIN-WAIT-2状态，等待服务器发送连接释放报文，这个过程中会继续接受服务器发送的数据内容。</li>
+<li>服务器将数据发送完毕后，向客户端发送连接释放报文，服务器进入LAST-ACK状态，等待最后的确认。<blockquote>
+<p>此时报文内容为FIN=1,ACK=1,seq=w,ack=u+1，在上个过程中，客户端不会向服务端发送信息所以ack不变，而服务端会向客户端发送所以seq会变化。</p>
+</blockquote>
+</li>
+<li>客户端收到连接释放后，向服务器发出确认，客户端进入TIME-WAIT状态。<blockquote>
+<p>注意此时TCP连接还没有释放，必须经过2*MSL（最长报文段寿命）的时间后，当客户端撤销相应的TCB后，才进入CLOSED状态。<br>此时报文内容为ACK=1,seq=u+1,ack=w+1。</p>
+</blockquote>
+</li>
+<li>服务器收到确认信息后，会立即进入CLOSED状态，撤销TCB结束连接。</li>
+</ol>
+<hr>
+<h1 id="通俗一点"><a href="#通俗一点" class="headerlink" title="通俗一点"></a>通俗一点</h1><p>&emsp;&emsp;举个例子：</p>
+<ul>
+<li>甲方：你好，我是甲方，你能听到吗？</li>
+<li>乙方：你好，我能听到，我是乙方，你能听到吗？&lt;甲方收到，甲方建立连接&gt;</li>
+<li>甲方：我能听到。&lt;乙方收到，乙方建立连接&gt;</li>
+<li></li>
+<li>连接建立，开始扯皮。</li>
+<li>甲方乙方：。。。（扯皮中）。</li>
+<li></li>
+<li>甲方：我说完了，就这样吧。</li>
+<li>乙方：你说完了好的，我最后在说一下。</li>
+<li>乙方：。。。乙方批斗需求中。</li>
+<li>乙方：我也说完了，挂了吧。</li>
+<li>甲方：好的，挂了。&lt;乙方收到，乙方挂掉了&gt;</li>
+<li></li>
+<li>甲方：{等了一个来回的时间了，他应该收到了}。&lt;甲方挂掉了&gt;</li>
+</ul>
+<hr>
+<h1 id="一点问题"><a href="#一点问题" class="headerlink" title="一点问题"></a>一点问题</h1><h2 id="为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）"><a href="#为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）" class="headerlink" title="为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）"></a>为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）</h2><p>&emsp;&emsp;防止因网络抖动各种原因造成的连接请求，突然又传送到了服务端，从而产生错误。<br>&emsp;&emsp;采用两次握手的情况下，假设第一次的连接请求在网络中阻塞了，服务端没有收到客户端的请求报文就不会处理，客户端一直收不到确认就会认为服务器没有收到，则会重新发送这条请求，此后客户端和服务端完成握手，建立连接。<br>&emsp;&emsp;这时，在网络中阻塞的第一次的请求突然到达服务器就会出现问题。</p>
+<blockquote>
+<p>如果建立连接后传输完成数据且关闭连接了，就会产生重新建立连接的问题，而采用3次握手，即使服务端收到了出错的连接请求而发送了确认信息，但是客户端没有需要传输的数据，不会进行第三次握手操作，就不会产生问题。<br>如果传输数据过程中收到了错误的连接请求，即使进行确认，也不会第三次进行握手。（这里待议）</p>
+</blockquote>
+<h2 id="服务端易受到SYN攻击？"><a href="#服务端易受到SYN攻击？" class="headerlink" title="服务端易受到SYN攻击？"></a>服务端易受到SYN攻击？</h2><p>&emsp;&emsp;服务端的资源是在第二次进行握手的时候分配的，而客户端的资源是在进行第三次握手的时候分配的。所以服务器容易收到SYN洪泛攻击，就是在短时间内伪造大量不存在的ip，不断的向服务器发送SYN包，服务端则回复并等待确认包，但是源地址是虚构的，所有不会收到确认包，服务端将不断重发进行重试知道超时，这些伪造的SYN包将占用大量且长时间的占用未连接队列，导致正常请求将被丢弃，引起网络瘫痪。<br>&emsp;&emsp;可以通过降低主机的等待时间释放未连接占用，或者短时间收到某ip的重复SYN报文将丢弃后续请求。</p>
+<h2 id="为什么客户端最后还要等待2MSL？"><a href="#为什么客户端最后还要等待2MSL？" class="headerlink" title="为什么客户端最后还要等待2MSL？"></a>为什么客户端最后还要等待2MSL？</h2><p>&emsp;&emsp;保证客户端的最后一个ACK报文能够到达服务器，在服务端，没有接受到客户端的ACK就会认为服务器没有收到自己发送的FIN请求，这时就会重发FIN请求。对于客户端而言，收到FIN请求后，发送ACK确认信息，假设服务端没有收到ACK信息，就会重新发送FIN请求，客户端就会重新收到FIN请求，没有收到重新发送的FIN请求，就认为没有问题就可以断开连接了。</p>
+<h2 id="如果已经建立了连接，但是客户端突然出现故障了怎么办？"><a href="#如果已经建立了连接，但是客户端突然出现故障了怎么办？" class="headerlink" title="如果已经建立了连接，但是客户端突然出现故障了怎么办？"></a>如果已经建立了连接，但是客户端突然出现故障了怎么办？</h2><p>&emsp;&emsp;TCP设置有一个保活器，服务器每一次收到数据就会重新复位这个计时器，若计时器走完，没有收到客户端的数据，服务器就会发送探测报文，75秒一个探测报文，连续10个探测报文没有收到恢复，就认为客户端故障，断开连接。</p>
+<h2 id="为什么是四次挥手而不是三次或者五次呢？"><a href="#为什么是四次挥手而不是三次或者五次呢？" class="headerlink" title="为什么是四次挥手而不是三次或者五次呢？"></a>为什么是四次挥手而不是三次或者五次呢？</h2><p>&emsp;&emsp;第二次挥手和第三次挥手都是服务端向客户端发送报文，第二次挥手是服务端收到了客户端的断开请求，通知客户端收到了，此时客户端没有数据向服务端发送了，但不代表服务端也没有数据向客户端发送，因为服务端要把剩余还没有发送的报文发送完毕再断开连接；第三次挥手是服务端数据全部发送完毕，向客户端发送断开请求报文（FIN=1）。<br>&emsp;&emsp;如果将这两次合二为一，就会出现服务端收到请求后立即确认并且断开连接，会造成服务端发送到客户端的数据不完整。五次则没有必要。</p>
+<h2 id="问什么连接是三次断开是四次呢？"><a href="#问什么连接是三次断开是四次呢？" class="headerlink" title="问什么连接是三次断开是四次呢？"></a>问什么连接是三次断开是四次呢？</h2><p>&emsp;&emsp;断开是四次的原因和上面的问题的解答是一样的。<br>&emsp;&emsp;对于建立连接，3次其实是建立可靠连接的最小次数。可参考第一道问题。<br>&emsp;&emsp;因为当服务端收到客户端的SYN连接请求报文后，可以直接发送SYN+ACK报文。其中ACK报文是用来应答的，SYN报文是用来同步的。但是关闭连接时，当Server端收到FIN报文时，很可能并不会立即关闭连接，所以只能先回复一个ACK报文，告诉客户端，”你发的FIN报文我收到了”。只有等到我服务端所有的报文都发送完了，我才能发送FIN报文，因此不能一起发送。故需要四步握手。<br>&emsp;&emsp;四次挥手相比于三次握手，将服务端返回给客户端的ACK+SYN报文，拆成了2次发送。</p>
+]]></content>
+      <categories>
+        <category>网络</category>
+        <category>TCP</category>
+      </categories>
+      <tags>
+        <tag>TCP</tag>
+        <tag>网络</tag>
       </tags>
   </entry>
   <entry>
@@ -264,112 +357,8 @@
         <category>HTTP</category>
       </categories>
       <tags>
+        <tag>网络</tag>
         <tag>HTTP</tag>
-        <tag>网络</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>TCP三次握手四次挥手</title>
-    <url>/hexoblog/md/internet/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;在网络层通过IP协议可以实现两个主机之间的通信，但是无法确定是主机中的那个进程之间进行的通信，而实际及性能通信的则是主机中的进程。  </p>
-<span id="more"></span>
-
-<p>&emsp;&emsp;TCP面向连接的服务，在传送数据之前必须先建立连接，数据传送完成后要释放连接。因此TCP是一种可靠的的运输服务，但是正因为这样，不可避免的增加了许多的开销，比如确认，流量控制等。对应的应用层的协议主要有SMTP,TELNET,HTTP,FTP等。<br>&emsp;&emsp;TCP把连接作为最基本的对象，每一条TCP连接都有两个端点，这种断点我们叫作套接字（socket），它的定义为端口号拼接到IP地址即构成了套接字，例如，若IP地址为127.0.0.1 而端口号为80，那么得到的套接字为127.0.0.1:80。<br>&emsp;&emsp;TCP采用全双工通信，这要求了服务端与客户端必须双方都能进行向对方发送数据，所以建立断开连接必须建立或者断开两次。</p>
-<hr>
-<h1 id="TCP报文"><a href="#TCP报文" class="headerlink" title="TCP报文"></a>TCP报文</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/tcp%E6%8A%A5%E6%96%87%E9%A6%96%E9%83%A8.jpg" alt="TCP报文"></p>
-<ol>
-<li>源端口和目的端口：分别写入源端口和目的接口。</li>
-<li>序号：占4个字节，TCP连接中传送的字节流中的每个字节都按顺序编号。当前为301时，如果传输100个字节后，下一个报文段从401开始。</li>
-<li>确认号：占4个字节，是期望收到对方下一个报文的第一个数据字节的序号。</li>
-<li>数据偏移：占4位（半个字节），它指出TCP报文的数据距离TCP报文段的起始处有多远。</li>
-<li>保留位置：占6位，保留今后使用，但目前应都位0。</li>
-<li>紧急URG：当URG=1，表明紧急指针字段有效。告诉系统此报文段中有紧急数据。</li>
-<li>确认ACK：仅当ACK=1时，确认号字段才有效。TCP规定，在连接建立后所有报文的传输都必须把ACK置1。</li>
-<li>推送PSH：当两个应用进程进行交互式通信时，有时在一端的应用进程希望在键入一个命令后立即就能收到对方的响应，这时候就将PSH=1。</li>
-<li>复位RST：当RST=1，表明TCP连接中出现严重差错，必须释放连接，然后再重新建立连接。</li>
-<li>同步SYN：在连接建立时用来同步序号。当SYN=1，ACK=0，表明是连接请求报文，若同意连接，则响应报文中应该使SYN=1，ACK=1。</li>
-<li>终止FIN：用来释放连接。当FIN=1，表明此报文的发送方的数据已经发送完毕，并且要求释放。</li>
-<li>窗口：占2字节，指的是通知接收方，发送本报文你需要有多大的空间来接受。</li>
-<li>检验和：占2字节，校验首部和数据这两部分。</li>
-<li>紧急指针：占2字节，指出本报文段中的紧急数据的字节数。</li>
-<li>选项：长度可变，定义一些其他的可选的参数。</li>
-</ol>
-<hr>
-<h1 id="TCP连接的建立（三次握手）"><a href="#TCP连接的建立（三次握手）" class="headerlink" title="TCP连接的建立（三次握手）"></a>TCP连接的建立（三次握手）</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/tcp%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B.png" alt="TCP连接建立"></p>
-<ol>
-<li>服务端先创建传输控制块，准备监听客户端进程的连接请求，此时服务器就进入了Listen状态。</li>
-<li>客户端也建立传输控制块，向服务端发送连接请求报文，此时客户端进入SYN-SENT状态（同步已发送）。<blockquote>
-<p>TCP规定，SYN报文段（SYN=1的报文段）<strong>不能携带数据</strong>，但需消耗掉一个序号。<br>此时报文内容SYN=1，seq=x。</p>
-</blockquote>
-</li>
-<li>服务器接收到请求后，如果同意连接，则发出确认报文，此时服务器进入SYN-RCVD状态（同步收到）。<blockquote>
-<p>这个报文同样不能携带数据，需要消耗一个序号。<br>此时报文内容为SYN=1,ACK=1,seq=y,ack=x+1。seq为自己发送的序列号，ack因为上一次的发连接请求报文不带数据，所以确认号直接为x+。</p>
-</blockquote>
-</li>
-<li>客户端进程收到确认后，还要向服务器给出确认。确认后，TCP连接建立，客户端进入ESTABLISHED状态（已建立连接）。<blockquote>
-<p>TCP规定，ACK报文段可以携带数据，但是如果不携带数据则不消耗序号。<br>此时的报文内容为ACK=1,seq=x+1,ack=y+1；这里相对于同步请求是客户端发给服务端的第二个请求，所有seq为x+1。</p>
-</blockquote>
-</li>
-<li>当服务器收到客户端的确认后也进入ESTABLISHED状态，此后双方就可以开始通信了。</li>
-</ol>
-<hr>
-<h1 id="TCP连接的断开（四次回收）"><a href="#TCP连接的断开（四次回收）" class="headerlink" title="TCP连接的断开（四次回收）"></a>TCP连接的断开（四次回收）</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B.png" alt="四次挥手"></p>
-<ol>
-<li>客户端发送连接释放报文，停止发送数据，客户端进入FIN-WAIT-1状态（终止等待1）。<blockquote>
-<p>TCP规定，FIN报文段即使不携带数据，也要消耗一个序号。与SYN报文段相似。<br>此时报文内容为FIN=1,seq=u。这里的序列号跟随前面的数据的序列号，为最后一个字节数据的序列号加一。</p>
-</blockquote>
-</li>
-<li>服务器收到连接释放报文，发送出自己的释放报文，服务端进入CLOSE-WAIT状态（关闭等待）。<blockquote>
-<p>TCP服务器通知高层的应用进程，客户端向服务器的方向就释放了，这时候处于半关闭状态，即客户端已经没有数据要发送了，但是服务器若发送数据，客户端依然要接受。这个过程需要持续一段时间，等待服务器将数据发送完。<br>此时报文内容为ACK=1,seq=v,ack=u+1。</p>
-</blockquote>
-</li>
-<li>客户端收到服务器的释放确认后，进入FIN-WAIT-2状态，等待服务器发送连接释放报文，这个过程中会继续接受服务器发送的数据内容。</li>
-<li>服务器将数据发送完毕后，向客户端发送连接释放报文，服务器进入LAST-ACK状态，等待最后的确认。<blockquote>
-<p>此时报文内容为FIN=1,ACK=1,seq=w,ack=u+1，在上个过程中，客户端不会向服务端发送信息所以ack不变，而服务端会向客户端发送所以seq会变化。</p>
-</blockquote>
-</li>
-<li>客户端收到连接释放后，向服务器发出确认，客户端进入TIME-WAIT状态。<blockquote>
-<p>注意此时TCP连接还没有释放，必须经过2*MSL（最长报文段寿命）的时间后，当客户端撤销相应的TCB后，才进入CLOSED状态。<br>此时报文内容为ACK=1,seq=u+1,ack=w+1。</p>
-</blockquote>
-</li>
-<li>服务器收到确认信息后，会立即进入CLOSED状态，撤销TCB结束连接。</li>
-</ol>
-<hr>
-<h1 id="通俗一点"><a href="#通俗一点" class="headerlink" title="通俗一点"></a>通俗一点</h1><p>&emsp;&emsp;举个例子：</p>
-<ul>
-<li>甲方：你好，我是甲方，你能听到吗？</li>
-<li>乙方：你好，我能听到，我是乙方，你能听到吗？&lt;甲方收到，甲方建立连接&gt;</li>
-<li>甲方：我能听到。&lt;乙方收到，乙方建立连接&gt;</li>
-<li></li>
-<li>连接建立，开始扯皮。</li>
-<li>甲方乙方：。。。（扯皮中）。</li>
-<li></li>
-<li>甲方：我说完了，就这样吧。</li>
-<li>乙方：你说完了好的，我最后在说一下。</li>
-<li>乙方：。。。乙方批斗需求中。</li>
-<li>乙方：我也说完了，挂了吧。</li>
-<li>甲方：好的，挂了。&lt;乙方收到，乙方挂掉了&gt;</li>
-<li></li>
-<li>甲方：{等了一个来回的时间了，他应该收到了}。&lt;甲方挂掉了&gt;</li>
-</ul>
-<hr>
-<h1 id="一点问题"><a href="#一点问题" class="headerlink" title="一点问题"></a>一点问题</h1><h2 id="为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）"><a href="#为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）" class="headerlink" title="为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）"></a>为什么TCP客户端最后还要发送一次确认呢？（为什么不是2次握手）</h2><p>&emsp;&emsp;防止因网络抖动各种原因造成的连接请求，突然又传送到了服务端，从而产生错误。<br>&emsp;&emsp;采用两次握手的情况下，假设第一次的连接请求在网络中阻塞了，服务端没有收到客户端的请求报文就不会处理，客户端一直收不到确认就会认为服务器没有收到，则会重新发送这条请求，此后客户端和服务端完成握手，建立连接。<br>&emsp;&emsp;这时，在网络中阻塞的第一次的请求突然到达服务器就会出现问题。</p>
-<blockquote>
-<p>如果建立连接后传输完成数据且关闭连接了，就会产生重新建立连接的问题，而采用3次握手，即使服务端收到了出错的连接请求而发送了确认信息，但是客户端没有需要传输的数据，不会进行第三次握手操作，就不会产生问题。<br>如果传输数据过程中收到了错误的连接请求，即使进行确认，也不会第三次进行握手。（这里待议）</p>
-</blockquote>
-<h2 id="服务端易受到SYN攻击？"><a href="#服务端易受到SYN攻击？" class="headerlink" title="服务端易受到SYN攻击？"></a>服务端易受到SYN攻击？</h2><p>&emsp;&emsp;服务端的资源是在第二次进行握手的时候分配的，而客户端的资源是在进行第三次握手的时候分配的。所以服务器容易收到SYN洪泛攻击，就是在短时间内伪造大量不存在的ip，不断的向服务器发送SYN包，服务端则回复并等待确认包，但是源地址是虚构的，所有不会收到确认包，服务端将不断重发进行重试知道超时，这些伪造的SYN包将占用大量且长时间的占用未连接队列，导致正常请求将被丢弃，引起网络瘫痪。<br>&emsp;&emsp;可以通过降低主机的等待时间释放未连接占用，或者短时间收到某ip的重复SYN报文将丢弃后续请求。</p>
-<h2 id="为什么客户端最后还要等待2MSL？"><a href="#为什么客户端最后还要等待2MSL？" class="headerlink" title="为什么客户端最后还要等待2MSL？"></a>为什么客户端最后还要等待2MSL？</h2><p>&emsp;&emsp;保证客户端的最后一个ACK报文能够到达服务器，在服务端，没有接受到客户端的ACK就会认为服务器没有收到自己发送的FIN请求，这时就会重发FIN请求。对于客户端而言，收到FIN请求后，发送ACK确认信息，假设服务端没有收到ACK信息，就会重新发送FIN请求，客户端就会重新收到FIN请求，没有收到重新发送的FIN请求，就认为没有问题就可以断开连接了。</p>
-<h2 id="如果已经建立了连接，但是客户端突然出现故障了怎么办？"><a href="#如果已经建立了连接，但是客户端突然出现故障了怎么办？" class="headerlink" title="如果已经建立了连接，但是客户端突然出现故障了怎么办？"></a>如果已经建立了连接，但是客户端突然出现故障了怎么办？</h2><p>&emsp;&emsp;TCP设置有一个保活器，服务器每一次收到数据就会重新复位这个计时器，若计时器走完，没有收到客户端的数据，服务器就会发送探测报文，75秒一个探测报文，连续10个探测报文没有收到恢复，就认为客户端故障，断开连接。</p>
-<h2 id="为什么是四次挥手而不是三次或者五次呢？"><a href="#为什么是四次挥手而不是三次或者五次呢？" class="headerlink" title="为什么是四次挥手而不是三次或者五次呢？"></a>为什么是四次挥手而不是三次或者五次呢？</h2><p>&emsp;&emsp;第二次挥手和第三次挥手都是服务端向客户端发送报文，第二次挥手是服务端收到了客户端的断开请求，通知客户端收到了，此时客户端没有数据向服务端发送了，但不代表服务端也没有数据向客户端发送，因为服务端要把剩余还没有发送的报文发送完毕再断开连接；第三次挥手是服务端数据全部发送完毕，向客户端发送断开请求报文（FIN=1）。<br>&emsp;&emsp;如果将这两次合二为一，就会出现服务端收到请求后立即确认并且断开连接，会造成服务端发送到客户端的数据不完整。五次则没有必要。</p>
-<h2 id="问什么连接是三次断开是四次呢？"><a href="#问什么连接是三次断开是四次呢？" class="headerlink" title="问什么连接是三次断开是四次呢？"></a>问什么连接是三次断开是四次呢？</h2><p>&emsp;&emsp;断开是四次的原因和上面的问题的解答是一样的。<br>&emsp;&emsp;对于建立连接，3次其实是建立可靠连接的最小次数。可参考第一道问题。<br>&emsp;&emsp;因为当服务端收到客户端的SYN连接请求报文后，可以直接发送SYN+ACK报文。其中ACK报文是用来应答的，SYN报文是用来同步的。但是关闭连接时，当Server端收到FIN报文时，很可能并不会立即关闭连接，所以只能先回复一个ACK报文，告诉客户端，”你发的FIN报文我收到了”。只有等到我服务端所有的报文都发送完了，我才能发送FIN报文，因此不能一起发送。故需要四步握手。<br>&emsp;&emsp;四次挥手相比于三次握手，将服务端返回给客户端的ACK+SYN报文，拆成了2次发送。</p>
-]]></content>
-      <categories>
-        <category>网络</category>
-        <category>TCP</category>
-      </categories>
-      <tags>
-        <tag>网络</tag>
-        <tag>TCP</tag>
       </tags>
   </entry>
   <entry>
@@ -519,38 +508,9 @@
         <category>UDP</category>
       </categories>
       <tags>
-        <tag>网络</tag>
         <tag>TCP</tag>
+        <tag>网络</tag>
         <tag>UDP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>异常的三次握手四次挥手</title>
-    <url>/hexoblog/md/internet/%E5%BC%82%E5%B8%B8%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;TCP作为一个靠谱的协议，在传输数据的前后，需要在双端之间建立连接，并在双端各自维护连接的状态。<br>&emsp;&emsp;建立连接前，TCP会通过三次握手来保证双端状态正确，然后就可以正常传输数据了。当数据传输完成，需要断开连接的时候，TCP会通过四次握手来完成双端的断连，并回收各自的资源。<br>&emsp;&emsp;这个过程中也会产生各种问题，有因网络原因造成的也有其他原因造成的。一般来说主要就是丢包的问题，基本就是超时重传等来保证TCP的可靠性。</p>
-<span id="more"></span>
-
-<p><a href="https://network.51cto.com/art/202002/610542.htm">TCP异常</a></p>
-<hr>
-<h1 id="三次握手中的问题"><a href="#三次握手中的问题" class="headerlink" title="三次握手中的问题"></a>三次握手中的问题</h1><h2 id="客户端第一个SYN包丢失"><a href="#客户端第一个SYN包丢失" class="headerlink" title="客户端第一个SYN包丢失"></a>客户端第一个SYN包丢失</h2><p>&emsp;&emsp;如果客户端的第一个ACK包丢失，服务器无法收到这个包，不会做任何事情。<br>&emsp;&emsp;而在TCP协议中，某端的一组「请求-应答」中，在一定时间范围内，只要没有收到应答的「ACK」包，无论是请求包对方没有收到，还是对方的应答包自己没有收到，均认为是丢包了，都会触发超时重传机制。<br>&emsp;&emsp;此时客户端会重传丢失的SYN包。</p>
-<h2 id="服务端收到SYNd返回的SYN-ACK包丢失"><a href="#服务端收到SYNd返回的SYN-ACK包丢失" class="headerlink" title="服务端收到SYNd返回的SYN+ACK包丢失"></a>服务端收到SYNd返回的SYN+ACK包丢失</h2><p>&emsp;&emsp;此时服务端已经收到客户端的数据，并且发出了对于改信息的回复。<br>&emsp;&emsp;这个问题站在客户端而言，无法区分是服务端没有收到第一次的SYN包，还是自己没有收到回复信息，只能等待一段时间后重新发送SYN包，这和上面的情况就一样了。<br>&emsp;&emsp;对于服务端，发送了SYN+ACK包后，无法等到对方的确认ACK信息，也只能对这个SYN+ACK包进行重传。<br>&emsp;&emsp;由于客户端的重传，服务端会收到这个重传的SYN包，此时会针对这个新的SYN包立即发送SYN+ACK信息。</p>
-<h2 id="客户端收到SYN-ACK返回的ACK包丢失"><a href="#客户端收到SYN-ACK返回的ACK包丢失" class="headerlink" title="客户端收到SYN+ACK返回的ACK包丢失"></a>客户端收到SYN+ACK返回的ACK包丢失</h2><p>&emsp;&emsp;如果最后一个ACK包丢了，服务端因为收不到ACK会走重传机制，而客户端此时进入ESTABLISHED状态。<br>&emsp;&emsp;多数情况下，客户端进入ESTABLISHED状态后，则认为连接已建立，会立即发送数据。但是服务端因为没有收到最后一个ACK包，依然处于SYN-RCVD状态。<br>&emsp;&emsp;所以当服务端处于SYN-RCVD状态下时，接收到客户端真实发送来的数据包时，会认为连接已建立，并进入ESTABLISHED状态。<br>&emsp;&emsp;也有地方认为当服务端处于SYN-RCVD状态下，收到客户端的数据包后，会直接回复RST包响应，表示服务端错误，并进入CLOSE状态。<br>&emsp;&emsp;实际情况下，当客户端在ESTABLISHED状态下，开始发送数据包时，会携带上一个ACK的确认序号，所以哪怕客户端响应的ACK包丢了，服务端在收到这个数据包时，能够通过包内ACK的确认序号，正常进入ESTABLISHED状态。</p>
-<h2 id="客户端故意不发最后一次ACK包"><a href="#客户端故意不发最后一次ACK包" class="headerlink" title="客户端故意不发最后一次ACK包"></a>客户端故意不发最后一次ACK包</h2><p>-0<br>&emsp;&emsp;如果客户端是恶意的，在发送SYN包后，并收到SYN+ACK后就不回复了，那么服务端此时处于一种半连接的状态，虽然服务端会通过tcp_synack_retries配置重试的次数，不会无限等待下去，但是这也是有一个时间周期的。<br>&emsp;&emsp;如果短时间内存在大量的这种恶意连接，对服务端来说压力就会很大，这就是所谓的SYN FLOOD攻击。</p>
-<hr>
-<h1 id="四次挥手中的问题"><a href="#四次挥手中的问题" class="headerlink" title="四次挥手中的问题"></a>四次挥手中的问题</h1><h2 id="客户端断开连接的FIN包丢失"><a href="#客户端断开连接的FIN包丢失" class="headerlink" title="客户端断开连接的FIN包丢失"></a>客户端断开连接的FIN包丢失</h2><p>&emsp;&emsp;这种情况下，会触发超时重传机制，不会去考虑是自己发出的包丢失，还是无法收到对方发来的恢复，直到关闭连接。</p>
-<h2 id="服务端第一次返回的ACK包丢失"><a href="#服务端第一次返回的ACK包丢失" class="headerlink" title="服务端第一次返回的ACK包丢失"></a>服务端第一次返回的ACK包丢失</h2><p>&emsp;&emsp;这种情况下，客户端无法收到服务端返回的ACK包，会触发重传机制，重传FIN包。<br>&emsp;&emsp;而服务器收到重传的FIN包后，会立即在重传对FIN包的ACK包。<br>&emsp;&emsp;而此时服务器已经进入CLOSED-WAIT状态，开始做断开连接前的准备工作。当准备好之后，会回复FIN+ACK，这个消息是携带了之前ACK的响应序号的，这就是第三次挥手的包。</p>
-<h2 id="服务器发送的FIN-ACK包丢失"><a href="#服务器发送的FIN-ACK包丢失" class="headerlink" title="服务器发送的FIN+ACK包丢失"></a>服务器发送的FIN+ACK包丢失</h2><p>&emsp;&emsp;这是第三次挥手的包丢失了，此时客户端有两种情况，要么处于FIN-WAIT-2状态(之前的 ACK 也丢了)，会一直等待；要么处于TIME-WAIT状态，会等待 2MSL 时间。<br>&emsp;&emsp;而服务端则收不到对应的ACK确认包，则会进行超时重传。</p>
-<h2 id="客户端最后返回的ACK包丢失"><a href="#客户端最后返回的ACK包丢失" class="headerlink" title="客户端最后返回的ACK包丢失"></a>客户端最后返回的ACK包丢失</h2><p>&emsp;&emsp;客户端在回复ACK后，会进入TIME-WAIT状态，开始长达2MSL的等待，服务端因为没有收到ACK的回复，会重试一段时间，直到服务端重试超时后主动断开。<br>&emsp;&emsp;或者等待新的客户端接入后，收到服务端重试的FIN消息后，回复RST消息，在收到RST消息后，复位服务端的状态。</p>
-<h2 id="客户端收到ACK后服务端跑路"><a href="#客户端收到ACK后服务端跑路" class="headerlink" title="客户端收到ACK后服务端跑路"></a>客户端收到ACK后服务端跑路</h2><p>&emsp;&emsp;客户端在收到ACK后，进入了FIN-WAIT-2状态，等待服务端发来的FIN包，而如果服务端跑路了，这个包永远都等不到。<br>&emsp;&emsp;在TCP协议中，是没有对这个状态的处理机制的。但是协议不管，系统来凑，操作系统会接管这个状态，在一段时间后，直接进行客户端关闭，这中间会用心跳等进行检测。</p>
-<h2 id="客户端收到ACK后客户端跑路"><a href="#客户端收到ACK后客户端跑路" class="headerlink" title="客户端收到ACK后客户端跑路"></a>客户端收到ACK后客户端跑路</h2><p>&emsp;&emsp;客户端收到ACK后直接跑路，服务端后续在发送的FIN+ACK就没有接收端，也就不会得到回复，会不断的走TCP的超时重试的机制，此时服务端处于LAST-ACK状态。<br>&emsp;&emsp;这种情况下，有两种情况：在超过一定时间后，服务器直接进行关闭，这种类似于客户端的关闭；另一种情况则是收到客户端的RST消息，关闭连接。<br>&emsp;&emsp;RST消息是一种重置消息，表示当前错误了，应该回到初始的状态。如果客户端跑路后有新的客户端接入，会在此发送SYN以期望建立连接，此时这个SYN将被忽略，并直接回复FIN+ACK消息，新客户端在收到FIN消息后是不会认的，并且会回复一个RST消息。</p>
-]]></content>
-      <categories>
-        <category>网络</category>
-        <category>TCP</category>
-      </categories>
-      <tags>
-        <tag>网络</tag>
-        <tag>TCP</tag>
       </tags>
   </entry>
   <entry>
@@ -662,24 +622,32 @@
       </tags>
   </entry>
   <entry>
-    <title>filter_interceptor</title>
-    <url>/hexoblog/md/java/filter-interceptor/</url>
-    <content><![CDATA[<h2 id="过滤器"><a href="#过滤器" class="headerlink" title="过滤器"></a>过滤器</h2><p>&emsp;&emsp;过滤器是用来过滤的，java的过滤器能够为我们提供系统级别的过滤，也就是说能够过滤所有的web请求，这一点是拦截器做不到的。<br>&emsp;&emsp;在java web中，你传入的request，response提前过滤掉一些信息，或者提前设置一些参数，然后在传入Servlet进行业务逻辑，比如过滤掉非法url和非法字符串。<br>&emsp;&emsp;filter流程是线性的，url传来之后，检查之后，可保持原来的流程继续向下执行，被下一个filter，servlet接收。</p>
+    <title>异常的三次握手四次挥手</title>
+    <url>/hexoblog/md/internet/%E5%BC%82%E5%B8%B8%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;TCP作为一个靠谱的协议，在传输数据的前后，需要在双端之间建立连接，并在双端各自维护连接的状态。<br>&emsp;&emsp;建立连接前，TCP会通过三次握手来保证双端状态正确，然后就可以正常传输数据了。当数据传输完成，需要断开连接的时候，TCP会通过四次握手来完成双端的断连，并回收各自的资源。<br>&emsp;&emsp;这个过程中也会产生各种问题，有因网络原因造成的也有其他原因造成的。一般来说主要就是丢包的问题，基本就是超时重传等来保证TCP的可靠性。</p>
 <span id="more"></span>
 
+<p><a href="https://network.51cto.com/art/202002/610542.htm">TCP异常</a></p>
 <hr>
-<h2 id="拦截器"><a href="#拦截器" class="headerlink" title="拦截器"></a>拦截器</h2><p>&emsp;&emsp;java里面的拦截器提供的是非系统级别的拦截，也就是说，就覆盖面来说，拦截器不如过滤器强大但是更有针对性。<br>&emsp;&emsp;java中的拦截器是基于java反射机制实现的，更准确的划分，应该是基于jdk实现的动态代理。它依赖于具体的接口，在运行期间动态生成字节码。<br>&emsp;&emsp;拦截器是动态拦截Action调用的对象，他提供了一种机制可以使开发者在一个ation执行的前后执行一段代码，也可以在一个action执行前阻止其执行，同时也提供了一种可以提取action中可重用代码的方式。在AOP中，拦截器用于在某个方法或字段被访问之前，进行拦截然后再之前或之后加入某些操作。java的拦截器主要用于插件上，扩展件上，有点类似于面向切面的技术，在用之前要先在配置文件里声明。</p>
+<h1 id="三次握手中的问题"><a href="#三次握手中的问题" class="headerlink" title="三次握手中的问题"></a>三次握手中的问题</h1><h2 id="客户端第一个SYN包丢失"><a href="#客户端第一个SYN包丢失" class="headerlink" title="客户端第一个SYN包丢失"></a>客户端第一个SYN包丢失</h2><p>&emsp;&emsp;如果客户端的第一个ACK包丢失，服务器无法收到这个包，不会做任何事情。<br>&emsp;&emsp;而在TCP协议中，某端的一组「请求-应答」中，在一定时间范围内，只要没有收到应答的「ACK」包，无论是请求包对方没有收到，还是对方的应答包自己没有收到，均认为是丢包了，都会触发超时重传机制。<br>&emsp;&emsp;此时客户端会重传丢失的SYN包。</p>
+<h2 id="服务端收到SYNd返回的SYN-ACK包丢失"><a href="#服务端收到SYNd返回的SYN-ACK包丢失" class="headerlink" title="服务端收到SYNd返回的SYN+ACK包丢失"></a>服务端收到SYNd返回的SYN+ACK包丢失</h2><p>&emsp;&emsp;此时服务端已经收到客户端的数据，并且发出了对于改信息的回复。<br>&emsp;&emsp;这个问题站在客户端而言，无法区分是服务端没有收到第一次的SYN包，还是自己没有收到回复信息，只能等待一段时间后重新发送SYN包，这和上面的情况就一样了。<br>&emsp;&emsp;对于服务端，发送了SYN+ACK包后，无法等到对方的确认ACK信息，也只能对这个SYN+ACK包进行重传。<br>&emsp;&emsp;由于客户端的重传，服务端会收到这个重传的SYN包，此时会针对这个新的SYN包立即发送SYN+ACK信息。</p>
+<h2 id="客户端收到SYN-ACK返回的ACK包丢失"><a href="#客户端收到SYN-ACK返回的ACK包丢失" class="headerlink" title="客户端收到SYN+ACK返回的ACK包丢失"></a>客户端收到SYN+ACK返回的ACK包丢失</h2><p>&emsp;&emsp;如果最后一个ACK包丢了，服务端因为收不到ACK会走重传机制，而客户端此时进入ESTABLISHED状态。<br>&emsp;&emsp;多数情况下，客户端进入ESTABLISHED状态后，则认为连接已建立，会立即发送数据。但是服务端因为没有收到最后一个ACK包，依然处于SYN-RCVD状态。<br>&emsp;&emsp;所以当服务端处于SYN-RCVD状态下时，接收到客户端真实发送来的数据包时，会认为连接已建立，并进入ESTABLISHED状态。<br>&emsp;&emsp;也有地方认为当服务端处于SYN-RCVD状态下，收到客户端的数据包后，会直接回复RST包响应，表示服务端错误，并进入CLOSE状态。<br>&emsp;&emsp;实际情况下，当客户端在ESTABLISHED状态下，开始发送数据包时，会携带上一个ACK的确认序号，所以哪怕客户端响应的ACK包丢了，服务端在收到这个数据包时，能够通过包内ACK的确认序号，正常进入ESTABLISHED状态。</p>
+<h2 id="客户端故意不发最后一次ACK包"><a href="#客户端故意不发最后一次ACK包" class="headerlink" title="客户端故意不发最后一次ACK包"></a>客户端故意不发最后一次ACK包</h2><p>-0<br>&emsp;&emsp;如果客户端是恶意的，在发送SYN包后，并收到SYN+ACK后就不回复了，那么服务端此时处于一种半连接的状态，虽然服务端会通过tcp_synack_retries配置重试的次数，不会无限等待下去，但是这也是有一个时间周期的。<br>&emsp;&emsp;如果短时间内存在大量的这种恶意连接，对服务端来说压力就会很大，这就是所谓的SYN FLOOD攻击。</p>
 <hr>
-<h2 id="监听器"><a href="#监听器" class="headerlink" title="监听器"></a>监听器</h2><p>&emsp;&emsp;java的监听器也是系统级别的监听。监听器随web应用的启动而启动。<br>&emsp;&emsp;java的监听器在c/s模式里面经常用到，它会对特定的事件产生一个处理。监听器在很多模式下用到，比如说观察者模式，就是使用监听器来实现的，又比如统计网站的在线人数。servlet监听器用于监听一些重要事件的发生，监听器对象可以在事件发生前，发生后做一些必要的处理。</p>
-<hr>
-<h1 id="对照"><a href="#对照" class="headerlink" title="对照"></a>对照</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/interceptor_filter_1.jpg" alt="对照"></p>
+<h1 id="四次挥手中的问题"><a href="#四次挥手中的问题" class="headerlink" title="四次挥手中的问题"></a>四次挥手中的问题</h1><h2 id="客户端断开连接的FIN包丢失"><a href="#客户端断开连接的FIN包丢失" class="headerlink" title="客户端断开连接的FIN包丢失"></a>客户端断开连接的FIN包丢失</h2><p>&emsp;&emsp;这种情况下，会触发超时重传机制，不会去考虑是自己发出的包丢失，还是无法收到对方发来的恢复，直到关闭连接。</p>
+<h2 id="服务端第一次返回的ACK包丢失"><a href="#服务端第一次返回的ACK包丢失" class="headerlink" title="服务端第一次返回的ACK包丢失"></a>服务端第一次返回的ACK包丢失</h2><p>&emsp;&emsp;这种情况下，客户端无法收到服务端返回的ACK包，会触发重传机制，重传FIN包。<br>&emsp;&emsp;而服务器收到重传的FIN包后，会立即在重传对FIN包的ACK包。<br>&emsp;&emsp;而此时服务器已经进入CLOSED-WAIT状态，开始做断开连接前的准备工作。当准备好之后，会回复FIN+ACK，这个消息是携带了之前ACK的响应序号的，这就是第三次挥手的包。</p>
+<h2 id="服务器发送的FIN-ACK包丢失"><a href="#服务器发送的FIN-ACK包丢失" class="headerlink" title="服务器发送的FIN+ACK包丢失"></a>服务器发送的FIN+ACK包丢失</h2><p>&emsp;&emsp;这是第三次挥手的包丢失了，此时客户端有两种情况，要么处于FIN-WAIT-2状态(之前的 ACK 也丢了)，会一直等待；要么处于TIME-WAIT状态，会等待 2MSL 时间。<br>&emsp;&emsp;而服务端则收不到对应的ACK确认包，则会进行超时重传。</p>
+<h2 id="客户端最后返回的ACK包丢失"><a href="#客户端最后返回的ACK包丢失" class="headerlink" title="客户端最后返回的ACK包丢失"></a>客户端最后返回的ACK包丢失</h2><p>&emsp;&emsp;客户端在回复ACK后，会进入TIME-WAIT状态，开始长达2MSL的等待，服务端因为没有收到ACK的回复，会重试一段时间，直到服务端重试超时后主动断开。<br>&emsp;&emsp;或者等待新的客户端接入后，收到服务端重试的FIN消息后，回复RST消息，在收到RST消息后，复位服务端的状态。</p>
+<h2 id="客户端收到ACK后服务端跑路"><a href="#客户端收到ACK后服务端跑路" class="headerlink" title="客户端收到ACK后服务端跑路"></a>客户端收到ACK后服务端跑路</h2><p>&emsp;&emsp;客户端在收到ACK后，进入了FIN-WAIT-2状态，等待服务端发来的FIN包，而如果服务端跑路了，这个包永远都等不到。<br>&emsp;&emsp;在TCP协议中，是没有对这个状态的处理机制的。但是协议不管，系统来凑，操作系统会接管这个状态，在一段时间后，直接进行客户端关闭，这中间会用心跳等进行检测。</p>
+<h2 id="客户端收到ACK后客户端跑路"><a href="#客户端收到ACK后客户端跑路" class="headerlink" title="客户端收到ACK后客户端跑路"></a>客户端收到ACK后客户端跑路</h2><p>&emsp;&emsp;客户端收到ACK后直接跑路，服务端后续在发送的FIN+ACK就没有接收端，也就不会得到回复，会不断的走TCP的超时重试的机制，此时服务端处于LAST-ACK状态。<br>&emsp;&emsp;这种情况下，有两种情况：在超过一定时间后，服务器直接进行关闭，这种类似于客户端的关闭；另一种情况则是收到客户端的RST消息，关闭连接。<br>&emsp;&emsp;RST消息是一种重置消息，表示当前错误了，应该回到初始的状态。如果客户端跑路后有新的客户端接入，会在此发送SYN以期望建立连接，此时这个SYN将被忽略，并直接回复FIN+ACK消息，新客户端在收到FIN消息后是不会认的，并且会回复一个RST消息。</p>
 ]]></content>
       <categories>
-        <category>java</category>
+        <category>网络</category>
+        <category>TCP</category>
       </categories>
       <tags>
-        <tag>filter</tag>
-        <tag>interceptor</tag>
+        <tag>TCP</tag>
+        <tag>网络</tag>
       </tags>
   </entry>
   <entry>
@@ -758,6 +726,27 @@
       <tags>
         <tag>java</tag>
         <tag>SPI</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>filter_interceptor</title>
+    <url>/hexoblog/md/java/filter-interceptor/</url>
+    <content><![CDATA[<h2 id="过滤器"><a href="#过滤器" class="headerlink" title="过滤器"></a>过滤器</h2><p>&emsp;&emsp;过滤器是用来过滤的，java的过滤器能够为我们提供系统级别的过滤，也就是说能够过滤所有的web请求，这一点是拦截器做不到的。<br>&emsp;&emsp;在java web中，你传入的request，response提前过滤掉一些信息，或者提前设置一些参数，然后在传入Servlet进行业务逻辑，比如过滤掉非法url和非法字符串。<br>&emsp;&emsp;filter流程是线性的，url传来之后，检查之后，可保持原来的流程继续向下执行，被下一个filter，servlet接收。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="拦截器"><a href="#拦截器" class="headerlink" title="拦截器"></a>拦截器</h2><p>&emsp;&emsp;java里面的拦截器提供的是非系统级别的拦截，也就是说，就覆盖面来说，拦截器不如过滤器强大但是更有针对性。<br>&emsp;&emsp;java中的拦截器是基于java反射机制实现的，更准确的划分，应该是基于jdk实现的动态代理。它依赖于具体的接口，在运行期间动态生成字节码。<br>&emsp;&emsp;拦截器是动态拦截Action调用的对象，他提供了一种机制可以使开发者在一个ation执行的前后执行一段代码，也可以在一个action执行前阻止其执行，同时也提供了一种可以提取action中可重用代码的方式。在AOP中，拦截器用于在某个方法或字段被访问之前，进行拦截然后再之前或之后加入某些操作。java的拦截器主要用于插件上，扩展件上，有点类似于面向切面的技术，在用之前要先在配置文件里声明。</p>
+<hr>
+<h2 id="监听器"><a href="#监听器" class="headerlink" title="监听器"></a>监听器</h2><p>&emsp;&emsp;java的监听器也是系统级别的监听。监听器随web应用的启动而启动。<br>&emsp;&emsp;java的监听器在c/s模式里面经常用到，它会对特定的事件产生一个处理。监听器在很多模式下用到，比如说观察者模式，就是使用监听器来实现的，又比如统计网站的在线人数。servlet监听器用于监听一些重要事件的发生，监听器对象可以在事件发生前，发生后做一些必要的处理。</p>
+<hr>
+<h1 id="对照"><a href="#对照" class="headerlink" title="对照"></a>对照</h1><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/interceptor_filter_1.jpg" alt="对照"></p>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>filter</tag>
+        <tag>interceptor</tag>
       </tags>
   </entry>
   <entry>
@@ -1193,57 +1182,6 @@
       </tags>
   </entry>
   <entry>
-    <title>happens-before</title>
-    <url>/hexoblog/md/jvm/happens-before/</url>
-    <content><![CDATA[<h1 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h1><p>&emsp;&emsp;在JMM中，由于存在线程本地内存和主内存的原因，再加上重排序，会导致多线程环境下存在可见性的问题。<br>&emsp;&emsp;JDK5开始，JMM使用happens-before概念来阐述多线程之间的内存可见性问题。</p>
-<blockquote>
-<p>&emsp;&emsp;在JMM中，如果一个操作的执行结果需要对另一个操作可见，那么这两个操作之间必须存在happens-before关系。  </p>
-</blockquote>
-<p>&emsp;&emsp;happens-before原则非常重要，它是判断数据是否存在竞争、线程是否安全的主要依据，依靠这个规则，我们解决在并发环境下两操作之间是否可能存在冲突的所有问题。</p>
-<span id="more"></span>
-
-<hr>
-<h1 id="内容："><a href="#内容：" class="headerlink" title="内容："></a>内容：</h1><h2 id="happens-before原则定义："><a href="#happens-before原则定义：" class="headerlink" title="happens-before原则定义："></a>happens-before原则定义：</h2><ol>
-<li>如果一个操作happens-before另一个操作，那么第一个操作的执行结果将对第二个操作可见，而且第一个操作的执行顺序在第二个操作之前。</li>
-<li>两个操作之间存在happens-before原则，并不意味着一定要按照happens-before原则制定的顺序来执行。如果重排序之后的执行结果与按照happens-before关系来执行的结果一致，那么这种重排序并不非法。</li>
-</ol>
-<h2 id="happens-before原则规则："><a href="#happens-before原则规则：" class="headerlink" title="happens-before原则规则："></a>happens-before原则规则：</h2><ol>
-<li>程序次序规则：一个线程内，按照代码顺序，书写在前面的操作先行发生于书写在后面的操作；</li>
-<li>锁定规则：一个unLock操作先行发生于后面对同一个锁额lock操作；</li>
-<li>volatile变量规则：对一个变量的写操作先行发生于后面对这个变量的读操作；</li>
-<li>传递规则：如果操作A先行发生于操作B，而操作B又先行发生于操作C，则可以得出操作A先行发生于操作C；</li>
-<li>线程启动规则：Thread对象的start()方法先行发生于此线程的每个一个动作；</li>
-<li>线程中断规则：对线程interrupt()方法的调用先行发生于被中断线程的代码检测到中断事件的发生；</li>
-<li>线程终结规则：线程中所有的操作都先行发生于线程的终止检测，我们可以通过Thread.join()方法结束、Thread.isAlive()的返回值手段检测到线程已经终止执行；</li>
-<li>对象终结规则：一个对象的初始化完成先行发生于他的finalize()方法的开始；</li>
-</ol>
-<h3 id="程序次序规则："><a href="#程序次序规则：" class="headerlink" title="程序次序规则："></a>程序次序规则：</h3><p>&emsp;&emsp;一段代码在单线程中的执行结果是有序的，注意是执行结果，因为虚拟机、处理器会对指令进行重排序（重排序后面会详细介绍）。虽然重排序了，但是并不会影响程序的执行结果，所以程序最终执行的结果与顺序执行的结果是一致的。故而这个规则只对单线程有效，在多线程环境下无法保证正确性。</p>
-<h3 id="锁定规则："><a href="#锁定规则：" class="headerlink" title="锁定规则："></a>锁定规则：</h3><p>&emsp;&emsp;这个规则比较好理解，无论是在单线程环境还是多线程环境，一个锁处于被锁定状态，那么必须先执行unlock操作后面才能进行lock操作。</p>
-<h3 id="volatile变量规则："><a href="#volatile变量规则：" class="headerlink" title="volatile变量规则："></a>volatile变量规则：</h3><p>&emsp;&emsp; 这是一条比较重要的规则，它标志着volatile保证了线程可见性。通俗点讲就是如果一个线程先去写一个volatile变量，然后一个线程去读这个变量，那么这个写操作一定是happens-before读操作的。</p>
-<h3 id="传递规则："><a href="#传递规则：" class="headerlink" title="传递规则："></a>传递规则：</h3><p>&emsp;&emsp;提现了happens-before原则具有传递性，即A happens-before B , B happens-before C，那么A happens-before C。</p>
-<h3 id="线程启动规则："><a href="#线程启动规则：" class="headerlink" title="线程启动规则："></a>线程启动规则：</h3><p>&emsp;&emsp;假定线程A在执行过程中，通过执行ThreadB.start()来启动线程B，那么线程A对共享变量的修改在接下来线程B开始执行后确保对线程B可见。</p>
-<h3 id="线程终结规则："><a href="#线程终结规则：" class="headerlink" title="线程终结规则："></a>线程终结规则：</h3><p>&emsp;&emsp;假定线程A在执行的过程中，通过制定ThreadB.join()等待线程B终止，那么线程B在终止之前对共享变量的修改在线程A等待返回后可见。</p>
-<hr>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>&emsp;&emsp;上面八条是原生Java满足Happens-before关系的规则，但是我们可以对他们进行推导出其他满足happens-before的规则：</p>
-<ol>
-<li>将一个元素放入一个线程安全的队列的操作Happens-Before从队列中取出这个元素的操作。</li>
-<li>将一个元素放入一个线程安全容器的操作Happens-Before从容器中取出这个元素的操作。</li>
-<li>在CountDownLatch上的倒数操作Happens-Before CountDownLatch#await()操作。</li>
-<li>释放Semaphore许可的操作Happens-Before获得许可操作。</li>
-<li>Future表示的任务的所有操作Happens-Before Future#get()操作。</li>
-<li>向Executor提交一个Runnable或Callable的操作Happens-Before任务开始执行操作。</li>
-<li>如果两个操作不满足上述任意一个happens-before规则，那么这两个操作就没有顺序的保障，JVM就可以对这两个操作进行重排序。如果操作Ahappens-before操作B，那么操作A在内存上所做的操作对操作B都是可见的。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>jvm</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>jvm</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Volatile</title>
     <url>/hexoblog/md/jvm/Volatile/</url>
     <content><![CDATA[<h1 id="JMM"><a href="#JMM" class="headerlink" title="JMM"></a>JMM</h1><p>&emsp;&emsp;Java内存模型，是虚拟机规范中所定义的一种内存模型，Java内存模型是标准化的，屏蔽掉了底层计算机之间的区别。<br>&emsp;&emsp;Java内存模型描述了Java程序中各种变量（线程共享变量）的访问规则，以及在JVM中将变量，存储到内存和从内存中读取变量这样的底层细节。</p>
@@ -1334,6 +1272,57 @@
 <li>volatile提供了happens-before保证，对volatile变量v的写入happens-before所有其他线程后续对v的读操作。</li>
 <li>volatile可以使得long和double的赋值是原子的。</li>
 <li>volatile可以在单例双重检查中实现可见性和禁止指令重排序，从而保证安全性。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>jvm</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>jvm</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>happens-before</title>
+    <url>/hexoblog/md/jvm/happens-before/</url>
+    <content><![CDATA[<h1 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h1><p>&emsp;&emsp;在JMM中，由于存在线程本地内存和主内存的原因，再加上重排序，会导致多线程环境下存在可见性的问题。<br>&emsp;&emsp;JDK5开始，JMM使用happens-before概念来阐述多线程之间的内存可见性问题。</p>
+<blockquote>
+<p>&emsp;&emsp;在JMM中，如果一个操作的执行结果需要对另一个操作可见，那么这两个操作之间必须存在happens-before关系。  </p>
+</blockquote>
+<p>&emsp;&emsp;happens-before原则非常重要，它是判断数据是否存在竞争、线程是否安全的主要依据，依靠这个规则，我们解决在并发环境下两操作之间是否可能存在冲突的所有问题。</p>
+<span id="more"></span>
+
+<hr>
+<h1 id="内容："><a href="#内容：" class="headerlink" title="内容："></a>内容：</h1><h2 id="happens-before原则定义："><a href="#happens-before原则定义：" class="headerlink" title="happens-before原则定义："></a>happens-before原则定义：</h2><ol>
+<li>如果一个操作happens-before另一个操作，那么第一个操作的执行结果将对第二个操作可见，而且第一个操作的执行顺序在第二个操作之前。</li>
+<li>两个操作之间存在happens-before原则，并不意味着一定要按照happens-before原则制定的顺序来执行。如果重排序之后的执行结果与按照happens-before关系来执行的结果一致，那么这种重排序并不非法。</li>
+</ol>
+<h2 id="happens-before原则规则："><a href="#happens-before原则规则：" class="headerlink" title="happens-before原则规则："></a>happens-before原则规则：</h2><ol>
+<li>程序次序规则：一个线程内，按照代码顺序，书写在前面的操作先行发生于书写在后面的操作；</li>
+<li>锁定规则：一个unLock操作先行发生于后面对同一个锁额lock操作；</li>
+<li>volatile变量规则：对一个变量的写操作先行发生于后面对这个变量的读操作；</li>
+<li>传递规则：如果操作A先行发生于操作B，而操作B又先行发生于操作C，则可以得出操作A先行发生于操作C；</li>
+<li>线程启动规则：Thread对象的start()方法先行发生于此线程的每个一个动作；</li>
+<li>线程中断规则：对线程interrupt()方法的调用先行发生于被中断线程的代码检测到中断事件的发生；</li>
+<li>线程终结规则：线程中所有的操作都先行发生于线程的终止检测，我们可以通过Thread.join()方法结束、Thread.isAlive()的返回值手段检测到线程已经终止执行；</li>
+<li>对象终结规则：一个对象的初始化完成先行发生于他的finalize()方法的开始；</li>
+</ol>
+<h3 id="程序次序规则："><a href="#程序次序规则：" class="headerlink" title="程序次序规则："></a>程序次序规则：</h3><p>&emsp;&emsp;一段代码在单线程中的执行结果是有序的，注意是执行结果，因为虚拟机、处理器会对指令进行重排序（重排序后面会详细介绍）。虽然重排序了，但是并不会影响程序的执行结果，所以程序最终执行的结果与顺序执行的结果是一致的。故而这个规则只对单线程有效，在多线程环境下无法保证正确性。</p>
+<h3 id="锁定规则："><a href="#锁定规则：" class="headerlink" title="锁定规则："></a>锁定规则：</h3><p>&emsp;&emsp;这个规则比较好理解，无论是在单线程环境还是多线程环境，一个锁处于被锁定状态，那么必须先执行unlock操作后面才能进行lock操作。</p>
+<h3 id="volatile变量规则："><a href="#volatile变量规则：" class="headerlink" title="volatile变量规则："></a>volatile变量规则：</h3><p>&emsp;&emsp; 这是一条比较重要的规则，它标志着volatile保证了线程可见性。通俗点讲就是如果一个线程先去写一个volatile变量，然后一个线程去读这个变量，那么这个写操作一定是happens-before读操作的。</p>
+<h3 id="传递规则："><a href="#传递规则：" class="headerlink" title="传递规则："></a>传递规则：</h3><p>&emsp;&emsp;提现了happens-before原则具有传递性，即A happens-before B , B happens-before C，那么A happens-before C。</p>
+<h3 id="线程启动规则："><a href="#线程启动规则：" class="headerlink" title="线程启动规则："></a>线程启动规则：</h3><p>&emsp;&emsp;假定线程A在执行过程中，通过执行ThreadB.start()来启动线程B，那么线程A对共享变量的修改在接下来线程B开始执行后确保对线程B可见。</p>
+<h3 id="线程终结规则："><a href="#线程终结规则：" class="headerlink" title="线程终结规则："></a>线程终结规则：</h3><p>&emsp;&emsp;假定线程A在执行的过程中，通过制定ThreadB.join()等待线程B终止，那么线程B在终止之前对共享变量的修改在线程A等待返回后可见。</p>
+<hr>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>&emsp;&emsp;上面八条是原生Java满足Happens-before关系的规则，但是我们可以对他们进行推导出其他满足happens-before的规则：</p>
+<ol>
+<li>将一个元素放入一个线程安全的队列的操作Happens-Before从队列中取出这个元素的操作。</li>
+<li>将一个元素放入一个线程安全容器的操作Happens-Before从容器中取出这个元素的操作。</li>
+<li>在CountDownLatch上的倒数操作Happens-Before CountDownLatch#await()操作。</li>
+<li>释放Semaphore许可的操作Happens-Before获得许可操作。</li>
+<li>Future表示的任务的所有操作Happens-Before Future#get()操作。</li>
+<li>向Executor提交一个Runnable或Callable的操作Happens-Before任务开始执行操作。</li>
+<li>如果两个操作不满足上述任意一个happens-before规则，那么这两个操作就没有顺序的保障，JVM就可以对这两个操作进行重排序。如果操作Ahappens-before操作B，那么操作A在内存上所做的操作对操作B都是可见的。</li>
 </ol>
 ]]></content>
       <categories>
@@ -1562,6 +1551,22 @@
       </tags>
   </entry>
   <entry>
+    <title>deepin安装docker</title>
+    <url>/hexoblog/md/linux/deepin%E5%AE%89%E8%A3%85docker/</url>
+    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;写个毛啊，官方的直接搞来，<a href="https://wiki.deepin.org/wiki/Docker">https://wiki.deepin.org/wiki/Docke</a>。</p>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1>]]></content>
+      <categories>
+        <category>linux</category>
+        <category>deepin</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>linux</tag>
+        <tag>deepin</tag>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>jvm调优</title>
     <url>/hexoblog/md/jvm/jvm%E8%B0%83%E4%BC%98/</url>
     <content><![CDATA[<h1 id="JVM堆内存调优"><a href="#JVM堆内存调优" class="headerlink" title="JVM堆内存调优"></a>JVM堆内存调优</h1><span id="more"></span>
@@ -1608,22 +1613,6 @@
       <tags>
         <tag>jvm</tag>
         <tag>tool</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>deepin安装docker</title>
-    <url>/hexoblog/md/linux/deepin%E5%AE%89%E8%A3%85docker/</url>
-    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>&emsp;&emsp;写个毛啊，官方的直接搞来，<a href="https://wiki.deepin.org/wiki/Docker">https://wiki.deepin.org/wiki/Docke</a>。</p>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1>]]></content>
-      <categories>
-        <category>linux</category>
-        <category>deepin</category>
-      </categories>
-      <tags>
-        <tag>tool</tag>
-        <tag>linux</tag>
-        <tag>deepin</tag>
-        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -1774,6 +1763,183 @@
       <tags>
         <tag>java</tag>
         <tag>mybatis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mysql中datetime和timestamp</title>
+    <url>/hexoblog/md/mysql/mysql%E4%B8%ADdatetime%E5%92%8Ctimestamp/</url>
+    <content><![CDATA[<h1 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h1><h2 id="date和datetime，timestamp的区别"><a href="#date和datetime，timestamp的区别" class="headerlink" title="date和datetime，timestamp的区别"></a>date和datetime，timestamp的区别</h2><ol>
+<li>date保存的是天，精确到天</li>
+<li>datetime，timestamp精确到秒</li>
+</ol>
+<span id="more"></span>
+<h2 id="datetime和timastamp"><a href="#datetime和timastamp" class="headerlink" title="datetime和timastamp"></a>datetime和timastamp</h2><p>&emsp;&emsp;datetime 和timestamp两者都是时间类型字段，格式都一致。</p>
+<ol>
+<li><p>受时区影响不同</p>
+<blockquote>
+<p>timestamp会跟随设置的时区变化而变化，而datetime保存的是绝对值不会变化。</p>
+</blockquote>
+</li>
+<li><p>占用存储空间不同</p>
+<blockquote>
+<p>timestamp储存占用4个字节，datetime储存占用8个字节。</p>
+</blockquote>
+</li>
+<li><p>可以表示的时间范围不同</p>
+<blockquote>
+<p>timestamp可表示范围:1970-01-01 00:00:00~2038-01-09 03:14:07，datetime支持的范围更宽1000-01-01 00:00:00 ~ 9999-12-31 23:59:59。</p>
+</blockquote>
+</li>
+<li><p>索引速度不同</p>
+<blockquote>
+<p>timestamp更轻量，索引相对datetime更快。</p>
+</blockquote>
+</li>
+<li><p>默认值不同</p>
+<blockquote>
+<p>datetime的默认值为null，timestamp的字段默认不为空（not null），默认值为当前时间（CURRENT_TIMESTAMP），如果不做特殊处理，并且update语句中没有指定该列的更新值，则默认更新为当前时间。</p>
+</blockquote>
+</li>
+<li><p>存储方式不同</p>
+<blockquote>
+<p>两者的存储方式不一样，对于timestamp，它把客户端插入的时间从当前时区转化为UTC（世界标准时间）进行存储。查询时，将其又转化为客户端当前时区进行返回。而对于datetime，不做任何改变，基本上是原样输入和输出。</p>
+</blockquote>
+</li>
+</ol>
+<p>&emsp;&emsp;在mysql5.6之前的版本，CURRENT_TIMESTAMP只能用于timestamp类型，5.6版本之后，CURRENT_TIMESTAMP也能用于datetime类型了。</p>
+]]></content>
+      <categories>
+        <category>数据库</category>
+        <category>mysql</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+        <tag>数据类型</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mysql中的MVCC</title>
+    <url>/hexoblog/md/mysql/mysql%E4%B8%AD%E7%9A%84MVCC/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;MVCC全称Multi-Version Concurrency Control，即多版本并发控制。MVCC是一种并发控制的方法，一般在数据库管理系统中，实现对数据库的并发访问，在编程语言中实现事务内存。</p>
+<span id="more"></span>
+
+<h2 id="当前读和快照读"><a href="#当前读和快照读" class="headerlink" title="当前读和快照读"></a>当前读和快照读</h2><ul>
+<li><strong>当前读：</strong> 它读取的是记录的最新版本，读取时还要保证其他并发事务不能修改当前记录，会对读取的记录进行加锁。像<code>select lock in share mode(共享锁); select for update, update, insert, delete(排他锁)</code>这些都是当前读。  </li>
+<li><strong>快照读：</strong> 像不加锁的select操作就是快照读，即不加锁的非阻塞读；快照读的前提是隔离级别不是串行化，串行化会使得快照读退化成当前读。（串行化下，一切都是串行，不存在并发的情况）<blockquote>
+<p>&emsp;&emsp;出现快照读是基于提高并发性能的考虑，快照读的实现是基于多版本并发控制，即MVCC。<br>&emsp;&emsp;可以认为MVCC是行锁的一个变种，但它在很多情况下，避免了加锁操作，降低了开销；既然是基于多版本，即快照读可能读到的并不一定是数据的最新版本，而有可能是之前的历史版本</p>
+</blockquote>
+</li>
+</ul>
+<p>&emsp;&emsp;MVCC就是为了实现读写冲突不加锁，这里的读是快照读，当前读是一种加锁操作，是一种悲观锁。</p>
+<h2 id="MVCC与读操作"><a href="#MVCC与读操作" class="headerlink" title="MVCC与读操作"></a>MVCC与读操作</h2><p>&emsp;&emsp;MVCC指的是<strong>维持一个数据的多个版本，使得读写操作没有冲突</strong>。<br>&emsp;&emsp;快照读就是MySQL为我们实现MVCC理想模型的一个具体功能；而当前读就是悲观锁的表现。<br>&emsp;&emsp;MVCC模型在MySQL中的具体实现则是由3个隐式字段，undo日志，Read View等去完成的。</p>
+<h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><h3 id="数据库的并发情况"><a href="#数据库的并发情况" class="headerlink" title="数据库的并发情况"></a>数据库的并发情况</h3><p>&emsp;&emsp;数据库的并发情况分为三种：</p>
+<ul>
+<li>读-读：不存在任何问题，不需要并发控制。</li>
+<li>读-写：有线程安全问题，可能会造成事务隔离性问题，脏读、幻读、不可重复读。</li>
+<li>写-写：有线程安全问题，可能丢失更新，第一类、第二类丢失更新。</li>
+</ul>
+<h3 id="MVCC作用"><a href="#MVCC作用" class="headerlink" title="MVCC作用"></a>MVCC作用</h3><p>&emsp;&emsp;MVCC使用来解决<strong>读写</strong>冲突的<strong>无锁并发机制</strong>，也就是为事务分配单向增长的时间戳，为每一次修改保存一个版本，版本与事务时间戳关联，读操作只读该事务开始前的数据库快照。</p>
+<ul>
+<li>在并发读写数据库时，可以做到在读操作时不用阻塞写操作，写操作不用阻塞读操作，提高了数据库并发读写的性能。</li>
+<li>同时还可以解决脏读、幻读、不可重复读的问题，但不能解决丢失更新。</li>
+</ul>
+<p>&emsp;&emsp;可以使用<code>MVCC+悲观锁/乐观锁</code>来解决并发冲突问题。</p>
+<hr>
+<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><p>&emsp;&emsp;MVCC的目的就是多版本并发控制，在数据中就是为了解决读写冲突。<br>&emsp;&emsp;的实现原理主要是依赖记录中的 3个隐式字段，undo日志，Read View来实现的。所以我们先来看看这个三个point的概念。</p>
+<h2 id="隐式字段"><a href="#隐式字段" class="headerlink" title="隐式字段"></a>隐式字段</h2><p>&emsp;&emsp;数据库表除了我们定义的字段外，还有三个隐式字段：</p>
+<ul>
+<li>DB_TRX_ID：6Byte，最近修改或插入的事务ID，记录创建这条记录/最后一次修改该记录的事务ID。</li>
+<li>DB_ROLL_PTR：7Byte，回滚指针，指向这条记录的上一个版本。</li>
+<li>DB_ROW_ID：6Byte，隐含的自增主键，我们在没有指定主键的时候Innodb会使用隐式主键产生聚簇索引。</li>
+</ul>
+<h2 id="undo日志"><a href="#undo日志" class="headerlink" title="undo日志"></a>undo日志</h2><p>&emsp;&emsp;undo log日志主要分为两种：</p>
+<ul>
+<li>insert undo log：代表事务在插入新纪录时产生的undo log，只在事务回滚时需要，并且在事务提交后可以被立即丢弃。</li>
+<li>uodate undo log：事务在修改或者删除时产生的undo log，不仅在事务回滚时需要，在快照读时也需要，所以不能随便删除，只有在快速读或事务回滚不涉及该日志时，对应的日志才会被purge线程统一清除。</li>
+</ul>
+<h2 id="Read-View"><a href="#Read-View" class="headerlink" title="Read View"></a>Read View</h2><p>&emsp;&emsp;Read View是在事务进行快照读的时候产生的，该事务会在快照读的那一刻会生成数据库事务的快照，记录并维护系统当前活跃事务的ID(当每个事务开启时，都会被分配一个ID, 这个ID是递增的，所以最新的事务，ID值越大)。<br>&emsp;&emsp;Read View主要是用来做可见性判断的，即当我们某个事务执行快照读的时候，对该记录创建一个Read View读视图，把它比作条件用来判断当前事务能够看到哪个版本的数据，既可能是当前最新的数据，也有可能是该行记录的undo log里面的某个版本的数据。<br>&emsp;&emsp;Read View遵循一个可见性算法，主要是将要被修改的数据的最新记录中的DB_TRX_ID（即当前事务ID）取出来，与系统当前其他活跃事务的ID去对比（由Read View维护），如果DB_TRX_ID跟Read View的属性做了某些比较，不符合可见性，那就通过DB_ROLL_PTR回滚指针去取出Undo Log中的DB_TRX_ID再比较，即遍历链表的DB_TRX_ID（从链首到链尾，即从最近的一次修改查起），直到找到满足特定条件的DB_TRX_ID, 那么这个DB_TRX_ID所在的旧记录就是当前事务能看见的最新老版本。<br>&emsp;&emsp;不同的隔离级别生成Read View的时间是不一样的，可重复读是第一次读的时候生成的，之后每一次都是第一次的Read View，而读已提交则是每次都会生成。（这里是指当前读的时候）</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>&emsp;&emsp;简单的说：是通过保存数据在某个时间点的快照来实现的。也就是说，不管需要执行多长时间，每个事务看到的数据是一致的。根据事务开始的时间不同，每个事物对同一张表，同一时刻看到的数据可能是不一样的。</p>
+<hr>
+<h1 id="参考文献-amp-鸣谢"><a href="#参考文献-amp-鸣谢" class="headerlink" title="参考文献 &amp; 鸣谢"></a>参考文献 &amp; 鸣谢</h1><ul>
+<li><a href="https://blog.csdn.net/SnailMann/article/details/94724197">【MySQL笔记】正确的理解MySQL的MVCC及实现原理</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>数据库</category>
+        <category>mysql</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+        <tag>数据类型</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mysql常用命令</title>
+    <url>/hexoblog/md/mysql/mysql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><h2 id="修改mysql时区"><a href="#修改mysql时区" class="headerlink" title="修改mysql时区"></a>修改mysql时区</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看时区</span></span><br><span class="line">show variables like <span class="string">&quot;%time_zone%&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置时区为UTC+8:00</span></span><br><span class="line"><span class="built_in">set</span> global time_zone = <span class="string">&#x27;+8:00&#x27;</span>;</span><br><span class="line"><span class="built_in">set</span> time_zone = <span class="string">&#x27;+8:00&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 刷新立即生效</span></span><br><span class="line">flush privileges；</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+<h2 id="使用mysql-binlog"><a href="#使用mysql-binlog" class="headerlink" title="使用mysql binlog"></a>使用mysql binlog</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看日志是否开启</span></span><br><span class="line">show variables like <span class="string">&#x27;log_%&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看binlog配置</span></span><br><span class="line">show variables like <span class="string">&#x27;binlog_%&#x27;</span>; </span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看数据库当前日志情况</span></span><br><span class="line">show master status;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看所有日志文件</span></span><br><span class="line">show binary logs;</span><br><span class="line">show master logs;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 根据事件查看文件</span></span><br><span class="line">show binlog events <span class="keyword">in</span> <span class="string">&#x27;$&#123;binlogname&#125;&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看binlog日志文件内容</span></span><br><span class="line">mysqlbinlog  <span class="variable">$&#123;binlogname&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 以人类能看懂的方式查看binlog文件内容</span></span><br><span class="line">mysqlbinlog --base64-output=decode-rows -vvvvvv <span class="variable">$&#123;binlogname&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用-r命令将日志转写进sql</span></span><br><span class="line">mysqlbinlog --base64-output=decode-rows -vvvvvv <span class="variable">$&#123;binlogname&#125;</span> -r <span class="variable">$&#123;sqlname.sql&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 还原数据库</span></span><br><span class="line">mysqlbinlog --start-positoin=<span class="variable">$&#123;number&#125;</span> --stop-position=<span class="variable">$&#123;number&#125;</span> <span class="variable">$&#123;binlogname&#125;</span> -d <span class="variable">$&#123;databasename&#125;</span> | mysql -u<span class="variable">$&#123;username&#125;</span> -p<span class="variable">$&#123;password&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;转写进文件的日志不能直接执行，不过我们可以从其中提取有用信息。<br>&emsp;&emsp;因为binlog日志里面会将删除等操作全部保存下来，所以再还原数据库信息时一定不能全部解析，需要指定确切位置。<br>&emsp;&emsp;指定位置，数据库，时间，端口，host的命令都可以跟在mysqlbinlog后面，不只只用来恢复，转储，查看都可以。这些命令可以排列组合，放在日志名称前即可。</p>
+<p>mysqlbinlog其他参数：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 起始位置</span></span><br><span class="line">--start-position=<span class="variable">$&#123;positiom number&#125;</span></span><br><span class="line"><span class="comment"># 结束位置</span></span><br><span class="line">--stop-position=<span class="variable">$&#123;position number&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 开始时间</span></span><br><span class="line">--start-datetime=<span class="variable">$&#123;starttime&#125;</span></span><br><span class="line"><span class="comment"># 结束时间</span></span><br><span class="line">--stop-datetime=<span class="variable">$&#123;stoptime&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 数据库</span></span><br><span class="line">-d <span class="variable">$&#123;databasename&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 端口号(大写的P)</span></span><br><span class="line">-P <span class="variable">$&#123;port&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ip地址</span></span><br><span class="line">-h <span class="variable">$&#123;hosts&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># serverId</span></span><br><span class="line">--server-id=<span class="variable">$&#123;server-id&#125;</span></span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>数据库</category>
+        <category>mysql</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>mysql</tag>
+        <tag>数据库</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mysql浮点数精度</title>
+    <url>/hexoblog/md/mysql/mysql%E6%B5%AE%E7%82%B9%E6%95%B0%E7%B2%BE%E5%BA%A6/</url>
+    <content><![CDATA[<h1 id="小数类型"><a href="#小数类型" class="headerlink" title="小数类型"></a>小数类型</h1><h2 id="浮点数"><a href="#浮点数" class="headerlink" title="浮点数"></a>浮点数</h2><p>&emsp;&emsp;浮点型又称之为精度类型：是一种有可能丢失精度的数据类型，数据有可能不那么准确（由其是在超出范围的时候）。<br>&emsp;&emsp;浮点型之所以能够存储较大的数值（不精确），原因就是利用存储数据的位来存储指数。</p>
+<span id="more"></span>
+<h3 id="float"><a href="#float" class="headerlink" title="float"></a>float</h3><p>&emsp;&emsp;单精度浮点数，采用4个字节存储，保证7个位的精度。<br>&emsp;&emsp;Float(M,D)：表示一共存储M个有效数字，其中小数部分占D位。M(1<del>255)称为精度，D(1</del>30)称为标度且不能大于M-2，是可选的。<br>&emsp;&emsp;对于小数位数超长的，会采用四舍五入进行进位。</p>
+<h3 id="double"><a href="#double" class="headerlink" title="double"></a>double</h3><p>&emsp;&emsp;双精度浮点数，采用8个字节存储，表示的范围更大，精度最大15位。</p>
+<h2 id="定点数"><a href="#定点数" class="headerlink" title="定点数"></a>定点数</h2><p>&emsp;&emsp;能够保证数据精确的小数（小数部分可能不精确，超出长度会四舍五入），整数部分一定精确。<br>&emsp;&emsp;mysql中定点数只有一种，就是Decimal(M,D)。<br>&emsp;&emsp;Decimal定点数：系统自动根据存储的数据来分配存储空间，每大概9个数就会分配四个字节来进行存储，同时小数和整数部分是分开的。采用M+2个字节存储。<br>&emsp;&emsp;Decimal(M,D)：M表示总长度，最大值不能超过65，D代表小数部分长度，最长不能超过30。（默认为10，0）是必选的。</p>
+]]></content>
+      <categories>
+        <category>数据库</category>
+        <category>mysql</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+        <tag>数据类型</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>索引的优缺点</title>
+    <url>/hexoblog/md/mysql/%E7%B4%A2%E5%BC%95%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9/</url>
+    <content><![CDATA[<h1 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h1><p>&emsp;&emsp;索引的作用在于创建索引能大大提高系统的性能。</p>
+<span id="more"></span>
+
+<hr>
+<h1 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h1><ul>
+<li>通过创建唯一性索引，可以保证数据库表中每一行数据的唯一性</li>
+<li>大大加快数据的检索速度，这也是创建索引的最主要原因</li>
+<li>加快表与表之间的连接，在实现数据的参考完整性方面特别有意义</li>
+<li>在使用分组和排序，子句进行数据检索时，同样可以显著减少查询中分组和排序的时间</li>
+<li>通过使用索引，可以在查询的过程中，使用优化隐藏器，提高系统的性能。</li>
+</ul>
+<hr>
+<h1 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h1><ul>
+<li>创建索引和维护索引需要时间，这种时间随着数据量的增加而增加</li>
+<li>索引需要占物理空间，除了数据表占数据空间之外，每一个索引还要占物理空间，如果要建立聚簇索引，需要的空间更大</li>
+<li>当对表中的数据进行增加、删除和修改的时候，索引也要动态的维护，这就降低了数据的维护速度。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>数据库</category>
+        <category>mysql</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+        <tag>数据库</tag>
       </tags>
   </entry>
   <entry>
@@ -1987,7 +2153,66 @@
         <category>redis</category>
       </categories>
       <tags>
+        <tag>redis</tag>
         <tag>tool</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>redis缓存淘汰策略</title>
+    <url>/hexoblog/md/redis/redis%E7%BC%93%E5%AD%98%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;在redis中，如果定期删除漏掉了很多键，而又没有及时删除，很容易就会造成内存耗尽。<br>&emsp;&emsp;内存淘汰机制专门是处理在内存耗尽时，删除旧数据，保证新数据能保存成功。</p>
+<span id="more"></span>
+
+<hr>
+<h1 id="机制"><a href="#机制" class="headerlink" title="机制"></a>机制</h1><p>&emsp;&emsp;redis提供了8种内存置换策略。</p>
+<table>
+<thead>
+<tr>
+<th>策略</th>
+<th>解析</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>volatile-lru</td>
+<td>从已设置过期时间的数据集中挑选最近最少使用的数据淘汰</td>
+</tr>
+<tr>
+<td>volatile-ttl</td>
+<td>从已设置过期时间的数据集中挑选将要过期的数据淘汰</td>
+</tr>
+<tr>
+<td>volatile-random</td>
+<td>从已设置过期时间的数据集中任意选择数据淘汰</td>
+</tr>
+<tr>
+<td>volatile-lfu</td>
+<td>从已设置过期时间的数据集挑选使用频率最低的数据淘汰</td>
+</tr>
+<tr>
+<td>allkeys-lru</td>
+<td>从数据集中挑选最近最少使用的数据淘汰</td>
+</tr>
+<tr>
+<td>allkeys-lfu</td>
+<td>从数据集中挑选使用频率最低的数据淘汰</td>
+</tr>
+<tr>
+<td>allkeys-random</td>
+<td>从数据集（server.db[i].dict）中任意选择数据淘汰</td>
+</tr>
+<tr>
+<td>no-enviction</td>
+<td>当内存不足写入新数据时，写入操作会报错，同时不删除数据（默认策略）</td>
+</tr>
+</tbody></table>
+<p>&emsp;&emsp;它们可以分为4类，lru、lfu、random、ttl。它们的触发条件都是内存使用达到阈值。</p>
+<hr>
+<h1 id="淘汰机制的实现"><a href="#淘汰机制的实现" class="headerlink" title="淘汰机制的实现"></a>淘汰机制的实现</h1><p>&emsp;&emsp;淘汰机制的实现主要就是用于过期主键的删除。</p>
+]]></content>
+      <categories>
+        <category>redis</category>
+      </categories>
+      <tags>
         <tag>redis</tag>
       </tags>
   </entry>
@@ -2155,65 +2380,6 @@
       </categories>
       <tags>
         <tag>数据结构</tag>
-        <tag>redis</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>redis缓存淘汰策略</title>
-    <url>/hexoblog/md/redis/redis%E7%BC%93%E5%AD%98%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;在redis中，如果定期删除漏掉了很多键，而又没有及时删除，很容易就会造成内存耗尽。<br>&emsp;&emsp;内存淘汰机制专门是处理在内存耗尽时，删除旧数据，保证新数据能保存成功。</p>
-<span id="more"></span>
-
-<hr>
-<h1 id="机制"><a href="#机制" class="headerlink" title="机制"></a>机制</h1><p>&emsp;&emsp;redis提供了8种内存置换策略。</p>
-<table>
-<thead>
-<tr>
-<th>策略</th>
-<th>解析</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>volatile-lru</td>
-<td>从已设置过期时间的数据集中挑选最近最少使用的数据淘汰</td>
-</tr>
-<tr>
-<td>volatile-ttl</td>
-<td>从已设置过期时间的数据集中挑选将要过期的数据淘汰</td>
-</tr>
-<tr>
-<td>volatile-random</td>
-<td>从已设置过期时间的数据集中任意选择数据淘汰</td>
-</tr>
-<tr>
-<td>volatile-lfu</td>
-<td>从已设置过期时间的数据集挑选使用频率最低的数据淘汰</td>
-</tr>
-<tr>
-<td>allkeys-lru</td>
-<td>从数据集中挑选最近最少使用的数据淘汰</td>
-</tr>
-<tr>
-<td>allkeys-lfu</td>
-<td>从数据集中挑选使用频率最低的数据淘汰</td>
-</tr>
-<tr>
-<td>allkeys-random</td>
-<td>从数据集（server.db[i].dict）中任意选择数据淘汰</td>
-</tr>
-<tr>
-<td>no-enviction</td>
-<td>当内存不足写入新数据时，写入操作会报错，同时不删除数据（默认策略）</td>
-</tr>
-</tbody></table>
-<p>&emsp;&emsp;它们可以分为4类，lru、lfu、random、ttl。它们的触发条件都是内存使用达到阈值。</p>
-<hr>
-<h1 id="淘汰机制的实现"><a href="#淘汰机制的实现" class="headerlink" title="淘汰机制的实现"></a>淘汰机制的实现</h1><p>&emsp;&emsp;淘汰机制的实现主要就是用于过期主键的删除。</p>
-]]></content>
-      <categories>
-        <category>redis</category>
-      </categories>
-      <tags>
         <tag>redis</tag>
       </tags>
   </entry>
@@ -2442,183 +2608,6 @@
       </tags>
   </entry>
   <entry>
-    <title>mysql中datetime和timestamp</title>
-    <url>/hexoblog/md/mysql/mysql%E4%B8%ADdatetime%E5%92%8Ctimestamp/</url>
-    <content><![CDATA[<h1 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h1><h2 id="date和datetime，timestamp的区别"><a href="#date和datetime，timestamp的区别" class="headerlink" title="date和datetime，timestamp的区别"></a>date和datetime，timestamp的区别</h2><ol>
-<li>date保存的是天，精确到天</li>
-<li>datetime，timestamp精确到秒</li>
-</ol>
-<span id="more"></span>
-<h2 id="datetime和timastamp"><a href="#datetime和timastamp" class="headerlink" title="datetime和timastamp"></a>datetime和timastamp</h2><p>&emsp;&emsp;datetime 和timestamp两者都是时间类型字段，格式都一致。</p>
-<ol>
-<li><p>受时区影响不同</p>
-<blockquote>
-<p>timestamp会跟随设置的时区变化而变化，而datetime保存的是绝对值不会变化。</p>
-</blockquote>
-</li>
-<li><p>占用存储空间不同</p>
-<blockquote>
-<p>timestamp储存占用4个字节，datetime储存占用8个字节。</p>
-</blockquote>
-</li>
-<li><p>可以表示的时间范围不同</p>
-<blockquote>
-<p>timestamp可表示范围:1970-01-01 00:00:00~2038-01-09 03:14:07，datetime支持的范围更宽1000-01-01 00:00:00 ~ 9999-12-31 23:59:59。</p>
-</blockquote>
-</li>
-<li><p>索引速度不同</p>
-<blockquote>
-<p>timestamp更轻量，索引相对datetime更快。</p>
-</blockquote>
-</li>
-<li><p>默认值不同</p>
-<blockquote>
-<p>datetime的默认值为null，timestamp的字段默认不为空（not null），默认值为当前时间（CURRENT_TIMESTAMP），如果不做特殊处理，并且update语句中没有指定该列的更新值，则默认更新为当前时间。</p>
-</blockquote>
-</li>
-<li><p>存储方式不同</p>
-<blockquote>
-<p>两者的存储方式不一样，对于timestamp，它把客户端插入的时间从当前时区转化为UTC（世界标准时间）进行存储。查询时，将其又转化为客户端当前时区进行返回。而对于datetime，不做任何改变，基本上是原样输入和输出。</p>
-</blockquote>
-</li>
-</ol>
-<p>&emsp;&emsp;在mysql5.6之前的版本，CURRENT_TIMESTAMP只能用于timestamp类型，5.6版本之后，CURRENT_TIMESTAMP也能用于datetime类型了。</p>
-]]></content>
-      <categories>
-        <category>数据库</category>
-        <category>mysql</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
-        <tag>数据类型</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mysql中的MVCC</title>
-    <url>/hexoblog/md/mysql/mysql%E4%B8%AD%E7%9A%84MVCC/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;MVCC全称Multi-Version Concurrency Control，即多版本并发控制。MVCC是一种并发控制的方法，一般在数据库管理系统中，实现对数据库的并发访问，在编程语言中实现事务内存。</p>
-<span id="more"></span>
-
-<h2 id="当前读和快照读"><a href="#当前读和快照读" class="headerlink" title="当前读和快照读"></a>当前读和快照读</h2><ul>
-<li><strong>当前读：</strong> 它读取的是记录的最新版本，读取时还要保证其他并发事务不能修改当前记录，会对读取的记录进行加锁。像<code>select lock in share mode(共享锁); select for update, update, insert, delete(排他锁)</code>这些都是当前读。  </li>
-<li><strong>快照读：</strong> 像不加锁的select操作就是快照读，即不加锁的非阻塞读；快照读的前提是隔离级别不是串行化，串行化会使得快照读退化成当前读。（串行化下，一切都是串行，不存在并发的情况）<blockquote>
-<p>&emsp;&emsp;出现快照读是基于提高并发性能的考虑，快照读的实现是基于多版本并发控制，即MVCC。<br>&emsp;&emsp;可以认为MVCC是行锁的一个变种，但它在很多情况下，避免了加锁操作，降低了开销；既然是基于多版本，即快照读可能读到的并不一定是数据的最新版本，而有可能是之前的历史版本</p>
-</blockquote>
-</li>
-</ul>
-<p>&emsp;&emsp;MVCC就是为了实现读写冲突不加锁，这里的读是快照读，当前读是一种加锁操作，是一种悲观锁。</p>
-<h2 id="MVCC与读操作"><a href="#MVCC与读操作" class="headerlink" title="MVCC与读操作"></a>MVCC与读操作</h2><p>&emsp;&emsp;MVCC指的是<strong>维持一个数据的多个版本，使得读写操作没有冲突</strong>。<br>&emsp;&emsp;快照读就是MySQL为我们实现MVCC理想模型的一个具体功能；而当前读就是悲观锁的表现。<br>&emsp;&emsp;MVCC模型在MySQL中的具体实现则是由3个隐式字段，undo日志，Read View等去完成的。</p>
-<h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><h3 id="数据库的并发情况"><a href="#数据库的并发情况" class="headerlink" title="数据库的并发情况"></a>数据库的并发情况</h3><p>&emsp;&emsp;数据库的并发情况分为三种：</p>
-<ul>
-<li>读-读：不存在任何问题，不需要并发控制。</li>
-<li>读-写：有线程安全问题，可能会造成事务隔离性问题，脏读、幻读、不可重复读。</li>
-<li>写-写：有线程安全问题，可能丢失更新，第一类、第二类丢失更新。</li>
-</ul>
-<h3 id="MVCC作用"><a href="#MVCC作用" class="headerlink" title="MVCC作用"></a>MVCC作用</h3><p>&emsp;&emsp;MVCC使用来解决<strong>读写</strong>冲突的<strong>无锁并发机制</strong>，也就是为事务分配单向增长的时间戳，为每一次修改保存一个版本，版本与事务时间戳关联，读操作只读该事务开始前的数据库快照。</p>
-<ul>
-<li>在并发读写数据库时，可以做到在读操作时不用阻塞写操作，写操作不用阻塞读操作，提高了数据库并发读写的性能。</li>
-<li>同时还可以解决脏读、幻读、不可重复读的问题，但不能解决丢失更新。</li>
-</ul>
-<p>&emsp;&emsp;可以使用<code>MVCC+悲观锁/乐观锁</code>来解决并发冲突问题。</p>
-<hr>
-<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><p>&emsp;&emsp;MVCC的目的就是多版本并发控制，在数据中就是为了解决读写冲突。<br>&emsp;&emsp;的实现原理主要是依赖记录中的 3个隐式字段，undo日志，Read View来实现的。所以我们先来看看这个三个point的概念。</p>
-<h2 id="隐式字段"><a href="#隐式字段" class="headerlink" title="隐式字段"></a>隐式字段</h2><p>&emsp;&emsp;数据库表除了我们定义的字段外，还有三个隐式字段：</p>
-<ul>
-<li>DB_TRX_ID：6Byte，最近修改或插入的事务ID，记录创建这条记录/最后一次修改该记录的事务ID。</li>
-<li>DB_ROLL_PTR：7Byte，回滚指针，指向这条记录的上一个版本。</li>
-<li>DB_ROW_ID：6Byte，隐含的自增主键，我们在没有指定主键的时候Innodb会使用隐式主键产生聚簇索引。</li>
-</ul>
-<h2 id="undo日志"><a href="#undo日志" class="headerlink" title="undo日志"></a>undo日志</h2><p>&emsp;&emsp;undo log日志主要分为两种：</p>
-<ul>
-<li>insert undo log：代表事务在插入新纪录时产生的undo log，只在事务回滚时需要，并且在事务提交后可以被立即丢弃。</li>
-<li>uodate undo log：事务在修改或者删除时产生的undo log，不仅在事务回滚时需要，在快照读时也需要，所以不能随便删除，只有在快速读或事务回滚不涉及该日志时，对应的日志才会被purge线程统一清除。</li>
-</ul>
-<h2 id="Read-View"><a href="#Read-View" class="headerlink" title="Read View"></a>Read View</h2><p>&emsp;&emsp;Read View是在事务进行快照读的时候产生的，该事务会在快照读的那一刻会生成数据库事务的快照，记录并维护系统当前活跃事务的ID(当每个事务开启时，都会被分配一个ID, 这个ID是递增的，所以最新的事务，ID值越大)。<br>&emsp;&emsp;Read View主要是用来做可见性判断的，即当我们某个事务执行快照读的时候，对该记录创建一个Read View读视图，把它比作条件用来判断当前事务能够看到哪个版本的数据，既可能是当前最新的数据，也有可能是该行记录的undo log里面的某个版本的数据。<br>&emsp;&emsp;Read View遵循一个可见性算法，主要是将要被修改的数据的最新记录中的DB_TRX_ID（即当前事务ID）取出来，与系统当前其他活跃事务的ID去对比（由Read View维护），如果DB_TRX_ID跟Read View的属性做了某些比较，不符合可见性，那就通过DB_ROLL_PTR回滚指针去取出Undo Log中的DB_TRX_ID再比较，即遍历链表的DB_TRX_ID（从链首到链尾，即从最近的一次修改查起），直到找到满足特定条件的DB_TRX_ID, 那么这个DB_TRX_ID所在的旧记录就是当前事务能看见的最新老版本。<br>&emsp;&emsp;不同的隔离级别生成Read View的时间是不一样的，可重复读是第一次读的时候生成的，之后每一次都是第一次的Read View，而读已提交则是每次都会生成。（这里是指当前读的时候）</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>&emsp;&emsp;简单的说：是通过保存数据在某个时间点的快照来实现的。也就是说，不管需要执行多长时间，每个事务看到的数据是一致的。根据事务开始的时间不同，每个事物对同一张表，同一时刻看到的数据可能是不一样的。</p>
-<hr>
-<h1 id="参考文献-amp-鸣谢"><a href="#参考文献-amp-鸣谢" class="headerlink" title="参考文献 &amp; 鸣谢"></a>参考文献 &amp; 鸣谢</h1><ul>
-<li><a href="https://blog.csdn.net/SnailMann/article/details/94724197">【MySQL笔记】正确的理解MySQL的MVCC及实现原理</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>数据库</category>
-        <category>mysql</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
-        <tag>数据类型</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mysql浮点数精度</title>
-    <url>/hexoblog/md/mysql/mysql%E6%B5%AE%E7%82%B9%E6%95%B0%E7%B2%BE%E5%BA%A6/</url>
-    <content><![CDATA[<h1 id="小数类型"><a href="#小数类型" class="headerlink" title="小数类型"></a>小数类型</h1><h2 id="浮点数"><a href="#浮点数" class="headerlink" title="浮点数"></a>浮点数</h2><p>&emsp;&emsp;浮点型又称之为精度类型：是一种有可能丢失精度的数据类型，数据有可能不那么准确（由其是在超出范围的时候）。<br>&emsp;&emsp;浮点型之所以能够存储较大的数值（不精确），原因就是利用存储数据的位来存储指数。</p>
-<span id="more"></span>
-<h3 id="float"><a href="#float" class="headerlink" title="float"></a>float</h3><p>&emsp;&emsp;单精度浮点数，采用4个字节存储，保证7个位的精度。<br>&emsp;&emsp;Float(M,D)：表示一共存储M个有效数字，其中小数部分占D位。M(1<del>255)称为精度，D(1</del>30)称为标度且不能大于M-2，是可选的。<br>&emsp;&emsp;对于小数位数超长的，会采用四舍五入进行进位。</p>
-<h3 id="double"><a href="#double" class="headerlink" title="double"></a>double</h3><p>&emsp;&emsp;双精度浮点数，采用8个字节存储，表示的范围更大，精度最大15位。</p>
-<h2 id="定点数"><a href="#定点数" class="headerlink" title="定点数"></a>定点数</h2><p>&emsp;&emsp;能够保证数据精确的小数（小数部分可能不精确，超出长度会四舍五入），整数部分一定精确。<br>&emsp;&emsp;mysql中定点数只有一种，就是Decimal(M,D)。<br>&emsp;&emsp;Decimal定点数：系统自动根据存储的数据来分配存储空间，每大概9个数就会分配四个字节来进行存储，同时小数和整数部分是分开的。采用M+2个字节存储。<br>&emsp;&emsp;Decimal(M,D)：M表示总长度，最大值不能超过65，D代表小数部分长度，最长不能超过30。（默认为10，0）是必选的。</p>
-]]></content>
-      <categories>
-        <category>数据库</category>
-        <category>mysql</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
-        <tag>数据类型</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mysql常用命令</title>
-    <url>/hexoblog/md/mysql/mysql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><h2 id="修改mysql时区"><a href="#修改mysql时区" class="headerlink" title="修改mysql时区"></a>修改mysql时区</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看时区</span></span><br><span class="line">show variables like <span class="string">&quot;%time_zone%&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置时区为UTC+8:00</span></span><br><span class="line"><span class="built_in">set</span> global time_zone = <span class="string">&#x27;+8:00&#x27;</span>;</span><br><span class="line"><span class="built_in">set</span> time_zone = <span class="string">&#x27;+8:00&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 刷新立即生效</span></span><br><span class="line">flush privileges；</span><br></pre></td></tr></table></figure>
-
-<span id="more"></span>
-<h2 id="使用mysql-binlog"><a href="#使用mysql-binlog" class="headerlink" title="使用mysql binlog"></a>使用mysql binlog</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看日志是否开启</span></span><br><span class="line">show variables like <span class="string">&#x27;log_%&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看binlog配置</span></span><br><span class="line">show variables like <span class="string">&#x27;binlog_%&#x27;</span>; </span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看数据库当前日志情况</span></span><br><span class="line">show master status;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看所有日志文件</span></span><br><span class="line">show binary logs;</span><br><span class="line">show master logs;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 根据事件查看文件</span></span><br><span class="line">show binlog events <span class="keyword">in</span> <span class="string">&#x27;$&#123;binlogname&#125;&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看binlog日志文件内容</span></span><br><span class="line">mysqlbinlog  <span class="variable">$&#123;binlogname&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 以人类能看懂的方式查看binlog文件内容</span></span><br><span class="line">mysqlbinlog --base64-output=decode-rows -vvvvvv <span class="variable">$&#123;binlogname&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用-r命令将日志转写进sql</span></span><br><span class="line">mysqlbinlog --base64-output=decode-rows -vvvvvv <span class="variable">$&#123;binlogname&#125;</span> -r <span class="variable">$&#123;sqlname.sql&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 还原数据库</span></span><br><span class="line">mysqlbinlog --start-positoin=<span class="variable">$&#123;number&#125;</span> --stop-position=<span class="variable">$&#123;number&#125;</span> <span class="variable">$&#123;binlogname&#125;</span> -d <span class="variable">$&#123;databasename&#125;</span> | mysql -u<span class="variable">$&#123;username&#125;</span> -p<span class="variable">$&#123;password&#125;</span></span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;转写进文件的日志不能直接执行，不过我们可以从其中提取有用信息。<br>&emsp;&emsp;因为binlog日志里面会将删除等操作全部保存下来，所以再还原数据库信息时一定不能全部解析，需要指定确切位置。<br>&emsp;&emsp;指定位置，数据库，时间，端口，host的命令都可以跟在mysqlbinlog后面，不只只用来恢复，转储，查看都可以。这些命令可以排列组合，放在日志名称前即可。</p>
-<p>mysqlbinlog其他参数：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 起始位置</span></span><br><span class="line">--start-position=<span class="variable">$&#123;positiom number&#125;</span></span><br><span class="line"><span class="comment"># 结束位置</span></span><br><span class="line">--stop-position=<span class="variable">$&#123;position number&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 开始时间</span></span><br><span class="line">--start-datetime=<span class="variable">$&#123;starttime&#125;</span></span><br><span class="line"><span class="comment"># 结束时间</span></span><br><span class="line">--stop-datetime=<span class="variable">$&#123;stoptime&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 数据库</span></span><br><span class="line">-d <span class="variable">$&#123;databasename&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 端口号(大写的P)</span></span><br><span class="line">-P <span class="variable">$&#123;port&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ip地址</span></span><br><span class="line">-h <span class="variable">$&#123;hosts&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># serverId</span></span><br><span class="line">--server-id=<span class="variable">$&#123;server-id&#125;</span></span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>数据库</category>
-        <category>mysql</category>
-      </categories>
-      <tags>
-        <tag>tool</tag>
-        <tag>mysql</tag>
-        <tag>数据库</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>索引的优缺点</title>
-    <url>/hexoblog/md/mysql/%E7%B4%A2%E5%BC%95%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9/</url>
-    <content><![CDATA[<h1 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h1><p>&emsp;&emsp;索引的作用在于创建索引能大大提高系统的性能。</p>
-<span id="more"></span>
-
-<hr>
-<h1 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h1><ul>
-<li>通过创建唯一性索引，可以保证数据库表中每一行数据的唯一性</li>
-<li>大大加快数据的检索速度，这也是创建索引的最主要原因</li>
-<li>加快表与表之间的连接，在实现数据的参考完整性方面特别有意义</li>
-<li>在使用分组和排序，子句进行数据检索时，同样可以显著减少查询中分组和排序的时间</li>
-<li>通过使用索引，可以在查询的过程中，使用优化隐藏器，提高系统的性能。</li>
-</ul>
-<hr>
-<h1 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h1><ul>
-<li>创建索引和维护索引需要时间，这种时间随着数据量的增加而增加</li>
-<li>索引需要占物理空间，除了数据表占数据空间之外，每一个索引还要占物理空间，如果要建立聚簇索引，需要的空间更大</li>
-<li>当对表中的数据进行增加、删除和修改的时候，索引也要动态的维护，这就降低了数据的维护速度。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>数据库</category>
-        <category>mysql</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
-        <tag>数据库</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Spring中Bean的实例化过程</title>
     <url>/hexoblog/md/spring/Spring%E4%B8%ADBean%E7%9A%84%E5%AE%9E%E4%BE%8B%E5%8C%96%E8%BF%87%E7%A8%8B/</url>
     <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;简要说明Spring什么时候实例化bean。</p>
@@ -2680,7 +2669,7 @@ op3=>operation: 初始化
 op4=>operation: 销毁
 op1(right)->op2
 op2(right)->op3
-op3(right)->op4</textarea><textarea id="flowchart-0-options" style="display: none">{"scale":1,"line-width":2,"line-length":50,"text-margin":10,"font-size":12,"theme":"simple"}</textarea><script>  var code = document.getElementById("flowchart-0-code").value;  var options = JSON.parse(decodeURIComponent(document.getElementById("flowchart-0-options").value));  var diagram = flowchart.parse(code);  diagram.drawSVG("flowchart-0", options);</script></li>
+op3(right)->op4</textarea><textarea id="flowchart-0-options" style="display: none">{"theme":"simple","scale":1,"line-width":2,"line-length":50,"text-margin":10,"font-size":12}</textarea><script>  var code = document.getElementById("flowchart-0-code").value;  var options = JSON.parse(decodeURIComponent(document.getElementById("flowchart-0-options").value));  var diagram = flowchart.parse(code);  diagram.drawSVG("flowchart-0", options);</script></li>
 </ul>
 ]]></content>
       <categories>
@@ -2742,6 +2731,49 @@ op3(right)->op4</textarea><textarea id="flowchart-0-options" style="display: non
       <tags>
         <tag>spring</tag>
         <tag>acid</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo使用</title>
+    <url>/hexoblog/md/tool/hexo%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><p>[toc]</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h2 id="安装node"><a href="#安装node" class="headerlink" title="安装node"></a>安装node</h2><p>&emsp;&emsp;hexo使用npm运行，所以首先需要安装node.js，安装node.js的同时会安装npm模块。</p>
+<ol>
+<li>在官网下载。<a href="http://nodejs.cn/">node.js</a></li>
+<li>点击下载的文件进行安装（一路next）。</li>
+</ol>
+<span id="more"></span>
+
+<p>&emsp;&emsp;安装成功后在命令行工具查看是或否安装成功。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">node -v</span><br><span class="line">npm -v</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;出现下图的版本号即为安装成功。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/node_npm_version.png" alt="安装成功"></p>
+<h2 id="安装hexo"><a href="#安装hexo" class="headerlink" title="安装hexo"></a>安装hexo</h2><p>&emsp;&emsp;安装完node后就可以安装hexo了。这里全局安装hexok。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;安装完成后在命令行查看版本后确认是否安装成功。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/hexo_version.png" alt="安装成功"></p>
+<p>&emsp;&emsp;接下来就可以快乐的使用了。</p>
+<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;在使用前还是先看下介绍吧，这样入手必较方便。</p>
+<h2 id="看看目录结构"><a href="#看看目录结构" class="headerlink" title="看看目录结构"></a>看看目录结构</h2><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/hexo%E6%9E%B6%E6%9E%84.jpg" alt="hexo结构"></p>
+<p>&emsp;&emsp;我们对重要的文佳夹分析下：</p>
+<h3 id="node-modeules："><a href="#node-modeules：" class="headerlink" title="node_modeules："></a>node_modeules：</h3><p>&emsp;&emsp;因为运行在node环境下，这里就是安装的所有npm包。</p>
+<h3 id="public"><a href="#public" class="headerlink" title="public:"></a>public:</h3><p>&emsp;&emsp;这里存放时hexo运行生成的所有hexo静态文件，将来托管在git上，可以使用gitee pages服务托管为静态网站作为博客网站。本地的启动看到的页面也是由这里产生。</p>
+<h3 id="scaffolds"><a href="#scaffolds" class="headerlink" title="scaffolds:"></a>scaffolds:</h3><p>&emsp;&emsp;这里存放我们的模板文件，包括创建草稿，博客，自定义页面的模板文件，当然都是markdown文件，我们也可以对其修改以满足我们的需求。</p>
+<h3 id="sources"><a href="#sources" class="headerlink" title="sources:"></a>sources:</h3><p>&emsp;&emsp;这里都是我们的内容，post存放我们写的博客，文档等等，其他的呢，就是自定义的页面了，包括分类，标签，归档，我们也可以继续扩展，一般只需要关注post就可以了。</p>
+<h3 id="theme"><a href="#theme" class="headerlink" title="theme:"></a>theme:</h3><p>&emsp;&emsp;这里存放生成博客网站的主题文件了，毕竟原有的主题实在不怎么好看。可以下载多个主题，随时切换使用。</p>
+<h3 id="config-yml"><a href="#config-yml" class="headerlink" title="_config.yml"></a>_config.yml</h3><p>&emsp;&emsp;这个可不是目录，是实打实的文件了，我们的配置都在这里面了，这里做一些自定义的配置。</p>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><p>常用命令有：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建文章</span></span><br><span class="line">hexo new post title</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建草稿</span></span><br><span class="line">hexo new draft title</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将草稿发布为文章</span></span><br><span class="line">hexo p title</span><br><span class="line"></span><br><span class="line"><span class="comment"># 清理本地生成的静态资源</span></span><br><span class="line">hexo clean</span><br><span class="line"></span><br><span class="line"><span class="comment"># 编译生成本地的静态资源</span></span><br><span class="line">hexo g</span><br><span class="line"></span><br><span class="line"><span class="comment"># 本地运行预览（附加草稿）</span></span><br><span class="line">hexo s (--draft)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将本地静态资源发送到gitee（需要自己配置）</span></span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>tool</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -2811,49 +2843,6 @@ op3(right)->op4</textarea><textarea id="flowchart-0-options" style="display: non
         <tag>tool</tag>
         <tag>swagger</tag>
         <tag>springboot</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hexo使用</title>
-    <url>/hexoblog/md/tool/hexo%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><p>[toc]</p>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h2 id="安装node"><a href="#安装node" class="headerlink" title="安装node"></a>安装node</h2><p>&emsp;&emsp;hexo使用npm运行，所以首先需要安装node.js，安装node.js的同时会安装npm模块。</p>
-<ol>
-<li>在官网下载。<a href="http://nodejs.cn/">node.js</a></li>
-<li>点击下载的文件进行安装（一路next）。</li>
-</ol>
-<span id="more"></span>
-
-<p>&emsp;&emsp;安装成功后在命令行工具查看是或否安装成功。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">node -v</span><br><span class="line">npm -v</span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;出现下图的版本号即为安装成功。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/node_npm_version.png" alt="安装成功"></p>
-<h2 id="安装hexo"><a href="#安装hexo" class="headerlink" title="安装hexo"></a>安装hexo</h2><p>&emsp;&emsp;安装完node后就可以安装hexo了。这里全局安装hexok。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;安装完成后在命令行查看版本后确认是否安装成功。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/hexo_version.png" alt="安装成功"></p>
-<p>&emsp;&emsp;接下来就可以快乐的使用了。</p>
-<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;在使用前还是先看下介绍吧，这样入手必较方便。</p>
-<h2 id="看看目录结构"><a href="#看看目录结构" class="headerlink" title="看看目录结构"></a>看看目录结构</h2><p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/hexo%E6%9E%B6%E6%9E%84.jpg" alt="hexo结构"></p>
-<p>&emsp;&emsp;我们对重要的文佳夹分析下：</p>
-<h3 id="node-modeules："><a href="#node-modeules：" class="headerlink" title="node_modeules："></a>node_modeules：</h3><p>&emsp;&emsp;因为运行在node环境下，这里就是安装的所有npm包。</p>
-<h3 id="public"><a href="#public" class="headerlink" title="public:"></a>public:</h3><p>&emsp;&emsp;这里存放时hexo运行生成的所有hexo静态文件，将来托管在git上，可以使用gitee pages服务托管为静态网站作为博客网站。本地的启动看到的页面也是由这里产生。</p>
-<h3 id="scaffolds"><a href="#scaffolds" class="headerlink" title="scaffolds:"></a>scaffolds:</h3><p>&emsp;&emsp;这里存放我们的模板文件，包括创建草稿，博客，自定义页面的模板文件，当然都是markdown文件，我们也可以对其修改以满足我们的需求。</p>
-<h3 id="sources"><a href="#sources" class="headerlink" title="sources:"></a>sources:</h3><p>&emsp;&emsp;这里都是我们的内容，post存放我们写的博客，文档等等，其他的呢，就是自定义的页面了，包括分类，标签，归档，我们也可以继续扩展，一般只需要关注post就可以了。</p>
-<h3 id="theme"><a href="#theme" class="headerlink" title="theme:"></a>theme:</h3><p>&emsp;&emsp;这里存放生成博客网站的主题文件了，毕竟原有的主题实在不怎么好看。可以下载多个主题，随时切换使用。</p>
-<h3 id="config-yml"><a href="#config-yml" class="headerlink" title="_config.yml"></a>_config.yml</h3><p>&emsp;&emsp;这个可不是目录，是实打实的文件了，我们的配置都在这里面了，这里做一些自定义的配置。</p>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><p>常用命令有：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建文章</span></span><br><span class="line">hexo new post title</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建草稿</span></span><br><span class="line">hexo new draft title</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将草稿发布为文章</span></span><br><span class="line">hexo p title</span><br><span class="line"></span><br><span class="line"><span class="comment"># 清理本地生成的静态资源</span></span><br><span class="line">hexo clean</span><br><span class="line"></span><br><span class="line"><span class="comment"># 编译生成本地的静态资源</span></span><br><span class="line">hexo g</span><br><span class="line"></span><br><span class="line"><span class="comment"># 本地运行预览（附加草稿）</span></span><br><span class="line">hexo s (--draft)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将本地静态资源发送到gitee（需要自己配置）</span></span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>tool</category>
-      </categories>
-      <tags>
-        <tag>tool</tag>
-        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -2936,72 +2925,6 @@ op3(right)->op4</textarea><textarea id="flowchart-0-options" style="display: non
         <category>zookeeper</category>
       </categories>
       <tags>
-        <tag>zookeeper</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>zookeeper-leader选举</title>
-    <url>/hexoblog/md/zookeeper/zookeeper-leader%E9%80%89%E4%B8%BE/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;ZAB协议包括了两种基本模式：崩溃恢复，数据广播。<br>&emsp;&emsp;一旦Leader服务器出现崩溃或者由于网络原因导致Leader服务器失去了与过半Follower的联系，那么就会进入崩溃恢复模式。<br>&emsp;&emsp;崩溃恢复主要包括两部分：Leader选举和数据恢复。</p>
-<span id="more"></span>
-
-<h2 id="保证数据一致性"><a href="#保证数据一致性" class="headerlink" title="保证数据一致性"></a>保证数据一致性</h2><p>&emsp;&emsp;假设两种情况：</p>
-<ol>
-<li>一个事务在Leader上提交了，并且过半的Folower都响应Ack了，但是Leader在Commit消息发出之前挂了。</li>
-<li>假设一个事务在Leader提出之后，Leader挂了。</li>
-</ol>
-<p>&emsp;&emsp;要满足上面这两个问题，必须做到：</p>
-<ol>
-<li><strong>确保已经被Leader提交的Proposal必须最终被所有的Follower服务器提交</strong>。</li>
-<li><strong>确保丢弃已经被Leader提出的但是没有被提交的Proposal</strong>。</li>
-</ol>
-<p>&emsp;&emsp;新的Leader的必须满足：</p>
-<ol>
-<li><strong>新选举出来的Leader不能包含未提交的Proposal</strong>。</li>
-<li><strong>新选举的Leader节点中含有最大的Zxid</strong>。</li>
-</ol>
-<h2 id="ZAB如何数据同步"><a href="#ZAB如何数据同步" class="headerlink" title="ZAB如何数据同步"></a>ZAB如何数据同步</h2><p>&emsp;&emsp;完成Leader选举后（新的Leader具有最高的Zxid），在正式开始工作之前（接收事务请求，然后提出新的Proposal），Leader服务器会首先确认事务日志中的所有的Proposal是否已经被集群中过半的服务器Commit。<br>&emsp;&emsp;Leader服务器需要确保所有的Follower服务器能够接收到每一条事务的Proposal，并且能将所有已经提交的事务Proposal应用到内存数据中。等到Follower将所有尚未同步的事务Proposal都从Leader服务器上同步过啦并且应用到内存数据中以后，Leader才会把该Follower加入到真正可用的Follower列表中。</p>
-<h2 id="ZAB数据同步过程中，如何处理需要丢弃的Proposal"><a href="#ZAB数据同步过程中，如何处理需要丢弃的Proposal" class="headerlink" title="ZAB数据同步过程中，如何处理需要丢弃的Proposal"></a>ZAB数据同步过程中，如何处理需要丢弃的Proposal</h2><p>&emsp;&emsp;在ZAB的事务编号Zxid设计中，Zxid是一个64位的数字。<br>&emsp;&emsp;<strong>其中低32位可以看成一个简单的单增计数器，针对客户端每一个事务请求，Leader在产生新的Proposal事务时，都会对该计数器加1。而高32位则代表了Leader周期的epoch编号</strong>。  </p>
-<blockquote>
-<p>&emsp;&emsp;epoch编号可以理解为当前集群所处的年代，或者周期。每次Leader变更之后都会在epoch的基础上加1，这样旧的Leader崩溃恢复之后，其他Follower也不会听它的了，因为Follower只服从epoch最高的Leader命令。</p>
-</blockquote>
-<p>&emsp;&emsp;每当选举产生一个新的Leader，就会从这个Leader服务器上取出本地事务日志充最大编号Proposal的Zxid，并从Zxid中解析得到对应的epoch编号，然后再对其加1，之后该编号就作为新的epoch值，并将低32位数字归零，由0开始重新生成Zxid。<br>&emsp;&emsp;ZAB协议通过epoch编号来区分Leader变化周期，能够有效避免不同的Leader错误的使用了相同的Zxid编号提出了不一样的Proposal的异常情况。<br>&emsp;&emsp;当一个包含了上一个Leader周期尚未提交过的事务Proposal的服务器启动时，当这台机器加入集群中，以Follower角色连上Leader服务器上，Leader服务器会根据自己服务器上最后提交的Proposal来和Follower服务器的Proposal进行比对，比对的结果肯定是Leader要求Follower进行一个回退操作，回退到一个确实已经被集群中过半机器Commit的最新Proposal。</p>
-<hr>
-<h1 id="Leader选举"><a href="#Leader选举" class="headerlink" title="Leader选举"></a>Leader选举</h1><p>&emsp;&emsp;选举分为四个阶段：选举阶段，发现阶段，同步阶段，广播阶段。</p>
-<h2 id="选举阶段"><a href="#选举阶段" class="headerlink" title="选举阶段"></a>选举阶段</h2><p>&emsp;&emsp;节点在一开始都处于选举阶段，只要一个节点得到超过半数节点的票数，他就可以当选准Leader，只有达到同步阶段，这个节点才能真正称为Leader。<br>&emsp;&emsp;Zookeeper规定所有有效的投票都必须在同一个轮次中，每个服务器在开始新一轮投票时，都会对自己维护的logicalClock进行自增操作。<br>&emsp;&emsp;每个服务器在广播自己的选票前，会将自己的投票箱（recvset）清空。该投票箱记录了所受到的选票。(3,2)这种格式，表示3投给了2。<br>&emsp;&emsp;广播选票后，会进行选票PK，选出准Leader。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/zab%E9%80%89%E4%B8%BE.png" alt="ZAB选举"></p>
-<h2 id="发现阶段"><a href="#发现阶段" class="headerlink" title="发现阶段"></a>发现阶段</h2><p>&emsp;&emsp;在这个阶段，Followers和上一轮选举出的准Leader进行通信，同步Followers最近接收的事务Proposal。<br>&emsp;&emsp;<em>一个Follower只会连接一个Leader，如果一个 Follower节点拒绝另一个Follower节点，则会在尝试连接时被拒绝。被拒绝之后，该节点就会进入Leader Election阶段</em>。<br>&emsp;&emsp;这个阶段的主要目标是发现当前大多数节点接收的最新Proposal，并且准Leader生成新的epoch，让Follower接收，更新它们的acceptedEpoch。</p>
-<h2 id="同步阶段"><a href="#同步阶段" class="headerlink" title="同步阶段"></a>同步阶段</h2><p>&emsp;&emsp;同步阶段主要是利用Leader前一阶段获得最新的Proposal历史，同步集群中所有的副本。<br>&emsp;&emsp;只有当超过半数节点都同步完成，准Leader才会称为真正的Leader。Follower只会接受Zxid比自己LastZxid大的Proposal。</p>
-<h2 id="广播阶段"><a href="#广播阶段" class="headerlink" title="广播阶段"></a>广播阶段</h2><p>&emsp;&emsp;到了这个阶段，Zookeeper集群才能正式向外部提供服务，并且Leader进行消息广播。如果有新节点，对新节点进行数据同步。<br>&emsp;&emsp;Zookeeper不需要得到全部的Follower的ACK，超过一般数量的ACK，就饿可以Commit。</p>
-<hr>
-<h1 id="协议实现"><a href="#协议实现" class="headerlink" title="协议实现"></a>协议实现</h1><p>&emsp;&emsp;实际的实现跟上面有所不同，分为三个阶段，将发现和同步阶段合在一起。<br>&emsp;&emsp;实际分为，选举、恢复、广播三个阶段。</p>
-<h2 id="选举阶段-1"><a href="#选举阶段-1" class="headerlink" title="选举阶段"></a>选举阶段</h2><p>&emsp;&emsp;选举阶段采用Fast Leader Election（FLE），会采用LastZxid最大的节点作为Leader，这样就省去了发现最新提议的阶段。<br>&emsp;&emsp;这是基于拥有最新提议的节点也拥有最新的提交记录。<br>&emsp;&emsp;称为Leader的条件：</p>
-<ol>
-<li>选epoch最大的。</li>
-<li>epoch相等，选Zxid最大的。</li>
-<li>若 epoch 和 zxid 相等，选择 server_id 最大的（zoo.cfg中的myid）。</li>
-</ol>
-<p>&emsp;&emsp;节点在选举开始时，都默认投票给自己，当接收其他节点的选票时，会根据上面的Leader条件 判断并且更改自己的选票，然后重新发送选票给其他节点。当有一个节点的得票超过半数，该节点会设置自己的状态为Leading ，其他节点会设置自己的状态为Following。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E9%80%89%E4%B8%BE.png" alt="选举"></p>
-<h2 id="恢复阶段"><a href="#恢复阶段" class="headerlink" title="恢复阶段"></a>恢复阶段</h2><p>&emsp;&emsp;这一阶段Follower发送他们的lastZxid给Leader，Leader根据lastZxid决定如何同步数据。这里的实现跟前面的Phase 2有所不同：Follower收到TRUNC指令会终止L.lastCommitedZxid之后的Proposal，收到DIFF指令会接收新的Proposal。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E6%81%A2%E5%A4%8D.png" alt="恢复"></p>
-<hr>
-<h1 id="两个问题"><a href="#两个问题" class="headerlink" title="两个问题"></a>两个问题</h1><h2 id="已经被处理的请求不能丢"><a href="#已经被处理的请求不能丢" class="headerlink" title="已经被处理的请求不能丢"></a>已经被处理的请求不能丢</h2><p>&emsp;&emsp;就是发送Commit提交消息时，挂掉了。</p>
-<ol>
-<li>选举拥有proposal最大值（即zxid最大）的节点作为新的 leader。<blockquote>
-<p>zxid最大也就是数据最新的节点保存了所有被COMMIT消息的proposal状态。</p>
-</blockquote>
-</li>
-<li>新的leader将自己事务日志中proposal但未COMMIT的消息处理。</li>
-<li>新的leader与follower建立先进先出的队列，先将自身有而 follower没有的proposal发送给follower，再将这些proposal的COMMIT命令发送给follower，以保证所有的follower都保存了所有的proposal、所有的follower都处理了所有的消息。通过以上策略，能保证已经被处理的消息不会丢。</li>
-</ol>
-<h2 id="没被处理的请求需要丢失"><a href="#没被处理的请求需要丢失" class="headerlink" title="没被处理的请求需要丢失"></a>没被处理的请求需要丢失</h2><p>&emsp;&emsp;当leader接收到消息请求生成proposal后就挂了，其他follower并没有收到此proposal，因此经过恢复模式重新选了leader后，这条消息是被跳过的。此时，之前挂了的leader重新启动并注册成了follower，他保留了被跳过消息的proposal状态，与整个系统的状态是不一致的，需要将其删除。<br>&emsp;&emsp;Zxid的设计的好处是旧的leader挂了后重启，它不会被选举为leader，因为此时它的zxid肯定小于当前的新leader。当旧的leader作为follower接入新的leader后，新的leader会让它将所有的拥有旧的epoch号的未被COMMIT的proposal清除。</p>
-]]></content>
-      <categories>
-        <category>zookeeper</category>
-      </categories>
-      <tags>
-        <tag>分布式</tag>
         <tag>zookeeper</tag>
       </tags>
   </entry>
@@ -3158,6 +3081,72 @@ op3(right)->op4</textarea><textarea id="flowchart-0-options" style="display: non
       </tags>
   </entry>
   <entry>
+    <title>zookeeper-leader选举</title>
+    <url>/hexoblog/md/zookeeper/zookeeper-leader%E9%80%89%E4%B8%BE/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;ZAB协议包括了两种基本模式：崩溃恢复，数据广播。<br>&emsp;&emsp;一旦Leader服务器出现崩溃或者由于网络原因导致Leader服务器失去了与过半Follower的联系，那么就会进入崩溃恢复模式。<br>&emsp;&emsp;崩溃恢复主要包括两部分：Leader选举和数据恢复。</p>
+<span id="more"></span>
+
+<h2 id="保证数据一致性"><a href="#保证数据一致性" class="headerlink" title="保证数据一致性"></a>保证数据一致性</h2><p>&emsp;&emsp;假设两种情况：</p>
+<ol>
+<li>一个事务在Leader上提交了，并且过半的Folower都响应Ack了，但是Leader在Commit消息发出之前挂了。</li>
+<li>假设一个事务在Leader提出之后，Leader挂了。</li>
+</ol>
+<p>&emsp;&emsp;要满足上面这两个问题，必须做到：</p>
+<ol>
+<li><strong>确保已经被Leader提交的Proposal必须最终被所有的Follower服务器提交</strong>。</li>
+<li><strong>确保丢弃已经被Leader提出的但是没有被提交的Proposal</strong>。</li>
+</ol>
+<p>&emsp;&emsp;新的Leader的必须满足：</p>
+<ol>
+<li><strong>新选举出来的Leader不能包含未提交的Proposal</strong>。</li>
+<li><strong>新选举的Leader节点中含有最大的Zxid</strong>。</li>
+</ol>
+<h2 id="ZAB如何数据同步"><a href="#ZAB如何数据同步" class="headerlink" title="ZAB如何数据同步"></a>ZAB如何数据同步</h2><p>&emsp;&emsp;完成Leader选举后（新的Leader具有最高的Zxid），在正式开始工作之前（接收事务请求，然后提出新的Proposal），Leader服务器会首先确认事务日志中的所有的Proposal是否已经被集群中过半的服务器Commit。<br>&emsp;&emsp;Leader服务器需要确保所有的Follower服务器能够接收到每一条事务的Proposal，并且能将所有已经提交的事务Proposal应用到内存数据中。等到Follower将所有尚未同步的事务Proposal都从Leader服务器上同步过啦并且应用到内存数据中以后，Leader才会把该Follower加入到真正可用的Follower列表中。</p>
+<h2 id="ZAB数据同步过程中，如何处理需要丢弃的Proposal"><a href="#ZAB数据同步过程中，如何处理需要丢弃的Proposal" class="headerlink" title="ZAB数据同步过程中，如何处理需要丢弃的Proposal"></a>ZAB数据同步过程中，如何处理需要丢弃的Proposal</h2><p>&emsp;&emsp;在ZAB的事务编号Zxid设计中，Zxid是一个64位的数字。<br>&emsp;&emsp;<strong>其中低32位可以看成一个简单的单增计数器，针对客户端每一个事务请求，Leader在产生新的Proposal事务时，都会对该计数器加1。而高32位则代表了Leader周期的epoch编号</strong>。  </p>
+<blockquote>
+<p>&emsp;&emsp;epoch编号可以理解为当前集群所处的年代，或者周期。每次Leader变更之后都会在epoch的基础上加1，这样旧的Leader崩溃恢复之后，其他Follower也不会听它的了，因为Follower只服从epoch最高的Leader命令。</p>
+</blockquote>
+<p>&emsp;&emsp;每当选举产生一个新的Leader，就会从这个Leader服务器上取出本地事务日志充最大编号Proposal的Zxid，并从Zxid中解析得到对应的epoch编号，然后再对其加1，之后该编号就作为新的epoch值，并将低32位数字归零，由0开始重新生成Zxid。<br>&emsp;&emsp;ZAB协议通过epoch编号来区分Leader变化周期，能够有效避免不同的Leader错误的使用了相同的Zxid编号提出了不一样的Proposal的异常情况。<br>&emsp;&emsp;当一个包含了上一个Leader周期尚未提交过的事务Proposal的服务器启动时，当这台机器加入集群中，以Follower角色连上Leader服务器上，Leader服务器会根据自己服务器上最后提交的Proposal来和Follower服务器的Proposal进行比对，比对的结果肯定是Leader要求Follower进行一个回退操作，回退到一个确实已经被集群中过半机器Commit的最新Proposal。</p>
+<hr>
+<h1 id="Leader选举"><a href="#Leader选举" class="headerlink" title="Leader选举"></a>Leader选举</h1><p>&emsp;&emsp;选举分为四个阶段：选举阶段，发现阶段，同步阶段，广播阶段。</p>
+<h2 id="选举阶段"><a href="#选举阶段" class="headerlink" title="选举阶段"></a>选举阶段</h2><p>&emsp;&emsp;节点在一开始都处于选举阶段，只要一个节点得到超过半数节点的票数，他就可以当选准Leader，只有达到同步阶段，这个节点才能真正称为Leader。<br>&emsp;&emsp;Zookeeper规定所有有效的投票都必须在同一个轮次中，每个服务器在开始新一轮投票时，都会对自己维护的logicalClock进行自增操作。<br>&emsp;&emsp;每个服务器在广播自己的选票前，会将自己的投票箱（recvset）清空。该投票箱记录了所受到的选票。(3,2)这种格式，表示3投给了2。<br>&emsp;&emsp;广播选票后，会进行选票PK，选出准Leader。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/zab%E9%80%89%E4%B8%BE.png" alt="ZAB选举"></p>
+<h2 id="发现阶段"><a href="#发现阶段" class="headerlink" title="发现阶段"></a>发现阶段</h2><p>&emsp;&emsp;在这个阶段，Followers和上一轮选举出的准Leader进行通信，同步Followers最近接收的事务Proposal。<br>&emsp;&emsp;<em>一个Follower只会连接一个Leader，如果一个 Follower节点拒绝另一个Follower节点，则会在尝试连接时被拒绝。被拒绝之后，该节点就会进入Leader Election阶段</em>。<br>&emsp;&emsp;这个阶段的主要目标是发现当前大多数节点接收的最新Proposal，并且准Leader生成新的epoch，让Follower接收，更新它们的acceptedEpoch。</p>
+<h2 id="同步阶段"><a href="#同步阶段" class="headerlink" title="同步阶段"></a>同步阶段</h2><p>&emsp;&emsp;同步阶段主要是利用Leader前一阶段获得最新的Proposal历史，同步集群中所有的副本。<br>&emsp;&emsp;只有当超过半数节点都同步完成，准Leader才会称为真正的Leader。Follower只会接受Zxid比自己LastZxid大的Proposal。</p>
+<h2 id="广播阶段"><a href="#广播阶段" class="headerlink" title="广播阶段"></a>广播阶段</h2><p>&emsp;&emsp;到了这个阶段，Zookeeper集群才能正式向外部提供服务，并且Leader进行消息广播。如果有新节点，对新节点进行数据同步。<br>&emsp;&emsp;Zookeeper不需要得到全部的Follower的ACK，超过一般数量的ACK，就饿可以Commit。</p>
+<hr>
+<h1 id="协议实现"><a href="#协议实现" class="headerlink" title="协议实现"></a>协议实现</h1><p>&emsp;&emsp;实际的实现跟上面有所不同，分为三个阶段，将发现和同步阶段合在一起。<br>&emsp;&emsp;实际分为，选举、恢复、广播三个阶段。</p>
+<h2 id="选举阶段-1"><a href="#选举阶段-1" class="headerlink" title="选举阶段"></a>选举阶段</h2><p>&emsp;&emsp;选举阶段采用Fast Leader Election（FLE），会采用LastZxid最大的节点作为Leader，这样就省去了发现最新提议的阶段。<br>&emsp;&emsp;这是基于拥有最新提议的节点也拥有最新的提交记录。<br>&emsp;&emsp;称为Leader的条件：</p>
+<ol>
+<li>选epoch最大的。</li>
+<li>epoch相等，选Zxid最大的。</li>
+<li>若 epoch 和 zxid 相等，选择 server_id 最大的（zoo.cfg中的myid）。</li>
+</ol>
+<p>&emsp;&emsp;节点在选举开始时，都默认投票给自己，当接收其他节点的选票时，会根据上面的Leader条件 判断并且更改自己的选票，然后重新发送选票给其他节点。当有一个节点的得票超过半数，该节点会设置自己的状态为Leading ，其他节点会设置自己的状态为Following。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E9%80%89%E4%B8%BE.png" alt="选举"></p>
+<h2 id="恢复阶段"><a href="#恢复阶段" class="headerlink" title="恢复阶段"></a>恢复阶段</h2><p>&emsp;&emsp;这一阶段Follower发送他们的lastZxid给Leader，Leader根据lastZxid决定如何同步数据。这里的实现跟前面的Phase 2有所不同：Follower收到TRUNC指令会终止L.lastCommitedZxid之后的Proposal，收到DIFF指令会接收新的Proposal。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E6%81%A2%E5%A4%8D.png" alt="恢复"></p>
+<hr>
+<h1 id="两个问题"><a href="#两个问题" class="headerlink" title="两个问题"></a>两个问题</h1><h2 id="已经被处理的请求不能丢"><a href="#已经被处理的请求不能丢" class="headerlink" title="已经被处理的请求不能丢"></a>已经被处理的请求不能丢</h2><p>&emsp;&emsp;就是发送Commit提交消息时，挂掉了。</p>
+<ol>
+<li>选举拥有proposal最大值（即zxid最大）的节点作为新的 leader。<blockquote>
+<p>zxid最大也就是数据最新的节点保存了所有被COMMIT消息的proposal状态。</p>
+</blockquote>
+</li>
+<li>新的leader将自己事务日志中proposal但未COMMIT的消息处理。</li>
+<li>新的leader与follower建立先进先出的队列，先将自身有而 follower没有的proposal发送给follower，再将这些proposal的COMMIT命令发送给follower，以保证所有的follower都保存了所有的proposal、所有的follower都处理了所有的消息。通过以上策略，能保证已经被处理的消息不会丢。</li>
+</ol>
+<h2 id="没被处理的请求需要丢失"><a href="#没被处理的请求需要丢失" class="headerlink" title="没被处理的请求需要丢失"></a>没被处理的请求需要丢失</h2><p>&emsp;&emsp;当leader接收到消息请求生成proposal后就挂了，其他follower并没有收到此proposal，因此经过恢复模式重新选了leader后，这条消息是被跳过的。此时，之前挂了的leader重新启动并注册成了follower，他保留了被跳过消息的proposal状态，与整个系统的状态是不一致的，需要将其删除。<br>&emsp;&emsp;Zxid的设计的好处是旧的leader挂了后重启，它不会被选举为leader，因为此时它的zxid肯定小于当前的新leader。当旧的leader作为follower接入新的leader后，新的leader会让它将所有的拥有旧的epoch号的未被COMMIT的proposal清除。</p>
+]]></content>
+      <categories>
+        <category>zookeeper</category>
+      </categories>
+      <tags>
+        <tag>分布式</tag>
+        <tag>zookeeper</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>zookeeper单机安装基础使用</title>
     <url>/hexoblog/md/zookeeper/zookeeper%E5%8D%95%E6%9C%BA%E5%AE%89%E8%A3%85%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>&emsp;&emsp;zookeeper是一个分布式服务框架，主要用来解决分布式应用中经常遇到的一些数据管理问题。<br>&emsp;&emsp;zookeeper=文件系统+监听通知机制。</p>
@@ -3210,27 +3199,6 @@ op3(right)->op4</textarea><textarea id="flowchart-0-options" style="display: non
       <tags>
         <tag>zookeeper</tag>
         <tag>分布式锁</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>zookeeper集群及ZAB简介</title>
-    <url>/hexoblog/md/zookeeper/zookeeper%E9%9B%86%E7%BE%A4%E5%8F%8AZAB/</url>
-    <content><![CDATA[<h1 id="集群"><a href="#集群" class="headerlink" title="集群"></a>集群</h1><p>&emsp;&emsp;普通的集群模式一般是主备模式（Master/Slave模式），Master作为主服务器提供写服务，Slave作为从服务器，一般采用异步复制的方式获取Master的数据提供读服务。  </p>
-<span id="more"></span>
-
-<p>&emsp;&emsp;在Zookeeper中，没有使用传统模式，而是引入了Leader，Follower，Observer三种角色。<br>&emsp;&emsp;ZooKeeper集群中的所有机器通过一个Leader选举算法来选定一台称为 “Leader” 的机器，Leader既可以为客户端提供写服务又能提供读服务。除了Leader外，Follower和Observer都只能提供读服务。<br>&emsp;&emsp;Follower和Observer唯一的区别在于Observer机器不参与Leader的选举过程，也不参与写操作的“过半写成功”策略，因此Observer机器可以在不影响写性能的情况下提升集群的读性能。</p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/zookeeper.jpg" alt="zookeeper角色"></p>
-<hr>
-<h1 id="ZAB简介"><a href="#ZAB简介" class="headerlink" title="ZAB简介"></a>ZAB简介</h1><p>&emsp;&emsp;ZAB（ZooKeeper Atomic Broadcast 原子广播）协议是为分布式协调服务ZooKeeper专门设计的一种支持崩溃恢复的原子广播协议。在ZooKeeper中，主要依赖ZAB协议来实现分布式数据一致性，基于该协议，ZooKeeper实现了一种主备模式的系统架构来保持集群中各个副本之间的数据一致性。<br>&emsp;&emsp;ZAB协议包括两种基本模式：崩溃恢复和消息广播。</p>
-<h2 id="崩溃恢复"><a href="#崩溃恢复" class="headerlink" title="崩溃恢复"></a>崩溃恢复</h2><p>&emsp;&emsp;当整个服务框架在启动过程中，或是当Leader服务器出现网络中断、崩溃退出与重启等异常情况时，ZAB 协议就会进人恢复模式并选举产生新的Leader服务器。<br>&emsp;&emsp;当选举产生了新的Leader服务器，同时集群中已经有过半的机器与该Leader服务器完成了状态同步之后，ZAB协议就会退出恢复模式。其中，所谓的状态同步是指数据同步，用来保证集群中存在过半的机器能够和Leader服务器的数据状态保持一致。</p>
-<h2 id="消息广播"><a href="#消息广播" class="headerlink" title="消息广播"></a>消息广播</h2><p>&emsp;&emsp;当集群中已经有过半的Follower服务器完成了和Leader服务器的状态同步，那么整个服务框架就可以进人消息广播模式了。<br>&emsp;&emsp;当一台同样遵守ZAB协议的服务器启动后加人到集群中时，如果此时集群中已经存在一个Leader服务器在负责进行消息广播，那么新加人的服务器就会自觉地进人数据恢复模式：找到Leader所在的服务器，并与其进行数据同步，然后一起参与到消息广播流程中去。<br>&emsp;&emsp;正如上文介绍中所说的，ZooKeeper设计成只允许唯一的一个Leader服务器来进行事务请求的处理。Leader服务器在接收到客户端的事务请求后，会生成对应的事务提案并发起一轮广播协议；而如果集群中的其他机器接收到客户端的事务请求，那么这些非Leader服务器会首先将这个事务请求转发给Leader服务器。</p>
-]]></content>
-      <categories>
-        <category>zookeeper</category>
-      </categories>
-      <tags>
-        <tag>分布式</tag>
-        <tag>zookeeper</tag>
       </tags>
   </entry>
   <entry>
@@ -3316,6 +3284,27 @@ op3(right)->op4</textarea><textarea id="flowchart-0-options" style="display: non
         <category>zookeeper</category>
       </categories>
       <tags>
+        <tag>zookeeper</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>zookeeper集群及ZAB简介</title>
+    <url>/hexoblog/md/zookeeper/zookeeper%E9%9B%86%E7%BE%A4%E5%8F%8AZAB/</url>
+    <content><![CDATA[<h1 id="集群"><a href="#集群" class="headerlink" title="集群"></a>集群</h1><p>&emsp;&emsp;普通的集群模式一般是主备模式（Master/Slave模式），Master作为主服务器提供写服务，Slave作为从服务器，一般采用异步复制的方式获取Master的数据提供读服务。  </p>
+<span id="more"></span>
+
+<p>&emsp;&emsp;在Zookeeper中，没有使用传统模式，而是引入了Leader，Follower，Observer三种角色。<br>&emsp;&emsp;ZooKeeper集群中的所有机器通过一个Leader选举算法来选定一台称为 “Leader” 的机器，Leader既可以为客户端提供写服务又能提供读服务。除了Leader外，Follower和Observer都只能提供读服务。<br>&emsp;&emsp;Follower和Observer唯一的区别在于Observer机器不参与Leader的选举过程，也不参与写操作的“过半写成功”策略，因此Observer机器可以在不影响写性能的情况下提升集群的读性能。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/zookeeper.jpg" alt="zookeeper角色"></p>
+<hr>
+<h1 id="ZAB简介"><a href="#ZAB简介" class="headerlink" title="ZAB简介"></a>ZAB简介</h1><p>&emsp;&emsp;ZAB（ZooKeeper Atomic Broadcast 原子广播）协议是为分布式协调服务ZooKeeper专门设计的一种支持崩溃恢复的原子广播协议。在ZooKeeper中，主要依赖ZAB协议来实现分布式数据一致性，基于该协议，ZooKeeper实现了一种主备模式的系统架构来保持集群中各个副本之间的数据一致性。<br>&emsp;&emsp;ZAB协议包括两种基本模式：崩溃恢复和消息广播。</p>
+<h2 id="崩溃恢复"><a href="#崩溃恢复" class="headerlink" title="崩溃恢复"></a>崩溃恢复</h2><p>&emsp;&emsp;当整个服务框架在启动过程中，或是当Leader服务器出现网络中断、崩溃退出与重启等异常情况时，ZAB 协议就会进人恢复模式并选举产生新的Leader服务器。<br>&emsp;&emsp;当选举产生了新的Leader服务器，同时集群中已经有过半的机器与该Leader服务器完成了状态同步之后，ZAB协议就会退出恢复模式。其中，所谓的状态同步是指数据同步，用来保证集群中存在过半的机器能够和Leader服务器的数据状态保持一致。</p>
+<h2 id="消息广播"><a href="#消息广播" class="headerlink" title="消息广播"></a>消息广播</h2><p>&emsp;&emsp;当集群中已经有过半的Follower服务器完成了和Leader服务器的状态同步，那么整个服务框架就可以进人消息广播模式了。<br>&emsp;&emsp;当一台同样遵守ZAB协议的服务器启动后加人到集群中时，如果此时集群中已经存在一个Leader服务器在负责进行消息广播，那么新加人的服务器就会自觉地进人数据恢复模式：找到Leader所在的服务器，并与其进行数据同步，然后一起参与到消息广播流程中去。<br>&emsp;&emsp;正如上文介绍中所说的，ZooKeeper设计成只允许唯一的一个Leader服务器来进行事务请求的处理。Leader服务器在接收到客户端的事务请求后，会生成对应的事务提案并发起一轮广播协议；而如果集群中的其他机器接收到客户端的事务请求，那么这些非Leader服务器会首先将这个事务请求转发给Leader服务器。</p>
+]]></content>
+      <categories>
+        <category>zookeeper</category>
+      </categories>
+      <tags>
+        <tag>分布式</tag>
         <tag>zookeeper</tag>
       </tags>
   </entry>
@@ -3581,13 +3570,13 @@ op3(right)->op4</textarea><textarea id="flowchart-0-options" style="display: non
 ]]></content>
       <categories>
         <category>消息中间件</category>
-        <category>rocketmq</category>
         <category>kafka</category>
+        <category>rocketmq</category>
       </categories>
       <tags>
+        <tag>kafka</tag>
         <tag>消息中间件</tag>
         <tag>rocketmq</tag>
-        <tag>kafka</tag>
       </tags>
   </entry>
   <entry>
@@ -4001,66 +3990,6 @@ op3(right)->op4</textarea><textarea id="flowchart-0-options" style="display: non
       </tags>
   </entry>
   <entry>
-    <title>大华一面面经</title>
-    <url>/hexoblog/%E9%9D%A2%E7%BB%8F/answer/%E5%A4%A7%E5%8D%8E%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/</url>
-    <content><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span>
-<p>写面经，攒人品</p>
-<ol>
-<li>自我介绍</li>
-<li>jvm类的加载过程？</li>
-<li>dubbo如何做选举的？</li>
-<li>了解的设计模式，spring用的设计模式？</li>
-<li>还了解那些设计模式？</li>
-<li>springboot里面的listener？</li>
-<li>代理模式与AOP？</li>
-<li>redis主从复制与哨兵模式？</li>
-<li>分布式事务实现？</li>
-<li>syncnorized和ReentrantLock的区别？</li>
-<li>反问</li>
-</ol>
-<hr>
-<h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="jvm类的加载过程"><a href="#jvm类的加载过程" class="headerlink" title="jvm类的加载过程"></a>jvm类的加载过程</h2><ul>
-<li><a href="../../../md/java/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6">类加载机制</a>  </li>
-<li><a href="https://www.yuque.com/jiufenshiren/ra5mzi/dvd9gz">类加载机制</a></li>
-</ul>
-<h2 id="dubbo如何做选举的"><a href="#dubbo如何做选举的" class="headerlink" title="dubbo如何做选举的"></a>dubbo如何做选举的</h2><p>&emsp;&emsp;这里的选举并不是zk的选举，而是服务消费方获取到提供方节点后，根据负载均衡算法选择某台机器进行远程调用。常见的负载均衡算法有：  </p>
-<ul>
-<li>轮询</li>
-<li>随机</li>
-<li>一致性Hash</li>
-</ul>
-<h2 id="spring用到的设计模式？"><a href="#spring用到的设计模式？" class="headerlink" title="spring用到的设计模式？"></a>spring用到的设计模式？</h2><ul>
-<li>单例模式</li>
-<li>工厂模式</li>
-<li>代理模式</li>
-<li>等</li>
-</ul>
-<h2 id="还了解那些设计模式？"><a href="#还了解那些设计模式？" class="headerlink" title="还了解那些设计模式？"></a>还了解那些设计模式？</h2><ul>
-<li>模板方法模式</li>
-<li>建造者模式</li>
-<li>策略模式</li>
-</ul>
-<h2 id="springboot里面的listener？"><a href="#springboot里面的listener？" class="headerlink" title="springboot里面的listener？"></a>springboot里面的listener？</h2><h2 id="代理模式与AOP？"><a href="#代理模式与AOP？" class="headerlink" title="代理模式与AOP？"></a>代理模式与AOP？</h2><p>&emsp;&emsp;代理模式分为静态代理，动态代理，动态代理又可分为很多种，jdk，cglib等。<br>&emsp;&emsp;AOP是面向切面编程，其中用到了动态代理。</p>
-<h2 id="redis主从复制与哨兵模式？"><a href="#redis主从复制与哨兵模式？" class="headerlink" title="redis主从复制与哨兵模式？"></a>redis主从复制与哨兵模式？</h2><ul>
-<li><a href="https://www.yuque.com/jiufenshiren/ra5mzi/haaf3c">redis的高可用方案</a></li>
-</ul>
-<h2 id="分布式事务的实现"><a href="#分布式事务的实现" class="headerlink" title="分布式事务的实现"></a>分布式事务的实现</h2><ul>
-<li><a href="../../../md/%E5%88%86%E5%B8%83%E5%BC%8F/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1">分布式事务</a>  </li>
-<li><a href="https://www.yuque.com/jiufenshiren/ra5mzi/fwl3rv">分布式事务</a></li>
-</ul>
-<h2 id="syncnorized和ReentrantLock的区别？"><a href="#syncnorized和ReentrantLock的区别？" class="headerlink" title="syncnorized和ReentrantLock的区别？"></a>syncnorized和ReentrantLock的区别？</h2><ul>
-<li><a href="https://www.yuque.com/jiufenshiren/ra5mzi/rc3ofp">syncnorized</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>面经</category>
-        <category>answer</category>
-      </categories>
-      <tags>
-        <tag>面经</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>大华二面面经</title>
     <url>/hexoblog/%E9%9D%A2%E7%BB%8F/answer/%E5%A4%A7%E5%8D%8E%E4%BA%8C%E9%9D%A2%E9%9D%A2%E7%BB%8F/</url>
     <content><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span>
@@ -4181,6 +4110,66 @@ op3(right)->op4</textarea><textarea id="flowchart-0-options" style="display: non
 <li><a href="../../../md/redis/redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81">redis分布式锁</a>  </li>
 <li><a href="../../../md/%E5%88%86%E5%B8%83%E5%BC%8F/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81">分布式锁</a>  </li>
 <li><a href="../../../md/zookeeper/zookeeper%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81">zookeeper实现分布式锁</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>面经</category>
+        <category>answer</category>
+      </categories>
+      <tags>
+        <tag>面经</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>大华一面面经</title>
+    <url>/hexoblog/%E9%9D%A2%E7%BB%8F/answer/%E5%A4%A7%E5%8D%8E%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/</url>
+    <content><![CDATA[<h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><span id="more"></span>
+<p>写面经，攒人品</p>
+<ol>
+<li>自我介绍</li>
+<li>jvm类的加载过程？</li>
+<li>dubbo如何做选举的？</li>
+<li>了解的设计模式，spring用的设计模式？</li>
+<li>还了解那些设计模式？</li>
+<li>springboot里面的listener？</li>
+<li>代理模式与AOP？</li>
+<li>redis主从复制与哨兵模式？</li>
+<li>分布式事务实现？</li>
+<li>syncnorized和ReentrantLock的区别？</li>
+<li>反问</li>
+</ol>
+<hr>
+<h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="jvm类的加载过程"><a href="#jvm类的加载过程" class="headerlink" title="jvm类的加载过程"></a>jvm类的加载过程</h2><ul>
+<li><a href="../../../md/java/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6">类加载机制</a>  </li>
+<li><a href="https://www.yuque.com/jiufenshiren/ra5mzi/dvd9gz">类加载机制</a></li>
+</ul>
+<h2 id="dubbo如何做选举的"><a href="#dubbo如何做选举的" class="headerlink" title="dubbo如何做选举的"></a>dubbo如何做选举的</h2><p>&emsp;&emsp;这里的选举并不是zk的选举，而是服务消费方获取到提供方节点后，根据负载均衡算法选择某台机器进行远程调用。常见的负载均衡算法有：  </p>
+<ul>
+<li>轮询</li>
+<li>随机</li>
+<li>一致性Hash</li>
+</ul>
+<h2 id="spring用到的设计模式？"><a href="#spring用到的设计模式？" class="headerlink" title="spring用到的设计模式？"></a>spring用到的设计模式？</h2><ul>
+<li>单例模式</li>
+<li>工厂模式</li>
+<li>代理模式</li>
+<li>等</li>
+</ul>
+<h2 id="还了解那些设计模式？"><a href="#还了解那些设计模式？" class="headerlink" title="还了解那些设计模式？"></a>还了解那些设计模式？</h2><ul>
+<li>模板方法模式</li>
+<li>建造者模式</li>
+<li>策略模式</li>
+</ul>
+<h2 id="springboot里面的listener？"><a href="#springboot里面的listener？" class="headerlink" title="springboot里面的listener？"></a>springboot里面的listener？</h2><h2 id="代理模式与AOP？"><a href="#代理模式与AOP？" class="headerlink" title="代理模式与AOP？"></a>代理模式与AOP？</h2><p>&emsp;&emsp;代理模式分为静态代理，动态代理，动态代理又可分为很多种，jdk，cglib等。<br>&emsp;&emsp;AOP是面向切面编程，其中用到了动态代理。</p>
+<h2 id="redis主从复制与哨兵模式？"><a href="#redis主从复制与哨兵模式？" class="headerlink" title="redis主从复制与哨兵模式？"></a>redis主从复制与哨兵模式？</h2><ul>
+<li><a href="https://www.yuque.com/jiufenshiren/ra5mzi/haaf3c">redis的高可用方案</a></li>
+</ul>
+<h2 id="分布式事务的实现"><a href="#分布式事务的实现" class="headerlink" title="分布式事务的实现"></a>分布式事务的实现</h2><ul>
+<li><a href="../../../md/%E5%88%86%E5%B8%83%E5%BC%8F/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1">分布式事务</a>  </li>
+<li><a href="https://www.yuque.com/jiufenshiren/ra5mzi/fwl3rv">分布式事务</a></li>
+</ul>
+<h2 id="syncnorized和ReentrantLock的区别？"><a href="#syncnorized和ReentrantLock的区别？" class="headerlink" title="syncnorized和ReentrantLock的区别？"></a>syncnorized和ReentrantLock的区别？</h2><ul>
+<li><a href="https://www.yuque.com/jiufenshiren/ra5mzi/rc3ofp">syncnorized</a></li>
 </ul>
 ]]></content>
       <categories>
@@ -4600,6 +4589,38 @@ op3(right)->op4</textarea><textarea id="flowchart-0-options" style="display: non
       </tags>
   </entry>
   <entry>
+    <title>docker启动vue</title>
+    <url>/hexoblog/md/DEVOPS/docker/docker%E5%90%AF%E5%8A%A8vue/</url>
+    <content><![CDATA[<h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><p>&emsp;&emsp;需要准备东西有：</p>
+<ol>
+<li>docker环境</li>
+<li>vue项目</li>
+</ol>
+<span id="more"></span>
+
+<hr>
+<h1 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h1><h2 id="项目build"><a href="#项目build" class="headerlink" title="项目build"></a>项目build</h2><p>&emsp;&emsp;将vue项目build得到dist文件夹。这里是页面等资源文件。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure>
+
+<h2 id="构建"><a href="#构建" class="headerlink" title="构建"></a>构建</h2><p>&emsp;&emsp;将得到的可执行dist构建成docker镜像。</p>
+<p>&emsp;&emsp;将得到的dist文件放入指定目录下，并且在同目录下建立Dockerfile文件(文件名不能错)。<br>&emsp;&emsp;Dockerfile文件内容：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 设置基础镜像，这里使用最新的nginx镜像，前面已经拉取过了</span></span><br><span class="line">FROM nginx</span><br><span class="line"><span class="comment"># 定义作者 Edison</span></span><br><span class="line">MAINTAINER Edison </span><br><span class="line"><span class="comment"># 将dist文件中的内容复制到 /usr/share/nginx/html/ 这个目录下面</span></span><br><span class="line">COPY dist/  /usr/share/nginx/html/</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;执行docker构建命令，得到docker镜像。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker build -t &lt;镜像名称&gt; .</span><br></pre></td></tr></table></figure>
+
+<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>&emsp;&emsp;构建完成后，就可以在镜像列表查看是否有新构建的镜像，也可以运行该镜像。</p>
+]]></content>
+      <categories>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+        <tag>docker</tag>
+        <tag>vue</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>docker启动springboot</title>
     <url>/hexoblog/md/DEVOPS/docker/docker%E5%90%AF%E5%8A%A8springboot/</url>
     <content><![CDATA[<h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><p>&emsp;&emsp;需要准备东西有：</p>
@@ -4686,38 +4707,6 @@ op3(right)->op4</textarea><textarea id="flowchart-0-options" style="display: non
       </tags>
   </entry>
   <entry>
-    <title>docker启动vue</title>
-    <url>/hexoblog/md/DEVOPS/docker/docker%E5%90%AF%E5%8A%A8vue/</url>
-    <content><![CDATA[<h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><p>&emsp;&emsp;需要准备东西有：</p>
-<ol>
-<li>docker环境</li>
-<li>vue项目</li>
-</ol>
-<span id="more"></span>
-
-<hr>
-<h1 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h1><h2 id="项目build"><a href="#项目build" class="headerlink" title="项目build"></a>项目build</h2><p>&emsp;&emsp;将vue项目build得到dist文件夹。这里是页面等资源文件。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure>
-
-<h2 id="构建"><a href="#构建" class="headerlink" title="构建"></a>构建</h2><p>&emsp;&emsp;将得到的可执行dist构建成docker镜像。</p>
-<p>&emsp;&emsp;将得到的dist文件放入指定目录下，并且在同目录下建立Dockerfile文件(文件名不能错)。<br>&emsp;&emsp;Dockerfile文件内容：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 设置基础镜像，这里使用最新的nginx镜像，前面已经拉取过了</span></span><br><span class="line">FROM nginx</span><br><span class="line"><span class="comment"># 定义作者 Edison</span></span><br><span class="line">MAINTAINER Edison </span><br><span class="line"><span class="comment"># 将dist文件中的内容复制到 /usr/share/nginx/html/ 这个目录下面</span></span><br><span class="line">COPY dist/  /usr/share/nginx/html/</span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;执行docker构建命令，得到docker镜像。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker build -t &lt;镜像名称&gt; .</span><br></pre></td></tr></table></figure>
-
-<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>&emsp;&emsp;构建完成后，就可以在镜像列表查看是否有新构建的镜像，也可以运行该镜像。</p>
-]]></content>
-      <categories>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>tool</tag>
-        <tag>docker</tag>
-        <tag>vue</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>nginx基础安装及使用</title>
     <url>/hexoblog/md/DEVOPS/nginx/nginx%E5%9F%BA%E7%A1%80%E5%AE%89%E8%A3%85%E5%8F%8A%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>&emsp;&emsp;Nginx是一款轻量级的Web服务器、反向代理服务器，由于它的内存占用少，启动极快，高并发能力强，在互联网项目中广泛应用。</p>
@@ -4736,63 +4725,6 @@ op3(right)->op4</textarea><textarea id="flowchart-0-options" style="display: non
       <tags>
         <tag>linux</tag>
         <tag>nginx</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>IO模型</title>
-    <url>/hexoblog/md/java/IO/IO%E6%A8%A1%E5%9E%8B/</url>
-    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;IO是输入输出，IO是面向流的。<br>&emsp;&emsp;java中有三种IO模型： BIO，NIO，AIO。它们又可以分为同步异步，阻塞与非阻塞。<br>&emsp;&emsp;而在linux中有5中IO模型。</p>
-<span id="more"></span>
-
-<hr>
-<h1 id="同步与异步"><a href="#同步与异步" class="headerlink" title="同步与异步"></a>同步与异步</h1><p>&emsp;&emsp;同步与异步说的都是<strong>被调用者</strong>。<br>&emsp;&emsp;同步就是发起一个调用后，被调用者未处理完以前，不用返回。<br>&emsp;&emsp;异步就是发起一个调用后，立刻得到被调用者的回应，表示收到请求，但是并没有返回结果；被调用者通常依靠事件，回调等机制通知调用者返回结果。</p>
-<hr>
-<h1 id="阻塞与非阻塞"><a href="#阻塞与非阻塞" class="headerlink" title="阻塞与非阻塞"></a>阻塞与非阻塞</h1><p>&emsp;&emsp;阻塞与非阻塞说的都是<strong>调用者</strong>。<br>&emsp;&emsp;阻塞就是发起一个请求，调用者一直等待请求结果返回，也就是当前线程会被挂起，无法从事其他任务，只有当条件就绪才能继续。<br>&emsp;&emsp;非阻塞就是发起一个请求，调用者不用一直等着结果返回，可以先去干其他事情。</p>
-<hr>
-<h1 id="BIO、NIO、AIO"><a href="#BIO、NIO、AIO" class="headerlink" title="BIO、NIO、AIO"></a>BIO、NIO、AIO</h1><p>&emsp;&emsp;这些都是经典的IO模型，IO模型就是使用什么样的通道进行数据的发送和接收，很大程度上决定了程序通信的性能。</p>
-<ul>
-<li>BIO：BIO就是传统的IO模型，是<strong>同步阻塞的IO模型</strong>，java.io包中类就是BIO的工具，它提供了很多IO功能，比如输入输出流，对文件进行操作。在网络编程(Socket通信)中也同样进行IO操作。<blockquote>
-<p>服务器实现模式为一个连接一个线程，即客户端有连接请求时服务器端就需要启动一个线程进行处理，如果这个连接不作任何事情会造成不必要的线程开销。</p>
-</blockquote>
-</li>
-<li>NIO：NIO是一种<strong>同步非阻塞的IO模型</strong>，对应java.nio包，提供了Channel , Selector，Buffer等抽象。<blockquote>
-<p>服务器实现模式为一个线程处理多个请求(连接)，即客户端发送的连接请求会被注册到多路复用器上，多路复用器轮询到有 I/O 请求就会进行处理。</p>
-</blockquote>
-</li>
-<li>AIO：<strong>异步非阻塞的IO模型</strong>，是改进版的NIO。<blockquote>
-<p>AIO引入了异步通道的概念，采用了Proactor模式，简化了程序编写，有效的请求才启动线程，它的特点是先由操作系统完成后才通知服务端程序启动线程去处理，一般适用于连接数较多且连接时间较长的应用。</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="举个例子"><a href="#举个例子" class="headerlink" title="举个例子"></a>举个例子</h2><p>&emsp;&emsp;以讲的很多的烧水为例子。</p>
-<ul>
-<li>BIO就是叫一个线程停留在一个水壶那，直到这个水壶烧开，才去处理下一个水壶。  </li>
-<li>NIO是叫一个线程不停的循环观察每一个水壶，根据每个水壶当前的状态去处理。  </li>
-<li>AIO是每个水壶上装一个开关，当水开了以后会提醒对应的线程去处理。</li>
-</ul>
-<h2 id="场景分析"><a href="#场景分析" class="headerlink" title="场景分析"></a>场景分析</h2><ul>
-<li>BIO 方式适用于<strong>连接数比较小且固定的架构</strong>，这种方式对服务器资源要求比较高，并发局限于应用中。</li>
-<li>NIO 方式适用于<strong>连接数目多且连接比较短的架构</strong>，比如聊天服务器，弹幕系统，服务器间通讯等，编程比较复杂，JDK1.4开始支持。</li>
-<li>AIO 方式适用于<strong>连接数目多且连接比较长的架构</strong>，比如相册服务器，充分调用 OS 参与并发操作，变成比较复杂，JDK7 开始支持。</li>
-</ul>
-<hr>
-<h1 id="linux的5中IO模型"><a href="#linux的5中IO模型" class="headerlink" title="linux的5中IO模型"></a>linux的5中IO模型</h1><p>&emsp;&emsp;linux中共有5中IO模型：阻塞IO，非阻塞IO，IO复用模型，信号驱动IO模型，异步IO模型；最后一种是异步的其他都是同步的。</p>
-<p><a href="https://juejin.cn/post/6844903664256024584">掘金大神的文章</a></p>
-<hr>
-<h1 id="参考资料-amp-鸣谢"><a href="#参考资料-amp-鸣谢" class="headerlink" title="参考资料 &amp; 鸣谢"></a>参考资料 &amp; 鸣谢</h1><ul>
-<li><a href="https://juejin.cn/post/6844903664256024584">BIO，NIO，AIO概览</a></li>
-<li><a href="https://juejin.cn/post/6869537077122301965#heading-6">为什么一个还没毕业的大学生能够把 IO 讲的这么好？</a></li>
-<li><a href="https://segmentfault.com/a/1190000037714804">理解什么是BIO/NIO/AIO</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>java</category>
-        <category>io</category>
-      </categories>
-      <tags>
-        <tag>io</tag>
-        <tag>java</tag>
-        <tag>网络</tag>
       </tags>
   </entry>
   <entry>
@@ -4876,6 +4808,63 @@ op3(right)->op4</textarea><textarea id="flowchart-0-options" style="display: non
         <tag>io</tag>
         <tag>java</tag>
         <tag>NIO</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>IO模型</title>
+    <url>/hexoblog/md/java/IO/IO%E6%A8%A1%E5%9E%8B/</url>
+    <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;IO是输入输出，IO是面向流的。<br>&emsp;&emsp;java中有三种IO模型： BIO，NIO，AIO。它们又可以分为同步异步，阻塞与非阻塞。<br>&emsp;&emsp;而在linux中有5中IO模型。</p>
+<span id="more"></span>
+
+<hr>
+<h1 id="同步与异步"><a href="#同步与异步" class="headerlink" title="同步与异步"></a>同步与异步</h1><p>&emsp;&emsp;同步与异步说的都是<strong>被调用者</strong>。<br>&emsp;&emsp;同步就是发起一个调用后，被调用者未处理完以前，不用返回。<br>&emsp;&emsp;异步就是发起一个调用后，立刻得到被调用者的回应，表示收到请求，但是并没有返回结果；被调用者通常依靠事件，回调等机制通知调用者返回结果。</p>
+<hr>
+<h1 id="阻塞与非阻塞"><a href="#阻塞与非阻塞" class="headerlink" title="阻塞与非阻塞"></a>阻塞与非阻塞</h1><p>&emsp;&emsp;阻塞与非阻塞说的都是<strong>调用者</strong>。<br>&emsp;&emsp;阻塞就是发起一个请求，调用者一直等待请求结果返回，也就是当前线程会被挂起，无法从事其他任务，只有当条件就绪才能继续。<br>&emsp;&emsp;非阻塞就是发起一个请求，调用者不用一直等着结果返回，可以先去干其他事情。</p>
+<hr>
+<h1 id="BIO、NIO、AIO"><a href="#BIO、NIO、AIO" class="headerlink" title="BIO、NIO、AIO"></a>BIO、NIO、AIO</h1><p>&emsp;&emsp;这些都是经典的IO模型，IO模型就是使用什么样的通道进行数据的发送和接收，很大程度上决定了程序通信的性能。</p>
+<ul>
+<li>BIO：BIO就是传统的IO模型，是<strong>同步阻塞的IO模型</strong>，java.io包中类就是BIO的工具，它提供了很多IO功能，比如输入输出流，对文件进行操作。在网络编程(Socket通信)中也同样进行IO操作。<blockquote>
+<p>服务器实现模式为一个连接一个线程，即客户端有连接请求时服务器端就需要启动一个线程进行处理，如果这个连接不作任何事情会造成不必要的线程开销。</p>
+</blockquote>
+</li>
+<li>NIO：NIO是一种<strong>同步非阻塞的IO模型</strong>，对应java.nio包，提供了Channel , Selector，Buffer等抽象。<blockquote>
+<p>服务器实现模式为一个线程处理多个请求(连接)，即客户端发送的连接请求会被注册到多路复用器上，多路复用器轮询到有 I/O 请求就会进行处理。</p>
+</blockquote>
+</li>
+<li>AIO：<strong>异步非阻塞的IO模型</strong>，是改进版的NIO。<blockquote>
+<p>AIO引入了异步通道的概念，采用了Proactor模式，简化了程序编写，有效的请求才启动线程，它的特点是先由操作系统完成后才通知服务端程序启动线程去处理，一般适用于连接数较多且连接时间较长的应用。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="举个例子"><a href="#举个例子" class="headerlink" title="举个例子"></a>举个例子</h2><p>&emsp;&emsp;以讲的很多的烧水为例子。</p>
+<ul>
+<li>BIO就是叫一个线程停留在一个水壶那，直到这个水壶烧开，才去处理下一个水壶。  </li>
+<li>NIO是叫一个线程不停的循环观察每一个水壶，根据每个水壶当前的状态去处理。  </li>
+<li>AIO是每个水壶上装一个开关，当水开了以后会提醒对应的线程去处理。</li>
+</ul>
+<h2 id="场景分析"><a href="#场景分析" class="headerlink" title="场景分析"></a>场景分析</h2><ul>
+<li>BIO 方式适用于<strong>连接数比较小且固定的架构</strong>，这种方式对服务器资源要求比较高，并发局限于应用中。</li>
+<li>NIO 方式适用于<strong>连接数目多且连接比较短的架构</strong>，比如聊天服务器，弹幕系统，服务器间通讯等，编程比较复杂，JDK1.4开始支持。</li>
+<li>AIO 方式适用于<strong>连接数目多且连接比较长的架构</strong>，比如相册服务器，充分调用 OS 参与并发操作，变成比较复杂，JDK7 开始支持。</li>
+</ul>
+<hr>
+<h1 id="linux的5中IO模型"><a href="#linux的5中IO模型" class="headerlink" title="linux的5中IO模型"></a>linux的5中IO模型</h1><p>&emsp;&emsp;linux中共有5中IO模型：阻塞IO，非阻塞IO，IO复用模型，信号驱动IO模型，异步IO模型；最后一种是异步的其他都是同步的。</p>
+<p><a href="https://juejin.cn/post/6844903664256024584">掘金大神的文章</a></p>
+<hr>
+<h1 id="参考资料-amp-鸣谢"><a href="#参考资料-amp-鸣谢" class="headerlink" title="参考资料 &amp; 鸣谢"></a>参考资料 &amp; 鸣谢</h1><ul>
+<li><a href="https://juejin.cn/post/6844903664256024584">BIO，NIO，AIO概览</a></li>
+<li><a href="https://juejin.cn/post/6869537077122301965#heading-6">为什么一个还没毕业的大学生能够把 IO 讲的这么好？</a></li>
+<li><a href="https://segmentfault.com/a/1190000037714804">理解什么是BIO/NIO/AIO</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>java</category>
+        <category>io</category>
+      </categories>
+      <tags>
+        <tag>io</tag>
+        <tag>java</tag>
+        <tag>网络</tag>
       </tags>
   </entry>
   <entry>
@@ -5726,6 +5715,23 @@ op3(right)->op4</textarea><textarea id="flowchart-0-options" style="display: non
       </tags>
   </entry>
   <entry>
+    <title>dubboSPI扩展点自动激活</title>
+    <url>/hexoblog/md/rpc/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E7%82%B9%E8%87%AA%E5%8A%A8%E6%BF%80%E6%B4%BB/</url>
+    <content><![CDATA[<h1 id="扩展点自动激活"><a href="#扩展点自动激活" class="headerlink" title="扩展点自动激活"></a>扩展点自动激活</h1><p>&emsp;&emsp;对于集合类扩展点，比如：Filter, InvokerListener, ExportListener, TelnetHandler, StatusChecker 等，可以同时加载多个实现，此时，可以用自动激活来简化配置。</p>
+<span id="more"></span>
+
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 激活过滤器</span></span><br><span class="line"><span class="meta">@Activate</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FilterOne</span> <span class="keyword">implements</span> <span class="title">Filter</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest request, ServletResponse response, FilterChain chain)</span></span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>rpc</category>
+        <category>dubbo</category>
+      </categories>
+      <tags>
+        <tag>SPI</tag>
+        <tag>dubbo</tag>
+        <tag>rpc</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>dubboSPI扩展机制自适应</title>
     <url>/hexoblog/md/rpc/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E6%9C%BA%E5%88%B6%E8%87%AA%E9%80%82%E5%BA%94/</url>
     <content><![CDATA[<h1 id="扩展点自适应"><a href="#扩展点自适应" class="headerlink" title="扩展点自适应"></a>扩展点自适应</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>&emsp;&emsp;ExtensionLoader注入的依赖扩展点是一个Adaptive实例，直到扩展点方法执行时才决定调用是哪一个扩展点实现。<br>&emsp;&emsp;dubbo使用url对象传递对象信息，包含key和value。<br>&emsp;&emsp;扩展点方法调用会有URL参数（或是参数有URL成员）这样依赖的扩展点也可以从URL拿到配置信息，所有的扩展点自己定好配置的 Key后，配置信息从URL上从最外层传入。URL在配置传递上即是一条总线。</p>
@@ -5741,23 +5747,6 @@ op3(right)->op4</textarea><textarea id="flowchart-0-options" style="display: non
 <hr>
 <h1 id="扩展点自动注入"><a href="#扩展点自动注入" class="headerlink" title="扩展点自动注入"></a>扩展点自动注入</h1><p>有bug稍后。</p>
 ]]></content>
-      <categories>
-        <category>rpc</category>
-        <category>dubbo</category>
-      </categories>
-      <tags>
-        <tag>SPI</tag>
-        <tag>dubbo</tag>
-        <tag>rpc</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>dubboSPI扩展点自动激活</title>
-    <url>/hexoblog/md/rpc/dubbo/dubboSPI%E6%89%A9%E5%B1%95%E7%82%B9%E8%87%AA%E5%8A%A8%E6%BF%80%E6%B4%BB/</url>
-    <content><![CDATA[<h1 id="扩展点自动激活"><a href="#扩展点自动激活" class="headerlink" title="扩展点自动激活"></a>扩展点自动激活</h1><p>&emsp;&emsp;对于集合类扩展点，比如：Filter, InvokerListener, ExportListener, TelnetHandler, StatusChecker 等，可以同时加载多个实现，此时，可以用自动激活来简化配置。</p>
-<span id="more"></span>
-
-<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 激活过滤器</span></span><br><span class="line"><span class="meta">@Activate</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FilterOne</span> <span class="keyword">implements</span> <span class="title">Filter</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest request, ServletResponse response, FilterChain chain)</span></span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>rpc</category>
         <category>dubbo</category>
@@ -6194,49 +6183,6 @@ op3(right)->op4</textarea><textarea id="flowchart-0-options" style="display: non
       </tags>
   </entry>
   <entry>
-    <title>rocketmq生产消费流程</title>
-    <url>/hexoblog/md/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/rocketmq/rocketmq%E7%94%9F%E4%BA%A7%E6%B6%88%E8%B4%B9%E6%B5%81%E7%A8%8B/</url>
-    <content><![CDATA[<h1 id="Rocketmq工作流程"><a href="#Rocketmq工作流程" class="headerlink" title="Rocketmq工作流程"></a>Rocketmq工作流程</h1><p>&emsp;&emsp;rocketmq中几乎每个节点都可以集群部署，namesrv，broker，producer，consumer。</p>
-<span id="more"></span>
-
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/rocketmq_architecture_3.png" alt="部署结构"></p>
-<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/mq%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2%E4%BF%A1%E6%81%AF.png" alt="部署后节点保存的信息"></p>
-<h2 id="网络部署特点"><a href="#网络部署特点" class="headerlink" title="网络部署特点"></a>网络部署特点</h2><ol>
-<li>NameServer是一个几乎无状态节点，可集群部署，节点之间无任何信息同步。</li>
-<li>Broker部署相对复杂，Broker分为Master与Slave，一个Master可以对应多个Slave，但是一个Slave只能对应一个Master，Master与Slave 的对应关系通过指定相同的BrokerName，不同的BrokerId 来定义，BrokerId为0表示Master，非0表示Slave。Master也可以部署多个。每个Broker与NameServer集群中的所有节点建立长连接，定时注册Topic信息到所有NameServer。 注意：当前RocketMQ版本在部署架构上支持一Master多Slave，但只有BrokerId=1的从服务器才会参与消息的读负载。</li>
-<li>Producer与NameServer集群中的其中一个节点（随机选择）建立长连接，定期从NameServer获取Topic路由信息，并向提供Topic 服务的Master建立长连接，且定时向Master发送心跳。Producer完全无状态，可集群部署。</li>
-<li>Consumer与NameServer集群中的其中一个节点（随机选择）建立长连接，定期从NameServer获取Topic路由信息，并向提供Topic服务的Master、Slave建立长连接，且定时向Master、Slave发送心跳。Consumer既可以从Master订阅消息，也可以从Slave订阅消息，消费者在向Master拉取消息时，Master服务器会根据拉取偏移量与最大偏移量的距离（判断是否读老消息，产生读I/O），以及从服务器是否可读等因素建议下一次是从Master还是Slave拉取。</li>
-</ol>
-<h2 id="集群工作流程"><a href="#集群工作流程" class="headerlink" title="集群工作流程"></a>集群工作流程</h2><ol>
-<li>启动NameServer，NameServer启动后会监听端口，等待Broker，Producer，Consumer连上来，相当于一个路由控制中心，类似于dubbo中zk发挥的作用。</li>
-<li>Broker启动，跟所有NameServer保持长连接，定时发送心跳包。心跳包包含当前Broker信息，以及存储所有Topic的信息。注册成功后，NameServer集群中就有Topic和Broker的映射关系。</li>
-<li>收发消息前，先创建Topic，创建Topic时需要指定该Topic要存储在哪些Broker上，也可以在发送消息时自动创建Topic。</li>
-<li>Producer发送消息，启动时先跟NameServer中的一台建立长连接，并从其中获取当前发送的Topic存在那些Broker上，从Topic中的MessageQuene中选取一个（采用轮询），然后与队列所在Broker建立长连接从而向Broker发送消息。</li>
-<li>Consumer跟Producer一样，跟其中一台NameServer建立长连接，获取当前订阅Topic存在哪些Broker上，然后直接跟Broker建立连接通道，开始消费消息。只由BrokerId=1的Slave Broker才会提供读服务。<blockquote>
-<p>一个Topic下的所有MessageQuene会负载均衡到消费者组中的每一台机器，每一台机器负责几个队列，保证均衡，这里要求，消费者组中的机器数少于队列数。</p>
-</blockquote>
-</li>
-</ol>
-<h2 id="Recketmq完整通信流程"><a href="#Recketmq完整通信流程" class="headerlink" title="Recketmq完整通信流程"></a>Recketmq完整通信流程</h2><p>&emsp;&emsp;Producer与NameServer集群中的其中一个节点（随机选择）建立长连接，定期从NameServer获取Topic路由信息，并向提供Topic服务的Broker Master建立长连接，且定时向Broker发送心跳。<br>&emsp;&emsp;Producer只能将消息发送到Broker master，但是Consumer则不一样，它同时和提供Topic服务的Master和Slave建立长连接，既可以从Broker Master订阅消息，也可以从Broker Slave订阅消息。</p>
-<p><a href="https://juejin.cn/post/6844904008629354504#heading-25">《浅入浅出》-RocketMQ</a></p>
-<ol>
-<li>Broker启动后需要完成一次将自己注册至NameServer的操作；随后每隔30s时间定时向NameServer上报Topic路由信息。</li>
-<li>消息生产者Producer作为客户端发送消息时候，需要根据消息的Topic从本地缓存的TopicPublishInfoTable获取路由信息。如果没有则更新路由信息会从NameServer上重新拉取，同时Producer会默认每隔30s向NameServer拉取一次路由信息。</li>
-<li>消息生产者Producer根据2）中获取的路由信息选择一个队列（MessageQueue）进行消息发送；Broker作为消息的接收者接收消息并落盘存储。</li>
-<li>消息消费者Consumer根据2）中获取的路由信息，并再完成客户端的负载均衡后，选择其中的某一个或者某几个消息队列来拉取消息并进行消费。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>消息中间件</category>
-        <category>rocketmq</category>
-      </categories>
-      <tags>
-        <tag>消息中间件</tag>
-        <tag>rocketmq</tag>
-        <tag>分布式</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>rocketmq简介</title>
     <url>/hexoblog/md/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/rocketmq/rocketmq%E7%AE%80%E4%BB%8B/</url>
     <content><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>&emsp;&emsp;rocketmq是一个纯java，分布式，队列模型的开源消息中间件，前身是MetaQ，是阿里参考Kafka特点研发的一个队列模型的消息中间件，后开源给apache基金会成为了apache的顶级开源项目，具有高性能、高可靠、高实时、分布式特点。<br><a href="https://rocketmq.apache.org/docs/quick-start/">rocketmq</a></p>
@@ -6303,6 +6249,49 @@ op3(right)->op4</textarea><textarea id="flowchart-0-options" style="display: non
         <tag>消息中间件</tag>
         <tag>rocketmq</tag>
         <tag>tool</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>rocketmq生产消费流程</title>
+    <url>/hexoblog/md/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/rocketmq/rocketmq%E7%94%9F%E4%BA%A7%E6%B6%88%E8%B4%B9%E6%B5%81%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="Rocketmq工作流程"><a href="#Rocketmq工作流程" class="headerlink" title="Rocketmq工作流程"></a>Rocketmq工作流程</h1><p>&emsp;&emsp;rocketmq中几乎每个节点都可以集群部署，namesrv，broker，producer，consumer。</p>
+<span id="more"></span>
+
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/rocketmq_architecture_3.png" alt="部署结构"></p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/mq%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2%E4%BF%A1%E6%81%AF.png" alt="部署后节点保存的信息"></p>
+<h2 id="网络部署特点"><a href="#网络部署特点" class="headerlink" title="网络部署特点"></a>网络部署特点</h2><ol>
+<li>NameServer是一个几乎无状态节点，可集群部署，节点之间无任何信息同步。</li>
+<li>Broker部署相对复杂，Broker分为Master与Slave，一个Master可以对应多个Slave，但是一个Slave只能对应一个Master，Master与Slave 的对应关系通过指定相同的BrokerName，不同的BrokerId 来定义，BrokerId为0表示Master，非0表示Slave。Master也可以部署多个。每个Broker与NameServer集群中的所有节点建立长连接，定时注册Topic信息到所有NameServer。 注意：当前RocketMQ版本在部署架构上支持一Master多Slave，但只有BrokerId=1的从服务器才会参与消息的读负载。</li>
+<li>Producer与NameServer集群中的其中一个节点（随机选择）建立长连接，定期从NameServer获取Topic路由信息，并向提供Topic 服务的Master建立长连接，且定时向Master发送心跳。Producer完全无状态，可集群部署。</li>
+<li>Consumer与NameServer集群中的其中一个节点（随机选择）建立长连接，定期从NameServer获取Topic路由信息，并向提供Topic服务的Master、Slave建立长连接，且定时向Master、Slave发送心跳。Consumer既可以从Master订阅消息，也可以从Slave订阅消息，消费者在向Master拉取消息时，Master服务器会根据拉取偏移量与最大偏移量的距离（判断是否读老消息，产生读I/O），以及从服务器是否可读等因素建议下一次是从Master还是Slave拉取。</li>
+</ol>
+<h2 id="集群工作流程"><a href="#集群工作流程" class="headerlink" title="集群工作流程"></a>集群工作流程</h2><ol>
+<li>启动NameServer，NameServer启动后会监听端口，等待Broker，Producer，Consumer连上来，相当于一个路由控制中心，类似于dubbo中zk发挥的作用。</li>
+<li>Broker启动，跟所有NameServer保持长连接，定时发送心跳包。心跳包包含当前Broker信息，以及存储所有Topic的信息。注册成功后，NameServer集群中就有Topic和Broker的映射关系。</li>
+<li>收发消息前，先创建Topic，创建Topic时需要指定该Topic要存储在哪些Broker上，也可以在发送消息时自动创建Topic。</li>
+<li>Producer发送消息，启动时先跟NameServer中的一台建立长连接，并从其中获取当前发送的Topic存在那些Broker上，从Topic中的MessageQuene中选取一个（采用轮询），然后与队列所在Broker建立长连接从而向Broker发送消息。</li>
+<li>Consumer跟Producer一样，跟其中一台NameServer建立长连接，获取当前订阅Topic存在哪些Broker上，然后直接跟Broker建立连接通道，开始消费消息。只由BrokerId=1的Slave Broker才会提供读服务。<blockquote>
+<p>一个Topic下的所有MessageQuene会负载均衡到消费者组中的每一台机器，每一台机器负责几个队列，保证均衡，这里要求，消费者组中的机器数少于队列数。</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="Recketmq完整通信流程"><a href="#Recketmq完整通信流程" class="headerlink" title="Recketmq完整通信流程"></a>Recketmq完整通信流程</h2><p>&emsp;&emsp;Producer与NameServer集群中的其中一个节点（随机选择）建立长连接，定期从NameServer获取Topic路由信息，并向提供Topic服务的Broker Master建立长连接，且定时向Broker发送心跳。<br>&emsp;&emsp;Producer只能将消息发送到Broker master，但是Consumer则不一样，它同时和提供Topic服务的Master和Slave建立长连接，既可以从Broker Master订阅消息，也可以从Broker Slave订阅消息。</p>
+<p><a href="https://juejin.cn/post/6844904008629354504#heading-25">《浅入浅出》-RocketMQ</a></p>
+<ol>
+<li>Broker启动后需要完成一次将自己注册至NameServer的操作；随后每隔30s时间定时向NameServer上报Topic路由信息。</li>
+<li>消息生产者Producer作为客户端发送消息时候，需要根据消息的Topic从本地缓存的TopicPublishInfoTable获取路由信息。如果没有则更新路由信息会从NameServer上重新拉取，同时Producer会默认每隔30s向NameServer拉取一次路由信息。</li>
+<li>消息生产者Producer根据2）中获取的路由信息选择一个队列（MessageQueue）进行消息发送；Broker作为消息的接收者接收消息并落盘存储。</li>
+<li>消息消费者Consumer根据2）中获取的路由信息，并再完成客户端的负载均衡后，选择其中的某一个或者某几个消息队列来拉取消息并进行消费。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>消息中间件</category>
+        <category>rocketmq</category>
+      </categories>
+      <tags>
+        <tag>消息中间件</tag>
+        <tag>rocketmq</tag>
+        <tag>分布式</tag>
       </tags>
   </entry>
   <entry>
@@ -6704,6 +6693,34 @@ op3(right)->op4</textarea><textarea id="flowchart-0-options" style="display: non
       <tags>
         <tag>消息中间件</tag>
         <tag>rocketmq</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>redis哨兵模式</title>
+    <url>/hexoblog/md/redis/redis%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<h1 id="redis高可用"><a href="#redis高可用" class="headerlink" title="redis高可用"></a>redis高可用</h1><p>&emsp;&emsp;redis的高可用模式一般有三种，主从复制，哨兵模式，集群模式。</p>
+<span id="more"></span>
+
+<h1 id="redis哨兵机制"><a href="#redis哨兵机制" class="headerlink" title="redis哨兵机制"></a>redis哨兵机制</h1><p>&emsp;&emsp;原理简单来说就是：通过一个哨兵集群去监控redis服务器集群，从而在集群中的主服务器挂掉之后，能第一时间选择一个从机升级为主机顶上去。<br>&emsp;&emsp;哨兵模式是一种特殊的模式，Redis提供了哨兵命令，哨兵是一个独立的进程。<br>&emsp;&emsp;其原理是哨兵通过发送命令，等待Redis服务器响应，从而监控多个运行的Redis实例。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F.png" alt="Redis哨兵"></p>
+<p>这里哨兵发挥两个作用：</p>
+<ol>
+<li>通过发送命令，让Redis服务器返回其运行状态，包括主服务器和从服务器。</li>
+<li>当哨兵检测到主机宕机时，会自动将从机切换成主机，然后通过发布订阅模式，通知其他从机，通知它们修改配置，切换主机。</li>
+</ol>
+<p>&emsp;&emsp;当单个哨兵监控集群时，可能会出现问题，可以使用多个哨兵进行监控，哨兵之间还可以相互监控，就形成了多哨兵模式。</p>
+<p><img src="https://gitee.com/linqiankun/picurl/raw/master/java/%E5%93%A8%E5%85%B5%E7%BE%A4.png" alt="多哨兵监控集群"></p>
+<p>&emsp;&emsp;故障切换过程，假设主服务器宕机，哨兵1检测到这个结果，系统并不会马山进行failover过程，仅仅时哨兵1主观的认为主服务不可用，这个现象称为主观下线。当后面的哨兵也检测到主服务不可用时，并且数量达到一定值的时候，哨兵之间就会进行一次投票，投票的结果由一个哨兵发起，进行failover操作，切换成功后，就会通过发布订阅模式，让各个哨兵把自己监控的从服务器实现切换主机，这个过程称为客观下线。这样对于客户端而言，一切都是透明的。</p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><ul>
+<li><a href="https://www.jianshu.com/p/06ab9daf921d">Redis哨兵（Sentinel）模式</a></li>
+<li><a href="https://www.jianshu.com/p/3088df513196">Redis哨兵集群</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>redis</category>
+      </categories>
+      <tags>
+        <tag>redis</tag>
       </tags>
   </entry>
 </search>
