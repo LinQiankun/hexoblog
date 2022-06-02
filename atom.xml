@@ -374,16 +374,16 @@
     
     <category term="消息中间件" scheme="https://linqiankun.github.io/hexoblog/categories/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/"/>
     
-    <category term="kafka" scheme="https://linqiankun.github.io/hexoblog/categories/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/kafka/"/>
-    
     <category term="rocketmq" scheme="https://linqiankun.github.io/hexoblog/categories/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/rocketmq/"/>
     
+    <category term="kafka" scheme="https://linqiankun.github.io/hexoblog/categories/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/kafka/"/>
     
-    <category term="kafka" scheme="https://linqiankun.github.io/hexoblog/tags/kafka/"/>
     
     <category term="消息中间件" scheme="https://linqiankun.github.io/hexoblog/tags/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/"/>
     
     <category term="rocketmq" scheme="https://linqiankun.github.io/hexoblog/tags/rocketmq/"/>
+    
+    <category term="kafka" scheme="https://linqiankun.github.io/hexoblog/tags/kafka/"/>
     
   </entry>
   
