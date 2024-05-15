@@ -1,0 +1,587 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2"><meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.0"><link rel="apple-touch-icon" sizes="180x180" href="/hexoblog/images/apple-touch-icon-next.png"><link rel="icon" type="image/png" sizes="32x32" href="/hexoblog/images/favicon-32x32-next.png"><link rel="icon" type="image/png" sizes="16x16" href="/hexoblog/images/favicon-16x16-next.png"><link rel="mask-icon" href="/hexoblog/images/logo.svg" color="#222"><link rel="stylesheet" href="/hexoblog/css/main.css"><link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free@5.15.3/css/all.min.css"><link rel="stylesheet" href="https://unpkg.com/animate.css@3.1.1/animate.min.css"><link rel="stylesheet" href="https://unpkg.com/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css"><script class="hexo-configurations">var NexT=window.NexT||{},CONFIG={hostname:"linqiankun.github.io",root:"/hexoblog/",images:"/hexoblog/images",scheme:"Gemini",version:"8.3.0",exturl:!1,sidebar:{position:"left",display:"post",padding:18,offset:12},copycode:!0,bookmark:{enable:!0,color:"#222",save:"auto"},fancybox:!0,mediumzoom:!1,lazyload:!1,pangu:!0,comments:{style:"tabs",active:null,storage:!0,lazyload:!1,nav:null},motion:{enable:!0,async:!1,transition:{post_block:"fadeIn",post_header:"fadeInDown",post_body:"fadeInDown",coll_header:"fadeInLeft",sidebar:"fadeInUp"}},prism:!1,i18n:{placeholder:"搜索...",empty:"没有找到任何搜索结果：${query}",hits_time:"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）",hits:"找到 ${hits} 个搜索结果"},path:"/hexoblog/search.xml",localsearch:{enable:!0,trigger:"auto",top_n_per_article:1,unescape:!1,preload:!1}}</script><meta name="description" content="目录  1 基本样例  1.1 加入依赖： 1.2 消息发送  1、Producer端发送同步消息 2、发送异步消息 3、单向发送消息   1.3 消费消息   2 顺序消息样例  2.1 顺序消息生产 2.2 顺序消费消息   3 延时消息样例  3.1 启动消费者等待传入订阅消息 3.2 发送延时消息 3.3 验证 3.4 延时消息的使用场景 3.5 延时消息的使用限制   4 批量消息样"><meta property="og:type" content="article"><meta property="og:title" content="样例"><meta property="og:url" content="https://linqiankun.github.io/hexoblog/yuque/rocketMq/%E6%A0%B7%E4%BE%8B/index.html"><meta property="og:site_name" content="Study"><meta property="og:description" content="目录  1 基本样例  1.1 加入依赖： 1.2 消息发送  1、Producer端发送同步消息 2、发送异步消息 3、单向发送消息   1.3 消费消息   2 顺序消息样例  2.1 顺序消息生产 2.2 顺序消费消息   3 延时消息样例  3.1 启动消费者等待传入订阅消息 3.2 发送延时消息 3.3 验证 3.4 延时消息的使用场景 3.5 延时消息的使用限制   4 批量消息样"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2021-05-25T13:22:33.000Z"><meta property="article:modified_time" content="2024-05-15T02:18:04.357Z"><meta property="article:author" content="九分石人"><meta property="article:tag" content="Java"><meta name="twitter:card" content="summary"><link rel="canonical" href="https://linqiankun.github.io/hexoblog/yuque/rocketMq/%E6%A0%B7%E4%BE%8B/"><script class="page-configurations">CONFIG.page={sidebar:"",isHome:!1,isPost:!0,lang:"zh-CN"}</script><title>样例 | Study</title><noscript><style>body{margin-top:2rem}.use-motion .collection-header,.use-motion .comments,.use-motion .menu-item,.use-motion .pagination,.use-motion .post-block,.use-motion .post-body,.use-motion .post-header,.use-motion .sidebar{visibility:visible}.use-motion .footer,.use-motion .header,.use-motion .site-brand-container .toggle{opacity:initial}.use-motion .custom-logo-image,.use-motion .site-subtitle,.use-motion .site-title{opacity:initial;top:initial}.use-motion .logo-line{transform:scaleX(1)}.search-pop-overlay,.sidebar-nav{display:none}.sidebar-panel{display:block}</style></noscript><link rel="alternate" href="/hexoblog/atom.xml" title="Study" type="application/atom+xml"><style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999}.darkmode-ignore,img{display:flex!important}.beian img{display:inline-block!important}</style></head><body itemscope itemtype="http://schema.org/WebPage" class="use-motion"><div class="headband"></div><main class="main"><header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="header-inner"><div class="site-brand-container"><div class="site-nav-toggle"><div class="toggle" aria-label="切换导航栏" role="button"><span class="toggle-line"></span> <span class="toggle-line"></span> <span class="toggle-line"></span></div></div><div class="site-meta"><a href="/hexoblog/" class="brand" rel="start"><i class="logo-line"></i><h1 class="site-title">Study</h1><i class="logo-line"></i></a><p class="site-subtitle" itemprop="description">好好学习，天天向上！</p></div><div class="site-nav-right"><div class="toggle popup-trigger"><i class="fa fa-search fa-fw fa-lg"></i></div></div></div><nav class="site-nav"><ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/hexoblog/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/hexoblog/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/hexoblog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/hexoblog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/hexoblog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-sitemap"><a href="/hexoblog/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a></li><li class="menu-item menu-item-search"><a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索</a></li></ul></nav><div class="search-pop-overlay"><div class="popup search-popup"><div class="search-header"><span class="search-icon"><i class="fa fa-search"></i></span><div class="search-input-container"><input autocomplete="off" autocapitalize="off" maxlength="80" placeholder="搜索..." spellcheck="false" type="search" class="search-input"></div><span class="popup-btn-close" role="button"><i class="fa fa-times-circle"></i></span></div><div class="search-result-container no-result"><div class="search-result-icon"><i class="fa fa-spinner fa-pulse fa-5x"></i></div></div></div></div></div><div class="toggle sidebar-toggle" role="button"><span class="toggle-line"></span> <span class="toggle-line"></span> <span class="toggle-line"></span></div><aside class="sidebar"><div class="sidebar-inner sidebar-nav-active sidebar-toc-active"><ul class="sidebar-nav"><li class="sidebar-nav-toc">文章目录</li><li class="sidebar-nav-overview">站点概览</li></ul><div class="sidebar-panel-container"><div class="post-toc-wrap sidebar-panel"><div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">1 基本样例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 加入依赖：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 消息发送</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">1.2.1.</span> <span class="nav-text">1、Producer端发送同步消息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">1.2.2.</span> <span class="nav-text">2、发送异步消息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">1.2.3.</span> <span class="nav-text">3、单向发送消息</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 消费消息</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">2.</span> <span class="nav-text">2 顺序消息样例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 顺序消息生产</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 顺序消费消息</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">3.</span> <span class="nav-text">3 延时消息样例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 启动消费者等待传入订阅消息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 发送延时消息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">3.4.</span> <span class="nav-text">3.4 延时消息的使用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">3.5.</span> <span class="nav-text">3.5 延时消息的使用限制</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">4.</span> <span class="nav-text">4 批量消息样例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 发送批量消息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 消息列表分割</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">5.</span> <span class="nav-text">5 过滤消息样例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 基本语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 使用样例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">5.2.1.</span> <span class="nav-text">1、生产者样例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">5.2.2.</span> <span class="nav-text">2、消费者样例</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">6.</span> <span class="nav-text">6 消息事务样例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">6.1.</span> <span class="nav-text">6.1 发送事务消息样例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">6.1.1.</span> <span class="nav-text">1、创建事务性生产者</span></a></li><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">6.1.2.</span> <span class="nav-text">2、实现事务的监听接口</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">6.2.</span> <span class="nav-text">6.2 事务消息使用上的限制</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">7.</span> <span class="nav-text">7 Logappender样例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">7.1.</span> <span class="nav-text">7.1 log4j样例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">7.2.</span> <span class="nav-text">7.2 log4j2样例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">7.3.</span> <span class="nav-text">7.3 logback样例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">8.</span> <span class="nav-text">8 OpenMessaging样例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">8.1.</span> <span class="nav-text">8.1 OMSProducer样例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">8.2.</span> <span class="nav-text">8.2 OMSPullConsumer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">8.3.</span> <span class="nav-text">8.3 OMSPushConsumer</span></a></li></ol></li></ol></div></div><div class="site-overview-wrap sidebar-panel"><div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person"><img class="site-author-image" itemprop="image" alt="九分石人" src="/hexoblog/images/avatar.png"><p class="site-author-name" itemprop="name">九分石人</p><div class="site-description" itemprop="description">my blogs</div></div><div class="site-state-wrap site-overview-item animated"><nav class="site-state"><div class="site-state-item site-state-posts"><a href="/hexoblog/archives/"><span class="site-state-item-count">239</span> <span class="site-state-item-name">日志</span></a></div><div class="site-state-item site-state-categories"><a href="/hexoblog/categories/"><span class="site-state-item-count">35</span> <span class="site-state-item-name">分类</span></a></div><div class="site-state-item site-state-tags"><a href="/hexoblog/tags/"><span class="site-state-item-count">64</span> <span class="site-state-item-name">标签</span></a></div></nav></div><div class="links-of-author site-overview-item animated"><span class="links-of-author-item"><a href="https://github.com/linqiankun" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;linqiankun" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a> </span><span class="links-of-author-item"><a href="linqiankun:191580378@qq.com" title="E-Mail → linqiankun:191580378@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a> </span><span class="links-of-author-item"><a href="https://weibo.com/jiufenshiren" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;jiufenshiren" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a> </span><span class="links-of-author-item"><a href="/hexoblog/atom.xml" title="Rss → &#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i>Rss</a></span></div><div class="cc-license site-overview-item animated" itemprop="license"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/hexoblog/images/cc-by-nc-sa.svg" alt="Creative Commons"></a></div><div class="links-of-blogroll site-overview-item animated"><div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i> Links</div><ul class="links-of-blogroll-list"><li class="links-of-blogroll-item"><a href="https://www.yuque.com/jiufenshiren" title="https:&#x2F;&#x2F;www.yuque.com&#x2F;jiufenshiren" rel="noopener" target="_blank">YuQue</a></li><li class="links-of-blogroll-item"><a href="https://github.com/LinQiankun" title="https:&#x2F;&#x2F;github.com&#x2F;LinQiankun" rel="noopener" target="_blank">Github</a></li><li class="links-of-blogroll-item"><a href="https://gitee.com/linqiankun" title="https:&#x2F;&#x2F;gitee.com&#x2F;linqiankun" rel="noopener" target="_blank">Gitee</a></li><li class="links-of-blogroll-item"><a href="https://my.oschina.net/linqiankun" title="https:&#x2F;&#x2F;my.oschina.net&#x2F;linqiankun" rel="noopener" target="_blank">OsChina</a></li><li class="links-of-blogroll-item"><a href="https://segmentfault.com/u/jiufenshiren" title="https:&#x2F;&#x2F;segmentfault.com&#x2F;u&#x2F;jiufenshiren" rel="noopener" target="_blank">Segmentfault</a></li><li class="links-of-blogroll-item"><a href="https://juejin.cn/user/3263006243306205" title="https:&#x2F;&#x2F;juejin.cn&#x2F;user&#x2F;3263006243306205" rel="noopener" target="_blank">Juejin</a></li><li class="links-of-blogroll-item"><a href="https://blog.csdn.net/qq_36985536?spm=1010.2135.3001.5421" title="https:&#x2F;&#x2F;blog.csdn.net&#x2F;qq_36985536?spm&#x3D;1010.2135.3001.5421" rel="noopener" target="_blank">CSDN</a></li><li class="links-of-blogroll-item"><a href="https://www.cnblogs.com/jiufenshiren" title="https:&#x2F;&#x2F;www.cnblogs.com&#x2F;jiufenshiren" rel="noopener" target="_blank">CnBlogs</a></li><li class="links-of-blogroll-item"><a href="https://home.51cto.com/space?uid=12848310" title="https:&#x2F;&#x2F;home.51cto.com&#x2F;space?uid&#x3D;12848310" rel="noopener" target="_blank">51CTO</a></li></ul></div></div></div></div></aside><div class="sidebar-dimmer"></div></header><div class="back-to-top" role="button" aria-label="返回顶部"><i class="fa fa-arrow-up"></i> <span>0%</span></div><a role="button" class="book-mark-link book-mark-link-fixed"></a><noscript><div class="noscript-warning">Theme NexT works best with JavaScript enabled</div></noscript><div class="main-inner post posts-expand"><div class="post-block"><article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN"><link itemprop="mainEntityOfPage" href="https://linqiankun.github.io/hexoblog/yuque/rocketMq/%E6%A0%B7%E4%BE%8B/"><span hidden itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="image" content="/hexoblog/images/avatar.png"><meta itemprop="name" content="九分石人"><meta itemprop="description" content="my blogs"></span><span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization"><meta itemprop="name" content="Study"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">样例</h1><div class="post-meta-container"><div class="post-meta"><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-calendar"></i> </span><span class="post-meta-item-text">发表于</span> <time title="创建时间：2021-05-25 21:22:33 21:22:33" itemprop="dateCreated datePublished" datetime="2021-05-25T21:22:33+08:00">2021-05-25 21:22:33</time> </span><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-calendar-check"></i> </span><span class="post-meta-item-text">更新于</span> <time title="修改时间：2024-05-15 10:18:04 10:18:04" itemprop="dateModified" datetime="2024-05-15T10:18:04+08:00">2024-05-15 10:18:04</time> </span><span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display:none"><span class="post-meta-item-icon"><i class="far fa-eye"></i> </span><span class="post-meta-item-text">阅读次数：</span> <span id="busuanzi_value_page_pv"></span></span></div><div class="post-meta"><span class="post-meta-item" title="本文字数"><span class="post-meta-item-icon"><i class="far fa-file-word"></i> </span><span class="post-meta-item-text">本文字数：</span> <span>14k</span> </span><span class="post-meta-item" title="阅读时长"><span class="post-meta-item-icon"><i class="far fa-clock"></i> </span><span class="post-meta-item-text">阅读时长 &asymp;</span> <span>13 分钟</span></span></div></div></header><div class="post-body" itemprop="articleBody"><hr><ul><li><a href="#%E6%A0%B7%E4%BE%8B">目录</a><ul><li><a href="#1-%E5%9F%BA%E6%9C%AC%E6%A0%B7%E4%BE%8B">1 基本样例</a><ul><li><a href="#11-%E5%8A%A0%E5%85%A5%E4%BE%9D%E8%B5%96">1.1 加入依赖：</a></li><li><a href="#12-%E6%B6%88%E6%81%AF%E5%8F%91%E9%80%81">1.2 消息发送</a><ul><li><a href="#1producer%E7%AB%AF%E5%8F%91%E9%80%81%E5%90%8C%E6%AD%A5%E6%B6%88%E6%81%AF">1、Producer端发送同步消息</a></li><li><a href="#2%E5%8F%91%E9%80%81%E5%BC%82%E6%AD%A5%E6%B6%88%E6%81%AF">2、发送异步消息</a></li><li><a href="#3%E5%8D%95%E5%90%91%E5%8F%91%E9%80%81%E6%B6%88%E6%81%AF">3、单向发送消息</a></li></ul></li><li><a href="#13-%E6%B6%88%E8%B4%B9%E6%B6%88%E6%81%AF">1.3 消费消息</a></li></ul></li><li><a href="#2-%E9%A1%BA%E5%BA%8F%E6%B6%88%E6%81%AF%E6%A0%B7%E4%BE%8B">2 顺序消息样例</a><ul><li><a href="#21-%E9%A1%BA%E5%BA%8F%E6%B6%88%E6%81%AF%E7%94%9F%E4%BA%A7">2.1 顺序消息生产</a></li><li><a href="#22-%E9%A1%BA%E5%BA%8F%E6%B6%88%E8%B4%B9%E6%B6%88%E6%81%AF">2.2 顺序消费消息</a></li></ul></li><li><a href="#3-%E5%BB%B6%E6%97%B6%E6%B6%88%E6%81%AF%E6%A0%B7%E4%BE%8B">3 延时消息样例</a><ul><li><a href="#31-%E5%90%AF%E5%8A%A8%E6%B6%88%E8%B4%B9%E8%80%85%E7%AD%89%E5%BE%85%E4%BC%A0%E5%85%A5%E8%AE%A2%E9%98%85%E6%B6%88%E6%81%AF">3.1 启动消费者等待传入订阅消息</a></li><li><a href="#32-%E5%8F%91%E9%80%81%E5%BB%B6%E6%97%B6%E6%B6%88%E6%81%AF">3.2 发送延时消息</a></li><li><a href="#33-%E9%AA%8C%E8%AF%81">3.3 验证</a></li><li><a href="#34-%E5%BB%B6%E6%97%B6%E6%B6%88%E6%81%AF%E7%9A%84%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF">3.4 延时消息的使用场景</a></li><li><a href="#35-%E5%BB%B6%E6%97%B6%E6%B6%88%E6%81%AF%E7%9A%84%E4%BD%BF%E7%94%A8%E9%99%90%E5%88%B6">3.5 延时消息的使用限制</a></li></ul></li><li><a href="#4-%E6%89%B9%E9%87%8F%E6%B6%88%E6%81%AF%E6%A0%B7%E4%BE%8B">4 批量消息样例</a><ul><li><a href="#41-%E5%8F%91%E9%80%81%E6%89%B9%E9%87%8F%E6%B6%88%E6%81%AF">4.1 发送批量消息</a></li><li><a href="#42-%E6%B6%88%E6%81%AF%E5%88%97%E8%A1%A8%E5%88%86%E5%89%B2">4.2 消息列表分割</a></li></ul></li><li><a href="#5-%E8%BF%87%E6%BB%A4%E6%B6%88%E6%81%AF%E6%A0%B7%E4%BE%8B">5 过滤消息样例</a><ul><li><a href="#51-%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95">5.1 基本语法</a></li><li><a href="#52-%E4%BD%BF%E7%94%A8%E6%A0%B7%E4%BE%8B">5.2 使用样例</a><ul><li><a href="#1%E7%94%9F%E4%BA%A7%E8%80%85%E6%A0%B7%E4%BE%8B">1、生产者样例</a></li><li><a href="#2%E6%B6%88%E8%B4%B9%E8%80%85%E6%A0%B7%E4%BE%8B">2、消费者样例</a></li></ul></li></ul></li><li><a href="#6-%E6%B6%88%E6%81%AF%E4%BA%8B%E5%8A%A1%E6%A0%B7%E4%BE%8B">6 消息事务样例</a><ul><li><a href="#61-%E5%8F%91%E9%80%81%E4%BA%8B%E5%8A%A1%E6%B6%88%E6%81%AF%E6%A0%B7%E4%BE%8B">6.1 发送事务消息样例</a><ul><li><a href="#1%E5%88%9B%E5%BB%BA%E4%BA%8B%E5%8A%A1%E6%80%A7%E7%94%9F%E4%BA%A7%E8%80%85">1、创建事务性生产者</a></li><li><a href="#2%E5%AE%9E%E7%8E%B0%E4%BA%8B%E5%8A%A1%E7%9A%84%E7%9B%91%E5%90%AC%E6%8E%A5%E5%8F%A3">2、实现事务的监听接口</a></li></ul></li><li><a href="#62-%E4%BA%8B%E5%8A%A1%E6%B6%88%E6%81%AF%E4%BD%BF%E7%94%A8%E4%B8%8A%E7%9A%84%E9%99%90%E5%88%B6">6.2 事务消息使用上的限制</a></li></ul></li><li><a href="#7-logappender%E6%A0%B7%E4%BE%8B">7 Logappender样例</a><ul><li><a href="#71-log4j%E6%A0%B7%E4%BE%8B">7.1 log4j样例</a></li><li><a href="#72-log4j2%E6%A0%B7%E4%BE%8B">7.2 log4j2样例</a></li><li><a href="#73-logback%E6%A0%B7%E4%BE%8B">7.3 logback样例</a></li></ul></li><li><a href="#8-openmessaging%E6%A0%B7%E4%BE%8B">8 OpenMessaging样例</a><ul><li><a href="#81-omsproducer%E6%A0%B7%E4%BE%8B">8.1 OMSProducer样例</a></li><li><a href="#82-omspullconsumer">8.2 OMSPullConsumer</a></li><li><a href="#83-omspushconsumer">8.3 OMSPushConsumer</a></li></ul></li></ul></li></ul><hr><h2>1 基本样例</h2><p>在基本样例中我们提供如下的功能场景：</p><ul><li>使用RocketMQ发送三种类型的消息：同步消息、异步消息和单向消息。其中前两种消息是可靠的，因为会有发送是否成功的应答。</li><li>使用RocketMQ来消费接收到的消息。</li></ul><h3>1.1 加入依赖：</h3><p><code>maven:</code></p><pre><code><dependency>
+    <groupid>org.apache.rocketmq</groupid>
+    <artifactid>rocketmq-client</artifactid>
+    <version>4.3.0</version>
+</dependency>
+</code></pre><p><code>gradle</code></p><pre><code>compile 'org.apache.rocketmq:rocketmq-client:4.3.0'
+</code></pre><h3>1.2 消息发送</h3><h4>1、Producer端发送同步消息</h4><p>这种可靠性同步地发送方式使用的比较广泛，比如：重要的消息通知，短信通知。</p><pre data-syntax="java"><code class="lang-java hljs raw">public class SyncProducer &#123;
+    public static void main(String[] args) throws Exception &#123;
+        // 实例化消息生产者Producer
+        DefaultMQProducer producer = new DefaultMQProducer("please_rename_unique_group_name");
+        // 设置NameServer的地址
+        producer.setNamesrvAddr("localhost:9876");
+        // 启动Producer实例
+        producer.start();
+        for (int i = 0; i < 100; i++) &#123;
+            // 创建消息，并指定Topic，Tag和消息体
+            Message msg = new Message("TopicTest" /* Topic */,
+            "TagA" /* Tag */,
+            ("Hello RocketMQ " + i).getBytes(RemotingHelper.DEFAULT_CHARSET) /* Message body */
+            );
+            // 发送消息到一个Broker
+            SendResult sendResult = producer.send(msg);
+            // 通过sendResult返回消息是否成功送达
+            System.out.printf("%s%n", sendResult);
+        &#125;
+        // 如果不再发送消息，关闭Producer实例。
+        producer.shutdown();
+    &#125;
+&#125;
+</code></pre><h4>2、发送异步消息</h4><p>异步消息通常用在对响应时间敏感的业务场景，即发送端不能容忍长时间地等待Broker的响应。</p><pre data-syntax="java"><code class="lang-java hljs raw">public class AsyncProducer &#123;
+    public static void main(String[] args) throws Exception &#123;
+        // 实例化消息生产者Producer
+        DefaultMQProducer producer = new DefaultMQProducer("please_rename_unique_group_name");
+        // 设置NameServer的地址
+        producer.setNamesrvAddr("localhost:9876");
+        // 启动Producer实例
+        producer.start();
+        producer.setRetryTimesWhenSendAsyncFailed(0);
+    
+    int messageCount = 100;
+        // 根据消息数量实例化倒计时计算器
+    final CountDownLatch2 countDownLatch = new CountDownLatch2(messageCount);
+        for (int i = 0; i < messageCount; i++) &#123;
+                final int index = i;
+                // 创建消息，并指定Topic，Tag和消息体
+                Message msg = new Message("TopicTest",
+                    "TagA",
+                    "OrderID188",
+                    "Hello world".getBytes(RemotingHelper.DEFAULT_CHARSET));
+                // SendCallback接收异步返回结果的回调
+                producer.send(msg, new SendCallback() &#123;
+                    @Override
+                    public void onSuccess(SendResult sendResult) &#123;
+                        System.out.printf("%-10d OK %s %n", index,
+                            sendResult.getMsgId());
+                    &#125;
+                    @Override
+                    public void onException(Throwable e) &#123;
+                        System.out.printf("%-10d Exception %s %n", index, e);
+                        e.printStackTrace();
+                    &#125;
+                &#125;);
+        &#125;
+    // 等待5s
+    countDownLatch.await(5, TimeUnit.SECONDS);
+        // 如果不再发送消息，关闭Producer实例。
+        producer.shutdown();
+    &#125;
+&#125;
+</code></pre><h4>3、单向发送消息</h4><p>这种方式主要用在不特别关心发送结果的场景，例如日志发送。</p><pre data-syntax="java"><code class="lang-java hljs raw">public class OnewayProducer &#123;
+    public static void main(String[] args) throws Exception&#123;
+        // 实例化消息生产者Producer
+        DefaultMQProducer producer = new DefaultMQProducer("please_rename_unique_group_name");
+        // 设置NameServer的地址
+        producer.setNamesrvAddr("localhost:9876");
+        // 启动Producer实例
+        producer.start();
+        for (int i = 0; i < 100; i++) &#123;
+            // 创建消息，并指定Topic，Tag和消息体
+            Message msg = new Message("TopicTest" /* Topic */,
+                "TagA" /* Tag */,
+                ("Hello RocketMQ " + i).getBytes(RemotingHelper.DEFAULT_CHARSET) /* Message body */
+            );
+            // 发送单向消息，没有任何返回结果
+            producer.sendOneway(msg);
+
+<pre><code>    &#125;
+    // 如果不再发送消息，关闭Producer实例。
+    producer.shutdown();
+&#125;
+</code></pre>
+<p>}<br></p></code></pre><p></p><h3>1.3 消费消息</h3><pre data-syntax="java"><code class="lang-java hljs raw">public class Consumer &#123;
+
+<pre><code>public static void main(String[] args) throws InterruptedException, MQClientException &#123;
+
+    // 实例化消费者
+    DefaultMQPushConsumer consumer = new DefaultMQPushConsumer(&quot;please_rename_unique_group_name&quot;);
+
+    // 设置NameServer的地址
+    consumer.setNamesrvAddr(&quot;localhost:9876&quot;);
+
+    // 订阅一个或者多个Topic，以及Tag来过滤需要消费的消息
+    consumer.subscribe(&quot;TopicTest&quot;, &quot;*&quot;);
+    // 注册回调实现类来处理从broker拉取回来的消息
+    consumer.registerMessageListener(new MessageListenerConcurrently() &#123;
+        @Override
+        public ConsumeConcurrentlyStatus consumeMessage(List&lt;MessageExt&gt; msgs, ConsumeConcurrentlyContext context) &#123;
+            System.out.printf(&quot;%s Receive New Messages: %s %n&quot;, Thread.currentThread().getName(), msgs);
+            // 标记该消息已经被成功消费
+            return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
+        &#125;
+    &#125;);
+    // 启动消费者实例
+    consumer.start();
+    System.out.printf(&quot;Consumer Started.%n&quot;);
+&#125;
+</code></pre>
+<p>}<br></p></code></pre><p></p><h2>2 顺序消息样例</h2><p>消息有序指的是可以按照消息的发送顺序来消费(FIFO)。RocketMQ可以严格的保证消息有序，可以分为分区有序或者全局有序。</p><p>顺序消费的原理解析，在默认的情况下消息发送会采取Round Robin轮询方式把消息发送到不同的queue(分区队列)；而消费消息的时候从多个queue上拉取消息，这种情况发送和消费是不能保证顺序。但是如果控制发送的顺序消息只依次发送到同一个queue中，消费的时候只从这个queue上依次拉取，则就保证了顺序。当发送和消费参与的queue只有一个，则是全局有序；如果多个queue参与，则为分区有序，即相对每个queue，消息都是有序的。</p><p>下面用订单进行分区有序的示例。一个订单的顺序流程是：创建、付款、推送、完成。订单号相同的消息会被先后发送到同一个队列中，消费时，同一个OrderId获取到的肯定是同一个队列。</p><h3>2.1 顺序消息生产</h3><pre data-syntax="java"><code class="lang-java hljs raw">package org.apache.rocketmq.example.order2;
+
+<p>import org.apache.rocketmq.client.producer.DefaultMQProducer;<br>import org.apache.rocketmq.client.producer.MessageQueueSelector;<br>import org.apache.rocketmq.client.producer.SendResult;<br>import org.apache.rocketmq.common.message.Message;<br>import org.apache.rocketmq.common.message.MessageQueue;</p>
+<p>import java.text.SimpleDateFormat;<br>import java.util.ArrayList;<br>import java.util.Date;<br>import java.util.List;</p>
+<p>/**</p>
+<ul>
+<li><p>Producer，发送顺序消息<br>*/<br>public class Producer &#123;</p>
+<p>public static void main(String[] args) throws Exception &#123;<br>DefaultMQProducer producer = new DefaultMQProducer(“please_rename_unique_group_name”);</p>
+<pre><code>   producer.setNamesrvAddr(&quot;127.0.0.1:9876&quot;);
+
+   producer.start();
+
+   String[] tags = new String[]&#123;&quot;TagA&quot;, &quot;TagC&quot;, &quot;TagD&quot;&#125;;
+
+   // 订单列表
+   List&lt;OrderStep&gt; orderList = new Producer().buildOrders();
+
+   Date date = new Date();
+   SimpleDateFormat sdf = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);
+   String dateStr = sdf.format(date);
+   for (int i = 0; i &lt; 10; i++) &#123;
+       // 加个时间前缀
+       String body = dateStr + &quot; Hello RocketMQ &quot; + orderList.get(i);
+       Message msg = new Message(&quot;TopicTest&quot;, tags[i % tags.length], &quot;KEY&quot; + i, body.getBytes());
+
+       SendResult sendResult = producer.send(msg, new MessageQueueSelector() &#123;
+           @Override
+           public MessageQueue select(List&lt;MessageQueue&gt; mqs, Message msg, Object arg) &#123;
+               Long id = (Long) arg;  //根据订单id选择发送queue
+               long index = id % mqs.size();
+               return mqs.get((int) index);
+           &#125;
+       &#125;, orderList.get(i).getOrderId());//订单id
+
+       System.out.println(String.format(&quot;SendResult status:%s, queueId:%d, body:%s&quot;,
+           sendResult.getSendStatus(),
+           sendResult.getMessageQueue().getQueueId(),
+           body));
+   &#125;
+
+   producer.shutdown();
+</code></pre>
+<p>}</p>
+<p>/**<br>_ 订单的步骤<br>_/<br>private static class OrderStep {<br>private long orderId;<br>private String desc;</p>
+<pre><code>   public long getOrderId() &#123;
+       return orderId;
+   &#125;
+
+   public void setOrderId(long orderId) &#123;
+       this.orderId = orderId;
+   &#125;
+
+   public String getDesc() &#123;
+       return desc;
+   &#125;
+
+   public void setDesc(String desc) &#123;
+       this.desc = desc;
+   &#125;
+
+   @Override
+   public String toString() &#123;
+       return &quot;OrderStep&#123;&quot; +
+           &quot;orderId=&quot; + orderId +
+           &quot;, desc=&#39;&quot; + desc + &#39;\&#39;&#39; +
+           &#39;&#125;&#39;;
+   &#125;
+</code></pre>
+<p>}</p>
+<p>/**<br>_ 生成模拟订单数据<br>_/<br>private List<orderstep> buildOrders() {<br>List<orderstep> orderList = new ArrayList<orderstep>();</orderstep></orderstep></orderstep></p>
+<pre><code>   OrderStep orderDemo = new OrderStep();
+   orderDemo.setOrderId(15103111039L);
+   orderDemo.setDesc(&quot;创建&quot;);
+   orderList.add(orderDemo);
+
+   orderDemo = new OrderStep();
+   orderDemo.setOrderId(15103111065L);
+   orderDemo.setDesc(&quot;创建&quot;);
+   orderList.add(orderDemo);
+
+   orderDemo = new OrderStep();
+   orderDemo.setOrderId(15103111039L);
+   orderDemo.setDesc(&quot;付款&quot;);
+   orderList.add(orderDemo);
+
+   orderDemo = new OrderStep();
+   orderDemo.setOrderId(15103117235L);
+   orderDemo.setDesc(&quot;创建&quot;);
+   orderList.add(orderDemo);
+
+   orderDemo = new OrderStep();
+   orderDemo.setOrderId(15103111065L);
+   orderDemo.setDesc(&quot;付款&quot;);
+   orderList.add(orderDemo);
+
+   orderDemo = new OrderStep();
+   orderDemo.setOrderId(15103117235L);
+   orderDemo.setDesc(&quot;付款&quot;);
+   orderList.add(orderDemo);
+
+   orderDemo = new OrderStep();
+   orderDemo.setOrderId(15103111065L);
+   orderDemo.setDesc(&quot;完成&quot;);
+   orderList.add(orderDemo);
+
+   orderDemo = new OrderStep();
+   orderDemo.setOrderId(15103111039L);
+   orderDemo.setDesc(&quot;推送&quot;);
+   orderList.add(orderDemo);
+
+   orderDemo = new OrderStep();
+   orderDemo.setOrderId(15103117235L);
+   orderDemo.setDesc(&quot;完成&quot;);
+   orderList.add(orderDemo);
+
+   orderDemo = new OrderStep();
+   orderDemo.setOrderId(15103111039L);
+   orderDemo.setDesc(&quot;完成&quot;);
+   orderList.add(orderDemo);
+
+   return orderList;
+</code></pre>
+<p>}<br>}<br></p></li></ul></code></pre><p></p><h3>2.2 顺序消费消息</h3><pre data-syntax="java"><code class="lang-java hljs raw">package org.apache.rocketmq.example.order2;
+
+
+
+<p>import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;<br>import org.apache.rocketmq.client.consumer.listener.ConsumeOrderlyContext;<br>import org.apache.rocketmq.client.consumer.listener.ConsumeOrderlyStatus;<br>import org.apache.rocketmq.client.consumer.listener.MessageListenerOrderly;<br>import org.apache.rocketmq.common.consumer.ConsumeFromWhere;<br>import org.apache.rocketmq.common.message.MessageExt;</p>
+<p>import java.util.List;<br>import java.util.Random;<br>import java.util.concurrent.TimeUnit;</p>
+<p>/**</p>
+<ul>
+<li><p>顺序消息消费，带事务方式（应用可控制 Offset 什么时候提交）<br>*/<br>public class ConsumerInOrder &#123;</p>
+<p>public static void main(String[] args) throws Exception &#123;<br>DefaultMQPushConsumer consumer = new DefaultMQPushConsumer(“please_rename_unique_group_name_3”);<br>consumer.setNamesrvAddr(“127.0.0.1:9876”);<br>/**<br>_ 设置 Consumer 第一次启动是从队列头部开始消费还是队列尾部开始消费<br><br>_ 如果非第一次启动，那么按照上次消费的位置继续消费<br>*/<br>consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);</p>
+<pre><code>   consumer.subscribe(&quot;TopicTest&quot;, &quot;TagA || TagC || TagD&quot;);
+
+   consumer.registerMessageListener(new MessageListenerOrderly() &#123;
+
+       Random random = new Random();
+
+       @Override
+       public ConsumeOrderlyStatus consumeMessage(List&lt;MessageExt&gt; msgs, ConsumeOrderlyContext context) &#123;
+           context.setAutoCommit(true);
+           for (MessageExt msg : msgs) &#123;
+               // 可以看到每个queue有唯一的consume线程来消费, 订单对每个queue(分区)有序
+               System.out.println(&quot;consumeThread=&quot; + Thread.currentThread().getName() + &quot;queueId=&quot; + msg.getQueueId() + &quot;, content:&quot; + new String(msg.getBody()));
+           &#125;
+
+           try &#123;
+               //模拟业务逻辑处理中...
+               TimeUnit.SECONDS.sleep(random.nextInt(10));
+           &#125; catch (Exception e) &#123;
+               e.printStackTrace();
+           &#125;
+           return ConsumeOrderlyStatus.SUCCESS;
+       &#125;
+   &#125;);
+
+   consumer.start();
+
+   System.out.println(&quot;Consumer Started.&quot;);
+</code></pre>
+<p>}<br>}<br></p></li></ul></code></pre><p></p><h2>3 延时消息样例</h2><h3>3.1 启动消费者等待传入订阅消息</h3><pre data-syntax="java"><code class="lang-java hljs raw">
+import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
+import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
+import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
+import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
+import org.apache.rocketmq.common.message.MessageExt;
+import java.util.List;
+
+
+
+<p>public class ScheduledMessageConsumer &#123;<br>public static void main(String[] args) throws Exception &#123;<br>// 实例化消费者<br>DefaultMQPushConsumer consumer = new DefaultMQPushConsumer(“ExampleConsumer”);<br>// 订阅 Topics<br>consumer.subscribe(“TestTopic”, “*“);<br>// 注册消息监听者<br>consumer.registerMessageListener(new MessageListenerConcurrently() &#123;<br>@Override<br>public ConsumeConcurrentlyStatus consumeMessage(List<messageext> messages, ConsumeConcurrentlyContext context) &#123;<br>for (MessageExt message : messages) &#123;<br>// Print approximate delay time period<br>System.out.println(“Receive message[msgId=” + message.getMsgId() + “] “ + (System.currentTimeMillis() - message.getStoreTimestamp()) + “ms later”);<br>&#125;<br>return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;<br>&#125;<br>&#125;);<br>// 启动消费者<br>consumer.start();<br>&#125;<br>&#125;</messageext></p>
+<p></p></code></pre><p></p><h3>3.2 发送延时消息</h3><pre data-syntax="java"><code class="lang-java hljs raw">
+import org.apache.rocketmq.client.producer.DefaultMQProducer;
+import org.apache.rocketmq.common.message.Message;
+
+<p>public class ScheduledMessageProducer &#123;<br>public static void main(String[] args) throws Exception &#123;<br>// 实例化一个生产者来产生延时消息<br>DefaultMQProducer producer = new DefaultMQProducer(“ExampleProducerGroup”);<br>// 启动生产者<br>producer.start();<br>int totalMessagesToSend = 100;<br>for (int i = 0; i &lt; totalMessagesToSend; i++) &#123;<br>Message message = new Message(“TestTopic”, (“Hello scheduled message “ + i).getBytes());<br>// 设置延时等级 3,这个消息将在 10s 之后发送(现在只支持固定的几个时间,详看 delayTimeLevel)<br>message.setDelayTimeLevel(3);<br>// 发送消息<br>producer.send(message);<br>&#125;<br>// 关闭生产者<br>producer.shutdown();<br>&#125;<br>&#125;<br></p></code></pre><p></p><h3>3.3 验证</h3><p>您将会看到消息的消费比存储时间晚10秒。</p><h3>3.4 延时消息的使用场景</h3><p>比如电商里，提交了一个订单就可以发送一个延时消息，1h后去检查这个订单的状态，如果还是未付款就取消订单释放库存。</p><h3>3.5 延时消息的使用限制</h3><pre data-syntax="java"><code class="lang-java hljs raw">// org/apache/rocketmq/store/config/MessageStoreConfig.java
+
+<p>private String messageDelayLevel = “1s 5s 10s 30s 1m 2m 3m 4m 5m 6m 7m 8m 9m 10m 20m 30m 1h 2h”;<br></p></code></pre><p></p><p>现在RocketMq并不支持任意时间的延时，需要设置几个固定的延时等级，从1s到2h分别对应着等级1到18</p><p>消息消费失败会进入延时消息队列，消息发送时间与设置的延时等级和重试次数有关，详见代码<code>SendMessageProcessor.java</code></p><p></p><h2>4 批量消息样例</h2><p>批量发送消息能显著提高传递小消息的性能。限制是这些批量消息应该有相同的topic，相同的waitStoreMsgOK，而且不能是延时消息。此外，这一批消息的总大小不应超过4MB。</p><h3>4.1 发送批量消息</h3><p>如果您每次只发送不超过4MB的消息，则很容易使用批处理，样例如下：</p><pre data-syntax="java"><code class="lang-java hljs raw">String topic = "BatchTest";
+List<message> messages = new ArrayList<>();
+messages.add(new Message(topic, "TagA", "OrderID001", "Hello world 0".getBytes()));
+messages.add(new Message(topic, "TagA", "OrderID002", "Hello world 1".getBytes()));
+messages.add(new Message(topic, "TagA", "OrderID003", "Hello world 2".getBytes()));
+try &#123;
+   producer.send(messages);
+&#125; catch (Exception e) &#123;
+   e.printStackTrace();
+   //处理error
+&#125;
+
+<p></p></message></code></pre><p></p><h3>4.2 消息列表分割</h3><p>复杂度只有当你发送大批量时才会增长，你可能不确定它是否超过了大小限制（4MB）。这时候你最好把你的消息列表分割一下：</p><pre data-syntax="java"><code class="lang-java hljs raw">public class ListSplitter implements Iterator<List<message>> &#123; 
+    private final int SIZE_LIMIT = 1024 * 1024 * 4;
+    private final List<message> messages;
+    private int currIndex;
+    public ListSplitter(List<message> messages) &#123; 
+        this.messages = messages;
+    &#125;
+    @Override public boolean hasNext() &#123;
+        return currIndex < messages.size(); 
+    &#125;
+    @Override public List<message> next() &#123; 
+        int startIndex = getStartIndex();
+        int nextIndex = startIndex;
+        int totalSize = 0;
+        for (; nextIndex < messages.size(); nextIndex++) &#123;
+            Message message = messages.get(nextIndex); 
+            int tmpSize = calcMessageSize(message);
+            if (tmpSize + totalSize > SIZE_LIMIT) &#123;
+                break; 
+            &#125; else &#123;
+                totalSize += tmpSize; 
+            &#125;
+        &#125;
+        List<message> subList = messages.subList(startIndex, nextIndex); 
+        currIndex = nextIndex;
+        return subList;
+    &#125;
+    private int getStartIndex() &#123;
+        Message currMessage = messages.get(currIndex); 
+        int tmpSize = calcMessageSize(currMessage); 
+        while(tmpSize > SIZE_LIMIT) &#123;
+            currIndex += 1;
+            Message message = messages.get(curIndex); 
+            tmpSize = calcMessageSize(message);
+        &#125;
+        return currIndex; 
+    &#125;
+    private int calcMessageSize(Message message) &#123;
+        int tmpSize = message.getTopic().length() + message.getBody().length(); 
+        Map<string , string> properties = message.getProperties();
+        for (Map.Entry<string , string> entry : properties.entrySet()) &#123;
+            tmpSize += entry.getKey().length() + entry.getValue().length(); 
+        &#125;
+        tmpSize = tmpSize + 20; // 增加⽇日志的开销20字节
+        return tmpSize; 
+    &#125;
+&#125;
+//把大的消息分裂成若干个小的消息
+ListSplitter splitter = new ListSplitter(messages);
+while (splitter.hasNext()) &#123;
+  try &#123;
+      List<message>  listItem = splitter.next();
+      producer.send(listItem);
+  &#125; catch (Exception e) &#123;
+      e.printStackTrace();
+      //处理error
+  &#125;
+&#125;
+</message></string></string></message></message></message></message></message></code></pre><h2>5 过滤消息样例</h2><p>在大多数情况下，TAG是一个简单而有用的设计，其可以来选择您想要的消息。例如：</p><pre data-syntax="java"><code class="lang-java hljs raw">DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("CID_EXAMPLE");
+consumer.subscribe("TOPIC", "TAGA || TAGB || TAGC");
+</code></pre><p>消费者将接收包含TAGA或TAGB或TAGC的消息。但是限制是一个消息只能有一个标签，这对于复杂的场景可能不起作用。在这种情况下，可以使用SQL表达式筛选消息。SQL特性可以通过发送消息时的属性来进行计算。在RocketMQ定义的语法下，可以实现一些简单的逻辑。下面是一个例子：</p><pre><code>------------
+| message  |
+|----------|  a > 5 AND b = 'abc'
+| a = 10   |  --------------------> Gotten
+| b = 'abc'|
+| c = true |
+------------
+------------
+| message  |
+|----------|   a > 5 AND b = 'abc'
+| a = 1    |  --------------------> Missed
+| b = 'abc'|
+| c = true |
+------------
+</code></pre><h3>5.1 基本语法</h3><p>RocketMQ只定义了一些基本语法来支持这个特性。你也可以很容易地扩展它。</p><ul><li>数值比较，比如：<strong>>，>=，<，<=，BETWEEN，=；</strong></li><li>字符比较，比如：<strong>=，<>，IN；</strong></li><li><strong>IS NULL</strong> 或者 <strong>IS NOT NULL；</strong></li><li>逻辑符号 <strong>AND，OR，NOT；</strong></li></ul><p>常量支持类型为：</p><ul><li>数值，比如：<strong>123，3.1415；</strong></li><li>字符，比如：<strong>'abc'，必须用单引号包裹起来；</strong></li><li><strong>NULL</strong>，特殊的常量</li><li>布尔值，<strong>TRUE</strong> 或 <strong>FALSE</strong></li></ul><p>只有使用push模式的消费者才能用使用SQL92标准的sql语句，接口如下：</p><pre><code>public void subscribe(finalString topic, final MessageSelector messageSelector)
+</code></pre><h3>5.2 使用样例</h3><h4>1、生产者样例</h4><p>发送消息时，你能通过<code>putUserProperty</code>来设置消息的属性</p><pre data-syntax="java"><code class="lang-java hljs raw">DefaultMQProducer producer = new DefaultMQProducer("please_rename_unique_group_name");
+producer.start();
+Message msg = new Message("TopicTest",
+   tag,
+   ("Hello RocketMQ " + i).getBytes(RemotingHelper.DEFAULT_CHARSET)
+);
+// 设置一些属性
+msg.putUserProperty("a", String.valueOf(i));
+SendResult sendResult = producer.send(msg);
+
+<p>producer.shutdown();<br></p></code></pre><p></p><h4>2、消费者样例</h4><p>用MessageSelector.bySql来使用sql筛选消息</p><pre data-syntax="java"><code class="lang-java hljs raw">DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("please_rename_unique_group_name_4");
+// 只有订阅的消息有这个属性a, a >=0 and a <= 3
+consumer.subscribe("TopicTest", MessageSelector.bySql("a between 0 and 3");
+consumer.registerMessageListener(new MessageListenerConcurrently() &#123;
+   @Override
+   public ConsumeConcurrentlyStatus consumeMessage(List<messageext> msgs, ConsumeConcurrentlyContext context) &#123;
+       return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
+   &#125;
+&#125;);
+consumer.start();
+
+<p></p></messageext></code></pre><p></p><h2>6 消息事务样例</h2><p>事务消息共有三种状态，提交状态、回滚状态、中间状态：</p><ul><li>TransactionStatus.CommitTransaction: 提交事务，它允许消费者消费此消息。</li><li>TransactionStatus.RollbackTransaction: 回滚事务，它代表该消息将被删除，不允许被消费。</li><li>TransactionStatus.Unknown: 中间状态，它代表需要检查消息队列来确定状态。</li></ul><h3>6.1 发送事务消息样例</h3><h4>1、创建事务性生产者</h4><p>使用 <code>TransactionMQProducer</code>类创建生产者，并指定唯一的 <code>ProducerGroup</code>，就可以设置自定义线程池来处理这些检查请求。执行本地事务后、需要根据执行结果对消息队列进行回复。回传的事务状态在请参考前一节。</p><pre data-syntax="java"><code class="lang-java hljs raw">import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
+import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
+import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
+import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
+import org.apache.rocketmq.common.message.MessageExt;
+import java.util.List;
+public class TransactionProducer &#123;
+   public static void main(String[] args) throws MQClientException, InterruptedException &#123;
+       TransactionListener transactionListener = new TransactionListenerImpl();
+       TransactionMQProducer producer = new TransactionMQProducer("please_rename_unique_group_name");
+       ExecutorService executorService = new ThreadPoolExecutor(2, 5, 100, TimeUnit.SECONDS, new ArrayBlockingQueue<runnable>(2000), new ThreadFactory() &#123;
+           @Override
+           public Thread newThread(Runnable r) &#123;
+               Thread thread = new Thread(r);
+               thread.setName("client-transaction-msg-check-thread");
+               return thread;
+           &#125;
+       &#125;);
+       producer.setExecutorService(executorService);
+       producer.setTransactionListener(transactionListener);
+       producer.start();
+       String[] tags = new String[] &#123;"TagA", "TagB", "TagC", "TagD", "TagE"&#125;;
+       for (int i = 0; i < 10; i++) &#123;
+           try &#123;
+               Message msg =
+                   new Message("TopicTest1234", tags[i % tags.length], "KEY" + i,
+                       ("Hello RocketMQ " + i).getBytes(RemotingHelper.DEFAULT_CHARSET));
+               SendResult sendResult = producer.sendMessageInTransaction(msg, null);
+               System.out.printf("%s%n", sendResult);
+               Thread.sleep(10);
+           &#125; catch (MQClientException | UnsupportedEncodingException e) &#123;
+               e.printStackTrace();
+           &#125;
+       &#125;
+       for (int i = 0; i < 100000; i++) &#123;
+           Thread.sleep(1000);
+       &#125;
+       producer.shutdown();
+   &#125;
+&#125;
+
+<p></p></runnable></code></pre><p></p><h4>2、实现事务的监听接口</h4><p>当发送半消息成功时，我们使用 <code>executeLocalTransaction</code> 方法来执行本地事务。它返回前一节中提到的三个事务状态之一。<code>checkLocalTransaction</code> 方法用于检查本地事务状态，并回应消息队列的检查请求。它也是返回前一节中提到的三个事务状态之一。</p><pre data-syntax="java"><code class="lang-java hljs raw">public class TransactionListenerImpl implements TransactionListener &#123;
+  private AtomicInteger transactionIndex = new AtomicInteger(0);
+  private ConcurrentHashMap<string , integer> localTrans = new ConcurrentHashMap<>();
+  @Override
+  public LocalTransactionState executeLocalTransaction(Message msg, Object arg) &#123;
+      int value = transactionIndex.getAndIncrement();
+      int status = value % 3;
+      localTrans.put(msg.getTransactionId(), status);
+      return LocalTransactionState.UNKNOW;
+  &#125;
+  @Override
+  public LocalTransactionState checkLocalTransaction(MessageExt msg) &#123;
+      Integer status = localTrans.get(msg.getTransactionId());
+      if (null != status) &#123;
+          switch (status) &#123;
+              case 0:
+                  return LocalTransactionState.UNKNOW;
+              case 1:
+                  return LocalTransactionState.COMMIT_MESSAGE;
+              case 2:
+                  return LocalTransactionState.ROLLBACK_MESSAGE;
+          &#125;
+      &#125;
+      return LocalTransactionState.COMMIT_MESSAGE;
+  &#125;
+&#125;
+
+<p></p></string></code></pre><p></p><h3>6.2 事务消息使用上的限制</h3><ol><li>事务消息不支持延时消息和批量消息。</li><li>为了避免单个消息被检查太多次而导致半队列消息累积，我们默认将单个消息的检查次数限制为 15 次，但是用户可以通过 Broker 配置文件的 <code>transactionCheckMax</code>参数来修改此限制。如果已经检查某条消息超过 N 次的话（ N = <code>transactionCheckMax</code> ） 则 Broker 将丢弃此消息，并在默认情况下同时打印错误日志。用户可以通过重写 <code>AbstractTransactionalMessageCheckListener</code> 类来修改这个行为。</li><li>事务消息将在 Broker 配置文件中的参数 transactionTimeout 这样的特定时间长度之后被检查。当发送事务消息时，用户还可以通过设置用户属性 CHECK_IMMUNITY_TIME_IN_SECONDS 来改变这个限制，该参数优先于 <code>transactionTimeout</code> 参数。</li><li>事务性消息可能不止一次被检查或消费。</li><li>提交给用户的目标主题消息可能会失败，目前这依日志的记录而定。它的高可用性通过 RocketMQ 本身的高可用性机制来保证，如果希望确保事务消息不丢失、并且事务完整性得到保证，建议使用同步的双重写入机制。</li><li>事务消息的生产者 ID 不能与其他类型消息的生产者 ID 共享。与其他类型的消息不同，事务消息允许反向查询、MQ服务器能通过它们的生产者 ID 查询到消费者。</li></ol><h2>7 Logappender样例</h2><p>RocketMQ日志提供log4j、log4j2和logback日志框架作为业务应用，下面是配置样例</p><h3>7.1 log4j样例</h3><p>按下面样例使用log4j属性配置</p><pre><code>log4j.appender.mq=org.apache.rocketmq.logappender.log4j.RocketmqLog4jAppender
+log4j.appender.mq.Tag=yourTag
+log4j.appender.mq.Topic=yourLogTopic
+log4j.appender.mq.ProducerGroup=yourLogGroup
+log4j.appender.mq.NameServerAddress=yourRocketmqNameserverAddress
+log4j.appender.mq.layout=org.apache.log4j.PatternLayout
+log4j.appender.mq.layout.ConversionPattern=%d&#123;yyyy-MM-dd HH:mm:ss&#125; %-4r [%t] (%F:%L) %-5p - %m%n
+</code></pre><p>按下面样例使用log4j xml配置来使用异步添加日志</p><pre><code><appender name="mqAppender1" class="org.apache.rocketmq.logappender.log4j.RocketmqLog4jAppender">
+  <param name="Tag" value="yourTag">
+  <param name="Topic" value="yourLogTopic">
+  <param name="ProducerGroup" value="yourLogGroup">
+  <param name="NameServerAddress" value="yourRocketmqNameserverAddress">
+  <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="%d&#123;yyyy-MM-dd HH:mm:ss&#125;-%p %t %c - %m%n">
+  </layout>
+</appender>
+<appender name="mqAsyncAppender1" class="org.apache.log4j.AsyncAppender">
+  <param name="BufferSize" value="1024">
+  <param name="Blocking" value="false">
+  <appender-ref ref="mqAppender1">
+</appender>
+</code></pre><h3>7.2 log4j2样例</h3><p>用log4j2时，配置如下，如果想要非阻塞，只需要使用异步添加引用即可</p><pre><code><rocketmq name="rocketmqAppender" producergroup="yourLogGroup" nameserveraddress="yourRocketmqNameserverAddress" topic="yourLogTopic" tag="yourTag">
+  <patternlayout pattern="%d [%p] hahahah %c %m%n">
+</rocketmq>
+</code></pre><h3>7.3 logback样例</h3><pre><code><appender name="mqAppender1" class="org.apache.rocketmq.logappender.logback.RocketmqLogbackAppender">
+  <tag>yourTag</tag>
+  <topic>yourLogTopic</topic>
+  <producergroup>yourLogGroup</producergroup>
+  <nameserveraddress>yourRocketmqNameserverAddress</nameserveraddress>
+  <layout>
+      <pattern>%date %p %t - %m%n</pattern>
+  </layout>
+</appender>
+<appender name="mqAsyncAppender1" class="ch.qos.logback.classic.AsyncAppender">
+  <queuesize>1024</queuesize>
+  <discardingthreshold>80</discardingthreshold>
+  <maxflushtime>2000</maxflushtime>
+  <neverblock>true</neverblock>
+  <appender-ref ref="mqAppender1">
+</appender>
+</code></pre><h2>8 OpenMessaging样例</h2><p><a href="https://www.google.com/url?q=http://openmessaging.cloud/&sa=D&ust=1546524111089000" target="_blank">OpenMessaging</a>旨在建立消息和流处理规范，以为金融、电子商务、物联网和大数据领域提供通用框架及工业级指导方案。在分布式异构环境中，设计原则是面向云、简单、灵活和独立于语言。符合这些规范将帮助企业方便的开发跨平台和操作系统的异构消息传递应用程序。提供了openmessaging-api 0.3.0-alpha的部分实现，下面的示例演示如何基于OpenMessaging访问RocketMQ。</p><h3>8.1 OMSProducer样例</h3><p>下面的示例演示如何在同步、异步或单向传输中向RocketMQ代理发送消息。</p><pre data-syntax="java"><code class="lang-java hljs raw">import io.openmessaging.Future;
+import io.openmessaging.FutureListener;
+import io.openmessaging.Message;
+import io.openmessaging.MessagingAccessPoint;
+import io.openmessaging.OMS;
+import io.openmessaging.producer.Producer;
+import io.openmessaging.producer.SendResult;
+import java.nio.charset.Charset;
+import java.util.concurrent.CountDownLatch;
+
+<p>public class SimpleProducer &#123;<br>public static void main(String[] args) &#123;<br>final MessagingAccessPoint messagingAccessPoint =<br>OMS.getMessagingAccessPoint(“oms:rocketmq://localhost:9876/default:default”);<br>final Producer producer = messagingAccessPoint.createProducer();<br>messagingAccessPoint.startup();<br>System.out.printf(“MessagingAccessPoint startup OK%n”);<br>producer.startup();<br>System.out.printf(“Producer startup OK%n”);<br>&#123;<br>Message message = producer.createBytesMessage(“OMS_HELLO_TOPIC”, “OMS_HELLO_BODY”.getBytes(Charset.forName(“UTF-8”)));<br>SendResult sendResult = producer.send(message);<br>//final Void aVoid = result.get(3000L);<br>System.out.printf(“Send async message OK, msgId: %s%n”, sendResult.messageId());<br>&#125;<br>final CountDownLatch countDownLatch = new CountDownLatch(1);<br>&#123;<br>final Future<sendresult> result = producer.sendAsync(producer.createBytesMessage(“OMS_HELLO_TOPIC”, “OMS_HELLO_BODY”.getBytes(Charset.forName(“UTF-8”))));<br>result.addListener(new FutureListener<sendresult>() &#123;<br>@Override<br>public void operationComplete(Future<sendresult> future) &#123;<br>if (future.getThrowable() != null) &#123;<br>System.out.printf(“Send async message Failed, error: %s%n”, future.getThrowable().getMessage());<br>&#125; else &#123;<br>System.out.printf(“Send async message OK, msgId: %s%n”, future.get().messageId());<br>&#125;<br>countDownLatch.countDown();<br>&#125;<br>&#125;);<br>&#125;<br>&#123;<br>producer.sendOneway(producer.createBytesMessage(“OMS_HELLO_TOPIC”, “OMS_HELLO_BODY”.getBytes(Charset.forName(“UTF-8”))));<br>System.out.printf(“Send oneway message OK%n”);<br>&#125;<br>try &#123;<br>countDownLatch.await();<br>Thread.sleep(500); // 等一些时间来发送消息<br>&#125; catch (InterruptedException ignore) &#123;<br>&#125;<br>producer.shutdown();<br>&#125;<br>&#125;<br></sendresult></sendresult></sendresult></p></code></pre><p></p><h3>8.2 OMSPullConsumer</h3><p>用OMS PullConsumer 来从指定的队列中拉取消息</p><pre data-syntax="java"><code class="lang-java hljs raw">import io.openmessaging.Message;
+import io.openmessaging.MessagingAccessPoint;
+import io.openmessaging.OMS;
+import io.openmessaging.OMSBuiltinKeys;
+import io.openmessaging.consumer.PullConsumer;
+import io.openmessaging.producer.Producer;
+import io.openmessaging.producer.SendResult;
+
+<p>public class SimplePullConsumer &#123;<br>public static void main(String[] args) &#123;<br>final MessagingAccessPoint messagingAccessPoint =<br>OMS.getMessagingAccessPoint(“oms:rocketmq://localhost:9876/default:default”);<br>messagingAccessPoint.startup();<br>final Producer producer = messagingAccessPoint.createProducer();<br>final PullConsumer consumer = messagingAccessPoint.createPullConsumer(<br>OMS.newKeyValue().put(OMSBuiltinKeys.CONSUMER_ID, “OMS_CONSUMER”));<br>messagingAccessPoint.startup();<br>System.out.printf(“MessagingAccessPoint startup OK%n”);<br>final String queueName = “TopicTest”;<br>producer.startup();<br>Message msg = producer.createBytesMessage(queueName, “Hello Open Messaging”.getBytes());<br>SendResult sendResult = producer.send(msg);<br>System.out.printf(“Send Message OK. MsgId: %s%n”, sendResult.messageId());<br>producer.shutdown();<br>consumer.attachQueue(queueName);<br>consumer.startup();<br>System.out.printf(“Consumer startup OK%n”);<br>// 运行直到发现一个消息被发送了<br>boolean stop = false;<br>while (!stop) &#123;<br>Message message = consumer.receive();<br>if (message != null) &#123;<br>String msgId = message.sysHeaders().getString(Message.BuiltinKeys.MESSAGE_ID);<br>System.out.printf(“Received one message: %s%n”, msgId);<br>consumer.ack(msgId);<br>if (!stop) &#123;<br>stop = msgId.equalsIgnoreCase(sendResult.messageId());<br>&#125;<br>&#125; else &#123;<br>System.out.printf(“Return without any message%n”);<br>&#125;<br>&#125;<br>consumer.shutdown();<br>messagingAccessPoint.shutdown();<br>&#125;<br>&#125;<br></p></code></pre><p></p><h3>8.3 OMSPushConsumer</h3><p>以下示范如何将 OMS PushConsumer 添加到指定的队列，并通过 MessageListener 消费这些消息。</p><pre data-syntax="java"><code class="lang-java hljs raw">import io.openmessaging.Message;
+import io.openmessaging.MessagingAccessPoint;
+import io.openmessaging.OMS;
+import io.openmessaging.OMSBuiltinKeys;
+import io.openmessaging.consumer.MessageListener;
+import io.openmessaging.consumer.PushConsumer;
+
+<p>public class SimplePushConsumer &#123;<br>public static void main(String[] args) &#123;<br>final MessagingAccessPoint messagingAccessPoint = OMS<br>.getMessagingAccessPoint(“oms:rocketmq://localhost:9876/default:default”);<br>final PushConsumer consumer = messagingAccessPoint.<br>createPushConsumer(OMS.newKeyValue().put(OMSBuiltinKeys.CONSUMER_ID, “OMS_CONSUMER”));<br>messagingAccessPoint.startup();<br>System.out.printf(“MessagingAccessPoint startup OK%n”);<br>Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() &#123;<br>@Override<br>public void run() &#123;<br>consumer.shutdown();<br>messagingAccessPoint.shutdown();<br>&#125;<br>&#125;));<br>consumer.attachQueue(“OMS_HELLO_TOPIC”, new MessageListener() &#123;<br>@Override<br>public void onReceived(Message message, Context context) &#123;<br>System.out.printf(“Received one message: %s%n”, message.sysHeaders().getString(Message.BuiltinKeys.MESSAGE_ID));<br>context.ack();<br>&#125;<br>&#125;);<br>consumer.startup();<br>System.out.printf(“Consumer startup OK%n”);<br>&#125;<br>&#125;<br></p></code></pre><p></p></div><footer class="post-footer"><div class="post-copyright"><ul><li class="post-copyright-author"><strong>本文作者： </strong>九分石人</li><li class="post-copyright-link"><strong>本文链接：</strong> <a href="https://linqiankun.github.io/hexoblog/yuque/rocketMq/%E6%A0%B7%E4%BE%8B/" title="样例">https://linqiankun.github.io/hexoblog/yuque/rocketMq/样例/</a></li><li class="post-copyright-license"><strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li></ul></div><div class="followme"><span>欢迎关注我的其它发布渠道</span><div class="social-list"><div class="social-item"><a target="_blank" class="social-link" href="https://github.com/linqiankun"><span class="icon"><i class="fab fa-github"></i> </span><span class="label">GitHub</span></a></div><div class="social-item"><a target="_blank" class="social-link" href="https://gitee.com/linqiankun"><span class="icon"><i class="fab fa-git"></i> </span><span class="label">Gitee</span></a></div><div class="social-item"><a target="_blank" class="social-link" href="/hexoblog/images/thefive.jpg"><span class="icon"><i class="fab fa-weixin"></i> </span><span class="label">WeChat</span></a></div><div class="social-item"><a target="_blank" class="social-link" href="/hexoblog/atom.xml"><span class="icon"><i class="fa fa-rss"></i> </span><span class="label">RSS</span></a></div></div></div><div class="post-nav"><div class="post-nav-item"><a href="/hexoblog/yuque/rocketMq/README/" rel="prev" title="README"><i class="fa fa-chevron-left"></i> README</a></div><div class="post-nav-item"><a href="/hexoblog/yuque/rocketMq/%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6/" rel="next" title="权限控制">权限控制 <i class="fa fa-chevron-right"></i></a></div></div></footer></article></div><script>window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }</script></div></main><footer class="footer"><div class="footer-inner"><div class="copyright">&copy; Tue Mar 02 2021 08:00:00 GMT+0800 (中国标准时间) – <span itemprop="copyrightYear">2024</span> <span class="with-love"><i class="fa fa-heart"></i> </span><span class="author" itemprop="copyrightHolder">九分石人</span></div><div class="wordcount"><span class="post-meta-item"><span class="post-meta-item-icon"><i class="fa fa-chart-line"></i> </span><span title="站点总字数">682k</span> </span><span class="post-meta-item"><span class="post-meta-item-icon"><i class="fa fa-coffee"></i> </span><span title="站点阅读时长">10:20</span></span></div><div class="busuanzi-count"><span class="post-meta-item" id="busuanzi_container_site_uv" style="display:none"><span class="post-meta-item-icon"><i class="fa fa-user"></i> </span><span class="site-uv" title="总访客量"><span id="busuanzi_value_site_uv"></span> </span></span><span class="post-meta-item" id="busuanzi_container_site_pv" style="display:none"><span class="post-meta-item-icon"><i class="fa fa-eye"></i> </span><span class="site-pv" title="总访问量"><span id="busuanzi_value_site_pv"></span></span></span></div></div></footer><script size="300" alpha="0.6" zindex="-1" src="https://unpkg.com/ribbon.js@1.0.2/dist/ribbon.min.js"></script><script src="https://unpkg.com/animejs@3.2.1/lib/anime.min.js"></script><script src="https://unpkg.com/jquery@3.6.0/dist/jquery.min.js"></script><script src="https://unpkg.com/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script><script src="https://unpkg.com/pangu@4.0.7/dist/browser/pangu.min.js"></script><script src="/hexoblog/js/utils.js"></script><script src="/hexoblog/js/motion.js"></script><script src="/hexoblog/js/next-boot.js"></script><script src="/hexoblog/js/bookmark.js"></script><script src="/hexoblog/js/local-search.js"></script><script>var mermaidElements = document.querySelectorAll('.mermaid');
+if (mermaidElements.length) {
+  NexT.utils.getScript('https://unpkg.com/mermaid@8.9.2/dist/mermaid.min.js', () => {
+    mermaidElements.forEach(element => {
+      const newElement = document.createElement('div');
+      newElement.innerHTML = element.innerHTML;
+      newElement.className = element.className;
+      element.parentNode.replaceChild(newElement, element);
+    });
+
+    mermaid.init({
+      theme    : 'default',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    }, '.mermaid');
+  }, window.mermaid);
+}</script><script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://unpkg.com/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script><script>var options = {
+  bottom: '64px',
+  right: 'unset',
+  left: '32px',
+  time: '0.5s',
+  mixColor: 'transparent',
+  backgroundColor: 'transparent',
+  buttonColorDark: '#100f2c',
+  buttonColorLight: '#fff',
+  saveInCookies: true,
+  label: '🌓',
+  autoMatchOsTheme: true
+}
+const darkmode = new Darkmode(options);
+window.darkmode = darkmode;
+darkmode.showWidget();</script></body></html>
